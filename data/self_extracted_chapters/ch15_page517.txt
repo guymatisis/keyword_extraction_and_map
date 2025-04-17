@@ -1,0 +1,56 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            element-wise multiplication operations, so if they output 0s they close the gate,
+            and if they output 1s they open it. Specifically:         
+                                                                      
+             —The forget gate (controlled by f ) controls which parts of the long-term state
+                                (t)                                   
+              should be erased.                                       
+             —The input gate (controlled by i ) controls which parts of g should be added
+                                (t)              (t)                  
+              to the long-term state.                                 
+             —Finally, the output gate (controlled by o ) controls which parts of the long-
+                                      (t)                             
+              term state should be read and output at this time step, both to h and to y .
+                                                   (t)   (t)          
+          In short, an LSTM cell can learn to recognize an important input (that’s the role of the
+          input gate), store it in the long-term state, preserve it for as long as it is needed (that’s
+          the role of the forget gate), and extract it whenever it is needed. This explains why
+          these cells have been amazingly successful at capturing long-term patterns in time
+          series, long texts, audio recordings, and more.             
+          Equation 15-3 summarizes how to compute the cell’s long-term state, its short-term
+          state, and its output at each time step for a single instance (the equations for a whole
+          mini-batch are very similar).                               
+            Equation 15-3. LSTM computations                          
+                   ⊺     ⊺                                            
+            i =σ W  x +W  h   +b                                      
+             t    xi t  hi t−1 i                                      
+                   ⊺      ⊺                                           
+            f =σ W  x +W  h   +b                                      
+             t    xf t   hf t−1 f                                     
+                   ⊺     ⊺                                            
+            o =σ W  x +W  h   +b                                      
+             t    xo t  ho t−1  o                                     
+                      ⊺     ⊺                                         
+            g = tanh W x +W  h   +b                                   
+             t       xg t  hg t−1  g                                  
+            c =f  ⊗c   + i ⊗g                                         
+             t   t  t−1  t   t                                        
+            y =h  =o ⊗ tanh c                                         
+             t   t  t      t                                          
+          In this equation:                                           
+           • W , W , W , W are the weight matrices of each of the four layers for their con‐
+              xi xf xo xg                                             
+            nection to the input vector x .                           
+                             (t)                                      
+           • W , W , W , and W are the weight matrices of each of the four layers for their
+              hi hf ho   hg                                           
+            connection to the previous short-term state h .           
+                                       (t–1)                          
+           • b, b, b, and b are the bias terms for each of the four layers. Note that Tensor‐
+             i f o   g                                                
+            Flow initializes b to a vector full of 1s instead of 0s. This prevents forgetting
+                       f                                              
+            everything at the beginning of training.                  

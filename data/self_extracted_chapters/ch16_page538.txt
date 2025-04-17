@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          these words using a simple encode_words() function that uses the table we just built,
+          and finally prefetch the next batch:                        
+                                                                      
+            def encode_words(X_batch, y_batch):                       
+               return table.lookup(X_batch), y_batch                  
+            train_set = datasets["train"].batch(32).map(preprocess)   
+            train_set = train_set.map(encode_words).prefetch(1)       
+          At last we can create the model and train it:               
+            embed_size = 128                                          
+            model = keras.models.Sequential([                         
+               keras.layers.Embedding(vocab_size + num_oov_buckets, embed_size,
+                            input_shape=[None]),                      
+               keras.layers.GRU(128, return_sequences=True),          
+               keras.layers.GRU(128),                                 
+               keras.layers.Dense(1, activation="sigmoid")            
+            ])                                                        
+            model.compile(loss="binary_crossentropy", optimizer="adam",
+                    metrics=["accuracy"])                             
+            history = model.fit(train_set, epochs=5)                  
+          The first layer is an Embedding layer, which will convert word IDs into embeddings
+          (introduced in Chapter 13). The embedding matrix needs to have one row per word
+          ID (vocab_size + num_oov_buckets) and one column per embedding dimension
+          (this example uses 128 dimensions, but this is a hyperparameter you could tune).
+          Whereas the inputs of the model will be 2D tensors of shape [batch size, time steps],
+          the output of the Embedding layer will be a 3D tensor of shape [batch size, time steps,
+          embedding size].                                            
+          The rest of the model is fairly straightforward: it is composed of two GRU layers, with
+          the second one returning only the output of the last time step. The output layer is just
+          a single neuron using the sigmoid activation function to output the estimated proba‐
+          bility that the review expresses a positive sentiment regarding the movie. We then
+          compile the model quite simply, and we fit it on the dataset we prepared earlier, for a
+          few epochs.                                                 
+          Masking                                                     
+          As it stands, the model will need to learn that the padding tokens should be ignored.
+          But we already know that! Why don’t we tell the model to ignore the padding tokens,
+          so that it can focus on the data that actually matters? It’s actually trivial: simply add
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

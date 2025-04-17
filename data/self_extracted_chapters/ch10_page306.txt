@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          The training set performance ends up beating the validation performance, as is gen‐
+          erally the case when you train for long enough. You can tell that the model has not
+          quite converged yet, as the validation loss is still going down, so you should probably
+          continue training. It’s as simple as calling the fit() method again, since Keras just
+          continues training where it left off (you should be able to reach close to 89% valida‐
+          tion accuracy).                                             
+                                                                      
+          If you are not satisfied with the performance of your model, you should go back and
+          tune the hyperparameters. The first one to check is the learning rate. If that doesn’t
+          help, try another optimizer (and always retune the learning rate after changing any
+          hyperparameter). If the performance is still not great, then try tuning model hyper‐
+          parameters such as the number of layers, the number of neurons per layer, and the
+          types of activation functions to use for each hidden layer. You can also try tuning
+          other hyperparameters, such as the batch size (it can be set in the fit() method using
+          the batch_size argument, which defaults to 32). We will get back to hyperparameter
+          tuning at the end of this chapter. Once you are satisfied with your model’s validation
+          accuracy, you should evaluate it on the test set to estimate the generalization error
+          before you deploy the model to production. You can easily do this using the evalu
+          ate() method (it also supports several other arguments, such as batch_size and
+          sample_weight; please check the documentation for more details):
+            >>> model.evaluate(X_test, y_test)                        
+            10000/10000 [==========] - 0s 29us/sample - loss: 0.3340 - accuracy: 0.8851
+            [0.3339798209667206, 0.8851]                              
+          As we saw in Chapter 2, it is common to get slightly lower performance on the test set
+          than on the validation set, because the hyperparameters are tuned on the validation
+          set, not the test set (however, in this example, we did not do any hyperparameter tun‐
+          ing, so the lower accuracy is just bad luck). Remember to resist the temptation to
+          tweak the hyperparameters on the test set, or else your estimate of the generalization
+          error will be too optimistic.                               
+          Using the model to make predictions                         
+                                                                      
+          Next, we can use the model’s predict() method to make predictions on new instan‐
+          ces. Since we don’t have actual new instances, we will just use the first three instances
+          of the test set:                                            
+            >>> X_new = X_test[:3]                                    
+            >>> y_proba = model.predict(X_new)                        
+            >>> y_proba.round(2)                                      
+            array([[0. , 0. , 0. , 0. , 0. , 0.03, 0. , 0.01, 0. , 0.96],
+                [0. , 0. , 0.98, 0. , 0.02, 0. , 0. , 0. , 0. , 0. ], 
+                [0. , 1. , 0. , 0. , 0. , 0. , 0. , 0. , 0. , 0. ]],  
+                dtype=float32)                                        
+                                                                      

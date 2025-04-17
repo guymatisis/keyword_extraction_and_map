@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          distances and the indices of the k nearest neighbors in the training set (two matrices,
+          each with k columns):                                       
+                                                                      
+            >>> y_dist, y_pred_idx = knn.kneighbors(X_new, n_neighbors=1)
+            >>> y_pred = dbscan.labels_[dbscan.core_sample_indices_][y_pred_idx]
+            >>> y_pred[y_dist > 0.2] = -1                             
+            >>> y_pred.ravel()                                        
+            array([-1, 0, 1, -1])                                     
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 9-15. Decision boundary between two clusters         
+                                                                      
+          In short, DBSCAN is a very simple yet powerful algorithm capable of identifying any
+          number of clusters of any shape. It is robust to outliers, and it has just two hyperpara‐
+          meters (eps and min_samples). If the density varies significantly across the clusters,
+          however, it can be impossible for it to capture all the clusters properly. Its computa‐
+          tional complexity is roughly O(m log m), making it pretty close to linear with regard
+          to the number of instances, but Scikit-Learn’s implementation can require up to
+          O(m2) memory if eps is large.                               
+                                                                      
+                   You may also want to try Hierarchical DBSCAN (HDBSCAN),
+                   which is implemented in the scikit-learn-contrib project.
+                                                                      
+                                                                      
+                                                                      
+          Other Clustering Algorithms                                 
+                                                                      
+          Scikit-Learn implements several more clustering algorithms that you should take a
+          look at. We cannot cover them all in detail here, but here is a brief overview:
+          Agglomerative clustering                                    
+            A hierarchy of clusters is built from the bottom up. Think of many tiny bubbles
+            floating on water and gradually attaching to each other until there’s one big group
+            of bubbles. Similarly, at each iteration, agglomerative clustering connects the
+            nearest pair of clusters (starting with individual instances). If you drew a tree
+                                                                      

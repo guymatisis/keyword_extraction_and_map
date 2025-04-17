@@ -1,0 +1,2605 @@
+{
+  "1": [
+    "Optical Character Recognition (OCR)",
+    "spam filters"
+  ],
+  "2": [
+    "training sets",
+    "Machine Learning (ML)",
+    "training samples",
+    "spam filters",
+    "training instances"
+  ],
+  "5": [
+    "Machine Learning (ML)"
+  ],
+  "7": [
+    "labels",
+    "supervised learning"
+  ],
+  "8": [
+    "attributes",
+    "supervised learning",
+    "regression problems",
+    "classification with",
+    "features",
+    "prediction problems"
+  ],
+  "9": [
+    "unsupervised learning",
+    "clustering",
+    "supervised learning"
+  ],
+  "10": [
+    "classification MLPs",
+    "common tasks",
+    "hierarchical clustering algorithms",
+    "algorithms covered",
+    "clustering algorithms"
+  ],
+  "11": [
+    "visualization algorithms"
+  ],
+  "12": [
+    "anomaly detection",
+    "association rule learning",
+    "feature extraction",
+    "novelty detection"
+  ],
+  "13": [
+    "restricted Boltzmann machines (RBMs)",
+    "semi-supervised learning",
+    "deep belief networks (DBNs)"
+  ],
+  "14": [
+    "penalties",
+    "policies",
+    "agents",
+    "Reinforcement Learning (RL)",
+    "rewards"
+  ],
+  "15": [
+    "online learning",
+    "offline learning",
+    "batch learning",
+    "mini-batches"
+  ],
+  "16": [
+    "learning rate",
+    "out-of-core learning",
+    "incremental learning"
+  ],
+  "17": [
+    "prediction problems",
+    "instance-based learning"
+  ],
+  "18": [
+    "model-based learning",
+    "measure of similarity"
+  ],
+  "19": [
+    "noisy data",
+    "linear models",
+    "Better Life Index",
+    "model selection"
+  ],
+  "20": [
+    "fitness functions",
+    "training",
+    "final trained models",
+    "training data",
+    "utility functions",
+    "model parameters",
+    "fully-specified model architecture",
+    "causal models"
+  ],
+  "21": [
+    "linear model"
+  ],
+  "22": [
+    "k-Nearest Neighbors regression",
+    "instance-based learning"
+  ],
+  "23": [
+    "inference",
+    "Machine Learning (ML)"
+  ],
+  "24": [
+    "importance of data over",
+    "importance of over algorithms",
+    "corpus development"
+  ],
+  "25": [
+    "nonrepresentative",
+    "sampling bias",
+    "sampling noise"
+  ],
+  "26": [
+    "poor quality"
+  ],
+  "27": [
+    "feature extraction",
+    "overfitting",
+    "feature selection",
+    "irrelevant features",
+    "feature engineering"
+  ],
+  "28": [
+    "regularization"
+  ],
+  "29": [
+    "underfitting",
+    "hyperparameters"
+  ],
+  "30": [
+    "test sets",
+    "training sets",
+    "generalization error",
+    "out-of-sample error",
+    "Machine Learning (ML)",
+    "testing and validating"
+  ],
+  "31": [
+    "hyperparameter tuning",
+    "hold outs",
+    "cross-validation",
+    "validation sets",
+    "development sets (dev sets)",
+    "holdout validation",
+    "model selection"
+  ],
+  "32": [
+    "data mismatch",
+    "train-dev sets"
+  ],
+  "33": [
+    "testing and validating",
+    "No Free Lunch (NFL) theorem"
+  ],
+  "36": [
+    "California Housing Prices dataset"
+  ],
+  "37": [
+    "project goals",
+    "Machine Learning project checklist",
+    "framing the problem"
+  ],
+  "38": [
+    "pipelines",
+    "components"
+  ],
+  "39": [
+    "multivariate regression problems",
+    "univariate regression problems",
+    "multiple regression problems",
+    "RMSE",
+    "labels",
+    "selecting performance measure",
+    "Root Mean Square Error (RMSE)"
+  ],
+  "40": [
+    "Machine Learning (ML)"
+  ],
+  "41": [
+    "Manhattan norm",
+    "mean absolute error (MAE)",
+    "Euclidean norm",
+    "average absolute deviation"
+  ],
+  "42": [
+    "data downloading",
+    "installing",
+    "verifying assumptions",
+    "workspace creation"
+  ],
+  "43": [
+    "isolated environments"
+  ],
+  "46": [
+    "downloading"
+  ],
+  "50": [
+    "histograms"
+  ],
+  "51": [
+    "test sets",
+    "tail-heavy histograms",
+    "data snooping bias"
+  ],
+  "53": [
+    "splitting datasets into subsets",
+    "stratified sampling"
+  ],
+  "54": [
+    "stratified sampling"
+  ],
+  "55": [
+    "data downloading"
+  ],
+  "56": [
+    "data visualization",
+    "geographical data",
+    "exploration sets",
+    "test, training, and exploration sets"
+  ],
+  "58": [
+    "standard correlation coefficient",
+    "computing correlations",
+    "Pearson's r",
+    "correlation coefficient"
+  ],
+  "61": [
+    "attribute combinations"
+  ],
+  "62": [
+    "data visualization",
+    "data preparation"
+  ],
+  "63": [
+    "data cleaning",
+    "missing value handling"
+  ],
+  "64": [
+    "transformations",
+    "estimators",
+    "design principles"
+  ],
+  "65": [
+    "handling text and categorical attributes",
+    "predictors"
+  ],
+  "66": [
+    "converting text to numbers"
+  ],
+  "67": [
+    "dummy attributes",
+    "dense arrays",
+    "sparse matrix",
+    "one-hot vectors",
+    "one-hot encoding"
+  ],
+  "68": [
+    "transformations",
+    "custom transformers",
+    "transformers and",
+    "duck typing",
+    "embedding",
+    "representation learning"
+  ],
+  "69": [
+    "feature scaling",
+    "standardization",
+    "min-max scaling",
+    "normalization"
+  ],
+  "70": [
+    "transformation sequences",
+    "transformation pipelines"
+  ],
+  "72": [
+    "training",
+    "model selection and training",
+    "mean_squared_error function",
+    "example project",
+    "data preparation",
+    "model selection"
+  ],
+  "73": [
+    "folds",
+    "evaluating",
+    "K-fold cross-validation",
+    "K-fold cross-validation feature",
+    "cross-validation"
+  ],
+  "75": [
+    "fine-tuning",
+    "serializing large arrays",
+    "hyperparameter tuning",
+    "saving models",
+    "model fine-tuning"
+  ],
+  "76": [
+    "GridSearchCV"
+  ],
+  "80": [
+    "fine-tuning",
+    "model fine-tuning",
+    "launching, monitoring, and maintaining"
+  ],
+  "81": [
+    "deploying on AI platforms"
+  ],
+  "85": [
+    "MNIST dataset",
+    "dataset dictionary structure"
+  ],
+  "88": [
+    "performance measures",
+    "online learning",
+    "binary classifiers",
+    "Stochastic Gradient Descent (SGD)",
+    "SGDClassifier class"
+  ],
+  "89": [
+    "K-fold cross-validation",
+    "folds",
+    "cross-validation",
+    "cross_val_score() function"
+  ],
+  "90": [
+    "accuracy",
+    "confusion matrix",
+    "skewed datasets"
+  ],
+  "91": [
+    "true positive rate (TPR)",
+    "sensitivity",
+    "recall",
+    "precision"
+  ],
+  "92": [
+    "computing classifier metrics",
+    "harmonic mean",
+    "F1 score"
+  ],
+  "93": [
+    "decision function"
+  ],
+  "97": [
+    "receiver operating characteristic (ROC) curve",
+    "false positive rate (FPR)",
+    "ROC curve",
+    "true negative rate (TNR)",
+    "recall",
+    "precision"
+  ],
+  "98": [
+    "area under the curve (AUC)"
+  ],
+  "100": [
+    "performance measures",
+    "multinomial classifiers",
+    "one-versus-all (OvA) strategy",
+    "one-versus-one (OvO) strategy",
+    "multiclass classification",
+    "one-versus-the-rest (OvR) strategy"
+  ],
+  "102": [
+    "error analysis"
+  ],
+  "106": [
+    "multilabel classification"
+  ],
+  "107": [
+    "computing classifier metrics",
+    "multioutput classification",
+    "randint() function"
+  ],
+  "111": [
+    "Gradient Descent (GD)",
+    "approaches to training",
+    "training models"
+  ],
+  "112": [
+    "bias terms",
+    "linear algebra",
+    "Polynomial Regression",
+    "Linear Regression",
+    "Linear Regression model",
+    "calculus",
+    "intercept terms"
+  ],
+  "113": [
+    "feature vectors",
+    "parameter vectors",
+    "feature vector",
+    "approaches to training",
+    "column vectors",
+    "parameter vector"
+  ],
+  "114": [
+    "Normal Equation",
+    "closed-form solution"
+  ],
+  "115": [
+    "inv() function"
+  ],
+  "116": [
+    "linear regression"
+  ],
+  "117": [
+    "Singular Value Decomposition (SVD)",
+    "Linear Regression",
+    "computational complexity"
+  ],
+  "118": [
+    "Gradient Descent",
+    "learning rate",
+    "convergence",
+    "Gradient Descent (GD)",
+    "random initialization"
+  ],
+  "119": [
+    "local minimum",
+    "global minimum"
+  ],
+  "120": [
+    "mean squared error",
+    "convex function",
+    "Root Mean Square Error (RMSE)"
+  ],
+  "121": [
+    "parameter space",
+    "Batch Gradient Descent",
+    "partial derivatives"
+  ],
+  "122": [
+    "Full Gradient Descent"
+  ],
+  "123": [
+    "tolerance"
+  ],
+  "124": [
+    "Stochastic Gradient Descent (SGD)",
+    "Stochastic Gradient Descent"
+  ],
+  "125": [
+    "learning schedules",
+    "epochs",
+    "simulated annealing"
+  ],
+  "126": [
+    "independent and identically distributed (IID)"
+  ],
+  "127": [
+    "Mini-batch Gradient Descent",
+    "mini-batches"
+  ],
+  "128": [
+    "Gradient Descent",
+    "Polynomial Regression"
+  ],
+  "130": [
+    "learning curves",
+    "Polynomial Regression"
+  ],
+  "134": [
+    "learning curves",
+    "bias/variance trade-off",
+    "regularized linear models"
+  ],
+  "135": [
+    "Tikhonov regularization",
+    "regularization terms",
+    "Ridge Regression"
+  ],
+  "137": [
+    "Lasso Regression",
+    "identity matrix"
+  ],
+  "140": [
+    "subgradient vector",
+    "subgradient vectors",
+    "Elastic Net"
+  ],
+  "141": [
+    "early stopping"
+  ],
+  "142": [
+    "Logistic Regression",
+    "regularized linear models"
+  ],
+  "143": [
+    "Logistic (sigmoid) function",
+    "Logistic (sigmoid)",
+    "sigmoid (Logistic) activation function",
+    "estimating probabilities"
+  ],
+  "144": [
+    "training and cost function",
+    "log-odds",
+    "logit",
+    "log loss"
+  ],
+  "145": [
+    "decision boundaries",
+    "iris dataset"
+  ],
+  "148": [
+    "parameter matrix",
+    "normalized exponential",
+    "Softmax Regression",
+    "Multinomial Logistic Regression",
+    "softmax function"
+  ],
+  "149": [
+    "argmax operator",
+    "cross-entropy loss (log loss)"
+  ],
+  "150": [
+    "Kullback\u2013Leibler divergence"
+  ],
+  "151": [
+    "Logistic Regression",
+    "Softmax Regression"
+  ],
+  "153": [
+    "large margin classification",
+    "linear SVM classification",
+    "Support Vector Machines (SVMs)"
+  ],
+  "154": [
+    "feature scaling",
+    "soft margin classification",
+    "support vectors",
+    "hard margin classification"
+  ],
+  "155": [
+    "SVM models",
+    "hinge loss function",
+    "hinge loss",
+    "margin violations"
+  ],
+  "157": [
+    "nonlinear SVM classification"
+  ],
+  "158": [
+    "polynomial features",
+    "kernel trick"
+  ],
+  "159": [
+    "Radial Basis Function (RBF)",
+    "Gaussian Radial Basis Function (RBF)",
+    "landmarks",
+    "similarity functions"
+  ],
+  "161": [
+    "string kernels",
+    "Levenshtein distance",
+    "string subsequence kernel"
+  ],
+  "162": [
+    "libsvm library",
+    "liblinear library",
+    "SVM classification classes",
+    "tolerance hyperparameter",
+    "SVM regression",
+    "nonlinear SVM classification"
+  ],
+  "164": [
+    "Machine Learning (ML)"
+  ],
+  "165": [
+    "decision function and prediction",
+    "hyperplanes"
+  ],
+  "166": [
+    "training objective",
+    "constrained optimization"
+  ],
+  "167": [
+    "slack variables",
+    "Quadratic Programming (QP) problems"
+  ],
+  "168": [
+    "primal problem",
+    "dual problem"
+  ],
+  "169": [
+    "kernelized SVM"
+  ],
+  "170": [
+    "polynomial kernels",
+    "kernels"
+  ],
+  "171": [
+    "Mercer's conditions",
+    "Mercer's theorem",
+    "sigmoid kernel"
+  ],
+  "172": [
+    "online SVMs"
+  ],
+  "173": [
+    "hinge loss function",
+    "hinge loss",
+    "subderivatives"
+  ],
+  "175": [
+    "training and visualizing",
+    "Decision Trees"
+  ],
+  "176": [
+    "leaf nodes",
+    "making predictions",
+    "root nodes"
+  ],
+  "177": [
+    "Classification and Regression Tree (CART)",
+    "impurity",
+    "binary trees",
+    "CART training algorithm"
+  ],
+  "178": [
+    "estimating class probabilities",
+    "white versus black box",
+    "white box models",
+    "black box models"
+  ],
+  "179": [
+    "Classification and Regression Tree (CART)",
+    "CART training algorithm"
+  ],
+  "180": [
+    "presorting data with",
+    "impurity",
+    "Shannon's information theory",
+    "greedy algorithms",
+    "NP-Complete problem",
+    "computational complexity",
+    "Gini impurity versus entropy",
+    "Gini impurity measure",
+    "information theory",
+    "entropy impurity measure"
+  ],
+  "181": [
+    "regularization hyperparameters",
+    "max_depth hyperparameter",
+    "nonparametric models",
+    "parametric models",
+    "hyperparameters for Decision Trees",
+    "parametric versus nonparametric"
+  ],
+  "182": [
+    "pruning",
+    "chi-squared test",
+    "p-value",
+    "null hypothesis",
+    "statistical significance"
+  ],
+  "183": [
+    "mean squared error",
+    "DecisionTreeRegressor class",
+    "regression tasks",
+    "Decision Trees"
+  ],
+  "185": [
+    "instability",
+    "instability drawbacks",
+    "random_state hyperparameter",
+    "training set rotation"
+  ],
+  "187": [
+    "majority-vote predictions"
+  ],
+  "189": [
+    "voting classifiers",
+    "Ensemble Learning",
+    "ensembles",
+    "Ensemble methods",
+    "prediction problems",
+    "wisdom of the crowd",
+    "Random Forests"
+  ],
+  "190": [
+    "hard voting classifiers",
+    "majority-vote classifiers",
+    "strong learners",
+    "weak learners"
+  ],
+  "191": [
+    "voting classifiers",
+    "law of large numbers"
+  ],
+  "192": [
+    "soft voting",
+    "bagging and pasting"
+  ],
+  "193": [
+    "statistical mode"
+  ],
+  "194": [
+    "in Scikit-Learn",
+    "bagging and pasting"
+  ],
+  "195": [
+    "out-of-bag evaluation"
+  ],
+  "196": [
+    "bagging and pasting",
+    "random patches and random subspaces"
+  ],
+  "197": [
+    "Random Forests"
+  ],
+  "198": [
+    "Extra-Trees",
+    "feature importance",
+    "feature importance scoring",
+    "Extremely Randomized Trees ensemble",
+    "ExtraTreesClassifier class",
+    "Extra-Trees classifier"
+  ],
+  "199": [
+    "hypothesis boosting",
+    "boosting"
+  ],
+  "200": [
+    "AdaBoost classifiers",
+    "Adaptive Boosting",
+    "AdaBoost"
+  ],
+  "203": [
+    "Gradient Tree Boosting",
+    "Gradient Boosting",
+    "SAMME (Stagewise Additive Modeling using a Multiclass Exponential loss function)",
+    "AdaBoost version",
+    "residual errors",
+    "Decision Stumps",
+    "Gradient Boosted Regression Trees (GBRT)"
+  ],
+  "204": [
+    "GBRT ensemble training"
+  ],
+  "205": [
+    "shrinkage technique",
+    "shrinkage"
+  ],
+  "207": [
+    "Stochastic Gradient Boosting",
+    "incremental training"
+  ],
+  "208": [
+    "blenders",
+    "stacking",
+    "stacked generalization",
+    "meta learners",
+    "boosting",
+    "XGBoost"
+  ],
+  "213": [
+    "training sets",
+    "high-dimensional training sets",
+    "dimensionality reduction"
+  ],
+  "214": [
+    "curse of dimensionality"
+  ],
+  "215": [
+    "subspace",
+    "training instances",
+    "projection",
+    "dimensionality reduction"
+  ],
+  "218": [
+    "manifold assumption",
+    "manifold hypothesis",
+    "Manifold Learning",
+    "dimensionality reduction"
+  ],
+  "219": [
+    "PCA (Principal Component Analysis)",
+    "preserving variance",
+    "preserving"
+  ],
+  "220": [
+    "principal component axis"
+  ],
+  "221": [
+    "svd() function",
+    "Singular Value Decomposition (SVD)",
+    "projecting down to d dimensions"
+  ],
+  "222": [
+    "using Scikit-Learn",
+    "reducing dimensionality",
+    "PCAng",
+    "explained variance ratio"
+  ],
+  "223": [
+    "choosing dimension number"
+  ],
+  "224": [
+    "decompression",
+    "reconstruction error",
+    "compression",
+    "decompressing",
+    "for compression",
+    "compressing"
+  ],
+  "225": [
+    "full SVD approach",
+    "randomized",
+    "Incremental PCA (IPCA)",
+    "inverse transformation",
+    "incremental",
+    "Randomized PCA",
+    "Randomized PCA algorithm"
+  ],
+  "226": [
+    "array_split() function",
+    "Kernel PCA (kPCA)",
+    "IncrementalPCA class",
+    "kernels",
+    "feature space",
+    "memmap class",
+    "original space"
+  ],
+  "227": [
+    "KernelPCA class"
+  ],
+  "228": [
+    "reconstruction pre-images",
+    "pre-images",
+    "feature maps",
+    "kernel trick"
+  ],
+  "229": [
+    "automatic reconstruction with"
+  ],
+  "230": [
+    "PCA (Principal Component Analysis)",
+    "Kernel PCA (kPCA)",
+    "nonlinear dimensionality reduction (NLDR)",
+    "LLE (Locally Linear Embedding)"
+  ],
+  "232": [
+    "random projections",
+    "LLE (Locally Linear Embedding)",
+    "dimensionality reduction",
+    "Multidimensional Scaling (MDS)"
+  ],
+  "233": [
+    "isomap algorithm",
+    "Linear Discriminant Analysis (LDA)",
+    "t-Distributed Stochastic Neighbor Embedding (t-SNE)"
+  ],
+  "235": [
+    "unsupervised learning"
+  ],
+  "236": [
+    "clustering",
+    "probability density function (PDF)",
+    "density estimation",
+    "anomaly detection",
+    "K-Means"
+  ],
+  "237": [
+    "classification MLPs",
+    "customer segmentation",
+    "fraud detection",
+    "analyzing through clustering",
+    "recommender systems",
+    "outlier detection",
+    "affinity",
+    "clustering algorithms",
+    "using clustering"
+  ],
+  "238": [
+    "Lloyd\u2013Forgy algorithm",
+    "search engines",
+    "K-Means",
+    "K-Means algorithm",
+    "for image segmentation",
+    "centroids",
+    "Lloyd-Forgy algorithm",
+    "image segmentation"
+  ],
+  "239": [
+    "labels"
+  ],
+  "240": [
+    "soft clustering",
+    "hard and soft clustering",
+    "hard clustering"
+  ],
+  "241": [
+    "K-Means algorithm"
+  ],
+  "243": [
+    "inertia",
+    "centroid initialization methods",
+    "proposed improvement to"
+  ],
+  "244": [
+    "accelerated and mini-batch",
+    "accelerated K-Means",
+    "mini-batch K-Means"
+  ],
+  "245": [
+    "optimal cluster number"
+  ],
+  "246": [
+    "silhouette coefficient",
+    "silhouette score"
+  ],
+  "247": [
+    "silhouette diagram"
+  ],
+  "248": [
+    "K-Means"
+  ],
+  "249": [
+    "instance segmentation",
+    "color segmentation",
+    "K-Means",
+    "semantic segmentation",
+    "for image segmentation",
+    "image segmentation",
+    "scaling input features"
+  ],
+  "250": [
+    "alpha channels"
+  ],
+  "251": [
+    "preprocessing",
+    "for preprocessing",
+    "preprocessing with"
+  ],
+  "253": [
+    "clustering algorithms",
+    "for semi-supervised learning"
+  ],
+  "254": [
+    "label propagation"
+  ],
+  "255": [
+    "DBSCAN",
+    "uncertainty sampling",
+    "active learning",
+    "core instances"
+  ],
+  "258": [
+    "agglomerative clustering",
+    "clustering algorithms",
+    "additional algorithms",
+    "Hierarchical DBSCAN (HDBSCAN)"
+  ],
+  "259": [
+    "Mean-Shift algorithm",
+    "spectral clustering",
+    "affinity propagation",
+    "BIRCH algorithm"
+  ],
+  "260": [
+    "Gaussian mixture model (GMM)",
+    "clustering",
+    "variants",
+    "Gaussian mixtures model (GMM)"
+  ],
+  "261": [
+    "categorical distribution"
+  ],
+  "262": [
+    "maximization step",
+    "latent variables",
+    "observed variables",
+    "expectation step",
+    "responsibilities (clustering)",
+    "Expectation-Maximization (EM) algorithm"
+  ],
+  "264": [
+    "probability density function (PDF)",
+    "density estimation"
+  ],
+  "266": [
+    "using Gaussian Mixtures",
+    "Gaussian mixture model (GMM)",
+    "outlier detection",
+    "inliers"
+  ],
+  "267": [
+    "likelihood function",
+    "selecting cluster number",
+    "Akaike information criterion (AIC)",
+    "theoretical information criterion",
+    "novelty detection",
+    "Bayesian information criterion (BIC)"
+  ],
+  "269": [
+    "maximum likelihood estimate (MLE)",
+    "maximum a-posteriori (MAP) estimation"
+  ],
+  "270": [
+    "Bayesian Gaussian Mixture models"
+  ],
+  "271": [
+    "p (prior) distribution"
+  ],
+  "272": [
+    "p (posterior) distribution",
+    "variational parameters",
+    "evidence lower bound (ELBO)",
+    "variational inference"
+  ],
+  "273": [
+    "black box stochastic variational inference (BBSVI)",
+    "mean field variational inference"
+  ],
+  "274": [
+    "Local Outlier Factor (LOF)",
+    "anomaly and novelty detection",
+    "Isolation Forest algorithm",
+    "Fast-MCD (minimum covariance determinant)",
+    "novelty detection",
+    "additional algorithms for anomaly and novelty detection",
+    "for anomaly detection"
+  ],
+  "275": [
+    "Gaussian mixtures model (GMM)",
+    "one-class SVM algorithm"
+  ],
+  "279": [
+    "anomaly detection"
+  ],
+  "280": [
+    "propositional logic",
+    "connectionism",
+    "from biological to artificial neurons",
+    "biological neurons",
+    "from biological to artificial"
+  ],
+  "282": [
+    "biological neural networks (BNN)"
+  ],
+  "283": [
+    "logical computations",
+    "logical computations with",
+    "artificial neurons"
+  ],
+  "284": [
+    "threshold logic unit (TLU)",
+    "step function",
+    "Perceptron"
+  ],
+  "285": [
+    "input neurons",
+    "bias neurons",
+    "dense layer",
+    "Heaviside step function",
+    "dense (fully connected) layer",
+    "fully connected layer"
+  ],
+  "286": [
+    "Hebb's rule"
+  ],
+  "287": [
+    "Hebbian learning",
+    "Perceptron convergence theorem",
+    "Perceptron class"
+  ],
+  "288": [
+    "Exclusive OR (XOR) classification problem",
+    "Perceptron"
+  ],
+  "289": [
+    "hidden layers in MLPs",
+    "input layer",
+    "hidden layer",
+    "backpropagation",
+    "feedforward neural networks (FNNs)",
+    "deep neural networks (DNNs)",
+    "output layers",
+    "input layers",
+    "output layer"
+  ],
+  "290": [
+    "reverse-mode autodiff",
+    "epochs",
+    "forward pass",
+    "automatic differentiation (autodiff)",
+    "chain rule"
+  ],
+  "291": [
+    "hyperbolic tangent function (tanh)",
+    "symmetry, breaking in backpropagation",
+    "hyperbolic tangent (tanh)",
+    "break the symmetry"
+  ],
+  "292": [
+    "Rectified Linear Unit function (ReLU)",
+    "regression MLPs",
+    "ReLU (Rectified Linear Unit function)",
+    "backpropagation"
+  ],
+  "293": [
+    "mean squared error",
+    "softplus activation function",
+    "Logistic (sigmoid) function",
+    "softplus",
+    "Rectified Linear Unit function (ReLU)",
+    "mean absolute error (MAE)",
+    "ReLU (Rectified Linear Unit function)",
+    "sigmoid (Logistic) activation function",
+    "Logistic (sigmoid)",
+    "Huber loss"
+  ],
+  "294": [
+    "softmax",
+    "classification MLPs",
+    "Logistic (sigmoid) function",
+    "sigmoid (Logistic) activation function",
+    "softmax function"
+  ],
+  "295": [
+    "cross-entropy loss (log loss)",
+    "implementing MLPs with Keras",
+    "from biological to artificial neurons",
+    "implementing MLPs with",
+    "multibackend Keras",
+    "Microsoft Cognitive Toolkit (CNTK)",
+    "tf.keras",
+    "from biological to artificial",
+    "Theano",
+    "TensorFlow Playground"
+  ],
+  "296": [
+    "PyTorch library and",
+    "installing",
+    "PyTorch library"
+  ],
+  "297": [
+    "loading datasets with",
+    "using Sequential API",
+    "image classifiers using Sequential APIs",
+    "Fashion MNIST dataset",
+    "image classifiers"
+  ],
+  "299": [
+    "softmax",
+    "softmax function"
+  ],
+  "300": [
+    "using code examples from keras.io"
+  ],
+  "302": [
+    "Logistic (sigmoid) function",
+    "Logistic (sigmoid)",
+    "sigmoid (Logistic) activation function"
+  ],
+  "307": [
+    "using Sequential API",
+    "image classifiers using Sequential APIs",
+    "regression MLPs using Sequential API",
+    "regression MLP",
+    "image classifiers"
+  ],
+  "308": [
+    "mean squared error",
+    "Functional API",
+    "Wide & Deep neural networks",
+    "nonsequential neural networks",
+    "complex using Functional API"
+  ],
+  "311": [
+    "image classification",
+    "multiple outputs",
+    "multitask classification"
+  ],
+  "313": [
+    "Functional API",
+    "dynamic using Subclassing API",
+    "Subclassing API",
+    "dynamic models",
+    "complex using Functional API"
+  ],
+  "314": [
+    "restoring models",
+    "saving and restoring models",
+    "saving and restoring",
+    "complex architectures",
+    "HDF5 format"
+  ],
+  "315": [
+    "using callbacks",
+    "callbacks"
+  ],
+  "316": [
+    "keras.callbacks package"
+  ],
+  "317": [
+    "event files",
+    "summaries (TensorFlow)",
+    "TensorBoard",
+    "using TensorBoard for visualization"
+  ],
+  "319": [
+    "tf.summary package"
+  ],
+  "320": [
+    "fine-tuning hyperparameters",
+    "fine-tuning for neural networks",
+    "implementing MLPs with",
+    "implementing MLPs with Keras"
+  ],
+  "322": [
+    "Scikit-Optimize",
+    "Spearmint library",
+    "kopt library",
+    "Keras Tuner",
+    "Talos library",
+    "Python libraries for optimization",
+    "Hyperopt",
+    "Hyperas"
+  ],
+  "323": [
+    "AutoML",
+    "Hyperband",
+    "Sklearn-Deap",
+    "parameter efficiency",
+    "Deep Neuroevolution"
+  ],
+  "324": [
+    "per hidden layer",
+    "neurons per hidden layer",
+    "transfer learning"
+  ],
+  "325": [
+    "learning rate",
+    "batch size"
+  ],
+  "327": [
+    "fine-tuning hyperparameters",
+    "fine-tuning for neural networks"
+  ],
+  "331": [
+    "deep neural networks (DNNs)"
+  ],
+  "332": [
+    "exploding gradients problem",
+    "Logistic (sigmoid) function",
+    "vanishing/exploding gradients problems",
+    "Logistic (sigmoid)",
+    "sigmoid (Logistic) activation function"
+  ],
+  "333": [
+    "Glorot and He initialization",
+    "Xavier initialization",
+    "He initialization",
+    "fan-in/fan-out numbers"
+  ],
+  "334": [
+    "Scaled Exponential Linear Unit (SELU)",
+    "LeCun initialization",
+    "Scaled Exponential Linear Unit (SELU) function"
+  ],
+  "335": [
+    "randomized leaky ReLU (RReLU)",
+    "dying ReLUs problem",
+    "nonsaturating activation functions",
+    "leaky ReLU function",
+    "nonsaturating",
+    "parametric leaky ReLU (PReLU)"
+  ],
+  "336": [
+    "exponential linear unit (ELU)",
+    "ELU (exponential linear unit)"
+  ],
+  "337": [
+    "Scaled Exponential Linear Unit (SELU)",
+    "self-normalization",
+    "skip connections",
+    "Scaled Exponential Linear Unit (SELU) function"
+  ],
+  "338": [
+    "Scaled Exponential Linear Unit (SELU)",
+    "exponential linear unit (ELU)",
+    "Scaled Exponential Linear Unit (SELU) function",
+    "ELU (exponential linear unit)"
+  ],
+  "339": [
+    "normalization",
+    "Batch Normalization (BN)"
+  ],
+  "340": [
+    "smoothing term"
+  ],
+  "341": [
+    "wall time",
+    "implementing Batch Normalization with"
+  ],
+  "345": [
+    "reusing pretrained layers",
+    "reusing pretrained",
+    "gradient clipping",
+    "vanishing/exploding gradients problems",
+    "transfer learning"
+  ],
+  "347": [
+    "transfer learning with"
+  ],
+  "349": [
+    "greedy layer-wise pretraining",
+    "restricted Boltzmann machines (RBMs)",
+    "unsupervised pretraining"
+  ],
+  "350": [
+    "on auxiliary tasks"
+  ],
+  "351": [
+    "momentum optimization",
+    "reusing pretrained layers",
+    "reusing pretrained",
+    "creating faster",
+    "faster optimizers",
+    "self-supervised learning"
+  ],
+  "352": [
+    "momentum vector"
+  ],
+  "353": [
+    "Nesterov Accelerated Gradient (NAG)",
+    "Nesterov momentum optimization"
+  ],
+  "354": [
+    "AdaGrad"
+  ],
+  "355": [
+    "adaptive learning rate",
+    "RMSProp"
+  ],
+  "356": [
+    "Adam and Nadam optimization",
+    "adaptive moment estimation"
+  ],
+  "358": [
+    "first- and second-order partial derivatives",
+    "second-order partial derivatives (Hessians)",
+    "first-order partial derivatives (Jacobians)"
+  ],
+  "359": [
+    "sparse models",
+    "TensorFlow Model Optimization Toolkit (TF-MOT)",
+    "training sparse models",
+    "learning rate scheduling"
+  ],
+  "360": [
+    "learning schedules",
+    "power scheduling",
+    "exponential scheduling"
+  ],
+  "361": [
+    "1cycle scheduling",
+    "performance scheduling",
+    "piecewise constant scheduling"
+  ],
+  "363": [
+    "implementing learning rate scheduling",
+    "tf.keras"
+  ],
+  "364": [
+    "avoiding through regularization",
+    "overfitting",
+    "avoiding overfitting through",
+    "faster optimizers"
+  ],
+  "365": [
+    "dropout"
+  ],
+  "367": [
+    "implementing dropout",
+    "keep probability"
+  ],
+  "368": [
+    "Scaled Exponential Linear Unit (SELU)",
+    "Monte Carlo (MC) dropout",
+    "Scaled Exponential Linear Unit (SELU) function"
+  ],
+  "370": [
+    "max-norm regularization"
+  ],
+  "371": [
+    "avoiding overfitting through",
+    "overfitting",
+    "default configuration",
+    "avoiding through regularization"
+  ],
+  "375": [
+    "TensorFlow, custom models and training",
+    "versions covered"
+  ],
+  "376": [
+    "computation graphs",
+    "features",
+    "just-in-time (JIT) compiler",
+    "benefits, xvi"
+  ],
+  "377": [
+    "TensorFlow, basics of architecture",
+    "TPUs (tensor processing units)",
+    "kernels"
+  ],
+  "378": [
+    "operating system compatibility",
+    "locating papers on",
+    "TensorFlow Hub",
+    "library ecosystem",
+    "TensorFlow Lite"
+  ],
+  "379": [
+    "tensors",
+    "community support",
+    "getting help",
+    "using TensorFlow like"
+  ],
+  "381": [
+    "type conversions",
+    "low-level API"
+  ],
+  "382": [
+    "variables"
+  ],
+  "383": [
+    "sparse tensors",
+    "ragged tensors",
+    "tensor arrays",
+    "sets",
+    "string tensors"
+  ],
+  "384": [
+    "mean squared error",
+    "loss functions",
+    "using TensorFlow like",
+    "custom with TensorFlow",
+    "queues",
+    "First In, First Out (FIFO) queues",
+    "Huber loss"
+  ],
+  "385": [
+    "saving and loading"
+  ],
+  "387": [
+    "activation functions, initializers, regularizers, and constraints"
+  ],
+  "388": [
+    "accuracy",
+    "metrics"
+  ],
+  "389": [
+    "stateful metrics",
+    "streaming metrics"
+  ],
+  "391": [
+    "layers"
+  ],
+  "394": [
+    "models"
+  ],
+  "395": [
+    "residual blocks"
+  ],
+  "397": [
+    "losses and metrics",
+    "reconstruction loss"
+  ],
+  "399": [
+    "computing gradients using Autodiff",
+    "automatic differentiation (autodiff)"
+  ],
+  "402": [
+    "training loops"
+  ],
+  "405": [
+    "custom with TensorFlow",
+    "TensorFlow, functions and graphs"
+  ],
+  "407": [
+    "AutoGraph and tracing",
+    "AutoGraphs"
+  ],
+  "408": [
+    "symbolic tensors",
+    "graph mode",
+    "eager execution/eager mode"
+  ],
+  "409": [
+    "TF Function rules",
+    "rules"
+  ],
+  "413": [
+    "TensorFlow, data loading and preprocessing",
+    "loading and preprocessing with TensorFlow",
+    "embedding"
+  ],
+  "414": [
+    "TF Datasets (TFDS)",
+    "TensorFlow Data API",
+    "datasets",
+    "Data API",
+    "TF Transform (tf.Transform)"
+  ],
+  "415": [
+    "chaining transformations",
+    "chaining"
+  ],
+  "416": [
+    "shuffling",
+    "shuffling data"
+  ],
+  "417": [
+    "shuffling-buffer approach"
+  ],
+  "419": [
+    "preprocessing",
+    "preprocessing data"
+  ],
+  "420": [
+    "helper function creation",
+    "helper functions"
+  ],
+  "421": [
+    "prefetching data",
+    "prefetching"
+  ],
+  "422": [
+    "memory bandwidth"
+  ],
+  "423": [
+    "using datasets with tf.Keras",
+    "using datasets with tf.keras",
+    "tf.keras"
+  ],
+  "424": [
+    "Data API",
+    "TFRecord format",
+    "pipelines"
+  ],
+  "425": [
+    "protocol buffers (protobufs)",
+    "compressed TFRecord files"
+  ],
+  "427": [
+    "TensorFlow protobufs"
+  ],
+  "428": [
+    "loading and parsing examples"
+  ],
+  "429": [
+    "lists of lists, using SequenceExample Protobuf",
+    "SequenceExample protobuf (TensorFlow)",
+    "lists of lists using SequenceExample Proto\u2010buf"
+  ],
+  "430": [
+    "preprocessing",
+    "TFRecord format",
+    "preprocessing input features"
+  ],
+  "431": [
+    "encoding using one-hot vectors",
+    "one-hot vectors"
+  ],
+  "432": [
+    "vocabulary",
+    "out-of-vocabulary (oov) buckets"
+  ],
+  "433": [
+    "encoding using embeddings",
+    "embedding"
+  ],
+  "434": [
+    "word embeddings",
+    "representation learning"
+  ],
+  "435": [
+    "embedding matrix"
+  ],
+  "437": [
+    "preprocessing layers"
+  ],
+  "438": [
+    "bag of words"
+  ],
+  "439": [
+    "TF Transform",
+    "Term-Frequency \u00d7 Inverse-Document-Frequency (TF-IDF)",
+    "preprocessing",
+    "TF Transform (tf.Transform)",
+    "preprocessing input features"
+  ],
+  "440": [
+    "training/serving skew",
+    "TensorFlow Extended (TFX)"
+  ],
+  "441": [
+    "TF Datasets (TFDS)",
+    "TensorFlow Datasets (TFDS) Project"
+  ],
+  "442": [
+    "loading and preprocessing with TensorFlow"
+  ],
+  "445": [
+    "voice recognition",
+    "CNNs"
+  ],
+  "446": [
+    "architecture of visual cortex"
+  ],
+  "448": [
+    "convolutional layer"
+  ],
+  "449": [
+    "stride",
+    "zero padding"
+  ],
+  "450": [
+    "filters",
+    "feature maps",
+    "convolution kernels"
+  ],
+  "451": [
+    "stacking multiple feature maps",
+    "color channels"
+  ],
+  "453": [
+    "convolutional layers",
+    "TensorFlow implementation"
+  ],
+  "456": [
+    "convolutional layer",
+    "pooling layer",
+    "subsampling",
+    "memory requirements"
+  ],
+  "457": [
+    "max pooling layer",
+    "invariance",
+    "pooling kernel"
+  ],
+  "458": [
+    "semantic segmentation",
+    "pooling layer",
+    "equivariance"
+  ],
+  "459": [
+    "average pooling layer"
+  ],
+  "460": [
+    "global average pooling layer",
+    "CNN architectures"
+  ],
+  "463": [
+    "LeNet-5"
+  ],
+  "464": [
+    "data augmentation",
+    "AlexNet"
+  ],
+  "465": [
+    "local response normalization"
+  ],
+  "466": [
+    "GoogLeNet",
+    "depth radius",
+    "ZF Net"
+  ],
+  "467": [
+    "bottleneck layers",
+    "depth concat layer"
+  ],
+  "470": [
+    "softmax",
+    "VGGNet",
+    "softmax function"
+  ],
+  "471": [
+    "skip connections",
+    "ResNet (Residual Network)",
+    "residual learning",
+    "residual units",
+    "shortcut connections"
+  ],
+  "474": [
+    "separable convolution",
+    "depthwise separable convolution",
+    "Xception (Extreme Inception)"
+  ],
+  "476": [
+    "SE-Inception",
+    "SE block",
+    "SENet (Squeeze-and-Excitation Network)",
+    "SE-ResNet"
+  ],
+  "478": [
+    "implementing ResNet-34 with",
+    "CNN architectures",
+    "ResNet-34 CNN",
+    "ResNet-34 using Keras"
+  ],
+  "479": [
+    "models from Keras",
+    "pretrained models from Keras",
+    "using pretrained models from"
+  ],
+  "481": [
+    "pretrained models for transfer learning",
+    "pretraining",
+    "transfer learning"
+  ],
+  "482": [
+    "softmax",
+    "softmax function"
+  ],
+  "483": [
+    "localization",
+    "classification and localization"
+  ],
+  "485": [
+    "object detection"
+  ],
+  "486": [
+    "objectness output",
+    "non-max suppression"
+  ],
+  "487": [
+    "fully convolutional networks (FCNs)"
+  ],
+  "488": [
+    "softmax",
+    "softmax function"
+  ],
+  "489": [
+    "You Only Look Once (YOLO)"
+  ],
+  "490": [
+    "WordTrees",
+    "bounding box priors",
+    "anchor boxes"
+  ],
+  "491": [
+    "mean average precision",
+    "Average Precision (AP)",
+    "mean Average Precision (mAP)"
+  ],
+  "492": [
+    "semantic segmentation",
+    "object detection",
+    "Region Proposal Network (RPN)"
+  ],
+  "493": [
+    "transposed convolutional layer",
+    "upsampling layer"
+  ],
+  "494": [
+    "convolution operations"
+  ],
+  "495": [
+    "instance segmentation",
+    "adversarial learning",
+    "Mask R-CNN",
+    "image generation",
+    "single-shot learning"
+  ],
+  "497": [
+    "autonomous driving systems",
+    "sequences",
+    "RNNS",
+    "recurrent neural networks (RNNs)"
+  ],
+  "498": [
+    "recurrent neurons and layers",
+    "time step",
+    "unrolling the network through time",
+    "WaveNet",
+    "recurrent",
+    "recurrent neurons"
+  ],
+  "500": [
+    "basic cells",
+    "memory cells"
+  ],
+  "501": [
+    "Encoder\u2013Decoder model",
+    "sequence-to-vector networks",
+    "encoders",
+    "input and output",
+    "input and output sequences",
+    "vector-to-sequence networks",
+    "decoders"
+  ],
+  "502": [
+    "recurrent neurons and layers",
+    "training",
+    "recurrent",
+    "recurrent neurons",
+    "backpropagation through time (BPTT)"
+  ],
+  "503": [
+    "multivariate time series",
+    "forecasting time series",
+    "forecasting",
+    "time series data",
+    "univariate time series",
+    "imputation"
+  ],
+  "505": [
+    "mean squared error",
+    "simple RNNs",
+    "naive forecasting",
+    "baseline metrics"
+  ],
+  "506": [
+    "autoregressive integrated moving average (ARIMA) models",
+    "differencing",
+    "weighted moving average model",
+    "deep RNNS"
+  ],
+  "508": [
+    "forecasting several steps ahead"
+  ],
+  "510": [
+    "causal models",
+    "sequence-to-sequence models"
+  ],
+  "511": [
+    "Logit Regression (see Logistic Regression)",
+    "forecasting time series",
+    "handling long",
+    "handling long sequences"
+  ],
+  "512": [
+    "Layer Normalization",
+    "unstable gradients problem"
+  ],
+  "514": [
+    "long sequences short-term memory problems",
+    "Long Short-Term Memory (LSTM) cell",
+    "short-term memory problems"
+  ],
+  "516": [
+    "gate controllers",
+    "output gate",
+    "input gate",
+    "forget gate"
+  ],
+  "518": [
+    "Gated Recurrent Unit (GRU) cell",
+    "peephole connections"
+  ],
+  "520": [
+    "1D convolutional layer",
+    "1D convolutional layers"
+  ],
+  "521": [
+    "WaveNet"
+  ],
+  "523": [
+    "handling long sequences",
+    "long sequences short-term memory problems",
+    "handling long",
+    "short-term memory problems"
+  ],
+  "525": [
+    "natural language processing (NLP)",
+    "Turing test",
+    "stateless and stateful",
+    "chatbots"
+  ],
+  "526": [
+    "text generation",
+    "generating text using character RNNS",
+    "sentiment analysis",
+    "attention mechanism",
+    "character RNNs (Char-RNNs)",
+    "generating text using character RNNs"
+  ],
+  "527": [
+    "training dataset creation",
+    "splitting sequential datasets"
+  ],
+  "528": [
+    "chopping sequential datasets"
+  ],
+  "529": [
+    "nested datasets",
+    "flat datasets",
+    "truncated backpropagation through time"
+  ],
+  "530": [
+    "testing and validation",
+    "building and training"
+  ],
+  "531": [
+    "temperature",
+    "generating Shakespearean text"
+  ],
+  "532": [
+    "stateful RNNs and",
+    "stateless and stateful"
+  ],
+  "534": [
+    "generating text using character RNNS",
+    "sentiment analysis",
+    "Internet Movie Database",
+    "generating text using character RNNs"
+  ],
+  "535": [
+    "start of sequence (SoS) token"
+  ],
+  "536": [
+    "TF.Text library",
+    "Byte-Pair Encoding",
+    "word tokenization",
+    "regular expressions",
+    "tokenization"
+  ],
+  "538": [
+    "masking"
+  ],
+  "539": [
+    "mask tensors"
+  ],
+  "540": [
+    "modules",
+    "reusing pretrained embeddings",
+    "TensorFlow Hub"
+  ],
+  "541": [
+    "sentence encoders",
+    "Google News 7B corpus"
+  ],
+  "542": [
+    "Encoder\u2013Decoder model",
+    "sentiment analysis",
+    "Encoder\u2013Decoder network",
+    "end-of-sequence (EoS) token",
+    "neural machine translation (NMT)"
+  ],
+  "543": [
+    "softmax",
+    "softmax function"
+  ],
+  "544": [
+    "sampled softmax technique"
+  ],
+  "545": [
+    "TensorFlow Addons"
+  ],
+  "546": [
+    "bidirectional recurrent layers",
+    "bidirectional RNNs",
+    "bidirectional recurrent layer"
+  ],
+  "547": [
+    "beam width",
+    "beam search",
+    "conditional probability"
+  ],
+  "548": [
+    "Encoder\u2013Decoder model",
+    "Encoder\u2013Decoder network"
+  ],
+  "549": [
+    "attention mechanism",
+    "attention mechanisms"
+  ],
+  "550": [
+    "concatenative attention",
+    "additive attention",
+    "Bahdanau attention"
+  ],
+  "551": [
+    "loss functions (see cost functions) Luong attention",
+    "multiplicative attention",
+    "dot product"
+  ],
+  "552": [
+    "visual attention"
+  ],
+  "553": [
+    "explainability",
+    "explainability and"
+  ],
+  "554": [
+    "Transformer architecture"
+  ],
+  "556": [
+    "Masked Multi-Head Attention layer",
+    "Multi-Head Attention layer",
+    "end-of-sequence (EoS) token",
+    "dense vectors",
+    "positional encodings",
+    "self-attention mechanism"
+  ],
+  "559": [
+    "Scaled Dot-Product Attention layer",
+    "Multi-Head Attention layer"
+  ],
+  "563": [
+    "natural language processing (NLP)",
+    "attention mechanisms",
+    "language models",
+    "neural machine translation (NMT)"
+  ],
+  "564": [
+    "entailment",
+    "masked language model (MLM)",
+    "zero-shot learning (ZSL)"
+  ],
+  "565": [
+    "next sentence prediction (NSP)"
+  ],
+  "566": [
+    "Embedded Reber grammars"
+  ],
+  "567": [
+    "StyleGANs",
+    "latent representations",
+    "autoencoders"
+  ],
+  "568": [
+    "adversarial learning",
+    "versus Generative Adversarial Networks (GANs)",
+    "Generative Adversarial Networks (GANs) versus autoencoders",
+    "discriminators",
+    "generators"
+  ],
+  "569": [
+    "pattern matching",
+    "encoders",
+    "autoencoders",
+    "generative network",
+    "decoders",
+    "efficient data representations",
+    "recognition network"
+  ],
+  "570": [
+    "mean squared error",
+    "reconstruction loss",
+    "PCA with undercomplete linear autoencoders",
+    "undercomplete",
+    "linear autoencoders",
+    "undercomplete linear autoencoders",
+    "reconstructions",
+    "undercomplete autoencoders"
+  ],
+  "572": [
+    "stacked autoencoders",
+    "using Keras",
+    "stacked",
+    "deep autoencoders"
+  ],
+  "573": [
+    "mean squared error"
+  ],
+  "574": [
+    "visualizing Fashion MNIST Dataset",
+    "Fashion MNIST dataset",
+    "visualizing reconstructions"
+  ],
+  "575": [
+    "stacked"
+  ],
+  "576": [
+    "unsupervised pretraining using stacked",
+    "pretraining using stacked autoencoders",
+    "using stacked autoencoders",
+    "unsupervised pretraining"
+  ],
+  "577": [
+    "tying weights"
+  ],
+  "578": [
+    "greedy layer-wise training"
+  ],
+  "579": [
+    "unsupervised pretraining using stacked",
+    "pretraining using stacked autoencoders",
+    "convolutional autoencoders",
+    "using stacked autoencoders",
+    "convolutional",
+    "unsupervised pretraining"
+  ],
+  "580": [
+    "overcomplete autoencoders",
+    "recurrent autoencoders",
+    "recurrent"
+  ],
+  "581": [
+    "stacked denoising autoencoders",
+    "denoising",
+    "denoising autoencoders"
+  ],
+  "582": [
+    "sparsity",
+    "sparse",
+    "sparse autoencoders"
+  ],
+  "583": [
+    "mean squared error",
+    "sparsity loss"
+  ],
+  "586": [
+    "generative",
+    "generative autoencoders",
+    "mean coding",
+    "variational",
+    "variational autoencoders",
+    "probabilistic",
+    "probabilistic autoencoders",
+    "Bayesian inference"
+  ],
+  "587": [
+    "latent loss"
+  ],
+  "590": [
+    "Fashion MNIST dataset",
+    "semantic interpolation"
+  ],
+  "591": [
+    "variational",
+    "variational autoencoders"
+  ],
+  "596": [
+    "Nash equilibrium",
+    "difficulties of training"
+  ],
+  "597": [
+    "mode collapse",
+    "experience replay",
+    "minibatch discrimination"
+  ],
+  "598": [
+    "deep convolutional GANs (DCGANs)",
+    "deep convolutional GANs"
+  ],
+  "603": [
+    "learning rate",
+    "normalization",
+    "pixelwise normalization layers",
+    "minibatch standard deviation layer",
+    "equalized learning rates"
+  ],
+  "604": [
+    "adaptive instance normalization (AdaIN)",
+    "StyleGANs",
+    "style transfer",
+    "affine transformations"
+  ],
+  "606": [
+    "mixing regularization",
+    "style mixing"
+  ],
+  "609": [
+    "Reinforcement Learning (RL)"
+  ],
+  "610": [
+    "optimizing rewards"
+  ],
+  "612": [
+    "policy space",
+    "policy parameters",
+    "stochastic policy",
+    "genetic algorithms",
+    "policies",
+    "policy search"
+  ],
+  "613": [
+    "OpenAI Gym",
+    "policy gradients (PG)"
+  ],
+  "614": [
+    "simulated environments"
+  ],
+  "617": [
+    "OpenAI Gym",
+    "neural network policies"
+  ],
+  "618": [
+    "exploiting versus exploring"
+  ],
+  "619": [
+    "credit assignment problem",
+    "evaluating actions",
+    "discount factors",
+    "evaluating"
+  ],
+  "620": [
+    "action advantage",
+    "policy gradients (PG)",
+    "REINFORCE algorithms",
+    "policy gradients"
+  ],
+  "625": [
+    "Markov Decision Processes (MDP)",
+    "policy gradients",
+    "sample inefficiency",
+    "Markov chains",
+    "policy gradients (PG)",
+    "Actor-Critic algorithms"
+  ],
+  "626": [
+    "terminal state"
+  ],
+  "627": [
+    "optimal state value",
+    "Value Iteration algorithm",
+    "Bellman Optimality Equation"
+  ],
+  "628": [
+    "Q-Value Iteration",
+    "Q-Values",
+    "Dynamic Programming",
+    "state-action values"
+  ],
+  "629": [
+    "Markov Decision Processes (MDP)",
+    "Temporal Difference Learning",
+    "Temporal Difference Learning (TD Learning)"
+  ],
+  "630": [
+    "exploration policy",
+    "TD target",
+    "TD error",
+    "Q-Learning"
+  ],
+  "631": [
+    "implementing"
+  ],
+  "632": [
+    "exploration policy",
+    "on-policy algorithms",
+    "off-policy algorithms"
+  ],
+  "633": [
+    "Approximate Q-Learning",
+    "deep Q-networks (DQNs)",
+    "Approximate Q-Learning and Deep Q- Learning",
+    "Deep Q-Learning"
+  ],
+  "634": [
+    "Q-Learning",
+    "Deep Q-Learning"
+  ],
+  "635": [
+    "replay memory",
+    "deques",
+    "replay buffers"
+  ],
+  "636": [
+    "mean squared error"
+  ],
+  "637": [
+    "catastrophic forgetting"
+  ],
+  "638": [
+    "Deep Q-Learning"
+  ],
+  "639": [
+    "fixed Q-Value targets",
+    "online model",
+    "target model",
+    "Deep Q-Learning"
+  ],
+  "640": [
+    "importance sampling (IS)",
+    "prioritized experience replay",
+    "Double DQN",
+    "prioritized experience replay (PER)"
+  ],
+  "641": [
+    "Dueling DQN algorithm",
+    "Dueling DQN"
+  ],
+  "642": [
+    "Double Dueling DQN",
+    "Rainbow agent",
+    "TF-Agents library"
+  ],
+  "643": [
+    "installing",
+    "environments"
+  ],
+  "644": [
+    "environment specifications"
+  ],
+  "645": [
+    "Atari preprocessing",
+    "environment wrappers"
+  ],
+  "649": [
+    "trajectories",
+    "replay buffers",
+    "training architecture",
+    "collect policy"
+  ],
+  "650": [
+    "deep Q-networks (DQNs)",
+    "trajectory"
+  ],
+  "652": [
+    "DQN agents"
+  ],
+  "654": [
+    "replay buffer and observer",
+    "replay buffers",
+    "observers"
+  ],
+  "655": [
+    "training metrics"
+  ],
+  "656": [
+    "collect driver",
+    "undiscounted rewards",
+    "action step"
+  ],
+  "657": [
+    "batched time step",
+    "batched trajectory",
+    "batched action step"
+  ],
+  "658": [
+    "datasets"
+  ],
+  "660": [
+    "boundary transitions"
+  ],
+  "661": [
+    "training loops"
+  ],
+  "662": [
+    "TF-Agents library",
+    "Actor-Critic algorithms",
+    "Asynchronous Advantage Actor-Critic (A3C)"
+  ],
+  "663": [
+    "Soft Actor-Critic algorithm",
+    "Proximal Policy Optimization (PPO)",
+    "Advantage Actor-Critic (A2C)"
+  ],
+  "664": [
+    "curiosity-based exploration"
+  ],
+  "667": [
+    "queries per second (QPS)",
+    "A/B experiments",
+    "TensorFlow, model deployment at scale"
+  ],
+  "668": [
+    "Distribution Strategies API",
+    "serving TensorFlow models"
+  ],
+  "669": [
+    "SavedModel format"
+  ],
+  "671": [
+    "metagraphs"
+  ],
+  "677": [
+    "prediction service creation",
+    "creating on GCP AI"
+  ],
+  "679": [
+    "Google Cloud Storage (GCS)"
+  ],
+  "680": [
+    "ML Engine",
+    "AI Platform"
+  ],
+  "681": [
+    "prediction service creation",
+    "creating on GCP AI"
+  ],
+  "682": [
+    "service account",
+    "prediction service use"
+  ],
+  "684": [
+    "canary testing"
+  ],
+  "685": [
+    "prediction service use",
+    "embedded devices",
+    "serving TensorFlow models",
+    "mobile devices",
+    "deploying to mobile and embedded devices"
+  ],
+  "686": [
+    "post-training quantization"
+  ],
+  "687": [
+    "fake quantization",
+    "quantization-aware training"
+  ],
+  "688": [
+    "deploying to mobile and embedded devices"
+  ],
+  "689": [
+    "using GPUs to speed computations",
+    "speeding computations with",
+    "GPUs (graphics processing units) adding to single machines"
+  ],
+  "690": [
+    "selecting",
+    "CUDA Deep Neural Network library (cuDNN)",
+    "Nvidia GPU cards",
+    "Compute Unified Device Architecture library (CUDA)"
+  ],
+  "692": [
+    "Deep Learning VM Images",
+    "GPU-equipped virtual machines",
+    "JupyterLab"
+  ],
+  "693": [
+    "Colab Runtime",
+    "Colaboratory (Colab)"
+  ],
+  "694": [
+    "managing GPU RAM"
+  ],
+  "695": [
+    "logical GPU devices",
+    "virtual GPU devices"
+  ],
+  "697": [
+    "placing operations and variables on devices",
+    "dynamic placer algorithm"
+  ],
+  "699": [
+    "inter-op thread pool",
+    "parallel execution across multiple devices",
+    "intra-op thread pool"
+  ],
+  "701": [
+    "data parallelism",
+    "training models across multiple devices",
+    "using GPUs to speed computations",
+    "model parallelism",
+    "training across multiple devices"
+  ],
+  "704": [
+    "data parallelism",
+    "mirrored strategy"
+  ],
+  "705": [
+    "parameter servers",
+    "AllReduce algorithm"
+  ],
+  "706": [
+    "spare replicas",
+    "synchronous updates"
+  ],
+  "707": [
+    "stale gradients",
+    "asynchronous updates"
+  ],
+  "708": [
+    "bandwidth saturation",
+    "warmup phase"
+  ],
+  "709": [
+    "Distribution Strategies API"
+  ],
+  "710": [
+    "NVIDIA Collective Communications Library (NCCL)"
+  ],
+  "711": [
+    "TensorFlow cluster",
+    "cluster specification"
+  ],
+  "717": [
+    "training models across multiple devices",
+    "training across multiple devices"
+  ],
+  "719": [
+    "exercise solutions"
+  ],
+  "753": [
+    "exercise solutions"
+  ],
+  "755": [
+    "Machine Learning project checklist",
+    "framing the problem"
+  ],
+  "756": [
+    "data visualization",
+    "data downloading"
+  ],
+  "757": [
+    "data preparation"
+  ],
+  "758": [
+    "model selection and training",
+    "model fine-tuning"
+  ],
+  "759": [
+    "launching, monitoring, and maintaining"
+  ],
+  "761": [
+    "dual problem",
+    "Lagrange multipliers",
+    "stationary point"
+  ],
+  "762": [
+    "active constraint",
+    "Karush\u2013Kuhn\u2013Tucker (KKT) multipliers",
+    "inequality constraints",
+    "generalized Lagrangian",
+    "complementary slackness"
+  ],
+  "765": [
+    "computing gradients using Autodiff",
+    "automatic differentiation (autodiff)",
+    "manual differentiation"
+  ],
+  "766": [
+    "Newton's difference quotient",
+    "finite difference approximation"
+  ],
+  "767": [
+    "forward-mode autodiff"
+  ],
+  "768": [
+    "symbolic differentiation",
+    "dual numbers"
+  ],
+  "770": [
+    "reverse-mode autodiff"
+  ],
+  "772": [
+    "computing gradients using Autodiff",
+    "automatic differentiation (autodiff)"
+  ],
+  "773": [
+    "associative memory networks",
+    "Hopfield networks"
+  ],
+  "774": [
+    "energy function",
+    "spurious patterns"
+  ],
+  "775": [
+    "hidden units",
+    "visible units",
+    "Boltzmann machines",
+    "temperature",
+    "thermal equilibrium",
+    "stochastic neurons"
+  ],
+  "776": [
+    "restricted Boltzmann machines (RBMs)"
+  ],
+  "777": [
+    "Contrastive Divergence",
+    "deep belief networks (DBNs)"
+  ],
+  "780": [
+    "self-organizing maps (SOMs)"
+  ],
+  "783": [
+    "special data structures",
+    "string tensors"
+  ],
+  "784": [
+    "ragged tensors"
+  ],
+  "785": [
+    "sparse tensors"
+  ],
+  "786": [
+    "tensor arrays"
+  ],
+  "787": [
+    "sets"
+  ],
+  "788": [
+    "queues"
+  ],
+  "789": [
+    "special data structures"
+  ],
+  "791": [
+    "AutoGraph and tracing",
+    "input signatures",
+    "concrete functions",
+    "graphs generated by"
+  ],
+  "792": [
+    "symbolic tensors",
+    "function graphs",
+    "function definitions"
+  ],
+  "799": [
+    "AutoGraph and tracing",
+    "graphs generated by"
+  ]
+}

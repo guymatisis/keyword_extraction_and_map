@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          LSTM cell as a black box, it can be used very much like a basic cell, except it will per‐
+          form much better; training will converge faster, and it will detect long-term depen‐
+          dencies in the data. In Keras, you can simply use the LSTM layer instead of the
+          SimpleRNN layer:                                            
+                                                                      
+            model = keras.models.Sequential([                         
+               keras.layers.LSTM(20, return_sequences=True, input_shape=[None, 1]),
+               keras.layers.LSTM(20, return_sequences=True),          
+               keras.layers.TimeDistributed(keras.layers.Dense(10))   
+            ])                                                        
+          Alternatively, you could use the general-purpose keras.layers.RNN layer, giving it an
+          LSTMCell as an argument:                                    
+            model = keras.models.Sequential([                         
+               keras.layers.RNN(keras.layers.LSTMCell(20), return_sequences=True,
+                         input_shape=[None, 1]),                      
+               keras.layers.RNN(keras.layers.LSTMCell(20), return_sequences=True),
+               keras.layers.TimeDistributed(keras.layers.Dense(10))   
+            ])                                                        
+          However, the LSTM layer uses an optimized implementation when running on a GPU
+          (see Chapter 19), so in general it is preferable to use it (the RNN layer is mostly useful
+          when you define custom cells, as we did earlier).           
+          So how does an LSTM cell work? Its architecture is shown in Figure 15-9.
+          If you don’t look at what’s inside the box, the LSTM cell looks exactly like a regular
+          cell, except that its state is split into two vectors: h and c (“c” stands for “cell”). You
+                                       (t) (t)                        
+          can think of h as the short-term state and c as the long-term state.
+                  (t)               (t)                               
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

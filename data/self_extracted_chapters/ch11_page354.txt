@@ -1,0 +1,48 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 11-6. Regular versus Nesterov momentum optimization: the former applies the
+          gradients computed before the momentum step, while the latter applies the gradients
+          computed after                                              
+                                                                      
+          AdaGrad                                                     
+                                                                      
+          Consider the elongated bowl problem again: Gradient Descent starts by quickly going
+          down the steepest slope, which does not point straight toward the global optimum,
+          then it very slowly goes down to the bottom of the valley. It would be nice if the algo‐
+          rithm could correct its direction earlier to point a bit more toward the global opti‐
+          mum. The AdaGrad algorithm15 achieves this correction by scaling down the gradient
+          vector along the steepest dimensions (see Equation 11-6).   
+                                                                      
+            Equation 11-6. AdaGrad algorithm                          
+            1. s  s+∇ J θ ⊗∇ J θ                                      
+                     θ     θ                                          
+            2. θ  θ−η∇ J θ ⊘ s+ε                                      
+                      θ                                               
+          The first step accumulates the square of the gradients into the vector s (recall that the
+          ⊗ symbol represents the element-wise multiplication). This vectorized form is equiv‐
+          alent to computing s ← s + (∂ J(θ) / ∂ θ)2 for each element s of the vector s; in other
+                      i  i       i           i                        
+          words, each s accumulates the squares of the partial derivative of the cost function
+                  i                                                   
+          with regard to parameter θ. If the cost function is steep along the ith dimension, then
+                          i                                           
+          s will get larger and larger at each iteration.             
+          i                                                           
+          The second step is almost identical to Gradient Descent, but with one big difference:
+          the gradient vector is scaled down by a factor of s+ε (the ⊘ symbol represents the
+          15 John Duchi et al., “Adaptive Subgradient Methods for Online Learning and Stochastic Optimization,” Journal
+           of Machine Learning Research 12 (2011): 2121–2159.         

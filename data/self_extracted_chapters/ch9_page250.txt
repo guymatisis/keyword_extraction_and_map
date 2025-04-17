@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          example, if you want to analyze satellite images to measure how much total forest
+          area there is in a region, color segmentation may be just fine.
+                                                                      
+          First, use Matplotlib’s imread() function to load the image (see the upper-left image
+          in Figure 9-12):                                            
+            >>> from matplotlib.image import imread # or `from imageio import imread`
+            >>> image = imread(os.path.join("images","unsupervised_learning","ladybug.png"))
+            >>> image.shape                                           
+            (533, 800, 3)                                             
+          The image is represented as a 3D array. The first dimension’s size is the height; the
+          second is the width; and the third is the number of color channels, in this case red,
+          green, and blue (RGB). In other words, for each pixel there is a 3D vector containing
+          the intensities of red, green, and blue, each between 0.0 and 1.0 (or between 0 and
+          255, if you use imageio.imread()). Some images may have fewer channels, such as
+          grayscale images (one channel). And some images may have more channels, such as
+          images with an additional alpha channel for transparency or satellite images, which
+          often contain channels for many light frequencies (e.g., infrared). The following code
+          reshapes the array to get a long list of RGB colors, then it clusters these colors using
+          K-Means:                                                    
+            X = image.reshape(-1, 3)                                  
+            kmeans = KMeans(n_clusters=8).fit(X)                      
+            segmented_img = kmeans.cluster_centers_[kmeans.labels_]   
+            segmented_img = segmented_img.reshape(image.shape)        
+          For example, it may identify a color cluster for all shades of green. Next, for each
+          color (e.g., dark green), it looks for the mean color of the pixel’s color cluster. For
+          example, all shades of green may be replaced with the same light green color (assum‐
+          ing the mean color of the green cluster is light green). Finally, it reshapes this long list
+          of colors to get the same shape as the original image. And we’re done!
+          This outputs the image shown in the upper right of Figure 9-12. You can experiment
+          with various numbers of clusters, as shown in the figure. When you use fewer than
+          eight clusters, notice that the ladybug’s flashy red color fails to get a cluster of its own:
+          it gets merged with colors from the environment. This is because K-Means prefers
+          clusters of similar sizes. The ladybug is small—much smaller than the rest of the
+          image—so even though its color is flashy, K-Means fails to dedicate a cluster to it.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          has a predict_proba() method. Scikit-Learn classifiers generally have one or the
+          other, or both. The predict_proba() method returns an array containing a row per
+          instance and a column per class, each containing the probability that the given
+          instance belongs to the given class (e.g., 70% chance that the image represents a 5):
+                                                                      
+            from sklearn.ensemble import RandomForestClassifier       
+            forest_clf = RandomForestClassifier(random_state=42)      
+            y_probas_forest = cross_val_predict(forest_clf, X_train, y_train_5, cv=3,
+                                 method="predict_proba")              
+          The roc_curve() function expects labels and scores, but instead of scores you can
+          give it class probabilities. Let’s use the positive class’s probability as the score:
+            y_scores_forest = y_probas_forest[:, 1] # score = proba of positive class
+            fpr_forest, tpr_forest, thresholds_forest = roc_curve(y_train_5,y_scores_forest)
+                                                                      
+          Now you are ready to plot the ROC curve. It is useful to plot the first ROC curve as
+          well to see how they compare (Figure 3-7):                  
+            plt.plot(fpr, tpr, "b:", label="SGD")                     
+            plot_roc_curve(fpr_forest, tpr_forest, "Random Forest")   
+            plt.legend(loc="lower right")                             
+            plt.show()                                                
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 3-7. Comparing ROC curves: the Random Forest classifier is superior to the SGD
+          classifier because its ROC curve is much closer to the top-left corner, and it has a greater
+          AUC                                                         
+                                                                      
+                                                                      
+                                                                      
+                                                                      

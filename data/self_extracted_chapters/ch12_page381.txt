@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                            Keras’ Low-Level API                      
+                                                                      
+           The Keras API has its own low-level API, located in keras.backend. It includes func‐
+           tions like square(), exp(), and sqrt(). In tf.keras, these functions generally just call
+           the corresponding TensorFlow operations. If you want to write code that will be
+           portable to other Keras implementations, you should use these Keras functions. How‐
+           ever, they only cover a subset of all functions available in TensorFlow, so in this book
+           we will use the TensorFlow operations directly. Here is as simple example using
+           keras.backend, which is commonly named K for short:        
+             >>> from tensorflow import keras                         
+             >>> K = keras.backend                                    
+             >>> K.square(K.transpose(t)) + 10                        
+             <tf.Tensor: id=39, shape=(3, 2), dtype=float32, numpy=   
+             array([[11., 26.],                                       
+                  [14., 35.],                                         
+                  [19., 46.]], dtype=float32)>                        
+          Tensors and NumPy                                           
+                                                                      
+          Tensors play nice with NumPy: you can create a tensor from a NumPy array, and vice
+          versa. You can even apply TensorFlow operations to NumPy arrays and NumPy oper‐
+          ations to tensors:                                          
+            >>> a = np.array([2., 4., 5.])                            
+            >>> tf.constant(a)                                        
+            <tf.Tensor: id=111, shape=(3,), dtype=float64, numpy=array([2., 4., 5.])>
+            >>> t.numpy() # or np.array(t)                            
+            array([[1., 2., 3.],                                      
+                [4., 5., 6.]], dtype=float32)                         
+            >>> tf.square(a)                                          
+            <tf.Tensor: id=116, shape=(3,), dtype=float64, numpy=array([4., 16., 25.])>
+            >>> np.square(t)                                          
+            array([[ 1., 4., 9.],                                     
+                [16., 25., 36.]], dtype=float32)                      
+                   Notice that NumPy uses 64-bit precision by default, while Tensor‐
+                   Flow uses 32-bit. This is because 32-bit precision is generally more
+                   than enough for neural networks, plus it runs faster and uses less
+                   RAM. So when you create a tensor from a NumPy array, make sure
+                   to set dtype=tf.float32.                           
+          Type Conversions                                            
+          Type conversions can significantly hurt performance, and they can easily go unno‐
+          ticed when they are done automatically. To avoid this, TensorFlow does not perform
+                                                                      

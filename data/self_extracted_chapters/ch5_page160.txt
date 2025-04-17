@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 5-8. Similarity features using the Gaussian RBF      
+                                                                      
+          You may wonder how to select the landmarks. The simplest approach is to create a
+          landmark at the location of each and every instance in the dataset. Doing that creates
+          many dimensions and thus increases the chances that the transformed training set
+          will be linearly separable. The downside is that a training set with m instances and n
+          features gets transformed into a training set with m instances and m features (assum‐
+          ing you drop the original features). If your training set is very large, you end up with
+          an equally large number of features.                        
+          Gaussian RBF Kernel                                         
+                                                                      
+          Just like the polynomial features method, the similarity features method can be useful
+          with any Machine Learning algorithm, but it may be computationally expensive to
+          compute all the additional features, especially on large training sets. Once again the
+          kernel trick does its SVM magic, making it possible to obtain a similar result as if you
+          had added many similarity features. Let’s try the SVC class with the Gaussian RBF
+          kernel:                                                     
+            rbf_kernel_svm_clf = Pipeline([                           
+                 ("scaler", StandardScaler()),                        
+                 ("svm_clf", SVC(kernel="rbf", gamma=5, C=0.001))     
+               ])                                                     
+            rbf_kernel_svm_clf.fit(X, y)                              
+          This model is represented at the bottom left in Figure 5-9. The other plots show mod‐
+          els trained with different values of hyperparameters gamma (γ) and C. Increasing gamma
+          makes the bell-shaped curve narrower (see the lefthand plots in Figure 5-8). As a
+          result, each instance’s range of influence is smaller: the decision boundary ends up
+          being more irregular, wiggling around individual instances. Conversely, a small gamma
+          value makes the bell-shaped curve wider: instances have a larger range of influence,
+          and the decision boundary ends up smoother. So γ acts like a regularization
+                                                                      
+                                                                      

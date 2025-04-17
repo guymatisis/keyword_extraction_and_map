@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Instead of just flagging emails that are identical to known spam emails, your spam
+          filter could be programmed to also flag emails that are very similar to known spam
+          emails. This requires a measure of similarity between two emails. A (very basic) simi‐
+          larity measure between two emails could be to count the number of words they have
+          in common. The system would flag an email as spam if it has many words in com‐
+          mon with a known spam email.                                
+                                                                      
+          This is called instance-based learning: the system learns the examples by heart, then
+          generalizes to new cases by using a similarity measure to compare them to the
+          learned examples (or a subset of them). For example, in Figure 1-15 the new instance
+          would be classified as a triangle because the majority of the most similar instances
+          belong to that class.                                       
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 1-15. Instance-based learning                        
+                                                                      
+          Model-based learning                                        
+                                                                      
+          Another way to generalize from a set of examples is to build a model of these exam‐
+          ples and then use that model to make predictions. This is called model-based learning
+          (Figure 1-16).                                              
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 1-16. Model-based learning                           
+                                                                      

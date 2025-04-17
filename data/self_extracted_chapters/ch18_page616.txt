@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          actions, or other kinds of actions (e.g., continuous). Since the pole is leaning toward
+          the right (obs[2] > 0), let’s accelerate the cart toward the right:
+                                                                      
+            >>> action = 1 # accelerate right                         
+            >>> obs, reward, done, info = env.step(action)            
+            >>> obs                                                   
+            array([-0.01261699, 0.19292789, 0.04204097, -0.28092127]) 
+            >>> reward                                                
+            1.0                                                       
+            >>> done                                                  
+            False                                                     
+            >>> info                                                  
+            {}                                                        
+          The step() method executes the given action and returns four values:
+          obs                                                         
+            This is the new observation. The cart is now moving toward the right (obs[1] >
+            0). The pole is still tilted toward the right (obs[2] > 0), but its angular velocity is
+            now negative (obs[3] < 0), so it will likely be tilted toward the left after the next
+            step.                                                     
+          reward                                                      
+            In this environment, you get a reward of 1.0 at every step, no matter what you do,
+            so the goal is to keep the episode running as long as possible.
+          done                                                        
+            This value will be True when the episode is over. This will happen when the pole
+            tilts too much, or goes off the screen, or after 200 steps (in this last case, you have
+            won). After that, the environment must be reset before it can be used again.
+          info                                                        
+            This environment-specific dictionary can provide some extra information that
+            you may find useful for debugging or for training. For example, in some games it
+            may indicate how many lives the agent has.                
+                                                                      
+                   Once you have finished using an environment, you should call its
+                   close() method to free resources.                  
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

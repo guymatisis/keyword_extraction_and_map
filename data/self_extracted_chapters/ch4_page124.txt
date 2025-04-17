@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                             Convergence Rate                         
+                                                                      
+           When the cost function is convex and its slope does not change abruptly (as is the
+           case for the MSE cost function), Batch Gradient Descent with a fixed learning rate
+           will eventually converge to the optimal solution, but you may have to wait a while: it
+           can take O(1/ϵ) iterations to reach the optimum within a range of ϵ, depending on the
+           shape of the cost function. If you divide the tolerance by 10 to have a more precise
+           solution, then the algorithm may have to run about 10 times longer.
+                                                                      
+          Stochastic Gradient Descent                                 
+                                                                      
+          The main problem with Batch Gradient Descent is the fact that it uses the whole
+          training set to compute the gradients at every step, which makes it very slow when
+          the training set is large. At the opposite extreme, Stochastic Gradient Descent picks a
+          random instance in the training set at every step and computes the gradients based
+          only on that single instance. Obviously, working on a single instance at a time makes
+          the algorithm much faster because it has very little data to manipulate at every itera‐
+          tion. It also makes it possible to train on huge training sets, since only one instance
+          needs to be in memory at each iteration (Stochastic GD can be implemented as an
+          out-of-core algorithm; see Chapter 1).                      
+          On the other hand, due to its stochastic (i.e., random) nature, this algorithm is much
+          less regular than Batch Gradient Descent: instead of gently decreasing until it reaches
+          the minimum, the cost function will bounce up and down, decreasing only on aver‐
+          age. Over time it will end up very close to the minimum, but once it gets there it will
+          continue to bounce around, never settling down (see Figure 4-9). So once the algo‐
+          rithm stops, the final parameter values are good, but not optimal.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-9. With Stochastic Gradient Descent, each training step is much faster but also
+          much more stochastic than when using Batch Gradient Descent 
+                                                                      
+                                                                      

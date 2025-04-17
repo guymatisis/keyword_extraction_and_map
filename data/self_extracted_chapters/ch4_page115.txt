@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-1. Randomly generated linear dataset               
+                                                                      
+          Now let’s compute θ using the Normal Equation. We will use the inv() function from
+          NumPy’s linear algebra module (np.linalg) to compute the inverse of a matrix, and
+          the dot() method for matrix multiplication:                 
+            X_b = np.c_[np.ones((100, 1)), X] # add x0 = 1 to each instance
+            theta_best = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
+          The function that we used to generate the data is y = 4 + 3x + Gaussian noise. Let’s
+                                             1                        
+          see what the equation found:                                
+            >>> theta_best                                            
+            array([[4.21509616],                                      
+                [2.77011339]])                                        
+          We would have hoped for θ = 4 and θ = 3 instead of θ = 4.215 and θ = 2.770. Close
+                          0     1         0        1                  
+          enough, but the noise made it impossible to recover the exact parameters of the origi‐
+          nal function.                                               
+          Now we can make predictions using θ:                        
+            >>> X_new = np.array([[0], [2]])                          
+            >>> X_new_b = np.c_[np.ones((2, 1)), X_new] # add x0 = 1 to each instance
+            >>> y_predict = X_new_b.dot(theta_best)                   
+            >>> y_predict                                             
+            array([[4.21509616],                                      
+                [9.75532293]])                                        
+                                                                      
+                                                                      
+                                                                      

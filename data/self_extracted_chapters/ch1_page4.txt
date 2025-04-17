@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 1-2. The Machine Learning approach                   
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 1-3. Automatically adapting to change                
+                                                                      
+          Another area where Machine Learning shines is for problems that either are too com‐
+          plex for traditional approaches or have no known algorithm. For example, consider
+          speech recognition. Say you want to start simple and write a program capable of dis‐
+          tinguishing the words “one” and “two.” You might notice that the word “two” starts
+          with a high-pitch sound (“T”), so you could hardcode an algorithm that measures
+          high-pitch sound intensity and use that to distinguish ones and twos—but obviously
+          this technique will not scale to thousands of words spoken by millions of very differ‐
+          ent people in noisy environments and in dozens of languages. The best solution (at
+          least today) is to write an algorithm that learns by itself, given many example record‐
+          ings for each word.                                         
+          Finally, Machine Learning can help humans learn (Figure 1-4). ML algorithms can be
+          inspected to see what they have learned (although for some algorithms this can be
+          tricky). For instance, once a spam filter has been trained on enough spam, it can
+          easily be inspected to reveal the list of words and combinations of words that it
+          believes are the best predictors of spam. Sometimes this will reveal unsuspected

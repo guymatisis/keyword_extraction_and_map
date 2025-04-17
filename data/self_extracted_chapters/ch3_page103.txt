@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          First, look at the confusion matrix. You need to make predictions using the
+          cross_val_predict() function, then call the confusion_matrix() function, just like
+          you did earlier:                                            
+                                                                      
+            >>> y_train_pred = cross_val_predict(sgd_clf, X_train_scaled, y_train, cv=3)
+            >>> conf_mx = confusion_matrix(y_train, y_train_pred)     
+            >>> conf_mx                                               
+            array([[5578, 0, 22, 7, 8, 45, 35, 5, 222, 1],            
+                [  0, 6410, 35, 26, 4, 44, 4, 8, 198, 13],            
+                [ 28, 27, 5232, 100, 74, 27, 68, 37, 354, 11],        
+                [ 23, 18, 115, 5254, 2, 209, 26, 38, 373, 73],        
+                [ 11, 14, 45, 12, 5219, 11, 33, 26, 299, 172],        
+                [ 26, 16, 31, 173, 54, 4484, 76, 14, 482, 65],        
+                [ 31, 17, 45, 2, 42, 98, 5556, 3, 123, 1],            
+                [ 20, 10, 53, 27, 50, 13, 3, 5696, 173, 220],         
+                [ 17, 64, 47, 91, 3, 125, 24, 11, 5421, 48],          
+                [ 24, 18, 29, 67, 116, 39, 1, 174, 329, 5152]])       
+          That’s a lot of numbers. It’s often more convenient to look at an image representation
+          of the confusion matrix, using Matplotlib’s matshow() function:
+            plt.matshow(conf_mx, cmap=plt.cm.gray)                    
+            plt.show()                                                
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          This confusion matrix looks pretty good, since most images are on the main diago‐
+          nal, which means that they were classified correctly. The 5s look slightly darker than
+          the other digits, which could mean that there are fewer images of 5s in the dataset or
+          that the classifier does not perform as well on 5s as on other digits. In fact, you can
+          verify that both are the case.                              
+          Let’s focus the plot on the errors. First, you need to divide each value in the confusion
+          matrix by the number of images in the corresponding class so that you can compare
+          error rates instead of absolute numbers of errors (which would make abundant
+          classes look unfairly bad):                                 
+                                                                      
+                                                                      

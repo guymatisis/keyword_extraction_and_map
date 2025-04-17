@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 16-5. A bidirectional recurrent layer                
+          Beam Search                                                 
+                                                                      
+          Suppose you train an Encoder–Decoder model, and use it to translate the French sen‐
+          tence “Comment vas-tu?” to English. You are hoping that it will output the proper
+          translation (“How are you?”), but unfortunately it outputs “How will you?” Looking
+          at the training set, you notice many sentences such as “Comment vas-tu jouer?”
+          which translates to “How will you play?” So it wasn’t absurd for the model to output
+          “How will” after seeing “Comment vas.” Unfortunately, in this case it was a mistake,
+          and the model could not go back and fix it, so it tried to complete the sentence as best
+          it could. By greedily outputting the most likely word at every step, it ended up with a
+          suboptimal translation. How can we give the model a chance to go back and fix mis‐
+          takes it made earlier? One of the most common solutions is beam search: it keeps
+          track of a short list of the k most promising sentences (say, the top three), and at each
+          decoder step it tries to extend them by one word, keeping only the k most likely sen‐
+          tences. The parameter k is called the beam width.           
+          For example, suppose you use the model to translate the sentence “Comment vas-tu?”
+          using beam search with a beam width of 3. At the first decoder step, the model will
+          output an estimated probability for each possible word. Suppose the top three words
+          are “How” (75% estimated probability), “What” (3%), and “You” (1%). That’s our
+          short list so far. Next, we create three copies of our model and use them to find the
+          next word for each sentence. Each model will output one estimated probability per
+          word in the vocabulary. The first model will try to find the next word in the sentence
+          “How,” and perhaps it will output a probability of 36% for the word “will,” 32% for the
+          word “are,” 16% for the word “do,” and so on. Note that these are actually conditional
+          probabilities, given that the sentence starts with “How.” The second model will try to
+          complete the sentence “What”; it might output a conditional probability of 50% for
+                                                                      

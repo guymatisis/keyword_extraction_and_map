@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   The score t is often called the logit. The name comes from the fact
+                   that the logit function, defined as logit(p) = log(p / (1 – p)), is the
+                   inverse of the logistic function. Indeed, if you compute the logit of
+                   the estimated probability p, you will find that the result is t. The
+                   logit is also called the log-odds, since it is the log of the ratio
+                   between the estimated probability for the positive class and the
+                   estimated probability for the negative class.      
+          Training and Cost Function                                  
+                                                                      
+          Now you know how a Logistic Regression model estimates probabilities and makes
+          predictions. But how is it trained? The objective of training is to set the parameter
+          vector θ so that the model estimates high probabilities for positive instances (y = 1)
+          and low probabilities for negative instances (y = 0). This idea is captured by the cost
+          function shown in Equation 4-16 for a single training instance x.
+                                                                      
+            Equation 4-16. Cost function of a single training instance
+                                                                      
+                 −log p if y=1                                        
+            c θ =                                                     
+                −log 1−p if y=0                                       
+          This cost function makes sense because –log(t) grows very large when t approaches 0,
+          so the cost will be large if the model estimates a probability close to 0 for a positive
+          instance, and it will also be very large if the model estimates a probability close to 1
+          for a negative instance. On the other hand, –log(t) is close to 0 when t is close to 1, so
+          the cost will be close to 0 if the estimated probability is close to 0 for a negative
+          instance or close to 1 for a positive instance, which is precisely what we want.
+          The cost function over the whole training set is the average cost over all training
+          instances. It can be written in a single expression called the log loss, shown in Equa‐
+          tion 4-17.                                                  
+                                                                      
+            Equation 4-17. Logistic Regression cost function (log loss)
+                                                                      
+                 1 m  i   i      i     i                              
+            J θ =− ∑ y log p + 1−y log 1−p                            
+                 m i=1                                                
+          The bad news is that there is no known closed-form equation to compute the value of
+          θ that minimizes this cost function (there is no equivalent of the Normal Equation).
+          The good news is that this cost function is convex, so Gradient Descent (or any other
+          optimization algorithm) is guaranteed to find the global minimum (if the learning
+                                                                      
+                                                                      
+                                                                      

@@ -1,0 +1,49 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          This can be written much more concisely using a vectorized form, as shown in Equa‐
+          tion 4-2.                                                   
+                                                                      
+            Equation 4-2. Linear Regression model prediction (vectorized form)
+                                                                      
+            y =h x =θ·x                                               
+               θ                                                      
+          In this equation:                                           
+                                                                      
+           • θ is the model’s parameter vector, containing the bias term θ and the feature
+                                                 0                    
+            weights θ to θ .                                          
+                  1  n                                                
+           • x is the instance’s feature vector, containing x to x , with x always equal to 1.
+                                      0  n    0                       
+           • θ · x is the dot product of the vectors θ and x, which is of course equal to θ x +
+                                                         0 0          
+            θ x + θ x + ... + θ x .                                   
+             1 1 2 2   n n                                            
+           • h is the hypothesis function, using the model parameters θ.
+             θ                                                        
+                   In Machine Learning, vectors are often represented as column vec‐
+                   tors, which are 2D arrays with a single column. If θ and x are col‐
+                                           ⊺      ⊺                   
+                   umn vectors, then the prediction is y =θ x, where θ is the
+                                                    ⊺                 
+                   transpose of θ (a row vector instead of a column vector) and θ x is
+                                   ⊺                                  
+                   the matrix multiplication of θ and x. It is of course the same pre‐
+                   diction, except that it is now represented as a single-cell matrix
+                   rather than a scalar value. In this book I will use this notation to
+                   avoid switching between dot products and matrix multiplications.
+          OK, that’s the Linear Regression model—but how do we train it? Well, recall that
+          training a model means setting its parameters so that the model best fits the training
+          set. For this purpose, we first need a measure of how well (or poorly) the model fits
+          the training data. In Chapter 2 we saw that the most common performance measure
+          of a regression model is the Root Mean Square Error (RMSE) (Equation 2-1). There‐
+          fore, to train a Linear Regression model, we need to find the value of θ that minimi‐
+          zes the RMSE. In practice, it is simpler to minimize the mean squared error (MSE)
+          than the RMSE, and it leads to the same result (because the value that minimizes a
+          function also minimizes its square root).1                  
+          1 It is often the case that a learning algorithm will try to optimize a different function than the performance
+           measure used to evaluate the final model. This is generally because that function is easier to compute, because
+           it has useful differentiation properties that the performance measure lacks, or because we want to constrain
+           the model during training, as you will see when we discuss regularization.

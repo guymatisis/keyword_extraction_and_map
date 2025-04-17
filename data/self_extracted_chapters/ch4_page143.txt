@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Estimating Probabilities                                    
+                                                                      
+          So how does Logistic Regression work? Just like a Linear Regression model, a Logistic
+          Regression model computes a weighted sum of the input features (plus a bias term),
+          but instead of outputting the result directly like the Linear Regression model does, it
+          outputs the logistic of this result (see Equation 4-13).    
+                                                                      
+            Equation 4-13. Logistic Regression model estimated probability (vectorized form)
+                     ⊺                                                
+            p=h x =σ x θ                                              
+               θ                                                      
+          The logistic—noted σ(·)—is a sigmoid function (i.e., S-shaped) that outputs a number
+          between 0 and 1. It is defined as shown in Equation 4-14 and Figure 4-21.
+                                                                      
+            Equation 4-14. Logistic function                          
+                   1                                                  
+            σ t =                                                     
+                1+ exp −t                                             
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-21. Logistic function                              
+                                                                      
+          Once the Logistic Regression model has estimated the probability p = h (x) that an
+                                                     θ                
+          instance x belongs to the positive class, it can make its prediction ŷ easily (see Equa‐
+          tion 4-15).                                                 
+            Equation 4-15. Logistic Regression model prediction       
+               0 if p<0.5                                             
+            y =                                                       
+               1 if p≥0.5                                             
+                                                                      
+          Notice that σ(t) < 0.5 when t < 0, and σ(t) ≥ 0.5 when t ≥ 0, so a Logistic Regression
+          model predicts 1 if x⊺ θ is positive and 0 if it is negative.
+                                                                      
+                                                                      

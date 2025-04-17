@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          verb, another linear layer will extract just the fact that it is past tense, and so on. Then
+          the Scaled Dot-Product Attention layers implement the lookup phase, and finally we
+          concatenate all the results and project them back to the original space.
+                                                                      
+          At the time of this writing, there is no Transformer class or MultiHeadAttention
+          class available for TensorFlow 2. However, you can check out TensorFlow’s great tuto‐
+          rial for building a Transformer model for language understanding. Moreover, the TF
+          Hub team is currently porting several Transformer-based modules to TensorFlow 2,
+          and they should be available soon. In the meantime, I hope I have demonstrated that
+          it is not that hard to implement a Transformer yourself, and it is certainly a great
+          exercise!                                                   
+          Recent Innovations in Language Models                       
+                                                                      
+          The year 2018 has been called the “ImageNet moment for NLP”: progress was
+          astounding, with larger and larger LSTM and Transformer-based architectures
+          trained on immense datasets. I highly recommend you check out the following
+          papers, all published in 2018:                              
+                                                                      
+           • The ELMo paper24 by Matthew Peters introduced Embeddings from Language
+            Models (ELMo): these are contextualized word embeddings learned from the
+            internal states of a deep bidirectional language model. For example, the word
+            “queen” will not have the same embedding in “Queen of the United Kingdom”
+            and in “queen bee.”                                       
+           • The ULMFiT paper25 by Jeremy Howard and Sebastian Ruder demonstrated the
+            effectiveness of unsupervised pretraining for NLP tasks: the authors trained an
+            LSTM language model using self-supervised learning (i.e., generating the labels
+            automatically from the data) on a huge text corpus, then they fine-tuned it on
+            various tasks. Their model outperformed the state of the art on six text classifica‐
+            tion tasks by a large margin (reducing the error rate by 18–24% in most cases).
+            Moreover, they showed that by fine-tuning the pretrained model on just 100
+            labeled examples, they could achieve the same performance as a model trained
+            from scratch on 10,000 examples.                          
+           • The GPT paper26 by Alec Radford and other OpenAI researchers also demon‐
+            strated the effectiveness of unsupervised pretraining, but this time using a
+                                                                      
+                                                                      
+          24 Matthew Peters et al., “Deep Contextualized Word Representations,” Proceedings of the 2018 Conference of the
+           North American Chapter of the Association for Computational Linguistics: Human Language Technologies 1
+           (2018): 2227–2237.                                         
+          25 Jeremy Howard and Sebastian Ruder, “Universal Language Model Fine-Tuning for Text Classification,” Pro‐
+           ceedings of the 56th Annual Meeting of the Association for Computational Linguistics 1 (2018): 328–339.
+          26 Alec Radford et al., “Improving Language Understanding by Generative Pre-Training” (2018).

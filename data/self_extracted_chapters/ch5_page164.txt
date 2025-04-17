@@ -1,0 +1,47 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 5-11. SVM Regression using a second-degree polynomial kernel
+                                                                      
+          The following code uses Scikit-Learn’s SVR class (which supports the kernel trick) to
+          produce the model represented on the left in Figure 5-11:   
+            from sklearn.svm import SVR                               
+            svm_poly_reg = SVR(kernel="poly", degree=2, C=100, epsilon=0.1)
+            svm_poly_reg.fit(X, y)                                    
+                                                                      
+          The SVR class is the regression equivalent of the SVC class, and the LinearSVR class is
+          the regression equivalent of the LinearSVC class. The LinearSVR class scales linearly
+          with the size of the training set (just like the LinearSVC class), while the SVR class gets
+          much too slow when the training set grows large (just like the SVC class).
+                                                                      
+                   SVMs can also be used for outlier detection; see Scikit-Learn’s doc‐
+                   umentation for more details.                       
+                                                                      
+                                                                      
+                                                                      
+          Under the Hood                                              
+                                                                      
+          This section explains how SVMs make predictions and how their training algorithms
+          work, starting with linear SVM classifiers. If you are just getting started with Machine
+          Learning, you can safely skip it and go straight to the exercises at the end of this chap‐
+          ter, and come back later when you want to get a deeper understanding of SVMs.
+          First, a word about notations. In Chapter 4 we used the convention of putting all the
+          model parameters in one vector θ, including the bias term θ and the input feature
+                                              0                       
+          weights θ to θ , and adding a bias input x = 1 to all instances. In this chapter we will
+               1  n               0                                   
+          use a convention that is more convenient (and more common) when dealing with

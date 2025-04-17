@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Multilabel Classification                                   
+                                                                      
+          Until now each instance has always been assigned to just one class. In some cases you
+          may want your classifier to output multiple classes for each instance. Consider a face-
+          recognition classifier: what should it do if it recognizes several people in the same
+          picture? It should attach one tag per person it recognizes. Say the classifier has been
+          trained to recognize three faces, Alice, Bob, and Charlie. Then when the classifier is
+          shown a picture of Alice and Charlie, it should output [1, 0, 1] (meaning “Alice yes,
+          Bob no, Charlie yes”). Such a classification system that outputs multiple binary tags is
+          called a multilabel classification system.                  
+          We won’t go into face recognition just yet, but let’s look at a simpler example, just for
+          illustration purposes:                                      
+                                                                      
+            from sklearn.neighbors import KNeighborsClassifier        
+            y_train_large = (y_train >= 7)                            
+            y_train_odd = (y_train % 2 == 1)                          
+            y_multilabel = np.c_[y_train_large, y_train_odd]          
+            knn_clf = KNeighborsClassifier()                          
+            knn_clf.fit(X_train, y_multilabel)                        
+                                                                      
+          This code creates a y_multilabel array containing two target labels for each digit
+          image: the first indicates whether or not the digit is large (7, 8, or 9), and the second
+          indicates whether or not it is odd. The next lines create a KNeighborsClassifier
+          instance (which supports multilabel classification, though not all classifiers do), and
+          we train it using the multiple targets array. Now you can make a prediction, and
+          notice that it outputs two labels:                          
+            >>> knn_clf.predict([some_digit])                         
+            array([[False, True]])                                    
+          And it gets it right! The digit 5 is indeed not large (False) and odd (True).
+          There are many ways to evaluate a multilabel classifier, and selecting the right metric
+          really depends on your project. One approach is to measure the F score for each
+                                                  1                   
+          individual label (or any other binary classifier metric discussed earlier), then simply
+          compute the average score. This code computes the average F score across all labels:
+                                             1                        
+            >>> y_train_knn_pred = cross_val_predict(knn_clf, X_train, y_multilabel, cv=3)
+            >>> f1_score(y_multilabel, y_train_knn_pred, average="macro")
+            0.976410265560605                                         
+          This assumes that all labels are equally important, however, which may not be the
+          case. In particular, if you have many more pictures of Alice than of Bob or Charlie,
+          you may want to give more weight to the classifier’s score on pictures of Alice. One
+          simple option is to give each label a weight equal to its support (i.e., the number of

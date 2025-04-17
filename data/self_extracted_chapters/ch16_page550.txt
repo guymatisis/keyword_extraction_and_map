@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 16-6. Neural machine translation using an Encoder–Decoder network with an
+          attention model                                             
+                                                                      
+          But where do these α weights come from? It’s actually pretty simple: they are gener‐
+                      (t,i)                                           
+          ated by a type of small neural network called an alignment model (or an attention
+          layer), which is trained jointly with the rest of the Encoder–Decoder model. This
+          alignment model is illustrated on the righthand side of Figure 16-6. It starts with a
+          time-distributed Dense layer15 with a single neuron, which receives as input all the
+          encoder outputs, concatenated with the decoder’s previous hidden state (e.g., h ).
+                                                          (2)         
+          This layer outputs a score (or energy) for each encoder output (e.g., e ): this score
+                                                   (3, 2)             
+          measures how well each output is aligned with the decoder’s previous hidden state.
+          Finally, all the scores go through a softmax layer to get a final weight for each encoder
+          output (e.g., α ). All the weights for a given decoder time step add up to 1 (since the
+                  (3,2)                                               
+          softmax layer is not time-distributed). This particular attention mechanism is called
+          Bahdanau attention (named after the paper’s first author). Since it concatenates the
+          encoder output with the decoder’s previous hidden state, it is sometimes called con‐
+          catenative attention (or additive attention).               
+                                                                      
+          15 Recall that a time-distributed Dense layer is equivalent to a regular Dense layer that you apply independently
+           at each time step (only much faster).                      

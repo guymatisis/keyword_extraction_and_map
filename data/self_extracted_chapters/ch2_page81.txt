@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          about a new district and click the Estimate Price button. This will send a query con‐
+          taining the data to the web server, which will forward it to your web application, and
+          finally your code will simply call the model’s predict() method (you want to load the
+          model upon server startup, rather than every time the model is used). Alternatively,
+          you can wrap the model within a dedicated web service that your web application can
+          query through a REST API23 (see Figure 2-17). This makes it easier to upgrade your
+          model to new versions without interrupting the main application. It also simplifies
+          scaling, since you can start as many web services as needed and load-balance the
+          requests coming from your web application across these web services. Moreover, it
+          allows your web application to use any language, not just Python.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 2-17. A model deployed as a web service and used by a web application
+                                                                      
+          Another popular strategy is to deploy your model on the cloud, for example on Goo‐
+          gle Cloud AI Platform (formerly known as Google Cloud ML Engine): just save your
+          model using joblib and upload it to Google Cloud Storage (GCS), then head over to
+          Google Cloud AI Platform and create a new model version, pointing it to the GCS
+          file. That’s it! This gives you a simple web service that takes care of load balancing and
+          scaling for you. It take JSON requests containing the input data (e.g., of a district) and
+          returns JSON responses containing the predictions. You can then use this web service
+          in your website (or whatever production environment you are using). As we will see
+          in Chapter 19, deploying TensorFlow models on AI Platform is not much different
+          from deploying Scikit-Learn models.                         
+          But deployment is not the end of the story. You also need to write monitoring code to
+          check your system’s live performance at regular intervals and trigger alerts when it
+          drops. This could be a steep drop, likely due to a broken component in your infra‐
+          structure, but be aware that it could also be a gentle decay that could easily go unno‐
+          ticed for a long time. This is quite common because models tend to “rot” over time:
+          indeed, the world changes, so if the model was trained with last year’s data, it may not
+          be adapted to today’s data.                                 
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          23 In a nutshell, a REST (or RESTful) API is an HTTP-based API that follows some conventions, such as using
+           standard HTTP verbs to read, update, create, or delete resources (GET, POST, PUT, and DELETE) and using
+           JSON for the inputs and outputs.                           

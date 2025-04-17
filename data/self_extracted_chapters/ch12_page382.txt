@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          any type conversions automatically: it just raises an exception if you try to execute an
+          operation on tensors with incompatible types. For example, you cannot add a float
+          tensor and an integer tensor, and you cannot even add a 32-bit float and a 64-bit float:
+                                                                      
+            >>> tf.constant(2.) + tf.constant(40)                     
+            Traceback[...]InvalidArgumentError[...]expected to be a float[...]
+            >>> tf.constant(2.) + tf.constant(40., dtype=tf.float64)  
+            Traceback[...]InvalidArgumentError[...]expected to be a double[...]
+          This may be a bit annoying at first, but remember that it’s for a good cause! And of
+          course you can use tf.cast() when you really need to convert types:
+            >>> t2 = tf.constant(40., dtype=tf.float64)               
+            >>> tf.constant(2.0) + tf.cast(t2, tf.float32)            
+            <tf.Tensor: id=136, shape=(), dtype=float32, numpy=42.0>  
+          Variables                                                   
+                                                                      
+          The tf.Tensor values we’ve seen so far are immutable: you cannot modify them. This
+          means that we cannot use regular tensors to implement weights in a neural network,
+          since they need to be tweaked by backpropagation. Plus, other parameters may also
+          need to change over time (e.g., a momentum optimizer keeps track of past gradients).
+          What we need is a tf.Variable:                              
+            >>> v = tf.Variable([[1., 2., 3.], [4., 5., 6.]])         
+            >>> v                                                     
+            <tf.Variable 'Variable:0' shape=(2, 3) dtype=float32, numpy=
+            array([[1., 2., 3.],                                      
+                [4., 5., 6.]], dtype=float32)>                        
+          A tf.Variable acts much like a tf.Tensor: you can perform the same operations
+          with it, it plays nicely with NumPy as well, and it is just as picky with types. But it can
+          also be modified in place using the assign() method (or assign_add() or
+          assign_sub(), which increment or decrement the variable by the given value). You
+          can also modify individual cells (or slices), by using the cell’s (or slice’s) assign()
+          method (direct item assignment will not work) or by using the scatter_update() or
+          scatter_nd_update() methods:                                
+            v.assign(2 * v) # => [[2., 4., 6.], [8., 10., 12.]]       
+            v[0, 1].assign(42) # => [[2., 42., 6.], [8., 10., 12.]]   
+            v[:, 2].assign([0., 1.]) # => [[2., 42., 0.], [8., 10., 1.]]
+            v.scatter_nd_update(indices=[[0, 0], [1, 2]], updates=[100., 200.])
+                            # => [[100., 42., 0.], [8., 10., 200.]]   
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

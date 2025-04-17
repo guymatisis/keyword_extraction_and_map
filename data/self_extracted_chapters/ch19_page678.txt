@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            Figure 19-3. Google Cloud Platform console                
+                                                                      
+           3. If you have used GCP before and your free trial has expired, then the services you
+            will use in this chapter will cost you some money. It should not be too much,
+            especially if you remember to turn off the services when you do not need them
+            anymore. Make sure you understand and agree to the pricing conditions before
+            you run any service. I hereby decline any responsibility if services end up costing
+            more than you expected! Also make sure your billing account is active. To check,
+            open the navigation menu on the left and click Billing, and make sure you have
+            set up a payment method and that the billing account is active.
+           4. Every resource in GCP belongs to a project. This includes all the virtual
+            machines you may use, the files you store, and the training jobs you run. When
+            you create an account, GCP automatically creates a project for you, called “My
+            First Project.” If you want, you can change its display name by going to the
+            project settings: in the navigation menu (on the left of the screen), select IAM &
+            admin → Settings, change the project’s display name, and click Save. Note that
+            the project also has a unique ID and number. You can choose the project ID
+            when you create a project, but you cannot change it later. The project number is
+            automatically generated and cannot be changed. If you want to create a new
+            project, click the project name at the top of the page, then click New Project and
+            enter the project ID. Make sure billing is active for this new project.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

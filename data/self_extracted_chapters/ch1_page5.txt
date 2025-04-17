@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          correlations or new trends, and thereby lead to a better understanding of the prob‐
+          lem. Applying ML techniques to dig into large amounts of data can help discover pat‐
+          terns that were not immediately apparent. This is called data mining.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 1-4. Machine Learning can help humans learn          
+                                                                      
+          To summarize, Machine Learning is great for:                
+                                                                      
+           • Problems for which existing solutions require a lot of fine-tuning or long lists of
+            rules: one Machine Learning algorithm can often simplify code and perform bet‐
+            ter than the traditional approach.                        
+           • Complex problems for which using a traditional approach yields no good solu‐
+            tion: the best Machine Learning techniques can perhaps find a solution.
+           • Fluctuating environments: a Machine Learning system can adapt to new data.
+           • Getting insights about complex problems and large amounts of data.
+                                                                      
+                                                                      
+          Examples of Applications                                    
+                                                                      
+          Let’s look at some concrete examples of Machine Learning tasks, along with the tech‐
+          niques that can tackle them:                                
+          Analyzing images of products on a production line to automatically classify them
+            This is image classification, typically performed using convolutional neural net‐
+            works (CNNs; see Chapter 14).                             
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

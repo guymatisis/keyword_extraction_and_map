@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          equations simplify, so the latent loss can be computed quite simply using Equation
+          17-3:9                                                      
+                                                                      
+            Equation 17-3. Variational autoencoder’s latent loss      
+                                                                      
+                  K                                                   
+            ℒ = − 1 ∑ 1+ log σ 2 −σ 2 −μ 2                            
+                2        i   i  i                                     
+                 i=1                                                  
+          In this equation, ℒ is the latent loss, n is the codings’ dimensionality, and μ and σ are
+                                                     i   i            
+          the mean and standard deviation of the ith component of the codings. The vectors μ
+          and σ (which contain all the μ and σ) are output by the encoder, as shown in
+                             i    i                                   
+          Figure 17-12 (left).                                        
+          A common tweak to the variational autoencoder’s architecture is to make the encoder
+          output γ = log(σ2) rather than σ. The latent loss can then be computed as shown in
+          Equation 17-4. This approach is more numerically stable and speeds up training.
+            Equation 17-4. Variational autoencoder’s latent loss, rewritten using γ = log(σ2)
+                  K                                                   
+            ℒ = − 1 ∑ 1+γ − exp γ −μ 2                                
+                2     i     i  i                                      
+                 i=1                                                  
+          Let’s start building a variational autoencoder for Fashion MNIST (as shown in
+          Figure 17-12, but using the γ tweak). First, we will need a custom layer to sample the
+          codings, given μ and γ:                                     
+            class Sampling(keras.layers.Layer):                       
+               def call(self, inputs):                                
+                 mean, log_var = inputs                               
+                 return K.random_normal(tf.shape(log_var)) * K.exp(log_var / 2) + mean
+          This Sampling layer takes two inputs: mean (μ) and log_var (γ). It uses the function
+          K.random_normal() to sample a random vector (of the same shape as γ) from the
+          Normal distribution, with mean 0 and standard deviation 1. Then it multiplies it by
+          exp(γ / 2) (which is equal to σ, as you can verify), and finally it adds μ and returns the
+          result. This samples a codings vector from the Normal distribution with mean μ and
+          standard deviation σ.                                       
+          Next, we can create the encoder, using the Functional API because the model is not
+          entirely sequential:                                        
+                                                                      
+                                                                      
+          9 For more mathematical details, check out the original paper on variational autoencoders, or Carl Doersch’s
+           great tutorial (2016).                                     

@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 7-10. GBRT ensembles with not enough predictors (left) and too many (right)
+                                                                      
+          In order to find the optimal number of trees, you can use early stopping (see Chap‐
+          ter 4). A simple way to implement this is to use the staged_predict() method: it
+          returns an iterator over the predictions made by the ensemble at each stage of train‐
+          ing (with one tree, two trees, etc.). The following code trains a GBRT ensemble with
+          120 trees, then measures the validation error at each stage of training to find the opti‐
+          mal number of trees, and finally trains another GBRT ensemble using the optimal
+          number of trees:                                            
+            import numpy as np                                        
+            from sklearn.model_selection import train_test_split      
+            from sklearn.metrics import mean_squared_error            
+            X_train, X_val, y_train, y_val = train_test_split(X, y)   
+            gbrt = GradientBoostingRegressor(max_depth=2, n_estimators=120)
+            gbrt.fit(X_train, y_train)                                
+                                                                      
+            errors = [mean_squared_error(y_val, y_pred)               
+                  for y_pred in gbrt.staged_predict(X_val)]           
+            bst_n_estimators = np.argmin(errors) + 1                  
+            gbrt_best = GradientBoostingRegressor(max_depth=2,n_estimators=bst_n_estimators)
+            gbrt_best.fit(X_train, y_train)                           
+          The validation errors are represented on the left of Figure 7-11, and the best model’s
+          predictions are represented on the right.                   
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

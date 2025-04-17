@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          the next five file paths from the filepath_dataset and interleave them the same way,
+          and so on until it runs out of file paths.                  
+                                                                      
+                   For interleaving to work best, it is preferable to have files of identi‐
+                   cal length; otherwise the ends of the longest files will not be inter‐
+                   leaved.                                            
+                                                                      
+                                                                      
+                                                                      
+          By default, interleave() does not use parallelism; it just reads one line at a time
+          from each file, sequentially. If you want it to actually read files in parallel, you can set
+          the num_parallel_calls argument to the number of threads you want (note that the
+          map() method also has this argument). You can even set it to tf.data.experimen
+          tal.AUTOTUNE to make TensorFlow choose the right number of threads dynamically
+          based on the available CPU (however, this is an experimental feature for now). Let’s
+          look at what the dataset contains now:                      
+            >>> for line in dataset.take(5):                          
+            ...  print(line.numpy())                                  
+            ...                                                       
+            b'4.2083,44.0,5.3232,0.9171,846.0,2.3370,37.47,-122.2,2.782'
+            b'4.1812,52.0,5.7013,0.9965,692.0,2.4027,33.73,-118.31,3.215'
+            b'3.6875,44.0,4.5244,0.9930,457.0,3.1958,34.04,-118.15,1.625'
+            b'3.3456,37.0,4.5140,0.9084,458.0,3.2253,36.67,-121.7,2.526'
+            b'3.5214,15.0,3.0499,1.1065,1447.0,1.6059,37.63,-122.43,1.442'
+          These are the first rows (ignoring the header row) of five CSV files, chosen randomly.
+          Looks good! But as you can see, these are just byte strings; we need to parse them and
+          scale the data.                                             
+          Preprocessing the Data                                      
+          Let’s implement a small function that will perform this preprocessing:
+            X_mean, X_std = [...] # mean and scale of each feature in the training set
+            n_inputs = 8                                              
+                                                                      
+            def preprocess(line):                                     
+             defs = [0.] * n_inputs + [tf.constant([], dtype=tf.float32)]
+             fields = tf.io.decode_csv(line, record_defaults=defs)    
+             x = tf.stack(fields[:-1])                                
+             y = tf.stack(fields[-1:])                                
+             return (x - X_mean) / X_std, y                           
+          Let’s walk through this code:                               
+                                                                      
+                                                                      
+                                                                      

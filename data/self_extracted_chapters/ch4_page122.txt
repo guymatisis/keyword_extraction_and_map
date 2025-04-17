@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            Equation 4-6. Gradient vector of the cost function        
+                                                                      
+                     ∂                                                
+                      MSE θ                                           
+                    ∂θ                                                
+                      0                                               
+                     ∂                                                
+            ∇ θ MSE θ = ∂θ 1 MSE θ = m 2 X ⊺ Xθ−y                     
+                       ⋮                                              
+                     ∂                                                
+                       MSE θ                                          
+                    ∂θ                                                
+                      n                                               
+                   Notice that this formula involves calculations over the full training
+                   set X, at each Gradient Descent step! This is why the algorithm is
+                   called Batch Gradient Descent: it uses the whole batch of training
+                   data at every step (actually, Full Gradient Descent would probably
+                   be a better name). As a result it is terribly slow on very large train‐
+                   ing sets (but we will see much faster Gradient Descent algorithms
+                   shortly). However, Gradient Descent scales well with the number of
+                   features; training a Linear Regression model when there are hun‐
+                   dreds of thousands of features is much faster using Gradient
+                   Descent than using the Normal Equation or SVD decomposition.
+          Once you have the gradient vector, which points uphill, just go in the opposite direc‐
+          tion to go downhill. This means subtracting ∇ MSE(θ) from θ. This is where the
+                                      θ                               
+          learning rate η comes into play:5 multiply the gradient vector by η to determine the
+          size of the downhill step (Equation 4-7).                   
+            Equation 4-7. Gradient Descent step                       
+            θ next step =θ−η∇ MSE θ                                   
+                       θ                                              
+          Let’s look at a quick implementation of this algorithm:     
+            eta = 0.1 # learning rate                                 
+            n_iterations = 1000                                       
+            m = 100                                                   
+            theta = np.random.randn(2,1) # random initialization      
+            for iteration in range(n_iterations):                     
+               gradients = 2/m * X_b.T.dot(X_b.dot(theta) - y)        
+               theta = theta - eta * gradients                        
+                                                                      
+                                                                      
+          5 Eta (η) is the seventh letter of the Greek alphabet.      

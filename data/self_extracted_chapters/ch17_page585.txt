@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          We now have all we need to implement a sparse autoencoder based on the KL diver‐
+          gence. First, let’s create a custom regularizer to apply KL divergence regularization:
+                                                                      
+            K = keras.backend                                         
+            kl_divergence = keras.losses.kullback_leibler_divergence  
+            class KLDivergenceRegularizer(keras.regularizers.Regularizer):
+               def __init__(self, weight, target=0.1):                
+                 self.weight = weight                                 
+                 self.target = target                                 
+               def __call__(self, inputs):                            
+                 mean_activities = K.mean(inputs, axis=0)             
+                 return self.weight * (                               
+                   kl_divergence(self.target, mean_activities) +      
+                   kl_divergence(1. - self.target, 1. - mean_activities))
+          Now we can build the sparse autoencoder, using the KLDivergenceRegularizer for
+          the coding layer’s activations:                             
+            kld_reg = KLDivergenceRegularizer(weight=0.05, target=0.1)
+            sparse_kl_encoder = keras.models.Sequential([             
+               keras.layers.Flatten(input_shape=[28, 28]),            
+               keras.layers.Dense(100, activation="selu"),            
+               keras.layers.Dense(300, activation="sigmoid", activity_regularizer=kld_reg)
+            ])                                                        
+            sparse_kl_decoder = keras.models.Sequential([             
+               keras.layers.Dense(100, activation="selu", input_shape=[300]),
+               keras.layers.Dense(28 * 28, activation="sigmoid"),     
+               keras.layers.Reshape([28, 28])                         
+            ])                                                        
+            sparse_kl_ae = keras.models.Sequential([sparse_kl_encoder, sparse_kl_decoder])
+          After training this sparse autoencoder on Fashion MNIST, the activations of the neu‐
+          rons in the coding layer are mostly close to 0 (about 70% of all activations are lower
+          than 0.1), and all neurons have a mean activation around 0.1 (about 90% of all neu‐
+          rons have a mean activation between 0.1 and 0.2), as shown in Figure 17-11.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 17-11. Distribution of all the activations in the coding layer (left) and distribution
+          of the mean activation per neuron (right)                   
+                                                                      
+                                                                      

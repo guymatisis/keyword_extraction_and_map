@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 15-10. GRU cell                                      
+          The GRU cell is a simplified version of the LSTM cell, and it seems to perform just as
+          well12 (which explains its growing popularity). These are the main simplifications:
+                                                                      
+           • Both state vectors are merged into a single vector h .   
+                                          (t)                         
+           • A single gate controller z controls both the forget gate and the input gate. If the
+                           (t)                                        
+            gate controller outputs a 1, the forget gate is open (= 1) and the input gate is
+            closed (1 – 1 = 0). If it outputs a 0, the opposite happens. In other words, when‐
+            ever a memory must be stored, the location where it will be stored is erased first.
+            This is actually a frequent variant to the LSTM cell in and of itself.
+           • There is no output gate; the full state vector is output at every time step. How‐
+            ever, there is a new gate controller r that controls which part of the previous
+                                  (t)                                 
+            state will be shown to the main layer (g ).               
+                                   (t)                                
+                                                                      
+                                                                      
+                                                                      
+          12 A 2015 paper by Klaus Greff et al., “LSTM: A Search Space Odyssey”, seems to show that all LSTM variants
+           perform roughly the same.                                  

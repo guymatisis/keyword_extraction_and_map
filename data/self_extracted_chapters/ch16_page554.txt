@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Attention mechanisms are so powerful that you can actually build state-of-the-art
+          models using only attention mechanisms.                     
+                                                                      
+          Attention Is All You Need: The Transformer Architecture     
+                                                                      
+          In a groundbreaking 2017 paper,20 a team of Google researchers suggested that
+          “Attention Is All You Need.” They managed to create an architecture called the Trans‐
+          former, which significantly improved the state of the art in NMT without using any
+          recurrent or convolutional layers,21 just attention mechanisms (plus embedding lay‐
+          ers, dense layers, normalization layers, and a few other bits and pieces). As an extra
+          bonus, this architecture was also much faster to train and easier to parallelize, so they
+          managed to train it at a fraction of the time and cost of the previous state-of-the-art
+          models.                                                     
+          The Transformer architecture is represented in Figure 16-8. 
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          20 Ashish Vaswani et al., “Attention Is All You Need,” Proceedings of the 31st International Conference on Neural
+           Information Processing Systems (2017): 6000–6010.          
+          21 Since the Transformer uses time-distributed Dense layers, you could argue that it uses 1D convolutional layers
+           with a kernel size of 1.                                   

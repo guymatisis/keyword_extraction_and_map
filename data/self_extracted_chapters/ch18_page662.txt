@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          The function first asks the collect policy for its initial state (given the environment
+          batch size, which is 1 in this case). Since the policy is stateless, this returns an empty
+          tuple (so we could have written policy_state = ()). Next, we create an iterator over
+          the dataset, and we run the training loop. At each iteration, we call the driver’s run()
+          method, passing it the current time step (initially None) and the current policy state. It
+          will run the collect policy and collect experience for four steps (as we configured ear‐
+          lier), broadcasting the collected trajectories to the replay buffer and the metrics. Next,
+          we sample one batch of trajectories from the dataset, and we pass it to the agent’s
+          train() method. It returns a train_loss object which may vary depending on the
+          type of agent. Next, we display the iteration number and the training loss, and every
+          1,000 iterations we log all the metrics. Now you can just call train_agent() for some
+          number of iterations, and see the agent gradually learn to play Breakout!
+                                                                      
+            train_agent(10000000)                                     
+          This will take a lot of computing power and a lot of patience (it may take hours, or
+          even days, depending on your hardware), plus you may need to run the algorithm
+          several times with different random seeds to get good results, but once it’s done, the
+          agent will be superhuman (at least at Breakout). You can also try training this DQN
+          agent on other Atari games: it can achieve superhuman skill at most action games,
+          but it is not so good at games with long-running storylines.22
+          Overview of Some Popular RL Algorithms                      
+                                                                      
+                                                                      
+          Before we finish this chapter, let’s take a quick look at a few popular RL algorithms:
+          Actor-Critic algorithms                                     
+            A family of RL algorithms that combine Policy Gradients with Deep Q-
+            Networks. An Actor-Critic agent contains two neural networks: a policy net and
+            a DQN. The DQN is trained normally, by learning from the agent’s experiences.
+            The policy net learns differently (and much faster) than in regular PG: instead of
+            estimating the value of each action by going through multiple episodes, then
+            summing the future discounted rewards for each action, and finally normalizing
+            them, the agent (actor) relies on the action values estimated by the DQN (critic).
+            It’s a bit like an athlete (the agent) learning with the help of a coach (the DQN).
+          Asynchronous Advantage Actor-Critic23 (A3C)                 
+            An important Actor-Critic variant introduced by DeepMind researchers in 2016,
+            where multiple agents learn in parallel, exploring different copies of the environ‐
+                                                                      
+                                                                      
+          22 For a comparison of this algorithm’s performance on various Atari games, see figure 3 in DeepMind’s 2015
+           paper.                                                     
+          23 Volodymyr Mnih et al., “Asynchonous Methods for Deep Reinforcement Learning,” Proceedings of the 33rd
+           International Conference on Machine Learning (2016): 1928–1937.

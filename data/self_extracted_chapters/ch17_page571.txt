@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            from tensorflow import keras                              
+                                                                      
+            encoder = keras.models.Sequential([keras.layers.Dense(2, input_shape=[3])])
+            decoder = keras.models.Sequential([keras.layers.Dense(3, input_shape=[2])])
+            autoencoder = keras.models.Sequential([encoder, decoder]) 
+            autoencoder.compile(loss="mse", optimizer=keras.optimizers.SGD(lr=0.1))
+          This code is really not very different from all the MLPs we built in past chapters, but
+          there are a few things to note:                             
+                                                                      
+           • We organized the autoencoder into two subcomponents: the encoder and the
+            decoder. Both are regular Sequential models with a single Dense layer each, and
+            the autoencoder is a Sequential model containing the encoder followed by the
+            decoder (remember that a model can be used as a layer in another model).
+           • The autoencoder’s number of outputs is equal to the number of inputs (i.e., 3).
+                                                                      
+           • To perform simple PCA, we do not use any activation function (i.e., all neurons
+            are linear), and the cost function is the MSE. We will see more complex autoen‐
+            coders shortly.                                           
+          Now let’s train the model on a simple generated 3D dataset and use it to encode that
+          same dataset (i.e., project it to 2D):                      
+                                                                      
+            history = autoencoder.fit(X_train, X_train, epochs=20)    
+            codings = encoder.predict(X_train)                        
+          Note that the same dataset, X_train, is used as both the inputs and the targets.
+          Figure 17-2 shows the original 3D dataset (on the left) and the output of the autoen‐
+          coder’s hidden layer (i.e., the coding layer, on the right). As you can see, the autoen‐
+          coder found the best 2D plane to project the data onto, preserving as much variance
+          in the data as it could (just like PCA).                    
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 17-2. PCA performed by an undercomplete linear autoencoder
+                                                                      
+                                                                      

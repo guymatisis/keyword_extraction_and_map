@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Let’s try to build a classifier to detect the Iris virginica type based only on the petal
+          width feature. First let’s load the data:                   
+                                                                      
+            >>> from sklearn import datasets                          
+            >>> iris = datasets.load_iris()                           
+            >>> list(iris.keys())                                     
+            ['data', 'target', 'target_names', 'DESCR', 'feature_names', 'filename']
+            >>> X = iris["data"][:, 3:] # petal width                 
+            >>> y = (iris["target"] == 2).astype(np.int) # 1 if Iris virginica, else 0
+          Now let’s train a Logistic Regression model:                
+            from sklearn.linear_model import LogisticRegression       
+            log_reg = LogisticRegression()                            
+            log_reg.fit(X, y)                                         
+          Let’s look at the model’s estimated probabilities for flowers with petal widths varying
+          from 0 cm to 3 cm (Figure 4-23):15                          
+            X_new = np.linspace(0, 3, 1000).reshape(-1, 1)            
+            y_proba = log_reg.predict_proba(X_new)                    
+            plt.plot(X_new, y_proba[:, 1], "g-", label="Iris virginica")
+            plt.plot(X_new, y_proba[:, 0], "b--", label="Not Iris virginica")
+            # + more Matplotlib code to make the image look pretty    
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-23. Estimated probabilities and decision boundary  
+                                                                      
+          The petal width of Iris virginica flowers (represented by triangles) ranges from 1.4 cm
+          to 2.5 cm, while the other iris flowers (represented by squares) generally have a
+          smaller petal width, ranging from 0.1 cm to 1.8 cm. Notice that there is a bit of over‐
+          lap. Above about 2 cm the classifier is highly confident that the flower is an Iris virgin‐
+          ica (it outputs a high probability for that class), while below 1 cm it is highly
+          confident that it is not an Iris virginica (high probability for the “Not Iris virginica”
+                                                                      
+                                                                      
+          15 NumPy’s reshape() function allows one dimension to be –1, which means “unspecified”: the value is inferred
+           from the length of the array and the remaining dimensions. 

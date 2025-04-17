@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 18-16. Trajectories, transitions, time steps, and action steps
+                                                                      
+          So if you have a batch of trajectories where each trajectory has t + 1 steps (from time
+          step n to time step n + t), then it contains all the data from time step n to time step n
+          + t, except for the reward and discount from time step n (but it contains the reward
+          and discount of time step n + t + 1). This represents t transitions (n to n + 1, n + 1 to
+          n + 2, …, n + t – 1 to n + t).                              
+          The to_transition() function in the tf_agents.trajectories.trajectory mod‐
+          ule converts a batched trajectory into a list containing a batched time_step, a batched
+          action_step, and a batched next_time_step. Notice that the second dimension is 2
+          instead of 3, since there are t transitions between t + 1 time steps (don’t worry if
+          you’re a bit confused; you’ll get the hang of it):          
+            >>> from tf_agents.trajectories.trajectory import to_transition
+            >>> time_steps, action_steps, next_time_steps = to_transition(trajectories)
+            >>> time_steps.observation.shape                          
+            TensorShape([2, 2, 84, 84, 4]) # 3 time steps = 2 transitions
+                                                                      
+                   A sampled trajectory may actually overlap two (or more) episodes!
+                   In this case, it will contain boundary transitions, meaning transi‐
+                   tions with a step_type equal to 2 (end) and a next_step_type
+                   equal to 0 (start). Of course, TF-Agents properly handles such tra‐
+                   jectories (e.g., by resetting the policy state when encountering a
+                   boundary). The trajectory’s is_boundary() method returns a ten‐
+                   sor indicating whether each step is a boundary or not.
+                                                                      

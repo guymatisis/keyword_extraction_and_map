@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          corresponding leaf node is the depth-2 left node, so the Decision Tree should output
+          the following probabilities: 0% for Iris setosa (0/54), 90.7% for Iris versicolor (49/54),
+          and 9.3% for Iris virginica (5/54). And if you ask it to predict the class, it should out‐
+          put Iris versicolor (class 1) because it has the highest probability. Let’s check this:
+                                                                      
+            >>> tree_clf.predict_proba([[5, 1.5]])                    
+            array([[0. , 0.90740741, 0.09259259]])                    
+            >>> tree_clf.predict([[5, 1.5]])                          
+            array([1])                                                
+          Perfect! Notice that the estimated probabilities would be identical anywhere else in
+          the bottom-right rectangle of Figure 6-2—for example, if the petals were 6 cm long
+          and 1.5 cm wide (even though it seems obvious that it would most likely be an Iris
+          virginica in this case).                                    
+          The CART Training Algorithm                                 
+                                                                      
+          Scikit-Learn uses the Classification and Regression Tree (CART) algorithm to train
+          Decision Trees (also called “growing” trees). The algorithm works by first splitting the
+          training set into two subsets using a single feature k and a threshold t (e.g., “petal
+                                                    k                 
+          length ≤ 2.45 cm”). How does it choose k and t? It searches for the pair (k, t) that
+                                      k                 k             
+          produces the purest subsets (weighted by their size). Equation 6-2 gives the cost func‐
+          tion that the algorithm tries to minimize.                  
+            Equation 6-2. CART cost function for classification       
+                  m      m                                            
+                   left   right                                       
+             J k,t = G +    G                                         
+               k   m  left m right                                    
+                 G    measures the impurity of the left/right subset, 
+                  left/right                                          
+             where                                                    
+                 m     is the number of instances in the left/right subset.
+                  left/right                                          
+          Once the CART algorithm has successfully split the training set in two, it splits the
+          subsets using the same logic, then the sub-subsets, and so on, recursively. It stops
+          recursing once it reaches the maximum depth (defined by the max_depth hyperpara‐
+          meter), or if it cannot find a split that will reduce impurity. A few other hyperparame‐
+          ters (described in a moment) control additional stopping conditions
+          (min_samples_split, min_samples_leaf, min_weight_fraction_leaf, and
+          max_leaf_nodes).                                            
+                                                                      
+                                                                      

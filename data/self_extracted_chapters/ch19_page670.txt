@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   Since a SavedModel saves the computation graph, it can only be
+                   used with models that are based exclusively on TensorFlow opera‐
+                   tions, excluding the tf.py_function() operation (which wraps
+                   arbitrary Python code). It also excludes dynamic tf.keras models
+                   (see Appendix G), since these models cannot be converted to com‐
+                   putation graphs. Dynamic models need to be served using other
+                   tools (e.g., Flask).                               
+                                                                      
+          A SavedModel represents a version of your model. It is stored as a directory contain‐
+          ing a saved_model.pb file, which defines the computation graph (represented as a seri‐
+          alized protocol buffer), and a variables subdirectory containing the variable values.
+          For models containing a large number of weights, these variable values may be split
+          across multiple files. A SavedModel also includes an assets subdirectory that may con‐
+          tain additional data, such as vocabulary files, class names, or some example instances
+          for this model. The directory structure is as follows (in this example, we don’t use
+          assets):                                                    
+            my_mnist_model                                            
+            └── 0001                                                  
+               ├── assets                                             
+               ├── saved_model.pb                                     
+               └── variables                                          
+                 ├── variables.data-00000-of-00001                    
+                 └── variables.index                                  
+          As you might expect, you can load a SavedModel using the tf.saved_model.load()
+          function. However, the returned object is not a Keras model: it represents the Saved‐
+          Model, including its computation graph and variable values. You can use it like a
+          function, and it will make predictions (make sure to pass the inputs as tensors of the
+          appropriate type):                                          
+            saved_model = tf.saved_model.load(model_path)             
+            y_pred = saved_model(tf.constant(X_new, dtype=tf.float32))
+          Alternatively, you can load this SavedModel directly to a Keras model using the
+          keras.models.load_model() function:                         
+            model = keras.models.load_model(model_path)               
+            y_pred = model.predict(tf.constant(X_new, dtype=tf.float32))
+          TensorFlow also comes with a small saved_model_cli command-line tool to inspect
+          SavedModels:                                                
+            $ export ML_PATH="$HOME/ml" # point to this project, wherever it is
+            $ cd $ML_PATH                                             
+            $ saved_model_cli show --dir my_mnist_model/0001 --all    
+            MetaGraphDef with tag-set: 'serve' contains the following SignatureDefs:
+            signature_def['__saved_model_init_op']:                   
+             [...]                                                    

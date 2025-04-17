@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          pling is performed with replacement, this method is called bagging1 (short for boot‐
+          strap aggregating2). When sampling is performed without replacement, it is called
+          pasting.3                                                   
+                                                                      
+          In other words, both bagging and pasting allow training instances to be sampled sev‐
+          eral times across multiple predictors, but only bagging allows training instances to be
+          sampled several times for the same predictor. This sampling and training process is
+          represented in Figure 7-4.                                  
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 7-4. Bagging and pasting involves training several predictors on different random
+          samples of the training set                                 
+          Once all predictors are trained, the ensemble can make a prediction for a new
+          instance by simply aggregating the predictions of all predictors. The aggregation
+          function is typically the statistical mode (i.e., the most frequent prediction, just like a
+          hard voting classifier) for classification, or the average for regression. Each individual
+          predictor has a higher bias than if it were trained on the original training set, but
+          aggregation reduces both bias and variance.4 Generally, the net result is that the
+          ensemble has a similar bias but a lower variance than a single predictor trained on the
+          original training set.                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          1 Leo Breiman, “Bagging Predictors,” Machine Learning 24, no. 2 (1996): 123–140.
+          2 In statistics, resampling with replacement is called bootstrapping.
+          3 Leo Breiman, “Pasting Small Votes for Classification in Large Databases and On-Line,” Machine Learning 36,
+           no. 1–2 (1999): 85–103.                                    
+          4 Bias and variance were introduced in Chapter 4.           

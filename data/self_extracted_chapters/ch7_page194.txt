@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          As you can see in Figure 7-4, predictors can all be trained in parallel, via different
+          CPU cores or even different servers. Similarly, predictions can be made in parallel.
+          This is one of the reasons bagging and pasting are such popular methods: they scale
+          very well.                                                  
+                                                                      
+          Bagging and Pasting in Scikit-Learn                         
+                                                                      
+          Scikit-Learn offers a simple API for both bagging and pasting with the BaggingClas
+          sifier class (or BaggingRegressor for regression). The following code trains an
+          ensemble of 500 Decision Tree classifiers:5 each is trained on 100 training instances
+          randomly sampled from the training set with replacement (this is an example of bag‐
+          ging, but if you want to use pasting instead, just set bootstrap=False). The n_jobs
+          parameter tells Scikit-Learn the number of CPU cores to use for training and predic‐
+          tions (–1 tells Scikit-Learn to use all available cores):   
+            from sklearn.ensemble import BaggingClassifier            
+            from sklearn.tree import DecisionTreeClassifier           
+            bag_clf = BaggingClassifier(                              
+               DecisionTreeClassifier(), n_estimators=500,            
+               max_samples=100, bootstrap=True, n_jobs=-1)            
+            bag_clf.fit(X_train, y_train)                             
+            y_pred = bag_clf.predict(X_test)                          
+                                                                      
+                   The BaggingClassifier automatically performs soft voting
+                   instead of hard voting if the base classifier can estimate class proba‐
+                   bilities (i.e., if it has a predict_proba() method), which is the case
+                   with Decision Tree classifiers.                    
+                                                                      
+          Figure 7-5 compares the decision boundary of a single Decision Tree with the deci‐
+          sion boundary of a bagging ensemble of 500 trees (from the preceding code), both
+          trained on the moons dataset. As you can see, the ensemble’s predictions will likely
+          generalize much better than the single Decision Tree’s predictions: the ensemble has a
+          comparable bias but a smaller variance (it makes roughly the same number of errors
+          on the training set, but the decision boundary is less irregular).
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          5 max_samples can alternatively be set to a float between 0.0 and 1.0, in which case the max number of instances
+           to sample is equal to the size of the training set times max_samples.

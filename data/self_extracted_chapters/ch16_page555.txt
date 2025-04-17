@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 16-8. The Transformer architecture22                 
+                                                                      
+          Let’s walk through this figure:                             
+                                                                      
+           • The lefthand part is the encoder. Just like earlier, it takes as input a batch of sen‐
+            tences represented as sequences of word IDs (the input shape is [batch size, max
+            input sentence length]), and it encodes each word into a 512-dimensional repre‐
+            sentation (so the encoder’s output shape is [batch size, max input sentence length,
+            512]). Note that the top part of the encoder is stacked N times (in the paper,
+            N = 6).                                                   
+                                                                      
+                                                                      
+                                                                      
+          22 This is figure 1 from the paper, reproduced with the kind authorization of the authors.

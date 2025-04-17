@@ -1,0 +1,50 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          It is a bit ugly due to all the different indices, but all it does is calculate the weighted
+          sum of all the inputs, plus the bias term.                  
+                                                                      
+            Equation 14-1. Computing the output of a neuron in a convolutional layer
+                                                                      
+                   f h −1 f w −1 f n′ −1    i′=i×s +u                 
+                                                h                     
+            z  =b + ∑  ∑   ∑  x   .w    with                          
+             i,j,k k u=0 v=0 k′=0 i′,j′,k′ u,v,k′,k j′= j×s +v        
+                                                 w                    
+          In this equation:                                           
+           • z is the output of the neuron located in row i, column j in feature map k of the
+             i, j, k                                                  
+            convolutional layer (layer l).                            
+           • As explained earlier, s and s are the vertical and horizontal strides, f and f are
+                         h   w                       h   w            
+            the height and width of the receptive field, and f is the number of feature maps
+                                         n′                           
+            in the previous layer (layer l – 1).                      
+           • x  is the output of the neuron located in layer l – 1, row i′, column j′, feature
+             i′, j′, k′                                               
+            map k′ (or channel k′ if the previous layer is the input layer).
+           • b is the bias term for feature map k (in layer l). You can think of it as a knob that
+             k                                                        
+            tweaks the overall brightness of the feature map k.       
+           • w   is the connection weight between any neuron in feature map k of the layer
+             u, v, k′ ,k                                              
+            l and its input located at row u, column v (relative to the neuron’s receptive field),
+            and feature map k′.                                       
+          TensorFlow Implementation                                   
+          In TensorFlow, each input image is typically represented as a 3D tensor of shape
+          [height, width, channels]. A mini-batch is represented as a 4D tensor of shape [mini-
+          batch size, height, width, channels]. The weights of a convolutional layer are repre‐
+          sented as a 4D tensor of shape [f , f , f , f ]. The bias terms of a convolutional layer
+                             h w n′ n                                 
+          are simply represented as a 1D tensor of shape [f ].        
+                                      n                               
+          Let’s look at a simple example. The following code loads two sample images, using
+          Scikit-Learn’s load_sample_image() (which loads two color images, one of a Chinese
+          temple, and the other of a flower), then it creates two filters and applies them to both
+          images, and finally it displays one of the resulting feature maps. Note that you must
+          pip install the Pillow package to use load_sample_image().  
+            from sklearn.datasets import load_sample_image            
+            # Load sample images                                      
+            china = load_sample_image("china.jpg") / 255              
+            flower = load_sample_image("flower.jpg") / 255            

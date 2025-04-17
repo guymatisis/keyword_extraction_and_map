@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 12-3. Custom model example: an arbitrary model with a custom ResidualBlock
+          layer containing a skip connection                          
+                                                                      
+          The inputs go through a first dense layer, then through a residual block composed of
+          two dense layers and an addition operation (as we will see in Chapter 14, a residual
+          block adds its inputs to its outputs), then through this same residual block three more
+          times, then through a second residual block, and the final result goes through a dense
+          output layer. Note that this model does not make much sense; it’s just an example to
+          illustrate the fact that you can easily build any kind of model you want, even one that
+          contains loops and skip connections. To implement this model, it is best to first create
+          a ResidualBlock layer, since we are going to create a couple of identical blocks (and
+          we might want to reuse it in another model):                
+            class ResidualBlock(keras.layers.Layer):                  
+               def __init__(self, n_layers, n_neurons, **kwargs):     
+                 super().__init__(**kwargs)                           
+                 self.hidden = [keras.layers.Dense(n_neurons, activation="elu",
+                                     kernel_initializer="he_normal")  
+                          for _ in range(n_layers)]                   
+               def call(self, inputs):                                
+                 Z = inputs                                           
+                 for layer in self.hidden:                            
+                   Z = layer(Z)                                       
+                 return inputs + Z                                    
+          This layer is a bit special since it contains other layers. This is handled transparently
+          by Keras: it automatically detects that the hidden attribute contains trackable objects
+          (layers in this case), so their variables are automatically added to this layer’s list of
+                                                                      

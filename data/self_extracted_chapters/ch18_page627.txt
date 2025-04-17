@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          way. You get the picture. By looking at this MDP, can you guess which strategy will
+          gain the most reward over time? In state s it is clear that action a is the best option,
+                                   0            0                     
+          and in state s the agent has no choice but to take action a , but in state s it is not
+                  2                          1        1               
+          obvious whether the agent should stay put (a ) or go through the fire (a ).
+                                    0              2                  
+          Bellman found a way to estimate the optimal state value of any state s, noted V*(s),
+          which is the sum of all discounted future rewards the agent can expect on average
+          after it reaches a state s, assuming it acts optimally. He showed that if the agent acts
+          optimally, then the Bellman Optimality Equation applies (see Equation 18-1). This
+          recursive equation says that if the agent acts optimally, then the optimal value of the
+          current state is equal to the reward it will get on average after taking one optimal
+          action, plus the expected optimal value of all possible next states that this action can
+          lead to.                                                    
+            Equation 18-1. Bellman Optimality Equation                
+            V* s = max ∑ T s,a,s′ R s,a,s′ +γ·V* s′ for all s         
+                   a s                                                
+          In this equation:                                           
+           • T(s, a, s′) is the transition probability from state s to state s′, given that the agent
+            chose action a. For example, in Figure 18-8, T(s , a , s ) = 0.8.
+                                        2 1 0                         
+           • R(s, a, s′) is the reward that the agent gets when it goes from state s to state s′,
+            given that the agent chose action a. For example, in Figure 18-8, R(s , a ,
+                                                         2 1          
+            s ) = +40.                                                
+             0                                                        
+           • γ is the discount factor.                                
+          This equation leads directly to an algorithm that can precisely estimate the optimal
+          state value of every possible state: you first initialize all the state value estimates to
+          zero, and then you iteratively update them using the Value Iteration algorithm (see
+          Equation 18-2). A remarkable result is that, given enough time, these estimates are
+          guaranteed to converge to the optimal state values, corresponding to the optimal
+          policy.                                                     
+            Equation 18-2. Value Iteration algorithm                  
+            V   s  max ∑T s,a,s′ R s,a,s′ +γ·V s′ for all s           
+             k+1    a s′             k                                
+          In this equation, V(s) is the estimated value of state s at the kth iteration of the
+                      k                                               
+          algorithm.                                                  
+                                                                      
+                                                                      

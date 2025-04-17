@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 18-15. Two trajectories containing three consecutive steps each
+                                                                      
+          Each trajectory is a concise representation of a sequence of consecutive time steps
+          and action steps, designed to avoid redundancy. How so? Well, as you can see in
+          Figure 18-16, transition n is composed of time step n, action step n, and time step n +
+          1, while transition n + 1 is composed of time step n + 1, action step n + 1, and time
+          step n + 2. If we just stored these two transitions directly in the replay buffer, the time
+          step n + 1 would be duplicated. To avoid this duplication, the nth trajectory step
+          includes only the type and observation from time step n (not its reward and dis‐
+          count), and it does not contain the observation from time step n + 1 (however, it does
+          contain a copy of the next time step’s type; that’s the only duplication).
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

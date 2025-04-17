@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          if we decreased α, the global optimum would move right (in this example, the optimal
+          parameters for the unregularized MSE are θ = 2 and θ = 0.5).
+                                   1     2                            
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-19. Lasso versus Ridge regularization              
+                                                                      
+          The two bottom plots show the same thing but with an ℓ penalty instead. In the
+                                             2                        
+          bottom-left plot, you can see that the ℓ loss decreases with the distance to the origin,
+                                2                                     
+          so Gradient Descent just takes a straight path toward that point. In the bottom-right
+          plot, the contours represent Ridge Regression’s cost function (i.e., an MSE cost func‐
+          tion plus an ℓ loss). There are two main differences with Lasso. First, the gradients
+                  2                                                   
+          get smaller as the parameters approach the global optimum, so Gradient Descent nat‐
+          urally slows down, which helps convergence (as there is no bouncing around). Sec‐
+          ond, the optimal parameters (represented by the red square) get closer and closer to
+          the origin when you increase α, but they never get eliminated entirely.
+                   To avoid Gradient Descent from bouncing around the optimum at
+                   the end when using Lasso, you need to gradually reduce the learn‐
+                   ing rate during training (it will still bounce around the optimum,
+                   but the steps will get smaller and smaller, so it will converge).

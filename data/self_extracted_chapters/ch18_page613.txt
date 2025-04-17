@@ -1,0 +1,47 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          offspring is a copy of its parent7 plus some random variation. The surviving policies
+          plus their offspring together constitute the second generation. You can continue to
+          iterate through generations this way until you find a good policy.8
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 18-3. Four points in policy space (left) and the agent’s corresponding behavior
+          (right)                                                     
+                                                                      
+          Yet another approach is to use optimization techniques, by evaluating the gradients of
+          the rewards with regard to the policy parameters, then tweaking these parameters by
+          following the gradients toward higher rewards.9 We will discuss this approach, is
+          called policy gradients (PG), in more detail later in this chapter. Going back to the
+          vacuum cleaner robot, you could slightly increase p and evaluate whether doing so
+          increases the amount of dust picked up by the robot in 30 minutes; if it does, then
+          increase p some more, or else reduce p. We will implement a popular PG algorithm
+          using TensorFlow, but before we do, we need to create an environment for the agent
+          to live in—so it’s time to introduce OpenAI Gym.            
+                                                                      
+          Introduction to OpenAI Gym                                  
+                                                                      
+          One of the challenges of Reinforcement Learning is that in order to train an agent,
+          you first need to have a working environment. If you want to program an agent that
+                                                                      
+                                                                      
+          7 If there is a single parent, this is called asexual reproduction. With two (or more) parents, it is called sexual
+           reproduction. An offspring’s genome (in this case a set of policy parameters) is randomly composed of parts of
+           its parents’ genomes.                                      
+          8 One interesting example of a genetic algorithm used for Reinforcement Learning is the NeuroEvolution of
+           Augmenting Topologies (NEAT) algorithm.                    
+          9 This is called Gradient Ascent. It’s just like Gradient Descent but in the opposite direction: maximizing instead
+           of minimizing.                                             

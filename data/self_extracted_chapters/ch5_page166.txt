@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          The dashed lines represent the points where the decision function is equal to 1 or –1:
+          they are parallel and at equal distance to the decision boundary, and they form a mar‐
+          gin around it. Training a linear SVM classifier means finding the values of w and b
+          that make this margin as wide as possible while avoiding margin violations (hard
+          margin) or limiting them (soft margin).                     
+                                                                      
+          Training Objective                                          
+                                                                      
+          Consider the slope of the decision function: it is equal to the norm of the weight vec‐
+          tor, ∥ w ∥. If we divide this slope by 2, the points where the decision function is equal
+          to ±1 are going to be twice as far away from the decision boundary. In other words,
+          dividing the slope by 2 will multiply the margin by 2. This may be easier to visualize
+          in 2D, as shown in Figure 5-13. The smaller the weight vector w, the larger the
+          margin.                                                     
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 5-13. A smaller weight vector results in a larger margin
+                                                                      
+          So we want to minimize ∥ w ∥ to get a large margin. If we also want to avoid any
+          margin violations (hard margin), then we need the decision function to be greater
+          than 1 for all positive training instances and lower than –1 for negative training
+          instances. If we define t(i) = –1 for negative instances (if y(i) = 0) and t(i) = 1 for positive
+          instances (if y(i) = 1), then we can express this constraint as t(i)(w⊺ x(i) + b) ≥ 1 for all
+          instances.                                                  
+          We can therefore express the hard margin linear SVM classifier objective as the con‐
+          strained optimization problem in Equation 5-3.              
+                                                                      
+            Equation 5-3. Hard margin linear SVM classifier objective 
+                    1 ⊺                                               
+             minimize w w                                             
+              w,b   2                                                 
+             subject to t i w ⊺ x i +b ≥1 for i=1,2,⋯,m               
+                                                                      
+                                                                      

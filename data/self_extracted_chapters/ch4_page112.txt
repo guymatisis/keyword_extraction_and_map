@@ -1,0 +1,47 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Next we will look at Polynomial Regression, a more complex model that can fit non‐
+          linear datasets. Since this model has more parameters than Linear Regression, it is
+          more prone to overfitting the training data, so we will look at how to detect whether
+          or not this is the case using learning curves, and then we will look at several regulari‐
+          zation techniques that can reduce the risk of overfitting the training set.
+                                                                      
+          Finally, we will look at two more models that are commonly used for classification
+          tasks: Logistic Regression and Softmax Regression.          
+                                                                      
+                   There will be quite a few math equations in this chapter, using basic
+                   notions of linear algebra and calculus. To understand these equa‐
+                   tions, you will need to know what vectors and matrices are; how to
+                   transpose them, multiply them, and inverse them; and what partial
+                   derivatives are. If you are unfamiliar with these concepts, please go
+                   through the linear algebra and calculus introductory tutorials avail‐
+                   able as Jupyter notebooks in the online supplemental material. For
+                   those who are truly allergic to mathematics, you should still go
+                   through this chapter and simply skip the equations; hopefully, the
+                   text will be sufficient to help you understand most of the concepts.
+          Linear Regression                                           
+                                                                      
+          In Chapter 1 we looked at a simple regression model of life satisfaction: life_satisfac‐
+          tion = θ + θ × GDP_per_capita.                              
+              0  1                                                    
+          This model is just a linear function of the input feature GDP_per_capita. θ and θ are
+                                                     0   1            
+          the model’s parameters.                                     
+          More generally, a linear model makes a prediction by simply computing a weighted
+          sum of the input features, plus a constant called the bias term (also called the intercept
+          term), as shown in Equation 4-1.                            
+            Equation 4-1. Linear Regression model prediction          
+            y =θ +θ x +θ x +⋯+θ x                                     
+               0  1 1 2 2   n n                                       
+          In this equation:                                           
+                                                                      
+           • ŷ is the predicted value.                                
+           • n is the number of features.                             
+           • x is the ith feature value.                              
+             i                                                        
+           • θ is the jth model parameter (including the bias term θ and the feature weights
+             j                               0                        
+            θ , θ , ⋯, θ ).                                           
+             1 2   n                                                  

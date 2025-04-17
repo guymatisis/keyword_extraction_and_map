@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          scale and an offset parameter for each input. In an RNN, it is typically used right after
+          the linear combination of the inputs and the hidden states. 
+                                                                      
+          Let’s use tf.keras to implement Layer Normalization within a simple memory cell. For
+          this, we need to define a custom memory cell. It is just like a regular layer, except its
+          call() method takes two arguments: the inputs at the current time step and the hid‐
+          den states from the previous time step. Note that the states argument is a list con‐
+          taining one or more tensors. In the case of a simple RNN cell it contains a single
+          tensor equal to the outputs of the previous time step, but other cells may have multi‐
+          ple state tensors (e.g., an LSTMCell has a long-term state and a short-term state, as we
+          will see shortly). A cell must also have a state_size attribute and an output_size
+          attribute. In a simple RNN, both are simply equal to the number of units. The follow‐
+          ing code implements a custom memory cell which will behave like a SimpleRNNCell,
+          except it will also apply Layer Normalization at each time step:
+            class LNSimpleRNNCell(keras.layers.Layer):                
+               def __init__(self, units, activation="tanh", **kwargs):
+                 super().__init__(**kwargs)                           
+                 self.state_size = units                              
+                 self.output_size = units                             
+                 self.simple_rnn_cell = keras.layers.SimpleRNNCell(units,
+                                              activation=None)        
+                 self.layer_norm = keras.layers.LayerNormalization()  
+                 self.activation = keras.activations.get(activation)  
+               def call(self, inputs, states):                        
+                 outputs, new_states = self.simple_rnn_cell(inputs, states)
+                 norm_outputs = self.activation(self.layer_norm(outputs))
+                 return norm_outputs, [norm_outputs]                  
+          The code is quite straightforward.5 Our LNSimpleRNNCell class inherits from the
+          keras.layers.Layer class, just like any custom layer. The constructor takes the num‐
+          ber of units and the desired activation function, and it sets the state_size and
+          output_size attributes, then creates a SimpleRNNCell with no activation function
+          (because we want to perform Layer Normalization after the linear operation but
+          before the activation function). Then the constructor creates the LayerNormaliza
+          tion layer, and finally it fetches the desired activation function. The call() method
+          starts by applying the simple RNN cell, which computes a linear combination of the
+          current inputs and the previous hidden states, and it returns the result twice (indeed,
+          in a SimpleRNNCell, the outputs are just equal to the hidden states: in other words,
+          new_states[0] is equal to outputs, so we can safely ignore new_states in the rest of
+          the call() method). Next, the call() method applies Layer Normalization, followed
+          5 It would have been simpler to inherit from SimpleRNNCell instead so that we wouldn’t have to create an inter‐
+           nal SimpleRNNCell or handle the state_size and output_size attributes, but the goal here was to show how
+           to create a custom cell from scratch.                      

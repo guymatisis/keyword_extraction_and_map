@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Once you have installed the GPU card(s) and all the required drivers and libraries,
+          you can use the nvidia-smi command to check that CUDA is properly installed. It
+          lists the available GPU cards, as well as processes running on each card:
+                                                                      
+            $ nvidia-smi                                              
+            Sun Jun 2 10:05:22 2019                                   
+            +-----------------------------------------------------------------------------+
+            | NVIDIA-SMI 418.67 Driver Version: 410.79 CUDA Version: 10.0 |
+            |-------------------------------+----------------------+----------------------+
+            | GPU Name Persistence-M| Bus-Id Disp.A | Volatile Uncorr. ECC |
+            | Fan Temp Perf Pwr:Usage/Cap| Memory-Usage | GPU-Util Compute M. |
+            |===============================+======================+======================|
+            |  0 Tesla T4   Off | 00000000:00:04.0 Off | 0 |          
+            | N/A 61C P8 17W / 70W | 0MiB / 15079MiB | 0% Default |   
+            +-------------------------------+----------------------+----------------------+
+            +-----------------------------------------------------------------------------+
+            | Processes:                            GPU Memory |      
+            | GPU   PID Type Process name           Usage |           
+            |=============================================================================|
+            | No running processes found                  |           
+            +-----------------------------------------------------------------------------+
+          At the time of this writing, you’ll also need to install the GPU version of TensorFlow
+          (i.e., the tensorflow-gpu library); however, there is ongoing work to have a unified
+          installation procedure for both CPU-only and GPU machines, so please check the
+          installation documentation to see which library you should install. In any case, since
+          installing every required library correctly is a bit long and tricky (and all hell breaks
+          loose if you do not install the correct library versions), TensorFlow provides a Docker
+          image with everything you need inside. However, in order for the Docker container
+          to have access to the GPU, you will still need to install the Nvidia drivers on the host
+          machine.                                                    
+          To check that TensorFlow actually sees the GPUs, run the following tests:
+            >>> import tensorflow as tf                               
+            >>> tf.test.is_gpu_available()                            
+            True                                                      
+            >>> tf.test.gpu_device_name()                             
+            '/device:GPU:0'                                           
+            >>> tf.config.experimental.list_physical_devices(device_type='GPU')
+            [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+          The is_gpu_available() function checks whether at least one GPU is available. The
+          gpu_device_name() function gives the first GPU’s name: by default, operations will
+                                                                      
+                                                                      

@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Now let’s load the data using pandas. Once again, you should write a small function
+          to load the data:                                           
+                                                                      
+            import pandas as pd                                       
+            def load_housing_data(housing_path=HOUSING_PATH):         
+               csv_path = os.path.join(housing_path, "housing.csv")   
+               return pd.read_csv(csv_path)                           
+          This function returns a pandas DataFrame object containing all the data.
+                                                                      
+          Take a Quick Look at the Data Structure                     
+                                                                      
+          Let’s take a look at the top five rows using the DataFrame’s head() method (see
+          Figure 2-5).                                                
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 2-5. Top five rows in the dataset                    
+          Each row represents one district. There are 10 attributes (you can see the first 6 in the
+          screenshot): longitude, latitude, housing_median_age, total_rooms, total_bed
+          rooms, population, households, median_income, median_house_value, and
+          ocean_proximity.                                            
+                                                                      
+          The info() method is useful to get a quick description of the data, in particular the
+          total number of rows, each attribute’s type, and the number of nonnull values (see
+          Figure 2-6).                                                
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

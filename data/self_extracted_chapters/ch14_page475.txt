@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          exclusively for cross-channel patterns—it is just a regular convolutional layer with 1 ×
+          1 filters.                                                  
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 14-19. Depthwise separable convolutional layer       
+                                                                      
+          Since separable convolutional layers only have one spatial filter per input channel,
+          you should avoid using them after layers that have too few channels, such as the input
+          layer (granted, that’s what Figure 14-19 represents, but it is just for illustration pur‐
+          poses). For this reason, the Xception architecture starts with 2 regular convolutional
+          layers, but then the rest of the architecture uses only separable convolutions (34 in
+          all), plus a few max pooling layers and the usual final layers (a global average pooling
+          layer and a dense output layer).                            
+                                                                      
+          You might wonder why Xception is considered a variant of GoogLeNet, since it con‐
+          tains no inception module at all. Well, as we discussed earlier, an inception module
+          contains convolutional layers with 1 × 1 filters: these look exclusively for cross-
+          channel patterns. However, the convolutional layers that sit on top of them are regu‐
+          lar convolutional layers that look both for spatial and cross-channel patterns. So you
+          can think of an inception module as an intermediate between a regular convolutional
+          layer (which considers spatial patterns and cross-channel patterns jointly) and a sepa‐
+          rable convolutional layer (which considers them separately). In practice, it seems that
+          separable convolutional layers generally perform better.    
+                                                                      
+                                                                      
+                                                                      

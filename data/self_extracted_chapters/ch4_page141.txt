@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          may behave erratically when the number of features is greater than the number of
+          training instances or when several features are strongly correlated.
+                                                                      
+          Here is a short example that uses Scikit-Learn’s ElasticNet (l1_ratio corresponds to
+          the mix ratio r):                                           
+            >>> from sklearn.linear_model import ElasticNet           
+            >>> elastic_net = ElasticNet(alpha=0.1, l1_ratio=0.5)     
+            >>> elastic_net.fit(X, y)                                 
+            >>> elastic_net.predict([[1.5]])                          
+            array([1.54333232])                                       
+          Early Stopping                                              
+                                                                      
+          A very different way to regularize iterative learning algorithms such as Gradient
+          Descent is to stop training as soon as the validation error reaches a minimum. This is
+          called early stopping. Figure 4-20 shows a complex model (in this case, a high-degree
+          Polynomial Regression model) being trained with Batch Gradient Descent. As the
+          epochs go by the algorithm learns, and its prediction error (RMSE) on the training
+          set goes down, along with its prediction error on the validation set. After a while
+          though, the validation error stops decreasing and starts to go back up. This indicates
+          that the model has started to overfit the training data. With early stopping you just
+          stop training as soon as the validation error reaches the minimum. It is such a simple
+          and efficient regularization technique that Geoffrey Hinton called it a “beautiful free
+          lunch.”                                                     
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-20. Early stopping regularization                  
+                                                                      
+                                                                      
+                                                                      

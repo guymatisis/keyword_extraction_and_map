@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 9-4. The K-Means algorithm                           
+          Although the algorithm is guaranteed to converge, it may not converge to the right
+          solution (i.e., it may converge to a local optimum): whether it does or not depends on
+          the centroid initialization. Figure 9-5 shows two suboptimal solutions that the algo‐
+          rithm can converge to if you are not lucky with the random initialization step.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 9-5. Suboptimal solutions due to unlucky centroid initializations
+                                                                      
+          Let’s look at a few ways you can mitigate this risk by improving the centroid
+          initialization.                                             

@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 15-3. A cell’s hidden state and its output may be different
+          Input and Output Sequences                                  
+                                                                      
+          An RNN can simultaneously take a sequence of inputs and produce a sequence of
+          outputs (see the top-left network in Figure 15-4). This type of sequence-to-sequence
+          network is useful for predicting time series such as stock prices: you feed it the prices
+          over the last N days, and it must output the prices shifted by one day into the future
+          (i.e., from N – 1 days ago to tomorrow).                    
+          Alternatively, you could feed the network a sequence of inputs and ignore all outputs
+          except for the last one (see the top-right network in Figure 15-4). In other words, this
+          is a sequence-to-vector network. For example, you could feed the network a sequence
+          of words corresponding to a movie review, and the network would output a senti‐
+          ment score (e.g., from –1 [hate] to +1 [love]).             
+                                                                      
+          Conversely, you could feed the network the same input vector over and over again at
+          each time step and let it output a sequence (see the bottom-left network of
+          Figure 15-4). This is a vector-to-sequence network. For example, the input could be an
+          image (or the output of a CNN), and the output could be a caption for that image.
+          Lastly, you could have a sequence-to-vector network, called an encoder, followed by a
+          vector-to-sequence network, called a decoder (see the bottom-right network of
+          Figure 15-4). For example, this could be used for translating a sentence from one lan‐
+          guage to another. You would feed the network a sentence in one language, the
+          encoder would convert this sentence into a single vector representation, and then the
+          decoder would decode this vector into a sentence in another language. This two-step
+          model, called an Encoder–Decoder, works much better than trying to translate on the
+          fly with a single sequence-to-sequence RNN (like the one represented at the top left):
+          the last words of a sentence can affect the first words of the translation, so you need
+          to wait until you have seen the whole sentence before translating it. We will see how
+          to implement an Encoder–Decoder in Chapter 16 (as we will see, it is a bit more com‐
+          plex than in Figure 15-4 suggests).                         
+                                                                      

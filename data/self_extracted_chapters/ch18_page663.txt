@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            ment. At regular intervals, but asynchronously (hence the name), each agent
+            pushes some weight updates to a master network, then it pulls the latest weights
+            from that network. Each agent thus contributes to improving the master network
+            and benefits from what the other agents have learned. Moreover, instead of esti‐
+            mating the Q-Values, the DQN estimates the advantage of each action (hence the
+            second A in the name), which stabilizes training.         
+                                                                      
+          Advantage Actor-Critic (A2C)                                
+            A variant of the A3C algorithm that removes the asynchronicity. All model
+            updates are synchronous, so gradient updates are performed over larger batches,
+            which allows the model to better utilize the power of the GPU.
+          Soft Actor-Critic24 (SAC)                                   
+            An Actor-Critic variant proposed in 2018 by Tuomas Haarnoja and other UC
+            Berkeley researchers. It learns not only rewards, but also to maximize the entropy
+            of its actions. In other words, it tries to be as unpredictable as possible while still
+            getting as many rewards as possible. This encourages the agent to explore the
+            environment, which speeds up training, and makes it less likely to repeatedly exe‐
+            cute the same action when the DQN produces imperfect estimates. This algo‐
+            rithm has demonstrated an amazing sample efficiency (contrary to all the
+            previous algorithms, which learn very slowly). SAC is available in TF-Agents.
+          Proximal Policy Optimization (PPO)25                        
+            An algorithm based on A2C that clips the loss function to avoid excessively large
+            weight updates (which often lead to training instabilities). PPO is a simplification
+            of the previous Trust Region Policy Optimization26 (TRPO) algorithm, also by
+            John Schulman and other OpenAI researchers. OpenAI made the news in April
+            2019 with their AI called OpenAI Five, based on the PPO algorithm, which
+            defeated the world champions at the multiplayer game Dota 2. PPO is also avail‐
+            able in TF-Agents.                                        
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          24 Tuomas Haarnoja et al., “Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with
+           a Stochastic Actor,” Proceedings of the 35th International Conference on Machine Learning (2018): 1856–1865.
+          25 John Schulman et al., “Proximal Policy Optimization Algorithms,” arXiv preprint arXiv:1707.06347 (2017).
+          26 John Schulman et al., “Trust Region Policy Optimization,” Proceedings of the 32nd International Conference on
+           Machine Learning (2015): 1889–1897.                        

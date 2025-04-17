@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+           • Neural machine translation: 6× speedup on 8 GPUs         
+           • Inception/ImageNet: 32× speedup on 50 GPUs               
+           • RankBrain: 300× speedup on 500 GPUs                      
+                                                                      
+          Beyond a few dozen GPUs for a dense model or few hundred GPUs for a sparse
+          model, saturation kicks in and performance degrades. There is plenty of research
+          going on to solve this problem (exploring peer-to-peer architectures rather than cen‐
+          tralized parameter servers, using lossy model compression, optimizing when and
+          what the replicas need to communicate, and so on), so there will likely be a lot of pro‐
+          gress in parallelizing neural networks in the next few years.
+          In the meantime, to reduce the saturation problem, you probably want to use a few
+          powerful GPUs rather than plenty of weak GPUs, and you should also group your
+          GPUs on few and very well interconnected servers. You can also try dropping the
+          float precision from 32 bits (tf.float32) to 16 bits (tf.bfloat16). This will cut in
+          half the amount of data to transfer, often without much impact on the convergence
+          rate or the model’s performance. Lastly, if you are using centralized parameters, you
+          can shard (split) the parameters across multiple parameter servers: adding more
+          parameter servers will reduce the network load on each server and limit the risk of
+          bandwidth saturation.                                       
+          OK, now let’s train a model across multiple GPUs!           
+                                                                      
+          Training at Scale Using the Distribution Strategies API     
+                                                                      
+          Many models can be trained quite well on a single GPU, or even on a CPU. But if
+          training is too slow, you can try distributing it across multiple GPUs on the same
+          machine. If that’s still too slow, try using more powerful GPUs, or add more GPUs to
+          the machine. If your model performs heavy computations (such as large matrix mul‐
+          tiplications), then it will run much faster on powerful GPUs, and you could even try
+          to use TPUs on Google Cloud AI Platform, which will usually run even faster for such
+          models. But if you can’t fit any more GPUs on the same machine, and if TPUs aren’t
+          for you (e.g., perhaps your model doesn’t benefit much from TPUs, or perhaps you
+          want to use your own hardware infrastructure), then you can try training it across
+          several servers, each with multiple GPUs (if this is still not enough, as a last resort you
+          can try adding some model parallelism, but this requires a lot more effort). In this
+          section we will see how to train models at scale, starting with multiple GPUs on the
+          same machine (or TPUs) and then moving on to multiple GPUs across multiple
+          machines.                                                   
+          Luckily, TensorFlow comes with a very simple API that takes care of all the complex‐
+          ity for you: the Distribution Strategies API. To train a Keras model across all available
+          GPUs (on a single machine, for now) using data parallelism with the mirrored
+                                                                      

@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          faster, the accuracy would be roughly the same, and it would allow us to choose any
+          output activation function we want. If you make this change, also make sure to
+          remove return_sequences=True from the second (now last) recurrent layer:
+                                                                      
+            model = keras.models.Sequential([                         
+               keras.layers.SimpleRNN(20, return_sequences=True, input_shape=[None, 1]),
+               keras.layers.SimpleRNN(20),                            
+               keras.layers.Dense(1)                                  
+            ])                                                        
+          If you train this model, you will see that it converges faster and performs just as well.
+          Plus, you could change the output activation function if you wanted.
+          Forecasting Several Time Steps Ahead                        
+                                                                      
+          So far we have only predicted the value at the next time step, but we could just as
+          easily have predicted the value several steps ahead by changing the targets appropri‐
+          ately (e.g., to predict 10 steps ahead, just change the targets to be the value 10 steps
+          ahead instead of 1 step ahead). But what if we want to predict the next 10 values?
+          The first option is to use the model we already trained, make it predict the next value,
+          then add that value to the inputs (acting as if this predicted value had actually occur‐
+          red), and use the model again to predict the following value, and so on, as in the fol‐
+          lowing code:                                                
+            series = generate_time_series(1, n_steps + 10)            
+            X_new, Y_new = series[:, :n_steps], series[:, n_steps:]   
+            X = X_new                                                 
+            for step_ahead in range(10):                              
+               y_pred_one = model.predict(X[:, step_ahead:])[:, np.newaxis, :]
+               X = np.concatenate([X, y_pred_one], axis=1)            
+            Y_pred = X[:, n_steps:]                                   
+          As you might expect, the prediction for the next step will usually be more accurate
+          than the predictions for later time steps, since the errors might accumulate (as you
+          can see in Figure 15-8). If you evaluate this approach on the validation set, you will
+          find an MSE of about 0.029. This is much higher than the previous models, but it’s
+          also a much harder task, so the comparison doesn’t mean much. It’s much more
+          meaningful to compare this performance with naive predictions (just forecasting that
+          the time series will remain constant for 10 time steps) or with a simple linear model.
+          The naive approach is terrible (it gives an MSE of about 0.223), but the linear model
+          gives an MSE of about 0.0188: it’s much better than using our RNN to forecast the
+          future one step at a time, and also much faster to train and run. Still, if you only want
+          to forecast a few time steps ahead, on more complex tasks, this approach may work
+          well.                                                       
+                                                                      
+                                                                      

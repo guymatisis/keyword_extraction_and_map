@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            ter 10), and get it to output the most likely next purchase. This neural net would
+            typically be trained on past sequences of purchases across all clients.
+                                                                      
+          Building an intelligent bot for a game                      
+            This is often tackled using Reinforcement Learning (RL; see Chapter 18), which
+            is a branch of Machine Learning that trains agents (such as bots) to pick the
+            actions that will maximize their rewards over time (e.g., a bot may get a reward
+            every time the player loses some life points), within a given environment (such as
+            the game). The famous AlphaGo program that beat the world champion at the
+            game of Go was built using RL.                            
+          This list could go on and on, but hopefully it gives you a sense of the incredible
+          breadth and complexity of the tasks that Machine Learning can tackle, and the types
+          of techniques that you would use for each task.             
+                                                                      
+          Types of Machine Learning Systems                           
+                                                                      
+          There are so many different types of Machine Learning systems that it is useful to
+          classify them in broad categories, based on the following criteria:
+                                                                      
+           • Whether or not they are trained with human supervision (supervised, unsuper‐
+            vised, semisupervised, and Reinforcement Learning)        
+           • Whether or not they can learn incrementally on the fly (online versus batch
+            learning)                                                 
+           • Whether they work by simply comparing new data points to known data points,
+            or instead by detecting patterns in the training data and building a predictive
+            model, much like scientists do (instance-based versus model-based learning)
+                                                                      
+          These criteria are not exclusive; you can combine them in any way you like. For
+          example, a state-of-the-art spam filter may learn on the fly using a deep neural net‐
+          work model trained using examples of spam and ham; this makes it an online, model-
+          based, supervised learning system.                          
+          Let’s look at each of these criteria a bit more closely.    
+                                                                      
+          Supervised/Unsupervised Learning                            
+                                                                      
+          Machine Learning systems can be classified according to the amount and type of
+          supervision they get during training. There are four major categories: supervised
+          learning, unsupervised learning, semisupervised learning, and Reinforcement
+          Learning.                                                   
+                                                                      
+                                                                      
+                                                                      

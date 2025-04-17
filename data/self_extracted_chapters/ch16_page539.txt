@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          mask_zero=True when creating the Embedding layer. This means that padding tokens
+          (whose ID is 0)8 will be ignored by all downstream layers. That’s all!
+                                                                      
+          The way this works is that the Embedding layer creates a mask tensor equal to
+          K.not_equal(inputs, 0) (where K = keras.backend): it is a Boolean tensor with
+          the same shape as the inputs, and it is equal to False anywhere the word IDs are 0, or
+          True otherwise. This mask tensor is then automatically propagated by the model to
+          all subsequent layers, as long as the time dimension is preserved. So in this example,
+          both GRU layers will receive this mask automatically, but since the second GRU layer
+          does not return sequences (it only returns the output of the last time step), the mask
+          will not be transmitted to the Dense layer. Each layer may handle the mask differently,
+          but in general they simply ignore masked time steps (i.e., time steps for which the
+          mask is False). For example, when a recurrent layer encounters a masked time step,
+          it simply copies the output from the previous time step. If the mask propagates all the
+          way to the output (in models that output sequences, which is not the case in this
+          example), then it will be applied to the losses as well, so the masked time steps will
+          not contribute to the loss (their loss will be 0).          
+                                                                      
+                   The LSTM and GRU layers have an optimized implementation for
+                   GPUs, based on Nvidia’s cuDNN library. However, this implemen‐
+                   tation does not support masking. If your model uses a mask, then
+                   these layers will fall back to the (much slower) default implementa‐
+                   tion. Note that the optimized implementation also requires you to
+                   use the default values for several hyperparameters: activation,
+                   recurrent_activation, recurrent_dropout, unroll, use_bias,
+                   and reset_after.                                   
+          All layers that receive the mask must support masking (or else an exception will be
+          raised). This includes all recurrent layers, as well as the TimeDistributed layer and a
+          few other layers. Any layer that supports masking must have a supports_masking
+          attribute equal to True. If you want to implement your own custom layer with mask‐
+          ing support, you should add a mask argument to the call() method (and obviously
+          make the method use the mask somehow). Additionally, you should set
+          self.supports_masking = True in the constructor. If your layer does not start with
+          an Embedding layer, you may use the keras.layers.Masking layer instead: it sets the
+          mask to K.any(K.not_equal(inputs, 0), axis=-1), meaning that time steps where
+          the last dimension is full of zeros will be masked out in subsequent layers (again, as
+          long as the time dimension exists).                         
+                                                                      
+                                                                      
+                                                                      
+          8 Their ID is 0 only because they are the most frequent “words” in the dataset. It would probably be a good idea
+           to ensure that the padding tokens are always encoded as 0, even if they are not the most frequent.

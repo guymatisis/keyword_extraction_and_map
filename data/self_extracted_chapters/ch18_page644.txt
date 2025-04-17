@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          This is just a wrapper around an OpenAI Gym environment, which you can access
+          through the gym attribute:                                  
+                                                                      
+            >>> env.gym                                               
+            <gym.envs.atari.atari_env.AtariEnv at 0x24dcab940>        
+          TF-Agents environments are very similar to OpenAI Gym environments, but there
+          are a few differences. First, the reset() method does not return an observation;
+          instead it returns a TimeStep object that wraps the observation, as well as some extra
+          information:                                                
+            >>> env.reset()                                           
+            TimeStep(step_type=array(0, dtype=int32),                 
+                  reward=array(0., dtype=float32),                    
+                  discount=array(1., dtype=float32),                  
+                  observation=array([[[0., 0., 0.], [0., 0., 0.],...]]], dtype=float32))
+          The step() method returns a TimeStep object as well:        
+            >>> env.step(1) # Fire                                    
+            TimeStep(step_type=array(1, dtype=int32),                 
+                  reward=array(0., dtype=float32),                    
+                  discount=array(1., dtype=float32),                  
+                  observation=array([[[0., 0., 0.], [0., 0., 0.],...]]], dtype=float32))
+          The reward and observation attributes are self-explanatory, and they are the same as
+          for OpenAI Gym (except the reward is represented as a NumPy array). The
+          step_type attribute is equal to 0 for the first time step in the episode, 1 for intermedi‐
+          ate time steps, and 2 for the final time step. You can call the time step’s is_last()
+          method to check whether it is the final one or not. Lastly, the discount attribute indi‐
+          cates the discount factor to use at this time step. In this example it is equal to 1, so
+          there will be no discount at all. You can define the discount factor by setting the dis
+          count parameter when loading the environment.               
+                                                                      
+                   At any time, you can access the environment’s current time step by
+                   calling its current_time_step() method.            
+                                                                      
+                                                                      
+                                                                      
+          Environment Specifications                                  
+          Conveniently, a TF-Agents environment provides the specifications of the observa‐
+          tions, actions, and time steps, including their shapes, data types, and names, as well as
+          their minimum and maximum values:                           
+                                                                      
+                                                                      
+                                                                      
+                                                                      

@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 14-14. GoogLeNet architecture                        
+                                                                      
+          Let’s go through this network:                              
+                                                                      
+           • The first two layers divide the image’s height and width by 4 (so its area is divided
+            by 16), to reduce the computational load. The first layer uses a large kernel size so
+            that much of the information is preserved.                
+           • Then the local response normalization layer ensures that the previous layers learn
+            a wide variety of features (as discussed earlier).        
+                                                                      
+           • Two convolutional layers follow, where the first acts like a bottleneck layer. As
+            explained earlier, you can think of this pair as a single smarter convolutional
+            layer.                                                    
+           • Again, a local response normalization layer ensures that the previous layers cap‐
+            ture a wide variety of patterns.                          
+           • Next, a max pooling layer reduces the image height and width by 2, again to
+            speed up computations.                                    
+           • Then comes the tall stack of nine inception modules, interleaved with a couple
+            max pooling layers to reduce dimensionality and speed up the net.
+                                                                      
+                                                                      

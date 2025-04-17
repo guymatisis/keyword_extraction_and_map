@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   If you deploy your application to a virtual machine on Google
+                   Cloud Engine (GCE), or within a container using Google Cloud
+                   Kubernetes Engine, or as a web application on Google Cloud App
+                   Engine, or as a microservice on Google Cloud Functions, and if the
+                   GOOGLE_APPLICATION_CREDENTIALS environment variable is not
+                   set, then the library will use the default service account for the host
+                   service (e.g., the default GCE service account, if your application
+                   runs on GCE).                                      
+                                                                      
+          Next, you must create a resource object that wraps access to the prediction service:7
+            import googleapiclient.discovery                          
+                                                                      
+            project_id = "onyx-smoke-242003" # change this to your project ID
+            model_id = "my_mnist_model"                               
+            model_path = "projects/{}/models/{}".format(project_id, model_id)
+            ml_resource = googleapiclient.discovery.build("ml", "v1").projects()
+          Note that you can append /versions/0001 (or any other version number) to the
+          model_path to specify the version you want to query: this can be useful for A/B test‐
+          ing or for testing a new version on a small group of users before releasing it widely
+          (this is called a canary). Next, let’s write a small function that will use the resource
+          object to call the prediction service and get the predictions back:
+            def predict(X):                                           
+               input_data_json = {"signature_name": "serving_default",
+                          "instances": X.tolist()}                    
+               request = ml_resource.predict(name=model_path, body=input_data_json)
+               response = request.execute()                           
+               if "error" in response:                                
+                 raise RuntimeError(response["error"])                
+               return np.array([pred[output_name] for pred in response["predictions"]])
+          The function takes a NumPy array containing the input images and prepares a dictio‐
+          nary that the client library will convert to the JSON format (as we did earlier). Then it
+          prepares a prediction request, and executes it; it raises an exception if the response
+          contains an error, or else it extracts the predictions for each instance and bundles
+          them in a NumPy array. Let’s see if it works:               
+            >>> Y_probas = predict(X_new)                             
+            >>> np.round(Y_probas, 2)                                 
+            array([[0. , 0. , 0. , 0. , 0. , 0. , 0. , 1. , 0. , 0. ],
+                [0. , 0. , 0.99, 0.01, 0. , 0. , 0. , 0. , 0. , 0. ], 
+                [0. , 0.96, 0.01, 0. , 0. , 0. , 0. , 0.01, 0.01, 0. ]])
+                                                                      
+          7 If you get an error saying that module google.appengine was not found, set cache_discovery=False in the
+           call to the build() method; see https://stackoverflow.com/q/55561354.

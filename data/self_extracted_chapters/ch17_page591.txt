@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          in a 3 × 4 grid, and we use TensorFlow’s tf.image.resize() function to resize this
+          grid to 5 × 7. By default, the resize() function will perform bilinear interpolation, so
+          every other row and column will contain interpolated codings. We then use the
+          decoder to produce all the images:                          
+                                                                      
+            codings_grid = tf.reshape(codings, [1, 3, 4, codings_size])
+            larger_grid = tf.image.resize(codings_grid, size=[5, 7])  
+            interpolated_codings = tf.reshape(larger_grid, [-1, codings_size])
+            images = variational_decoder(interpolated_codings).numpy()
+          Figure 17-14 shows the resulting images. The original images are framed, and the rest
+          are the result of semantic interpolation between the nearby images. Notice, for exam‐
+          ple, how the shoe in the fourth row and fifth column is a nice interpolation between
+          the two shoes located above and below it.                   
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 17-14. Semantic interpolation                        
+                                                                      
+          For several years, variational autoencoders were quite popular, but GANs eventually
+          took the lead, in particular because they are capable of generating much more realistic
+          and crisp images. So let’s turn our attention to GANs.      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          weights; and some have even been ported to TF Hub, such as SSD31 and Faster-
+          RCNN,32 which are both quite popular. SSD is also a “single shot” detection model,
+          similar to YOLO. Faster R-CNN is more complex: the image first goes through a
+          CNN, then the output is passed to a Region Proposal Network (RPN) that proposes
+          bounding boxes that are most likely to contain an object, and a classifier is run for
+          each bounding box, based on the cropped output of the CNN.  
+                                                                      
+          The choice of detection system depends on many factors: speed, accuracy, available
+          pretrained models, training time, complexity, etc. The papers contain tables of met‐
+          rics, but there is quite a lot of variability in the testing environments, and the technol‐
+          ogies evolve so fast that it is difficult to make a fair comparison that will be useful for
+          most people and remain valid for more than a few months.    
+          So, we can locate objects by drawing bounding boxes around them. Great! But per‐
+          haps you want to be a bit more precise. Let’s see how to go down to the pixel level.
+                                                                      
+          Semantic Segmentation                                       
+                                                                      
+          In semantic segmentation, each pixel is classified according to the class of the object it
+          belongs to (e.g., road, car, pedestrian, building, etc.), as shown in Figure 14-26. Note
+          that different objects of the same class are not distinguished. For example, all the bicy‐
+          cles on the right side of the segmented image end up as one big lump of pixels. The
+          main difficulty in this task is that when images go through a regular CNN, they grad‐
+          ually lose their spatial resolution (due to the layers with strides greater than 1); so, a
+          regular CNN may end up knowing that there’s a person somewhere in the bottom left
+          of the image, but it will not be much more precise than that.
+          Just like for object detection, there are many different approaches to tackle this prob‐
+          lem, some quite complex. However, a fairly simple solution was proposed in the 2015
+          paper by Jonathan Long et al. we discussed earlier. The authors start by taking a pre‐
+          trained CNN and turning it into an FCN. The CNN applies an overall stride of 32 to
+          the input image (i.e., if you add up all the strides greater than 1), meaning the last
+          layer outputs feature maps that are 32 times smaller than the input image. This is
+          clearly too coarse, so they add a single upsampling layer that multiplies the resolution
+          by 32.                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          31 Wei Liu et al., “SSD: Single Shot Multibox Detector,” Proceedings of the 14th European Conference on Computer
+           Vision 1 (2016): 21–37.                                    
+          32 Shaoqing Ren et al., “Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks,”
+           Proceedings of the 28th International Conference on Neural Information Processing Systems 1 (2015): 91–99.

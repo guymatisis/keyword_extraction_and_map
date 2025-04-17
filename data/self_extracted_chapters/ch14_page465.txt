@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                            Data Augmentation                         
+                                                                      
+           Data augmentation artificially increases the size of the training set by generating
+           many realistic variants of each training instance. This reduces overfitting, making this
+           a regularization technique. The generated instances should be as realistic as possible:
+           ideally, given an image from the augmented training set, a human should not be able
+           to tell whether it was augmented or not. Simply adding white noise will not help; the
+           modifications should be learnable (white noise is not).    
+           For example, you can slightly shift, rotate, and resize every picture in the training set
+           by various amounts and add the resulting pictures to the training set (see
+           Figure 14-12). This forces the model to be more tolerant to variations in the position,
+           orientation, and size of the objects in the pictures. For a model that’s more tolerant of
+           different lighting conditions, you can similarly generate many images with various
+           contrasts. In general, you can also flip the pictures horizontally (except for text, and
+           other asymmetrical objects). By combining these transformations, you can greatly
+           increase the size of your training set.                    
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+           Figure 14-12. Generating new training instances from existing ones
+                                                                      
+                                                                      
+          AlexNet also uses a competitive normalization step immediately after the ReLU step
+          of layers C1 and C3, called local response normalization (LRN): the most strongly acti‐
+          vated neurons inhibit other neurons located at the same position in neighboring fea‐
+          ture maps (such competitive activation has been observed in biological neurons).
+          This encourages different feature maps to specialize, pushing them apart and forcing

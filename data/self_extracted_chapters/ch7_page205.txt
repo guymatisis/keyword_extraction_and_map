@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 7-9. In this depiction of Gradient Boosting, the first predictor (top left) is trained
+          normally, then each consecutive predictor (middle left and lower left) is trained on the
+          previous predictor’s residuals; the right column shows the resulting ensemble’s predictions
+                                                                      
+          The learning_rate hyperparameter scales the contribution of each tree. If you set it
+          to a low value, such as 0.1, you will need more trees in the ensemble to fit the train‐
+          ing set, but the predictions will usually generalize better. This is a regularization tech‐
+          nique called shrinkage. Figure 7-10 shows two GBRT ensembles trained with a low
+          learning rate: the one on the left does not have enough trees to fit the training set,
+          while the one on the right has too many trees and overfits the training set.
+                                                                      
+                                                                      
+                                                                      
+                                                                      

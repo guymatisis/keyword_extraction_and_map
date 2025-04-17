@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   The dataset methods do not modify datasets, they create new ones,
+                   so make sure to keep a reference to these new datasets (e.g., with
+                   dataset = ...), or else nothing will happen.       
+                                                                      
+                                                                      
+          You can also transform the items by calling the map() method. For example, this cre‐
+          ates a new dataset with all items doubled:                  
+                                                                      
+            >>> dataset = dataset.map(lambda x: x * 2) # Items: [0,2,4,6,8,10,12]
+          This function is the one you will call to apply any preprocessing you want to your
+          data. Sometimes this will include computations that can be quite intensive, such as
+          reshaping or rotating an image, so you will usually want to spawn multiple threads to
+          speed things up: it’s as simple as setting the num_parallel_calls argument. Note that
+          the function you pass to the map() method must be convertible to a TF Function (see
+          Chapter 12).                                                
+          While the map() method applies a transformation to each item, the apply() method
+          applies a transformation to the dataset as a whole. For example, the following code
+          applies the unbatch() function to the dataset (this function is currently experimental,
+          but it will most likely move to the core API in a future release). Each item in the new
+          dataset will be a single-integer tensor instead of a batch of seven integers:
+                                                                      
+            >>> dataset = dataset.apply(tf.data.experimental.unbatch()) # Items: 0,2,4,...
+          It is also possible to simply filter the dataset using the filter() method:
+            >>> dataset = dataset.filter(lambda x: x < 10) # Items: 0 2 4 6 8 0 2 4 6...
+                                                                      
+          You will often want to look at just a few items from a dataset. You can use the take()
+          method for that:                                            
+            >>> for item in dataset.take(3):                          
+            ...  print(item)                                          
+            ...                                                       
+            tf.Tensor(0, shape=(), dtype=int64)                       
+            tf.Tensor(2, shape=(), dtype=int64)                       
+            tf.Tensor(4, shape=(), dtype=int64)                       
+          Shuffling the Data                                          
+          As you know, Gradient Descent works best when the instances in the training set are
+          independent and identically distributed (see Chapter 4). A simple way to ensure this
+          is to shuffle the instances, using the shuffle() method. It will create a new dataset
+          that will start by filling up a buffer with the first items of the source dataset. Then,
+          whenever it is asked for an item, it will pull one out randomly from the buffer and
+          replace it with a fresh one from the source dataset, until it has iterated entirely
+          through the source dataset. At this point it continues to pull out items randomly from
+                                                                      

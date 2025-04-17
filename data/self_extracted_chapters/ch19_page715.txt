@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Before you can run the training job, you need to write the training code, exactly like
+          you did earlier for a distributed setup (e.g., using the ParameterServerStrategy). AI
+          Platform will take care of setting TF_CONFIG for you on each VM. Once that’s done,
+          you can deploy it and run it on a TF cluster with a command line like this:
+                                                                      
+            $ gcloud ai-platform jobs submit training my_job_20190531_164700 \
+               --region asia-southeast1 \                             
+               --scale-tier PREMIUM_1 \                               
+               --runtime-version 2.0 \                                
+               --python-version 3.5 \                                 
+               --package-path /my_project/src/trainer \               
+               --module-name trainer.task \                           
+               --staging-bucket gs://my-staging-bucket \              
+               --job-dir gs://my-mnist-model-bucket/trained_model \   
+               --                                                     
+               --my-extra-argument1 foo --my-extra-argument2 bar      
+          Let’s go through these options. The command will start a training job named
+          my_job_20190531_164700, in the asia-southeast1 region, using a PREMIUM_1 scale
+          tier: this corresponds to 20 workers (including a chief) and 11 parameter servers
+          (check out the other available scale tiers). All these VMs will be based on AI Plat‐
+          form’s 2.0 runtime (a VM configuration that includes TensorFlow 2.0 and many other
+          packages)22 and Python 3.5. The training code is located in the /my_project/src/trainer
+          directory, and the gcloud command will automatically bundle it into a pip package
+          and upload it to GCS at gs://my-staging-bucket. Next, AI Platform will start several
+          VMs, deploy the package to them, and run the trainer.task module. Lastly, the --
+          job-dir argument and the extra arguments (i.e., all the arguments located after the
+          -- separator) will be passed to the training program: the chief task will usually use the
+          --job-dir argument to find out where to save the final model on GCS, in this case at
+          gs://my-mnist-model-bucket/trained_model. And that’s it! In the GCP console, you can
+          then open the navigation menu, scroll down to the Artificial Intelligence section, and
+          open AI Platform → Jobs. You should see your job running, and if you click it you
+          will see graphs showing the CPU, GPU, and RAM utilization for every task. You can
+          click View Logs to access the detailed logs using Stackdriver.
+                   If you place the training data on GCS, you can create a
+                   tf.data.TextLineDataset or tf.data.TFRecordDataset to access
+                   it: just use the GCS paths as the filenames (e.g., gs://my-data-
+                   bucket/my_data_001.csv). These datasets rely on the tf.io.gfile
+                   package to access files: it supports both local files and GCS files
+                   (but make sure the service account you use has access to GCS).
+                                                                      
+          22 At the time of this writing, the 2.0 runtime is not yet available, but it should be ready by the time you read
+           this. Check out the list of available runtimes.            

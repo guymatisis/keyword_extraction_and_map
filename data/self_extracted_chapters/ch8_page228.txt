@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            clf = Pipeline([                                          
+                 ("kpca", KernelPCA(n_components=2)),                 
+                 ("log_reg", LogisticRegression())                    
+               ])                                                     
+            param_grid = [{                                           
+                 "kpca__gamma": np.linspace(0.03, 0.05, 10),          
+                 "kpca__kernel": ["rbf", "sigmoid"]                   
+               }]                                                     
+            grid_search = GridSearchCV(clf, param_grid, cv=3)         
+            grid_search.fit(X, y)                                     
+          The best kernel and hyperparameters are then available through the best_params_
+          variable:                                                   
+                                                                      
+            >>> print(grid_search.best_params_)                       
+            {'kpca__gamma': 0.043333333333333335, 'kpca__kernel': 'rbf'}
+          Another approach, this time entirely unsupervised, is to select the kernel and hyper‐
+          parameters that yield the lowest reconstruction error. Note that reconstruction is not
+          as easy as with linear PCA. Here’s why. Figure 8-11 shows the original Swiss roll 3D
+          dataset (top left) and the resulting 2D dataset after kPCA is applied using an RBF ker‐
+          nel (top right). Thanks to the kernel trick, this transformation is mathematically
+          equivalent to using the feature map φ to map the training set to an infinite-
+          dimensional feature space (bottom right), then projecting the transformed training
+          set down to 2D using linear PCA.                            
+          Notice that if we could invert the linear PCA step for a given instance in the reduced
+          space, the reconstructed point would lie in feature space, not in the original space
+          (e.g., like the one represented by an X in the diagram). Since the feature space is
+          infinite-dimensional, we cannot compute the reconstructed point, and therefore we
+          cannot compute the true reconstruction error. Fortunately, it is possible to find a
+          point in the original space that would map close to the reconstructed point. This
+          point is called the reconstruction pre-image. Once you have this pre-image, you can
+          measure its squared distance to the original instance. You can then select the kernel
+          and hyperparameters that minimize this reconstruction pre-image error.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

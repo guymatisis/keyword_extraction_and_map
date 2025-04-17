@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            Equation 5-11. Making predictions with a kernelized SVM   
+                                                                      
+                               m        ⊺                             
+            h  ϕ x n = w ⊺ ϕ x n +b = ∑ α i t i ϕ x i ϕ x n +b        
+             w,b               i=1                                    
+                      m                                               
+                    = ∑ α i t i ϕ x i ⊺ ϕ x n +b                      
+                     i=1                                              
+                      m                                               
+                    = ∑  α i t i K x i ,x n +b                        
+                      i=1                                             
+                      i                                               
+                     α >0                                             
+          Note that since α(i) ≠ 0 only for support vectors, making predictions involves comput‐
+          ing the dot product of the new input vector x(n) with only the support vectors, not all
+          the training instances. Of course, you need to use the same trick to compute the bias
+          term b (Equation 5-12).                                     
+            Equation 5-12. Using the kernel trick to compute the bias term
+                 m               m      m         ⊺                   
+            b = 1 ∑ t i −w ⊺ ϕ x i = 1 ∑ t i − ∑ α j t j ϕ x j ϕ x i  
+               n               n                                      
+               s i=1           s i=1    j=1                           
+                 i               i                                    
+                α >0            α >0                                  
+                 m       m                                            
+             = 1 ∑  t i − ∑ α j t j K x i ,x j                        
+               n                                                      
+               s i=1    j=1                                           
+                 i       j                                            
+                α >0    α >0                                          
+          If you are starting to get a headache, it’s perfectly normal: it’s an unfortunate side
+          effect of the kernel trick.                                 
+          Online SVMs                                                 
+          Before concluding this chapter, let’s take a quick look at online SVM classifiers (recall
+          that online learning means learning incrementally, typically as new instances arrive).
+          For linear SVM classifiers, one method for implementing an online SVM classifier is
+          to use Gradient Descent (e.g., using SGDClassifier) to minimize the cost function in
+          Equation 5-13, which is derived from the primal problem. Unfortunately, Gradient
+          Descent converges much more slowly than the methods based on QP.
+                                                                      
+                                                                      

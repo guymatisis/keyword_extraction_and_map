@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          However, projection is not always the best approach to dimensionality reduction. In
+          many cases the subspace may twist and turn, such as in the famous Swiss roll toy data‐
+          set represented in Figure 8-4.                              
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 8-4. Swiss roll dataset                              
+                                                                      
+          Simply projecting onto a plane (e.g., by dropping x ) would squash different layers of
+                                        3                             
+          the Swiss roll together, as shown on the left side of Figure 8-5. What you really want is
+          to unroll the Swiss roll to obtain the 2D dataset on the right side of Figure 8-5.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 8-5. Squashing by projecting onto a plane (left) versus unrolling the Swiss roll
+          (right)                                                     
+                                                                      
+                                                                      
+                                                                      
+                                                                      

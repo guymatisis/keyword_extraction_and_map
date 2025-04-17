@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            Equation 5-13. Linear SVM classifier cost function        
+                                                                      
+                          m                                           
+            J w,b = 1 w ⊺ w + C ∑ max 0,1−t i w ⊺ x i +b              
+                 2                                                    
+                          i=1                                         
+          The first sum in the cost function will push the model to have a small weight vector
+          w, leading to a larger margin. The second sum computes the total of all margin viola‐
+          tions. An instance’s margin violation is equal to 0 if it is located off the street and on
+          the correct side, or else it is proportional to the distance to the correct side of the
+          street. Minimizing this term ensures that the model makes the margin violations as
+          small and as few as possible.                               
+                               Hinge Loss                             
+                                                                      
+           The function max(0, 1 – t) is called the hinge loss function (see the following image).
+           It is equal to 0 when t ≥ 1. Its derivative (slope) is equal to –1 if t < 1 and 0 if t > 1. It is
+           not differentiable at t = 1, but just like for Lasso Regression (see “Lasso Regression”
+           on page 137), you can still use Gradient Descent using any subderivative at t = 1 (i.e.,
+           any value between –1 and 0).                               
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          It is also possible to implement online kernelized SVMs, as described in the papers
+          “Incremental and Decremental Support Vector Machine Learning”8 and “Fast Kernel
+          Classifiers with Online and Active Learning”.9 These kernelized SVMs are imple‐
+                                                                      
+                                                                      
+                                                                      
+          8 Gert Cauwenberghs and Tomaso Poggio, “Incremental and Decremental Support Vector Machine Learning,”
+           Proceedings of the 13th International Conference on Neural Information Processing Systems (2000): 388–394.
+          9 Antoine Bordes et al., “Fast Kernel Classifiers with Online and Active Learning,” Journal of Machine Learning
+           Research 6 (2005): 1579–1619.                              

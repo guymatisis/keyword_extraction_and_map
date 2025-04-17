@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          To be clear, at time step 0 the model will output a vector containing the forecasts for
+          time steps 1 to 10, then at time step 1 the model will forecast time steps 2 to 11, and
+          so on. So each target must be a sequence of the same length as the input sequence,
+          containing a 10-dimensional vector at each step. Let’s prepare these target sequences:
+                                                                      
+            Y = np.empty((10000, n_steps, 10)) # each target is a sequence of 10D vectors
+            for step_ahead in range(1, 10 + 1):                       
+               Y[:, :, step_ahead - 1] = series[:, step_ahead:step_ahead + n_steps, 0]
+            Y_train = Y[:7000]                                        
+            Y_valid = Y[7000:9000]                                    
+            Y_test = Y[9000:]                                         
+                   It may be surprising that the targets will contain values that appear
+                   in the inputs (there is a lot of overlap between X_train and
+                   Y_train). Isn’t that cheating? Fortunately, not at all: at each time
+                   step, the model only knows about past time steps, so it cannot look
+                   ahead. It is said to be a causal model.            
+          To turn the model into a sequence-to-sequence model, we must set return_sequen
+          ces=True in all recurrent layers (even the last one), and we must apply the output
+          Dense layer at every time step. Keras offers a TimeDistributed layer for this very pur‐
+          pose: it wraps any layer (e.g., a Dense layer) and applies it at every time step of its
+          input sequence. It does this efficiently, by reshaping the inputs so that each time step
+          is treated as a separate instance (i.e., it reshapes the inputs from [batch size, time steps,
+          input dimensions] to [batch size × time steps, input dimensions]; in this example, the
+          number of input dimensions is 20 because the previous SimpleRNN layer has 20 units),
+          then it runs the Dense layer, and finally it reshapes the outputs back to sequences (i.e.,
+          it reshapes the outputs from [batch size × time steps, output dimensions] to [batch size,
+          time steps, output dimensions]; in this example the number of output dimensions is
+          10, since the Dense layer has 10 units).2 Here is the updated model:
+            model = keras.models.Sequential([                         
+               keras.layers.SimpleRNN(20, return_sequences=True, input_shape=[None, 1]),
+               keras.layers.SimpleRNN(20, return_sequences=True),     
+               keras.layers.TimeDistributed(keras.layers.Dense(10))   
+            ])                                                        
+          The Dense layer actually supports sequences as inputs (and even higher-dimensional
+          inputs): it handles them just like TimeDistributed(Dense(…)), meaning it is applied
+          to the last input dimension only (independently across all time steps). Thus, we could
+          replace the last layer with just Dense(10). For the sake of clarity, however, we will
+          keep using TimeDistributed(Dense(10)) because it makes it clear that the Dense
+                                                                      
+                                                                      
+                                                                      
+          2 Note that a TimeDistributed(Dense(n)) layer is equivalent to a Conv1D(n, filter_size=1) layer.

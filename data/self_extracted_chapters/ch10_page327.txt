@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Number of iterations                                        
+            In most cases, the number of training iterations does not actually need to be
+            tweaked: just use early stopping instead.                 
+                                                                      
+                   The optimal learning rate depends on the other hyperparameters—
+                   especially the batch size—so if you modify any hyperparameter,
+                   make sure to update the learning rate as well.     
+                                                                      
+                                                                      
+          For more best practices regarding tuning neural network hyperparameters, check out
+          the excellent 2018 paper27 by Leslie Smith.                 
+                                                                      
+          This concludes our introduction to artificial neural networks and their implementa‐
+          tion with Keras. In the next few chapters, we will discuss techniques to train very
+          deep nets. We will also explore how to customize models using TensorFlow’s lower-
+          level API and how to load and preprocess data efficiently using the Data API. And we
+          will dive into other popular neural network architectures: convolutional neural net‐
+          works for image processing, recurrent neural networks for sequential data, autoen‐
+          coders for representation learning, and generative adversarial networks to model and
+          generate data.28                                            
+          Exercises                                                   
+                                                                      
+                                                                      
+           1. The TensorFlow Playground is a handy neural network simulator built by the
+            TensorFlow team. In this exercise, you will train several binary classifiers in just a
+            few clicks, and tweak the model’s architecture and its hyperparameters to gain
+            some intuition on how neural networks work and what their hyperparameters
+            do. Take some time to explore the following:              
+             a. The patterns learned by a neural net. Try training the default neural network
+              by clicking the Run button (top left). Notice how it quickly finds a good solu‐
+              tion for the classification task. The neurons in the first hidden layer have
+              learned simple patterns, while the neurons in the second hidden layer have
+              learned to combine the simple patterns of the first hidden layer into more
+              complex patterns. In general, the more layers there are, the more complex the
+              patterns can be.                                        
+            b. Activation functions. Try replacing the tanh activation function with a ReLU
+              activation function, and train the network again. Notice that it finds a solution
+                                                                      
+                                                                      
+          27 Leslie N. Smith, “A Disciplined Approach to Neural Network Hyper-Parameters: Part 1—Learning Rate, Batch
+           Size, Momentum, and Weight Decay,” arXiv preprint arXiv:1803.09820 (2018).
+          28 A few extra ANN architectures are presented in Appendix E.

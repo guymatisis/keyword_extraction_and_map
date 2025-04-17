@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          One-class SVM                                               
+            This algorithm is better suited for novelty detection. Recall that a kernelized
+            SVM classifier separates two classes by first (implicitly) mapping all the instances
+            to a high-dimensional space, then separating the two classes using a linear SVM
+            classifier within this high-dimensional space (see Chapter 5). Since we just have
+            one class of instances, the one-class SVM algorithm instead tries to separate the
+            instances in high-dimensional space from the origin. In the original space, this
+            will correspond to finding a small region that encompasses all the instances. If a
+            new instance does not fall within this region, it is an anomaly. There are a few
+            hyperparameters to tweak: the usual ones for a kernelized SVM, plus a margin
+            hyperparameter that corresponds to the probability of a new instance being mis‐
+            takenly considered as novel when it is in fact normal. It works great, especially
+            with high-dimensional datasets, but like all SVMs it does not scale to large
+            datasets.                                                 
+                                                                      
+          Exercises                                                   
+                                                                      
+           1. How would you define clustering? Can you name a few clustering algorithms?
+           2. What are some of the main applications of clustering algorithms?
+                                                                      
+           3. Describe two techniques to select the right number of clusters when using
+            K-Means.                                                  
+           4. What is label propagation? Why would you implement it, and how?
+           5. Can you name two clustering algorithms that can scale to large datasets? And
+            two that look for regions of high density?                
+           6. Can you think of a use case where active learning would be useful? How would
+            you implement it?                                         
+                                                                      
+           7. What is the difference between anomaly detection and novelty detection?
+           8. What is a Gaussian mixture? What tasks can you use it for?
+           9. Can you name two techniques to find the right number of clusters when using a
+            Gaussian mixture model?                                   
+          10. The classic Olivetti faces dataset contains 400 grayscale 64 × 64–pixel images of
+            faces. Each image is flattened to a 1D vector of size 4,096. 40 different people
+            were photographed (10 times each), and the usual task is to train a model that
+            can predict which person is represented in each picture. Load the dataset using
+            the sklearn.datasets.fetch_olivetti_faces() function, then split it into a
+            training set, a validation set, and a test set (note that the dataset is already scaled
+            between 0 and 1). Since the dataset is quite small, you probably want to use strati‐
+            fied sampling to ensure that there are the same number of images per person in
+            each set. Next, cluster the images using K-Means, and ensure that you have a
+                                                                      

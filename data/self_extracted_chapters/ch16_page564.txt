@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            Transformer-like architecture. The authors pretrained a large but fairly simple
+            architecture composed of a stack of 12 Transformer modules (using only Masked
+            Multi-Head Attention layers) on a large dataset, once again trained using self-
+            supervised learning. Then they fine-tuned it on various language tasks, using
+            only minor adaptations for each task. The tasks were quite diverse: they included
+            text classification, entailment (whether sentence A entails sentence B),27 similarity
+            (e.g., “Nice weather today” is very similar to “It is sunny”), and question answer‐
+            ing (given a few paragraphs of text giving some context, the model must answer
+            some multiple-choice questions). Just a few months later, in February 2019, Alec
+            Radford, Jeffrey Wu, and other OpenAI researchers published the GPT-2 paper,28
+            which proposed a very similar architecture, but larger still (with over 1.5 billion
+            parameters!) and they showed that it could achieve good performance on many
+            tasks without any fine-tuning. This is called zero-shot learning (ZSL). A smaller
+            version of the GPT-2 model (with “just” 117 million parameters) is available at
+            https://github.com/openai/gpt-2, along with its pretrained weights.
+           • The BERT paper29 by Jacob Devlin and other Google researchers also demon‐
+            strates the effectiveness of self-supervised pretraining on a large corpus, using a
+            similar architecture to GPT but non-masked Multi-Head Attention layers (like in
+            the Transformer’s encoder). This means that the model is naturally bidirectional;
+            hence the B in BERT (Bidirectional Encoder Representations from Transformers).
+            Most importantly, the authors proposed two pretraining tasks that explain most
+            of the model’s strength:                                  
+            Masked language model (MLM)                               
+               Each word in a sentence has a 15% probability of being masked, and the
+               model is trained to predict the masked words. For example, if the original
+               sentence is “She had fun at the birthday party,” then the model may be given
+               the sentence “She <mask> fun at the <mask> party” and it must predict the
+               words “had” and “birthday” (the other outputs will be ignored). To be more
+               precise, each selected word has an 80% chance of being masked, a 10%
+               chance of being replaced by a random word (to reduce the discrepancy
+               between pretraining and fine-tuning, since the model will not see <mask>
+               tokens during fine-tuning), and a 10% chance of being left alone (to bias the
+               model toward the correct answer).                      
+                                                                      
+                                                                      
+                                                                      
+          27 For example, the sentence “Jane had a lot of fun at her friend’s birthday party” entails “Jane enjoyed the party,”
+           but it is contradicted by “Everyone hated the party” and it is unrelated to “The Earth is flat.”
+          28 Alec Radford et al., “Language Models Are Unsupervised Multitask Learners” (2019).
+          29 Jacob Devlin et al., “BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding,”
+           Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Lin‐
+           guistics: Human Language Technologies 1 (2019).            

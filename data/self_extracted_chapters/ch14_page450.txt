@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 14-4. Reducing dimensionality using a stride of 2    
+                                                                      
+          Filters                                                     
+                                                                      
+          A neuron’s weights can be represented as a small image the size of the receptive field.
+          For example, Figure 14-5 shows two possible sets of weights, called filters (or convolu‐
+          tion kernels). The first one is represented as a black square with a vertical white line in
+          the middle (it is a 7 × 7 matrix full of 0s except for the central column, which is full of
+          1s); neurons using these weights will ignore everything in their receptive field except
+          for the central vertical line (since all inputs will get multiplied by 0, except for the
+          ones located in the central vertical line). The second filter is a black square with a
+          horizontal white line in the middle. Once again, neurons using these weights will
+          ignore everything in their receptive field except for the central horizontal line.
+          Now if all neurons in a layer use the same vertical line filter (and the same bias term),
+          and you feed the network the input image shown in Figure 14-5 (the bottom image),
+          the layer will output the top-left image. Notice that the vertical white lines get
+          enhanced while the rest gets blurred. Similarly, the upper-right image is what you get
+          if all neurons use the same horizontal line filter; notice that the horizontal white lines
+          get enhanced while the rest is blurred out. Thus, a layer full of neurons using the
+          same filter outputs a feature map, which highlights the areas in an image that activate
+          the filter the most. Of course, you do not have to define the filters manually: instead,
+          during training the convolutional layer will automatically learn the most useful filters
+          for its task, and the layers above will learn to combine them into more complex
+          patterns.                                                   
+                                                                      
+                                                                      
+                                                                      
+                                                                      

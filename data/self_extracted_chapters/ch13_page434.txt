@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          the categories. This is called representation learning (we will see other types of repre‐
+          sentation learning in Chapter 17).                          
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 13-4. Embeddings will gradually improve during training
+                                                                      
+                             Word Embeddings                          
+                                                                      
+           Not only will embeddings generally be useful representations for the task at hand, but
+           quite often these same embeddings can be reused successfully for other tasks. The
+           most common example of this is word embeddings (i.e., embeddings of individual
+           words): when you are working on a natural language processing task, you are often
+           better off reusing pretrained word embeddings than training your own.
+           The idea of using vectors to represent words dates back to the 1960s, and many
+           sophisticated techniques have been used to generate useful vectors, including using
+           neural networks. But things really took off in 2013, when Tomáš Mikolov and other
+           Google researchers published a paper9 describing an efficient technique to learn word
+           embeddings using neural networks, significantly outperforming previous attempts.
+           This allowed them to learn embeddings on a very large corpus of text: they trained a
+           neural network to predict the words near any given word, and obtained astounding
+           word embeddings. For example, synonyms had very close embeddings, and semanti‐
+           cally related words such as France, Spain, and Italy ended up clustered together.
+           It’s not just about proximity, though: word embeddings were also organized along
+           meaningful axes in the embedding space. Here is a famous example: if you compute
+           King – Man + Woman (adding and subtracting the embedding vectors of these
+           words), then the result will be very close to the embedding of the word Queen (see
+           Figure 13-5). In other words, the word embeddings encode the concept of gender!
+                                                                      
+                                                                      
+          9 Tomas Mikolov et al., “Distributed Representations of Words and Phrases and Their Compositionality,” Pro‐
+           ceedings of the 26th International Conference on Neural Information Processing Systems 2 (2013): 3111–3119.

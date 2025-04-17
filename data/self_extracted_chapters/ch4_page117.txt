@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            >>> np.linalg.pinv(X_b).dot(y)                            
+            array([[4.21509616],                                      
+                [2.77011339]])                                        
+          The pseudoinverse itself is computed using a standard matrix factorization technique
+          called Singular Value Decomposition (SVD) that can decompose the training set
+          matrix X into the matrix multiplication of three matrices U Σ V⊺ (see
+          numpy.linalg.svd()). The pseudoinverse is computed as X+=VΣ+U ⊺ . To compute
+          the matrix Σ+, the algorithm takes Σ and sets to zero all values smaller than a tiny
+          threshold value, then it replaces all the nonzero values with their inverse, and finally
+          it transposes the resulting matrix. This approach is more efficient than computing the
+          Normal Equation, plus it handles edge cases nicely: indeed, the Normal Equation may
+          not work if the matrix X⊺X is not invertible (i.e., singular), such as if m < n or if some
+          features are redundant, but the pseudoinverse is always defined.
+                                                                      
+          Computational Complexity                                    
+                                                                      
+          The Normal Equation computes the inverse of X⊺ X, which is an (n + 1) × (n + 1)
+          matrix (where n is the number of features). The computational complexity of inverting
+          such a matrix is typically about O(n2.4) to O(n3), depending on the implementation. In
+          other words, if you double the number of features, you multiply the computation
+          time by roughly 22.4 = 5.3 to 23 = 8.                       
+          The SVD approach used by Scikit-Learn’s LinearRegression class is about O(n2). If
+          you double the number of features, you multiply the computation time by roughly 4.
+                                                                      
+                   Both the Normal Equation and the SVD approach get very slow
+                   when the number of features grows large (e.g., 100,000). On the
+                   positive side, both are linear with regard to the number of instances
+                   in the training set (they are O(m)), so they handle large training
+                   sets efficiently, provided they can fit in memory. 
+                                                                      
+          Also, once you have trained your Linear Regression model (using the Normal Equa‐
+          tion or any other algorithm), predictions are very fast: the computational complexity
+          is linear with regard to both the number of instances you want to make predictions
+          on and the number of features. In other words, making predictions on twice as many
+          instances (or twice as many features) will take roughly twice as much time.
+          Now we will look at a very different way to train a Linear Regression model, which is
+          better suited for cases where there are a large number of features or too many training
+          instances to fit in memory.                                 
+                                                                      
+                                                                      
+                                                                      
+                                                                      

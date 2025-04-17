@@ -1,0 +1,51 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 15-9. LSTM cell                                      
+                                                                      
+          Now let’s open the box! The key idea is that the network can learn what to store in the
+          long-term state, what to throw away, and what to read from it. As the long-term state
+          c  traverses the network from left to right, you can see that it first goes through a
+           (t–1)                                                      
+          forget gate, dropping some memories, and then it adds some new memories via the
+          addition operation (which adds the memories that were selected by an input gate).
+          The result c is sent straight out, without any further transformation. So, at each time
+                 (t)                                                  
+          step, some memories are dropped and some memories are added. Moreover, after the
+          addition operation, the long-term state is copied and passed through the tanh func‐
+          tion, and then the result is filtered by the output gate. This produces the short-term
+          state h (which is equal to the cell’s output for this time step, y ). Now let’s look at
+              (t)                               (t)                   
+          where new memories come from and how the gates work.        
+          First, the current input vector x and the previous short-term state h are fed to
+                             (t)                    (t–1)             
+          four different fully connected layers. They all serve a different purpose:
+           • The main layer is the one that outputs g . It has the usual role of analyzing the
+                                    (t)                               
+            current inputs x and the previous (short-term) state h . In a basic cell, there is
+                      (t)                   (t–1)                     
+            nothing other than this layer, and its output goes straight out to y and h . In
+                                                    (t)  (t)          
+            contrast, in an LSTM cell this layer’s output does not go straight out, but instead
+            its most important parts are stored in the long-term state (and the rest is
+            dropped).                                                 
+           • The three other layers are gate controllers. Since they use the logistic activation
+            function, their outputs range from 0 to 1. As you can see, their outputs are fed to

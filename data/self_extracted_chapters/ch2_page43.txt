@@ -1,0 +1,47 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          default with the Python binary installers (since Python 2.7.9).6 You can check to see if
+          pip is installed by typing the following command:           
+                                                                      
+            $ python3 -m pip --version                                
+            pip 19.3.1 from [...]/lib/python3.7/site-packages/pip (python 3.7)
+          You should make sure you have a recent version of pip installed. To upgrade the pip
+          module, type the following (the exact version may differ):7 
+            $ python3 -m pip install --user -U pip                    
+            Collecting pip                                            
+            [...]                                                     
+            Successfully installed pip-19.3.1                         
+                                                                      
+                       Creating an Isolated Environment               
+           If you would like to work in an isolated environment (which is strongly recom‐
+           mended so that you can work on different projects without having conflicting library
+           versions), install virtualenv8 by running the following pip command (again, if you
+           want virtualenv to be installed for all users on your machine, remove --user and run
+           this command with administrator rights):                   
+             $ python3 -m pip install --user -U virtualenv            
+             Collecting virtualenv                                    
+             [...]                                                    
+             Successfully installed virtualenv-16.7.6                 
+           Now you can create an isolated Python environment by typing this:
+             $ cd $ML_PATH                                            
+             $ python3 -m virtualenv my_env                           
+             Using base prefix '[...]'                                
+             New python executable in [...]/ml/my_env/bin/python3     
+             Also creating executable in [...]/ml/my_env/bin/python   
+             Installing setuptools, pip, wheel...done.                
+           Now every time you want to activate this environment, just open a terminal and type
+           the following:                                             
+                                                                      
+                                                                      
+                                                                      
+          6 I’ll show the installation steps using pip in a bash shell on a Linux or macOS system. You may need to adapt
+           these commands to your own system. On Windows, I recommend installing Anaconda instead.
+          7 If you want to upgrade pip for all users on your machine rather than just your own user, you should remove
+           the --user option and make sure you have administrator rights (e.g., by adding sudo before the whole com‐
+           mand on Linux or macOS).                                   
+          8 Alternative tools include venv (very similar to virtualenv and included in the standard library), virtualenv‐
+           wrapper (provides extra functionalities on top of virtualenv), pyenv (allows easy switching between Python
+           versions), and pipenv (a great packaging tool by the same author as the popular requests library, built on top
+           of pip and virtualenv).                                    

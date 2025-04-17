@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          variables. The rest of this class is self-explanatory. Next, let’s use the Subclassing API
+          to define the model itself:                                 
+                                                                      
+            class ResidualRegressor(keras.Model):                     
+               def __init__(self, output_dim, **kwargs):              
+                 super().__init__(**kwargs)                           
+                 self.hidden1 = keras.layers.Dense(30, activation="elu",
+                                     kernel_initializer="he_normal")  
+                 self.block1 = ResidualBlock(2, 30)                   
+                 self.block2 = ResidualBlock(2, 30)                   
+                 self.out = keras.layers.Dense(output_dim)            
+               def call(self, inputs):                                
+                 Z = self.hidden1(inputs)                             
+                 for _ in range(1 + 3):                               
+                   Z = self.block1(Z)                                 
+                 Z = self.block2(Z)                                   
+                 return self.out(Z)                                   
+          We create the layers in the constructor and use them in the call() method. This
+          model can then be used like any other model (compile it, fit it, evaluate it, and use it
+          to make predictions). If you also want to be able to save the model using the save()
+          method and load it using the keras.models.load_model() function, you must
+          implement the get_config() method (as we did earlier) in both the ResidualBlock
+          class and the ResidualRegressor class. Alternatively, you can save and load the
+          weights using the save_weights() and load_weights() methods.
+          The Model class is a subclass of the Layer class, so models can be defined and used
+          exactly like layers. But a model has some extra functionalities, including of course its
+          compile(), fit(), evaluate(), and predict() methods (and a few variants), plus the
+          get_layers() method (which can return any of the model’s layers by name or by
+          index) and the save() method (and support for keras.models.load_model() and
+          keras.models.clone_model()).                                
+                   If models provide more functionality than layers, why not just
+                   define every layer as a model? Well, technically you could, but it is
+                   usually cleaner to distinguish the internal components of your
+                   model (i.e., layers or reusable blocks of layers) from the model itself
+                   (i.e., the object you will train). The former should subclass the
+                   Layer class, while the latter should subclass the Model class.
+          With that, you can naturally and concisely build almost any model that you find in a
+          paper, using the Sequential API, the Functional API, the Subclassing API, or even a
+          mix of these. “Almost” any model? Yes, there are still a few things that we need to look
+                                                                      
+                                                                      
+                                                                      

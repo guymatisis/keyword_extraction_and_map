@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 19-17. Splitting a deep recurrent neural network     
+                                                                      
+          In short, model parallelism may speed up running or training some types of neural
+          networks, but not all, and it requires special care and tuning, such as making sure
+          that devices that need to communicate the most run on the same machine.18 Let’s look
+          at a much simpler and generally more efficient option: data parallelism.
+                                                                      
+          Data Parallelism                                            
+                                                                      
+          Another way to parallelize the training of a neural network is to replicate it on every
+          device and run each training step simultaneously on all replicas, using a different
+          mini-batch for each. The gradients computed by each replica are then averaged, and
+          the result is used to update the model parameters. This is called data parallelism.
+          There are many variants of this idea, so let’s look at the most important ones.
+          Data parallelism using the mirrored strategy                
+                                                                      
+          Arguably the simplest approach is to completely mirror all the model parameters
+          across all the GPUs and always apply the exact same parameter updates on every
+          GPU. This way, all replicas always remain perfectly identical. This is called the mir‐
+          rored strategy, and it turns out to be quite efficient, especially when using a single
+          machine (see Figure 19-18).                                 
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          18 If you are interested in going further with model parallelism, check out Mesh TensorFlow.

@@ -1,0 +1,48 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          In this equation, t represents the iteration number (starting at 1).
+                                                                      
+          If you just look at steps 1, 2, and 5, you will notice Adam’s close similarity to both
+          momentum optimization and RMSProp. The only difference is that step 1 computes
+          an exponentially decaying average rather than an exponentially decaying sum, but
+          these are actually equivalent except for a constant factor (the decaying average is just
+          1 – β times the decaying sum). Steps 3 and 4 are somewhat of a technical detail: since
+             1                                                        
+          m and s are initialized at 0, they will be biased toward 0 at the beginning of training,
+          so these two steps will help boost m and s at the beginning of training.
+          The momentum decay hyperparameter β is typically initialized to 0.9, while the scal‐
+                                  1                                   
+          ing decay hyperparameter β is often initialized to 0.999. As earlier, the smoothing
+                           2                                          
+          term ε is usually initialized to a tiny number such as 10–7. These are the default values
+          for the Adam class (to be precise, epsilon defaults to None, which tells Keras to use
+          keras.backend.epsilon(), which defaults to 10–7; you can change it using
+          keras.backend.set_epsilon()). Here is how to create an Adam optimizer using
+          Keras:                                                      
+            optimizer = keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999)
+          Since Adam is an adaptive learning rate algorithm (like AdaGrad and RMSProp), it
+          requires less tuning of the learning rate hyperparameter η. You can often use the
+          default value η = 0.001, making Adam even easier to use than Gradient Descent.
+                   If you are starting to feel overwhelmed by all these different techni‐
+                   ques and are wondering how to choose the right ones for your task,
+                   don’t worry: some practical guidelines are provided at the end of
+                   this chapter.                                      
+          Finally, two variants of Adam are worth mentioning:         
+          AdaMax                                                      
+            Notice that in step 2 of Equation 11-8, Adam accumulates the squares of the gra‐
+            dients in s (with a greater weight for more recent gradients). In step 5, if we
+            ignore ε and steps 3 and 4 (which are technical details anyway), Adam scales
+            down the parameter updates by the square root of s. In short, Adam scales down
+            the parameter updates by the ℓ norm of the time-decayed gradients (recall that
+                               2                                      
+            the ℓ norm is the square root of the sum of squares). AdaMax, introduced in the
+               2                                                      
+            same paper as Adam, replaces the ℓ norm with the ℓ norm (a fancy way of say‐
+                                 2         ∞                          
+            ing the max). Specifically, it replaces step 2 in Equation 11-8 with s ← max
+            (β s,∇ J(θ)), it drops step 4, and in step 5 it scales down the gradient updates by a
+              2 θ                                                     
+            factor of s, which is just the max of the time-decayed gradients. In practice, this
+            can make AdaMax more stable than Adam, but it really depends on the dataset,

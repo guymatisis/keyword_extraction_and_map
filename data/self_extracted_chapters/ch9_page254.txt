@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Wow! We jumped from 83.3% accuracy to 92.2%, although we are still only training
+          the model on 50 instances. Since it is often costly and painful to label instances, espe‐
+          cially when it has to be done manually by experts, it is a good idea to label representa‐
+          tive instances rather than just random instances.           
+                                                                      
+          But perhaps we can go one step further: what if we propagated the labels to all the
+          other instances in the same cluster? This is called label propagation:
+            y_train_propagated = np.empty(len(X_train), dtype=np.int32)
+            for i in range(k):                                        
+               y_train_propagated[kmeans.labels_==i] = y_representative_digits[i]
+          Now let’s train the model again and look at its performance:
+            >>> log_reg = LogisticRegression()                        
+            >>> log_reg.fit(X_train, y_train_propagated)              
+            >>> log_reg.score(X_test, y_test)                         
+            0.9333333333333333                                        
+          We got a reasonable accuracy boost, but nothing absolutely astounding. The problem
+          is that we propagated each representative instance’s label to all the instances in the
+          same cluster, including the instances located close to the cluster boundaries, which
+          are more likely to be mislabeled. Let’s see what happens if we only propagate the
+          labels to the 20% of the instances that are closest to the centroids:
+            percentile_closest = 20                                   
+                                                                      
+            X_cluster_dist = X_digits_dist[np.arange(len(X_train)), kmeans.labels_]
+            for i in range(k):                                        
+               in_cluster = (kmeans.labels_ == i)                     
+               cluster_dist = X_cluster_dist[in_cluster]              
+               cutoff_distance = np.percentile(cluster_dist, percentile_closest)
+               above_cutoff = (X_cluster_dist > cutoff_distance)      
+               X_cluster_dist[in_cluster & above_cutoff] = -1         
+            partially_propagated = (X_cluster_dist != -1)             
+            X_train_partially_propagated = X_train[partially_propagated]
+            y_train_partially_propagated = y_train_propagated[partially_propagated]
+          Now let’s train the model again on this partially propagated dataset:
+            >>> log_reg = LogisticRegression()                        
+            >>> log_reg.fit(X_train_partially_propagated, y_train_partially_propagated)
+            >>> log_reg.score(X_test, y_test)                         
+            0.94                                                      
+          Nice! With just 50 labeled instances (only 5 examples per class on average!), we got
+          94.0% accuracy, which is pretty close to the performance of Logistic Regression on
+          the fully labeled digits dataset (which was 96.9%). This good performance is due to
+          the fact that the propagated labels are actually pretty good—their accuracy is very
+          close to 99%, as the following code shows:                  

@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          REINFORCE algorithms, was introduced back in 199211 by Ronald Williams. Here is
+          one common variant:                                         
+                                                                      
+           1. First, let the neural network policy play the game several times, and at each step,
+            compute the gradients that would make the chosen action even more likely—but
+            don’t apply these gradients yet.                          
+           2. Once you have run several episodes, compute each action’s advantage (using the
+            method described in the previous section).                
+           3. If an action’s advantage is positive, it means that the action was probably good,
+            and you want to apply the gradients computed earlier to make the action even
+            more likely to be chosen in the future. However, if the action’s advantage is nega‐
+            tive, it means the action was probably bad, and you want to apply the opposite
+            gradients to make this action slightly less likely in the future. The solution is sim‐
+            ply to multiply each gradient vector by the corresponding action’s advantage.
+                                                                      
+           4. Finally, compute the mean of all the resulting gradient vectors, and use it to per‐
+            form a Gradient Descent step.                             
+          Let’s use tf.keras to implement this algorithm. We will train the neural network policy
+          we built earlier so that it learns to balance the pole on the cart. First, we need a func‐
+          tion that will play one step. We will pretend for now that whatever action it takes is
+          the right one so that we can compute the loss and its gradients (these gradients will
+          just be saved for a while, and we will modify them later depending on how good or
+          bad the action turned out to be):                           
+            def play_one_step(env, obs, model, loss_fn):              
+               with tf.GradientTape() as tape:                        
+                 left_proba = model(obs[np.newaxis])                  
+                 action = (tf.random.uniform([1, 1]) > left_proba)    
+                 y_target = tf.constant([[1.]]) - tf.cast(action, tf.float32)
+                 loss = tf.reduce_mean(loss_fn(y_target, left_proba)) 
+               grads = tape.gradient(loss, model.trainable_variables) 
+               obs, reward, done, info = env.step(int(action[0, 0].numpy()))
+               return obs, reward, done, grads                        
+          Let’s walk though this function:                            
+           • Within the GradientTape block (see Chapter 12), we start by calling the model,
+            giving it a single observation (we reshape the observation so it becomes a batch
+            containing a single instance, as the model expects a batch). This outputs the
+            probability of going left.                                
+                                                                      
+                                                                      
+                                                                      
+          11 Ronald J. Williams, “Simple Statistical Gradient-Following Algorithms for Connectionist Reinforcement
+           Leaning,” Machine Learning 8 (1992) : 229–256.             

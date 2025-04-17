@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          layer. We can then compile this model, using the "sparse_categorical_crossen
+          tropy" loss and an Adam optimizer. Finally, we are ready to train the model for sev‐
+          eral epochs (this may take many hours, depending on your hardware):
+                                                                      
+            model = keras.models.Sequential([                         
+               keras.layers.GRU(128, return_sequences=True, input_shape=[None, max_id],
+                         dropout=0.2, recurrent_dropout=0.2),         
+               keras.layers.GRU(128, return_sequences=True,           
+                         dropout=0.2, recurrent_dropout=0.2),         
+               keras.layers.TimeDistributed(keras.layers.Dense(max_id,
+                                           activation="softmax"))     
+            ])                                                        
+            model.compile(loss="sparse_categorical_crossentropy", optimizer="adam")
+            history = model.fit(dataset, epochs=20)                   
+          Using the Char-RNN Model                                    
+          Now we have a model that can predict the next character in text written by Shake‐
+          speare. To feed it some text, we first need to preprocess it like we did earlier, so let’s
+          create a little function for this:                          
+            def preprocess(texts):                                    
+               X = np.array(tokenizer.texts_to_sequences(texts)) - 1  
+               return tf.one_hot(X, max_id)                           
+          Now let’s use the model to predict the next letter in some text:
+            >>> X_new = preprocess(["How are yo"])                    
+            >>> Y_pred = model.predict_classes(X_new)                 
+            >>> tokenizer.sequences_to_texts(Y_pred + 1)[0][-1] # 1st sentence, last char
+            'u'                                                       
+          Success! The model guessed right. Now let’s use this model to generate new text.
+          Generating Fake Shakespearean Text                          
+                                                                      
+          To generate new text using the Char-RNN model, we could feed it some text, make
+          the model predict the most likely next letter, add it at the end of the text, then give the
+          extended text to the model to guess the next letter, and so on. But in practice this
+          often leads to the same words being repeated over and over again. Instead, we can
+          pick the next character randomly, with a probability equal to the estimated probabil‐
+          ity, using TensorFlow’s tf.random.categorical() function. This will generate more
+          diverse and interesting text. The categorical() function samples random class indi‐
+          ces, given the class log probabilities (logits). To have more control over the diversity
+          of the generated text, we can divide the logits by a number called the temperature,
+          which we can tweak as we wish: a temperature close to 0 will favor the high-
+          probability characters, while a very high temperature will give all characters an equal
+          probability. The following next_char() function uses this approach to pick the next
+          character to add to the input text:                         

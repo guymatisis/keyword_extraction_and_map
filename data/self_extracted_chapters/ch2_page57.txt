@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 2-12. A better visualization that highlights high-density areas
+                                                                      
+          Now that’s much better: you can clearly see the high-density areas, namely the Bay
+          Area and around Los Angeles and San Diego, plus a long line of fairly high density in
+          the Central Valley, in particular around Sacramento and Fresno.
+          Our brains are very good at spotting patterns in pictures, but you may need to play
+          around with visualization parameters to make the patterns stand out.
+                                                                      
+          Now let’s look at the housing prices (Figure 2-13). The radius of each circle represents
+          the district’s population (option s), and the color represents the price (option c). We
+          will use a predefined color map (option cmap) called jet, which ranges from blue
+          (low values) to red (high prices):16                        
+            housing.plot(kind="scatter", x="longitude", y="latitude", alpha=0.4,
+               s=housing["population"]/100, label="population", figsize=(10,7),
+               c="median_house_value", cmap=plt.get_cmap("jet"), colorbar=True,
+            )                                                         
+            plt.legend()                                              
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          16 If you are reading this in grayscale, grab a red pen and scribble over most of the coastline from the Bay Area
+           down to San Diego (as you might expect). You can add a patch of yellow around Sacramento as well.
