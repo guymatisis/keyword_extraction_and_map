@@ -128,7 +128,8 @@ def main():
         predict_with_generate=True,
         generation_max_length=max_out,
         fp16=(args_cli.device == 'cuda'),
-    )
+        report_to="none"  # disables wandb 
+              )
 
     trainer = Seq2SeqTrainer(
         model=model,

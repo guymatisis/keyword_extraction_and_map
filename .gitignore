@@ -4,3 +4,7 @@ venv/
 # Ignore all PDF files
 *.pdf
 .venv/
+
+# Ignore model folders
+model/
+keybart_finetuned/

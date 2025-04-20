@@ -4,3 +4,7 @@ datasets
 accelerate
 sentencepiece
 torch
+evaluate>=0.4.0
+sentence-transformers>=2.2.2
+nltk>=3.8
+bert-score>=0.3.13
