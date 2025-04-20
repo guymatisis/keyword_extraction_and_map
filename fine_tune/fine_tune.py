@@ -11,6 +11,7 @@ from transformers import (
     DataCollatorForSeq2Seq,
     Seq2SeqTrainingArguments,
     Seq2SeqTrainer,
+    EarlyStoppingCallback,
 )
 import transformers
 print('Transformers module path:', transformers.__file__)
@@ -115,7 +116,7 @@ def main():
     # ----------------------------------------------------------------------
     training_args = Seq2SeqTrainingArguments(
         output_dir="keybart_finetuned",
-        eval_strategy="epoch",
+        evaluation_strategy="epoch",
         save_strategy="epoch",
         logging_strategy="steps",
         logging_steps=50,
@@ -128,7 +129,10 @@ def main():
         predict_with_generate=True,
         generation_max_length=max_out,
         fp16=(args_cli.device == 'cuda'),
-        report_to="none"  # disables wandb 
+        report_to="none",  # disables wandb
+        load_best_model_at_end=True,  # load the best model when finished training
+        metric_for_best_model="eval_loss",  # use eval loss to identify the best model
+        greater_is_better=False,  # we want to minimize the loss
               )
 
     trainer = Seq2SeqTrainer(
@@ -138,6 +142,7 @@ def main():
         eval_dataset=tokenised["validation"],
         tokenizer=tokenizer,
         data_collator=DataCollatorForSeq2Seq(tokenizer, model),
+        callbacks=[EarlyStoppingCallback(early_stopping_patience=2)]  # Stop if no improvement for 2 epochs
     )
 
     # ----------------------------------------------------------------------
