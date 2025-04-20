@@ -1,0 +1,3 @@
+[submodule "kbir_keybart"]
+	path = kbir_keybart
+	url = https://github.com/bloomberg/kbir_keybart

@@ -19,13 +19,13 @@ def analyze_lengths(directory):
     file_pattern = os.path.join(directory, 'ch*_page*.txt')
     file_paths = glob.glob(file_pattern)
 
-    word_counts = [count_tokens(file_path) for file_path in file_paths]
+    word_counts_files = {file_path:count_tokens(file_path) for file_path in file_paths}
 
-    if not word_counts:
+    if not word_counts_files:
         print("No files found in the specified directory.")
         return
 
-    word_counts = np.array(word_counts)
+    word_counts = np.array(list(word_counts_files.values()))
 
     print("Statistics for file lengths (in words):")
     print(f"Total files analyzed: {len(word_counts)}")
@@ -35,6 +35,8 @@ def analyze_lengths(directory):
     print(f"Median length: {np.median(word_counts)} words")
     print(f"25th percentile: {np.percentile(word_counts, 25)} words")
     print(f"75th percentile: {np.percentile(word_counts, 75)} words")
+    print(f'number of files over 512 tokens: {len(word_counts[word_counts > 512])}')
+    print(f'longest files: {[file for file, count in word_counts_files.items() if count == np.max(word_counts)]}')
 
 def main():
     directory = os.path.join(os.path.dirname(__file__), '../data/self_extracted_chapters')

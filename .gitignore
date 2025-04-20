@@ -1,2 +1,5 @@
 venv/
 venv/
+
+# Ignore all PDF files
+*.pdf

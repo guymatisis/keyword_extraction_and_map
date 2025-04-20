@@ -1,0 +1,1933 @@
+text|keyphrases
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          different densities, or nonspherical shapes. For example, Figure 9-11 shows how K-
+          Means clusters a dataset containing three ellipsoidal clusters of different dimensions,
+          densities, and orientations.                                
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 9-11. K-Means fails to cluster these ellipsoidal blobs properly
+                                                                      
+          As you can see, neither of these solutions is any good. The solution on the left is bet‐
+          ter, but it still chops off 25% of the middle cluster and assigns it to the cluster on the
+          right. The solution on the right is just terrible, even though its inertia is lower. So,
+          depending on the data, different clustering algorithms may perform better. On these
+          types of elliptical clusters, Gaussian mixture models work great.
+                                                                      
+                   It is important to scale the input features before you run K-Means,
+                   or the clusters may be very stretched and K-Means will perform
+                   poorly. Scaling the features does not guarantee that all the clusters
+                   will be nice and spherical, but it generally improves things.
+                                                                      
+          Now let’s look at a few ways we can benefit from clustering. We will use K-Means, but
+          feel free to experiment with other clustering algorithms.   
+          Using Clustering for Image Segmentation                     
+                                                                      
+          Image segmentation is the task of partitioning an image into multiple segments. In
+          semantic segmentation, all pixels that are part of the same object type get assigned to
+          the same segment. For example, in a self-driving car’s vision system, all pixels that are
+          part of a pedestrian’s image might be assigned to the “pedestrian” segment (there
+          would be one segment containing all the pedestrians). In instance segmentation, all
+          pixels that are part of the same individual object are assigned to the same segment. In
+          this case there would be a different segment for each pedestrian. The state of the art
+          in semantic or instance segmentation today is achieved using complex architectures
+          based on convolutional neural networks (see Chapter 14). Here, we are going to do
+          something much simpler: color segmentation. We will simply assign pixels to the same
+          segment if they have a similar color. In some applications, this may be sufficient. For
+                                                                      "|instance segmentation; color segmentation; K-Means; semantic segmentation; for image segmentation; image segmentation; scaling input features
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          data about that district. The census data looks like a great dataset to exploit for this
+          purpose, since it includes the median housing prices of thousands of districts, as well
+          as other data.                                              
+                                                                      
+          With all this information, you are now ready to start designing your system. First,
+          you need to frame the problem: is it supervised, unsupervised, or Reinforcement
+          Learning? Is it a classification task, a regression task, or something else? Should you
+          use batch learning or online learning techniques? Before you read on, pause and try
+          to answer these questions for yourself.                     
+          Have you found the answers? Let’s see: it is clearly a typical supervised learning task,
+          since you are given labeled training examples (each instance comes with the expected
+          output, i.e., the district’s median housing price). It is also a typical regression task,
+          since you are asked to predict a value. More specifically, this is a multiple regression
+          problem, since the system will use multiple features to make a prediction (it will use
+          the district’s population, the median income, etc.). It is also a univariate regression
+          problem, since we are only trying to predict a single value for each district. If we were
+          trying to predict multiple values per district, it would be a multivariate regression
+          problem. Finally, there is no continuous flow of data coming into the system, there is
+          no particular need to adjust to changing data rapidly, and the data is small enough to
+          fit in memory, so plain batch learning should do just fine. 
+                                                                      
+                   If the data were huge, you could either split your batch learning
+                   work across multiple servers (using the MapReduce technique) or
+                   use an online learning technique.                  
+                                                                      
+                                                                      
+          Select a Performance Measure                                
+          Your next step is to select a performance measure. A typical performance measure for
+          regression problems is the Root Mean Square Error (RMSE). It gives an idea of how
+          much error the system typically makes in its predictions, with a higher weight for
+          large errors. Equation 2-1 shows the mathematical formula to compute the RMSE.
+                                                                      
+            Equation 2-1. Root Mean Square Error (RMSE)               
+                                                                      
+                       m                                              
+            RMSE X,h = 1 ∑ h x i −y i 2                               
+                     m                                                
+                       i=1                                            
+                                                                      
+                                                                      
+                                                                      
+                                                                      "|multivariate regression problems; univariate regression problems; multiple regression problems; RMSE; labels; selecting performance measure; Root Mean Square Error (RMSE)
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 3-6. This ROC curve plots the false positive rate against the true positive rate for
+          all possible thresholds; the red circle highlights the chosen ratio (at 43.68% recall)
+          One way to compare classifiers is to measure the area under the curve (AUC). A per‐
+          fect classifier will have a ROC AUC equal to 1, whereas a purely random classifier will
+          have a ROC AUC equal to 0.5. Scikit-Learn provides a function to compute the ROC
+          AUC:                                                        
+                                                                      
+            >>> from sklearn.metrics import roc_auc_score             
+            >>> roc_auc_score(y_train_5, y_scores)                    
+            0.9611778893101814                                        
+                   Since the ROC curve is so similar to the precision/recall (PR)
+                   curve, you may wonder how to decide which one to use. As a rule
+                   of thumb, you should prefer the PR curve whenever the positive
+                   class is rare or when you care more about the false positives than
+                   the false negatives. Otherwise, use the ROC curve. For example,
+                   looking at the previous ROC curve (and the ROC AUC score), you
+                   may think that the classifier is really good. But this is mostly
+                   because there are few positives (5s) compared to the negatives
+                   (non-5s). In contrast, the PR curve makes it clear that the classifier
+                   has room for improvement (the curve could be closer to the top-
+                   left corner).                                      
+          Let’s now train a RandomForestClassifier and compare its ROC curve and ROC
+          AUC score to those of the SGDClassifier. First, you need to get scores for each
+          instance in the training set. But due to the way it works (see Chapter 7), the Random
+          ForestClassifier class does not have a decision_function() method. Instead, it
+                                                                      "|area under the curve (AUC)
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          dicted advantages. Here is a simple Dueling DQN model, implemented using the
+          Functional API:                                             
+                                                                      
+            K = keras.backend                                         
+            input_states = keras.layers.Input(shape=[4])              
+            hidden1 = keras.layers.Dense(32, activation=""elu"")(input_states)
+            hidden2 = keras.layers.Dense(32, activation=""elu"")(hidden1)
+            state_values = keras.layers.Dense(1)(hidden2)             
+            raw_advantages = keras.layers.Dense(n_outputs)(hidden2)   
+            advantages = raw_advantages - K.max(raw_advantages, axis=1, keepdims=True)
+            Q_values = state_values + advantages                      
+            model = keras.Model(inputs=[input_states], outputs=[Q_values])
+          The rest of the algorithm is just the same as earlier. In fact, you can build a Double
+          Dueling DQN and combine it with prioritized experience replay! More generally,
+          many RL techniques can be combined, as DeepMind demonstrated in a 2017 paper.18
+          The paper’s authors combined six different techniques into an agent called Rainbow,
+          which largely outperformed the state of the art.            
+          Unfortunately, implementing all of these techniques, debugging them, fine-tuning
+          them, and of course training the models can require a huge amount of work. So
+          instead of reinventing the wheel, it is often best to reuse scalable and well-tested libra‐
+          ries, such as TF-Agents.                                    
+          The TF-Agents Library                                       
+          The TF-Agents library is a Reinforcement Learning library based on TensorFlow,
+          developed at Google and open sourced in 2018. Just like OpenAI Gym, it provides
+          many off-the-shelf environments (including wrappers for all OpenAI Gym environ‐
+          ments), plus it supports the PyBullet library (for 3D physics simulation), DeepMind’s
+          DM Control library (based on MuJoCo’s physics engine), and Unity’s ML-Agents
+          library (simulating many 3D environments). It also implements many RL algorithms,
+          including REINFORCE, DQN, and DDQN, as well as various RL components such
+          as efficient replay buffers and metrics. It is fast, scalable, easy to use, and customiza‐
+          ble: you can create your own environments and neural nets, and you can customize
+          pretty much any component. In this section we will use TF-Agents to train an agent
+          to play Breakout, the famous Atari game (see Figure 18-1119), using the DQN algo‐
+          rithm (you can easily switch to another algorithm if you prefer).
+                                                                      
+                                                                      
+                                                                      
+          18 Matteo Hessel et al., “Rainbow: Combining Improvements in Deep Reinforcement Learning,” arXiv preprint
+           arXiv:1710.02298 (2017): 3215–3222.                        
+          19 If you don’t know this game, it’s simple: a ball bounces around and breaks bricks when it touches them. You
+           control a paddle near the bottom of the screen. The paddle can go left or right, and you must get the ball to
+           break every brick, while preventing it from touching the bottom of the screen."|Double Dueling DQN; Rainbow agent; TF-Agents library
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          to count the number of episodes, the number of steps taken, and most importantly
+          the average return per episode and the average episode length:
+                                                                      
+            from tf_agents.metrics import tf_metrics                  
+            train_metrics = [                                         
+               tf_metrics.NumberOfEpisodes(),                         
+               tf_metrics.EnvironmentSteps(),                         
+               tf_metrics.AverageReturnMetric(),                      
+               tf_metrics.AverageEpisodeLengthMetric(),               
+            ]                                                         
+                   Discounting the rewards makes sense for training or to implement
+                   a policy, as it makes it possible to balance the importance of imme‐
+                   diate rewards with future rewards. However, once an episode is
+                   over, we can evaluate how good it was overalls by summing the
+                   undiscounted rewards. For this reason, the AverageReturnMetric
+                   computes the sum of undiscounted rewards for each episode, and it
+                   keeps track of the streaming mean of these sums over all the epi‐
+                   sodes it encounters.                               
+          At any time, you can get the value of each of these metrics by calling its result()
+          method (e.g., train_metrics[0].result()). Alternatively, you can log all metrics by
+          calling log_metrics(train_metrics) (this function is located in the
+          tf_agents.eval.metric_utils package):                       
+                                                                      
+            >>> from tf_agents.eval.metric_utils import log_metrics   
+            >>> import logging                                        
+            >>> logging.get_logger().set_level(logging.INFO)          
+            >>> log_metrics(train_metrics)                            
+            [...]                                                     
+            NumberOfEpisodes = 0                                      
+            EnvironmentSteps = 0                                      
+            AverageReturn = 0.0                                       
+            AverageEpisodeLength = 0.0                                
+          Next, let’s create the collect driver.                      
+          Creating the Collect Driver                                 
+          As we explored in Figure 18-13, a driver is an object that explores an environment
+          using a given policy, collects experiences, and broadcasts them to some observers. At
+          each step, the following things happen:                     
+                                                                      
+           • The driver passes the current time step to the collect policy, which uses this time
+            step to choose an action and returns an action step object containing the action.
+                                                                      
+                                                                      "|collect driver; undiscounted rewards; action step
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Gradient Descent                                            
+                                                                      
+          Gradient Descent is a generic optimization algorithm capable of finding optimal solu‐
+          tions to a wide range of problems. The general idea of Gradient Descent is to tweak
+          parameters iteratively in order to minimize a cost function.
+                                                                      
+          Suppose you are lost in the mountains in a dense fog, and you can only feel the slope
+          of the ground below your feet. A good strategy to get to the bottom of the valley
+          quickly is to go downhill in the direction of the steepest slope. This is exactly what
+          Gradient Descent does: it measures the local gradient of the error function with
+          regard to the parameter vector θ, and it goes in the direction of descending gradient.
+          Once the gradient is zero, you have reached a minimum!      
+          Concretely, you start by filling θ with random values (this is called random initializa‐
+          tion). Then you improve it gradually, taking one baby step at a time, each step
+          attempting to decrease the cost function (e.g., the MSE), until the algorithm converges
+          to a minimum (see Figure 4-3).                              
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-3. In this depiction of Gradient Descent, the model parameters are initialized
+          randomly and get tweaked repeatedly to minimize the cost function; the learning step
+          size is proportional to the slope of the cost function, so the steps gradually get smaller as
+          the parameters approach the minimum                         
+                                                                      
+          An important parameter in Gradient Descent is the size of the steps, determined by
+          the learning rate hyperparameter. If the learning rate is too small, then the algorithm
+          will have to go through many iterations to converge, which will take a long time (see
+          Figure 4-4).                                                
+                                                                      
+                                                                      
+                                                                      
+                                                                      "|Gradient Descent; learning rate; convergence; Gradient Descent (GD); random initialization
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          as in a Colab Runtime). The following code splits the first GPU into two virtual devi‐
+          ces, with 2 GiB of RAM each (again, this must be done immediately after importing
+          TensorFlow):                                                
+                                                                      
+            physical_gpus = tf.config.experimental.list_physical_devices(""GPU"")
+            tf.config.experimental.set_virtual_device_configuration(  
+               physical_gpus[0],                                      
+               [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=2048),
+               tf.config.experimental.VirtualDeviceConfiguration(memory_limit=2048)])
+          These two virtual devices will then be called /gpu:0 and /gpu:1, and you can place
+          operations and variables on each of them as if they were really two independent
+          GPUs. Now let’s see how TensorFlow decides which devices it should place variables
+          and execute operations on.                                  
+          Placing Operations and Variables on Devices                 
+                                                                      
+          The TensorFlow whitepaper13 presents a friendly dynamic placer algorithm that auto‐
+          magically distributes operations across all available devices, taking into account
+          things like the measured computation time in previous runs of the graph, estimations
+          of the size of the input and output tensors for each operation, the amount of RAM
+          available in each device, communication delay when transferring data into and out of
+          devices, and hints and constraints from the user. In practice this algorithm turned out
+          to be less efficient than a small set of placement rules specified by the user, so the Ten‐
+          sorFlow team ended up dropping the dynamic placer.          
+          That said, tf.keras and tf.data generally do a good job of placing operations and vari‐
+          ables where they belong (e.g., heavy computations on the GPU, and data preprocess‐
+          ing on the CPU). But you can also place operations and variables manually on each
+          device, if you want more control:                           
+           • As just mentioned, you generally want to place the data preprocessing operations
+            on the CPU, and place the neural network operations on the GPUs.
+                                                                      
+           • GPUs usually have a fairly limited communication bandwidth, so it is important
+            to avoid unnecessary data transfers in and out of the GPUs.
+           • Adding more CPU RAM to a machine is simple and fairly cheap, so there’s usu‐
+            ally plenty of it, whereas the GPU RAM is baked into the GPU: it is an expensive
+            and thus limited resource, so if a variable is not needed in the next few training
+            steps, it should probably be placed on the CPU (e.g., datasets generally belong on
+            the CPU).                                                 
+                                                                      
+                                                                      
+                                                                      
+          13 Martín Abadi et al., “TensorFlow: Large-Scale Machine Learning on Heterogeneous Distributed Systems”
+           Google Research whitepaper (2015).                         "|placing operations and variables on devices; dynamic placer algorithm
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+           • Neural machine translation: 6× speedup on 8 GPUs         
+           • Inception/ImageNet: 32× speedup on 50 GPUs               
+           • RankBrain: 300× speedup on 500 GPUs                      
+                                                                      
+          Beyond a few dozen GPUs for a dense model or few hundred GPUs for a sparse
+          model, saturation kicks in and performance degrades. There is plenty of research
+          going on to solve this problem (exploring peer-to-peer architectures rather than cen‐
+          tralized parameter servers, using lossy model compression, optimizing when and
+          what the replicas need to communicate, and so on), so there will likely be a lot of pro‐
+          gress in parallelizing neural networks in the next few years.
+          In the meantime, to reduce the saturation problem, you probably want to use a few
+          powerful GPUs rather than plenty of weak GPUs, and you should also group your
+          GPUs on few and very well interconnected servers. You can also try dropping the
+          float precision from 32 bits (tf.float32) to 16 bits (tf.bfloat16). This will cut in
+          half the amount of data to transfer, often without much impact on the convergence
+          rate or the model’s performance. Lastly, if you are using centralized parameters, you
+          can shard (split) the parameters across multiple parameter servers: adding more
+          parameter servers will reduce the network load on each server and limit the risk of
+          bandwidth saturation.                                       
+          OK, now let’s train a model across multiple GPUs!           
+                                                                      
+          Training at Scale Using the Distribution Strategies API     
+                                                                      
+          Many models can be trained quite well on a single GPU, or even on a CPU. But if
+          training is too slow, you can try distributing it across multiple GPUs on the same
+          machine. If that’s still too slow, try using more powerful GPUs, or add more GPUs to
+          the machine. If your model performs heavy computations (such as large matrix mul‐
+          tiplications), then it will run much faster on powerful GPUs, and you could even try
+          to use TPUs on Google Cloud AI Platform, which will usually run even faster for such
+          models. But if you can’t fit any more GPUs on the same machine, and if TPUs aren’t
+          for you (e.g., perhaps your model doesn’t benefit much from TPUs, or perhaps you
+          want to use your own hardware infrastructure), then you can try training it across
+          several servers, each with multiple GPUs (if this is still not enough, as a last resort you
+          can try adding some model parallelism, but this requires a lot more effort). In this
+          section we will see how to train models at scale, starting with multiple GPUs on the
+          same machine (or TPUs) and then moving on to multiple GPUs across multiple
+          machines.                                                   
+          Luckily, TensorFlow comes with a very simple API that takes care of all the complex‐
+          ity for you: the Distribution Strategies API. To train a Keras model across all available
+          GPUs (on a single machine, for now) using data parallelism with the mirrored
+                                                                      "|Distribution Strategies API
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 7-1. Training diverse classifiers                    
+                                                                      
+          A very simple way to create an even better classifier is to aggregate the predictions of
+          each classifier and predict the class that gets the most votes. This majority-vote classi‐
+          fier is called a hard voting classifier (see Figure 7-2).   
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 7-2. Hard voting classifier predictions              
+                                                                      
+          Somewhat surprisingly, this voting classifier often achieves a higher accuracy than the
+          best classifier in the ensemble. In fact, even if each classifier is a weak learner (mean‐
+          ing it does only slightly better than random guessing), the ensemble can still be a
+          strong learner (achieving high accuracy), provided there are a sufficient number of
+          weak learners and they are sufficiently diverse.            
+                                                                      
+                                                                      "|hard voting classifiers; majority-vote classifiers; strong learners; weak learners
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 19-17. Splitting a deep recurrent neural network     
+                                                                      
+          In short, model parallelism may speed up running or training some types of neural
+          networks, but not all, and it requires special care and tuning, such as making sure
+          that devices that need to communicate the most run on the same machine.18 Let’s look
+          at a much simpler and generally more efficient option: data parallelism.
+                                                                      
+          Data Parallelism                                            
+                                                                      
+          Another way to parallelize the training of a neural network is to replicate it on every
+          device and run each training step simultaneously on all replicas, using a different
+          mini-batch for each. The gradients computed by each replica are then averaged, and
+          the result is used to update the model parameters. This is called data parallelism.
+          There are many variants of this idea, so let’s look at the most important ones.
+          Data parallelism using the mirrored strategy                
+                                                                      
+          Arguably the simplest approach is to completely mirror all the model parameters
+          across all the GPUs and always apply the exact same parameter updates on every
+          GPU. This way, all replicas always remain perfectly identical. This is called the mir‐
+          rored strategy, and it turns out to be quite efficient, especially when using a single
+          machine (see Figure 19-18).                                 
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          18 If you are interested in going further with model parallelism, check out Mesh TensorFlow."|data parallelism; mirrored strategy
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-6. Gradient Descent pitfalls                       
+                                                                      
+          Fortunately, the MSE cost function for a Linear Regression model happens to be a
+          convex function, which means that if you pick any two points on the curve, the line
+          segment joining them never crosses the curve. This implies that there are no local
+          minima, just one global minimum. It is also a continuous function with a slope that
+          never changes abruptly.3 These two facts have a great consequence: Gradient Descent
+          is guaranteed to approach arbitrarily close the global minimum (if you wait long
+          enough and if the learning rate is not too high).           
+          In fact, the cost function has the shape of a bowl, but it can be an elongated bowl if
+          the features have very different scales. Figure 4-7 shows Gradient Descent on a train‐
+          ing set where features 1 and 2 have the same scale (on the left), and on a training set
+          where feature 1 has much smaller values than feature 2 (on the right).4
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-7. Gradient Descent with (left) and without (right) feature scaling
+                                                                      
+                                                                      
+          3 Technically speaking, its derivative is Lipschitz continuous.
+          4 Since feature 1 is smaller, it takes a larger change in θ1 to affect the cost function, which is why the bowl is
+           elongated along the θ1 axis.                               "|mean squared error; convex function; Root Mean Square Error (RMSE)
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          The MSE of a Linear Regression hypothesis h on a training set X is calculated using
+                                     θ                                
+          Equation 4-3.                                               
+            Equation 4-3. MSE cost function for a Linear Regression model
+                                                                      
+                      m                                               
+            MSE X,h = 1 ∑ θ ⊺ x i −y i 2                              
+                 θ  m                                                 
+                     i=1                                              
+          Most of these notations were presented in Chapter 2 (see “Notations” on page 40).
+          The only difference is that we write h instead of just h to make it clear that the model
+                               θ                                      
+          is parametrized by the vector θ. To simplify notations, we will just write MSE(θ)
+          instead of MSE(X, h ).                                      
+                      θ                                               
+          The Normal Equation                                         
+          To find the value of θ that minimizes the cost function, there is a closed-form solution
+          —in other words, a mathematical equation that gives the result directly. This is called
+          the Normal Equation (Equation 4-4).                         
+            Equation 4-4. Normal Equation                             
+                ⊺ −1 ⊺                                                
+            θ = X X X  y                                              
+          In this equation:                                           
+                                                                      
+           • θ is the value of θ that minimizes the cost function.    
+           • y is the vector of target values containing y(1) to y(m).
+                                                                      
+          Let’s generate some linear-looking data to test this equation on (Figure 4-1):
+            import numpy as np                                        
+                                                                      
+            X = 2 * np.random.rand(100, 1)                            
+            y = 4 + 3 * X + np.random.randn(100, 1)                   
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      "|Normal Equation; closed-form solution
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 18-5. Neural network policy                          
+                                                                      
+          You may wonder why we are picking a random action based on the probabilities
+          given by the neural network, rather than just picking the action with the highest
+          score. This approach lets the agent find the right balance between exploring new
+          actions and exploiting the actions that are known to work well. Here’s an analogy:
+          suppose you go to a restaurant for the first time, and all the dishes look equally
+          appealing, so you randomly pick one. If it turns out to be good, you can increase the
+          probability that you’ll order it next time, but you shouldn’t increase that probability
+          up to 100%, or else you will never try out the other dishes, some of which may be
+          even better than the one you tried.                         
+          Also note that in this particular environment, the past actions and observations can
+          safely be ignored, since each observation contains the environment’s full state. If there
+          were some hidden state, then you might need to consider past actions and observa‐
+          tions as well. For example, if the environment only revealed the position of the cart
+          but not its velocity, you would have to consider not only the current observation but
+          also the previous observation in order to estimate the current velocity. Another exam‐
+          ple is when the observations are noisy; in that case, you generally want to use the past
+          few observations to estimate the most likely current state. The CartPole problem is
+          thus as simple as can be; the observations are noise-free, and they contain the envi‐
+          ronment’s full state.                                       
+                                                                      "|exploiting versus exploring
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          You can easily assign new instances to the cluster whose centroid is closest:
+                                                                      
+            >>> X_new = np.array([[0, 2], [3, 2], [-3, 3], [-3, 2.5]])
+            >>> kmeans.predict(X_new)                                 
+            array([1, 1, 2, 2], dtype=int32)                          
+          If you plot the cluster’s decision boundaries, you get a Voronoi tessellation (see
+          Figure 9-3, where each centroid is represented with an X).  
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 9-3. K-Means decision boundaries (Voronoi tessellation)
+                                                                      
+          The vast majority of the instances were clearly assigned to the appropriate cluster, but
+          a few instances were probably mislabeled (especially near the boundary between the
+          top-left cluster and the central cluster). Indeed, the K-Means algorithm does not
+          behave very well when the blobs have very different diameters because all it cares
+          about when assigning an instance to a cluster is the distance to the centroid.
+          Instead of assigning each instance to a single cluster, which is called hard clustering, it
+          can be useful to give each instance a score per cluster, which is called soft clustering.
+          The score can be the distance between the instance and the centroid; conversely, it
+          can be a similarity score (or affinity), such as the Gaussian Radial Basis Function
+          (introduced in Chapter 5). In the KMeans class, the transform() method measures
+          the distance from each instance to every centroid:          
+                                                                      
+            >>> kmeans.transform(X_new)                               
+            array([[2.81093633, 0.32995317, 2.9042344 , 1.49439034, 2.88633901],
+                [5.80730058, 2.80290755, 5.84739223, 4.4759332 , 5.84236351],
+                [1.21475352, 3.29399768, 0.29040966, 1.69136631, 1.71086031],
+                [0.72581411, 3.21806371, 0.36159148, 1.54808703, 1.21567622]])
+          In this example, the first instance in X_new is located at a distance of 2.81 from the
+          first centroid, 0.33 from the second centroid, 2.90 from the third centroid, 1.49 from
+          the fourth centroid, and 2.89 from the fifth centroid. If you have a high-dimensional
+          dataset and you transform it this way, you end up with a k-dimensional dataset: this
+          transformation can be a very efficient nonlinear dimensionality reduction technique.
+                                                                      "|soft clustering; hard and soft clustering; hard clustering
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          space, then we want the squared distance between z(i) and ∑m w z j to be as small
+                                             j=1 i,j                  
+          as possible. This idea leads to the unconstrained optimization problem described in
+          Equation 8-5. It looks very similar to the first step, but instead of keeping the instan‐
+          ces fixed and finding the optimal weights, we are doing the reverse: keeping the
+          weights fixed and finding the optimal position of the instances’ images in the low-
+          dimensional space. Note that Z is the matrix containing all z(i).
+            Equation 8-5. LLE step two: reducing dimensionality while preserving relationships
+                                                                      
+                    m     m     2                                     
+            Z= argmin ∑ z i − ∑ w z j                                 
+                            i,j                                       
+                Z  i=1   j=1                                          
+          Scikit-Learn’s LLE implementation has the following computational complexity:
+          O(m log(m)n log(k)) for finding the k nearest neighbors, O(mnk3) for optimizing the
+          weights, and O(dm2) for constructing the low-dimensional representations. Unfortu‐
+          nately, the m2 in the last term makes this algorithm scale poorly to very large datasets.
+          Other Dimensionality Reduction Techniques                   
+                                                                      
+          There are many other dimensionality reduction techniques, several of which are
+          available in Scikit-Learn. Here are some of the most popular ones:
+                                                                      
+          Random Projections                                          
+            As its name suggests, projects the data to a lower-dimensional space using a ran‐
+            dom linear projection. This may sound crazy, but it turns out that such a random
+            projection is actually very likely to preserve distances well, as was demonstrated
+            mathematically by William B. Johnson and Joram Lindenstrauss in a famous
+            lemma. The quality of the dimensionality reduction depends on the number of
+            instances and the target dimensionality, but surprisingly not on the initial dimen‐
+            sionality. Check out the documentation for the sklearn.random_projection
+            package for more details.                                 
+          Multidimensional Scaling (MDS)                              
+            Reduces dimensionality while trying to preserve the distances between the
+            instances.                                                
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      "|random projections; LLE (Locally Linear Embedding); dimensionality reduction; Multidimensional Scaling (MDS)
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 9-12. Image segmentation using K-Means with various numbers of color clusters
+                                                                      
+          That wasn’t too hard, was it? Now let’s look at another application of clustering: pre‐
+          processing.                                                 
+          Using Clustering for Preprocessing                          
+                                                                      
+          Clustering can be an efficient approach to dimensionality reduction, in particular as a
+          preprocessing step before a supervised learning algorithm. As an example of using
+          clustering for dimensionality reduction, let’s tackle the digits dataset, which is a sim‐
+          ple MNIST-like dataset containing 1,797 grayscale 8 × 8 images representing the dig‐
+          its 0 to 9. First, load the dataset:                        
+            from sklearn.datasets import load_digits                  
+                                                                      
+            X_digits, y_digits = load_digits(return_X_y=True)         
+          Now, split it into a training set and a test set:           
+            from sklearn.model_selection import train_test_split      
+                                                                      
+            X_train, X_test, y_train, y_test = train_test_split(X_digits, y_digits)
+          Next, fit a Logistic Regression model:                      
+                                                                      
+            from sklearn.linear_model import LogisticRegression       
+            log_reg = LogisticRegression()                            
+            log_reg.fit(X_train, y_train)                             
+          Let’s evaluate its accuracy on the test set:                
+                                                                      
+            >>> log_reg.score(X_test, y_test)                         
+            0.9688888888888889                                        "|preprocessing; for preprocessing; preprocessing with
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                  CHAPTER 13          
+                                                                      
+                       Loading   and  Preprocessing   Data            
+                                                                      
+                                         with TensorFlow              
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          So far we have used only datasets that fit in memory, but Deep Learning systems are
+          often trained on very large datasets that will not fit in RAM. Ingesting a large dataset
+          and preprocessing it efficiently can be tricky to implement with other Deep Learning
+          libraries, but TensorFlow makes it easy thanks to the Data API: you just create a data‐
+          set object, and tell it where to get the data and how to transform it. TensorFlow takes
+          care of all the implementation details, such as multithreading, queuing, batching, and
+          prefetching. Moreover, the Data API works seamlessly with tf.keras!
+          Off the shelf, the Data API can read from text files (such as CSV files), binary files
+          with fixed-size records, and binary files that use TensorFlow’s TFRecord format,
+          which supports records of varying sizes. TFRecord is a flexible and efficient binary
+          format usually containing protocol buffers (an open source binary format). The Data
+          API also has support for reading from SQL databases. Moreover, many open source
+          extensions are available to read from all sorts of data sources, such as Google’s Big‐
+          Query service.                                              
+          Reading huge datasets efficiently is not the only difficulty: the data also needs to be
+          preprocessed, usually normalized. Moreover, it is not always composed strictly of
+          convenient numerical fields: there may be text features, categorical features, and so
+          on. These need to be encoded, for example using one-hot encoding, bag-of-words
+          encoding, or embeddings (as we will see, an embedding is a trainable dense vector that
+          represents a category or token). One option to handle all this preprocessing is to
+          write your own custom preprocessing layers. Another is to use the standard prepro‐
+          cessing layers provided by Keras.                           
+                                                                      
+                                                                      
+                                                                      "|TensorFlow, data loading and preprocessing; loading and preprocessing with TensorFlow; embedding
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Using Clustering for Semi-Supervised Learning               
+                                                                      
+          Another use case for clustering is in semi-supervised learning, when we have plenty
+          of unlabeled instances and very few labeled instances. Let’s train a Logistic Regression
+          model on a sample of 50 labeled instances from the digits dataset:
+            n_labeled = 50                                            
+            log_reg = LogisticRegression()                            
+            log_reg.fit(X_train[:n_labeled], y_train[:n_labeled])     
+          What is the performance of this model on the test set?      
+            >>> log_reg.score(X_test, y_test)                         
+            0.8333333333333334                                        
+                                                                      
+          The accuracy is just 83.3%. It should come as no surprise that this is much lower than
+          earlier, when we trained the model on the full training set. Let’s see how we can do
+          better. First, let’s cluster the training set into 50 clusters. Then for each cluster, let’s
+          find the image closest to the centroid. We will call these images the representative
+          images:                                                     
+            k = 50                                                    
+            kmeans = KMeans(n_clusters=k)                             
+            X_digits_dist = kmeans.fit_transform(X_train)             
+            representative_digit_idx = np.argmin(X_digits_dist, axis=0)
+            X_representative_digits = X_train[representative_digit_idx]
+          Figure 9-13 shows these 50 representative images.           
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 9-13. Fifty representative digit images (one per cluster)
+                                                                      
+          Let’s look at each image and manually label it:             
+            y_representative_digits = np.array([4, 8, 0, 6, 8, 3, ..., 7, 6, 2, 3, 1, 1])
+          Now we have a dataset with just 50 labeled instances, but instead of being random
+          instances, each of them is a representative image of its cluster. Let’s see if the perfor‐
+          mance is any better:                                        
+                                                                      
+            >>> log_reg = LogisticRegression()                        
+            >>> log_reg.fit(X_representative_digits, y_representative_digits)
+            >>> log_reg.score(X_test, y_test)                         
+            0.9222222222222223                                        
+                                                                      "|clustering algorithms; for semi-supervised learning
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          attributes. For example, suppose you own a supermarket. Running an association rule
+          on your sales logs may reveal that people who purchase barbecue sauce and potato
+          chips also tend to buy steak. Thus, you may want to place these items close to one
+          another.                                                    
+                                                                      
+          Semisupervised learning                                     
+          Since labeling data is usually time-consuming and costly, you will often have plenty of
+          unlabeled instances, and few labeled instances. Some algorithms can deal with data
+          that’s partially labeled. This is called semisupervised learning (Figure 1-11).
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 1-11. Semisupervised learning with two classes (triangles and squares): the unla‐
+          beled examples (circles) help classify a new instance (the cross) into the triangle class
+          rather than the square class, even though it is closer to the labeled squares
+                                                                      
+          Some photo-hosting services, such as Google Photos, are good examples of this. Once
+          you upload all your family photos to the service, it automatically recognizes that the
+          same person A shows up in photos 1, 5, and 11, while another person B shows up in
+          photos 2, 5, and 7. This is the unsupervised part of the algorithm (clustering). Now all
+          the system needs is for you to tell it who these people are. Just add one label per per‐
+          son4 and it is able to name everyone in every photo, which is useful for searching
+          photos.                                                     
+          Most semisupervised learning algorithms are combinations of unsupervised and
+          supervised algorithms. For example, deep belief networks (DBNs) are based on unsu‐
+          pervised components called restricted Boltzmann machines (RBMs) stacked on top of
+          one another. RBMs are trained sequentially in an unsupervised manner, and then the
+          whole system is fine-tuned using supervised learning techniques.
+                                                                      
+                                                                      
+                                                                      
+          4 That’s when the system works perfectly. In practice it often creates a few clusters per person, and sometimes
+           mixes up two people who look alike, so you may need to provide a few labels per person and manually clean
+           up some clusters.                                          "|restricted Boltzmann machines (RBMs); semi-supervised learning; deep belief networks (DBNs)
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   The score t is often called the logit. The name comes from the fact
+                   that the logit function, defined as logit(p) = log(p / (1 – p)), is the
+                   inverse of the logistic function. Indeed, if you compute the logit of
+                   the estimated probability p, you will find that the result is t. The
+                   logit is also called the log-odds, since it is the log of the ratio
+                   between the estimated probability for the positive class and the
+                   estimated probability for the negative class.      
+          Training and Cost Function                                  
+                                                                      
+          Now you know how a Logistic Regression model estimates probabilities and makes
+          predictions. But how is it trained? The objective of training is to set the parameter
+          vector θ so that the model estimates high probabilities for positive instances (y = 1)
+          and low probabilities for negative instances (y = 0). This idea is captured by the cost
+          function shown in Equation 4-16 for a single training instance x.
+                                                                      
+            Equation 4-16. Cost function of a single training instance
+                                                                      
+                 −log p if y=1                                        
+            c θ =                                                     
+                −log 1−p if y=0                                       
+          This cost function makes sense because –log(t) grows very large when t approaches 0,
+          so the cost will be large if the model estimates a probability close to 0 for a positive
+          instance, and it will also be very large if the model estimates a probability close to 1
+          for a negative instance. On the other hand, –log(t) is close to 0 when t is close to 1, so
+          the cost will be close to 0 if the estimated probability is close to 0 for a negative
+          instance or close to 1 for a positive instance, which is precisely what we want.
+          The cost function over the whole training set is the average cost over all training
+          instances. It can be written in a single expression called the log loss, shown in Equa‐
+          tion 4-17.                                                  
+                                                                      
+            Equation 4-17. Logistic Regression cost function (log loss)
+                                                                      
+                 1 m  i   i      i     i                              
+            J θ =− ∑ y log p + 1−y log 1−p                            
+                 m i=1                                                
+          The bad news is that there is no known closed-form equation to compute the value of
+          θ that minimizes this cost function (there is no equivalent of the Normal Equation).
+          The good news is that this cost function is convex, so Gradient Descent (or any other
+          optimization algorithm) is guaranteed to find the global minimum (if the learning
+                                                                      
+                                                                      
+                                                                      "|training and cost function; log-odds; logit; log loss
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   We are minimizing ½ w⊺ w, which is equal to ½∥ w ∥2, rather than
+                   minimizing ∥ w ∥. Indeed, ½∥ w ∥2 has a nice, simple derivative (it
+                   is just w), while ∥ w ∥ is not differentiable at w = 0. Optimization
+                   algorithms work much better on differentiable functions.
+                                                                      
+          To get the soft margin objective, we need to introduce a slack variable ζ(i) ≥ 0 for each
+          instance:4 ζ(i) measures how much the ith instance is allowed to violate the margin. We
+          now have two conflicting objectives: make the slack variables as small as possible to
+          reduce the margin violations, and make ½ w⊺ w as small as possible to increase the
+          margin. This is where the C hyperparameter comes in: it allows us to define the trade‐
+          off between these two objectives. This gives us the constrained optimization problem
+          in Equation 5-4.                                            
+                                                                      
+            Equation 5-4. Soft margin linear SVM classifier objective 
+                                                                      
+                          m                                           
+             minimize 1 w ⊺ w+C ∑ ζ i                                 
+              w,b,ζ 2    i=1                                          
+             subject to t i w ⊺ x i +b ≥1−ζ i and ζ i ≥0 for i=1,2,⋯,m
+          Quadratic Programming                                       
+                                                                      
+          The hard margin and soft margin problems are both convex quadratic optimization
+          problems with linear constraints. Such problems are known as Quadratic Program‐
+          ming (QP) problems. Many off-the-shelf solvers are available to solve QP problems
+          by using a variety of techniques that are outside the scope of this book.5
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          4 Zeta (ζ) is the sixth letter of the Greek alphabet.       
+          5 To learn more about Quadratic Programming, you can start by reading Stephen Boyd and Lieven Vandenber‐
+           ghe’s book Convex Optimization (Cambridge University Press, 2004) or watch Richard Brown’s series of video
+           lectures.                                                  "|slack variables; Quadratic Programming (QP) problems
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 15-3. A cell’s hidden state and its output may be different
+          Input and Output Sequences                                  
+                                                                      
+          An RNN can simultaneously take a sequence of inputs and produce a sequence of
+          outputs (see the top-left network in Figure 15-4). This type of sequence-to-sequence
+          network is useful for predicting time series such as stock prices: you feed it the prices
+          over the last N days, and it must output the prices shifted by one day into the future
+          (i.e., from N – 1 days ago to tomorrow).                    
+          Alternatively, you could feed the network a sequence of inputs and ignore all outputs
+          except for the last one (see the top-right network in Figure 15-4). In other words, this
+          is a sequence-to-vector network. For example, you could feed the network a sequence
+          of words corresponding to a movie review, and the network would output a senti‐
+          ment score (e.g., from –1 [hate] to +1 [love]).             
+                                                                      
+          Conversely, you could feed the network the same input vector over and over again at
+          each time step and let it output a sequence (see the bottom-left network of
+          Figure 15-4). This is a vector-to-sequence network. For example, the input could be an
+          image (or the output of a CNN), and the output could be a caption for that image.
+          Lastly, you could have a sequence-to-vector network, called an encoder, followed by a
+          vector-to-sequence network, called a decoder (see the bottom-right network of
+          Figure 15-4). For example, this could be used for translating a sentence from one lan‐
+          guage to another. You would feed the network a sentence in one language, the
+          encoder would convert this sentence into a single vector representation, and then the
+          decoder would decode this vector into a sentence in another language. This two-step
+          model, called an Encoder–Decoder, works much better than trying to translate on the
+          fly with a single sequence-to-sequence RNN (like the one represented at the top left):
+          the last words of a sentence can affect the first words of the translation, so you need
+          to wait until you have seen the whole sentence before translating it. We will see how
+          to implement an Encoder–Decoder in Chapter 16 (as we will see, it is a bit more com‐
+          plex than in Figure 15-4 suggests).                         
+                                                                      "|Encoder–Decoder model; sequence-to-vector networks; encoders; input and output; input and output sequences; vector-to-sequence networks; decoders
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Just like the Logistic Regression classifier, the Softmax Regression classifier predicts
+          the class with the highest estimated probability (which is simply the class with the
+          highest score), as shown in Equation 4-21.                  
+                                                                      
+            Equation 4-21. Softmax Regression classifier prediction   
+                                                                      
+                                          k ⊺                         
+            y = argmax σ s x = argmax s x = argmax θ x                
+                       k       k                                      
+                 k          k        k                                
+          The argmax operator returns the value of a variable that maximizes a function. In this
+          equation, it returns the value of k that maximizes the estimated probability σ(s(x)).
+                                                         k            
+                   The Softmax Regression classifier predicts only one class at a time
+                   (i.e., it is multiclass, not multioutput), so it should be used only
+                   with mutually exclusive classes, such as different types of plants.
+                   You cannot use it to recognize multiple people in one picture.
+          Now that you know how the model estimates probabilities and makes predictions,
+          let’s take a look at training. The objective is to have a model that estimates a high
+          probability for the target class (and consequently a low probability for the other
+          classes). Minimizing the cost function shown in Equation 4-22, called the cross
+          entropy, should lead to this objective because it penalizes the model when it estimates
+          a low probability for a target class. Cross entropy is frequently used to measure how
+          well a set of estimated class probabilities matches the target classes.
+                                                                      
+            Equation 4-22. Cross entropy cost function                
+                 1 m  K   i   i                                       
+            J Θ =− ∑ ∑   y log p                                      
+                 m i=1 k=1 k k                                        
+          In this equation:                                           
+           • yi is the target probability that the ith instance belongs to class k. In general, it is
+             k                                                        
+            either equal to 1 or 0, depending on whether the instance belongs to the class or
+            not.                                                      
+          Notice that when there are just two classes (K = 2), this cost function is equivalent to
+          the Logistic Regression’s cost function (log loss; see Equation 4-17).
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      "|argmax operator; cross-entropy loss (log loss)
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Multilabel Classification                                   
+                                                                      
+          Until now each instance has always been assigned to just one class. In some cases you
+          may want your classifier to output multiple classes for each instance. Consider a face-
+          recognition classifier: what should it do if it recognizes several people in the same
+          picture? It should attach one tag per person it recognizes. Say the classifier has been
+          trained to recognize three faces, Alice, Bob, and Charlie. Then when the classifier is
+          shown a picture of Alice and Charlie, it should output [1, 0, 1] (meaning “Alice yes,
+          Bob no, Charlie yes”). Such a classification system that outputs multiple binary tags is
+          called a multilabel classification system.                  
+          We won’t go into face recognition just yet, but let’s look at a simpler example, just for
+          illustration purposes:                                      
+                                                                      
+            from sklearn.neighbors import KNeighborsClassifier        
+            y_train_large = (y_train >= 7)                            
+            y_train_odd = (y_train % 2 == 1)                          
+            y_multilabel = np.c_[y_train_large, y_train_odd]          
+            knn_clf = KNeighborsClassifier()                          
+            knn_clf.fit(X_train, y_multilabel)                        
+                                                                      
+          This code creates a y_multilabel array containing two target labels for each digit
+          image: the first indicates whether or not the digit is large (7, 8, or 9), and the second
+          indicates whether or not it is odd. The next lines create a KNeighborsClassifier
+          instance (which supports multilabel classification, though not all classifiers do), and
+          we train it using the multiple targets array. Now you can make a prediction, and
+          notice that it outputs two labels:                          
+            >>> knn_clf.predict([some_digit])                         
+            array([[False, True]])                                    
+          And it gets it right! The digit 5 is indeed not large (False) and odd (True).
+          There are many ways to evaluate a multilabel classifier, and selecting the right metric
+          really depends on your project. One approach is to measure the F score for each
+                                                  1                   
+          individual label (or any other binary classifier metric discussed earlier), then simply
+          compute the average score. This code computes the average F score across all labels:
+                                             1                        
+            >>> y_train_knn_pred = cross_val_predict(knn_clf, X_train, y_multilabel, cv=3)
+            >>> f1_score(y_multilabel, y_train_knn_pred, average=""macro"")
+            0.976410265560605                                         
+          This assumes that all labels are equally important, however, which may not be the
+          case. In particular, if you have many more pictures of Alice than of Bob or Charlie,
+          you may want to give more weight to the classifier’s score on pictures of Alice. One
+          simple option is to give each label a weight equal to its support (i.e., the number of"|multilabel classification
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-10. The first 20 steps of Stochastic Gradient Descent
+                                                                      
+          Note that since instances are picked randomly, some instances may be picked several
+          times per epoch, while others may not be picked at all. If you want to be sure that the
+          algorithm goes through every instance at each epoch, another approach is to shuffle
+          the training set (making sure to shuffle the input features and the labels jointly), then
+          go through it instance by instance, then shuffle it again, and so on. However, this
+          approach generally converges more slowly.                   
+                                                                      
+                   When using Stochastic Gradient Descent, the training instances
+                   must be independent and identically distributed (IID) to ensure
+                   that the parameters get pulled toward the global optimum, on aver‐
+                   age. A simple way to ensure this is to shuffle the instances during
+                   training (e.g., pick each instance randomly, or shuffle the training
+                   set at the beginning of each epoch). If you do not shuffle the
+                   instances—for example, if the instances are sorted by label—then
+                   SGD will start by optimizing for one label, then the next, and so on,
+                   and it will not settle close to the global minimum.
+          To perform Linear Regression using Stochastic GD with Scikit-Learn, you can use the
+          SGDRegressor class, which defaults to optimizing the squared error cost function.
+          The following code runs for maximum 1,000 epochs or until the loss drops by less
+          than 0.001 during one epoch (max_iter=1000, tol=1e-3). It starts with a learning rate
+          of 0.1 (eta0=0.1), using the default learning schedule (different from the preceding
+          one). Lastly, it does not use any regularization (penalty=None; more details on this
+          shortly):                                                   
+                                                                      
+                                                                      "|independent and identically distributed (IID)
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+           • Popular open data repositories                           
+             —UC Irvine Machine Learning Repository                   
+             —Kaggle datasets                                         
+             —Amazon’s AWS datasets                                   
+                                                                      
+           • Meta portals (they list open data repositories)          
+             —Data Portals                                            
+             —OpenDataMonitor                                         
+                                                                      
+             —Quandl                                                  
+           • Other pages listing many popular open data repositories  
+             —Wikipedia’s list of Machine Learning datasets           
+             —Quora.com                                               
+                                                                      
+             —The datasets subreddit                                  
+          In this chapter we’ll use the California Housing Prices dataset from the StatLib repos‐
+          itory2 (see Figure 2-1). This dataset is based on data from the 1990 California census.
+          It is not exactly recent (a nice house in the Bay Area was still affordable at the time),
+          but it has many qualities for learning, so we will pretend it is recent data. For teaching
+          purposes I’ve added a categorical attribute and removed a few features.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 2-1. California housing prices                       
+                                                                      
+                                                                      
+          2 The original dataset appeared in R. Kelley Pace and Ronald Barry, “Sparse Spatial Autoregressions,” Statistics
+           & Probability Letters 33, no. 3 (1997): 291–297.           "|California Housing Prices dataset
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          it is fed to the model. And suppose you also want to deploy the model to Tensor‐
+          Flow.js so that it runs in a web browser? Once again, you will need to write some pre‐
+          processing code. This can become a maintenance nightmare: whenever you want to
+          change the preprocessing logic, you will need to update your Apache Beam code,
+          your mobile app code, and your JavaScript code. This is not only time-consuming,
+          but also error-prone: you may end up with subtle differences between the preprocess‐
+          ing operations performed before training and the ones performed in your app or in
+          the browser. This training/serving skew will lead to bugs or degraded performance.
+                                                                      
+          One improvement would be to take the trained model (trained on data that was pre‐
+          processed by your Apache Beam or Spark code) and, before deploying it to your app
+          or the browser, add extra preprocessing layers to take care of preprocessing on the fly.
+          That’s definitely better, since now you just have two versions of your preprocessing
+          code: the Apache Beam or Spark code, and the preprocessing layers’ code.
+          But what if you could define your preprocessing operations just once? This is what
+          TF Transform was designed for. It is part of TensorFlow Extended (TFX), an end-to-
+          end platform for productionizing TensorFlow models. First, to use a TFX component
+          such as TF Transform, you must install it; it does not come bundled with TensorFlow.
+          You then define your preprocessing function just once (in Python), by using TF
+          Transform functions for scaling, bucketizing, and more. You can also use any Tensor‐
+          Flow operation you need. Here is what this preprocessing function might look like if
+          we just had two features:                                   
+            import tensorflow_transform as tft                        
+                                                                      
+            def preprocess(inputs): # inputs = a batch of input features
+               median_age = inputs[""housing_median_age""]              
+               ocean_proximity = inputs[""ocean_proximity""]            
+               standardized_age = tft.scale_to_z_score(median_age)    
+               ocean_proximity_id = tft.compute_and_apply_vocabulary(ocean_proximity)
+               return {                                               
+                 ""standardized_median_age"": standardized_age,         
+                 ""ocean_proximity_id"": ocean_proximity_id             
+               }                                                      
+          Next, TF Transform lets you apply this preprocess() function to the whole training
+          set using Apache Beam (it provides an AnalyzeAndTransformDataset class that you
+          can use for this purpose in your Apache Beam pipeline). In the process, it will also
+          compute all the necessary statistics over the whole training set: in this example, the
+          mean and standard deviation of the housing_median_age feature, and the vocabulary
+          for the ocean_proximity feature. The components that compute these statistics are
+          called analyzers.                                           
+          Importantly, TF Transform will also generate an equivalent TensorFlow Function that
+          you can plug into the model you deploy. This TF Function includes some constants"|training/serving skew; TensorFlow Extended (TFX)
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   As with all the transformations, it is important to fit the scalers to
+                   the training data only, not to the full dataset (including the test set).
+                   Only then can you use them to transform the training set and the
+                   test set (and new data).                           
+                                                                      
+          Transformation Pipelines                                    
+                                                                      
+          As you can see, there are many data transformation steps that need to be executed in
+          the right order. Fortunately, Scikit-Learn provides the Pipeline class to help with
+          such sequences of transformations. Here is a small pipeline for the numerical
+          attributes:                                                 
+            from sklearn.pipeline import Pipeline                     
+            from sklearn.preprocessing import StandardScaler          
+                                                                      
+            num_pipeline = Pipeline([                                 
+                 ('imputer', SimpleImputer(strategy=""median"")),       
+                 ('attribs_adder', CombinedAttributesAdder()),        
+                 ('std_scaler', StandardScaler()),                    
+               ])                                                     
+            housing_num_tr = num_pipeline.fit_transform(housing_num)  
+          The Pipeline constructor takes a list of name/estimator pairs defining a sequence of
+          steps. All but the last estimator must be transformers (i.e., they must have a
+          fit_transform() method). The names can be anything you like (as long as they are
+          unique and don’t contain double underscores, __); they will come in handy later for
+          hyperparameter tuning.                                      
+          When you call the pipeline’s fit() method, it calls fit_transform() sequentially on
+          all transformers, passing the output of each call as the parameter to the next call until
+          it reaches the final estimator, for which it calls the fit() method.
+                                                                      
+          The pipeline exposes the same methods as the final estimator. In this example, the last
+          estimator is a StandardScaler, which is a transformer, so the pipeline has a trans
+          form() method that applies all the transforms to the data in sequence (and of course
+          also a fit_transform() method, which is the one we used).   
+          So far, we have handled the categorical columns and the numerical columns sepa‐
+          rately. It would be more convenient to have a single transformer able to handle all col‐
+          umns, applying the appropriate transformations to each column. In version 0.20,
+          Scikit-Learn introduced the ColumnTransformer for this purpose, and the good news
+          is that it works great with pandas DataFrames. Let’s use it to apply all the transforma‐
+          tions to the housing data:                                  
+                                                                      
+                                                                      
+                                                                      "|transformation sequences; transformation pipelines
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-13. Polynomial Regression model predictions        
+                                                                      
+          Not bad: the model estimates y =0.56x 2+0.93x +1.78 when in fact the original
+                                  1     1                             
+          function was y=0.5x 2+1.0x +2.0+Gaussian noise.             
+                      1    1                                          
+          Note that when there are multiple features, Polynomial Regression is capable of find‐
+          ing relationships between features (which is something a plain Linear Regression
+          model cannot do). This is made possible by the fact that PolynomialFeatures also
+          adds all combinations of features up to the given degree. For example, if there were
+          two features a and b, PolynomialFeatures with degree=3 would not only add the
+          features a2, a3, b2, and b3, but also the combinations ab, a2b, and ab2.
+                   PolynomialFeatures(degree=d) transforms an array containing n
+                   features into an array containing (n + d)! / d!n! features, where n! is
+                   the factorial of n, equal to 1 × 2 × 3 × ⋯ × n. Beware of the combi‐
+                   natorial explosion of the number of features!      
+                                                                      
+          Learning Curves                                             
+                                                                      
+          If you perform high-degree Polynomial Regression, you will likely fit the training
+          data much better than with plain Linear Regression. For example, Figure 4-14 applies
+          a 300-degree polynomial model to the preceding training data, and compares the
+          result with a pure linear model and a quadratic model (second-degree polynomial).
+          Notice how the 300-degree polynomial model wiggles around to get as close as possi‐
+          ble to the training instances.                              
+                                                                      
+                                                                      "|learning curves; Polynomial Regression
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+            def next_char(text, temperature=1):                       
+               X_new = preprocess([text])                             
+               y_proba = model.predict(X_new)[0, -1:, :]              
+               rescaled_logits = tf.math.log(y_proba) / temperature   
+               char_id = tf.random.categorical(rescaled_logits, num_samples=1) + 1
+               return tokenizer.sequences_to_texts(char_id.numpy())[0]
+          Next, we can write a small function that will repeatedly call next_char() to get the
+          next character and append it to the given text:             
+            def complete_text(text, n_chars=50, temperature=1):       
+               for _ in range(n_chars):                               
+                 text += next_char(text, temperature)                 
+               return text                                            
+          We are now ready to generate some text! Let’s try with different temperatures:
+            >>> print(complete_text(""t"", temperature=0.2))            
+            the belly the great and who shall be the belly the        
+            >>> print(complete_text(""w"", temperature=1))              
+            thing? or why you gremio.                                 
+            who make which the first                                  
+            >>> print(complete_text(""w"", temperature=2))              
+            th no cce:                                                
+            yeolg-hormer firi. a play asks.                           
+            fol rusb                                                  
+          Apparently our Shakespeare model works best at a temperature close to 1. To gener‐
+          ate more convincing text, you could try using more GRU layers and more neurons per
+          layer, train for longer, and add some regularization (for example, you could set recur
+          rent_dropout=0.3 in the GRU layers). Moreover, the model is currently incapable of
+          learning patterns longer than n_steps, which is just 100 characters. You could try
+          making this window larger, but it will also make training harder, and even LSTM and
+          GRU cells cannot handle very long sequences. Alternatively, you could use a stateful
+          RNN.                                                        
+          Stateful RNN                                                
+          Until now, we have used only stateless RNNs: at each training iteration the model
+          starts with a hidden state full of zeros, then it updates this state at each time step, and
+          after the last time step, it throws it away, as it is not needed anymore. What if we told
+          the RNN to preserve this final state after processing one training batch and use it as
+          the initial state for the next training batch? This way the model can learn long-term
+          patterns despite only backpropagating through short sequences. This is called a state‐
+          ful RNN. Let’s see how to build one.                        
+          First, note that a stateful RNN only makes sense if each input sequence in a batch
+          starts exactly where the corresponding sequence in the previous batch left off. So the
+          first thing we need to do to build a stateful RNN is to use sequential and nonoverlap‐
+                                                                      "|stateful RNNs and; stateless and stateful
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          since each kernel contains a different set of weights for each input channel). Since an
+          FCN contains only convolutional layers (and pooling layers, which have the same
+          property), it can be trained and executed on images of any size!
+                                                                      
+          For example, suppose we’d already trained a CNN for flower classification and locali‐
+          zation. It was trained on 224 × 224 images, and it outputs 10 numbers: outputs 0 to 4
+          are sent through the softmax activation function, and this gives the class probabilities
+          (one per class); output 5 is sent through the logistic activation function, and this gives
+          the objectness score; outputs 6 to 9 do not use any activation function, and they rep‐
+          resent the bounding box’s center coordinates, as well as its height and width. We can
+          now convert its dense layers to convolutional layers. In fact, we don’t even need to
+          retrain it; we can just copy the weights from the dense layers to the convolutional lay‐
+          ers! Alternatively, we could have converted the CNN into an FCN before training.
+          Now suppose the last convolutional layer before the output layer (also called the bot‐
+          tleneck layer) outputs 7 × 7 feature maps when the network is fed a 224 × 224 image
+          (see the left side of Figure 14-25). If we feed the FCN a 448 × 448 image (see the right
+          side of Figure 14-25), the bottleneck layer will now output 14 × 14 feature maps.27
+          Since the dense output layer was replaced by a convolutional layer using 10 filters of
+          size 7 × 7, with ""valid"" padding and stride 1, the output will be composed of 10 fea‐
+          tures maps, each of size 8 × 8 (since 14 – 7 + 1 = 8). In other words, the FCN will
+          process the whole image only once, and it will output an 8 × 8 grid where each cell
+          contains 10 numbers (5 class probabilities, 1 objectness score, and 4 bounding box
+          coordinates). It’s exactly like taking the original CNN and sliding it across the image
+          using 8 steps per row and 8 steps per column. To visualize this, imagine chopping the
+          original image into a 14 × 14 grid, then sliding a 7 × 7 window across this grid; there
+          will be 8 × 8 = 64 possible locations for the window, hence 8 × 8 predictions. How‐
+          ever, the FCN approach is much more efficient, since the network only looks at the
+          image once. In fact, You Only Look Once (YOLO) is the name of a very popular object
+          detection architecture, which we’ll look at next.           
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          27 This assumes we used only ""same"" padding in the network: indeed, ""valid"" padding would reduce the size of
+           the feature maps. Moreover, 448 can be neatly divided by 2 several times until we reach 7, without any round‐
+           ing error. If any layer uses a different stride than 1 or 2, then there may be some rounding error, so again the
+           feature maps may end up being smaller.                     "|softmax; softmax function
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Double DQN                                                  
+                                                                      
+          In a 2015 paper,14 DeepMind researchers tweaked their DQN algorithm, increasing
+          its performance and somewhat stabilizing training. They called this variant Double
+          DQN. The update was based on the observation that the target network is prone to
+          overestimating Q-Values. Indeed, suppose all actions are equally good: the Q-Values
+          estimated by the target model should be identical, but since they are approximations,
+          some may be slightly greater than others, by pure chance. The target model will
+          always select the largest Q-Value, which will be slightly greater than the mean Q-
+          Value, most likely overestimating the true Q-Value (a bit like counting the height of
+          the tallest random wave when measuring the depth of a pool). To fix this, they pro‐
+          posed using the online model instead of the target model when selecting the best
+          actions for the next states, and using the target model only to estimate the Q-Values
+          for these best actions. Here is the updated training_step() function:
+            def training_step(batch_size):                            
+               experiences = sample_experiences(batch_size)           
+               states, actions, rewards, next_states, dones = experiences
+               next_Q_values = model.predict(next_states)             
+               best_next_actions = np.argmax(next_Q_values, axis=1)   
+               next_mask = tf.one_hot(best_next_actions, n_outputs).numpy()
+               next_best_Q_values = (target.predict(next_states) * next_mask).sum(axis=1)
+               target_Q_values = (rewards +                           
+                          (1 - dones) * discount_factor * next_best_Q_values)
+               mask = tf.one_hot(actions, n_outputs)                  
+               [...] # the rest is the same as earlier                
+          Just a few months later, another improvement to the DQN algorithm was proposed.
+          Prioritized Experience Replay                               
+          Instead of sampling experiences uniformly from the replay buffer, why not sample
+          important experiences more frequently? This idea is called importance sampling (IS)
+          or prioritized experience replay (PER), and it was introduced in a 2015 paper15 by
+          DeepMind researchers (once again!).                         
+          More specifically, experiences are considered “important” if they are likely to lead to
+          fast learning progress. But how can we estimate this? One reasonable approach is to
+          measure the magnitude of the TD error δ = r + γ·V(s′) – V(s). A large TD error indi‐
+          cates that a transition (s, r, s′) is very surprising, and thus probably worth learning
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          14 Hado van Hasselt et al., “Deep Reinforcement Learning with Double Q-Learning,” Proceedings of the 30th
+           AAAI Conference on Artificial Intelligence (2015): 2094–2100.
+          15 Tom Schaul et al., “Prioritized Experience Replay,” arXiv preprint arXiv:1511.05952 (2015)."|importance sampling (IS); prioritized experience replay; Double DQN; prioritized experience replay (PER)
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          in a 3 × 4 grid, and we use TensorFlow’s tf.image.resize() function to resize this
+          grid to 5 × 7. By default, the resize() function will perform bilinear interpolation, so
+          every other row and column will contain interpolated codings. We then use the
+          decoder to produce all the images:                          
+                                                                      
+            codings_grid = tf.reshape(codings, [1, 3, 4, codings_size])
+            larger_grid = tf.image.resize(codings_grid, size=[5, 7])  
+            interpolated_codings = tf.reshape(larger_grid, [-1, codings_size])
+            images = variational_decoder(interpolated_codings).numpy()
+          Figure 17-14 shows the resulting images. The original images are framed, and the rest
+          are the result of semantic interpolation between the nearby images. Notice, for exam‐
+          ple, how the shoe in the fourth row and fifth column is a nice interpolation between
+          the two shoes located above and below it.                   
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 17-14. Semantic interpolation                        
+                                                                      
+          For several years, variational autoencoders were quite popular, but GANs eventually
+          took the lead, in particular because they are capable of generating much more realistic
+          and crisp images. So let’s turn our attention to GANs.      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      "|variational; variational autoencoders
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          SVMs: the bias term will be called b, and the feature weights vector will be called w.
+          No bias feature will be added to the input feature vectors. 
+                                                                      
+          Decision Function and Predictions                           
+                                                                      
+          The linear SVM classifier model predicts the class of a new instance x by simply com‐
+          puting the decision function w⊺ x + b = w x + ⋯ + w x + b. If the result is positive,
+                                  1 1    n n                          
+          the predicted class ŷ is the positive class (1), and otherwise it is the negative class (0);
+          see Equation 5-2.                                           
+            Equation 5-2. Linear SVM classifier prediction            
+                  ⊺                                                   
+               0 if w x+b<0,                                          
+            y =                                                       
+                  ⊺                                                   
+               1 if w x+b≥0                                           
+          Figure 5-12 shows the decision function that corresponds to the model in the left in
+          Figure 5-4: it is a 2D plane because this dataset has two features (petal width and petal
+          length). The decision boundary is the set of points where the decision function is
+          equal to 0: it is the intersection of two planes, which is a straight line (represented by
+          the thick solid line).3                                     
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 5-12. Decision function for the iris dataset         
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          3 More generally, when there are n features, the decision function is an n-dimensional hyperplane, and the deci‐
+           sion boundary is an (n – 1)-dimensional hyperplane.        "|decision function and prediction; hyperplanes
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          For example, suppose you want to know if money makes people happy, so you down‐
+          load the Better Life Index data from the OECD’s website and stats about gross domes‐
+          tic product (GDP) per capita from the IMF’s website. Then you join the tables and
+          sort by GDP per capita. Table 1-1 shows an excerpt of what you get.
+                                                                      
+          Table 1-1. Does money make people happier?                  
+          Country GDP per capita (USD) Life satisfaction              
+          Hungary 12,240  4.9                                         
+                                                                      
+          Korea  27,195   5.8                                         
+          France 37,675   6.5                                         
+          Australia 50,962 7.3                                        
+          United States 55,805 7.2                                    
+                                                                      
+          Let’s plot the data for these countries (Figure 1-17).      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 1-17. Do you see a trend here?                       
+          There does seem to be a trend here! Although the data is noisy (i.e., partly random), it
+          looks like life satisfaction goes up more or less linearly as the country’s GDP per cap‐
+          ita increases. So you decide to model life satisfaction as a linear function of GDP per
+          capita. This step is called model selection: you selected a linear model of life satisfac‐
+          tion with just one attribute, GDP per capita (Equation 1-1).
+                                                                      
+            Equation 1-1. A simple linear model                       
+                                                                      
+            life_satisfaction=θ +θ ×GDP_per_capita                    
+                       0 1                                            
+                                                                      
+                                                                      
+                                                                      
+                                                                      "|noisy data; linear models; Better Life Index; model selection
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 7-5. A single Decision Tree (left) versus a bagging ensemble of 500 trees (right)
+                                                                      
+          Bootstrapping introduces a bit more diversity in the subsets that each predictor is
+          trained on, so bagging ends up with a slightly higher bias than pasting; but the extra
+          diversity also means that the predictors end up being less correlated, so the ensemble’s
+          variance is reduced. Overall, bagging often results in better models, which explains
+          why it is generally preferred. However, if you have spare time and CPU power, you
+          can use cross-validation to evaluate both bagging and pasting and select the one that
+          works best.                                                 
+                                                                      
+          Out-of-Bag Evaluation                                       
+                                                                      
+          With bagging, some instances may be sampled several times for any given predictor,
+          while others may not be sampled at all. By default a BaggingClassifier samples m
+          training instances with replacement (bootstrap=True), where m is the size of the
+          training set. This means that only about 63% of the training instances are sampled on
+          average for each predictor.6 The remaining 37% of the training instances that are not
+          sampled are called out-of-bag (oob) instances. Note that they are not the same 37%
+          for all predictors.                                         
+          Since a predictor never sees the oob instances during training, it can be evaluated on
+          these instances, without the need for a separate validation set. You can evaluate the
+          ensemble itself by averaging out the oob evaluations of each predictor.
+          In Scikit-Learn, you can set oob_score=True when creating a BaggingClassifier to
+          request an automatic oob evaluation after training. The following code demonstrates
+          this. The resulting evaluation score is available through the oob_score_ variable:
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          6 As m grows, this ratio approaches 1 – exp(–1) ≈ 63.212%.  "|out-of-bag evaluation
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                   CHAPTER 1          
+                                                                      
+                      The  Machine   Learning   Landscape             
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          When most people hear “Machine Learning,” they picture a robot: a dependable but‐
+          ler or a deadly Terminator, depending on who you ask. But Machine Learning is not
+          just a futuristic fantasy; it’s already here. In fact, it has been around for decades in
+          some specialized applications, such as Optical Character Recognition (OCR). But the
+          first ML application that really became mainstream, improving the lives of hundreds
+          of millions of people, took over the world back in the 1990s: the spam filter. It’s not
+          exactly a self-aware Skynet, but it does technically qualify as Machine Learning (it has
+          actually learned so well that you seldom need to flag an email as spam anymore). It
+          was followed by hundreds of ML applications that now quietly power hundreds of
+          products and features that you use regularly, from better recommendations to voice
+          search.                                                     
+          Where does Machine Learning start and where does it end? What exactly does it
+          mean for a machine to learn something? If I download a copy of Wikipedia, has my
+          computer really learned something? Is it suddenly smarter? In this chapter we will
+          start by clarifying what Machine Learning is and why you may want to use it.
+          Then, before we set out to explore the Machine Learning continent, we will take a
+          look at the map and learn about the main regions and the most notable landmarks:
+          supervised versus unsupervised learning, online versus batch learning, instance-
+          based versus model-based learning. Then we will look at the workflow of a typical ML
+          project, discuss the main challenges you may face, and cover how to evaluate and
+          fine-tune a Machine Learning system.                        
+                                                                      
+          This chapter introduces a lot of fundamental concepts (and jargon) that every data
+          scientist should know by heart. It will be a high-level overview (it’s the only chapter
+          without much code), all rather simple, but you should make sure everything is crystal
+          clear to you before continuing on to the rest of the book. So grab a coffee and let’s get
+          started!                                                    "|Optical Character Recognition (OCR); spam filters
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          hyperparameter: if your model is overfitting, you should reduce it; if it is underfitting,
+          you should increase it (similar to the C hyperparameter).   
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 5-9. SVM classifiers using an RBF kernel             
+                                                                      
+          Other kernels exist but are used much more rarely. Some kernels are specialized for
+          specific data structures. String kernels are sometimes used when classifying text docu‐
+          ments or DNA sequences (e.g., using the string subsequence kernel or kernels based on
+          the Levenshtein distance).                                  
+                                                                      
+                   With so many kernels to choose from, how can you decide which
+                   one to use? As a rule of thumb, you should always try the linear
+                   kernel first (remember that LinearSVC is much faster than SVC(ker
+                   nel=""linear"")), especially if the training set is very large or if it
+                   has plenty of features. If the training set is not too large, you should
+                   also try the Gaussian RBF kernel; it works well in most cases. Then
+                   if you have spare time and computing power, you can experiment
+                   with a few other kernels, using cross-validation and grid search.
+                   You’d want to experiment like that especially if there are kernels
+                   specialized for your training set’s data structure.
+                                                                      
+                                                                      
+                                                                      
+                                                                      "|string kernels; Levenshtein distance; string subsequence kernel
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                  CHAPTER 18          
+                                                                      
+                                Reinforcement    Learning             
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Reinforcement Learning (RL) is one of the most exciting fields of Machine Learning
+          today, and also one of the oldest. It has been around since the 1950s, producing many
+          interesting applications over the years,1 particularly in games (e.g., TD-Gammon, a
+          Backgammon-playing program) and in machine control, but seldom making the
+          headline news. But a revolution took place in 2013, when researchers from a British
+          startup called DeepMind demonstrated a system that could learn to play just about
+          any Atari game from scratch,2 eventually outperforming humans3 in most of them,
+          using only raw pixels as inputs and without any prior knowledge of the rules of the
+          games.4 This was the first of a series of amazing feats, culminating in March 2016
+          with the victory of their system AlphaGo against Lee Sedol, a legendary professional
+          player of the game of Go, and in May 2017 against Ke Jie, the world champion. No
+          program had ever come close to beating a master of this game, let alone the world
+          champion. Today the whole field of RL is boiling with new ideas, with a wide range of
+          applications. DeepMind was bought by Google for over $500 million in 2014.
+          So how did DeepMind achieve all this? With hindsight it seems rather simple: they
+          applied the power of Deep Learning to the field of Reinforcement Learning, and it
+          worked beyond their wildest dreams. In this chapter we will first explain what
+                                                                      
+                                                                      
+          1 For more details, be sure to check out Richard Sutton and Andrew Barto’s book on RL, Reinforcement Learn‐
+           ing: An Introduction (MIT Press).                          
+          2 Volodymyr Mnih et al., “Playing Atari with Deep Reinforcement Learning,” arXiv preprint arXiv:1312.5602
+           (2013).                                                    
+          3 Volodymyr Mnih et al., “Human-Level Control Through Deep Reinforcement Learning,” Nature 518 (2015):
+           529–533.                                                   
+          4 Check out the videos of DeepMind’s system learning to play Space Invaders, Breakout, and other video games
+           at https://homl.info/dqn3.                                 "|Reinforcement Learning (RL)
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+            >>> bag_clf = BaggingClassifier(                          
+            ...  DecisionTreeClassifier(), n_estimators=500,          
+            ...  bootstrap=True, n_jobs=-1, oob_score=True)           
+            ...                                                       
+            >>> bag_clf.fit(X_train, y_train)                         
+            >>> bag_clf.oob_score_                                    
+            0.90133333333333332                                       
+          According to this oob evaluation, this BaggingClassifier is likely to achieve about
+          90.1% accuracy on the test set. Let’s verify this:          
+            >>> from sklearn.metrics import accuracy_score            
+            >>> y_pred = bag_clf.predict(X_test)                      
+            >>> accuracy_score(y_test, y_pred)                        
+            0.91200000000000003                                       
+          We get 91.2% accuracy on the test set—close enough!         
+          The oob decision function for each training instance is also available through the
+          oob_decision_function_ variable. In this case (since the base estimator has a pre
+          dict_proba() method), the decision function returns the class probabilities for each
+          training instance. For example, the oob evaluation estimates that the first training
+          instance has a 68.25% probability of belonging to the positive class (and 31.75% of
+          belonging to the negative class):                           
+            >>> bag_clf.oob_decision_function_                        
+            array([[0.31746032, 0.68253968],                          
+                [0.34117647, 0.65882353],                             
+                [1.    , 0.   ],                                      
+                ...                                                   
+                [1.    , 0.   ],                                      
+                [0.03108808, 0.96891192],                             
+                [0.57291667, 0.42708333]])                            
+          Random  Patches and Random Subspaces                        
+          The BaggingClassifier class supports sampling the features as well. Sampling is
+          controlled by two hyperparameters: max_features and bootstrap_features. They
+          work the same way as max_samples and bootstrap, but for feature sampling instead
+          of instance sampling. Thus, each predictor will be trained on a random subset of the
+          input features.                                             
+                                                                      
+          This technique is particularly useful when you are dealing with high-dimensional
+          inputs (such as images). Sampling both training instances and features is called the
+          Random Patches method.7 Keeping all training instances (by setting bootstrap=False
+                                                                      
+                                                                      
+          7 Gilles Louppe and Pierre Geurts, “Ensembles on Random Patches,” Lecture Notes in Computer Science 7523
+           (2012): 346–361.                                           "|bagging and pasting; random patches and random subspaces
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          layer is applied independently at each time step and that the model will output a
+          sequence, not just a single vector.                         
+                                                                      
+          All outputs are needed during training, but only the output at the last time step is
+          useful for predictions and for evaluation. So although we will rely on the MSE over all
+          the outputs for training, we will use a custom metric for evaluation, to only compute
+          the MSE over the output at the last time step:              
+            def last_time_step_mse(Y_true, Y_pred):                   
+               return keras.metrics.mean_squared_error(Y_true[:, -1], Y_pred[:, -1])
+            optimizer = keras.optimizers.Adam(lr=0.01)                
+            model.compile(loss=""mse"", optimizer=optimizer, metrics=[last_time_step_mse])
+          We get a validation MSE of about 0.006, which is 25% better than the previous model.
+          You can combine this approach with the first one: just predict the next 10 values
+          using this RNN, then concatenate these values to the input time series and use the
+          model again to predict the next 10 values, and repeat the process as many times as
+          needed. With this approach, you can generate arbitrarily long sequences. It may not
+          be very accurate for long-term predictions, but it may be just fine if your goal is to
+          generate original music or text, as we will see in Chapter 16.
+                                                                      
+                   When forecasting time series, it is often useful to have some error
+                   bars along with your predictions. For this, an efficient technique is
+                   MC Dropout, introduced in Chapter 11: add an MC Dropout layer
+                   within each memory cell, dropping part of the inputs and hidden
+                   states. After training, to forecast a new time series, use the model
+                   many times and compute the mean and standard deviation of the
+                   predictions at each time step.                     
+                                                                      
+          Simple RNNs can be quite good at forecasting time series or handling other kinds of
+          sequences, but they do not perform as well on long time series or sequences. Let’s dis‐
+          cuss why and see what we can do about it.                   
+          Handling Long Sequences                                     
+                                                                      
+                                                                      
+          To train an RNN on long sequences, we must run it over many time steps, making the
+          unrolled RNN a very deep network. Just like any deep neural network it may suffer
+          from the unstable gradients problem, discussed in Chapter 11: it may take forever to
+          train, or training may be unstable. Moreover, when an RNN processes a long
+          sequence, it will gradually forget the first inputs in the sequence. Let’s look at both
+          these problems, starting with the unstable gradients problem.
+                                                                      
+                                                                      
+                                                                      "|Logit Regression (see Logistic Regression); forecasting time series; handling long; handling long sequences
+"                                                                      
+                                                                      
+                                                                      
+                                                                      
+          reduction algorithm for visualization. Let’s use this strategy to visualize Fashion
+          MNIST. First, we use the encoder from our stacked autoencoder to reduce the dimen‐
+          sionality down to 30, then we use Scikit-Learn’s implementation of the t-SNE algo‐
+          rithm to reduce the dimensionality down to 2 for visualization:
+                                                                      
+            from sklearn.manifold import TSNE                         
+            X_valid_compressed = stacked_encoder.predict(X_valid)     
+            tsne = TSNE()                                             
+            X_valid_2D = tsne.fit_transform(X_valid_compressed)       
+          Now we can plot the dataset:                                
+            plt.scatter(X_valid_2D[:, 0], X_valid_2D[:, 1], c=y_valid, s=10, cmap=""tab10"")
+                                                                      
+          Figure 17-5 shows the resulting scatterplot (beautified a bit by displaying some of the
+          images). The t-SNE algorithm identified several clusters which match the classes rea‐
+          sonably well (each class is represented with a different color).
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 17-5. Fashion MNIST visualization using an autoencoder followed by t-SNE
+                                                                      
+          So, autoencoders can be used for dimensionality reduction. Another application is for
+          unsupervised pretraining.                                   
+                                                                      "|stacked
