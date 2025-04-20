@@ -3,3 +3,4 @@ venv/
 
 # Ignore all PDF files
 *.pdf
+.venv/
