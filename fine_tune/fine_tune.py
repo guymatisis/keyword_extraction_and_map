@@ -23,7 +23,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Fine-tune KeyBART on keyphrase data.")
     parser.add_argument('--device', choices=['cpu', 'cuda'], default='cuda' if torch.cuda.is_available() else 'cpu', help='Device to use (cpu or cuda)')
     parser.add_argument('--epochs', type=int, default=4, help='Number of training epochs')
-    parser.add_argument('--single_batch', action='store_true', help='Run a single batch for a quick check')
+    parser.add_argument('--single_batch', action='store_true', help='Run a single batch for a quick py')
     return parser.parse_args()
 
 
@@ -68,7 +68,7 @@ def main():
     # CSV layout:  text  ,  keyphrases
     # keyphrases column should be a single string:  "deep learning; model compression; pruning"
     # ----------------------------------------------------------------------
-    data_dir = os.path.join("data", "input_csvs")
+    data_dir = os.path.join("data", 'hands-on_machine_learning_with_scikit-learn_keras_and_tensorflow', "processed_inputs")
     dataset = load_dataset(
         "csv",
         data_files={
