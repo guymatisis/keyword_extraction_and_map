@@ -7,7 +7,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
+import comet_ml
 
 from datasets import load_dataset, DatasetDict
 from transformers import (
@@ -84,7 +84,6 @@ def main():
             "test": os.path.join(data_dir, "test.csv"),
         },
         sep = "|",   # CSV separator
-        column_names=["text", "keyphrases"],
     )
 
     # ----------------------------------------------------------------------

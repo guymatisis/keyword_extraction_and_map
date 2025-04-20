@@ -114,12 +114,11 @@ def sbert_soft_f1(predicted_phrases: List[str], correct_phrases: List[str], simi
 def make_compute_metrics(tokenizer):
     def compute_metrics(eval_preds):
         preds, labels = eval_preds
-        decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
-        decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+        decoded_output = tokenizer.decode(preds[0], skip_special_tokens=True)
+        predicted_phrases = decoded_output.split(';')
 
-        # convert to list of phrases
-        preds_list = [p.split(";") for p in decoded_preds]
-        labels_list = [l.split(";") for l in decoded_labels]
+        decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+        gt_labels = decoded_labels[0].split(';')
 
         # aggregate metrics
         f1_at_5 = []
@@ -127,17 +126,16 @@ def make_compute_metrics(tokenizer):
         sbert_f1s = []
         bertscores = []
 
-        for pred, label in zip(preds_list, labels_list):
-            f1_at_5.append(exact_f1_at_k(pred, label, 5)[2])
-            f1_at_o.append(exact_f1_at_k(pred, label, len(label))[2])
-            sbert_f1s.append(sbert_soft_f1(pred, label))
-            bertscores.append(get_bertscore(pred, label))
+        f1_at_5 = exact_f1_at_k(predicted_phrases, gt_labels, 5)
+        f1_at_1 = exact_f1_at_k(predicted_phrases, gt_labels, 1)
+        sbert_f1 = sbert_soft_f1(predicted_phrases, gt_labels)
+        bertscore = get_bertscore(predicted_phrases, gt_labels)
 
         return {
-            "f1@5": sum(f1_at_5) / len(f1_at_5),
-            "f1@O": sum(f1_at_o) / len(f1_at_o),
-            "sbert_f1": sum(sbert_f1s) / len(sbert_f1s),
-            "bertscore": sum(bertscores) / len(bertscores),
+            "f1@5": f1_at_5,
+            "f1@1": f1_at_1,
+            "sbert_f1": sbert_f1,
+            "bertscore": bertscore,
         }
     return compute_metrics
 

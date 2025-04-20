@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug fine_tune.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/fine_tune/fine_tune.py",
+            "args": ["--single_batch"],
+            "console": "integratedTerminal"
+        }
+    ]
+}
