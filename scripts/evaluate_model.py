@@ -111,6 +111,35 @@ def sbert_soft_f1(predicted_phrases: List[str], correct_phrases: List[str], simi
     logger.info(f"SBERT Soft F1 score: {f1:.3f}")
     return f1
 
+def make_compute_metrics(tokenizer):
+    def compute_metrics(eval_preds):
+        preds, labels = eval_preds
+        decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
+        decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+
+        # convert to list of phrases
+        preds_list = [p.split(";") for p in decoded_preds]
+        labels_list = [l.split(";") for l in decoded_labels]
+
+        # aggregate metrics
+        f1_at_5 = []
+        f1_at_o = []
+        sbert_f1s = []
+        bertscores = []
+
+        for pred, label in zip(preds_list, labels_list):
+            f1_at_5.append(exact_f1_at_k(pred, label, 5)[2])
+            f1_at_o.append(exact_f1_at_k(pred, label, len(label))[2])
+            sbert_f1s.append(sbert_soft_f1(pred, label))
+            bertscores.append(get_bertscore(pred, label))
+
+        return {
+            "f1@5": sum(f1_at_5) / len(f1_at_5),
+            "f1@O": sum(f1_at_o) / len(f1_at_o),
+            "sbert_f1": sum(sbert_f1s) / len(sbert_f1s),
+            "bertscore": sum(bertscores) / len(bertscores),
+        }
+    return compute_metrics
 
 # ------------------------------------------------------------------------------
 # 5. Run this file directly to test

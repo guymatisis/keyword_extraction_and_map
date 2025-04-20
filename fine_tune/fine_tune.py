@@ -4,6 +4,11 @@
 # custom keyphrase‑generation dataset (text → comma‑separated keyphrases).
 # Requires:  transformers >= 4.40, datasets, accelerate, sentencepiece, torch.
 
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+
 from datasets import load_dataset, DatasetDict
 from transformers import (
     AutoTokenizer,
@@ -14,11 +19,12 @@ from transformers import (
     EarlyStoppingCallback,
 )
 import transformers
-print('Transformers module path:', transformers.__file__)
 import argparse
 import torch
 import datetime
-import os
+from scripts.evaluate_model import make_compute_metrics
+
+os.environ["COMET_API_KEY"] = "AUxlSrpcjGvzxsJLtGl2oMBi5"
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Fine-tune KeyBART on keyphrase data.")
@@ -116,7 +122,7 @@ def main():
     # ----------------------------------------------------------------------
     training_args = Seq2SeqTrainingArguments(
         output_dir="keybart_finetuned",
-        evaluation_strategy="epoch",
+        eval_strategy="epoch",
         save_strategy="epoch",
         logging_strategy="steps",
         logging_steps=50,
@@ -129,7 +135,7 @@ def main():
         predict_with_generate=True,
         generation_max_length=max_out,
         fp16=(args_cli.device == 'cuda'),
-        report_to="none",  # disables wandb
+        report_to="comet_ml",  # disables wandb
         load_best_model_at_end=True,  # load the best model when finished training
         metric_for_best_model="eval_loss",  # use eval loss to identify the best model
         greater_is_better=False,  # we want to minimize the loss
@@ -142,7 +148,8 @@ def main():
         eval_dataset=tokenised["validation"],
         tokenizer=tokenizer,
         data_collator=DataCollatorForSeq2Seq(tokenizer, model),
-        callbacks=[EarlyStoppingCallback(early_stopping_patience=2)]  # Stop if no improvement for 2 epochs
+        callbacks=[EarlyStoppingCallback(early_stopping_patience=2)],  # Stop if no improvement for 2 epochs
+        compute_metrics=make_compute_metrics(tokenizer),
     )
 
     # ----------------------------------------------------------------------
