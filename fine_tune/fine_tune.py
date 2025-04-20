@@ -23,7 +23,7 @@ import os
 def parse_args():
     parser = argparse.ArgumentParser(description="Fine-tune KeyBART on keyphrase data.")
     parser.add_argument('--device', choices=['cpu', 'cuda'], default='cuda' if torch.cuda.is_available() else 'cpu', help='Device to use (cpu or cuda)')
-    parser.add_argument('--epochs', type=int, default=4, help='Number of training epochs')
+    parser.add_argument('--epochs', type=int, default=50, help='Number of training epochs')
     parser.add_argument('--single_batch', action='store_true', help='Run a single batch for a quick py')
     return parser.parse_args()
 
