@@ -6,12 +6,16 @@ from transformers import BartForConditionalGeneration, AutoTokenizer
 import pandas as pd
 import json
 from evaluate_model import get_bertscore, sbert_soft_f1, exact_f1_at_k
+import torch
 
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VALIDATION_CSV = os.path.join(BASE_PATH, "data", "hands-on_machine_learning_with_scikit-learn_keras_and_tensorflow", "processed_inputs", "valid.csv")
 
 def main(model_path):
-    # load model
+# load model
+    cuda_avialable = torch.cuda.is_available
+    model = BartForConditionalGeneration.from_pretrained(model_path).eval()
+    model = model.to("cuda") if cuda_avialable else model
     model = BartForConditionalGeneration.from_pretrained(model_path)
     tokenizer = AutoTokenizer.from_pretrained(model_path)
 
@@ -34,6 +38,7 @@ def main(model_path):
         text = row.text
         gt_keyphrases = row.keyphrases
         inputs = tokenizer(text, return_tensors="pt", truncation=True)
+        inputs = inputs.to("cuda") if cuda_avialable else inputs
         output_ids = model.generate(**inputs, max_length=64, num_beams=4)
         decoded_output = tokenizer.decode(output_ids[0], skip_special_tokens=True)
         predicted_phrases = decoded_output.split(';')

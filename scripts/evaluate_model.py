@@ -113,30 +113,41 @@ def sbert_soft_f1(predicted_phrases: List[str], correct_phrases: List[str], simi
 
 def make_compute_metrics(tokenizer):
     def compute_metrics(eval_preds):
-        preds, labels = eval_preds
-        decoded_output = tokenizer.decode(preds[0], skip_special_tokens=True)
-        predicted_phrases = decoded_output.split(';')
 
-        decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
-        gt_labels = decoded_labels[0].split(';')
+        try:
+            preds, labels = eval_preds
+            decoded_output = tokenizer.decode(preds[0], skip_special_tokens=True)
+            predicted_phrases = decoded_output.split(';')
 
-        # aggregate metrics
-        f1_at_5 = []
-        f1_at_o = []
-        sbert_f1s = []
-        bertscores = []
+            decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+            gt_labels = decoded_labels[0].split(';')
 
-        f1_at_5 = exact_f1_at_k(predicted_phrases, gt_labels, 5)
-        f1_at_1 = exact_f1_at_k(predicted_phrases, gt_labels, 1)
-        sbert_f1 = sbert_soft_f1(predicted_phrases, gt_labels)
-        bertscore = get_bertscore(predicted_phrases, gt_labels)
+            # aggregate metrics
+            f1_at_5 = []
+            f1_at_o = []
+            sbert_f1s = []
+            bertscores = []
 
-        return {
-            "f1@5": f1_at_5,
-            "f1@1": f1_at_1,
-            "sbert_f1": sbert_f1,
-            "bertscore": bertscore,
-        }
+            f1_at_5 = exact_f1_at_k(predicted_phrases, gt_labels, 5)
+            f1_at_1 = exact_f1_at_k(predicted_phrases, gt_labels, 1)
+            sbert_f1 = sbert_soft_f1(predicted_phrases, gt_labels)
+            bertscore = get_bertscore(predicted_phrases, gt_labels)
+
+            return {
+                "f1@5": f1_at_5,
+                "f1@1": f1_at_1,
+                "sbert_f1": sbert_f1,
+                "bertscore": bertscore,
+            }
+        except Exception as e:
+            print(f"Error in compute_metrics: {e}")
+            return {
+                "f1@5": float("nan"),
+                "f1@1":  float("nan"),
+                "sbert_f1":  float("nan"),
+                "bertscore":  float("nan"),
+            }
+    
     return compute_metrics
 
 # ------------------------------------------------------------------------------

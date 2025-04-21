@@ -28,6 +28,7 @@ os.environ["COMET_API_KEY"] = "AUxlSrpcjGvzxsJLtGl2oMBi5"
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Fine-tune KeyBART on keyphrase data.")
+    parser.add_argument('--run_name', type=str, required=True, help='Name for the experiment run in Comet ML')
     parser.add_argument('--device', choices=['cpu', 'cuda'], default='cuda' if torch.cuda.is_available() else 'cpu', help='Device to use (cpu or cuda)')
     parser.add_argument('--epochs', type=int, default=50, help='Number of training epochs')
     parser.add_argument('--single_batch', action='store_true', help='Run a single batch for a quick py')
@@ -138,7 +139,8 @@ def main():
         load_best_model_at_end=True,  # load the best model when finished training
         metric_for_best_model="eval_loss",  # use eval loss to identify the best model
         greater_is_better=False,  # we want to minimize the loss
-              )
+        run_name=args_cli.run_name,  # add run name for Comet ML tracking
+    )
 
     trainer = Seq2SeqTrainer(
         model=model,
