@@ -1,0 +1,17 @@
+# T5 Model Configuration
+# 
+# This configuration defines settings for the T5 (Text-to-Text Transfer Transformer) model,
+# which can be adapted for keyphrase generation tasks.
+#
+# Parameters:
+#   name: HuggingFace model identifier (t5-base, t5-small, t5-large also available)
+#   max_input_length: Maximum number of tokens for input text
+#   max_output_length: Maximum number of tokens for generated keyphrases
+#
+# Usage:
+#   To use T5 instead of KeyBART:
+#   python fine_tune.py model=t5 run_name=my_t5_experiment
+
+name: t5-base
+max_input_length: 512  # T5's typical sequence length for efficient processing
+max_output_length: 64  # Kept same as KeyBART for consistency

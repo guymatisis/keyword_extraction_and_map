@@ -5,6 +5,6 @@ venv/
 *.pdf
 .venv/
 
-# Ignore model folders
-model/
-keybart_finetuned/
+# Ignore specific model folders
+/model/
+/keybart_finetuned/

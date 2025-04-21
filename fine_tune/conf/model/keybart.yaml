@@ -1,0 +1,19 @@
+# KeyBART Model Configuration
+# 
+# This configuration defines settings for the Bloomberg KeyBART model,
+# which is specifically designed for keyphrase generation tasks.
+#
+# Parameters:
+#   name: HuggingFace model identifier or local path
+#   max_input_length: Maximum number of tokens for input text (1024 is KeyBART's default)
+#   max_output_length: Maximum number of tokens for generated keyphrases
+#
+# Usage:
+#   This is the default model. Use with:
+#   python fine_tune.py run_name=my_experiment
+#   Or explicitly:
+#   python fine_tune.py model=keybart run_name=my_experiment
+
+name: bloomberg/KeyBART
+max_input_length: 1024  # KeyBART's default context window
+max_output_length: 64   # Sufficient for ~10 keyphrases
