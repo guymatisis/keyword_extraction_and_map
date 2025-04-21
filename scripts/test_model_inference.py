@@ -13,12 +13,13 @@ VALIDATION_CSV = os.path.join(BASE_PATH, "data", "hands-on_machine_learning_with
 
 
 def main(model_path):
-# load model
-    cuda_avialable = torch.cuda.is_available
-    model = BartForConditionalGeneration.from_pretrained(model_path).eval()
-    model = model.to("cuda") if cuda_avialable else model
-    model = BartForConditionalGeneration.from_pretrained(model_path)
+    # load model
+    cuda_available = torch.cuda.is_available()
+    device = torch.device("cuda" if cuda_available else "cpu")
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_path).to(device).eval()
     tokenizer = AutoTokenizer.from_pretrained(model_path)
+
+    is_longformer = "led" in model.config.model_type.lower() or "longformer" in model_path.lower()
 
     # get page to keyphrases mapping
     validation_df = pd.read_csv(VALIDATION_CSV, sep="|")
@@ -38,8 +39,19 @@ def main(model_path):
     for row in validation_df.itertuples():
         text = row.text
         gt_keyphrases = row.keyphrases
-        inputs = tokenizer(text, return_tensors="pt", truncation=True)
-        inputs = inputs.to("cuda") if cuda_avialable else inputs
+
+        inputs = tokenizer(
+            text,
+            return_tensors="pt",
+            truncation=True,
+            padding="max_length",
+            max_length=4096 if is_longformer else 1024,
+        )
+        if is_longformer:
+            inputs["global_attention_mask"] = torch.zeros_like(inputs["input_ids"])
+            inputs["global_attention_mask"][:, 0] = 1
+
+        inputs = {k: v.to(device) for k, v in inputs.items()}
         output_ids = model.generate(**inputs, max_length=64, num_beams=4)
         decoded_output = tokenizer.decode(output_ids[0], skip_special_tokens=True)
         predicted_phrases = decoded_output.split(';')
