@@ -5,6 +5,8 @@ from transformers import (
     Seq2SeqTrainingArguments,
     Seq2SeqTrainer,
     EarlyStoppingCallback,
+    LEDTokenizer,
+     LEDForConditionalGeneration
 )
 from datasets import load_dataset, Dataset, DatasetDict
 import os
@@ -18,13 +20,13 @@ class KeyphraseTrainer:
     def __init__(self, config: Config):
         self.config = config
         self.model = None
-        self.tokenizer = None
+        self.tokenizer = AutoTokenizer.from_pretrained(self.config.model.name)
         self.trainer = None
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         
     def load_model(self):
         """Load the model and tokenizer"""
-        self.tokenizer = AutoTokenizer.from_pretrained(self.config.model.name)
+        # self.tokenizer = AutoTokenizer.from_pretrained(self.config.model.name)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(self.config.model.name)
         self.model.to(self.device)
         return self.model, self.tokenizer
@@ -45,14 +47,17 @@ class KeyphraseTrainer:
                 padding="max_length",
             )
             
-            with self.tokenizer.as_target_tokenizer():
-                labels = self.tokenizer(
-                    batch["keyphrases"],
-                    max_length=self.config.model.max_output_length,
-                    truncation=True,
-                    padding="max_length",
-                )
-            model_inputs["labels"] = labels["input_ids"]
+            if self.config.model.name == "allenai/led-base-16384":
+                model_inputs["global_attention_mask"] = [[1] + [0] * (len(input_ids) - 1) for input_ids in model_inputs["input_ids"]]
+                with self.tokenizer.as_target_tokenizer():
+                    labels = self.tokenizer(
+                        batch["keyphrases"],
+                        max_length=self.config.model.max_output_length,
+                        truncation=True,
+                        padding="max_length",
+                    )
+                model_inputs["labels"] = labels["input_ids"]
+
             return model_inputs
         return preprocess
     
@@ -79,8 +84,8 @@ class KeyphraseTrainer:
         """Set up the trainer with all arguments"""
         training_args = Seq2SeqTrainingArguments(
             output_dir=self.config.output.dir,
-            eval_strategy="epoch",
-            save_strategy="epoch",
+            eval_strategy="steps",
+            save_strategy="steps",
             save_total_limit=self.config.output.save_total_limit,
             logging_strategy="steps",
             logging_steps=self.config.output.logging_steps,
@@ -136,6 +141,8 @@ class KeyphraseTrainer:
         
         # Save model
         self.save_model()
+        self.trainer.save_model()  # <- Hugging Face version (equivalent to self.model.save_pretrained(...))
+
         
         return metrics
     

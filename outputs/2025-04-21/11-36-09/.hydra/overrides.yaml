@@ -1,0 +1,2 @@
+- training=fast
+- training.num_epochs=10

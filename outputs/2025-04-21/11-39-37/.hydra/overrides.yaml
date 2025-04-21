@@ -1,0 +1,3 @@
+- training=fast
+- training.num_epochs=10
+- run_name=test

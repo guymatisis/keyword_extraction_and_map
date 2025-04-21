@@ -127,18 +127,11 @@ def make_compute_metrics(tokenizer):
             preds, labels = eval_preds
 
             preds = sanitize_preds(preds, tokenizer.pad_token_id)
-            preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
             decoded_output = tokenizer.decode(preds[0], skip_special_tokens=True)
             predicted_phrases = decoded_output.split(';')
 
             decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
             gt_labels = decoded_labels[0].split(';')
-
-            # aggregate metrics
-            f1_at_5 = []
-            f1_at_o = []
-            sbert_f1s = []
-            bertscores = []
 
             f1_at_5 = exact_f1_at_k(predicted_phrases, gt_labels, 5)
             f1_at_1 = exact_f1_at_k(predicted_phrases, gt_labels, 1)

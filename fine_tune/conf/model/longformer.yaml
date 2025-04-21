@@ -1,0 +1,6 @@
+# Longformer Model Configuration
+# 
+
+name: allenai/led-base-16384
+max_input_length: 4096  # we dont expect pages longer than this.
+max_output_length: 64   # Sufficient for ~10 keyphrases

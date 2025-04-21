@@ -52,7 +52,7 @@
 
 defaults:
   - _self_
-  - model: keybart        # Default model configuration
+  - model: longformer        # Default model configuration
   - training: default     # Default training configuration
   - data/hands_on_ml@datasets.hands_on_ml  # Default dataset
   - hydra: default       # Hydra-specific settings
@@ -65,7 +65,7 @@ datasets:
 
 # Output Configuration
 output:
-  dir: keybart_finetuned          # Directory for saving models
+  dir: model_output          # Directory for saving models
   save_total_limit: 1             # Keep only the last checkpoint
   logging_steps: 50               # Log metrics every 50 steps
 
