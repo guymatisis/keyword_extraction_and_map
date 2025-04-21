@@ -11,6 +11,7 @@ import torch
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VALIDATION_CSV = os.path.join(BASE_PATH, "data", "hands-on_machine_learning_with_scikit-learn_keras_and_tensorflow", "processed_inputs", "valid.csv")
 
+
 def main(model_path):
 # load model
     cuda_avialable = torch.cuda.is_available

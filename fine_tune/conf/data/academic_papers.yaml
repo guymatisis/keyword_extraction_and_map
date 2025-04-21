@@ -1,0 +1,9 @@
+_target_: data.HandsOnMLDataset
+data_dir: data
+dataset_name: academic_papers
+data_separator: ","
+train_file: papers_train.csv
+validation_file: papers_valid.csv
+test_file: papers_test.csv
+text_column: abstract
+keyphrases_column: keywords

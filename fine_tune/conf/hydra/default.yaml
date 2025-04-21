@@ -1,0 +1,22 @@
+# Default Hydra Configuration
+#
+# This configuration controls Hydra's behavior during training runs.
+# It specifies output paths and runtime behavior.
+
+# Output directory configuration
+run:
+  dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+# Job configuration
+job:
+  chdir: true  # Change working directory to output directory
+
+# Help configuration
+help:
+  app_name: Keyphrase Extraction Training
+  header: Keyphrase extraction model fine-tuning
+  footer: For more information, visit the project repository
+
+# Output configuration
+output_subdir: .hydra  # Store Hydra's output in a hidden directory
+verbose: false         # Minimize Hydra's output

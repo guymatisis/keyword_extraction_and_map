@@ -1,0 +1,28 @@
+# Fast Training Configuration
+# 
+# This configuration is designed for rapid experimentation and debugging.
+# It uses more aggressive learning rates and fewer epochs to quickly validate
+# model changes, data processing, or hyperparameter modifications.
+#
+# Parameters:
+#   device: Training device (cuda/cpu), automatically detected
+#   num_epochs: Reduced number of epochs for quick results
+#   batch_size: Larger batches for faster iteration
+#   gradient_accumulation_steps: Reduced for faster updates
+#   learning_rate: Increased for faster convergence
+#   weight_decay: Same as default to maintain regularization
+#   early_stopping_patience: Minimal patience for quick iteration
+#
+# Usage:
+#   For quick experiments or debugging:
+#   python fine_tune.py training=fast run_name=quick_test
+#
+# Note: Effective batch size = batch_size * gradient_accumulation_steps = 32
+
+device: auto                    # Will be resolved to 'cuda' if GPU is available, otherwise 'cpu'
+num_epochs: 3                  # Minimum epochs to see learning trends
+batch_size: 8                 # Larger batches for faster iteration
+gradient_accumulation_steps: 4 # Maintains effective batch size of 32
+learning_rate: 1e-4           # Aggressive learning rate for fast convergence
+weight_decay: 0.01            # Maintained for regularization
+early_stopping_patience: 1     # Stop quickly if not improving

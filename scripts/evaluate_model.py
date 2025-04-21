@@ -15,6 +15,15 @@ from sentence_transformers import SentenceTransformer, util
 import evaluate
 import transformers
 
+
+from transformers import PreTrainedTokenizerBase
+
+def sanitize_preds(preds, pad_token_id):
+    return [
+        [token if token != -100 else pad_token_id for token in pred]
+        for pred in preds
+    ]
+
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -116,6 +125,9 @@ def make_compute_metrics(tokenizer):
 
         try:
             preds, labels = eval_preds
+
+            preds = sanitize_preds(preds, tokenizer.pad_token_id)
+            preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
             decoded_output = tokenizer.decode(preds[0], skip_special_tokens=True)
             predicted_phrases = decoded_output.split(';')
 

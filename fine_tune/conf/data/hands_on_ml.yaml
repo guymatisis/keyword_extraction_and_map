@@ -1,0 +1,42 @@
+# Hands-on Machine Learning Dataset Configuration
+#
+# This configuration defines the structure and location of the dataset derived from
+# "Hands-on Machine Learning with Scikit-learn, Keras and TensorFlow" book.
+# It can be used as a template for adding other datasets to the training pipeline.
+#
+# Dataset Structure:
+# ----------------
+# The dataset should be organized in CSV files with text and keyphrases columns,
+# split into train/validation/test sets.
+#
+# Parameters:
+#   _target_: Python class that handles this dataset type
+#   data_dir: Root directory containing all datasets
+#   dataset_name: Specific dataset subfolder name
+#   data_separator: CSV delimiter character
+#   train_file: Training data filename
+#   validation_file: Validation data filename
+#   test_file: Test data filename
+#   text_column: Column name containing input text
+#   keyphrases_column: Column name containing target keyphrases
+#
+# Usage:
+# -----
+# 1. Default usage (included automatically):
+#    python fine_tune.py run_name=my_experiment
+#
+# 2. Modify separator:
+#    python fine_tune.py datasets.hands_on_ml.data_separator="," run_name=my_experiment
+#
+# 3. Combine with another dataset:
+#    python fine_tune.py +datasets.custom=@data/custom_dataset run_name=combined_dataset
+
+_target_: data.HandsOnMLDataset                                        # Dataset handler class
+data_dir: data                                                        # Base data directory
+dataset_name: hands-on_machine_learning_with_scikit-learn_keras_and_tensorflow  # Dataset subfolder
+data_separator: "|"                                                    # CSV field separator
+train_file: train.csv                                                # Training data file
+validation_file: valid.csv                                           # Validation data file
+test_file: test.csv                                                 # Test data file
+text_column: text                                                   # Input text column name
+keyphrases_column: keyphrases                                       # Target keyphrases column name

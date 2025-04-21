@@ -1,0 +1,28 @@
+# Default Training Configuration
+# 
+# This configuration provides balanced training parameters suitable for most use cases.
+# It's optimized for consumer-grade GPUs (e.g., RTX 3080, 4080) with gradient accumulation
+# for stable training. GPU/CPU selection is automatic based on availability.
+#
+# Parameters:
+#   device: Training device (cuda/cpu), automatically detected
+#   num_epochs: Total number of training epochs
+#   batch_size: Samples per batch (adjusted for GPU memory)
+#   gradient_accumulation_steps: Number of batches to accumulate before updating
+#   learning_rate: Learning rate for AdamW optimizer
+#   weight_decay: L2 regularization factor
+#   early_stopping_patience: Epochs to wait before stopping if no improvement
+#
+# Usage:
+#   This is the default configuration. Use with:
+#   python fine_tune.py run_name=my_experiment
+#
+# Note: Effective batch size = batch_size * gradient_accumulation_steps = 32
+
+device: auto  # Will be resolved to 'cuda' if GPU is available, otherwise 'cpu'
+num_epochs: 50                 # Standard training duration
+batch_size: 4                 # Adjusted for 12GB GPU memory
+gradient_accumulation_steps: 8 # For effective batch size of 32
+learning_rate: 5e-5           # Standard fine-tuning learning rate
+weight_decay: 0.01            # Prevents overfitting
+early_stopping_patience: 2     # Stop if no improvement for 2 epochs

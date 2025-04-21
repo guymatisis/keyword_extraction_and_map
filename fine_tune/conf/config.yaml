@@ -1,0 +1,77 @@
+# Main configuration file for the keyphrase extraction fine-tuning system
+# 
+# This configuration uses Hydra's composition system to combine multiple config groups:
+# - model: Model architecture and tokenizer settings (keybart, t5, etc.)
+# - training: Training hyperparameters and optimization settings
+# - data: Dataset configurations that can be combined for training
+# - hydra: Hydra-specific settings for logging and multirun
+#
+# Usage:
+#   python fine_tune.py run_name=experiment_name
+#   python fine_tune.py model=t5 training=fast run_name=quick_test
+#   python fine_tune.py +datasets.custom=@data/my_dataset run_name=combined_data
+
+# Keyphrase Extraction Model Training Configuration
+# 
+# This is the main configuration file that orchestrates all aspects of the training process.
+# It uses Hydra's composition system to combine multiple configuration groups into a single
+# cohesive configuration.
+#
+# Configuration Structure:
+# ----------------------
+# 1. Model: Defines the model architecture and its parameters
+#    - Available options: keybart (default), t5
+#    - Configure in: conf/model/*.yaml
+#
+# 2. Training: Controls the training process and hyperparameters
+#    - Available options: default, fast, full
+#    - Configure in: conf/training/*.yaml
+#
+# 3. Datasets: Manages one or more input datasets
+#    - Supports multiple datasets through CombinedDataset
+#    - Individual dataset configs in: conf/data/*.yaml
+#
+# 4. Output: Controls model saving and logging behavior
+#
+# 5. Debug: Provides options for testing and debugging
+#
+# Usage Examples:
+# -------------
+# 1. Basic training:
+#    python fine_tune.py run_name=my_experiment
+#
+# 2. Multiple datasets:
+#    python fine_tune.py +datasets.custom=@data/custom run_name=multi_dataset
+#
+# 3. Different training modes:
+#    python fine_tune.py training=fast run_name=quick_test
+#    python fine_tune.py training=full run_name=production
+#
+# 4. Mix and match:
+#    python fine_tune.py model=t5 training=full datasets.hands_on_ml.data_separator="," run_name=custom
+
+defaults:
+  - _self_
+  - model: keybart        # Default model configuration
+  - training: default     # Default training configuration
+  - data/hands_on_ml@datasets.hands_on_ml  # Default dataset
+  - hydra: default       # Hydra-specific settings
+
+# Dataset Configuration
+datasets:
+  _target_: data.CombinedDataset  # Supports multiple datasets
+  datasets:
+    - ${datasets.hands_on_ml}     # Default dataset, more can be added
+
+# Output Configuration
+output:
+  dir: keybart_finetuned          # Directory for saving models
+  save_total_limit: 1             # Keep only the last checkpoint
+  logging_steps: 50               # Log metrics every 50 steps
+
+# Debug Configuration
+debug:
+  single_batch: false             # Set to true for quick testing
+
+# Required Run Name
+run_name: ???                     # Must be specified via command line

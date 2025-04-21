@@ -1,0 +1,28 @@
+# Full Training Configuration
+# 
+# This configuration is optimized for complete training runs aimed at achieving
+# the best possible model performance. It uses a longer training schedule,
+# conservative learning rate, and larger effective batch size.
+#
+# Parameters:
+#   device: Training device (cuda/cpu), automatically detected
+#   num_epochs: Extended training duration for thorough optimization
+#   batch_size: Small batches for memory efficiency
+#   gradient_accumulation_steps: Increased for larger effective batch size
+#   learning_rate: Conservative learning rate for stable training
+#   weight_decay: Standard L2 regularization
+#   early_stopping_patience: Extended patience for finding optimal point
+#
+# Usage:
+#   For production model training:
+#   python fine_tune.py training=full run_name=production_model
+#
+# Note: Effective batch size = batch_size * gradient_accumulation_steps = 64
+
+device: auto                    # Will be resolved to 'cuda' if GPU is available, otherwise 'cpu'
+num_epochs: 100                # Extended training for thorough optimization
+batch_size: 4                 # Memory-efficient batch size
+gradient_accumulation_steps: 16 # Large effective batch (4 * 16 = 64)
+learning_rate: 3e-5           # Conservative learning rate for stability
+weight_decay: 0.01            # Standard regularization
+early_stopping_patience: 3     # More patience for finding optimal point
