@@ -25,6 +25,7 @@ class TrainingConfig:
     learning_rate: float
     weight_decay: float
     early_stopping_patience: int
+    fp16: bool = False  # Adding fp16 with False as default
 
 @dataclass
 class OutputConfig:

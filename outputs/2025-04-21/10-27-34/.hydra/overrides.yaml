@@ -1,0 +1,3 @@
+- training=default
+- run_name=baseline_training
+- training.fp16=true
