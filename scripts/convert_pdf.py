@@ -251,14 +251,7 @@ def process_index(pdf, start_page, end_page, output_path):
         # Filter lines:
         # 1. Not indented (doesn't start with tab)
         # 2. Has numbers at the end
-        filtered_lines = []
-        for line in column_text.split('\n'):
-            if not line.startswith('\t') and re.search(r'\d+\s*$', line.strip()):
-                filtered_lines.append(line)
-
-        if filtered_lines:
-            output.append('\n'.join(filtered_lines))
-
+        output.append(column_text)
     final_text = '\n'.join(output)
     
     # Save to file
@@ -344,7 +337,7 @@ def main():
         #     process_pdf_without_chapters(pdf,args.start_page, args.end_page, output_path, median_font_size, args.page_offset)
         # else:
         #     process_chapters(pdf, chapter_pages, output_path, median_font_size, args.page_offset)
-        process_index(pdf, 399  , 406, output_path)
+        process_index(pdf, args.start_page - 1, args.end_page, output_path)
         
         print(f"Processing complete. Output files saved to: {output_path}")
     

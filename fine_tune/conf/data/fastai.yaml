@@ -1,0 +1,6 @@
+# @package _global_
+defaults:
+  - default.yaml
+
+_target_: data.FastAIDataset
+dataset_name: deep-learning-for-coders-with-fastai-and-pytorch-first-edition

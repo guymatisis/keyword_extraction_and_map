@@ -1,7 +1,464 @@
+A
+absolute positional representations, 74
+abstractive QA, 205
+abstractive summaries, 141
+Accelerate library
+	about, 18
+	as part of Hugging Face ecosystem, 15
+	changes to training loop, 330
+	comparison with Trainer, 330
+	infrastructure configuration, 337
+	launching training jobs, 337
+Accelerator
+	is_main_process, 332
+	prepare(), 330
+	process_index, 332
+accuracy metric, 47, 163, 214
+ADAPET method, 288
+AI Dungeon, 124
+ALBERT model, 81, 174
+Amazon ASIN, 186
+Ameisen, Emmanuel, 212
+analysis, of pretraining run, 338-343
+Apache Arrow, 24, 307
+argmax, 102, 127, 177, 178, 240
+ASR (automatic speech recognition), 362
+attention
+	block local, 353
+	causal, 59
+	dilated, 352
+	encoder-decoder, 76
+	global, 352
+	linearized, 353
+	masked multi-head self-, 76
+	multi-headed, 67
+	Index
+	scaled dot-product, 62
+	self-, 6, 351
+	sparse, 352
+"Attention Is All You Need", xii
+attention head, 67
+attention mechanisms, 4
+attention scores, 62
+attention weights, 61
+auto classes, 38
+AutoConfig
+	defined, 65
+	from_pretrained(), 224
+	overriding default values, 101, 224, 325
+AutoModel
+	about, 38
+	from_pretrained(), 38
+	output_attentions, 69
+	TensorFlow class, 39
+AutoModelFor CausalLM
+	from_config(), 325
+	from_pretrained(), 127, 325
+	gradient_checkpointing, 333
+AutoModelForMaskedLM, 291
+AutoModelForQuestionAnswering, 176
+AutoModelForSeq2SeqLM, 156
+AutoModelForSequenceClassification
+	about, 46
+	from_pretrained(), 46
+	TensorFlow class, 50
+autoregressive attention, 59
+autoregressive language models, 126
+AutoTokenizer
+	add_special_tokens, 311
+	as_target_tokenizer(), 159
+	backend_tokenizer.normalizer, 314
+	backend_tokenizer.pre_tokenizer, 314
+	convert_ids_to_tokens(), 290
+	convert_tokens_to_string(), 34
+	decode(), 105, 127, 175
+	from_pretrained(), 33
+	loading from the cache, 33
+	padding, 35, 161
+	push_to_hub(), 322
+	return_special_tokens_mask, 290
+	return_tensors, 154
+	truncation, 35
+	vocab_size, 34
+B
+back translation, 272
+balanced_split() function, 258
+BALD (Bayesian Active Learning by Disagree‐
+	ment), 296
+band attention, 352
+BART model, 84, 145
+baseline summarization, 143
+beam search decoding, 130-134
+beams, 130
+BERT model, 1, 9, 79, 211, 217, 220, 224, 237, 260, 263
+BertViz library, 63
+bias, 19, 301
+bidirectional attention, 59
+BigBird model, 84, 353
+BigQuery, 306
+BigScience, 350
+BLEU score, 148-152
+bodies (of neural network), 98
+Boltzmann distribution, 135
+BookCorpus dataset, 9, 80, 301
+BPE (Byte-Pair Encoding), 94, 312, 316
+byte-level, 314
+C
+C4 dataset, 83, 301, 310
+CamemBERT tokenizer, 310
+causal attention, 59
+causal language modeling, 126, 323
+CCMatrix corpus, 284
+character tokenization, 29
+Chaudhary, Amit, 272
+class distribution, 27
+classification heads, 75
+classifiers, fine-tuning, 47, 293
+ClassLabel
+	about, 24
+	int2str(), 26, 91
+	names, 101
+	str2int(), 214
+CLINC150 dataset, 213
+CLIP model, 367
+closed-domain QA, 168
+[CLS] token
+	about, 34
+	excluding from tokenizer, 65
+	role in question answering, 179
+	role in text classification, 37
+	special token ID, 35
+CNN (convolutional neural network), 355
+CNN/DailyMail dataset, 141, 154
+CodeParrot model, 299, 337, 342
+CodeSearchNet dataset, 304
+Colab notebook, xviii, 20
+Common Crawl corpus, 80, 93
+common sense limitation, text and, 355
+community QA, 166
+compile() method, 221
+compute() function, 150
+compute_accuracy() method, 214, 241
+compute_loss() method, 221
+compute_metrics() function, 47, 108, 222
+compute_size() function, 215, 241
+concatenate_datasets() function, 118
+conditional text generation, 126
+CoNLL dataset, 92
+constant folding, 238
+context, 12
+context manager, 160
+context size, 28, 34, 84, 321
+contextualized embeddings, 61
+convert_graph_to_onnx.convert() function, 239
+convert_ids_to_tokens() method, 34
+convert_tokens_to_string() method, 34
+corpus, 9, 80, 92, 284, 300-303, 310
+cost, as a challenge of scaling, 349
+coverage metrics, 312
+cross-entropy loss, 104, 219, 295, 347
+cross-lingual transfer
+	about, 115
+	fine-tuning multiple languages simultane‐
+	ously, 118-120
+	zero-shot transfer, 116
+CSV dataset, 25
+CTRL model, 82
+CUAD dataset, 169
+custom datasets, 25
+custom models, 99-102, 101
+cutoff, 138
+D
+DALL-E model, 366
+data
+	augmentation of, 271
+	availability of, as a challenge with trans‐
+	formers, 19
+	domain of, 168
+	switching formats of, 26
+data collators, 36, 107, 160, 289
+data parallelism, 330
+DataFrame, dataset object from, 26, 109, 258
+Dataloader, implementing, 326-329
+Dataset (object)
+	changing the output format, 26, 29, 40
+	creating a FAISS index, 277
+	DataFrame converted to, 26, 109, 258
+	features, 23
+	flatten(), 168
+	processing data with the map() function, 35, 51, 103-105
+	select(), 90
+	shuffle(), 90
+dataset cards, 16, 310
+datasets
+	adding to Hugging Face Hub, 309
+	add_faiss_index() function, 277
+	add_faiss_index_from_external_arrays()
+	function, 277
+	BookCorpus, 9, 80, 301
+	building custom code, 303-306
+	C4, 83, 301, 310
+	CLINC150, 213
+	CNN/DailyMail, 141, 154
+	CodeParrot, 299, 337, 342
+	CodeSearchNet, 304
+	CommonCrawl, 80
+	CoNLL, 92
+	creating with Google BigQuery, 304
+	CSV, 25
+	CUAD, 169
+	curation of, as a challenge of scaling, 349
+	custom, 25
+	Emotion, 23
+	for building review-based QA systems, 167-172
+	for multilingual named entity recognition, 88-92
+	GitHub, 252-257
+	GLUE, 23
+	ImageNet, 7
+	JSON, 25
+	large, 300-310
+	loading in various formats, 25
+	MNLI, 265
+	NQ, 172
+	OSCAR, 310
+	PAN-X, 88
+	quirks of, 51
+	SAMSum, 157
+	SQUAD, 23, 171
+	SubjQA, 167-172
+	SUPERB, 362
+	SuperGLUE, 81, 83
+	text, 25
+	tokenization of entire, 35
+	VQA, 364
+	WikiANN, 88
+	Wikipedia, 80
+	XTREME, 88
+Datasets library
+	about, 18
+	as part of Hugging Face ecosystem, 16
+	inspecting all dataset configurations, 88
+	inspecting metadata, 23
+	listing datasets on the Hub, 23
+	loading datasets from the Hub, 23
+	loading local datasets, 25
+	loading metrics from the Hub, 150, 153, 214
+	loading remote datasets, 25
+Davison, Joe, 263
+DDP (DataDistributedParallelism), 336
+DeBERTa model, 81
+decoder, 58, 76
+decoder branch, 82
+decoder layers, 58
+decoder-only model, 59
+decoding
+	beam search decoding, 130-134
+	greedy search, 127-130
+decoding method, 125, 140
+deep neural networks, 244
+deepset, xxi, 182, 187
+deployment, as a challenge of scaling, 350
+dialogue (conversation), 141, 157
+dialogue summaries, generating, 162
+dilated attention, 352
+discriminator, 81
+DistilBERT model, 22, 28, 33, 36, 80
+document length, as a challenge with trans‐
+	formers, 19
+document store
+	compatibility with Haystack retrievers, 182
+	defined, 182
+	initializing with Elasticsearch, 183
+	loading documents with, 185
+	loading labels with, 191
+domain
+	adaptation, 8, 199-203, 289
+	of data, 168
+domain adaptation, 8, 199-203, 289
+dot product, 62-67, 77, 353, 367
+downsample, 90, 116
+DPR (Dense Passage Retrieval), 194
+dynamic quantization, 235
+E
+efficiency, 209-247
+	about, 209
+	benchmarking quantized models, 236
+	creating performance benchmarks, 212-217
+	intent detection, 210
+	knowledge distillation, 217-230
+	optimizing inference with ONNX/ONNX
+	Runtime, 237-243
+	quantization, 230-236
+	weight pruning, 243-247
+Elasticsearch, 183, 186
+ElasticsearchRetriever.eval() method, 190
+ELECTRA model, 81
+EleutherAI, 83, 350
+ELMO model, 8, 61
+EM (Exact Match) score, 196
+embeddings
+	contextualized, 61
+	dense, 65
+	distilBERT, 37
+	positional, 73
+	token, 57, 58
+	using as a lookup table, 275-282
+	word, xii, 8
+Emotion dataset, 23
+encoder
+	about, 60
+	adding classification heads, 75
+	adding layer normalization, 71
+	defined, 57
+	feed-forward layer, 70
+	positional embeddings, 73
+	self-attention, 61-70
+encoder branch, 79-82
+encoder layers, 58
+encoder-decoder attention, 76
+encoder-decoder branch, 83
+encoder-decoder model, 2, 59
+encoder-only model, 59
+end-to-end, 37, 45, 181, 189, 193, 205
+English Wikipedia dataset, 80
+EOS (end-of-sequence) token, 58
+error analysis, 50-53, 108-115
+exponent, 231
+extracting
+	answers from text, 173-181
+	last hidden states, 39
+extractive QA, 13, 166
+extractive summaries, 141
+F
+F.log_softmax() function, 221
+F1-score(s), 48, 105, 120, 150, 196, 260, 285
+facts limitation, text and, 355
+FAISS
+	document store, 183, 196
+	efficient similarity search with, 282
+	index, adding to a Dataset object, 277
+	library, 196, 282
+family tree, of transformers, 78
+FARM library
+	reader for question answering, 187
+	training models with, 199-203
+FARMReader
+	about, 187
+	comparison with the pipeline() function, 187
+	loading a model with, 187
+	predict_on_texts(), 188
+	train(), 199, 202
+Fast Forward QA series, 207
+fastdoc library, xxi
+fastpages, 370
+feature extractors, 38-45, 368
+feature matrix, creating, 41
+feed-forward layer, 70
+few-shot learning, 288
+FF NNs (feed-forward neural networks), 6
+filtering noise, 306
+fine-tuning
+	as a step in ULMFiT process, 8
+	classifiers, 47, 293
+	knowledge distillation for, 217
+	language models, 289-292
+	multiple languages simultaneously, 118-120
+	PEGASUS, 158-162
+	transformers, 45-54
+	vanilla transformers, 284
+	with Keras, 50
+	XLM-RoBERTa, 106-115
+fit() method, 50
+fixed-point numbers, 231
+flatten() method, 168
+floating-point numbers, 231
+forward() function, 99, 100
+frameworks, interoperability between, 39
+from_config() method, 325
+from_pandas() method, 258
+from_pretrained() method, 33, 38, 101, 224, 325
+fused operation, 238
+G
+generate() function, 127, 133, 135, 138, 156
+generative QA, 205
+generative tasks, 366
+Geron, Aurelien, xvi
+getsizeof() function, 235
+get_all_labels_aggregated() method, 192
+get_dataset_config_names() function, 88, 168
+get_dummies() function, 30
+get_nearest_examples() function, 277
+get_nearest_examples_batch() function, 278
+get_preds() function, 267
+GitHub
+	building an Issues Tagger, 251-259
+	License API, 304
+	repository, 252, 300
+	website, 251
+GitHub Copilot, 299, 303
+GitHub REST API, 252, 304
+global attention, 352
+GLUE dataset, 23, 79
+Google Colaboratory (Colab), xviii, 20
+Google searches, 166
+Google's Meena, 124
+GPT model, 1, 9, 82, 302
+GPT-2 model, 82, 123, 129, 144, 146, 276, 302, 313, 321, 330
+GPT-3 model, 83, 276, 346
+GPT-J model, 83, 350
+GPT-Neo model, 83, 350
+gradient accumulation, 161, 335
+gradient checkpointing, 335
+greedy search encoding, 127-130
+Grid Dynamics, 207
+ground truth, 132, 147, 160, 190, 196, 214, 217, 223, 240
+Gugger, Sylvain, xvi
+H
+hardware requirements, xviii
+hash symbols (#), 12
+Haystack library
+	building QA pipelines using, 181-189
+	evaluating reader, 196
+	evaluating retriever, 189-196
+	evaluating whole pipeline, 203
+	initializing document store, 183
+	initializing pipeline, 188
+	initializing reader, 187
+	initializing retriever, 185
+	retriever-reader architecture, 181
+	tutorial, 196, 208
+	website, 182
+heads (of neural network), 98
+head_view() function, 69
+hidden state, 2, 37
+Hinton, Geoff, 217
+"How We Scaled Bert to Serve 1+ Billion Daily
+	Requests on CPUs", 209
+Howard, Jeremy, xvi
+the Hub (see Hugging Face Hub)
+Hugging Face
+	Accelerate library, 18
+	community events, 370
+	Datasets library, 18
+	ecosystem, 15
+	Tokenizers library, 17
+Hugging Face Datasets, 23
+Hugging Face Hub
+	about, 16
+	adding datasets to, 309
+	choosing question answering models on, 168
+	listing datasets on, 23
+	logging into, 47
+	saving custom tokenizers on, 322
+	saving models on, 53
+	widgets, 121
 Hugging Face Transformers, release of, 9
+	(see also transformers)
+The Hugging Face Course, xvi
 human reporting bias limitation, text and, 355
 hyperparameters, finding with Optuna, 226
 hyperparameter_search() method, 228
+I
 iGPT model, 355
 ImageNet dataset, 7
 Imbalanced-learn library, 28
@@ -12,6 +469,11 @@ inference widget, 16
 InferKit, 124
 information bottleneck, 4
 infrastructure, as a challenge of scaling, 349
+initializing
+	document store, 183
+	models, 325
+	readers, 187
+	retriever, 185
 init_weights() method, 100
 int2str() method, 26
 intent detection, 210
@@ -22,10 +484,13 @@ Issues tab, 251
 Issues Tagger, building, 251-259
 iter() function, 328
 iterative_train_test_split() function, 258, 259
+J
 JAX library, 10
 Jira, 251
 JSON dataset, 25
 Jupyter Notebook, 47, 300, 363
+K
+Kaggle Notebooks, xviii
 Karpathy, Andrej, 3, 27, 77
 Keras library, 50, 221
 kernel function, 354
@@ -33,7 +498,22 @@ key, 62
 key/value pair, 215
 Kite, 299
 KL (Kullback-Leibler) divergence, 218
+knowledge distillation
+	about, 217
+	benchmarking the model, 229
+	choosing student initialization, 222-226
+	creating a trainer, 220
+	finding hyperparameters with Optuna, 226
+	for fine-tuning, 217
+	for pretraining, 220
+L
 labels, 249-296
+	about, 249
+	building GitHub Issues tagger, 251-259
+	incorrect, 51
+	leveraging unlabeled data, 289-296
+	working with a few, 271-289
+	working with no labeled data, 263-271
 language models, fine-tuning, 289-292
 language, as a challenge with transformers, 19
 last hidden state, 3, 39
@@ -45,6 +525,16 @@ learning rate warm-up, 71
 Libraries.io, 304
 linearized attention, 353
 list_datasets() function, 23
+loading
+	custom datasets, 25
+	custom models, 101
+	pretrained models, 46
+	tokenizer, 33
+load_dataset() function
+	download configuration, 306
+	loading a single configuration, 88, 168
+	loading a specific version, 141
+	streaming, 308
 log probability, 131
 logits, 75, 102, 125, 127, 131, 134, 176-178, 187, 218, 221, 240, 286
 long-form QA, 166
@@ -53,6 +543,7 @@ lookup table, using embeddings as a, 275-282
 LSTM (long-short term memory) networks, 1
 Lucene, 186
 LXMERT model, 365
+M
 M2M100 model, 84, 272, 284
 MAD-X library, 121
 magnitude pruning, 245
@@ -67,14 +558,31 @@ mean pooling, 276
 Meena (Google), 124
 memory mapping, 18, 306
 memory, as a performance benchmark, 212
+metrics
+	Accuracy, 47, 163, 214
+	add() function, 150
+	add_batch() function, 150
+	BLEU, 148-152
+	compute(), 150
+	Exact Match, 196
+	F1-score, 48, 105, 120, 150, 197, 260, 285
+	log probability, 130
+	mean average precision, 189
+	Perplexity, 333
+	Precision, 105, 148
+	Recall, 105, 150, 152, 189
+	ROUGE, 152
+	SacreBLEU, 150
 minGPT model, 77
 MiniLM model, 174
 MLM (masked language modeling), 9, 80, 324
 MNLI dataset, 265
 modality limitation, text and, 355
 model cards, 16
+the Model Hub, xii
 model weights, 16
 model widgets, interacting with, 121
+models
 ALBERT, 81, 174
 BART, 84, 145
 BERT, 1, 9, 79, 211, 217, 220, 224, 237, 260, 263
@@ -107,6 +615,8 @@ minGPT, 77
 miniLM, 174
 Naive Bayes, 260-263
 PEGASUS, 145, 154, 158, 158-162
+performance of, as a performance bench‐
+	mark, 212
 RAG, 205
 Reformer, 353
 ResNet, 6, 365
@@ -121,21 +631,60 @@ types of, 221
 ULMFiT, 1, 8
 VisualBERT, 365
 ViT, 356
+	Wav2Vec2, 362
+	XLM, 80
+	XLM-RoBERTa, 39, 80, 93, 106-115, 174
 model_init() method, 107
 movement pruning, 246
 multi-headed attention, 67
 multilabel text classification problem, 251
 multilingual named entity recognition, 87-121
+	about, 87
+	anatomy of Transformers Model class, 98
+	bodies, 98
+	creating custom models for token classifica‐
+	tion, 99-102
+	cross-lingual transfer, 115-120
+	dataset, 88-92
+	error analysis, 108-115
+	fine-tuning on multiple languages simulta‐
+	neously, 118-120
+	fine-tuning XLM-RoBERTa, 106-115
+	heads, 98
+	interacting with model widgets, 121
+	loading custom models, 101-102
+	multilingual transformers, 92
+	performance measures, 105
+	SentencePiece tokenizer, 95
+	tokenization, 93-96
+	tokenizer pipeline, 94
+	tokenizing texts for NER, 103-105
+	transformers for, 96
+	XLM-RoBERTa, 93
+	zero-shot transfer, 116
 multilingual transformers, 92
 multimodal transformers, 361-364
+N
 n-gram penalty, 133
 n-grams, 152
 Naive baseline, implementing, 260-263
 Naive Bayes classifier, 260
 named entities, 11
+NER (named entity recognition)
+	aligning predictions, 105
+	as a transformer application, 11
+	(see also multilingual named entity rec‐
+	ognition)
+	task, 92, 108, 115
+	tokenizing texts for, 103-105
+	transformers for, 96
 neural network architecture, xii, 1, 4
+Neural Networks Block Movement Pruning
+	library, 247
 next token probability, 133
 NLI (natural language inference), 265-271
+NLP (natural language processing), transfer
+	learning in, 6-10
 NlpAug library, 272
 NLU (natural language understanding), 79
 noise, filtering, 306
@@ -146,12 +695,15 @@ NQ dataset, 172
 NSP (next sentence prediction), 80
 nucleus sampling, 136-139
 numericalization, 29
+O
 objective() function, 227
 offset tracking, 314
 one-hot encoding, 30, 65
 one-hot vectors, 30, 37
 one_hot() function, 30
 ONNX-ML, 237
+ONNX/ONNX Runtime, optimizing inference
+	with, 237-243
 opacity, as a challenge with transformers, 19
 open source, 251, 304, 312, 350, 370
 open-domain QA, 168
@@ -163,12 +715,39 @@ Optuna, finding hyperparameters with, 226
 ORT (ONNX Runtime), 242
 OSCAR corpus, 310
 out-of-scope queries, 210
+P
 PAN-X dataset, 88, 114
 pandas.Series.explode() function, 110
+Paperspace Gradient Notebooks, xviii
 partial hypotheses, 130
 Path.stat() function, 215
+PEGASUS model
+	about, 145
+	evaluating on CNN/DailyMail dataset, 154
+	evaluating on SAMSum, 158
+	fine-tuning, 158-162
+performance
+	creating benchmarks, 212-217
+	defining metrics, 47
+	measures of, 105
+	relationship with scale, 347
 perf_counter() function, 215
 permutation equivariant, 72
+pip, xii
+pipeline
+	building using Haystack, 181-189
+	tokenizer, 94, 312
+	Transformers library, 10
+pipeline() function
+	aggregation_strategy, 10
+	defined, 10
+	named entity recognition, 10
+	question answering, 12
+	summarization, 13
+	text classification, 11
+	text generation, 14
+	translation, 13
+	using a model from the Hub, 13
 plot_metrics() function, 229
 pooling, 276
 Popen() function, 183
@@ -181,23 +760,73 @@ predict() method, 48, 115
 prepare() function, 330
 pretokenization, 94
 pretrained models, 38, 46
+pretraining
+	about, 7
+	as a step in ULMFiT process, 8
+	knowledge distillation for, 220
+	objectives for, 323
 prompts, 288
 proportion, of continued words, 312
 pseudo-labels, 296
 push_to_hub() method, 53, 322
 Python, tokenizer for, 313-318
+PyTorch library
+	about, 10
+	classes and methods, 64
+	hub, 17
+	interoperability with, 39
+	tril() function, 76
+	website, xvi
+Q
 QA (question answering), 165-207
+	about, 165
+	abstractive, 205
+	as a transformer application, 12
+	building pipeline using Haystack, 181-189
+	building review-based systems, 166-189
+	closed-domain, 168
+	community, 166
+	dataset, 167-172
+	domain adaptation, 199-203
+	evaluating reader, 196-199
+	evaluating retriever, 189-196
+	evaluating whole pipeline, 203
+	extracting answers from text, 173-181
+	extractive, 13, 166
+	generative, 205
+	improving pipeline, 189-199
+	long passages in, 179
+	long-form, 166
+	open-domain, 168
+	RAG (retrieval-augmented generation), 205
+	span classification task, 173
+	SQuAD dataset, 171
+	Table QA, 359
+	tokenizing text for, 175-178
 quality, of generated text, 148-154
+quantization
+	about, 230-235
+	benchmarking models, 236
+	dynamic, 235
+	quantization-aware training, 236
+	static, 235
+	strategies for, 235
 quantize_dynamic() function, 236, 242
 quantize_per_tensor() function, 233
 query, 62
 question-answer pair, 166, 191, 197, 199
 question-context pair, 179
+R
 radix point, 231
 RAG (retrieval-augmented generation), 205
 RAG-Sequence models, 205
 RAG-Token models, 206
 random attention, 352
+readers
+	as a component of retriever-reader architec‐
+	ture, 181
+	evaluating, 196-199
+	initializing, 187
 reading comprehension models, 166
 README cards, 310
 recall, 189
@@ -206,6 +835,11 @@ Reformer model, 353
 relative positional representations, 74
 ResNet model, 6, 365
 retrieve() method, 186
+retriever
+	as a component of retriever-reader architec‐
+	ture, 181
+	evaluating, 189-196
+	initializing, 185
 retriever-reader architecture, 181
 review-based QA systems, building, 166-189
 RNNs (recurrent neural networks), 2
@@ -214,18 +848,33 @@ ROUGE score, 152
 run() method, 188, 190
 run_benchmark() method, 213
 Rust programming language, 17, 314
+S
 SacreBLEU, 150
 sample efficiency, 348
 sample() method, 169
 sampling methods, 134-139
 SAMSum dataset, 157
 Samsung, 157
+saving
+	custom tokenizers on Hugging Face Hub, 322
+	models, 53
 scaled dot-product attention, 62-67
 scaling laws, 347
+scaling transformers
+	about, 345
+	challenges with, 349
+	linearized attention, 353
+	scaling laws, 347
+	self-attention mechanisms, 351
+	sparse attention, 352
 Scikit-learn format, 41
 Scikit-multilearn library, 257
 select() method, 90
 self-attention, 6, 351
+self-attention layer
+	about, 61
+	multi-headed attention, 67-70
+	scaled dot-product attention, 62-67
 SentencePiece tokenizer, 93, 95
 sentiment analysis, 10
 sent_tokenize() function, 146
@@ -244,12 +893,15 @@ similarity function, 62
 skip connections, 71
 smooth power laws, 347
 softmax, 62, 66, 77, 81, 125, 127, 134, 178, 187, 218, 221
+software requirements, xviii
 SoundFile library, 363
 span classification task, 173
 sparse attention, scaling and, 352
 speech-to-text, 361-364
 speedup, 284
 split() function, 31
+SQuAD (Stanford Question Answering Data‐
+	set), 23, 171, 198, 202
 Stack Overflow, 166, 212
 state of the art, 209
 static quantization, 235
@@ -261,9 +913,23 @@ sublayer, 60, 70, 76
 subword fertility, 312
 subword tokenization, 33
 summarization, 141-163
+	about, 141
+	abstractive summaries, 141
+	as a transformer application, 13
+	baseline, 143
+	CNN/DailyMail dataset, 141
+	comparing summaries, 146
+	evaluating PEGASUS on CNN/DailyMail
+	dataset, 154
+	extractive summaries, 141
+	generating dialogue summaries, 162
+	measuring quality of generated text, 148-154
+	text summarization pipelines, 143-146
+	training models for, 157-163
 SUPERB dataset, 362
 SuperGLUE dataset, 81, 83
 Sutton, Richard, 345
+T
 T5 model, 83, 144, 310
 Table QA, 359
 TabNine, 299
@@ -272,21 +938,87 @@ task agnostic distillation, 223
 Tensor.masked_fill() function, 76
 Tensor.storage() function, 235
 TensorBoard, 331
+TensorFlow
+	about, 10
+	classes and methods, 64
+	fine-tuning models using Keras API, 50
+	hub, 17
+	website, xvi
+tensors
+	batch matrix-matrix product of, 66
+	converting to TensorFlow, 50
+	creating one-hot encodings, 30
+	filling elements with a mask, 76
+	integer representation of, 233
+	quantization, 231
+	returning in tokenizer, 39
+	storage size, 235
 test_step() method, 221
+text
+	extracting answers from, 173-181
+	going beyond, 354-370
+	tokenizing for QA, 175-178
+	vision and, 364-370
 text classification, 21-55
+	about, 21
+	as a transformer application, 10
+	character tokenization, 29
+	class distribution, 27
+	DataFrames, 26
+	datasets, 22-25
+	Datasets library, 22-25
+	fine-tuning transformers, 45-54
+	length of tweets, 28
+	subword tokenization, 33
+	tokenizing whole datasets, 35
+	training text classifiers, 36-45
+	transformers as feature extractors, 38-45
+	word tokenization, 31
 text dataset, 25
 text entailment, 265
 text generation, 123-140
+	about, 123
+	as a transformer application, 14
+	beam search decoding, 130-134
+	challenges with, 125
+	choosing decoding methods, 140
+	greedy search encoding, 127
+	sampling methods, 134-139
 text summarization pipelines, 143-146
 TextAttack library, 272
+TF-IDF (Term Frequency-Inverse Document
+	Frequency) algorithm, 185
 TimeSformer model, 358
 timestep, 4, 61, 76, 127, 130, 134
 time_pipeline() function, 215
 TLM (translation language modeling), 80
+token classification, creating custom models
+	for, 99-102
 token embeddings, 58, 61
 token perturbations, 272
+tokenization
+	about, 29, 93
+	character, 29
+	of entire dataset, 35
+	subword, 33
+	text for QA, 175-178
+	texts for NER, 103-105
+	word, 31
 tokenizer model, 95, 312
 tokenizer pipeline, 94
+tokenizers
+	about, 12
+	building, 310-321
+	for Python, 313-318
+	measuring performance, 312
+	saving on Hugging Face Hub, 322
+	training, 318-321
+Tokenizers library
+	about, 17
+	as part of Hugging Face ecosystem, 15
+	auto class, 38
+	loading tokenizers from the Hub, 38
+	tokenizing text, 38
 top-k sampling, 136-139
 top-p sampling, 136-139
 torch.bmm() function, 66
@@ -294,13 +1026,148 @@ torch.save() function, 214, 241
 torch.tril() function, 76
 to_tf_dataset() method, 50
 train() method, 199, 223
+Trainer
+	about, xviii
+	computing custom loss, 221
+	creating a custom Trainer, 221
+	defining metrics, 47, 107, 223, 286
+	fine-tuning models, 48
+	generating predictions, 48
+	hyperparameter_search(), 228
+	knowledge distillation, 220
+	logging history, 291
+	model_init(), 107
+	push_to_hub(), 53
+	using a data collator, 107, 160, 290
+training
+	models, 47
+	summarization models, 157-163
+	text classifiers, 36
+	tokenizers, 318-321
 training loop, defining, 330-337
 training run, 337
 training sets, 42, 257
 training slices, creating, 259
 training transformers from scratch, 299-343
+	about, 299
+	adding datasets to Hugging Face Hub, 309
+	building custom code datasets, 303-306
+	building tokenizers, 310-321
+	challenges of building large-scale corpus, 300-303
+	defining training loop, 330-337
+	implementing Dataloader, 326-329
+	initializing models, 325
+	large datasets, 300-310
+	measuring tokenizer performance, 312
+	pretraining objectives, 323
+	results and analysis, 338-343
+	saving custom tokenizers on Hugging Face
+	Hub, 322
+	tokenizer for Python, 313-318
+	tokenizer model, 312
+	training run, 337
+	training tokenizers, 318-321
+TrainingArguments
+	about, 47
+	creating a custom TrainingArguments, 220
+	gradient accumulation, 161
+	label_names, 222
+	save_steps, 106
 train_new_from_iterator() method, 318
 train_on_subset() function, 119
 train_step() method, 221
 TransCoder model, 304
+transfer learning
+	comparison with supervised learning, 6
+	in computer vision, 6
+	in NLP, 6-10
+	weight pruning and, 243
+transformer applications
+	about, 10
+	named entity recognition, 11
+	question answering, 12
+	summarization, 13
+	text classification, 10
+	text generation, 14
+	translation, 13
 Transformer architecture, 57-84
+	about, 1, 57-59
+	adding classification heads, 75
+	adding layer normalization, 71
+	decoder, 76
+	decoder branch, 82
+	encoder, 60-75
+	encoder branch, 79-82
+	encoder-decoder attention, 76
+	encoder-decoder branch, 83
+	family tree, 78
+	feed-forward layer, 70
+	positional embeddings, 73
+	self-attention, 61-70
+transformers
+	about, xii
+	as feature extractors, 38-45
+	BERT, 9
+	efficiency of, 209-247
+	fine-tuned on SQuAD, 173
+	fine-tuning, 45-54
+	for named entity recognition, 96
+	GPT, 9
+	main challenges with, 19
+	multilingual, 92
+	scaling (see scaling transformers)
+	training (see training transformers)
+Transformers library
+	about, 9
+	as part of the Hugging Face ecosystem, 15
+	auto classes, 33
+	fine-tuning models with, 45-50
+	loading models from the Hub, 38
+	loading tokenizers from the Hub, 33
+	pipelines, 10-15
+	saving models on the Hub, 53
+TransformersReader, 187
+translation, as a transformer application, 13
+U
+UDA (Unsupervised Data Augmentation), 250, 295
+ULMFiT (Universal Language Model Fine-
+	Tuning), 1, 8
+UMAP algorithm, 42
+Unicode normalization, 94, 314
+Unigram, 312
+unlabeled data, leveraging, 289-296
+upscale, 82
+UST (Uncertainty-Aware Self-Training), 250, 295
+V
+value, 62
+vanilla transformers, fine-tuning, 284
+vision, 355-358, 364-370
+VisualBERT model, 365
+visualizing training sets, 42
+ViT model, 356
+VQA dataset, 364
+W
+Wav2Vec2 models, 362
+webtext, 87, 303, 349
+weight pruning
+	about, 243
+	methods for, 244-247
+	sparsity in deep neural networks, 244
+weighted average, 61
+Weights & Biases, 331
+WikiANN dataset, 88
+word tokenization, 31
+WordPiece, 33, 93, 312
+word_ids() function, 103
+Write With Transformer, 124
+write_documents() method, 185
+X
+XLM model, 80
+XLM-RoBERTa model, 39, 80, 93, 106-115, 174
+XTREME benchmark, 88
+Z
+zero point, 231
+zero-shot classification, 263-271
+zero-shot cross-lingual transfer, 87
+zero-shot learning, 88
+zero-shot transfer, 88, 116

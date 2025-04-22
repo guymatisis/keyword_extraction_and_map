@@ -1,0 +1,33 @@
+datasets:
+  _target_: data.CombinedDataset
+  datasets:
+  - ${datasets.hands_on_ml}
+  hands_on_ml:
+    data_dir: data
+    data_separator: '|'
+    train_file: train.csv
+    validation_file: valid.csv
+    test_file: test.csv
+    text_column: text
+    keyphrases_column: keyphrases
+    _target_: data.HandsOnMLDataset
+    dataset_name: hands-on_machine_learning_with_scikit-learn_keras_and_tensorflow
+output:
+  dir: model_output
+  save_total_limit: 1
+debug:
+  single_batch: false
+run_name: combined_datasets_test
+model:
+  name: allenai/led-base-16384
+  max_input_length: 4096
+  max_output_length: 64
+training:
+  device: auto
+  num_epochs: 50
+  batch_size: 4
+  gradient_accumulation_steps: 8
+  learning_rate: 5.0e-05
+  weight_decay: 0.01
+  early_stopping_patience: 2
+data: {}

@@ -1,0 +1,3503 @@
+{
+  "3": [
+    "deep learning",
+    "neural networks used",
+    "deep learning using"
+  ],
+  "4": [
+    "deep learning",
+    "Enlitic company malignant tumor identification",
+    "medicine",
+    "tumor identification"
+  ],
+  "5": [
+    "deep learning",
+    "history",
+    "McCulloch",
+    "neural networks",
+    "Pitts",
+    "Rosenblatt"
+  ],
+  "6": [
+    "Mark I Perceptron",
+    "McClelland",
+    "Minsky",
+    "neural networks",
+    "Papert",
+    "Group)",
+    "PDP Research Group",
+    "Perceptrons book (Minsky and Papert)",
+    "Rumelhart"
+  ],
+  "7": [
+    "Enlitic company malignant tumor identification",
+    "fast.ai ML courses",
+    "Kaggle machine learning community",
+    "medicine",
+    "neural networks",
+    "tumor identification"
+  ],
+  "8": [
+    "fast.ai ML courses"
+  ],
+  "9": [
+    "how to learn",
+    "Lockhart",
+    "Making Learning Whole book (Perkins)",
+    "Perkins"
+  ],
+  "10": [
+    "how to learn"
+  ],
+  "11": [
+    "how to learn",
+    "Feynman"
+  ],
+  "12": [
+    "fastai software library",
+    "PyTorch"
+  ],
+  "13": [
+    "beginning",
+    "Jupyter Notebook",
+    "cats and dogs first model",
+    "dogs and cats first model",
+    "first model",
+    "notebooks",
+    "Python",
+    "setup",
+    "web resources"
+  ],
+  "14": [
+    "beginning",
+    "GPU servers",
+    "cats and dogs first model",
+    "deep learning",
+    "dogs and cats first model",
+    "first model",
+    "GPU deep learning servers",
+    "graphics processing unit (GPU)",
+    "GPU running",
+    "GPU server setup",
+    "NVIDIA GPU deep learning server",
+    "server for running code"
+  ],
+  "15": [
+    "beginning",
+    "Jupyter Notebook",
+    "cats and dogs first model",
+    "definition",
+    "download first model",
+    "freely available",
+    "dogs and cats first model",
+    "first model",
+    "notebooks",
+    "training"
+  ],
+  "16": [
+    "beginning",
+    "cats and dogs first model",
+    "cells in notebooks",
+    "dogs and cats first model",
+    "first model",
+    "Markdown in notebook cells",
+    "notebooks",
+    "full versus stripped",
+    "cells containing executable code"
+  ],
+  "17": [
+    "beginning",
+    "cats and dogs first model",
+    "cells in notebooks",
+    "first cell CLICK ME",
+    "table output by",
+    "pet images",
+    "dogs and cats first model",
+    "escape key for command/edit mode",
+    "fine-tuning models",
+    "first model",
+    "fine-tuning",
+    "H for help",
+    "help by pressing H",
+    "notebooks",
+    "outputs",
+    "pet images dataset",
+    "pretrained models",
+    "fine-tuning first model"
+  ],
+  "18": [
+    "beginning",
+    "Jupyter Notebook",
+    "cats and dogs first model",
+    "image output by",
+    "text ouput by",
+    "dogs and cats first model",
+    "first model",
+    "notebooks",
+    "code from book",
+    "outputs",
+    "training"
+  ],
+  "19": [
+    "beginning",
+    "error rate",
+    "notebooks",
+    "testing models"
+  ],
+  "20": [
+    "Artificial Intelligence: A Frontier of Automation article",
+    "as machine learning",
+    "neural networks used",
+    "as deep learning",
+    "history",
+    "machine learning explained",
+    "machine learning (ML)",
+    "deep learning using",
+    "Samuel"
+  ],
+  "21": [
+    "machine learning (ML)",
+    "models",
+    "programs versus models",
+    "weights"
+  ],
+  "22": [
+    "machine learning (ML)",
+    "models",
+    "results versus performance",
+    "machine learning concepts",
+    "weights"
+  ],
+  "23": [
+    "machine learning (ML)",
+    "via neural networks",
+    "models",
+    "neural networks",
+    "machine learning concepts",
+    "programs versus models",
+    "stochastic gradient descent (SGD)",
+    "trained model is program",
+    "universal approximation theorem",
+    "weights"
+  ],
+  "24": [
+    "architecture of model",
+    "independent variable definition",
+    "deep learning",
+    "as neural net",
+    "independent variable",
+    "image classification explanation",
+    "labels",
+    "loss",
+    "first model as neural net",
+    "neural networks",
+    "first model as",
+    "performance of model as loss",
+    "predictions",
+    "terminology for deep learning",
+    "weights"
+  ],
+  "25": [
+    "dependent variable definition",
+    "label importance",
+    "dependent variable",
+    "inputs",
+    "labels",
+    "limitations inherent to",
+    "as machine learning limitation",
+    "training"
+  ],
+  "26": [
+    "beginning",
+    "bias",
+    "feedback loops",
+    "limitations inherent to",
+    "notebooks",
+    "positive feedback loop",
+    "recommendation systems"
+  ],
+  "27": [
+    "beginning",
+    "download first model",
+    "path to dataset",
+    "fastai software library",
+    "notebooks",
+    "Path object returned",
+    "Python",
+    "fastai library efficiency",
+    "tutorials",
+    "web resources"
+  ],
+  "28": [
+    "validation set",
+    "batch operations",
+    "beginning",
+    "classification models definition",
+    "datasets",
+    "pet images",
+    "fastai software library",
+    "labels",
+    "machine learning (ML)",
+    "models",
+    "notebooks",
+    "pet images dataset",
+    "pixels",
+    "pixel count required",
+    "random seed for validation set selection",
+    "regression models definition",
+    "training",
+    "Transforms"
+  ],
+  "29": [
+    "beginning",
+    "accuracy with validation set",
+    "notebooks",
+    "model memorizing training set",
+    "training",
+    "model memorizing data"
+  ],
+  "30": [
+    "validation set",
+    "picking not so important",
+    "ResNet",
+    "beginning",
+    "cnn_learner",
+    "computer vision models",
+    "convolutional neural network (CNN)",
+    "architecture not so important",
+    "epochs",
+    "fastai software library",
+    "convolutional neural network",
+    "layers",
+    "ResNet architecture",
+    "Learner",
+    "first model declaration",
+    "notebooks",
+    "overfitting",
+    "avoid only when occurring",
+    "predictions",
+    "training"
+  ],
+  "31": [
+    "validation set",
+    "beginning",
+    "pretrained model accuracy",
+    "pretrained model weight values",
+    "convolutional neural network (CNN)",
+    "last layer and",
+    "error rate",
+    "fastai software library",
+    "head of model",
+    "pretrained models and",
+    "last layer and pretrained models",
+    "loss",
+    "metrics",
+    "first model declaration",
+    "head and pretrained models",
+    "notebooks",
+    "metric measuring quality",
+    "pretrained models",
+    "convolutional neural network parameter",
+    "training",
+    "weights"
+  ],
+  "32": [
+    "beginning",
+    "deep learning",
+    "epochs",
+    "fine-tuning models",
+    "fine-tuning",
+    "fitting models",
+    "pretrained model availability",
+    "models",
+    "notebooks",
+    "parameters",
+    "architecture requiring many",
+    "pretrained models",
+    "training",
+    "transfer learning",
+    "fine-tuning as"
+  ],
+  "33": [
+    "beginning",
+    "convolutional neural network (CNN)",
+    "machine learning visualized",
+    "epochs",
+    "Fergus",
+    "fine-tune method",
+    "head of model",
+    "visualizing convolutional networks",
+    "machine learning (ML)",
+    "neural networks",
+    "notebooks",
+    "visualizing neural network weights",
+    "weights",
+    "Zeiler"
+  ],
+  "36": [
+    "non-image tasks",
+    "sound analyzed as spectrogram"
+  ],
+  "37": [
+    "non-image tasks",
+    "Gramian Angular Difference Field (GADF)",
+    "converting to image"
+  ],
+  "38": [
+    "non-image tasks",
+    "fraud detection",
+    "mouse movements for fraud detection",
+    "Splunk.com fraud detection",
+    "fraud detection at Splunk.com"
+  ],
+  "39": [
+    "dataset image representation rule",
+    "non-image tasks",
+    "image representation rule of thumb",
+    "image representation rule",
+    "Kalash",
+    "malware classification",
+    "research papers",
+    "web resources"
+  ],
+  "40": [
+    "validation set",
+    "architecture of model",
+    "non-image tasks",
+    "convolutional neural network (CNN)",
+    "deep learning",
+    "as machine learning",
+    "epochs",
+    "fine-tuning models",
+    "fitting models",
+    "labels",
+    "loss",
+    "machine learning (ML)",
+    "metrics",
+    "models",
+    "deep learning using",
+    "overfitting",
+    "parameters",
+    "performance of model as loss",
+    "pretrained models",
+    "terminology for deep learning",
+    "training"
+  ],
+  "41": [
+    "non-image tasks",
+    "generalization by models"
+  ],
+  "42": [
+    "autonomous vehicles",
+    "Brostow",
+    "Cipolla",
+    "autonomous vehicles localizing objects",
+    "Fauqueur",
+    "training a segmentation model",
+    "autonomous vehicle training",
+    "self-driving cars",
+    "web resources"
+  ],
+  "43": [
+    "movie review sentiment model",
+    "natural language processing (NLP)"
+  ],
+  "44": [
+    "cells in notebooks",
+    "first cell CLICK ME",
+    "IMDb Large Movie Review",
+    "IMDb Large Movie Review dataset",
+    "kernel in notebooks",
+    "Maas",
+    "notebooks",
+    "cell execution order",
+    "code from book",
+    "outputs",
+    "cells containing executable code",
+    "research papers"
+  ],
+  "45": [
+    "database data for models",
+    "doc for method documentation",
+    "fastai software library",
+    "methods",
+    "models",
+    "spreadsheet data for models",
+    "tabular data for models",
+    "web resources"
+  ],
+  "46": [
+    "demographics",
+    "MovieLens",
+    "demographics dataset",
+    "Kohavi",
+    "movie recommendation system",
+    "MovieLens sample model",
+    "MovieLens dataset",
+    "tabular model rarity",
+    "movies based on viewing habits",
+    "pretrained model rarity",
+    "research papers"
+  ],
+  "47": [
+    "academic baseline datasets",
+    "datasets",
+    "non-pretrained",
+    "recommendation system rarity",
+    "recommendation system ratings"
+  ],
+  "48": [
+    "Callison-Burch",
+    "cut-down versions of popular",
+    "datasets cut down",
+    "French/English parallel text data"
+  ],
+  "49": [
+    "validation set",
+    "validation set size",
+    "hyperparameters",
+    "overfitting",
+    "parameters",
+    "testing models"
+  ],
+  "50": [
+    "validation set",
+    "testing models",
+    "training",
+    "model memorizing data"
+  ],
+  "51": [
+    "validation set",
+    "predictive modeling competitions",
+    "models",
+    "testing models",
+    "training and validation sets",
+    "training"
+  ],
+  "52": [
+    "validation set",
+    "testing models",
+    "training"
+  ],
+  "53": [
+    "validation set",
+    "distracted driver model",
+    "fisheries monitoring model competition",
+    "distracted driver model competition",
+    "time series analysis model competition",
+    "testing models",
+    "training"
+  ],
+  "54": [
+    "validation set",
+    "testing models",
+    "training"
+  ],
+  "57": [
+    "capabilities and constraints",
+    "process end-to-end"
+  ],
+  "58": [
+    "experiments lead to projects",
+    "data availability",
+    "process end-to-end",
+    "iterate development end to end",
+    "iterate end to end"
+  ],
+  "59": [
+    "beginning",
+    "process end-to-end",
+    "project buy-in"
+  ],
+  "60": [
+    "deep learning applicability to problem",
+    "data augmentation",
+    "data augmentation definition",
+    "deep learning",
+    "process end-to-end",
+    "labels",
+    "machine learning (ML)",
+    "object detection",
+    "object recognition",
+    "segmentation",
+    "black-and-white or hand-drawn images"
+  ],
+  "61": [
+    "ethics",
+    "model and human interaction",
+    "disinformation",
+    "medicine and text generation",
+    "images combined with text",
+    "correct responses not ensured",
+    "natural language processing (NLP)",
+    "correct response not ensured",
+    "text combined with images",
+    "text generation",
+    "translation of languages"
+  ],
+  "62": [
+    "Amazon",
+    "as tabular data",
+    "CT scan stroke analysis",
+    "recommendation systems as",
+    "GPU acceleration",
+    "medicine",
+    "predictions",
+    "radiologist-model interaction",
+    "recommendation systems",
+    "stroke prediction",
+    "tabular data for models",
+    "time series analysis"
+  ],
+  "63": [
+    "beginning",
+    "other data types",
+    "Drivetrain Approach for actionable outcomes",
+    "process end-to-end",
+    "models",
+    "protein chains as",
+    "protein chains as natural language"
+  ],
+  "64": [
+    "actionable outcomes via Drivetrain Approach",
+    "autonomous vehicles",
+    "objectives via Drivetrain Approach",
+    "self-driving cars",
+    "web resources"
+  ],
+  "65": [
+    "Bing Image Search for gathering data",
+    "datasets",
+    "gathering data",
+    "image recognition applications",
+    "process end-to-end",
+    "recommendation systems"
+  ],
+  "66": [
+    "Azure Cognitive Services (Microsoft)",
+    "API",
+    "gathering data",
+    "process end-to-end",
+    "Azure Cognitive Services",
+    "notebooks",
+    "search_images_bing"
+  ],
+  "67": [
+    "gathering data",
+    "download_images",
+    "process end-to-end",
+    "source code display",
+    "signature of function",
+    "verify_images"
+  ],
+  "68": [
+    "autocompletion in notebooks",
+    "bias",
+    "gathering data",
+    "help with errors",
+    "doc for method documentation",
+    "error debugging",
+    "process end-to-end",
+    "methods",
+    "notebooks",
+    "Python",
+    "signature of function",
+    "training",
+    "variables",
+    "web resources"
+  ],
+  "69": [
+    "Raji",
+    "research papers"
+  ],
+  "70": [
+    "CategoryBlock",
+    "DataLoaders",
+    "factory methods versus customization",
+    "process end-to-end",
+    "DataLoaders customization"
+  ],
+  "71": [
+    "mini-batch",
+    "DataLoaders",
+    "dependent variable",
+    "process end-to-end",
+    "independent variable",
+    "item transforms",
+    "image sizes same",
+    "predictions",
+    "random seed for validation set selection",
+    "seed for validation set selection",
+    "Transforms",
+    "splitting from training set"
+  ],
+  "72": [
+    "image classifier model",
+    "DataLoaders",
+    "Resize"
+  ],
+  "73": [
+    "epochs",
+    "process end-to-end",
+    "pixels",
+    "image differences during",
+    "Transforms"
+  ],
+  "74": [
+    "batch operations",
+    "data augmentation",
+    "data augmentation definition"
+  ],
+  "75": [
+    "process end-to-end",
+    "training the model"
+  ],
+  "76": [
+    "confusion matrix with image classifiers",
+    "process end-to-end",
+    "testing with confusion matrix",
+    "bear image classifier",
+    "probability as confidence level",
+    "testing models"
+  ],
+  "77": [
+    "datasets",
+    "before versus after training",
+    "data cleaning GUI",
+    "process end-to-end",
+    "ImageClassifierCleaner",
+    "incorrect affecting loss",
+    "loss",
+    "data cleanup before versus after",
+    "cleaning GUI"
+  ],
+  "78": [
+    "architecture of model",
+    "datasets",
+    "before versus after training",
+    "deployment",
+    "export method",
+    "process end-to-end",
+    "web application from model",
+    "models",
+    "web application from",
+    "parameters",
+    "data cleanup before versus after",
+    "web applications"
+  ],
+  "79": [
+    "validation set",
+    "path to dataset",
+    "deployment",
+    "process end-to-end",
+    "image classifier models",
+    "web application from model",
+    "inference",
+    "load_learner",
+    "ls method in Path class",
+    "web application from",
+    "predictions",
+    "inference with image classifier",
+    "Python",
+    "prediction model inference",
+    "web applications"
+  ],
+  "80": [
+    "deployment",
+    "file upload to web widget",
+    "process end-to-end",
+    "web application from model",
+    "IPython widgets code",
+    "IPython widgets",
+    "applications via Voilà",
+    "web application from",
+    "web browser functionality",
+    "Voilà",
+    "web applications",
+    "file upload widget"
+  ],
+  "81": [
+    "button click event handler",
+    "deployment",
+    "process end-to-end",
+    "web application from model",
+    "web application from",
+    "web display Output widget",
+    "web applications"
+  ],
+  "82": [
+    "click event handler",
+    "deployment",
+    "app from notebook",
+    "process end-to-end",
+    "web application from model",
+    "web application from",
+    "predictions",
+    "web applications"
+  ],
+  "83": [
+    "batching production operations",
+    "GPU serving production model",
+    "deployment",
+    "GPU deep learning servers",
+    "production model and",
+    "process end-to-end",
+    "web application from model",
+    "GPU inference complexity",
+    "GPUs and production models",
+    "web application from",
+    "web application deployment",
+    "production",
+    "web applications"
+  ],
+  "84": [
+    "Binder free app hosting",
+    "CPU servers",
+    "deployment",
+    "GPU deep learning servers",
+    "process end-to-end",
+    "web application from model",
+    "web application from",
+    "web application deployment",
+    "CPU servers cheaper than GPU",
+    "publishing app on Binder",
+    "web applications"
+  ],
+  "85": [
+    "deployment",
+    "Raspberry Pi",
+    "horizontal scaling",
+    "process end-to-end",
+    "web application from model",
+    "mobile device deployment of apps",
+    "web application from",
+    "web application deployment",
+    "privacy",
+    "web applications",
+    "recommended web app hosts"
+  ],
+  "86": [
+    "Apple APIs for apps under iOS",
+    "CPU servers",
+    "deployment",
+    "CPU-based server",
+    "disaster avoidance with web applications",
+    "process end-to-end",
+    "web application from model",
+    "machine learning (ML)",
+    "web application from",
+    "web application deployment",
+    "web application disaster avoidance",
+    "web applications"
+  ],
+  "87": [
+    "Ameisin",
+    "domain shift",
+    "web resource discussing",
+    "data seen changing over time",
+    "neural networks",
+    "web resource discussing issues",
+    "production",
+    "testing models",
+    "production complexity and",
+    "deployment issue discussion"
+  ],
+  "88": [
+    "deep learning",
+    "model and human interaction",
+    "neural networks beyond understanding",
+    "deployment",
+    "process end-to-end",
+    "machine learning (ML)",
+    "manual process in parallel",
+    "neural networks",
+    "production"
+  ],
+  "89": [
+    "bias",
+    "arrest rates on racial grounds",
+    "deployment",
+    "feedback loops",
+    "process end-to-end",
+    "Isaac",
+    "arrest rates bias",
+    "Lum",
+    "system behavior changed by",
+    "model changing system behavior",
+    "predictive policing algorithm",
+    "racial bias",
+    "research papers",
+    "predictive policing paper"
+  ],
+  "90": [
+    "blogging about deep learning journey",
+    "Thomas",
+    "web resources"
+  ],
+  "93": [
+    "ethics"
+  ],
+  "94": [
+    "ethics",
+    "web resources"
+  ],
+  "95": [
+    "algorithm buggy",
+    "Arkansas healthcare buggy algorithm (ethics)",
+    "arrest record Google bias",
+    "bias",
+    "buggy algorithm ethics",
+    "conspiracy theory feedback loop",
+    "ethics",
+    "healthcare benefits buggy algorithm",
+    "YouTube recommendation feedback loops",
+    "conspiracy theories fed by",
+    "recommendation system ethics",
+    "Google",
+    "healthcare benefits buggy algorithm (ethics)",
+    "data seen changing over time",
+    "racial bias",
+    "conspiracy theory feedback loops",
+    "feedback loop ethics",
+    "YouTube feedback loop ethics",
+    "research papers",
+    "Sweeney",
+    "recommendation feedback loops"
+  ],
+  "96": [
+    "ethics",
+    "training"
+  ],
+  "97": [
+    "IBM and Nazi Germany",
+    "Hitler",
+    "Nazi Germany and IBM",
+    "Watson"
+  ],
+  "98": [
+    "Black",
+    "IBM and the Holocaust book (Black)"
+  ],
+  "99": [
+    "data product design integrated with ML",
+    "ethics",
+    "product design integrated with ML",
+    "Volkswagen emission test cheating",
+    "Liang",
+    "product design integrated with",
+    "Volkswagen emission test cheating (ethics)"
+  ],
+  "100": [
+    "facial recognition bias",
+    "bias",
+    "ethics",
+    "racial bias"
+  ],
+  "101": [
+    "accountability for ethics violations",
+    "algorithm buggy",
+    "Arkansas healthcare buggy algorithm (ethics)",
+    "buggy algorithm ethics",
+    "California gang database (ethics)",
+    "credit report system errors (ethics)",
+    "ethics",
+    "errors in data (ethics)",
+    "healthcare benefits buggy algorithm",
+    "healthcare benefits buggy algorithm (ethics)",
+    "database error ethics",
+    "recourse for ethics violations"
+  ],
+  "102": [
+    "conspiracy theory feedback loop",
+    "YouTube recommendation feedback loops",
+    "conspiracy theories fed by",
+    "recommendation system ethics",
+    "law enforcement",
+    "loss",
+    "conspiracy theory feedback loops",
+    "feedback loop ethics",
+    "YouTube feedback loop ethics",
+    "reinforcement learning",
+    "recommendation feedback loops"
+  ],
+  "103": [
+    "Chaslot",
+    "metrics driving algorithms",
+    "feedback loops driven by",
+    "pedophiles and YouTube"
+  ],
+  "104": [
+    "Géron",
+    "Mueller report",
+    "Russia Today and Mueller report",
+    "Russia Today possibly gaming"
+  ],
+  "105": [
+    "bias",
+    "conspiracy theory feedback loop",
+    "ethics",
+    "DiResta",
+    "Estola",
+    "Facebook",
+    "conspiracy theories fed by",
+    "Facebook and conspiracy theories",
+    "Meetup recommendation algorithm",
+    "Guttag",
+    "machine learning (ML)",
+    "conspiracy theory feedback loops",
+    "Meetup and gender",
+    "research papers",
+    "Suresh",
+    "web resources"
+  ],
+  "106": [
+    "bias",
+    "ethics",
+    "historical bias",
+    "racial bias"
+  ],
+  "107": [
+    "bias",
+    "COMPAS algorithm",
+    "ethics",
+    "Google",
+    "historical bias",
+    "Google Photos label racial bias",
+    "labels",
+    "sentencing and bail algorithm bias",
+    "Google Photos label",
+    "sentencing and bail algorithm"
+  ],
+  "108": [
+    "facial recognition bias",
+    "bias",
+    "ethics",
+    "facial recognition accuracy",
+    "historical bias",
+    "racial bias"
+  ],
+  "109": [
+    "bias",
+    "Buolamwini",
+    "ethics",
+    "facial recognition across races",
+    "racial balance of",
+    "historical bias",
+    "racial bias",
+    "training"
+  ],
+  "110": [
+    "bias",
+    "ethics",
+    "DeVries",
+    "geo-diversity",
+    "geo-diveristy of datasets",
+    "historical bias",
+    "object recognition",
+    "research papers",
+    "Shankar"
+  ],
+  "111": [
+    "bias",
+    "ethics",
+    "historical bias"
+  ],
+  "112": [
+    "Ali",
+    "bias",
+    "ethics",
+    "electronic health record measurement bias",
+    "Facebook",
+    "gender",
+    "Google",
+    "historical bias",
+    "jobs and gender",
+    "measurement bias",
+    "medicine",
+    "Mullainathan",
+    "natural language processing (NLP)",
+    "Obermeyer",
+    "occupations and gender",
+    "online advertisement bias",
+    "predictions",
+    "racial bias",
+    "research papers",
+    "stroke prediction",
+    "translation of languages"
+  ],
+  "113": [
+    "aggregation bias",
+    "bias",
+    "ethics",
+    "De-Arteaga",
+    "diabetes data aggregation bias",
+    "gender",
+    "jobs and gender",
+    "medicine",
+    "occupations and gender",
+    "representation bias",
+    "research papers"
+  ],
+  "115": [
+    "algorithm buggy",
+    "Arkansas healthcare buggy algorithm (ethics)",
+    "bias",
+    "buggy algorithm ethics",
+    "ethics",
+    "healthcare benefits buggy algorithm (ethics)",
+    "O’Neill",
+    "socioeconomic bias",
+    "Weapons of Math Destruction book (O’Neill)"
+  ],
+  "116": [
+    "Bittman",
+    "ethics",
+    "disinformation",
+    "(Bittman)",
+    "Mueller report",
+    "Russia and 2016 election"
+  ],
+  "117": [
+    "digital signature",
+    "Etzioni",
+    "forgery via AI",
+    "natural language processing (NLP)",
+    "text generation"
+  ],
+  "118": [
+    "addressing ethical issues",
+    "identifying ethical issues",
+    "Thomas"
+  ],
+  "119": [
+    "census data weaponization",
+    "ethics",
+    "processes to implement",
+    "IBM and Nazi Germany",
+    "Hitler",
+    "Nazi Germany and IBM",
+    "web resources"
+  ],
+  "121": [
+    "bias",
+    "Chou",
+    "ethics",
+    "diversity against ethical risks",
+    "gender",
+    "racial bias",
+    "tech industry and gender"
+  ],
+  "122": [
+    "accountability for ethics violations",
+    "Barocas",
+    "ethics",
+    "(Barocas",
+    "fairness",
+    "Hardt",
+    "machine learning (ML)",
+    "Microsoft",
+    "Narayanan",
+    "Fairness and Machine Learning book"
+  ],
+  "123": [
+    "ethics",
+    "Durbin",
+    "Hutson",
+    "Keyes",
+    "policy’s role in ethics",
+    "ethical lens versus ethical intuitions"
+  ],
+  "124": [
+    "Ceglowski",
+    "ethics",
+    "Facebook",
+    "hate speech law compliance",
+    "genocide and Facebook",
+    "law enforcement",
+    "environmental regulation working",
+    "policy’s role in ethics",
+    "rights and policy",
+    "privacy",
+    "regulating ethics",
+    "Zuckerberg"
+  ],
+  "125": [
+    "car safety for ethics inspiration",
+    "crash test dummies and gender",
+    "ethics",
+    "car safety inspiration",
+    "Gebru",
+    "crash test dummies",
+    "Nader",
+    "policy’s role in ethics"
+  ],
+  "126": [
+    "Angwin",
+    "COMPAS algorithm",
+    "ethics",
+    "Monroe"
+  ],
+  "128": [
+    "beginning",
+    "book updates on website",
+    "web resources"
+  ],
+  "129": [
+    "steps toward starting",
+    "process end-to-end"
+  ],
+  "133": [
+    "pixels as foundation",
+    "handwritten digits",
+    "MNIST handwritten digits dataset",
+    "handwritten digits dataset",
+    "Lecun",
+    "National Institute of Standards and Technology",
+    "pixels"
+  ],
+  "134": [
+    "long short-term memory",
+    "training neural networks",
+    "Bengio",
+    "pixels as foundation",
+    "Yann Lecun’s work",
+    "deep learning",
+    "handwritten text read by models",
+    "Hinton",
+    "history",
+    "Hochreiter",
+    "Lecun",
+    "long short-term memory (LSTM)",
+    "machine learning (ML)",
+    "read by models",
+    "training via backpropagation",
+    "number-related datasets",
+    "pixels",
+    "Schmidhuber",
+    "training",
+    "Turing Award",
+    "Werbos"
+  ],
+  "135": [
+    "arrays",
+    "pixels as foundation",
+    "Python Imaging Library",
+    "path to dataset",
+    "Image class",
+    "ls method in Path class",
+    "image as array or tensor",
+    "viewing dataset images",
+    "NumPy",
+    "PIL images",
+    "pixels",
+    "Python Imaging Library (PIL)"
+  ],
+  "136": [
+    "pixels as foundation",
+    "color-code image values",
+    "PyTorch",
+    "color-code array or tensor",
+    "pixels",
+    "tensors"
+  ],
+  "137": [
+    "begin with simple baseline model",
+    "models",
+    "ideal digit creation",
+    "pixels",
+    "tensors",
+    "training"
+  ],
+  "138": [
+    "list comprehensions",
+    "ideal digit creation",
+    "pixels",
+    "Python",
+    "show_image function",
+    "displaying as images"
+  ],
+  "139": [
+    "casting in PyTorch",
+    "dimension multiple meanings",
+    "floating point numbers",
+    "PyTorch",
+    "ideal digit creation",
+    "pixels",
+    "rank of tensor",
+    "tensors"
+  ],
+  "140": [
+    "ideal digit creation",
+    "pixels"
+  ],
+  "141": [
+    "Khan Academy math tutorials online",
+    "L1 norm (mean absolute difference)",
+    "L2 norm (root mean squared error)",
+    "math tutorials online",
+    "mean absolute difference (L1 norm)",
+    "comparing with ideal digit",
+    "pixels",
+    "root mean squared error (RMSE or L2 norm)",
+    "web resources"
+  ],
+  "142": [
+    "F (torch.nn.functional)",
+    "L1 norm (mean absolute difference)",
+    "loss",
+    "mean absolute difference (L1 norm)",
+    "mean squared error (MSE)",
+    "PyTorch",
+    "pixels",
+    "fastai torch.nn.functional import",
+    "torch.nn.functional"
+  ],
+  "143": [
+    "arrays",
+    "arrays within arrays",
+    "GPU deep learning servers",
+    "jagged arrays",
+    "PyTorch",
+    "NumPy",
+    "tensors"
+  ],
+  "144": [
+    "arrays",
+    "APIs",
+    "creating an array",
+    "C programming language",
+    "Python",
+    "array APIs",
+    "tensor APIs",
+    "tensors",
+    "creating a tensor"
+  ],
+  "145": [
+    "classification models",
+    "arrays",
+    "slicing row or column",
+    "accuracy as metric",
+    "metrics",
+    "tensors",
+    "numeric digit classifier"
+  ],
+  "147": [
+    "broadcasting",
+    "PyTorch",
+    "most important technique",
+    "tensors"
+  ],
+  "148": [
+    "stochastic gradient descent",
+    "stochastic gradient descent (SGD)"
+  ],
+  "149": [
+    "stochastic gradient descent",
+    "stochastic gradient descent (SGD)"
+  ],
+  "150": [
+    "stochastic gradient descent",
+    "stochastic gradient descent (SGD)"
+  ],
+  "151": [
+    "stochastic gradient descent",
+    "stochastic gradient descent (SGD)"
+  ],
+  "152": [
+    "stochastic gradient descent",
+    "stochastic gradient descent (SGD)"
+  ],
+  "153": [
+    "derivative of a function",
+    "gradients",
+    "stochastic gradient descent",
+    "parameters",
+    "stochastic gradient descent (SGD)",
+    "training",
+    "tutorials",
+    "web resources",
+    "weights"
+  ],
+  "154": [
+    "gradients",
+    "key to ML via derivatives",
+    "stochastic gradient descent (SGD)",
+    "training",
+    "weights"
+  ],
+  "155": [
+    "forward pass",
+    "backward pass",
+    "gradients",
+    "layers",
+    "stochastic gradient descent (SGD)",
+    "training",
+    "weights"
+  ],
+  "156": [
+    "learning rate (LR)",
+    "stepping with learning rate",
+    "training"
+  ],
+  "157": [
+    "learning rate (LR)",
+    "stepping with learning rate",
+    "stochastic gradient descent (SGD)",
+    "training",
+    "weights"
+  ],
+  "158": [
+    "signature of function",
+    "stochastic gradient descent (SGD)",
+    "training",
+    "weights"
+  ],
+  "159": [
+    "stochastic gradient descent (SGD)",
+    "training",
+    "weights"
+  ],
+  "160": [
+    "stochastic gradient descent (SGD)",
+    "training",
+    "weights"
+  ],
+  "161": [
+    "stochastic gradient descent (SGD)",
+    "training",
+    "weights"
+  ],
+  "162": [
+    "gradient descent",
+    "optimization",
+    "pretrained models",
+    "stochastic gradient descent (SGD)",
+    "training",
+    "transfer learning",
+    "weights"
+  ],
+  "163": [
+    "MNIST loss function",
+    "numerical digit image classifier"
+  ],
+  "164": [
+    "MNIST loss function",
+    "numerical digit image classifier",
+    "matrix multiplication",
+    "Python",
+    "tensors"
+  ],
+  "165": [
+    "MNIST loss function",
+    "numerical digit image classifier",
+    "fundamental weights and bias equation"
+  ],
+  "166": [
+    "gradients",
+    "MNIST loss function",
+    "numerical digit image classifier"
+  ],
+  "167": [
+    "MNIST loss function",
+    "numerical digit image classifier"
+  ],
+  "168": [
+    "loss",
+    "MNIST loss function",
+    "numerical digit image classifier",
+    "sigmoid function"
+  ],
+  "169": [
+    "MNIST loss function",
+    "numerical digit image classifier"
+  ],
+  "170": [
+    "batch operations",
+    "SGD and mini-batches",
+    "numerical digit classifier",
+    "stochastic gradient descent (SGD)",
+    "mini-batches"
+  ],
+  "171": [
+    "numerical digit classifier",
+    "stochastic gradient descent (SGD)"
+  ],
+  "172": [
+    "numerical digit classifier",
+    "stochastic gradient descent (SGD)"
+  ],
+  "173": [
+    "numerical digit classifier",
+    "PyTorch",
+    "stochastic gradient descent (SGD)"
+  ],
+  "174": [
+    "models returning",
+    "numerical digit classifier",
+    "modules",
+    "PyTorch",
+    "creating an optimizer",
+    "stochastic gradient descent (SGD)"
+  ],
+  "175": [
+    "Learner",
+    "numerical digit classifier",
+    "PyTorch",
+    "creating an optimizer",
+    "stochastic gradient descent (SGD)"
+  ],
+  "176": [
+    "numerical digit classifier",
+    "linear and nonlinear layers",
+    "neural networks",
+    "PyTorch",
+    "nonlinear and linear layers",
+    "optimization",
+    "creating an optimizer",
+    "stochastic gradient descent (SGD)"
+  ],
+  "177": [
+    "jargon",
+    "numerical digit classifier",
+    "PyTorch",
+    "creating an optimizer",
+    "rectified linear unit (ReLU)",
+    "stochastic gradient descent (SGD)"
+  ],
+  "178": [
+    "nonlinear layer",
+    "more linear layers",
+    "nonlinear function between linears",
+    "numerical digit classifier",
+    "linear and nonlinear layers",
+    "PyTorch",
+    "nonlinear and linear layers",
+    "creating an optimizer",
+    "Sequential class",
+    "stochastic gradient descent (SGD)",
+    "universal approximation theorem"
+  ],
+  "179": [
+    "numerical digit classifier",
+    "PyTorch",
+    "creating an optimizer",
+    "stochastic gradient descent (SGD)"
+  ],
+  "180": [
+    "deeper models",
+    "deeper models having more layers",
+    "layers",
+    "more linear layers",
+    "nonlinear function between linears",
+    "numerical digit classifier",
+    "PyTorch",
+    "optimization",
+    "creating an optimizer",
+    "deeper models and",
+    "stochastic gradient descent (SGD)",
+    "training"
+  ],
+  "181": [
+    "nonlinear layer",
+    "activations",
+    "axis of tensor or matrix",
+    "deep learning",
+    "linear and nonlinear layers",
+    "nonlinear and linear layers",
+    "parameters",
+    "rank of tensor",
+    "scalar versus vector versus matrix",
+    "tensors",
+    "terminology for deep learning"
+  ],
+  "182": [
+    "forward pass",
+    "backward pass",
+    "mini-batch",
+    "gradient descent",
+    "gradients",
+    "learning rate (LR)",
+    "loss",
+    "optimization",
+    "rectified linear unit (ReLU)",
+    "training"
+  ],
+  "186": [
+    "binary database format as data type",
+    "path to dataset",
+    "pet images",
+    "as data type",
+    "files as data type",
+    "pet images dataset"
+  ],
+  "187": [
+    "filename extraction",
+    "L class returning collections",
+    "labels",
+    "pet breeds dataset",
+    "list type as fastai L class",
+    "regular expressions (regex)"
+  ],
+  "188": [
+    "CategoryBlock",
+    "Chomsky",
+    "filename extraction",
+    "pet breeds dataset",
+    "Chomsky’s syntax book",
+    "Syntactic Structures book (Chomsky)",
+    "regular expression tutorials"
+  ],
+  "189": [
+    "data augmentation",
+    "process end-to-end",
+    "image sizes same",
+    "presizing",
+    "training",
+    "Transforms"
+  ],
+  "191": [
+    "labels"
+  ],
+  "192": [
+    "batch operations",
+    "debugging",
+    "labels",
+    "show_batch method",
+    "debugging image dataset"
+  ],
+  "193": [
+    "begin with simple baseline model",
+    "baseline simple model",
+    "labels",
+    "models",
+    "training"
+  ],
+  "194": [
+    "categorical outcome cross-entropy loss",
+    "cross-entropy loss",
+    "image data and categorical outcome",
+    "epochs",
+    "loss function selected by",
+    "fitting models",
+    "image classifier model training",
+    "cross-entropy",
+    "fastai selecting function",
+    "pet breeds image classifier",
+    "loss function selected by fastai"
+  ],
+  "195": [
+    "softmax as activation function",
+    "transforming into predictions",
+    "cross-entropy loss",
+    "dependent variable",
+    "get_preds function",
+    "image classifier model training",
+    "activations into predictions",
+    "softmax activation function",
+    "independent variable",
+    "layers",
+    "pet breeds image classifier",
+    "dependent and independent variables",
+    "predictions",
+    "activations transformed into",
+    "sigmoid function",
+    "viewing as mini-batch"
+  ],
+  "196": [
+    "binary problems",
+    "cross-entropy loss",
+    "pet breeds image classifier"
+  ],
+  "197": [
+    "cross-entropy loss",
+    "exponential function (exp)",
+    "pet breeds image classifier",
+    "sigmoid function",
+    "two-activation version"
+  ],
+  "198": [
+    "cross-entropy loss",
+    "loss",
+    "MNIST loss function",
+    "pet breeds image classifier",
+    "binary to multiple categories"
+  ],
+  "199": [
+    "cross-entropy loss",
+    "loss",
+    "MNIST loss function",
+    "pet breeds image classifier",
+    "binary to multiple categories"
+  ],
+  "200": [
+    "cross-entropy loss",
+    "image classifier model training",
+    "logarithmic scale",
+    "loss",
+    "MNIST loss function",
+    "pet breeds image classifier",
+    "binary to multiple categories"
+  ],
+  "201": [
+    "cross-entropy loss",
+    "logarithmic scale",
+    "slide rules using",
+    "pet breeds image classifier"
+  ],
+  "202": [
+    "cross-entropy loss",
+    "class versus plain functional form",
+    "pet breeds image classifier",
+    "negative log likelihood",
+    "negative log likelihood loss (nll_loss)"
+  ],
+  "203": [
+    "confusion matrix with image classifiers",
+    "cross-entropy loss",
+    "pet breeds image classifier"
+  ],
+  "205": [
+    "image classifier model training",
+    "learning rate finder",
+    "Smith"
+  ],
+  "207": [
+    "softmax as activation function",
+    "convolutional neural network (CNN)",
+    "last layer and",
+    "fine-tuning models",
+    "freezing pretrained models",
+    "history",
+    "freezing pretrained layers",
+    "softmax activation function",
+    "final layer matrix",
+    "nonlinear function between linears",
+    "linear and nonlinear layers",
+    "learning rate finder plot",
+    "neural networks",
+    "nonlinear and linear layers",
+    "pretrained models",
+    "Smith",
+    "training",
+    "transfer learning",
+    "fine-tuning as",
+    "unfreezing"
+  ],
+  "208": [
+    "Fergus",
+    "fine-tuning models",
+    "layers",
+    "visualizing neural network weights",
+    "Zeiler"
+  ],
+  "210": [
+    "discriminative learning rates",
+    "layers"
+  ],
+  "212": [
+    "improving while validation loss worse",
+    "epochs",
+    "image classifier model training",
+    "validation loss improvement slowing",
+    "training versus validation loss",
+    "predictions"
+  ],
+  "213": [
+    "architecture of model",
+    "ResNet",
+    "capacity of a model",
+    "deeper models having more layers",
+    "early stopping",
+    "epochs",
+    "metrics and validation loss",
+    "ResNet architecture",
+    "models",
+    "retrain from scratch",
+    "more accuracy from more parameters",
+    "ResNet-18",
+    "training"
+  ],
+  "214": [
+    "out-of-memory error",
+    "half-precision floating point (fp16)",
+    "tensor core support",
+    "batch operations out-of-memory error",
+    "mixed-precision training",
+    "number precision and training",
+    "precision of numbers and training",
+    "tensor core support by GPUs",
+    "training"
+  ],
+  "220": [
+    "multi-label classification",
+    "multi-label CSV file",
+    "PASCAL multi-label dataset",
+    "labels"
+  ],
+  "221": [
+    "multi-label classification",
+    "labels"
+  ],
+  "222": [
+    "validation set",
+    "multi-label classification",
+    "DataFrame to DataLoaders",
+    "DataLoaders object from",
+    "DataLoader iterator",
+    "DataFrame converted to",
+    "Dataset collection",
+    "labels",
+    "McKinney",
+    "DataLoader variables",
+    "Pandas library",
+    "Python",
+    "Python for Data Analysis book (McKinney)",
+    "training",
+    "tutorials"
+  ],
+  "223": [
+    "DataFrame to DataLoaders",
+    "DataLoaders object from",
+    "DataFrame converted to",
+    "Datasets iterator"
+  ],
+  "224": [
+    "MultiCategoryBlock",
+    "DataFrame to DataLoaders",
+    "DataLoaders object from",
+    "DataFrame converted to",
+    "lambda functions",
+    "lambda functions and exporting",
+    "Python"
+  ],
+  "225": [
+    "multi-label classifier",
+    "DataFrame to DataLoaders",
+    "DataLoaders object from",
+    "DataFrame converted to",
+    "one-hot encoding"
+  ],
+  "226": [
+    "binary cross entropy loss function",
+    "DataFrame to DataLoaders",
+    "DataLoaders object from",
+    "DataFrame converted to",
+    "debugging",
+    "labels",
+    "Learner",
+    "binary cross entropy",
+    "multi-label classifier loss function",
+    "debugging tabular dataset"
+  ],
+  "227": [
+    "multi-label classifier",
+    "models returning",
+    "binary cross entropy loss function",
+    "labels",
+    "binary cross entropy",
+    "multi-label classifier loss function",
+    "models returning activations",
+    "Module class",
+    "predictions"
+  ],
+  "228": [
+    "PyTorch single item or batch same code",
+    "BCELoss",
+    "BCEWithLogitsLoss",
+    "binary cross entropy loss function",
+    "loss function selected by",
+    "labels",
+    "binary cross entropy",
+    "fastai selecting function",
+    "multi-label classifier loss function",
+    "single item or batch same code",
+    "one-hot-encoded targets"
+  ],
+  "229": [
+    "argument binding with partial function",
+    "binary cross entropy loss function",
+    "labels",
+    "0s and 1s threshold",
+    "binary cross entropy",
+    "partial function to bind arguments"
+  ],
+  "230": [
+    "binary cross entropy loss function",
+    "0s and 1s threshold",
+    "binary cross entropy"
+  ],
+  "231": [
+    "binary cross entropy loss function",
+    "dependent variable",
+    "validation set picking threshold",
+    "independent variable",
+    "loss",
+    "binary cross entropy",
+    "models",
+    "hyperparameter picked by"
+  ],
+  "232": [
+    "Kinect Head Pose",
+    "head pose dataset",
+    "image regression",
+    "key point model description",
+    "key point model of image regression",
+    "Kinect Head Pose dataset"
+  ],
+  "233": [
+    "applied to coordinates",
+    "fastai software library",
+    "image regression",
+    "extracting head center point",
+    "key point model",
+    "key point model of image regression",
+    "PointBlock"
+  ],
+  "235": [
+    "loss function selected by",
+    "fastai selecting function",
+    "sigmoid_range",
+    "y_range"
+  ],
+  "236": [
+    "loss function parameter",
+    "Learner",
+    "MSELoss",
+    "passing to learner"
+  ],
+  "237": [
+    "BCEWithLogitsLoss",
+    "loss function selected by",
+    "loss",
+    "fastai selecting function",
+    "MSELoss"
+  ],
+  "239": [
+    "datasets",
+    "ImageNet dataset",
+    "image classifier model training"
+  ],
+  "240": [
+    "CIFAR10 dataset",
+    "handwritten digits",
+    "MNIST handwritten digits dataset",
+    "handwritten digits dataset"
+  ],
+  "241": [
+    "normalization of data",
+    "image classifier model training",
+    "baseline training run"
+  ],
+  "242": [
+    "cnn_learner",
+    "statistics distributed with model",
+    "image classifier model training",
+    "Learner",
+    "pretrained models"
+  ],
+  "243": [
+    "progressive resizing as",
+    "images sized progressively",
+    "progressive resizing"
+  ],
+  "244": [
+    "transfer learning performance hurt",
+    "progressive resizing hurting performance"
+  ],
+  "245": [
+    "test time augmentation",
+    "test time augmentation instead",
+    "test time augmentation (TTA)"
+  ],
+  "246": [
+    "Mixup augmentation improving",
+    "data augmentation",
+    "image classifier model training",
+    "Mixup augmentation technique",
+    "research papers",
+    "Zhang"
+  ],
+  "247": [
+    "Greek letters",
+    "research papers",
+    "web resources"
+  ],
+  "248": [
+    "callbacks",
+    "image classifier model training",
+    "Learner",
+    "Mixup data augmentation"
+  ],
+  "249": [
+    "image classifier model training",
+    "label smoothing",
+    "one-hot encoding"
+  ],
+  "250": [
+    "image classifier model training",
+    "research papers",
+    "Szegedy"
+  ],
+  "253": [
+    "collaborative filtering",
+    "items rather than products",
+    "latent factors"
+  ],
+  "254": [
+    "collaborative filtering",
+    "MovieLens",
+    "MovieLens dataset"
+  ],
+  "256": [
+    "learning latent factors",
+    "dot product of vectors",
+    "vector dot product"
+  ],
+  "259": [
+    "categorical variables",
+    "collaborative filtering",
+    "tables as matrices",
+    "look-up index",
+    "embedding",
+    "look-up index as one-hot-encoded vector",
+    "embedding categorical variables"
+  ],
+  "260": [
+    "categorical variables",
+    "collaborative filtering",
+    "embedding",
+    "object-oriented programming",
+    "embedding categorical variables"
+  ],
+  "261": [
+    "categorical variables",
+    "classes in object-oriented programming",
+    "collaborative filtering",
+    "dunder init",
+    "embedding",
+    "forward method",
+    "inheritance in object-oriented programming",
+    "init (dunder init)",
+    "Python method double underscores",
+    "Module class",
+    "calling module calls forward method",
+    "embedding categorical variables",
+    "method double underscores"
+  ],
+  "262": [
+    "categorical variables",
+    "collaborative filtering",
+    "embedding",
+    "collaborative filtering system",
+    "Learner from scratch",
+    "embedding categorical variables",
+    "sigmoid_range"
+  ],
+  "263": [
+    "categorical variables",
+    "collaborative filtering",
+    "embedding",
+    "embedding categorical variables"
+  ],
+  "264": [
+    "categorical variables",
+    "collaborative filtering",
+    "embedding",
+    "L2 regularization",
+    "embedding categorical variables",
+    "weight decay against",
+    "weights"
+  ],
+  "265": [
+    "categorical variables",
+    "collaborative filtering",
+    "built from scratch",
+    "embedding",
+    "embedding from scratch",
+    "embedding categorical variables",
+    "optimization"
+  ],
+  "266": [
+    "built from scratch",
+    "Module class",
+    "embedding from scratch",
+    "parameters"
+  ],
+  "267": [
+    "built from scratch",
+    "interpretting embeddings and biases",
+    "embedding from scratch"
+  ],
+  "268": [
+    "built from scratch",
+    "embedding from scratch"
+  ],
+  "269": [
+    "collaborative filtering",
+    "built from scratch",
+    "layers via printing model",
+    "collab_learner",
+    "layers",
+    "Learner",
+    "models",
+    "embedding from scratch"
+  ],
+  "270": [
+    "bootstrapping problem of new users",
+    "collaborative filtering",
+    "built from scratch",
+    "datasets",
+    "embedding from scratch",
+    "new user bootstrapping problem"
+  ],
+  "271": [
+    "bias",
+    "collaborative filtering",
+    "built from scratch",
+    "probabilistic matrix factorization",
+    "feedback loops",
+    "latent factors",
+    "embedding from scratch",
+    "recommendation systems",
+    "representation bias"
+  ],
+  "272": [
+    "deep learning model",
+    "built from scratch",
+    "embedding from scratch"
+  ],
+  "273": [
+    "built from scratch",
+    "kwargs",
+    "Learner",
+    "embedding from scratch"
+  ],
+  "274": [
+    "built from scratch",
+    "delegates",
+    "embedding from scratch",
+    "signature of function"
+  ],
+  "277": [
+    "categorical variables",
+    "continuous variables",
+    "tabular data for models",
+    "variables"
+  ],
+  "278": [
+    "Berkhahn",
+    "entity embedding and",
+    "categorical variables",
+    "continuous variables from",
+    "embedding transforming categorical into",
+    "predicting sales from stores",
+    "categorical variables transformed into continuous",
+    "entity embedding",
+    "Guo",
+    "predicting sales from stores competition",
+    "entity embedding reducing",
+    "entity embedding contrasted",
+    "sales from stores",
+    "tabular data for models",
+    "variables",
+    "predicting sales from stores paper"
+  ],
+  "279": [
+    "categorical variables"
+  ],
+  "280": [
+    "categorical variables",
+    "collaborative filtering",
+    "dates on calendar and",
+    "geographic distance matching",
+    "embedding distance and store distance"
+  ],
+  "281": [
+    "categorical variables",
+    "concatenating categorical and continuous variables",
+    "Google Play",
+    "embedded categorical combined with",
+    "dot product of vectors",
+    "Play concatenation approach",
+    "Google Play concatenation approach",
+    "vector dot product"
+  ],
+  "282": [
+    "datasets",
+    "decision trees",
+    "beyond deep learning",
+    "tabular data needing more",
+    "machine learning (ML)",
+    "models",
+    "multilayered neural networks learned with",
+    "SGD",
+    "tabular data for models",
+    "deep learning not best starting point"
+  ],
+  "283": [
+    "cardinality",
+    "decision tree ensembles and",
+    "cardinality and decision tree ensembles",
+    "decision trees",
+    "scikit-learn library instead",
+    "scikit-learn library",
+    "sklearn and Pandas rely on",
+    "NumPy needed",
+    "tabular data processing",
+    "plain text data approach",
+    "decision trees don’t use",
+    "tabular data for models",
+    "decision trees as first approach",
+    "text data approach"
+  ],
+  "284": [
+    "categorical variables",
+    "datasets",
+    "Kaggle as source",
+    "datasets and other resources",
+    "McKinney",
+    "Python for Data Analysis book (McKinney)",
+    "tabular data for models",
+    "datasets and other Kaggle resources"
+  ],
+  "285": [
+    "categorical variables",
+    "tabular data for models"
+  ],
+  "286": [
+    "categorical variables",
+    "examining data importance",
+    "ordinal columns in tabular data",
+    "Pandas library",
+    "tabular data for models"
+  ],
+  "287": [
+    "categorical variables",
+    "decision trees",
+    "prediction variable importance",
+    "metrics",
+    "root mean squared log error",
+    "predictions",
+    "root mean squared log error as metric",
+    "tabular data for models"
+  ],
+  "288": [
+    "decision trees",
+    "tabular data for models",
+    "training"
+  ],
+  "289": [
+    "tabular dataset prep",
+    "date handling",
+    "date handling in tabular data",
+    "decision trees",
+    "tabular data for models",
+    "training"
+  ],
+  "290": [
+    "validation set",
+    "tabular dataset prep",
+    "time series dataset splitting",
+    "TabularPandas class",
+    "decision trees",
+    "fastai TabularPandas class",
+    "tabular data for models",
+    "TabularProc",
+    "TabularPandas splitting data",
+    "training"
+  ],
+  "291": [
+    "tabular dataset prep",
+    "decision trees",
+    "tabular data for models",
+    "training"
+  ],
+  "292": [
+    "tabular dataset prep",
+    "save method",
+    "decision trees",
+    "creating decision tree",
+    "pickle system for save method",
+    "tabular data for models",
+    "training"
+  ],
+  "293": [
+    "decision trees",
+    "tabular data for models",
+    "training"
+  ],
+  "294": [
+    "decision trees",
+    "Parr",
+    "tabular data for models",
+    "training",
+    "decision tree viewer"
+  ],
+  "295": [
+    "decision trees",
+    "root mean squared log error",
+    "root mean squared log error as metric",
+    "tabular data for models",
+    "training"
+  ],
+  "296": [
+    "decision trees",
+    "default leaf node splitting",
+    "tabular data for models",
+    "training"
+  ],
+  "297": [
+    "categorical variables",
+    "get_dummies for categorical variables",
+    "König",
+    "one-hot encoding",
+    "embedding categorical variables",
+    "Pandas library",
+    "Wright"
+  ],
+  "298": [
+    "bagging",
+    "Breiman",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "research papers",
+    "tabular data for models",
+    "training"
+  ],
+  "299": [
+    "bagging",
+    "decision trees",
+    "creating a random forest",
+    "random forest insensitivity",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "sklearn",
+    "tabular data for models",
+    "training"
+  ],
+  "300": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "sklearn",
+    "tabular data for models",
+    "training",
+    "web resources"
+  ],
+  "301": [
+    "bagging",
+    "decision trees",
+    "out-of-bag error",
+    "machine learning (ML)",
+    "root mean squared log error",
+    "predictions",
+    "random forests",
+    "root mean squared log error as metric",
+    "tabular data for models",
+    "training and validation sets",
+    "training"
+  ],
+  "302": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forest confidence",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "303": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "304": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "305": [
+    "bagging",
+    "decision trees",
+    "removing low-importance variables",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "306": [
+    "bagging",
+    "decision trees",
+    "removing redundant features",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "rank correlation",
+    "tabular data for models",
+    "training"
+  ],
+  "307": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "308": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "309": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "310": [
+    "bagging",
+    "The Book of Why (Pearl and Mackenzie)",
+    "decision trees",
+    "machine learning (ML)",
+    "Mackenzie",
+    "Pearl",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "311": [
+    "bagging",
+    "data leakage of illegitimate information",
+    "missing values as",
+    "missing values as data leakage",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "research papers",
+    "tabular data for models",
+    "training"
+  ],
+  "312": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "313": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "314": [
+    "bagging",
+    "decision trees",
+    "generalization by models",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "315": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "316": [
+    "bagging",
+    "out-of-domain data",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "317": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "318": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "neural networks",
+    "fastai TabularPandas class",
+    "tabular data processing",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "neural network model",
+    "training"
+  ],
+  "319": [
+    "bagging",
+    "decision trees",
+    "tabular data with categorical columns",
+    "machine learning (ML)",
+    "neural networks",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "320": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "321": [
+    "bagging",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "322": [
+    "bagging",
+    "decision trees",
+    "ensembling random forests",
+    "fastai software library",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "Tabular classes",
+    "tabular data for models",
+    "training"
+  ],
+  "323": [
+    "bagging",
+    "boosting",
+    "decision trees",
+    "machine learning (ML)",
+    "predictions",
+    "random forests",
+    "tabular data for models",
+    "training"
+  ],
+  "324": [
+    "Berkhahn",
+    "combining with other methods",
+    "gradient boosted decision trees (GBDTs)",
+    "gradient boosting machines (GBMs)",
+    "Guo",
+    "XGBoost library"
+  ],
+  "325": [
+    "mean average percent error metric",
+    "mean average percent error",
+    "models",
+    "tabular data for models"
+  ],
+  "329": [
+    "natural language processing",
+    "natural language models",
+    "pretraining NLP on",
+    "language model",
+    "movie review sentiment model",
+    "natural language processing (NLP)",
+    "pretrained models",
+    "self-supervised learning",
+    "Wikipedia for pretraining NLP"
+  ],
+  "330": [
+    "natural language processing (NLP)",
+    "pretrained English language model",
+    "NLP English language",
+    "Universal Language Model Fine-tuning (ULMFiT) approach"
+  ],
+  "331": [
+    "natural language processing (NLP)"
+  ],
+  "332": [
+    "recurrent neural network",
+    "natural language processing (NLP)",
+    "numericalization",
+    "natural language processing using",
+    "tokenization"
+  ],
+  "333": [
+    "natural language processing (NLP)",
+    "tokenization",
+    "word tokenization"
+  ],
+  "334": [
+    "natural language processing (NLP)",
+    "special tokens",
+    "tokenization"
+  ],
+  "335": [
+    "fix_html",
+    "source code display",
+    "natural language processing (NLP)",
+    "showing rules used",
+    "showing source code",
+    "replace_rep",
+    "replace_wrep",
+    "signature of function",
+    "source code of function displayed",
+    "spec_add_spaces"
+  ],
+  "336": [
+    "lowercase rule",
+    "natural language processing (NLP)",
+    "replace_all_caps",
+    "replace_maj",
+    "rm_useless_spaces",
+    "subword tokenization",
+    "tokenization",
+    "word tokenization"
+  ],
+  "338": [
+    "natural language processing (NLP)",
+    "numericalization",
+    "word-tokenized text",
+    "tokenization",
+    "unknown word token"
+  ],
+  "339": [
+    "batch operations",
+    "natural language processing (NLP)",
+    "tokenization"
+  ],
+  "340": [
+    "batch operations",
+    "natural language processing (NLP)",
+    "tokenization"
+  ],
+  "341": [
+    "batch operations",
+    "natural language processing (NLP)",
+    "tokenization"
+  ],
+  "342": [
+    "batch operations",
+    "class methods",
+    "DataBlock",
+    "language model using",
+    "debugging",
+    "language model using DataBlock",
+    "methods",
+    "natural language processing (NLP)",
+    "training text classifier",
+    "Python",
+    "debugging text dataset",
+    "TextBlock",
+    "tokenization",
+    "training"
+  ],
+  "343": [
+    "AWD-LSTM architecture",
+    "NLP RNNs",
+    "fine-tuning models",
+    "recurrent neural network",
+    "pretrained language model",
+    "fine-tuning pretrained language model",
+    "natural language processing using",
+    "fine-tuning language model"
+  ],
+  "344": [
+    "fine-tuning models",
+    "pretrained language model",
+    "fine-tuning pretrained language model",
+    "fine-tuning language model"
+  ],
+  "345": [
+    "save method",
+    "encoder",
+    "fine-tuning models",
+    "Learner",
+    "load method",
+    "models",
+    "pretrained language model",
+    "fine-tuning pretrained language model",
+    "fine-tuning language model"
+  ],
+  "346": [
+    "movie review classifier",
+    "natural language processing (NLP)",
+    "classifier DataLoaders",
+    "NLP"
+  ],
+  "349": [
+    "fine-tuning models",
+    "natural language processing (NLP)",
+    "fine-tuning classifier",
+    "gradual unfreezing NLP classifier"
+  ],
+  "350": [
+    "disinformation",
+    "Kao",
+    "natural language processing (NLP)",
+    "net neutrality disinformation",
+    "text generation"
+  ],
+  "351": [
+    "ethics",
+    "identity generation by ML"
+  ],
+  "352": [
+    "LinkedIn ML-generated profile",
+    "profile identity generated by ML"
+  ],
+  "355": [
+    "applications",
+    "mid-level API",
+    "mid-level API foundation",
+    "layered API",
+    "fastai layered API",
+    "TextDataLoaders.from_folder"
+  ],
+  "356": [
+    "mid-level API",
+    "decode method",
+    "numericalization",
+    "tokenization",
+    "Transforms"
+  ],
+  "358": [
+    "writing your own"
+  ],
+  "359": [
+    "mid-level API",
+    "TfmdLists",
+    "Pipeline class",
+    "Transforms"
+  ],
+  "360": [
+    "TfmdLists"
+  ],
+  "361": [
+    "TfmdLists",
+    "writing your own"
+  ],
+  "362": [
+    "mid-level API",
+    "TfmdLists",
+    "Transforms"
+  ],
+  "364": [
+    "pet images",
+    "Siamese model image comparison",
+    "pet images dataset"
+  ],
+  "365": [
+    "Siamese model image comparison"
+  ],
+  "366": [
+    "Siamese model image comparison"
+  ],
+  "367": [
+    "Siamese model image comparison"
+  ],
+  "373": [
+    "Human Numbers",
+    "Human Numbers dataset",
+    "language model",
+    "natural language processing (NLP)"
+  ],
+  "374": [
+    "language model",
+    "natural language processing (NLP)"
+  ],
+  "375": [
+    "language model",
+    "natural language processing (NLP)"
+  ],
+  "376": [
+    "language model",
+    "natural language processing (NLP)",
+    "building NLP model"
+  ],
+  "377": [
+    "language model",
+    "natural language processing (NLP)"
+  ],
+  "378": [
+    "language model",
+    "natural language processing (NLP)"
+  ],
+  "379": [
+    "examining data importance",
+    "language model",
+    "natural language processing (NLP)",
+    "first RNN",
+    "most common token prediction",
+    "NLP most common token"
+  ],
+  "380": [
+    "hidden state",
+    "language model",
+    "hidden state activations",
+    "natural language processing (NLP)",
+    "neural networks",
+    "recurrent neural networks (RNNs)"
+  ],
+  "381": [
+    "recurrent neural networks (RNNs)",
+    "improved RNN"
+  ],
+  "382": [
+    "backpropagation through time (BPTT)",
+    "truncated BPTT",
+    "backpropagation through time",
+    "improved RNN"
+  ],
+  "383": [
+    "callbacks",
+    "language model",
+    "natural language processing (NLP)",
+    "improved RNN"
+  ],
+  "384": [
+    "creating more signal",
+    "improved RNN"
+  ],
+  "385": [
+    "improved RNN"
+  ],
+  "386": [
+    "multilayer RNNs",
+    "improved RNN"
+  ],
+  "387": [
+    "multilayer RNNs"
+  ],
+  "388": [
+    "multilayer RNNs"
+  ],
+  "389": [
+    "multilayer RNNs"
+  ],
+  "390": [
+    "building from scratch",
+    "multilayer RNNs",
+    "LSTM language model"
+  ],
+  "391": [
+    "building from scratch",
+    "LSTM language model"
+  ],
+  "392": [
+    "building from scratch",
+    "LSTM language model"
+  ],
+  "393": [
+    "building from scratch",
+    "LSTM language model",
+    "training a language model using"
+  ],
+  "394": [
+    "architecture of model",
+    "AWD-LSTM architecture",
+    "NLP RNNs",
+    "building from scratch",
+    "text data complications",
+    "Keskar",
+    "LSTM model",
+    "LSTM language model",
+    "Merity",
+    "natural language processing (NLP)",
+    "regularizing RNNs against",
+    "recurrent neural networks (RNNs)",
+    "regularizing LSTM language models",
+    "Socher",
+    "recurrent neural networks"
+  ],
+  "395": [
+    "dropout",
+    "Hinton",
+    "LSTM model",
+    "recurrent neural networks (RNNs)"
+  ],
+  "396": [
+    "LSTM model",
+    "recurrent neural networks (RNNs)"
+  ],
+  "397": [
+    "activation regularization",
+    "temporal activation regularization",
+    "LSTM model",
+    "recurrent neural networks (RNNs)"
+  ],
+  "398": [
+    "training weight-tied regularized LSTM",
+    "language model",
+    "LSTM model",
+    "LSTM training",
+    "training a regularized LSTM",
+    "natural language processing (NLP)",
+    "recurrent neural networks (RNNs)",
+    "weights"
+  ],
+  "399": [
+    "training weight-tied regularized LSTM",
+    "LSTM model",
+    "LSTM training",
+    "training a regularized LSTM",
+    "recurrent neural networks (RNNs)"
+  ],
+  "403": [
+    "feature engineering",
+    "machine learning (ML)"
+  ],
+  "404": [
+    "finding edges via convolution",
+    "convolutional neural network (CNN)",
+    "kernel of convolution"
+  ],
+  "405": [
+    "convolutional neural network (CNN)",
+    "kernel of convolution"
+  ],
+  "406": [
+    "convolutional neural network (CNN)",
+    "kernel of convolution"
+  ],
+  "407": [
+    "convolutional neural network (CNN)",
+    "nested list comprehensions"
+  ],
+  "408": [
+    "convolutional neural network (CNN)",
+    "PyTorch convolutions",
+    "Dumoulin",
+    "F (torch.nn.functional)",
+    "PyTorch",
+    "fastai torch.nn.functional import",
+    "research papers",
+    "torch.nn.functional",
+    "Visin"
+  ],
+  "411": [
+    "convolutional neural network (CNN)",
+    "padding a convolution",
+    "stride-2 convolutions"
+  ],
+  "412": [
+    "convolutional neural network (CNN)",
+    "stride-1 convolutions"
+  ],
+  "414": [
+    "convolutional neural network (CNN)",
+    "convolution as matrix multiplication"
+  ],
+  "415": [
+    "building a CNN"
+  ],
+  "416": [
+    "convolutional neural network (CNN)",
+    "building a CNN",
+    "neural networks",
+    "refactoring parts of neural networks"
+  ],
+  "417": [
+    "building a CNN"
+  ],
+  "418": [
+    "convolutional neural network (CNN)",
+    "building a CNN"
+  ],
+  "419": [
+    "convolutional neural network (CNN)",
+    "building a CNN"
+  ],
+  "420": [
+    "building a CNN"
+  ],
+  "421": [
+    "building a CNN",
+    "deep learning",
+    "machine learning (ML)",
+    "Twitter for deep learning help"
+  ],
+  "422": [
+    "building a CNN"
+  ],
+  "423": [
+    "color image as rank-3 tensor",
+    "convolutional neural network (CNN)",
+    "building a CNN"
+  ],
+  "424": [
+    "convolutional neural network (CNN)",
+    "building a CNN"
+  ],
+  "425": [
+    "convolutional neural network (CNN)",
+    "building a CNN"
+  ],
+  "426": [
+    "convolutional neural network (CNN)",
+    "building a CNN",
+    "handwritten digits",
+    "MNIST handwritten digits dataset",
+    "handwritten digits dataset"
+  ],
+  "427": [
+    "convolutional neural network (CNN)",
+    "building a CNN",
+    "examining data importance",
+    "training on all digits"
+  ],
+  "428": [
+    "plotting during training",
+    "ActivationStats",
+    "callbacks",
+    "convolutional neural network (CNN)",
+    "building a CNN",
+    "Learner",
+    "training on all digits"
+  ],
+  "429": [
+    "convolutional neural network (CNN)",
+    "batch size increased",
+    "building a CNN",
+    "training more stable",
+    "training on all digits"
+  ],
+  "430": [
+    "annealing learning rate",
+    "convolutional neural network (CNN)",
+    "1cycle training",
+    "building a CNN",
+    "changing during training",
+    "training with large learning rates",
+    "training more stable",
+    "training on all digits",
+    "Smith",
+    "neural networks and learning rate",
+    "warmup learning rate"
+  ],
+  "431": [
+    "convolutional neural network (CNN)",
+    "building a CNN",
+    "cyclical momentum",
+    "training more stable",
+    "training on all digits",
+    "research papers",
+    "Smith",
+    "stochastic gradient descent (SGD)",
+    "training"
+  ],
+  "432": [
+    "convolutional neural network (CNN)",
+    "building a CNN",
+    "cosine annealing",
+    "Learner",
+    "training more stable",
+    "training on all digits"
+  ],
+  "433": [
+    "histogram of activations",
+    "color_dim",
+    "convolutional neural network (CNN)",
+    "building a CNN",
+    "Giomo",
+    "training more stable",
+    "training on all digits"
+  ],
+  "434": [
+    "convolutional neural network (CNN)",
+    "building a CNN",
+    "training more stable",
+    "training on all digits"
+  ],
+  "435": [
+    "batch normalization",
+    "convolutional neural network (CNN)",
+    "building a CNN",
+    "Ioffe",
+    "training more stable",
+    "training on all digits",
+    "research papers",
+    "Szegedy"
+  ],
+  "436": [
+    "convolutional neural network (CNN)",
+    "building a CNN",
+    "training more stable",
+    "training on all digits"
+  ],
+  "437": [
+    "convolutional neural network (CNN)",
+    "building a CNN",
+    "training more stable",
+    "training on all digits"
+  ],
+  "438": [
+    "convolutional neural network (CNN)",
+    "building a CNN",
+    "training more stable",
+    "training on all digits"
+  ],
+  "441": [
+    "ResNet",
+    "ResNet architecture",
+    "deep residual learning"
+  ],
+  "442": [
+    "handwritten digits",
+    "ImageNet dataset",
+    "MNIST handwritten digits dataset",
+    "handwritten digits dataset",
+    "ResNet architecture"
+  ],
+  "443": [
+    "AdaptiveAvgPool2d",
+    "fully convolutional networks",
+    "ResNet architecture"
+  ],
+  "444": [
+    "ResNet architecture",
+    "fully convolutional network",
+    "fully convolutional networks and"
+  ],
+  "445": [
+    "convolutional neural network (CNN)",
+    "building ResNet CNN",
+    "ResNet architecture",
+    "convolutional neural networks",
+    "skip connections"
+  ],
+  "446": [
+    "building ResNet CNN",
+    "identity function",
+    "identity mapping",
+    "ResNet architecture",
+    "skip connections"
+  ],
+  "447": [
+    "building ResNet CNN",
+    "ResNet architecture",
+    "skip connections"
+  ],
+  "448": [
+    "building ResNet CNN",
+    "ResNet architecture",
+    "skip connections",
+    "universal approximation theorem"
+  ],
+  "449": [
+    "building ResNet CNN",
+    "ResNet architecture",
+    "skip connections"
+  ],
+  "450": [
+    "building ResNet CNN",
+    "ResNet architecture",
+    "skip connections"
+  ],
+  "451": [
+    "building ResNet CNN",
+    "top 5 accuracy",
+    "He",
+    "ResNet architecture",
+    "Li",
+    "ResNet improved",
+    "skip connections smoothing loss",
+    "building state-of-the-art ResNet",
+    "skip connections"
+  ],
+  "452": [
+    "convolutional neural network (CNN)",
+    "building state-of-the-art ResNet",
+    "stem in convolutional neural network"
+  ],
+  "453": [
+    "building state-of-the-art ResNet"
+  ],
+  "454": [
+    "ResNet architecture",
+    "building state-of-the-art ResNet",
+    "ResNet-18"
+  ],
+  "455": [
+    "ResNet architecture",
+    "building state-of-the-art ResNet"
+  ],
+  "456": [
+    "ResNet architecture",
+    "building state-of-the-art ResNet"
+  ],
+  "459": [
+    "architecture of model",
+    "cnn_learner",
+    "cutting network",
+    "head of model",
+    "Learner",
+    "transfer learning"
+  ],
+  "460": [
+    "body of a model",
+    "convolutional neural network (CNN)",
+    "head of model",
+    "stem in convolutional neural network"
+  ],
+  "461": [
+    "architecture of model",
+    "unet_learner architecture"
+  ],
+  "463": [
+    "architecture of model",
+    "Siamese model with custom head"
+  ],
+  "464": [
+    "architecture of model",
+    "Siamese model with custom head"
+  ],
+  "465": [
+    "architecture of model",
+    "Siamese model with custom head",
+    "natural language processing (NLP)"
+  ],
+  "466": [
+    "architecture of model",
+    "natural language processing (NLP)",
+    "tabular data for models"
+  ],
+  "468": [
+    "models",
+    "overfitting",
+    "training"
+  ],
+  "471": [
+    "SGD class",
+    "stochastic gradient descent (SGD)",
+    "training"
+  ],
+  "472": [
+    "SGD class",
+    "training"
+  ],
+  "473": [
+    "optimization",
+    "SGD class",
+    "training"
+  ],
+  "474": [
+    "momentum in SGD",
+    "SGD class",
+    "stochastic gradient descent (SGD)",
+    "training"
+  ],
+  "475": [
+    "momentum in SGD",
+    "stochastic gradient descent (SGD)",
+    "training"
+  ],
+  "476": [
+    "momentum in SGD",
+    "stochastic gradient descent (SGD)",
+    "training"
+  ],
+  "477": [
+    "Hinton",
+    "momentum in SGD",
+    "neural networks",
+    "RMSProp",
+    "stochastic gradient descent (SGD)",
+    "training"
+  ],
+  "479": [
+    "Adam",
+    "Adam as default",
+    "training"
+  ],
+  "480": [
+    "callbacks",
+    "training",
+    "decoupled weight decay",
+    "weights"
+  ],
+  "483": [
+    "callbacks",
+    "training"
+  ],
+  "487": [
+    "callbacks",
+    "training"
+  ],
+  "493": [
+    "building layer from scratch",
+    "modeling a neuron"
+  ],
+  "494": [
+    "building layer from scratch"
+  ],
+  "495": [
+    "function from scratch",
+    "neural networks",
+    "building layer from scratch"
+  ],
+  "496": [
+    "elementwise arithmetic",
+    "neural networks",
+    "building layer from scratch",
+    "tensors"
+  ],
+  "497": [
+    "broadcasting",
+    "neural networks",
+    "building layer from scratch"
+  ],
+  "498": [
+    "broadcasting with a scalar",
+    "vector to matrix",
+    "building layer from scratch",
+    "broadcasting vector to matrix"
+  ],
+  "499": [
+    "vector to matrix",
+    "building layer from scratch",
+    "broadcasting vector to matrix"
+  ],
+  "500": [
+    "vector to matrix",
+    "building layer from scratch",
+    "broadcasting vector to matrix"
+  ],
+  "501": [
+    "vector to matrix",
+    "neural networks",
+    "building layer from scratch",
+    "broadcasting vector to matrix"
+  ],
+  "502": [
+    "Einstein summation",
+    "neural networks",
+    "building layer from scratch"
+  ],
+  "503": [
+    "forward pass",
+    "backward pass",
+    "defining and initializing a layer",
+    "neural networks",
+    "building layer from scratch"
+  ],
+  "504": [
+    "defining and initializing a layer"
+  ],
+  "505": [
+    "Bengio",
+    "defining and initializing a layer",
+    "Glorot",
+    "training deep feedforward neural networks"
+  ],
+  "506": [
+    "defining and initializing a layer",
+    "rectifier deep dive"
+  ],
+  "507": [
+    "defining and initializing a layer"
+  ],
+  "508": [
+    "defining and initializing a layer",
+    "backward pass and",
+    "gradients and backward pass"
+  ],
+  "509": [
+    "backward pass and",
+    "gradients and backward pass"
+  ],
+  "510": [
+    "calculus and SymPy",
+    "backward pass and",
+    "gradients and backward pass",
+    "symbolic computation library",
+    "SymPy library and calculus",
+    "SymPy library"
+  ],
+  "511": [
+    "refactoring the model",
+    "refactoring parts of neural networks"
+  ],
+  "512": [
+    "PyTorch"
+  ],
+  "513": [
+    "PyTorch"
+  ],
+  "514": [
+    "PyTorch"
+  ],
+  "515": [
+    "PyTorch"
+  ],
+  "519": [
+    "backpropagation",
+    "backward hook",
+    "class activation map (CAM)",
+    "forward hook",
+    "hooks in PyTorch",
+    "interpretation via class activation map",
+    "PyTorch",
+    "outputs",
+    "class activation map",
+    "Zhou"
+  ],
+  "520": [
+    "HookCallback",
+    "class activation map (CAM)",
+    "hooks in PyTorch",
+    "interpretation via class activation map",
+    "PyTorch"
+  ],
+  "521": [
+    "class activation map (CAM)",
+    "hooks in PyTorch",
+    "interpretation via class activation map",
+    "PyTorch"
+  ],
+  "522": [
+    "class activation map (CAM)",
+    "gradient CAM",
+    "context manager",
+    "gradient class activation map",
+    "hooks in PyTorch",
+    "Hook class as context manager",
+    "interpretation via class activation map",
+    "hooks might leak",
+    "PyTorch",
+    "Python"
+  ],
+  "527": [
+    "Learner",
+    "untar_data"
+  ],
+  "529": [
+    "Learner"
+  ],
+  "530": [
+    "DataLoader"
+  ],
+  "531": [
+    "Learner",
+    "testing models"
+  ],
+  "532": [
+    "Learner"
+  ],
+  "533": [
+    "Learner"
+  ],
+  "534": [
+    "Learner",
+    "simple CNN",
+    "Sequential class"
+  ],
+  "536": [
+    "Learner"
+  ],
+  "537": [
+    "building Learner class from scratch",
+    "Learner"
+  ],
+  "539": [
+    "Learner"
+  ],
+  "540": [
+    "callbacks",
+    "learning rate scheduling"
+  ],
+  "546": [
+    "community support",
+    "deep learning",
+    "fastai software library",
+    "web resources"
+  ],
+  "547": [
+    "free online course",
+    "fast.ai free online course"
+  ],
+  "549": [
+    "browser-based interface",
+    "GitHub Pages host",
+    "GitHub Pages hosting blog"
+  ],
+  "550": [
+    "GitHub account"
+  ],
+  "551": [
+    "home page setup"
+  ],
+  "553": [
+    "blogging about deep learning journey"
+  ],
+  "555": [
+    "synchronizing GitHub and computer"
+  ],
+  "556": [
+    "blogging about deep learning journey",
+    "notebooks"
+  ],
+  "559": [
+    "data project checklist"
+  ],
+  "560": [
+    "data project checklist"
+  ],
+  "561": [
+    "data project checklist"
+  ],
+  "562": [
+    "data project checklist"
+  ],
+  "563": [
+    "data project checklist"
+  ],
+  "564": [
+    "data project checklist"
+  ],
+  "565": [
+    "data project checklist"
+  ]
+}

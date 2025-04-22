@@ -1,3 +1,82 @@
+A
+ablation, 356
+AdaBoost, 102, 107
+AdaNet, 108
+AI Platform Notebooks, 336
+AI Platform Pipelines, 230, 288
+AI Platform Prediction, 9, 288, 315, 354
+AI Platform pusher component, 288
+AI Platform Training, 9, 197
+AI readiness, 373-376
+Alexander, Christopher, 1-2
+all-reduce algorithm, 176
+anomaly detection, 132-136, 243, 380
+Apache Airflow, 284, 292
+Apache Beam, 217, 256, 276-278, 297, 309
+Apache Flink, 297, 309
+Apache Spark, 217, 297, 309
+Apigee, 314
+application-specific integrated circuit (see
+	ASIC)
+ARIMA, 79, 275
+arrays, 27-28
+ASIC, 184, 239
+asynchronous serving, 247
+asynchronous training, 179-181
+attribution values, 136
+autoencoders, 49-51
+AutoML Tables, 339
+AutoML technique, 108
+autoregressive integrated moving average (see
+	ARIMA)
+AWS Lambda, 206, 219, 228, 314
+Azure, 184, 314
+Azure Functions, 206, 228
+	Index
+Azure Machine Learning, 314
+Azure ML Pipelines, 288
+B
+bag of words approach (see BOW encoding)
+bagging, 100-101, 104-105, 108
+baseline, 330-336
+	(see also informative baseline, uninforma‐
+	tive baseline)
+batch prediction, 7, 240, 247
+batch serving, 218-220
+Batch Serving design pattern, 201, 213-220, 365
+batch size, 185-186
+batching, 208
+Bayesian optimization, 193-194
+beam search algorithm, 79
+BERT, 50-51, 174, 186
+bias
+	data, 339, 344, 350-356
+	(see also data collection bias, data distri‐
+	bution bias, data representation bias,
+	experimenter bias, implicit bias,
+	problematic bias, proxy bias, report‐
+	ing bias)
+	human, 12-13, 343
+	(see also implicit bias, problematic bias,
+	proxy bias, )
+	model, 72, 100, 105, 128, 326, 343, 345-346, 356-358
+	(see also label bias)
+	unfair, 356
+bias-variance tradeoff, 100, 108
+Bidirectional Encoding Representations from
+	Transformers (see BERT)
+BigQuery
+	about, 2, 9
+	features of, 217, 219, 297, 309
+	performance of, 280
+	uses of, 33, 52, 54-55, 91, 95, 214, 285
+BigQuery Machine Learning (see BigQuery
+	ML)
+BigQuery ML
+	about, 9
+	features of, 127, 251-252
+	performance of, 57
+	uses of, 55-56, 132, 250
 BigQueryExampleGen component, 284, 286
 BigTable, 309
 binary classification, 93-99, 322
@@ -5,11 +84,14 @@ binary classifier, 98, 117, 121, 153
 binary encoding, 37
 boolean variables, 19
 boosting, 102-102, 104, 105, 108
+bootstrap aggregating (see bagging)
 bottleneck layer, 163-168
 BOW encoding, 67-70
 Box-Cox transform, 27
 Bridged Schema design pattern, 250, 266-273, 364, 365
 bucketing, 30
+C
+CAIP (see Cloud AI Platform)
 capacity, 100, 157
 Cartesian product, 62
 cascade, 110, 129-132, 271
@@ -55,13 +137,19 @@ confusion matrix, 123, 225
 consistency, 12-13
 containers, 282, 284, 288
 context language models, 50-51
+	(see also BERT, Word2Vec)
 Continued Model Evaluation design pattern, 201, 220-231, 314, 320, 355, 365
+Continuous Bag of Words (see CBOW)
 continuous evaluation, 247-248
+continuous integration and continuous delivery
+	(see CI/CD)
+convolutional neural network (see CNN)
 Coral Edge TPU, 239
 counterfactual analysis, 339-342
 counterfactual reasoning, 224
 cryptographic algorithms, 38
 custom serving function, 209
+D
 DAG, 289, 292
 Darwin, Charles, 197
 data accuracy, 11
@@ -73,8 +161,13 @@ data drift, 14-15, 220, 231, 243, 310
 data engineers, 9, 16, 297
 data parallelism, 175-176, 178, 181, 184
 data preprocessing, 6
+	(see also data transformation, feature engi‐
+	neering)
 data representation, 20-21
 data representation bias, 348
+data scientists
+	role of, 9, 16-17, 207, 327
+	tasks of, 282, 295, 311
 data transformation, 7
 data validation, 7, 231
 data warehouses, 51-52
@@ -84,11 +177,15 @@ Datastore, 219
 decision trees, 5, 19-21, 107, 135, 139, 327
 Deep Galerkin Method, 147-148
 deep learning, 4-5, 77
+deep neural network (see DNN model)
 default, definition of, 312
 Dense layers, 64, 76
 design patterns, definition of, 1-2
+Design Patterns: Elements of Reusable Object-
+	Oriented Software, 2
 developers, 10, 16
 dimensionality reduction, 5
+directed acyclic graph (see DAG)
 discrete probability distribution, 81, 82, 83
 distributed data processing infrastructure, 214
 DistributedDataParallel, 178
@@ -98,22 +195,32 @@ Docker container, 287, 315
 downsampling, 123, 125-127, 134-135
 dropout technique, 107
 dummy coding, 29
+E
 early stopping, 155
 edge, 232-233, 238
 Embedding design pattern, 20-21, 39-52, 62-65, 66, 363-364
 embeddings, 167
+	(see also bottleneck layer)
 embeddings, as similarity, 47
 Ensemble design pattern, 79-80, 99-108, 110, 134, 365
 ensemble methods, 100
+	(see also bagging, boosting, stacking)
+epochs
+	training, 6, 155
+	using, 140, 150, 159-160
+	virtual, 160, 180, 364
 evaluation, definition of, 7
 example-based explanation, 339-342
 ExampleGen components, 284-284
 ExampleValidator, 284
 experimenter bias, 345
 explainability, 310, 327, 329, 335, 357-358, 365
+	(see also deep learning, post hoc explaina‐
+	bility method)
 Explainable AI, 9, 136, 335, 339
 Explainable Predictions design pattern, 320, 326-343, 365
 exported model, 150
+F
 Facets, 231
 Fairness Indicators, 354
 Fairness Lens design pattern, 320, 343-358
@@ -125,18 +232,23 @@ feature columns, 33, 39, 42, 252-255
 Feature Cross design pattern, 21, 52-62, 363
 feature cross, cardinality, 61
 feature engineering, 6, 20, 257, 295, 368
+	(see also data preprocessing)
 feature extraction, 21, 172-173, 260
 Feature Store design pattern, 250, 257, 295-310, 364-365
 feature, definition of, 7, 20
 FeatureSet, 299-302
+feed-forward neural networks (see neural net‐
+	works)
 field-programmable gate array (FPGA), 184
 fine-tuning, 157, 172-173, 229
+	(see also progressive fine-tuning)
 fingerprint hashing algorithm, 38
 fitness function, 198
 flat approach, 97
 Flatten layer, 71
 FPGA (field-programmable gate array), 184
 fraud detection, 122-126, 134, 220, 224, 263, 265
+G
 Gamma, Erich, 2
 Gaussian process, 194
 genetic algorithms, 194, 197-198
@@ -149,12 +261,20 @@ Google Bolo, 242
 Google Cloud Functions, 206
 Google Cloud Public Datasets, 9
 Google Container Registry, 287
+Google Kubernetes Engine (see GKE)
 Google Translate, 241
 GPU, 162, 175-178, 184, 186, 213, 287, 376
 Gradient Boosting Machines, 102
+gradient descent (see SGD)
+graphics processing unit (see GPU)
 grid search, 188-190, 192
 Grid-SearchCV, 189
 ground truth label, 7, 12, 223-227
+H
+hash buckets
+	collisions, 35
+	empty, 39
+	heuristic to choose numbers, 34
 Hashed Feature design pattern, 21, 32-39, 363
 Helm, Richard, 2
 Heroku, 206
@@ -168,6 +288,7 @@ Hopsworks, 309
 hyperparameter tuning, 37, 160
 Hyperparameter Tuning design pattern, 187-198, 363
 hyperparameters, 6, 187
+I
 idioms, 22, 28, 31
 IG, 336, 337
 image embeddings, 45
@@ -177,30 +298,43 @@ implicit bias, 345
 imputation, 270-273
 Inception, 45
 inference, 8, 143
+	(see also ML approximation)
 informative baseline, 330-333
 input, definition of, 7, 20
 instance, definition of, 7
 instance-level transformations, 255
+integrated gradients (see IG)
+interpretability (see explainability)
 interpretable by design, 327
 IoT analytics, 379
 irreducible error, 100
+J
 Jetson Nano, 239
 Johnson, Ralph, 2
 JSON, 208
+K
 k-nearest neighbors (kNN), 105
 Kaggle, 235
 Kale, 293
+Keras
+	about, 2, 4, 128
+	features of, 127, 152, 167, 177, 190, 236
+	uses of, 42-45, 64-65, 71, 73, 94, 252-255
 Keras ImageDataGenerator, 129
 Keras Sequential API, 91
 Keras Training Loop, 140
 kernel size, 72
+key performance indicator (see KPI)
 Keyed Predictions design pattern, 2, 201, 243-248, 365
 keys, 243-248
+KFP (see Kubeflow Pipelines)
 kNN (k-nearest neighbors), 105
 KPI , 367-370
 Kubeflow Pipelines, 113, 284, 288, 292
+L
 label bias, 89
 label, definition of, 7
+	(see also ground truth label, prediction)
 labeling, 13, 118, 223, 324, 345
 labels, overlapping, 97-99
 LAMB, 186
@@ -210,11 +344,17 @@ library function, 213
 Light on Two Sides of Every Room pattern, 1-2
 lineage tracking, 294
 linear models, 5, 322
+long short-term memory model (see LSTM)
 low latency, 8, 209-209, 215, 237, 296-298, 307
 LSTM, 135, 275, 281
+M
+machine learning engineers (see ML engineers)
 machine learning feasibility study, 369
 machine learning framework, 14
+machine learning life cycle (see ML life cycle)
 machine learning models, 4
+machine learning problems (see supervised
+	learning; unsupervised learning)
 machine learning, definition of, 4
 MAE (mean absolute error), 320
 MAP (mean average precision), 321
@@ -231,7 +371,11 @@ Mirrored Variable, 176
 MirroredStrategy, 177, 179
 Mixed Input Representation, 115
 ML approximation, 143, 145
+ML engineers
+	role of, 9, 16, 207, 319, 327
+	tasks of, 295, 297, 311, 314
 ML life cycle, 366-367, 369-373
+ML Operations (see MLOps)
 ML pipelines, 8
 ML researchers, 319
 MLflow, 284
@@ -240,11 +384,15 @@ MNIST dataset, 71, 74
 MobileNetV2, 236, 238
 Mockus, Jonas, 193
 model builders, 319
+	(see also data scientists, ML researchers)
 Model Card Toolkit, 357
 Model Cards, 357
 model evaluation, 8, 123, 294, 343, 345
+	(see also Continued Model Evaluation
+	design pattern)
 model parallelism, 175, 183-184
 model parameters, 187-188
+model understanding (see explainability)
 Model Versioning design pattern, 250, 310-317, 365
 model, pre-trained, 167-169, 173, 319, 364
 model, text classification, 203, 209, 250, 316
@@ -254,11 +402,14 @@ multi-hot encoding, 31
 multiclass classification problems, 90
 multilabel classification, 93-95, 322
 Multilabel design pattern, 79, 90-99
+multilabel, multiclass classification (see Multi‐
+	label design pattern)
 Multimodal Input design pattern, 62-77, 365
 multimodal inputs, definition of, 65
 MultiWorkerMirroredStrategy, 177, 179
 MySQL, 219
 MySQL Cluster, 309
+N
 naive Bayes, 105
 natural language understanding (NLU), 377
 Netflix Prize, 106
@@ -269,6 +420,7 @@ NLU (natural language understanding), 377
 NNLM, 51
 nonlinear transformations, 26-27
 numerical data, 6-7
+O
 objective function, 193
 OCR (optical character recognition), 116
 one versus rest approach, 98
@@ -283,10 +435,13 @@ orchestration, definition of, 293
 outliers, 24
 output layer bias, 128
 overfit model, 100, 142
+	(see also physics-based model)
 overfitting, 148-149
+P
 parameter server architecture, 179
 parameter sharing, 89-90
 ParameterServerStrategy, 180
+partial differential equation (see PDE)
 Parzen estimator, 194
 Pattern Language, A, 1
 PCA, 41, 49
@@ -299,16 +454,22 @@ post hoc explainability method, 329
 posterior probability distribution, 82
 precision, 124
 prediction, 7, 109, 213
+	(see also batch prediction, inference, online
+	prediction)
 predictive modeling, 378
+principal components analysis (see PCA)
+probability density function (see PDF)
 problematic bias, 343-346
 productionizing models, 371
 progressive fine-tuning, 172
 proxy bias, 345
 Pusher component, 285
 PyTorch, 152, 175, 178, 196
+Q
 quantile regression, 83, 85
 quantization, 233, 237, 238
 quantization aware training, 241
+R
 random forest, 107, 189
 random search, 190, 192
 random seed, 258-259
@@ -318,6 +479,9 @@ ratings, representation of, 66
 ray-tracing model, 143
 Rebalancing design pattern, 109, 115, 122-136, 350, 365
 recall, 124
+recommendation systems
+	reframing as regression, 84
+	uses for, 81, 89, 379
 Redis, 297, 309
 reducible error, 100
 reframing , 123, 129-132
@@ -338,10 +502,12 @@ roles, 9-10
 roles, impact of team size, 10
 Runge-Kutta methods, 146
 runs, definition of, 285
+S
 SageMaker, 207, 288, 314
 salt, 38
 Sampled Shapley, 336
 SavedModel, 205, 212, 219
+	(see also saved_model_cli)
 saved_model_cli, 205
 scaling, 16, 22-23
 SchemaGen, 284
@@ -355,12 +521,14 @@ SGD, 139-140, 176
 SHAP, 136, 333-336
 Shapley Value, 330, 333
 sigmoid, 94, 99-99
+	(see also sigmoid activation)
 sigmoid activation, 91-95
 Six-Foot Balcony pattern, 1-2
 skip-gram model, 50
 Smart Compose, 356
 SMOTE, 128-129, 134
 softmax, 45, 90, 94
+	(see also softmax activation)
 softmax activation, 92
 software reliability engineer (SRE), 209
 spurious correlation, 37
@@ -373,28 +541,49 @@ stateful vs. stateless components, 202-203
 stateless functions, 202-203
 Stateless Serving Function design pattern, 201-213, 315, 365
 StatisticsGen component, 284
+stochastic gradient descent (see SGD)
 stratified split, 264
 streaming, definition of, 8
 structured data, 6
+	(see also categorical data, numerical data,
+	tabular data)
 supervised learning, 5
+support vector machine (see SVM)
 surrogate function, 194
 survival of the fittest theory, 197
 SVM, 105, 139
 Swivel, 52
 synchronous training, 176-181
+Synthetic Minority Over-sampling Technique
+	(see SMOTE)
+T
 TabNet, 50, 174
+tabular data
+	about, 6
+	(see also structured data)
+	applications for, 91, 173-174
+	representation of, 65-66
+tensor processing unit (see TPU)
 TensorBoard, 354
+TensorFlow
+	about, 2, 4, 107
+	features of, 135, 152, 155, 175, 176, 252, 335
+	uses of, 13, 33, 42, 56
 TensorFlow Data Validation, 231, 354
 TensorFlow dataset, 158
 TensorFlow Extended, 256, 284
 TensorFlow hub, 52, 167, 169, 335
 Tensorflow Lite, 233, 237
 TensorFlow Lite, 233
+TensorFlow Model Analysis (see TFMA)
 TensorFlow Probability, 86
 TensorFlow Serving, 207, 256, 315, 354
 TensorFlow Transform method, 114
+	(see also Transform design pattern)
 test data, 6, 140, 258, 264
+testing dataset (see test data)
 text embeddings, 42-45
+TF Hub (see TensorFlow hub)
 TF Lite Interpreter, 237-238
 TFMA, 354-355
 TFX, 231, 284-292, 354
@@ -405,11 +594,16 @@ timeliness, 13
 tokenization, 42-45
 TorchServe, 207
 TPAClusterResolver, 185
+TPU
+	about, 2, 186, 376
+	features of, 150, 287
+	uses of, 184, 213
 TPUStrategy, 185
 Trainer component, 285, 288
 training data, 6
 training examples, 7
 training loop, 139-141, 150, 155
+	(see also well-behaved training loop)
 training, definition of, 7
 training, synchronous vs. asynchronous, 179-181
 training-serving skew, 251, 257, 309
@@ -419,6 +613,7 @@ Transform design pattern, 2, 56, 250-258, 309, 365
 trials, definition of, 188
 Tweedie distribution, 81
 Two-Phase Predictions design pattern, 201, 232-243, 282
+U
 underfit model, 100
 Uniform Approximation Theorem, 144-145
 uninformative baseline, 330-332
@@ -428,11 +623,14 @@ unstructured data, 6, 265
 unsupervised learning, 5, 132
 upsampling, 123, 128-129
 Useful Overfitting design pattern, 141-149
+V
 validation data, 6, 140
+validation dataset (see validation data)
 VGG, 164-168, 239
 Vision API, 356, 357
 Vlissides, John, 2
 vocabulary, 29-33, 34-35, 42, 67-69
+W
 well-behaved training loop, 155, 157
 What-If Tool, 136, 339, 347-354
 Wheeler, David, 209
@@ -441,6 +639,8 @@ winsorizing, 24-25
 word index, 68
 Word2Vec, 50-51
 Workflow Pipeline design pattern, 112-112, 228, 250, 282-294, 355, 365
+X
 XGBoost, 69, 102, 107, 135, 315
 XRAI, 337, 337
+Z
 z-score normalization, 23-25

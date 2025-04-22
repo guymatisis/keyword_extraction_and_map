@@ -1,0 +1,1505 @@
+text|keyphrases
+"We can try the same thing for left edges:
+left_edge = tensor([[-1,1,0],
+[-1,1,0],
+[-1,1,0]]).float()
+left_edge3 = tensor([[apply_kernel(i,j,left_edge) <b>for</b> j <b>in</b> rng] <b>for</b> i <b>in</b> rng])
+show_image(left_edge3);
+As we mentioned before, a convolution is the operation of applying such a kernel
+over a grid. Vincent Dumoulin and Francesco Visin’s paper “A Guide to Convolution
+Arithmetic for Deep Learning” has many great diagrams showing how image kernels
+can be applied. Figure 13-3 is an example from the paper showing (at the bottom) a
+light blue 4×4 image with a dark blue 3×3 kernel being applied, creating a 2×2 green
+output activation map at the top.
+<i>Figure</i> <i>13-3.</i> <i>Result</i> <i>of</i> <i>applying</i> <i>a</i> <i>3×3</i> <i>kernel</i> <i>to</i> <i>a</i> <i>4×4</i> <i>image</i> <i>(courtesy</i> <i>of</i> <i>Vincent</i>
+<i>Dumoulin</i> <i>and</i> <i>Francesco</i> <i>Visin)</i>
+h w,
+Look at the shape of the result. If the original image has a height of and a width of
+how many 3×3 windows can we find? As you can see from the example, there are h-2
+by w-2 windows, so the image we get as a result has a height of h-2 and a width of
+w-2.
+We won’t implement this convolution function from scratch, but use PyTorch’s imple‐
+mentation instead (it is way faster than anything we could do in Python).
+<header><largefont><b>Convolutions</b></largefont> <largefont><b>in</b></largefont> <largefont><b>PyTorch</b></largefont></header>
+Convolution is such an important and widely used operation that PyTorch has it built
+in. It’s called F.conv2d (recall that F is a fastai import from torch.nn.functional, as
+recommended by PyTorch). PyTorch docs tell us that it includes these parameters:"|convolutional neural network (CNN); PyTorch convolutions; Dumoulin; F (torch.nn.functional); PyTorch; fastai torch.nn.functional import; research papers; torch.nn.functional; Visin
+"This model is using the IMDb Large Movie Review dataset from “Learning Word
+Vectors for Sentiment Analysis” by Andrew Maas et al. It works well with movie
+reviews of many thousands of words, but let’s test it on a short one to see how it
+works:
+learn.predict(""I really liked that movie!"")
+('pos', tensor(1), tensor([0.0041, 0.9959]))
+Here we can see the model has considered the review to be positive. The second part
+of the result is the index of “pos” in our data vocabulary, and the last part is the prob‐
+abilities attributed to each class (99.6% for “pos” and 0.4% for “neg”).
+Now it’s your turn! Write your own mini movie review, or copy one from the internet,
+and you can see what this model thinks about it.
+<header><largefont><b>The</b></largefont> <largefont><b>Order</b></largefont> <largefont><b>Matters</b></largefont></header>
+In a Jupyter notebook, the order you execute each cell is important. It’s not like Excel,
+where everything gets updated as soon as you type something anywhere—it has an
+inner state that gets updated each time you execute a cell. For instance, when you run
+the first cell of the notebook (with the “CLICK ME” comment), you create an object
+called learn that contains a model and data for an image classification problem.
+If we were to run the cell just shown in the text (the one that predicts whether a
+review is good) straight after, we would get an error as this learn object does not con‐
+tain a text classification model. This cell needs to be run after the one containing this:
+<b>from</b> <b>fastai.text.all</b> <b>import</b> *
+dls = TextDataLoaders.from_folder(untar_data(URLs.IMDB), valid='test')
+learn = text_classifier_learner(dls, AWD_LSTM, drop_mult=0.5,
+metrics=accuracy)
+learn.fine_tune(4, 1e-2)
+The outputs themselves can be deceiving, because they include the results of the last
+time the cell was executed; if you change the code inside a cell without executing it,
+the old (misleading) results will remain.
+Except when we mention it explicitly, the notebooks provided on the book’s website
+are meant to be run in order, from top to bottom. In general, when experimenting,
+you will find yourself executing cells in any order to go fast (which is a super neat
+feature of Jupyter Notebook), but once you have explored and arrived at the final ver‐
+sion of your code, make sure you can run the cells of your notebooks in order (your
+future self won’t necessarily remember the convoluted path you took otherwise!).
+In command mode, typing 0 twice will restart the <i>kernel</i> (which is the engine power‐
+ing your notebook). This will wipe your state clean and make it as if you had just
+started in the notebook. Choose Run All Above from the Cell menu to run all cells"|cells in notebooks; first cell CLICK ME; IMDb Large Movie Review; IMDb Large Movie Review dataset; kernel in notebooks; Maas; notebooks; cell execution order; code from book; outputs; cells containing executable code; research papers
+"Here, the cell with the green border is the cell we clicked, and the blue highlighted
+cells are its <i>precedents—the</i> cells used to calculate its value. These cells are the corre‐
+sponding 3×3 area of cells from the input layer (on the left), and the cells from the
+filter (on the right). Let’s now click <i>trace</i> <i>precedents</i> again, to see what cells are used to
+calculate these inputs. Figure 13-11 shows what happens.
+<i>Figure</i> <i>13-11.</i> <i>Secondary</i> <i>precedents</i> <i>of</i> <i>Conv2</i> <i>layer</i>
+In this example, we have just two convolutional layers, each of stride 2, so this is now
+tracing right back to the input image. We can see that a 7×7 area of cells in the input
+layer is used to calculate the single green cell in the Conv2 layer. This 7×7 area is the
+<i>receptive</i> <i>field</i> in the input of the green activation in Conv2. We can also see that a
+second filter kernel is needed now, since we have two layers.
+As you see from this example, the deeper we are in the network (specifically, the more
+stride-2 convs we have before a layer), the larger the receptive field for an activation
+in that layer is. A large receptive field means that a large amount of the input image is
+used to calculate each activation in that layer. We now know that in the deeper layers
+of the network, we have semantically rich features, corresponding to larger receptive
+fields. Therefore, we’d expect that we’d need more weights for each of our features to
+handle this increasing complexity. This is another way of saying the same thing we
+mentioned in the previous section: when we introduce a stride-2 conv in our net‐
+work, we should also increase the number of channels.
+When writing this particular chapter, we had a lot of questions we needed answers
+for, to be able to explain CNNs to you as best we could. Believe it or not, we found
+most of the answers on Twitter. We’re going to take a quick break to talk to you about
+that now, before we move on to color images."|building a CNN
+"Now the network outputs two activations, which map to the two possible levels in our
+labels:
+simple_cnn(xb).shape
+torch.Size([64, 2])
+We can now create our Learner :
+learn = Learner(dls, simple_cnn, loss_func=F.cross_entropy, metrics=accuracy)
+To see exactly what’s going on in the model, we can use summary:
+learn.summary()
+Sequential (Input shape: ['64 x 1 x 28 x 28'])
+================================================================
+Layer (type) Output Shape Param # Trainable
+================================================================
+Conv2d 64 x 4 x 14 x 14 40 True
+________________________________________________________________
+ReLU 64 x 4 x 14 x 14 0 False
+________________________________________________________________
+Conv2d 64 x 8 x 7 x 7 296 True
+________________________________________________________________
+ReLU 64 x 8 x 7 x 7 0 False
+________________________________________________________________
+Conv2d 64 x 16 x 4 x 4 1,168 True
+________________________________________________________________
+ReLU 64 x 16 x 4 x 4 0 False
+________________________________________________________________
+Conv2d 64 x 32 x 2 x 2 4,640 True
+________________________________________________________________
+ReLU 64 x 32 x 2 x 2 0 False
+________________________________________________________________
+Conv2d 64 x 2 x 1 x 1 578 True
+________________________________________________________________
+Flatten 64 x 2 0 False
+________________________________________________________________
+Total params: 6,722
+Total trainable params: 6,722
+Total non-trainable params: 0
+Optimizer used: <function Adam at 0x7fbc9c258cb0>
+Loss function: <function cross_entropy at 0x7fbca9ba0170>
+Callbacks:
+- TrainEvalCallback
+- Recorder
+- ProgressCallback"|building a CNN
+"<header><largefont><b>SGD</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Mini-Batches</b></largefont></header>
+Now that we have a loss function suitable for driving SGD, we can consider some of
+the details involved in the next phase of the learning process, which is to change or
+update the weights based on the gradients. This is called an <i>optimization</i> <i>step.</i>
+To take an optimization step, we need to calculate the loss over one or more data
+items. How many should we use? We could calculate it for the whole dataset and take
+the average, or we could calculate it for a single data item. But neither of these is ideal.
+Calculating it for the whole dataset would take a long time. Calculating it for a single
+item would not use much information, so it would result in an imprecise and unsta‐
+ble gradient. You’d be going to the trouble of updating the weights, but taking into
+account only how that would improve the model’s performance on that single item.
+So instead we compromise: we calculate the average loss for a few data items at a
+time. This is called a <i>mini-batch.</i> The number of data items in the mini-batch is called
+the <i>batch</i> <i>size.</i> A larger batch size means that you will get a more accurate and stable
+estimate of your dataset’s gradients from the loss function, but it will take longer, and
+you will process fewer mini-batches per epoch. Choosing a good batch size is one of
+the decisions you need to make as a deep learning practitioner to train your model
+quickly and accurately. We will talk about how to make this choice throughout this
+book.
+Another good reason for using mini-batches rather than calculating the gradient on
+individual data items is that, in practice, we nearly always do our training on an accel‐
+erator such as a GPU. These accelerators perform well only if they have lots of work
+to do at a time, so it’s helpful if we can give them lots of data items to work on. Using
+mini-batches is one of the best ways to do this. However, if you give them too much
+data to work on at once, they run out of memory—making GPUs happy is also tricky!
+As you saw in our discussion of data augmentation in Chapter 2, we get better gener‐
+alization if we can vary things during training. One simple and effective thing we can
+vary is what data items we put in each mini-batch. Rather than simply enumerating
+our dataset in order for every epoch, instead what we normally do is randomly shuffle
+it on every epoch, before we create mini-batches. PyTorch and fastai provide a class
+that will do the shuffling and mini-batch collation for you, called DataLoader.
+A DataLoader can take any Python collection and turn it into an iterator over many
+batches, like so:
+coll = range(15)
+dl = DataLoader(coll, batch_size=5, shuffle=True)
+list(dl)
+[tensor([ 3, 12, 8, 10, 2]),
+tensor([ 9, 4, 7, 14, 5]),
+tensor([ 1, 13, 0, 6, 11])]"|batch operations; SGD and mini-batches; numerical digit classifier; stochastic gradient descent (SGD); mini-batches
+"<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 0.976380 1.001455 00:12
+1 0.875964 0.919960 00:12
+2 0.685377 0.870664 00:12
+3 0.483701 0.874071 00:12
+4 0.385249 0.878055 00:12
+This is a reasonable start, but we can do better. One obvious missing piece is that
+some users are just more positive or negative in their recommendations than others,
+and some movies are just plain better or worse than others. But in our dot product
+representation, we do not have any way to encode either of these things. If all you can
+say about a movie is, for instance, that it is very sci-fi, very action-oriented, and very
+not old, then you don’t really have any way to say whether most people like it.
+That’s because at this point we have only weights; we do not have biases. If we have a
+single number for each user that we can add to our scores, and ditto for each movie,
+that will handle this missing piece very nicely. So first of all, let’s adjust our model
+architecture:
+<b>class</b> <b>DotProductBias(Module):</b>
+<b>def</b> <b>__init__(self,</b> n_users, n_movies, n_factors, y_range=(0,5.5)):
+self.user_factors = Embedding(n_users, n_factors)
+self.user_bias = Embedding(n_users, 1)
+self.movie_factors = Embedding(n_movies, n_factors)
+self.movie_bias = Embedding(n_movies, 1)
+self.y_range = y_range
+<b>def</b> forward(self, x):
+users = self.user_factors(x[:,0])
+movies = self.movie_factors(x[:,1])
+res = (users * movies).sum(dim=1, keepdim=True)
+res += self.user_bias(x[:,0]) + self.movie_bias(x[:,1])
+<b>return</b> sigmoid_range(res, *self.y_range)
+Let’s try training this and see how it goes:
+model = DotProductBias(n_users, n_movies, 50)
+learn = Learner(dls, model, loss_func=MSELossFlat())
+learn.fit_one_cycle(5, 5e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 0.929161 0.936303 00:13
+1 0.820444 0.861306 00:13
+2 0.621612 0.865306 00:14
+3 0.404648 0.886448 00:13
+4 0.292948 0.892580 00:13"|categorical variables; collaborative filtering; embedding; embedding categorical variables
+"methods if you’re not familiar with them, since they’re commonly used in many
+Python libraries and applications; we’ve used them a few times previously in the
+book, but haven’t called attention to them.) The reason that TextBlock is special is
+that setting up the numericalizer’s vocab can take a long time (we have to read and
+tokenize every document to get the vocab).
+To be as efficient as possible, fastai performs a few optimizations:
+• It saves the tokenized documents in a temporary folder, so it doesn’t have to
+tokenize them more than once.
+• It runs multiple tokenization processes in parallel, to take advantage of your
+computer’s CPUs.
+We need to tell TextBlock how to access the texts, so that it can do this initial prepro‐
+cessing—that’s what from_folder does.
+show_batch then works in the usual way:
+dls_lm.show_batch(max_n=2)
+<b>text</b> <b>text_</b>
+<b>0</b>
+xxbosxxmajit’sawesome!xxmajinxxmajstoryxxmaj xxmajit’sawesome!xxmajinxxmajstoryxxmajmode,
+mode,yourgoingfrompunktopro.xxmajyouhaveto yourgoingfrompunktopro.xxmajyouhavetocomplete
+completegoalsthatinvolveskating,driving,and goalsthatinvolveskating,driving,andwalking.xxmaj
+walking.xxmajyoucreateyourownskaterandgiveita youcreateyourownskaterandgiveitaname,andyou
+name,andyoucanmakeitlookstupidorrealistic.xxmaj canmakeitlookstupidorrealistic.xxmajyouarewith
+youarewithyourfriendxxmajericthroughoutthegame yourfriendxxmajericthroughoutthegameuntilhe
+untilhebetraysyouandgetsyoukickedoffofthe betraysyouandgetsyoukickedoffoftheskateboard
+skateboard xxunk
+<b>1</b> whatxxmaji‘veread,xxmajdeathxxmajbedisbasedon xxmaji‘veread,xxmajdeathxxmajbedisbasedonan
+anactualdream,xxmajgeorgexxmajbarry,thedirector, actualdream,xxmajgeorgexxmajbarry,thedirector,
+successfullytransferreddreamtofilm,onlyageniuscould successfullytransferreddreamtofilm,onlyageniuscould
+accomplishsuchatask.\n\nxxmajoldmansionsmakefor accomplishsuchatask.\n\nxxmajoldmansionsmakefor
+goodqualityhorror,asdoportraits,notsurewhatto goodqualityhorror,asdoportraits,notsurewhatto
+makeofthekillerbedwithitskilleryellowliquid,quitea makeofthekillerbedwithitskilleryellowliquid,quitea
+bizarredream,indeed.xxmajalso,this bizarredream,indeed.xxmajalso,thisis
+Now that our data is ready, we can fine-tune the pretrained language model.
+<header><largefont><b>Fine-Tuning</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Language</b></largefont> <largefont><b>Model</b></largefont></header>
+To convert the integer word indices into activations that we can use for our neural
+network, we will use embeddings, just as we did for collaborative filtering and tabular
+modeling. Then we’ll feed those embeddings into a <i>recurrent</i> <i>neural</i> <i>network</i> (RNN),
+using an architecture called <i>AWD-LSTM</i> (we will show you how to write such a
+model from scratch in Chapter 12). As we discussed earlier, the embeddings in the"|AWD-LSTM architecture; NLP RNNs; fine-tuning models; recurrent neural network; pretrained language model; fine-tuning pretrained language model; natural language processing using; fine-tuning language model
+"Part of the issue appears to be a systematic imbalance in the makeup of popular data‐
+sets used for training models. The abstract of the paper “No Classification Without
+Representation: Assessing Geodiversity Issues in Open Data Sets for the Developing
+World” by Shreya Shankar et al. states, “We analyze two large, publicly available
+image data sets to assess geo-diversity and find that these data sets appear to exhibit
+an observable amerocentric and eurocentric representation bias. Further, we analyze
+classifiers trained on these data sets to assess the impact of these training distribu‐
+tions and find strong differences in the relative performance on images from different
+locales.” Figure 3-11 shows one of the charts from the paper, showing the geographic
+makeup of what were at the time (and still are, as this book is being written) the two
+most important image datasets for training models.
+<i>Figure</i> <i>3-11.</i> <i>Image</i> <i>provenance</i> <i>in</i> <i>popular</i> <i>training</i> <i>sets</i>
+The vast majority of the images are from the US and other Western countries, leading
+to models trained on ImageNet performing worse on scenes from other countries and
+cultures. For instance, research found that such models are worse at identifying
+household items (such as soap, spices, sofas, or beds) from lower-income countries.
+Figure 3-12 shows an image from the paper “Does Object Recognition Work for
+Everyone?” by Terrance DeVries et al. of Facebook AI Research that illustrates this
+point."|bias; ethics; DeVries; geo-diversity; geo-diveristy of datasets; historical bias; object recognition; research papers; Shankar
+"<i>Figure</i> <i>15-2.</i> <i>The</i> <i>U-Net</i> <i>architecture</i> <i>(courtesy</i> <i>of</i> <i>Olaf</i> <i>Ronneberger,</i> <i>Philipp</i> <i>Fischer,</i> <i>and</i>
+<i>Thomas</i> <i>Brox)</i>
+This picture shows the CNN body on the left (in this case, it’s a regular CNN, not a
+ResNet, and they’re using 2×2 max pooling instead of stride-2 convolutions, since this
+paper was written before ResNets came along) and the transposed convolutional
+(“up-conv”) layers on the right. The extra skip connections are shown as gray arrows
+crossing from left to right (these are sometimes called <i>cross</i> <i>connections).</i> You can see
+why it’s called a <i>U-Net!</i>
+With this architecture, the input to the transposed convolutions is not just the lower-
+resolution grid in the preceding layer, but also the higher-resolution grid in the
+ResNet head. This allows the U-Net to use all of the information of the original
+image, as it is needed. One challenge with U-Nets is that the exact architecture
+depends on the image size. fastai has a unique DynamicUnet class that autogenerates
+an architecture of the right size based on the data provided.
+Let’s focus now on an example in which we leverage the fastai library to write a cus‐
+tom model.
+<header><largefont><b>A</b></largefont> <largefont><b>Siamese</b></largefont> <largefont><b>Network</b></largefont></header>
+Let’s go back to the input pipeline we set up in Chapter 11 for a Siamese network. As
+you may remember, it consisted of a pair of images with the label being True or
+False,
+depending on whether they were in the same class."|architecture of model; Siamese model with custom head
+"When you use the fine_tune method, fastai will use these tricks for you. There are a
+few parameters you can set (which we’ll discuss later), but in the default form shown
+here, it does two steps:
+1. Use one epoch to fit just those parts of the model necessary to get the new ran‐
+dom head to work correctly with your dataset.
+2. Use the number of epochs requested when calling the method to fit the entire
+model, updating the weights of the later layers (especially the head) faster than
+the earlier layers (which, as we’ll see, generally don’t require many changes from
+the pretrained weights).
+The <i>head</i> of a model is the part that is newly added to be specific to the new dataset.
+An <i>epoch</i> is one complete pass through the dataset. After calling fit, the results after
+each epoch are printed, showing the epoch number, the training and validation set
+losses (the “measure of performance” used for training the model), and any <i>metrics</i>
+you’ve requested (error rate, in this case).
+So, with all this code, our model learned to recognize cats and dogs just from labeled
+examples. But how did it do it?
+<header><largefont><b>What</b></largefont> <largefont><b>Our</b></largefont> <largefont><b>Image</b></largefont> <largefont><b>Recognizer</b></largefont> <largefont><b>Learned</b></largefont></header>
+At this stage, we have an image recognizer that is working well, but we have no idea
+what it is doing! Although many people complain that deep learning results in
+impenetrable “black box” models (that is, something that gives predictions but that
+no one can understand), this really couldn’t be further from the truth. There is a vast
+body of research showing how to deeply inspect deep learning models and get rich
+insights from them. Having said that, all kinds of machine learning models (including
+deep learning and traditional statistical models) can be challenging to fully under‐
+stand, especially when considering how they will behave when coming across data
+that is very different from the data used to train them. We’ll be discussing this issue
+throughout this book.
+In 2013, PhD student Matt Zeiler and his supervisor, Rob Fergus, published “Visual‐
+izing and Understanding Convolutional Networks”, which showed how to visualize
+the neural network weights learned in each layer of a model. They carefully analyzed
+the model that won the 2012 ImageNet competition, and used this analysis to greatly
+improve the model, such that they were able to go on to win the 2013 competition!
+Figure 1-10 is the picture that they published of the first layer’s weights."|beginning; convolutional neural network (CNN); machine learning visualized; epochs; Fergus; fine-tune method; head of model; visualizing convolutional networks; machine learning (ML); neural networks; notebooks; visualizing neural network weights; weights; Zeiler
+"This method even saves the definition of how to create your DataLoaders . This is
+important, because otherwise you would have to redefine how to transform your data
+in order to use your model in production. fastai automatically uses your validation set
+DataLoader for inference by default, so your data augmentation will not be applied,
+which is generally what you want.
+When you call export, fastai will save a file called <i>export.pkl:</i>
+learn.export()
+Let’s check that the file exists, by using the ls method that fastai adds to Python’s Path
+class:
+path = Path()
+path.ls(file_exts='.pkl')
+(#1) [Path('export.pkl')]
+You’ll need this file wherever you deploy your app to. For now, let’s try to create a
+simple app within our notebook.
+When we use a model for getting predictions, instead of training, we call it <i>inference.</i>
+To create our inference learner from the exported file, we use load_learner (in this
+case, this isn’t really necessary, since we already have a working Learner in our note‐
+book; we’re doing it here so you can see the whole process end to end):
+learn_inf = load_learner(path/'export.pkl')
+When we’re doing inference, we’re generally getting predictions for just one image at
+a time. To do this, pass a filename to predict :
+learn_inf.predict('images/grizzly.jpg')
+('grizzly', tensor(1), tensor([9.0767e-06, 9.9999e-01, 1.5748e-07]))
+This has returned three things: the predicted category in the same format you origi‐
+nally provided (in this case, that’s a string), the index of the predicted category, and
+the probabilities of each category. The last two are based on the order of categories in
+the <i>vocab</i> of the DataLoaders; that is, the stored list of all possible categories. At infer‐
+ence time, you can access the DataLoaders as an attribute of the Learner:
+learn_inf.dls.vocab
+(#3) ['black','grizzly','teddy']
+We can see here that if we index into the vocab with the integer returned by predict ,
+we get back “grizzly,” as expected. Also, note that if we index into the list of probabili‐
+ties, we see a nearly 1.00 probability that this is a grizzly.
+We know how to make predictions from our saved model, so we have everything we
+need to start building our app. We can do it directly in a Jupyter notebook."|validation set; path to dataset; deployment; process end-to-end; image classifier models; web application from model; inference; load_learner; ls method in Path class; web application from; predictions; inference with image classifier; Python; prediction model inference; web applications
+"a single PyTorch module. This encoder will provide an activation for every word of
+the input, because a language model needs to output a prediction for every next
+word.
+To create a classifier from this, we use an approach described in the ULMFiT paper as
+“BPTT for Text Classification (BPT3C)”:
+We divide the document into fixed-length batches of size <i>b.</i> At the beginning of each
+batch, the model is initialized with the final state of the previous batch; we keep track
+of the hidden states for mean and max-pooling; gradients are back-propagated to the
+batches whose hidden states contributed to the final prediction. In practice, we use
+variable length backpropagation sequences.
+In other words, the classifier contains a for loop, which loops over each batch of a
+sequence. The state is maintained across batches, and the activations of each batch are
+stored. At the end, we use the same average and max concatenated pooling trick that
+we use for computer vision models—but this time, we do not pool over CNN grid
+cells, but over RNN sequences.
+For this for loop, we need to gather our data in batches, but each text needs to be
+treated separately, as they each have their own labels. However, it’s very likely that
+those texts won’t all be of the same length, which means we won’t be able to put them
+all in the same array, as we did with the language model.
+That’s where padding is going to help: when grabbing a bunch of texts, we determine
+the one with the greatest length; then we fill the ones that are shorter with a special
+xxpad.
+token called To avoid extreme cases of having a text with 2,000 tokens in the
+same batch as a text with 10 tokens (so a lot of padding, and a lot of wasted computa‐
+tion), we alter the randomness by making sure texts of comparable size are put
+together. The texts will still be in a somewhat random order for the training set (for
+the validation set, we can simply sort them by order of length), but not completely so.
+This is done automatically behind the scenes by the fastai library when creating our
+DataLoaders.
+<header><largefont><b>Tabular</b></largefont></header>
+Finally, let’s take a look at fastai.tabular models. (We don’t need to look at collabo‐
+rative filtering separately, since we’ve already seen that these models are just tabular
+models or use the dot product approach, which we implemented earlier from
+scratch.)
+Here is the forward method for TabularModel :
+<b>if</b> self.n_emb != 0:
+x = [e(x_cat[:,i]) <b>for</b> i,e <b>in</b> enumerate(self.embeds)]
+x = torch.cat(x, 1)
+x = self.emb_drop(x)"|architecture of model; natural language processing (NLP); tabular data for models
+"<header><largefont><b>Stepping</b></largefont> <largefont><b>with</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>Rate</b></largefont></header>
+Deciding how to change our parameters based on the values of the gradients is an
+important part of the deep learning process. Nearly all approaches start with the basic
+idea of multiplying the gradient by some small number, called the <i>learning</i> <i>rate</i> (LR).
+The learning rate is often a number between 0.001 and 0.1, although it could be any‐
+thing. Often people select a learning rate just by trying a few, and finding which
+results in the best model after training (we’ll show you a better approach later in this
+book, called the <i>learning</i> <i>rate</i> <i>finder).</i> Once you’ve picked a learning rate, you can
+adjust your parameters using this simple function:
+w -= w.grad * lr
+This is known as <i>stepping</i> your parameters, using an <i>optimization</i> <i>step.</i>
+If you pick a learning rate that’s too low, it can mean having to do a lot of steps.
+Figure 4-2 illustrates that.
+<i>Figure</i> <i>4-2.</i> <i>Gradient</i> <i>descent</i> <i>with</i> <i>low</i> <i>LR</i>"|learning rate (LR); stepping with learning rate; training
+"<header><largefont><b>Mapping</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Convolutional</b></largefont> <largefont><b>Kernel</b></largefont></header>
+We can map apply_kernel() across the coordinate grid. That is, we’ll be taking our
+3×3 kernel and applying it to each 3×3 section of our image. For instance, Figure 13-2
+shows the positions a 3×3 kernel can be applied to in the first row of a 5×5 image.
+<i>Figure</i> <i>13-2.</i> <i>Applying</i> <i>a</i> <i>kernel</i> <i>across</i> <i>a</i> <i>grid</i>
+To get a grid of coordinates, we can use a <i>nested</i> <i>list</i> <i>comprehension,</i> like so:
+[[(i,j) <b>for</b> j <b>in</b> range(1,5)] <b>for</b> i <b>in</b> range(1,5)]
+[[(1, 1), (1, 2), (1, 3), (1, 4)],
+[(2, 1), (2, 2), (2, 3), (2, 4)],
+[(3, 1), (3, 2), (3, 3), (3, 4)],
+[(4, 1), (4, 2), (4, 3), (4, 4)]]
+<b>NestedListComprehensions</b>
+Nested list comprehensions are used a lot in Python, so if you
+haven’t seen them before, take a few minutes to make sure you
+understand what’s happening here, and experiment with writing
+your own nested list comprehensions.
+Here’s the result of applying our kernel over a coordinate grid:
+rng = range(1,27)
+top_edge3 = tensor([[apply_kernel(i,j,top_edge) <b>for</b> j <b>in</b> rng] <b>for</b> i <b>in</b> rng])
+show_image(top_edge3);
+Looking good! Our top edges are black, and bottom edges are white (since they are
+the <i>opposite</i> of top edges). Now that our image contains negative numbers too, mat
+plotlib has automatically changed our colors so that white is the smallest number in
+the image, black the highest, and zeros appear as gray."|convolutional neural network (CNN); nested list comprehensions
+"Now that we have this, we can define Module :
+<b>class</b> <b>Module:</b>
+<b>def</b> <b>__init__(self):</b>
+self.hook,self.params,self.children,self._training = None,[],[],False
+<b>def</b> register_parameters(self, *ps): self.params += ps
+<b>def</b> register_modules (self, *ms): self.children += ms
+@property
+<b>def</b> training(self): <b>return</b> self._training
+@training.setter
+<b>def</b> training(self,v):
+self._training = v
+<b>for</b> m <b>in</b> self.children: m.training=v
+<b>def</b> parameters(self):
+<b>return</b> self.params + sum([m.parameters() <b>for</b> m <b>in</b> self.children], [])
+<b>def</b> <b>__setattr__(self,k,v):</b>
+super().__setattr__(k,v)
+<b>if</b> isinstance(v,Parameter): self.register_parameters(v)
+<b>if</b> isinstance(v,Module): self.register_modules(v)
+<b>def</b> <b>__call__(self,</b> *args, **kwargs):
+res = self.forward(*args, **kwargs)
+<b>if</b> self.hook <b>is</b> <b>not</b> None: self.hook(res, args)
+<b>return</b> res
+<b>def</b> cuda(self):
+<b>for</b> p <b>in</b> self.parameters(): p.data = p.data.cuda()
+The key functionality is in the definition of parameters:
+self.params + sum([m.parameters() <b>for</b> m <b>in</b> self.children], [])
+This means that we can ask any Module for its parameters, and it will return them,
+including for all its child modules (recursively). But how does it know what its
+parameters are? It’s thanks to implementing Python’s special __setattr__ method,
+which is called for us anytime Python sets an attribute on a class. Our implementa‐
+tion includes this line:
+<b>if</b> isinstance(v,Parameter): self.register_parameters(v)
+As you see, this is where we use our new Parameter class as a “marker”—anything of
+this class is added to our params .
+Python’s __call__ allows us to define what happens when our object is treated as a
+function; we just call forward (which doesn’t exist here, so it’ll need to be added by
+subclasses). Before we do, we’ll call a hook, if it’s defined. Now you can see that"|Learner
+"more productive than they would be with entirely manual methods, and result in
+more accurate processes than using a human alone.
+For instance, an automatic system can be used to identify potential stroke victims
+directly from CT scans, and send a high-priority alert to have those scans looked at
+quickly. There is only a three-hour window to treat strokes, so this fast feedback loop
+could save lives. At the same time, however, all scans could continue to be sent to
+radiologists in the usual way, so there would be no reduction in human input. Other
+deep learning models could automatically measure items seen on the scans and insert
+those measurements into reports, warning the radiologists about findings that they
+may have missed and telling them about other cases that might be relevant.
+<b>Tabulardata</b>
+For analyzing time series and tabular data, deep learning has recently been making
+great strides. However, deep learning is generally used as part of an ensemble of mul‐
+tiple types of model. If you already have a system that is using random forests or gra‐
+dient boosting machines (popular tabular modeling tools that you will learn about
+soon), then switching to or adding deep learning may not result in any dramatic
+improvement.
+Deep learning does greatly increase the variety of columns that you can include—for
+example, columns containing natural language (book titles, reviews, etc.) and high-
+cardinality categorical columns (i.e., something that contains a large number of dis‐
+crete choices, such as zip code or product ID). On the down side, deep learning
+models generally take longer to train than random forests or gradient boosting
+machines, although this is changing thanks to libraries such as RAPIDS, which pro‐
+vides GPU acceleration for the whole modeling pipeline. We cover the pros and cons
+of all these methods in detail in Chapter 9.
+<b>Recommendationsystems</b>
+Recommendation systems are really just a special type of tabular data. In particular,
+they generally have a high-cardinality categorical variable representing users, and
+another one representing products (or something similar). A company like Amazon
+represents every purchase that has ever been made by its customers as a giant sparse
+matrix, with customers as the rows and products as the columns. Once they have the
+data in this format, data scientists apply some form of collaborative filtering to <i>fill</i> <i>in</i>
+<i>the</i> <i>matrix.</i> For example, if customer A buys products 1 and 10, and customer B buys
+products 1, 2, 4, and 10, the engine will recommend that A buy 2 and 4.
+Because deep learning models are good at handling high-cardinality categorical vari‐
+ables, they are quite good at handling recommendation systems. They particularly
+come into their own, just like for tabular data, when combining these variables with
+other kinds of data, such as natural language or images. They can also do a good job"|Amazon; as tabular data; CT scan stroke analysis; recommendation systems as; GPU acceleration; medicine; predictions; radiologist-model interaction; recommendation systems; stroke prediction; tabular data for models; time series analysis
+"To be able to move beyond fixed applications to crafting your own novel solutions to
+novel problems, it helps to really understand the data block API (and maybe also the
+mid-tier API, which we’ll see later in the book). As an example, let’s consider the
+problem of <i>image</i> <i>regression.</i> This refers to learning from a dataset in which the inde‐
+pendent variable is an image, and the dependent variable is one or more floats. Often
+we see people treat image regression as a whole separate application—but as you’ll see
+here, we can treat it as just another CNN on top of the data block API.
+We’re going to jump straight to a somewhat tricky variant of image regression,
+because we know you’re ready for it! We’re going to do a key point model. A <i>key</i> <i>point</i>
+refers to a specific location represented in an image—in this case, we’ll use images of
+people and we’ll be looking for the center of the person’s face in each image. That
+means we’ll actually be predicting <i>two</i> values for each image: the row and column of
+the face center.
+<header><largefont><b>Assembling</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Data</b></largefont></header>
+We will use the Biwi Kinect Head Pose dataset for this section. We’ll begin by down‐
+loading the dataset as usual:
+path = untar_data(URLs.BIWI_HEAD_POSE)
+Let’s see what we’ve got!
+path.ls()
+(#50) [Path('13.obj'),Path('07.obj'),Path('06.obj'),Path('13'),Path('10'),Path('
+> 02'),Path('11'),Path('01'),Path('20.obj'),Path('17')...]
+There are 24 directories numbered from 01 to 24 (they correspond to the different
+people photographed), and a corresponding <i>.obj</i> file for each (we won’t need them
+here). Let’s take a look inside one of these directories:
+(path/'01').ls()
+(#1000) [Path('01/frame_00281_pose.txt'),Path('01/frame_00078_pose.txt'),Path('0
+> 1/frame_00349_rgb.jpg'),Path('01/frame_00304_pose.txt'),Path('01/frame_00207_
+> pose.txt'),Path('01/frame_00116_rgb.jpg'),Path('01/frame_00084_rgb.jpg'),Path
+> ('01/frame_00070_rgb.jpg'),Path('01/frame_00125_pose.txt'),Path('01/frame_003
+> 24_rgb.jpg')...]
+Inside the subdirectories, we have different frames. Each of them comes with an
+image (_rgb.jpg) and a pose file (_pose.txt). We can easily get all the image files recur‐
+get_image_files,
+sively with and then write a function that converts an image file‐
+name to its associated pose file:
+img_files = get_image_files(path)
+<b>def</b> img2pose(x): <b>return</b> Path(f'{str(x)[:-7]}pose.txt')
+img2pose(img_files[0])
+Path('13/frame_00349_pose.txt')"|Kinect Head Pose; head pose dataset; image regression; key point model description; key point model of image regression; Kinect Head Pose dataset
+"Let’s try that now. First, we’ll define a function with the basic parameters we’ll use in
+each convolution:
+<b>def</b> conv(ni, nf, ks=3, act=True):
+res = nn.Conv2d(ni, nf, stride=2, kernel_size=ks, padding=ks//2)
+<b>if</b> act: res = nn.Sequential(res, nn.ReLU())
+<b>return</b> res
+<b>Refactoring</b>
+Refactoring parts of your neural networks like this makes it much
+less likely you’ll get errors due to inconsistencies in your architec‐
+tures, and makes it more obvious to the reader which parts of your
+layers are actually changing.
+When we use a stride-2 convolution, we often increase the number of features at the
+same time. This is because we’re decreasing the number of activations in the activa‐
+tion map by a factor of 4; we don’t want to decrease the capacity of a layer by too
+much at a time.
+<b>Jargon:ChannelsandFeatures</b>
+These two terms are largely used interchangeably and refer to the
+size of the second axis of a weight matrix, which is the number of
+activations per grid cell after a convolution. <i>Features</i> is never used
+to refer to the input data, but <i>channels</i> can refer to either the input
+data (generally, channels are colors) or activations inside the
+network.
+Here is how we can build a simple CNN:
+simple_cnn = sequential(
+conv(1 ,4), <i>#14x14</i>
+conv(4 ,8), <i>#7x7</i>
+conv(8 ,16), <i>#4x4</i>
+conv(16,32), <i>#2x2</i>
+conv(32,2, act=False), <i>#1x1</i>
+Flatten(),
+)
+<b>JeremySays</b>
+I like to add comments like the ones here after each convolution to
+show how large the activation map will be after each layer. These
+comments assume that the input size is 28×28."|convolutional neural network (CNN); building a CNN; neural networks; refactoring parts of neural networks
+"the classifier, we could fine-tune our pretrained language model to the IMDb corpus
+and then use <i>that</i> as the base for our classifier.
+Even if our language model knows the basics of the language we are using in the task
+(e.g., our pretrained model is in English), it helps to get used to the style of the corpus
+we are targeting. It may be more informal language, or more technical, with new
+words to learn or different ways of composing sentences. In the case of the IMDb
+dataset, there will be lots of names of movie directors and actors, and often a less for‐
+mal style of language than that seen in Wikipedia.
+We already saw that with fastai, we can download a pretrained English language
+model and use it to get state-of-the-art results for NLP classification. (We expect pre‐
+trained models in many more languages to be available soon; they might well be
+available by the time you are reading this book, in fact.) So, why are we learning how
+to train a language model in detail?
+One reason, of course, is that it is helpful to understand the foundations of the mod‐
+els that you are using. But there is another very practical reason, which is that you get
+even better results if you fine-tune the (sequence-based) language model prior to
+fine-tuning the classification model. For instance, for the IMDb sentiment analysis
+task, the dataset includes 50,000 additional movie reviews that do not have any posi‐
+tive or negative labels attached. Since there are 25,000 labeled reviews in the training
+set and 25,000 in the validation set, that makes 100,000 movie reviews altogether. We
+can use all of these reviews to fine-tune the pretrained language model, which was
+trained only on Wikipedia articles; this will result in a language model that is particu‐
+larly good at predicting the next word of a movie review.
+This is known as the Universal Language Model Fine-tuning (ULMFiT) approach.
+The paper introducing it showed that this extra stage of fine-tuning the language
+model, prior to transfer learning to a classification task, resulted in significantly better
+predictions. Using this approach, we have three stages for transfer learning in NLP, as
+summarized in Figure 10-1.
+<i>Figure</i> <i>10-1.</i> <i>The</i> <i>ULMFiT</i> <i>process</i>"|natural language processing (NLP); pretrained English language model; NLP English language; Universal Language Model Fine-tuning (ULMFiT) approach
+"Then, gradually increase the scope of your rollout. As you do so, ensure that you have
+really good reporting systems in place, to make sure that you are aware of any signifi‐
+cant changes to the actions being taken compared to your manual process. For
+instance, if the number of bear alerts doubles or halves after rollout of the new system
+in some location, you should be very concerned. Try to think about all the ways in
+which your system could go wrong, and then think about what measure or report or
+picture could reflect that problem, and ensure that your regular reporting includes
+that information.
+<b>JeremySays</b>
+I started a company 20 years ago called Optimal Decisions that
+used machine learning and optimization to help giant insurance
+companies set their pricing, impacting tens of billions of dollars of
+risks. We used the approaches described here to manage the poten‐
+tial downsides of something going wrong. Also, before we worked
+with our clients to put anything in production, we tried to simulate
+the impact by testing the end-to-end system on their previous
+year’s data. It was always quite a nerve-wracking process putting
+these new algorithms into production, but every rollout was
+successful.
+<header><largefont><b>Unforeseen</b></largefont> <largefont><b>Consequences</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Feedback</b></largefont> <largefont><b>Loops</b></largefont></header>
+One of the biggest challenges in rolling out a model is that your model may change
+the behavior of the system it is a part of. For instance, consider a “predictive policing”
+algorithm that predicts more crime in certain neighborhoods, causing more police
+officers to be sent to those neighborhoods, which can result in more crimes being
+recorded in those neighborhoods, and so on. In the Royal Statistical Society paper
+“To Predict and Serve?” Kristian Lum and William Isaac observe that “predictive
+policing is aptly named: it is predicting future policing, not future crime.”
+Part of the issue in this case is that in the presence of bias (which we’ll discuss in
+depth in the next chapter), <i>feedback</i> <i>loops</i> can result in negative implications of that
+bias getting worse and worse. For instance, there are concerns that this is already hap‐
+pening in the US, where there is significant bias in arrest rates on racial grounds.
+According to the ACLU, “despite roughly equal usage rates, Blacks are 3.73 times
+more likely than whites to be arrested for marijuana.” The impact of this bias, along
+with the rollout of predictive policing algorithms in many parts of the United States,
+led Bärí Williams to write in the <i>New</i> <i>York</i> <i>Times:</i> “The same technology that’s the
+source of so much excitement in my career is being used in law enforcement in ways
+that could mean that in the coming years, my son, who is 7 now, is more likely to be
+profiled or arrested—or worse—for no reason other than his race and where we live.”"|bias; arrest rates on racial grounds; deployment; feedback loops; process end-to-end; Isaac; arrest rates bias; Lum; system behavior changed by; model changing system behavior; predictive policing algorithm; racial bias; research papers; predictive policing paper
+"• There’s a lot more market competition in CPU than GPU servers, and as a result,
+there are much cheaper options available for CPU servers.
+Because of the complexity of GPU serving, many systems have sprung up to try to
+automate this. However, managing and running these systems is also complex, and
+generally requires compiling your model into a different form that’s specialized for
+that system. It’s typically preferable to avoid dealing with this complexity until/unless
+your app gets popular enough that it makes clear financial sense for you to do so.
+For at least the initial prototype of your application, and for any hobby projects that
+you want to show off, you can easily host them for free. The best place and the best
+way to do this will vary over time, so check the book’s website for the most up-to-date
+recommendations. As we’re writing this book in early 2020, the simplest (and free!)
+approach is to use Binder. To publish your web app on Binder, you follow these steps:
+1. Add your notebook to a GitHub repository.
+2. Paste the URL of that repo into Binder’s URL field, as shown in Figure 2-4.
+3. Change the File drop-down to instead select URL.
+4. In the “URL to open” field, enter /voila/render/name.ipynb (replacing <i>name</i>
+with the name of your notebook).
+5. Click the clipboard button at the bottom right to copy the URL and paste it
+somewhere safe.
+6. Click Launch.
+<i>Figure</i> <i>2-4.</i> <i>Deploying</i> <i>to</i> <i>Binder</i>
+The first time you do this, Binder will take around 5 minutes to build your site.
+Behind the scenes, it is finding a virtual machine that can run your app, allocating
+storage, and collecting the files needed for Jupyter, for your notebook, and for pre‐
+senting your notebook as a web application."|Binder free app hosting; CPU servers; deployment; GPU deep learning servers; process end-to-end; web application from model; web application from; web application deployment; CPU servers cheaper than GPU; publishing app on Binder; web applications
+"Finally, our function calls mean((-1,-2)) . The tuple (-1,-2) represents a range of
+axes. In Python, -1 refers to the last element, and -2 refers to the second-to-last. So in
+this case, this tells PyTorch that we want to take the mean ranging over the values
+indexed by the last two axes of the tensor. The last two axes are the horizontal and
+vertical dimensions of an image. After taking the mean over the last two axes, we are
+left with just the first tensor axis, which indexes over our images, which is why our
+final size was (1010). In other words, for every image, we averaged the intensity of all
+the pixels in that image.
+We’ll be learning lots more about broadcasting throughout this book, especially in
+Chapter 17, and will be practicing it regularly too.
+We can use mnist_distance to figure out whether an image is a 3 by using the fol‐
+lowing logic: if the distance between the digit in question and the ideal 3 is less than
+the distance to the ideal 7, then it’s a 3. This function will automatically do broadcast‐
+ing and be applied elementwise, just like all PyTorch functions and operators:
+<b>def</b> is_3(x): <b>return</b> mnist_distance(x,mean3) < mnist_distance(x,mean7)
+Let’s test it on our example case:
+is_3(a_3), is_3(a_3).float()
+(tensor(True), tensor(1.))
+Note that when we convert the Boolean response to a float, we get 1.0 for True and
+0.0 for False.
+Thanks to broadcasting, we can also test it on the full validation set of 3s:
+is_3(valid_3_tens)
+tensor([True, True, True, ..., True, True, True])
+Now we can calculate the accuracy for each of the 3s and 7s, by taking the average of
+that function for all 3s and its inverse for all 7s:
+accuracy_3s = is_3(valid_3_tens).float() .mean()
+accuracy_7s = (1 - is_3(valid_7_tens).float()).mean()
+accuracy_3s,accuracy_7s,(accuracy_3s+accuracy_7s)/2
+(tensor(0.9168), tensor(0.9854), tensor(0.9511))
+This looks like a pretty good start! We’re getting over 90% accuracy on both 3s and 7s,
+and we’ve seen how to define a metric conveniently using broadcasting. But let’s be
+honest: 3s and 7s are very different-looking digits. And we’re classifying only 2 out of
+the 10 possible digits so far. So we’re going to need to do better!
+To do better, perhaps it is time to try a system that does some real learning—one that
+can automatically modify itself to improve its performance. In other words, it’s time
+to talk about the training process and SGD."|stochastic gradient descent; stochastic gradient descent (SGD)
+"The key idea in object-oriented programming is the <i>class.</i> We have been using classes
+throughout this book, such as DataLoader, String, and Learner. Python also makes
+it easy for us to create new classes. Here is an example of a simple class:
+<b>class</b> <b>Example:</b>
+<b>def</b> <b>__init__(self,</b> a): self.a = a
+<b>def</b> say(self,x): <b>return</b> f'Hello {self.a}, {x}.'
+The most important piece of this is the special method called __init__ (pronounced
+<i>dunder</i> <i>init).</i> In Python, any method surrounded in double underscores like this is
+considered special. It indicates that some extra behavior is associated with this
+method name. In the case of __init__, this is the method Python will call when your
+new object is created. So, this is where you can set up any state that needs to be initial‐
+ized upon object creation. Any parameters included when the user constructs an
+instance of your class will be passed to the __init__ method as parameters. Note that
+the first parameter to any method defined inside a class is self, so you can use this to
+set and get any attributes that you will need:
+ex = Example('Sylvain')
+ex.say('nice to meet you')
+'Hello Sylvain, nice to meet you.'
+Also note that creating a new PyTorch module requires inheriting from Module.
+<i>Inheritance</i> is an important object-oriented concept that we will not discuss in detail
+here—in short, it means that we can add additional behavior to an existing class.
+PyTorch already provides a Module class, which provides some basic foundations that
+we want to build on. So, we add the name of this <i>superclass</i> after the name of the class
+that we are defining, as shown in the following examples.
+The final thing that you need to know to create a new PyTorch module is that when
+your module is called, PyTorch will call a method in your class called forward, and
+will pass along to that any parameters that are included in the call. Here is the class
+defining our dot product model:
+<b>class</b> <b>DotProduct(Module):</b>
+<b>def</b> <b>__init__(self,</b> n_users, n_movies, n_factors):
+self.user_factors = Embedding(n_users, n_factors)
+self.movie_factors = Embedding(n_movies, n_factors)
+<b>def</b> forward(self, x):
+users = self.user_factors(x[:,0])
+movies = self.movie_factors(x[:,1])
+<b>return</b> (users * movies).sum(dim=1)
+If you haven’t seen object-oriented programming before, don’t worry; you won’t need
+to use it much in this book. We are just mentioning this approach here because most
+online tutorials and documentation will use the object-oriented syntax."|categorical variables; classes in object-oriented programming; collaborative filtering; dunder init; embedding; forward method; inheritance in object-oriented programming; init (dunder init); Python method double underscores; Module class; calling module calls forward method; embedding categorical variables; method double underscores
+"Make sure that you have completed the following steps:
+1. Connect to one of the GPU Jupyter servers recommended on the book’s website.
+2. Run the first notebook yourself.
+3. Upload an image that you find in the first notebook; then try a few images of dif‐
+ferent kinds to see what happens.
+4. Run the second notebook, collecting your own dataset based on image search
+queries that you come up with.
+5. Think about how you can use deep learning to help you with your own projects,
+including what kinds of data you could use, what kinds of problems may come
+up, and how you might be able to mitigate these issues in practice.
+In the next section of the book, you will learn about how and why deep learning
+works, instead of just seeing how you can use it in practice. Understanding the how
+and why is important for both practitioners and researchers, because in this fairly
+new field, nearly every project requires some level of customization and debugging.
+The better you understand the foundations of deep learning, the better your models
+will be. These foundations are less important for executives, product managers, and
+so forth (although still useful, so feel free to keep reading!), but they are critical for
+anybody who is training and deploying models themselves."|steps toward starting; process end-to-end
+"Actually, there is another way to create those extra 36 layers, which is much more
+interesting. What if we replaced every occurrence of conv(x) with x + conv(x),
+where conv is the function from the previous chapter that adds a second convolution,
+then a ReLU, then a batchnorm layer. Furthermore, recall that batchnorm does
+gamma*y + beta . What if we initialized gamma to zero for every one of those final
+batchnorm layers? Then our conv(x) for those extra 36 layers will always be equal to
+zero, which means x+conv(x) will always be equal to x .
+What has that gained us? The key thing is that those 36 extra layers, as they stand, are
+an <i>identity</i> <i>mapping,</i> but they have <i>parameters,</i> which means they are <i>trainable.</i> So, we
+can start with our best 20-layer model, add these 36 extra layers that initially do noth‐
+ing at all, and then <i>fine-tune</i> <i>the</i> <i>whole</i> <i>56-layer</i> <i>model.</i> Those extra 36 layers can then
+learn the parameters that make them most useful!
+The ResNet paper proposed a variant of this, which is to instead “skip over” every
+second convolution, so effectively we get x+conv2(conv1(x)). This is shown by the
+diagram in Figure 14-2 (from the paper).
+<i>Figure</i> <i>14-2.</i> <i>A</i> <i>simple</i> <i>ResNet</i> <i>block</i> <i>(courtesy</i> <i>of</i> <i>Kaiming</i> <i>He</i> <i>et</i> <i>al.)</i>
+That arrow on the right is just the x part of x+conv2(conv1(x)) and is known as the
+<i>identity</i> <i>branch,</i> or <i>skip</i> <i>connection.</i> The path on the left is the conv2(conv1(x)) part.
+You can think of the identity path as providing a direct route from the input to the
+output.
+In a ResNet, we don’t proceed by first training a smaller number of layers, and then
+adding new layers on the end and fine-tuning. Instead, we use ResNet blocks like the
+one in Figure 14-2 throughout the CNN, initialized from scratch in the usual way and
+trained with SGD in the usual way. We rely on the skip connections to make the net‐
+work easier to train with SGD.
+There’s another (largely equivalent) way to think of these ResNet blocks. This is how
+the paper describes it:
+Instead of hoping each few stacked layers directly fit a desired underlying mapping, we
+explicitly let these layers fit a residual mapping. Formally, denoting the desired"|building ResNet CNN; ResNet architecture; skip connections
+"<header><largefont><b>Applying</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Mid-Level</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>API:</b></largefont> <largefont><b>SiamesePair</b></largefont></header>
+A <i>Siamese</i> <i>model</i> takes two images and has to determine whether they are of the same
+class. For this example, we will use the Pet dataset again and prepare the data for a
+model that will have to predict whether two images of pets are of the same breed. We
+will explain here how to prepare the data for such a model, and then we will train that
+model in Chapter 15.
+First things first—let’s get the images in our dataset:
+<b>from</b> <b>fastai.vision.all</b> <b>import</b> *
+path = untar_data(URLs.PETS)
+files = get_image_files(path/""images"")
+If we didn’t care about showing our objects at all, we could directly create one trans‐
+form to completely preprocess that list of files. We will want to look at those images,
+show
+though, so we need to create a custom type. When you call the method on a
+TfmdLists or a Datasets object, it will decode items until it reaches a type that con‐
+tains a show method and use it to show the object. That show method gets passed a
+ctx , which could be a matplotlib axis for images or a row of a DataFrame for texts.
+Here we create a SiameseImage object that subclasses Tuple and is intended to con‐
+True
+tain three things: two images, and a Boolean that’s if the images are of the same
+breed. We also implement the special show method, such that it concatenates the two
+images with a black line in the middle. Don’t worry too much about the part that is in
+if SiameseImage
+the test (which is to show the when the images are Python images,
+not tensors); the important part is in the last three lines:
+<b>class</b> <b>SiameseImage(Tuple):</b>
+<b>def</b> show(self, ctx=None, **kwargs):
+img1,img2,same_breed = self
+<b>if</b> <b>not</b> isinstance(img1, Tensor):
+<b>if</b> img2.size != img1.size: img2 = img2.resize(img1.size)
+t1,t2 = tensor(img1),tensor(img2)
+t1,t2 = t1.permute(2,0,1),t2.permute(2,0,1)
+<b>else:</b> t1,t2 = img1,img2
+line = t1.new_zeros(t1.shape[0], t1.shape[1], 10)
+<b>return</b> show_image(torch.cat([t1,line,t2], dim=2),
+title=same_breed, ctx=ctx)"|pet images; Siamese model image comparison; pet images dataset
+"<b>AlexisSays</b>
+I’ve had a chance to see up close how the mobile ML landscape is
+changing in my work. We offer an iPhone app that depends on
+computer vision, and for years we ran our own computer vision
+models in the cloud. This was the only way to do it then since those
+models needed significant memory and compute resources and
+took minutes to process inputs. This approach required building
+not only the models (fun!), but also the infrastructure to ensure a
+certain number of “compute worker machines” were absolutely
+always running (scary), that more machines would automatically
+come online if traffic increased, that there was stable storage for
+large inputs and outputs, that the iOS app could know and tell the
+user how their job was doing, etc. Nowadays Apple provides APIs
+for converting models to run efficiently on devices, and most iOS
+devices have dedicated ML hardware, so that’s the strategy we use
+for our newer models. It’s still not easy, but in our case it’s worth it
+for a faster user experience and to worry less about servers. What
+works for you will depend, realistically, on the user experience
+you’re trying to create and what you personally find is easy to do. If
+you really know how to run servers, do it. If you really know how
+to build native mobile apps, do that. There are many roads up the
+hill.
+Overall, we’d recommend using a simple CPU-based server approach where possible,
+for as long as you can get away with it. If you’re lucky enough to have a very success‐
+ful application, you’ll be able to justify the investment in more complex deployment
+approaches at that time.
+Congratulations—you have successfully built a deep learning model and deployed it!
+Now is a good time to take a pause and think about what could go wrong.
+<header><largefont><b>How</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Avoid</b></largefont> <largefont><b>Disaster</b></largefont></header>
+In practice, a deep learning model will be just one piece of a much bigger system. As
+we discussed at the start of this chapter, building a data product requires thinking
+about the entire end-to-end process, from conception to use in production. In this
+book, we can’t hope to cover all the complexity of managing deployed data products,
+such as managing multiple versions of models, A/B testing, canarying, refreshing the
+data (should we just grow and grow our datasets all the time, or should we regularly
+remove some of the old data?), handling data labeling, monitoring all this, detecting
+model rot, and so forth."|Apple APIs for apps under iOS; CPU servers; deployment; CPU-based server; disaster avoidance with web applications; process end-to-end; web application from model; machine learning (ML); web application from; web application deployment; web application disaster avoidance; web applications
+"'n03000684': 5,
+'n03425413': 6,
+'n01440764': 7,
+'n03028079': 8,
+'n02102040': 9}
+That’s all the pieces we need to put together our Dataset.
+<header><largefont><b>Dataset</b></largefont></header>
+A Dataset in PyTorch can be anything that supports indexing (__getitem__) and
+len:
+<b>class</b> <b>Dataset:</b>
+<b>def</b> <b>__init__(self,</b> fns): self.fns=fns
+<b>def</b> <b>__len__(self):</b> <b>return</b> len(self.fns)
+<b>def</b> <b>__getitem__(self,</b> i):
+im = Image.open(self.fns[i]).resize((64,64)).convert('RGB')
+y = v2i[self.fns[i].parent.name]
+<b>return</b> tensor(im).float()/255, tensor(y)
+We need a list of training and validation filenames to pass to Dataset.__init__:
+train_filt = L(o.parent.parent.name=='train' <b>for</b> o <b>in</b> files)
+train,valid = files[train_filt],files[~train_filt]
+len(train),len(valid)
+(9469, 3925)
+Now we can try it out:
+train_ds,valid_ds = Dataset(train),Dataset(valid)
+x,y = train_ds[0]
+x.shape,y
+(torch.Size([64, 64, 3]), tensor(0))
+show_image(x, title=lbls[y]);
+As you see, our dataset is returning the independent and dependent variables as a
+tuple, which is just what we need. We’ll need to be able to collate these into a mini-
+torch.stack,
+batch. Generally, this is done with which is what we’ll use here:
+<b>def</b> collate(idxs, ds):
+xb,yb = zip(*[ds[i] <b>for</b> i <b>in</b> idxs])
+<b>return</b> torch.stack(xb),torch.stack(yb)"|Learner
+"Let’s now focus on what you will learn, starting with the software.
+<header><largefont><b>The</b></largefont> <largefont><b>Software:</b></largefont> <largefont><b>PyTorch,</b></largefont> <largefont><b>fastai,</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Jupyter</b></largefont></header>
+<header><largefont><b>(And</b></largefont> <largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Doesn’t</b></largefont> <largefont><b>Matter)</b></largefont></header>
+We’ve completed hundreds of machine learning projects using dozens of packages,
+and many programming languages. At fast.ai, we have written courses using most of
+the main deep learning and machine learning packages used today. After PyTorch
+came out in 2017, we spent over a thousand hours testing it before deciding that we
+would use it for future courses, software development, and research. Since that time,
+PyTorch has become the world’s fastest-growing deep learning library and is already
+used for most research papers at top conferences. This is generally a leading indicator
+of usage in industry, because these are the papers that end up getting used in products
+and services commercially. We have found that PyTorch is the most flexible and
+expressive library for deep learning. It does not trade off speed for simplicity, but pro‐
+vides both.
+PyTorch works best as a low-level foundation library, providing the basic operations
+for higher-level functionality. The fastai library is the most popular library for adding
+this higher-level functionality on top of PyTorch. It’s also particularly well suited to
+the purposes of this book, because it is unique in providing a deeply layered software
+architecture (there’s even a peer-reviewed academic paper about this layered API). In
+this book, as we go deeper and deeper into the foundations of deep learning, we will
+also go deeper and deeper into the layers of fastai. This book covers version 2 of the
+fastai library, which is a from-scratch rewrite providing many unique features.
+However, it doesn’t really matter what software you learn, because it takes only a few
+days to learn to switch from one library to another. What really matters is learning
+the deep learning foundations and techniques properly. Our focus will be on using
+code that, as clearly as possible, expresses the concepts that you need to learn. Where
+we are teaching high-level concepts, we will use high-level fastai code. Where we are
+teaching low-level concepts, we will use low-level PyTorch or even pure Python code.
+Though it may seem like new deep learning libraries are appearing at a rapid pace
+nowadays, you need to be prepared for a much faster rate of change in the coming
+months and years. As more people enter the field, they will bring more skills and
+ideas, and try more things. You should assume that whatever specific libraries and
+software you learn today will be obsolete in a year or two. Just think about the num‐
+ber of changes in libraries and technology stacks that occur all the time in the world
+of web programming—a much more mature and slow-growing area than deep
+learning. We strongly believe that the focus in learning needs to be on understanding
+the underlying techniques and how to apply them in practice, and how to quickly
+build expertise in new tools and techniques as they are released."|fastai software library; PyTorch
+"Then we can define our Learner by passing the data, model, loss function, splitter,
+and any metric we want. Since we are not using a convenience function from fastai
+for transfer learning (like cnn_learner ), we have to call learn.freeze manually. This
+will make sure only the last parameter group (in this case, the head) is trained:
+learn = Learner(dls, model, loss_func=loss_func,
+splitter=siamese_splitter, metrics=accuracy)
+learn.freeze()
+Then we can directly train our model with the usual method:
+learn.fit_one_cycle(4, 3e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.367015 0.281242 0.885656 00:26
+1 0.307688 0.214721 0.915426 00:26
+2 0.275221 0.170615 0.936401 00:26
+3 0.223771 0.159633 0.943843 00:26
+Now we unfreeze and fine-tune the whole model a bit more with discriminative
+learning rates (that is, a lower learning rate for the body and a higher one for the
+head):
+learn.unfreeze()
+learn.fit_one_cycle(4, slice(1e-6,1e-4))
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.212744 0.159033 0.944520 00:35
+1 0.201893 0.159615 0.942490 00:35
+2 0.204606 0.152338 0.945196 00:36
+3 0.213203 0.148346 0.947903 00:36
+94.8% is very good when we remember that a classifier trained the same way (with no
+data augmentation) had an error rate of 7%.
+Now that we’ve seen how to create complete state-of-the-art computer vision models,
+let’s move on to NLP.
+<header><largefont><b>Natural</b></largefont> <largefont><b>Language</b></largefont> <largefont><b>Processing</b></largefont></header>
+Converting an AWD-LSTM language model into a transfer learning classifier, as we
+did in Chapter 10, follows a very similar process to what we did with cnn_learner in
+the first section of this chapter. We do not need a “meta” dictionary in this case,
+because we do not have such a variety of architectures to support in the body. All we
+need to do is select the stacked RNN for the encoder in the language model, which is"|architecture of model; Siamese model with custom head; natural language processing (NLP)
+"<header><largefont><b>CHAPTER</b></largefont> <largefont><b>14</b></largefont></header>
+<header><largefont><b>ResNets</b></largefont></header>
+In this chapter, we will build on top of the CNNs introduced in the previous chapter
+and explain to you the ResNet (residual network) architecture. It was introduced in
+2015 by Kaiming He et al. in the article “Deep Residual Learning for Image Recogni‐
+tion” and is by far the most used model architecture nowadays. More recent develop‐
+ments in image models almost always use the same trick of residual connections, and
+most of the time, they are just a tweak of the original ResNet.
+We will first show you the basic ResNet as it was first designed and then explain the
+modern tweaks that make it more performant. But first, we will need a problem a lit‐
+tle bit more difficult than the MNIST dataset, since we are already close to 100%
+accuracy with a regular CNN on it.
+<header><largefont><b>Going</b></largefont> <largefont><b>Back</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Imagenette</b></largefont></header>
+It’s going to be tough to judge any improvements we make to our models when we are
+already at an accuracy that is as high as we saw on MNIST in the previous chapter, so
+we will tackle a tougher image classification problem by going back to Imagenette.
+We’ll stick with small images to keep things reasonably fast.
+Let’s grab the data—we’ll use the already-resized 160 px version to make things faster
+still, and will random crop to 128 px:"|ResNet; ResNet architecture; deep residual learning
+"We don’t have time to do a deep dive into all these libraries in this book, so we’ll just
+be touching on some of the main parts of each. For a far more in-depth discussion,
+we strongly suggest Wes McKinney’s <i>Python</i> <i>for</i> <i>Data</i> <i>Analysis</i> (O’Reilly). McKinney
+is the creator of Pandas, so you can be sure that the information is accurate!
+First, let’s gather the data we will use.
+<header><largefont><b>The</b></largefont> <largefont><b>Dataset</b></largefont></header>
+The dataset we use in this chapter is from the Blue Book for Bulldozers Kaggle com‐
+petition, which has the following description: “The goal of the contest is to predict
+the sale price of a particular piece of heavy equipment at auction based on its usage,
+equipment type, and configuration. The data is sourced from auction result postings
+and includes information on usage and equipment configurations.”
+This is a very common type of dataset and prediction problem, similar to what you
+may see in your project or workplace. The dataset is available for download on Kag‐
+gle, a website that hosts data science competitions.
+<header><largefont><b>Kaggle</b></largefont> <largefont><b>Competitions</b></largefont></header>
+Kaggle is an awesome resource for aspiring data scientists or anyone looking to
+improve their machine learning skills. There is nothing like getting hands-on practice
+and receiving real-time feedback to help you improve your skills.
+Kaggle provides the following:
+• Interesting datasets
+• Feedback on how you’re doing
+• A leaderboard to see what’s good, what’s possible, and what’s state-of-the-art
+• Blog posts by winning contestants sharing useful tips and techniques
+Until now, all our datasets have been available to download through fastai’s integrated
+dataset system. However, the dataset we will be using in this chapter is available only
+from Kaggle. Therefore, you will need to register on the site, then go to the page for
+the competition. On that page click Rules, and then I Understand and Accept.
+(Although the competition has finished, and you will not be entering it, you still have
+to agree to the rules to be allowed to download the data.)
+The easiest way to download Kaggle datasets is to use the Kaggle API. You can install
+this by using pip and running this in a notebook cell:
+!pip install kaggle"|categorical variables; datasets; Kaggle as source; datasets and other resources; McKinney; Python for Data Analysis book (McKinney); tabular data for models; datasets and other Kaggle resources
+"speed of PyTorch, usually by using two techniques: elementwise arithmetic and
+broadcasting.
+<header><largefont><b>Elementwise</b></largefont> <largefont><b>Arithmetic</b></largefont></header>
+All the basic operators (+, -, *, /, >, <, ==) can be applied elementwise. That means if
+we write a+b for two tensors a and b that have the same shape, we will get a tensor
+a b:
+composed of the sums of the elements of and
+a = tensor([10., 6, -4])
+b = tensor([2., 8, 7])
+a + b
+tensor([12., 14., 3.])
+The Boolean operators will return an array of Booleans:
+a < b
+tensor([False, True, True])
+a b,
+If we want to know if every element of is less than the corresponding element in
+or if two tensors are equal, we need to combine those elementwise operations with
+torch.all:
+(a < b).all(), (a==b).all()
+(tensor(False), tensor(False))
+Reduction operations like all, sum, and mean return tensors with only one element,
+called <i>rank-0</i> <i>tensors.</i> If you want to convert this to a plain Python Boolean or num‐
+ber, you need to call .item:
+(a + b).mean().item()
+9.666666984558105
+The elementwise operations work on tensors of any rank, as long as they have the
+same shape:
+m = tensor([[1., 2, 3], [4,5,6], [7,8,9]])
+m*m
+tensor([[ 1., 4., 9.],
+[16., 25., 36.],
+[49., 64., 81.]])
+However, you can’t perform elementwise operations on tensors that don’t have the
+same shape (unless they are broadcastable, as discussed in the next section):
+n = tensor([[1., 2, 3], [4,5,6]])
+m*n
+RuntimeError: The size of tensor a (3) must match the size of tensor b (2) at
+dimension 0"|elementwise arithmetic; neural networks; building layer from scratch; tensors
+"<header><largefont><b>The</b></largefont> <largefont><b>Effectiveness</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Regulation</b></largefont></header>
+To look at what can cause companies to take concrete action, consider the following
+two examples of how Facebook has behaved. In 2018, a UN investigation found that
+Facebook had played a “determining role” in the ongoing genocide of the Rohingya,
+an ethnic minority in Mynamar described by UN Secretary-General Antonio
+Guterres as “one of, if not the, most discriminated people in the world.” Local activists
+had been warning Facebook executives that their platform was being used to spread
+hate speech and incite violence since as early as 2013. In 2015, they were warned that
+Facebook could play the same role in Myanmar that the radio broadcasts played dur‐
+ing the Rwandan genocide (where a million people were killed). Yet, by the end of
+2015, Facebook employed only four contractors who spoke Burmese. As one person
+close to the matter said, “That’s not 20/20 hindsight. The scale of this problem was
+significant and it was already apparent.” Zuckerberg promised during the congres‐
+sional hearings to hire “dozens” to address the genocide in Myanmar (in 2018, years
+after the genocide had begun, including the destruction by fire of at least 288 villages
+in northern Rakhine state after August 2017).
+This stands in stark contrast to Facebook quickly hiring 1,200 people in Germany to
+try to avoid expensive penalties (of up to 50 million euros) under a new German law
+against hate speech. Clearly, in this case, Facebook was more reactive to the threat of a
+financial penalty than to the systematic destruction of an ethnic minority.
+In an article on privacy issues, Maciej Ceglowski draws parallels with the environ‐
+mental movement:
+This regulatory project has been so successful in the First World that we risk forgetting
+what life was like before it. Choking smog of the kind that today kills thousands in
+Jakarta and Delhi was once emblematic of London. The Cuyahoga River in Ohio used
+to reliably catch fire. In a particularly horrific example of unforeseen consequences,
+tetraethyl lead added to gasoline raised violent crime rates worldwide for fifty years.
+None of these harms could have been fixed by telling people to vote with their wallet,
+or carefully review the environmental policies of every company they gave their busi‐
+ness to, or to stop using the technologies in question. It took coordinated, and some‐
+times highly technical, regulation across jurisdictional boundaries to fix them. In some
+cases, like the ban on commercial refrigerants that depleted the ozone layer, that regu‐
+lation required a worldwide consensus. We’re at the point where we need a similar shift
+in perspective in our privacy law.
+<header><largefont><b>Rights</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Policy</b></largefont></header>
+Clean air and clean drinking water are public goods that are nearly impossible to pro‐
+tect through individual market decisions, but rather require coordinated regulatory
+action. Similarly, many of the harms resulting from unintended consequences of
+misuses of technology involve public goods, such as a polluted information environ‐
+ment or deteriorated ambient privacy. Too often privacy is framed as an individual"|Ceglowski; ethics; Facebook; hate speech law compliance; genocide and Facebook; law enforcement; environmental regulation working; policy’s role in ethics; rights and policy; privacy; regulating ethics; Zuckerberg
+"PyTorch hooks aren’t doing anything fancy at all—they’re just calling any hooks have
+been registered.
+Other than these pieces of functionality, our Module also provides cuda and training
+attributes, which we’ll use shortly.
+Now we can create our first Module, which is ConvLayer:
+<b>class</b> <b>ConvLayer(Module):</b>
+<b>def</b> <b>__init__(self,</b> ni, nf, stride=1, bias=True, act=True):
+super().__init__()
+self.w = Parameter(torch.zeros(nf,ni,3,3))
+self.b = Parameter(torch.zeros(nf)) <b>if</b> bias <b>else</b> None
+self.act,self.stride = act,stride
+init = nn.init.kaiming_normal_ <b>if</b> act <b>else</b> nn.init.xavier_normal_
+init(self.w)
+<b>def</b> forward(self, x):
+x = F.conv2d(x, self.w, self.b, stride=self.stride, padding=1)
+<b>if</b> self.act: x = F.relu(x)
+<b>return</b> x
+We’re not implementing F.conv2d from scratch, since you should have already done
+that (using unfold ) in the questionnaire in Chapter 17. Instead we’re just creating a
+small class that wraps it up along with bias and weight initialization. Let’s check that it
+works correctly with Module.parameters :
+l = ConvLayer(3, 4)
+len(l.parameters())
+2
+And that we can call it (which will result in forward being called):
+xbt = tfm_x(xb)
+r = l(xbt)
+r.shape
+torch.Size([128, 4, 64, 64])
+In the same way, we can implement Linear :
+<b>class</b> <b>Linear(Module):</b>
+<b>def</b> <b>__init__(self,</b> ni, nf):
+super().__init__()
+self.w = Parameter(torch.zeros(nf,ni))
+self.b = Parameter(torch.zeros(nf))
+nn.init.xavier_normal_(self.w)
+<b>def</b> forward(self, x): <b>return</b> x@self.w.t() + self.b"|Learner
+"Cells that begin with a ! do not contain Python code, but instead contain code that is
+passed to your shell (bash, Windows PowerShell, etc.). If you are comfortable using
+the command line, which we’ll discuss more in this book, you can of course simply
+type these two lines (without the ! prefix) directly into your terminal. In this case, the
+first line installs the voila library and application, and the second connects it to your
+existing Jupyter notebook.
+Voilà runs Jupyter notebooks just like the Jupyter notebook server you are using now
+does, but it also does something very important: it removes all of the cell inputs, and
+shows only output (including ipywidgets), along with your Markdown cells. So what’s
+left is a web application! To view your notebook as a Voilà web application, replace
+the word “notebooks” in your browser’s URL with “voila/render”. You will see the
+same content as your notebook, but without any of the code cells.
+Of course, you don’t need to use Voilà or ipywidgets. Your model is just a function
+you can call ( pred,pred_idx,probs = learn.predict(img) ), so you can use it with
+any framework, hosted on any platform. And you can take something you’ve prototy‐
+ped in ipywidgets and Voilà and later convert it into a regular web application. We’re
+showing you this approach in the book because we think it’s a great way for data sci‐
+entists and other folks who aren’t web development experts to create applications
+from their models.
+We have our app; now let’s deploy it!
+<header><largefont><b>Deploying</b></largefont> <largefont><b>Your</b></largefont> <largefont><b>App</b></largefont></header>
+As you now know, you need a GPU to train nearly any useful deep learning model.
+So, do you need a GPU to use that model in production? No! You almost certainly <i>do</i>
+<i>not</i> <i>need</i> <i>a</i> <i>GPU</i> <i>to</i> <i>serve</i> <i>your</i> <i>model</i> <i>in</i> <i>production.</i> There are a few reasons for this:
+• As we’ve seen, GPUs are useful only when they do lots of identical work in paral‐
+lel. If you’re doing (say) image classification, you’ll normally be classifying just
+one user’s image at a time, and there isn’t normally enough work to do in a single
+image to keep a GPU busy for long enough for it to be very efficient. So, a CPU
+will often be more cost-effective.
+• An alternative could be to wait for a few users to submit their images, and then
+batch them up and process them all at once on a GPU. But then you’re asking
+your users to wait, rather than getting answers straight away! And you need a
+high-volume site for this to be workable. If you do need this functionality, you
+can use a tool such as Microsoft’s ONNX Runtime or AWS SageMaker.
+• The complexities of dealing with GPU inference are significant. In particular, the
+GPU’s memory will need careful manual management, and you’ll need a careful
+queueing system to ensure you process only one batch at a time."|batching production operations; GPU serving production model; deployment; GPU deep learning servers; production model and; process end-to-end; web application from model; GPU inference complexity; GPUs and production models; web application from; web application deployment; production; web applications
+"<b>StopandThink</b>
+Consider this question: would this approach make sense for an
+optical character recognition (OCR) problem such as MNIST? The
+vast majority of practitioners tackling OCR and similar problems
+tend to use fully convolutional networks, because that’s what nearly
+everybody learns nowadays. But it really doesn’t make any sense!
+You can’t decide, for instance, whether a number is a 3 or an 8 by
+slicing it into small pieces, jumbling them up, and deciding
+whether on average each piece looks like a 3 or an 8. But that’s what
+adaptive average pooling effectively does! Fully convolutional net‐
+works are really a good choice only for objects that don’t have a sin‐
+gle correct orientation or size (e.g., like most natural photos).
+Once we are done with our convolutional layers, we will get activations of size
+bs x ch x h x w (batch size, a certain number of channels, height, and width). We
+want to convert this to a tensor of size bs x ch, so we take the average over the last
+two dimensions and flatten the trailing 1×1 dimension as we did in our previous
+model.
+This is different from regular pooling in the sense that those layers will generally take
+the average (for average pooling) or the maximum (for max pooling) of a window of
+a given size. For instance, max pooling layers of size 2, which were very popular in
+older CNNs, reduce the size of our image by half on each dimension by taking the
+maximum of each 2×2 window (with a stride of 2).
+As before, we can define a Learner with our custom model and then train it on the
+data we grabbed earlier:
+<b>def</b> get_learner(m):
+<b>return</b> Learner(dls, m, loss_func=nn.CrossEntropyLoss(), metrics=accuracy
+).to_fp16()
+learn = get_learner(get_model())
+learn.lr_find()
+(0.47863011360168456, 3.981071710586548)"|ResNet architecture; fully convolutional network; fully convolutional networks and
+"We are now ready to build the Transform that we will use to get our data ready for a
+Siamese model. First, we will need a function to determine the classes of all our
+images:
+<b>def</b> label_func(fname):
+<b>return</b> re.match(r'^(.*)_\d+.jpg$', fname.name).groups()[0]
+For each image, our transform will, with a probability of 0.5, draw an image from the
+same class and return a SiameseImage with a true label, or draw an image from
+another class and return a SiameseImage with a false label. This is all done in the pri‐
+vate _draw function. There is one difference between the training and validation sets,
+which is why the transform needs to be initialized with the splits: on the training set,
+we will make that random pick each time we read an image, whereas on the valida‐
+tion set, we make this random pick once and for all at initialization. This way, we get
+more varied samples during training, but always the same validation set:
+<b>class</b> <b>SiameseTransform(Transform):</b>
+<b>def</b> <b>__init__(self,</b> files, label_func, splits):
+self.labels = files.map(label_func).unique()
+self.lbl2files = {l: L(f <b>for</b> f <b>in</b> files <b>if</b> label_func(f) == l)
+<b>for</b> l <b>in</b> self.labels}
+self.label_func = label_func
+self.valid = {f: self._draw(f) <b>for</b> f <b>in</b> files[splits[1]]}
+<b>def</b> encodes(self, f):
+f2,t = self.valid.get(f, self._draw(f))
+img1,img2 = PILImage.create(f),PILImage.create(f2)
+<b>return</b> SiameseImage(img1, img2, t)
+<b>def</b> _draw(self, f):
+same = random.random() < 0.5
+cls = self.label_func(f)
+<b>if</b> <b>not</b> same:
+cls = random.choice(L(l <b>for</b> l <b>in</b> self.labels <b>if</b> l != cls))
+<b>return</b> random.choice(self.lbl2files[cls]),same
+We can then create our main transform:
+splits = RandomSplitter()(files)
+tfm = SiameseTransform(files, label_func, splits)
+tfm(files[0]).show();"|Siamese model image comparison
+"Some operations in PyTorch, such as taking a mean, require us to <i>cast</i> our integer
+types to float types. Since we’ll be needing this later, we’ll also cast our stacked tensor
+to float now. Casting in PyTorch is as simple as writing the name of the type you
+wish to cast to, and treating it as a method.
+Generally, when images are floats, the pixel values are expected to be between 0 and 1,
+so we will also divide by 255 here:
+stacked_sevens = torch.stack(seven_tensors).float()/255
+stacked_threes = torch.stack(three_tensors).float()/255
+stacked_threes.shape
+torch.Size([6131, 28, 28])
+Perhaps the most important attribute of a tensor is its <i>shape.</i> This tells you the length
+of each axis. In this case, we can see that we have 6,131 images, each of size 28×28
+pixels. There is nothing specifically about this tensor that says that the first axis is the
+number of images, the second is the height, and the third is the width—the semantics
+of a tensor are entirely up to us, and how we construct it. As far as PyTorch is con‐
+cerned, it is just a bunch of numbers in memory.
+The <i>length</i> of a tensor’s shape is its rank:
+len(stacked_threes.shape)
+3
+It is really important for you to commit to memory and practice these bits of tensor
+jargon: <i>rank</i> is the number of axes or dimensions in a tensor; <i>shape</i> is the size of each
+axis of a tensor.
+<b>AlexisSays</b>
+Watch out because the term “dimension” is sometimes used in two
+ways. Consider that we live in “three-dimensional space,” where a
+physical position can be described by a vector v, of length 3. But
+according to PyTorch, the attribute v.ndim (which sure looks like
+the “number of dimensions” of v) equals one, not three! Why?
+Because v is a vector, which is a tensor of rank one, meaning that it
+has only one <i>axis</i> (even if that axis has a length of three). In other
+words, sometimes dimension is used for the size of an axis (“space
+is three-dimensional”), while other times it is used for the rank, or
+the number of axes (“a matrix has two dimensions”). When con‐
+fused, I find it helpful to translate all statements into terms of rank,
+axis, and length, which are unambiguous terms."|casting in PyTorch; dimension multiple meanings; floating point numbers; PyTorch; ideal digit creation; pixels; rank of tensor; tensors
+"Finally, once it has started the app running, it will navigate your browser to your new
+web app. You can share the URL you copied to allow others to access your app as
+well.
+For other (both free and paid) options for deploying your web app, be sure to take a
+look at the book’s website.
+You may well want to deploy your application onto mobile devices, or edge devices
+such as a Raspberry Pi. There are a lot of libraries and frameworks that allow you to
+integrate a model directly into a mobile application. However, these approaches tend
+to require a lot of extra steps and boilerplate, and do not always support all the
+PyTorch and fastai layers that your model might use. In addition, the work you do
+will depend on the kinds of mobile devices you are targeting for deployment—you
+might need to do some work to run on iOS devices, different work to run on newer
+Android devices, different work for older Android devices, etc. Instead, we recom‐
+mend wherever possible that you deploy the model itself to a server, and have your
+mobile or edge application connect to it as a web service.
+There are quite a few upsides to this approach. The initial installation is easier,
+because you have to deploy only a small GUI application, which connects to the
+server to do all the heavy lifting. More importantly perhaps, upgrades of that core
+logic can happen on your server, rather than needing to be distributed to all of your
+users. Your server will have a lot more memory and processing capacity than most
+edge devices, and it is far easier to scale those resources if your model becomes more
+demanding. The hardware that you will have on a server is also going to be more
+standard and more easily supported by fastai and PyTorch, so you don’t have to com‐
+pile your model into a different form.
+There are downsides too, of course. Your application will require a network connec‐
+tion, and there will be some latency each time the model is called. (It takes a while for
+a neural network model to run anyway, so this additional network latency may not
+make a big difference to your users in practice. In fact, since you can use better hard‐
+ware on the server, the overall latency may even be less than if it were running
+locally!) Also, if your application uses sensitive data, your users may be concerned
+about an approach that sends that data to a remote server, so sometimes privacy con‐
+siderations will mean that you need to run the model on the edge device (it may be
+possible to avoid this by having an <i>on-premise</i> server, such as inside a company’s fire‐
+wall). Managing the complexity and scaling the server can create additional overhead
+too, whereas if your model runs on the edge devices, each user is bringing their own
+compute resources, which leads to easier scaling with an increasing number of users
+(also known as <i>horizontal</i> <i>scaling).</i>"|deployment; Raspberry Pi; horizontal scaling; process end-to-end; web application from model; mobile device deployment of apps; web application from; web application deployment; privacy; web applications; recommended web app hosts
+"As we saw earlier, a random forest is itself an ensemble. But we can then include a
+random forest in <i>another</i> ensemble—an ensemble of the random forest and the neu‐
+ral network! While ensembling won’t make the difference between a successful and
+an unsuccessful modeling process, it can certainly add a nice little boost to any mod‐
+els that you have built.
+One minor issue we have to be aware of is that our PyTorch model and our sklearn
+model create data of different types: PyTorch gives us a rank-2 tensor (a column
+matrix), whereas NumPy gives us a rank-1 array (a vector). squeeze removes any unit
+axes from a tensor, and to_np converts it into a NumPy array:
+rf_preds = m.predict(valid_xs_time)
+ens_preds = (to_np(preds.squeeze()) + rf_preds) /2
+This gives us a better result than either model achieved on its own:
+r_mse(ens_preds,valid_y)
+0.22291
+In fact, this result is better than any score shown on the Kaggle leaderboard. It’s not
+directly comparable, however, because the Kaggle leaderboard uses a separate dataset
+that we do not have access to. Kaggle does not allow us to submit to this old competi‐
+tion to find out how we would have done, but our results certainly look encouraging!
+<header><largefont><b>Boosting</b></largefont></header>
+So far, our approach to ensembling has been to use <i>bagging,</i> which involves combin‐
+ing many models (each trained on a different data subset) by averaging them. As we
+saw, when this is applied to decision trees, this is called a <i>random</i> <i>forest.</i>
+In another important approach to ensembling, called <i>boosting,</i> where we add models
+instead of averaging them. Here is how boosting works:
+1. Train a small model that underfits your dataset.
+2. Calculate the predictions in the training set for this model.
+3. Subtract the predictions from the targets; these are called the <i>residuals</i> and repre‐
+sent the error for each point in the training set.
+4. Go back to step 1, but instead of using the original targets, use the residuals as
+the targets for the training.
+5. Continue doing this until you reach a stopping criterion, such as a maximum
+number of trees, or you observe your validation set error getting worse.
+Using this approach, each new tree will be attempting to fit the error of all of the pre‐
+vious trees combined. Because we are continually creating new residuals by"|bagging; boosting; decision trees; machine learning (ML); predictions; random forests; tabular data for models; training
+"scandal, in which the car company was revealed to have cheated on its diesel emis‐
+sions tests, was not the manager who oversaw the project, or an executive at the helm
+of the company. It was one of the engineers, James Liang, who just did what he was
+told.
+Of course, it’s not all bad—if a project you are involved in turns out to make a huge
+positive impact on even one person, this is going to make you feel pretty great!
+OK, so hopefully we have convinced you that you ought to care. But what should you
+do? As data scientists, we’re naturally inclined to focus on making our models better
+by optimizing some metric or other. But optimizing that metric may not lead to bet‐
+ter outcomes. And even if it <i>does</i> help create better outcomes, it almost certainly
+won’t be the only thing that matters. Consider the pipeline of steps that occurs
+between the development of a model or an algorithm by a researcher or practitioner,
+and the point at which this work is used to make a decision. This entire pipeline
+needs to be considered <i>as</i> <i>a</i> <i>whole</i> if we’re to have a hope of getting the kinds of out‐
+comes we want.
+Normally, there is a very long chain from one end to the other. This is especially true
+if you are a researcher who might not even know if your research will ever get used
+for anything, or if you’re involved in data collection, which is even earlier in the pipe‐
+line. But no one is better placed to inform everyone involved in this chain about the
+capabilities, constraints, and details of your work than you are. Although there’s no
+“silver bullet” that can ensure your work is used the right way, by getting involved in
+the process, and asking the right questions, you can at the very least ensure that the
+right issues are being considered.
+Sometimes, the right response to being asked to do a piece of work is to just say “no.”
+Often, however, the response we hear is, “If I don’t do it, someone else will.” But con‐
+sider this: if you’ve been picked for the job, you’re the best person they’ve found to do
+it—so if you don’t do it, the best person isn’t working on that project. If the first five
+people they ask all say no too, so much the better!
+<header><largefont><b>Integrating</b></largefont> <largefont><b>Machine</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Product</b></largefont> <largefont><b>Design</b></largefont></header>
+Presumably, the reason you’re doing this work is that you hope it will be used for
+something. Otherwise, you’re just wasting your time. So, let’s start with the assump‐
+tion that your work will end up somewhere. Now, as you are collecting your data and
+developing your model, you are making lots of decisions. What level of aggregation
+will you store your data at? What loss function should you use? What validation and
+training sets should you use? Should you focus on simplicity of implementation,
+speed of inference, or accuracy of the model? How will your model handle out-of-
+domain data items? Can it be fine-tuned, or must it be retrained from scratch over
+time?"|data product design integrated with ML; ethics; product design integrated with ML; Volkswagen emission test cheating; Liang; product design integrated with; Volkswagen emission test cheating (ethics)
+"If we look at the corresponding tensor, we can ask for its storage property (which
+shows the actual contents of the memory used for the tensor) to check there is no
+useless data stored:
+t = c.expand_as(m)
+t.storage()
+10.0
+20.0
+30.0
+[torch.FloatStorage of size 3]
+Even though the tensor officially has nine elements, only three scalars are stored in
+memory. This is possible thanks to the clever trick of giving that dimension a <i>stride</i> of
+0. on that dimension (which means that when PyTorch looks for the next row by
+adding the stride, it doesn’t move):
+t.stride(), t.shape
+((0, 1), torch.Size([3, 3]))
+Since m is of size 3×3, there are two ways to do broadcasting. The fact it was done on
+the last dimension is a convention that comes from the rules of broadcasting and has
+nothing to do with the way we ordered our tensors. If instead we do this, we get the
+same result:
+c + m
+tensor([[11., 22., 33.],
+[14., 25., 36.],
+[17., 28., 39.]])
+In fact, it’s only possible to broadcast a vector of size n with a matrix of size m by n:
+c = tensor([10.,20,30])
+m = tensor([[1., 2, 3], [4,5,6]])
+c+m
+tensor([[11., 22., 33.],
+[14., 25., 36.]])
+This won’t work:
+c = tensor([10.,20])
+m = tensor([[1., 2, 3], [4,5,6]])
+c+m
+RuntimeError: The size of tensor a (2) must match the size of tensor b (3) at
+dimension 1"|vector to matrix; building layer from scratch; broadcasting vector to matrix
+"<header><largefont><b>Creating</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Notebook</b></largefont> <largefont><b>App</b></largefont> <largefont><b>from</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Model</b></largefont></header>
+To use our model in an application, we can simply treat the predict method as a reg‐
+ular function. Therefore, creating an app from the model can be done using any of
+the myriad of frameworks and techniques available to application developers.
+However, most data scientists are not familiar with the world of web application
+development. So let’s try using something that you do, at this point, know: it turns out
+that we can create a complete working web application using nothing but Jupyter
+notebooks! The two things we need to make this happen are as follows:
+• IPython widgets (ipywidgets)
+• Voilà
+<i>IPython</i> <i>widgets</i> are GUI components that bring together JavaScript and Python func‐
+tionality in a web browser, and can be created and used within a Jupyter notebook.
+For instance, the image cleaner that we saw earlier in this chapter is entirely written
+with IPython widgets. However, we don’t want to require users of our application to
+run Jupyter themselves.
+That is why <i>Voilà</i> exists. It is a system for making applications consisting of IPython
+widgets available to end users, without them having to use Jupyter at all. Voilà is tak‐
+ing advantage of the fact that a notebook <i>already</i> <i>is</i> a kind of web application, just a
+rather complex one that depends on another web application: Jupyter itself. Essen‐
+tially, it helps us automatically convert the complex web application we’ve already
+implicitly made (the notebook) into a simpler, easier-to-deploy web application,
+which functions like a normal web application rather than like a notebook.
+But we still have the advantage of developing in a notebook, so with ipywidgets, we
+can build up our GUI step by step. We will use this approach to create a simple image
+classifier. First, we need a file upload widget:
+btn_upload = widgets.FileUpload()
+btn_upload"|deployment; file upload to web widget; process end-to-end; web application from model; IPython widgets code; IPython widgets; applications via Voilà; web application from; web browser functionality; Voilà; web applications; file upload widget
+"In “Creating a Random Forest” on page 299, we saw how to get predictions over the
+validation set, using a Python list comprehension to do this for each tree in the forest:
+preds = np.stack([t.predict(valid_xs) <b>for</b> t <b>in</b> m.estimators_])
+preds.shape
+(40, 7988)
+Now we have a prediction for every tree and every auction in the validation set (40
+trees and 7,988 auctions).
+Using this, we can get the standard deviation of the predictions over all the trees, for
+each auction:
+preds_std = preds.std(0)
+Here are the standard deviations for the predictions for the first five auctions—that is,
+the first five rows of the validation set:
+preds_std[:5]
+array([0.21529149, 0.10351274, 0.08901878, 0.28374773, 0.11977206])
+As you can see, the confidence in the predictions varies widely. For some auctions,
+there is a low standard deviation because the trees agree. For others, it’s higher, as the
+trees don’t agree. This is information that would be useful in a production setting; for
+instance, if you were using this model to decide which items to bid on at auction, a
+low-confidence prediction might cause you to look more carefully at an item before
+you made a bid.
+<header><largefont><b>Feature</b></largefont> <largefont><b>Importance</b></largefont></header>
+It’s not normally enough to just to know that a model can make accurate predictions
+—we also want to know <i>how</i> it’s making predictions. The <i>feature</i> <i>importances</i> give us
+this insight. We can get these directly from sklearn’s random forest by looking in the
+feature_importances_ attribute. Here’s a simple function we can use to pop them
+into a DataFrame and sort them:
+<b>def</b> rf_feat_importance(m, df):
+<b>return</b> pd.DataFrame({'cols':df.columns, 'imp':m.feature_importances_}
+).sort_values('imp', ascending=False)
+The feature importances for our model show that the first few most important col‐
+umns have much higher importance scores than the rest, with (not surprisingly) Year
+Made ProductSize
+and being at the top of the list:
+fi = rf_feat_importance(m, xs)
+fi[:10]"|bagging; decision trees; machine learning (ML); predictions; random forests; tabular data for models; training
+"We’ll also need a <i>click</i> <i>event</i> <i>handler;</i> that is, a function that will be called when it’s
+pressed. We can just copy over the previous lines of code:
+<b>def</b> on_click_classify(change):
+img = PILImage.create(btn_upload.data[-1])
+out_pl.clear_output()
+<b>with</b> out_pl: display(img.to_thumb(128,128))
+pred,pred_idx,probs = learn_inf.predict(img)
+lbl_pred.value = f'Prediction: {pred}; Probability: {probs[pred_idx]:.04f}'
+btn_run.on_click(on_click_classify)
+You can test the button now by clicking it, and you should see the image and predic‐
+tions update automatically!
+We can now put them all in a vertical box ( VBox ) to complete our GUI:
+VBox([widgets.Label('Select your bear!'),
+btn_upload, btn_run, out_pl, lbl_pred])
+We have written all the code necessary for our app. The next step is to convert it into
+something we can deploy.
+<header><largefont><b>Turning</b></largefont> <largefont><b>Your</b></largefont> <largefont><b>Notebook</b></largefont> <largefont><b>into</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Real</b></largefont> <largefont><b>App</b></largefont></header>
+Now that we have everything working in this Jupyter notebook, we can create our
+application. To do this, start a new notebook and add to it only the code needed to
+create and show the widgets that you need, and Markdown for any text that you want
+to appear. Have a look at the <i>bear_classifier</i> notebook in the book’s repo to see the
+simple notebook application we created.
+Next, install Voilà if you haven’t already by copying these lines into a notebook cell
+and executing it:
+!pip install voila
+!jupyter serverextension enable voila --sys-prefix"|click event handler; deployment; app from notebook; process end-to-end; web application from model; web application from; predictions; web applications

@@ -1,0 +1,57 @@
+datasets:
+  _target_: data.CombinedDataset
+  datasets:
+  - _target_: data.HandsOnMLDataset
+    data_dir: data
+    dataset_name: hands-on_machine_learning_with_scikit-learn_keras_and_tensorflow/page_text
+    train_file: processed_inputs/train.csv
+    validation_file: processed_inputs/valid.csv
+    test_file: processed_inputs/test.csv
+    text_column: text
+    keyphrases_column: keyphrases
+    data_separator: '|'
+  - _target_: data.FastAIDataset
+    data_dir: data
+    dataset_name: deep-learning-for-coders-with-fastai-and-pytorch-first-edition/page_text
+    train_file: processed_inputs/train.csv
+    validation_file: processed_inputs/valid.csv
+    test_file: processed_inputs/test.csv
+    text_column: text
+    keyphrases_column: keyphrases
+    data_separator: '|'
+  - _target_: data.TransformersDataset
+    data_dir: data
+    dataset_name: natural-language-processing-with-transformers-revised-edition/page_text
+    train_file: processed_inputs/train.csv
+    validation_file: processed_inputs/valid.csv
+    test_file: processed_inputs/test.csv
+    text_column: text
+    keyphrases_column: keyphrases
+    data_separator: '|'
+  - _target_: data.MLPatternsDataset
+    data_dir: data
+    dataset_name: pub_machine-learning-design-patterns-solutions-to-common-challenges-in-data-preparation-model-building-and-mlops/page_text
+    train_file: processed_inputs/train.csv
+    validation_file: processed_inputs/valid.csv
+    test_file: processed_inputs/test.csv
+    text_column: text
+    keyphrases_column: keyphrases
+    data_separator: '|'
+output:
+  dir: model_output
+  save_total_limit: 1
+debug:
+  single_batch: false
+run_name: combined_datasets_test
+model:
+  name: allenai/led-base-16384
+  max_input_length: 4096
+  max_output_length: 64
+training:
+  device: auto
+  num_epochs: 50
+  batch_size: 4
+  gradient_accumulation_steps: 8
+  learning_rate: 5.0e-05
+  weight_decay: 0.01
+  early_stopping_patience: 2

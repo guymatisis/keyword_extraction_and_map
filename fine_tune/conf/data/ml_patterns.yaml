@@ -1,0 +1,6 @@
+# @package _global_
+defaults:
+  - default.yaml
+
+_target_: data.MLPatternsDataset
+dataset_name: pub_machine-learning-design-patterns-solutions-to-common-challenges-in-data-preparation-model-building-and-mlops

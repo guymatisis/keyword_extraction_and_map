@@ -120,8 +120,7 @@ autoencoders
 	(GANs), 568
 	overview of, 567
 	parts of, 569
-	PCA with undercomplete linear autoencod‐
-	ers, 570
+	PCA with undercomplete linear autoencoders, 570
 	probabilistic, 586
 	recurrent, 580
 	sparse, 582

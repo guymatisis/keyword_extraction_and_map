@@ -1,0 +1,23 @@
+# Default Dataset Configuration
+#
+# This configuration defines the common structure for all datasets in the training pipeline.
+# Other dataset configurations should inherit from this and override only necessary values.
+#
+# Parameters:
+#   _target_: Python class that handles this dataset type
+#   data_dir: Root directory containing all datasets
+#   dataset_name: Specific dataset subfolder name
+#   data_separator: CSV delimiter character
+#   train_file: Training data filename
+#   validation_file: Validation data filename
+#   test_file: Test data filename
+#   text_column: Column name containing input text
+#   keyphrases_column: Column name containing target keyphrases
+
+data_dir: data                     # Base data directory
+data_separator: "|"                # CSV field separator
+train_file: train.csv             # Training data file
+validation_file: valid.csv        # Validation data file
+test_file: test.csv              # Test data file
+text_column: text                # Input text column name
+keyphrases_column: keyphrases    # Target keyphrases column name

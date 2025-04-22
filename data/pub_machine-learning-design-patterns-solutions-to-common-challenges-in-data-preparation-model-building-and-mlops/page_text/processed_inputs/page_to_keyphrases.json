@@ -1,0 +1,2248 @@
+{
+  "1": [
+    "Alexander",
+    "design patterns",
+    "Light on Two Sides of Every Room pattern",
+    "Pattern Language",
+    "Six-Foot Balcony pattern"
+  ],
+  "2": [
+    "Alexander",
+    "BigQuery",
+    "Cloud AI Platform",
+    "design patterns",
+    "Design Patterns: Elements of Reusable ObjectOriented Software",
+    "Gamma",
+    "Helm",
+    "Johnson",
+    "Keras",
+    "Keyed Predictions design pattern",
+    "Light on Two Sides of Every Room pattern",
+    "Six-Foot Balcony pattern",
+    "TensorFlow",
+    "TPU",
+    "Transform design pattern",
+    "Vlissides"
+  ],
+  "4": [
+    "deep learning",
+    "hidden layers",
+    "Keras",
+    "machine learning models",
+    "machine learning",
+    "neural networks",
+    "TensorFlow"
+  ],
+  "5": [
+    "clustering",
+    "clustering models",
+    "decision trees",
+    "deep learning",
+    "dimensionality reduction",
+    "linear models",
+    "supervised learning",
+    "unsupervised learning"
+  ],
+  "6": [
+    "categorical data",
+    "classification models",
+    "data preprocessing",
+    "datasets",
+    "epochs",
+    "feature engineering",
+    "hyperparameters",
+    "numerical data",
+    "regression models",
+    "structured data",
+    "tabular data",
+    "test data",
+    "training data",
+    "unstructured data",
+    "validation data"
+  ],
+  "7": [
+    "batch prediction",
+    "data transformation",
+    "data validation",
+    "evaluation",
+    "feature",
+    "ground truth label",
+    "input",
+    "instance",
+    "label",
+    "numerical data",
+    "online prediction",
+    "prediction",
+    "serving",
+    "training examples"
+  ],
+  "8": [
+    "inference",
+    "low latency",
+    "ML pipelines",
+    "model evaluation",
+    "serverless",
+    "streaming"
+  ],
+  "9": [
+    "AI Platform Prediction",
+    "AI Platform Training",
+    "BigQuery",
+    "BigQuery ML",
+    "Cloud AI Platform",
+    "data engineers",
+    "data scientists",
+    "Explainable AI",
+    "Google Cloud Public Datasets",
+    "ML engineers"
+  ],
+  "10": [
+    "data analysts",
+    "developers",
+    "research scientists",
+    "roles"
+  ],
+  "11": [
+    "data accuracy"
+  ],
+  "12": [
+    "bias",
+    "completeness",
+    "consistency",
+    "ground truth label"
+  ],
+  "13": [
+    "bias",
+    "consistency",
+    "labeling",
+    "repeatability",
+    "reproducibility",
+    "TensorFlow",
+    "timeliness"
+  ],
+  "14": [
+    "data drift",
+    "machine learning framework",
+    "reproducibility",
+    "scikit-learn"
+  ],
+  "15": [
+    "data drift"
+  ],
+  "16": [
+    "data engineers",
+    "data scientists",
+    "developers",
+    "ML engineers",
+    "scaling"
+  ],
+  "17": [
+    "data scientists"
+  ],
+  "19": [
+    "boolean variables",
+    "decision trees"
+  ],
+  "20": [
+    "data representation",
+    "decision trees",
+    "Embedding design pattern",
+    "feature engineering",
+    "feature",
+    "input"
+  ],
+  "21": [
+    "data representation",
+    "decision trees",
+    "Embedding design pattern",
+    "Feature Cross design pattern",
+    "feature extraction",
+    "Hashed Feature design pattern"
+  ],
+  "22": [
+    "idioms",
+    "scaling",
+    "scikit-learn"
+  ],
+  "23": [
+    "clipping",
+    "min-max scaling",
+    "scaling",
+    "z-score normalization"
+  ],
+  "24": [
+    "clipping",
+    "min-max scaling",
+    "outliers",
+    "winsorizing",
+    "z-score normalization"
+  ],
+  "25": [
+    "min-max scaling",
+    "winsorizing",
+    "z-score normalization"
+  ],
+  "26": [
+    "histogram equalization",
+    "nonlinear transformations"
+  ],
+  "27": [
+    "arrays",
+    "Box-Cox transform",
+    "nonlinear transformations"
+  ],
+  "28": [
+    "arrays",
+    "categorical inputs",
+    "idioms"
+  ],
+  "29": [
+    "categorical inputs",
+    "dummy coding",
+    "one-hot encoding",
+    "vocabulary"
+  ],
+  "30": [
+    "bucketing",
+    "categorical inputs",
+    "one-hot encoding",
+    "vocabulary"
+  ],
+  "31": [
+    "categorical inputs",
+    "idioms",
+    "multi-hot encoding",
+    "relative frequency",
+    "vocabulary"
+  ],
+  "32": [
+    "cold start",
+    "Hashed Feature design pattern",
+    "high cardinality",
+    "vocabulary"
+  ],
+  "33": [
+    "BigQuery",
+    "FarmHash",
+    "feature columns",
+    "Hashed Feature design pattern",
+    "TensorFlow",
+    "vocabulary"
+  ],
+  "34": [
+    "heuristic to choose numbers",
+    "Hashed Feature design pattern",
+    "high cardinality",
+    "vocabulary"
+  ],
+  "35": [
+    "cold start",
+    "hash buckets",
+    "Hashed Feature design pattern",
+    "vocabulary"
+  ],
+  "36": [
+    "Hashed Feature design pattern"
+  ],
+  "37": [
+    "binary encoding",
+    "Hashed Feature design pattern",
+    "hyperparameter tuning",
+    "MD5 hash",
+    "spurious correlation"
+  ],
+  "38": [
+    "cryptographic algorithms",
+    "fingerprint hashing algorithm",
+    "Hashed Feature design pattern",
+    "salt"
+  ],
+  "39": [
+    "Embedding design pattern",
+    "feature columns",
+    "hash buckets",
+    "Hashed Feature design pattern",
+    "one-hot encoding"
+  ],
+  "40": [
+    "closeness relationships",
+    "Embedding design pattern",
+    "high cardinality",
+    "one-hot encoding"
+  ],
+  "41": [
+    "closeness relationships",
+    "Embedding design pattern",
+    "PCA"
+  ],
+  "42": [
+    "Embedding design pattern",
+    "feature columns",
+    "Keras",
+    "TensorFlow",
+    "text embeddings",
+    "tokenization",
+    "vocabulary"
+  ],
+  "43": [
+    "Embedding design pattern",
+    "Keras",
+    "text embeddings",
+    "tokenization"
+  ],
+  "44": [
+    "DNN model",
+    "Embedding design pattern",
+    "Keras",
+    "text embeddings",
+    "tokenization"
+  ],
+  "45": [
+    "Embedding design pattern",
+    "image embeddings",
+    "ImageNet",
+    "Inception",
+    "Keras",
+    "ResNet",
+    "softmax",
+    "text embeddings",
+    "tokenization"
+  ],
+  "46": [
+    "Embedding design pattern"
+  ],
+  "47": [
+    "Embedding design pattern",
+    "embeddings"
+  ],
+  "48": [
+    "Embedding design pattern",
+    "one-hot encoding"
+  ],
+  "49": [
+    "autoencoders",
+    "Embedding design pattern",
+    "ImageNet",
+    "PCA"
+  ],
+  "50": [
+    "autoencoders",
+    "BERT",
+    "CBOW",
+    "context language models",
+    "Embedding design pattern",
+    "skip-gram model",
+    "TabNet",
+    "Word2Vec"
+  ],
+  "51": [
+    "autoencoders",
+    "BERT",
+    "context language models",
+    "data warehouses",
+    "Embedding design pattern",
+    "GLoVE",
+    "NNLM",
+    "Word2Vec"
+  ],
+  "52": [
+    "BigQuery",
+    "data warehouses",
+    "Embedding design pattern",
+    "Feature Cross design pattern",
+    "Swivel",
+    "TensorFlow hub"
+  ],
+  "53": [
+    "Feature Cross design pattern"
+  ],
+  "54": [
+    "BigQuery",
+    "Feature Cross design pattern"
+  ],
+  "55": [
+    "BigQuery",
+    "BigQuery ML",
+    "Feature Cross design pattern"
+  ],
+  "56": [
+    "BigQuery ML",
+    "Feature Cross design pattern",
+    "TensorFlow",
+    "Transform design pattern"
+  ],
+  "57": [
+    "BigQuery ML",
+    "DNN model",
+    "Feature Cross design pattern"
+  ],
+  "58": [
+    "Feature Cross design pattern"
+  ],
+  "59": [
+    "Feature Cross design pattern"
+  ],
+  "60": [
+    "closeness relationships",
+    "Feature Cross design pattern"
+  ],
+  "61": [
+    "Feature Cross design pattern",
+    "feature cross"
+  ],
+  "62": [
+    "Cartesian product",
+    "Embedding design pattern",
+    "Feature Cross design pattern",
+    "Multimodal Input design pattern"
+  ],
+  "63": [
+    "Embedding design pattern",
+    "Multimodal Input design pattern"
+  ],
+  "64": [
+    "Dense layers",
+    "Embedding design pattern",
+    "Keras",
+    "Multimodal Input design pattern"
+  ],
+  "65": [
+    "Embedding design pattern",
+    "Keras",
+    "Multimodal Input design pattern",
+    "multimodal inputs",
+    "tabular data"
+  ],
+  "66": [
+    "Embedding design pattern",
+    "Multimodal Input design pattern",
+    "ratings",
+    "tabular data"
+  ],
+  "67": [
+    "BOW encoding",
+    "Multimodal Input design pattern",
+    "Stack Overflow",
+    "vocabulary"
+  ],
+  "68": [
+    "BOW encoding",
+    "Multimodal Input design pattern",
+    "Stack Overflow",
+    "vocabulary",
+    "word index"
+  ],
+  "69": [
+    "BOW encoding",
+    "Multimodal Input design pattern",
+    "scikit-learn",
+    "Stack Overflow",
+    "vocabulary",
+    "XGBoost"
+  ],
+  "70": [
+    "BOW encoding",
+    "Multimodal Input design pattern",
+    "Stack Overflow"
+  ],
+  "71": [
+    "CNN",
+    "Flatten layer",
+    "Keras",
+    "MNIST dataset",
+    "Multimodal Input design pattern",
+    "pixel values",
+    "Sequential API"
+  ],
+  "72": [
+    "bias",
+    "kernel size",
+    "Multimodal Input design pattern"
+  ],
+  "73": [
+    "Keras",
+    "Multimodal Input design pattern",
+    "Sequential API"
+  ],
+  "74": [
+    "MNIST dataset",
+    "Multimodal Input design pattern"
+  ],
+  "75": [
+    "Multimodal Input design pattern"
+  ],
+  "76": [
+    "Dense layers",
+    "Multimodal Input design pattern"
+  ],
+  "77": [
+    "deep learning",
+    "Multimodal Input design pattern"
+  ],
+  "79": [
+    "ARIMA",
+    "beam search algorithm",
+    "Cascade design pattern",
+    "Ensemble design pattern",
+    "matrix factorization",
+    "Multilabel design pattern",
+    "Reframing design pattern"
+  ],
+  "80": [
+    "Ensemble design pattern",
+    "Neutral Class design pattern",
+    "Reframing design pattern"
+  ],
+  "81": [
+    "discrete probability distribution",
+    "recommendation systems",
+    "Reframing design pattern",
+    "Tweedie distribution"
+  ],
+  "82": [
+    "discrete probability distribution",
+    "PDF",
+    "posterior probability distribution",
+    "Reframing design pattern"
+  ],
+  "83": [
+    "discrete probability distribution",
+    "PDF",
+    "quantile regression",
+    "Reframing design pattern"
+  ],
+  "84": [
+    "reframing as regression",
+    "Reframing design pattern"
+  ],
+  "85": [
+    "quantile regression",
+    "Reframing design pattern"
+  ],
+  "86": [
+    "Reframing design pattern",
+    "TensorFlow Probability"
+  ],
+  "87": [
+    "PDF",
+    "Reframing design pattern"
+  ],
+  "88": [
+    "Reframing design pattern"
+  ],
+  "89": [
+    "label bias",
+    "parameter sharing",
+    "recommendation systems",
+    "Reframing design pattern"
+  ],
+  "90": [
+    "multiclass classification problems",
+    "Multilabel design pattern",
+    "parameter sharing",
+    "Reframing design pattern",
+    "softmax"
+  ],
+  "91": [
+    "BigQuery",
+    "Keras Sequential API",
+    "Multilabel design pattern",
+    "sigmoid activation",
+    "Stack Overflow",
+    "tabular data"
+  ],
+  "92": [
+    "Multilabel design pattern",
+    "sigmoid activation",
+    "softmax activation"
+  ],
+  "93": [
+    "binary classification",
+    "multilabel classification",
+    "Multilabel design pattern",
+    "sigmoid activation"
+  ],
+  "94": [
+    "binary classification",
+    "Keras",
+    "multilabel classification",
+    "Multilabel design pattern",
+    "sigmoid",
+    "sigmoid activation",
+    "softmax"
+  ],
+  "95": [
+    "BigQuery",
+    "binary classification",
+    "multilabel classification",
+    "Multilabel design pattern",
+    "sigmoid activation",
+    "Stack Overflow",
+    "threshold"
+  ],
+  "96": [
+    "binary classification",
+    "Multilabel design pattern",
+    "threshold selection"
+  ],
+  "97": [
+    "binary classification",
+    "Cascade design pattern",
+    "flat approach",
+    "ImageNet",
+    "labels",
+    "Multilabel design pattern"
+  ],
+  "98": [
+    "binary classification",
+    "binary classifier",
+    "confidence",
+    "labels",
+    "Multilabel design pattern",
+    "one versus rest approach"
+  ],
+  "99": [
+    "binary classification",
+    "Ensemble design pattern",
+    "labels",
+    "Multilabel design pattern",
+    "sigmoid"
+  ],
+  "100": [
+    "bagging",
+    "bias",
+    "bias-variance tradeoff",
+    "capacity",
+    "Ensemble design pattern",
+    "ensemble methods",
+    "irreducible error",
+    "overfit model",
+    "reducible error",
+    "underfit model"
+  ],
+  "101": [
+    "bagging",
+    "Ensemble design pattern"
+  ],
+  "102": [
+    "AdaBoost",
+    "boosting",
+    "Ensemble design pattern",
+    "Gradient Boosting Machines",
+    "XGBoost"
+  ],
+  "103": [
+    "Ensemble design pattern",
+    "stacking"
+  ],
+  "104": [
+    "bagging",
+    "boosting",
+    "Ensemble design pattern",
+    "stacking"
+  ],
+  "105": [
+    "bagging",
+    "bias",
+    "boosting",
+    "Ensemble design pattern",
+    "k-nearest neighbors (kNN)",
+    "kNN (k-nearest neighbors)",
+    "naive Bayes",
+    "SVM"
+  ],
+  "106": [
+    "Ensemble design pattern",
+    "Netflix Prize",
+    "stacking"
+  ],
+  "107": [
+    "AdaBoost",
+    "decision trees",
+    "DNN model",
+    "dropout technique",
+    "Ensemble design pattern",
+    "random forest",
+    "regularization",
+    "scikit-learn",
+    "TensorFlow",
+    "XGBoost"
+  ],
+  "108": [
+    "AdaNet",
+    "AutoML technique",
+    "bagging",
+    "bias-variance tradeoff",
+    "boosting",
+    "Cascade design pattern",
+    "Ensemble design pattern"
+  ],
+  "109": [
+    "Cascade design pattern",
+    "prediction",
+    "Rebalancing design pattern"
+  ],
+  "110": [
+    "cascade",
+    "Cascade design pattern",
+    "Ensemble design pattern"
+  ],
+  "111": [
+    "Cascade design pattern"
+  ],
+  "112": [
+    "Cascade design pattern",
+    "Workflow Pipeline design pattern"
+  ],
+  "113": [
+    "Cascade design pattern",
+    "Kubeflow Pipelines"
+  ],
+  "114": [
+    "Cascade design pattern",
+    "TensorFlow Transform method"
+  ],
+  "115": [
+    "Cascade design pattern",
+    "Mixed Input Representation",
+    "Rebalancing design pattern"
+  ],
+  "116": [
+    "Cascade design pattern",
+    "OCR (optical character recognition)",
+    "optical character recognition (OCR)"
+  ],
+  "117": [
+    "binary classifier",
+    "Cascade design pattern",
+    "Neutral Class design pattern"
+  ],
+  "118": [
+    "labeling",
+    "Neutral Class design pattern"
+  ],
+  "119": [
+    "Neutral Class design pattern"
+  ],
+  "120": [
+    "confidence",
+    "Neutral Class design pattern"
+  ],
+  "121": [
+    "binary classifier",
+    "Neutral Class design pattern"
+  ],
+  "122": [
+    "fraud detection",
+    "Neutral Class design pattern",
+    "Rebalancing design pattern"
+  ],
+  "123": [
+    "confusion matrix",
+    "downsampling",
+    "fraud detection",
+    "model evaluation",
+    "Rebalancing design pattern",
+    "reframing",
+    "upsampling"
+  ],
+  "124": [
+    "fraud detection",
+    "precision",
+    "Rebalancing design pattern",
+    "recall"
+  ],
+  "125": [
+    "downsampling",
+    "fraud detection",
+    "Rebalancing design pattern",
+    "unsampled data"
+  ],
+  "126": [
+    "downsampling",
+    "fraud detection",
+    "Rebalancing design pattern"
+  ],
+  "127": [
+    "BigQuery ML",
+    "downsampling",
+    "Keras",
+    "Rebalancing design pattern"
+  ],
+  "128": [
+    "bias",
+    "Keras",
+    "output layer bias",
+    "Rebalancing design pattern",
+    "SMOTE",
+    "upsampling"
+  ],
+  "129": [
+    "cascade",
+    "Keras ImageDataGenerator",
+    "Rebalancing design pattern",
+    "reframing",
+    "SMOTE",
+    "upsampling"
+  ],
+  "130": [
+    "cascade",
+    "Rebalancing design pattern",
+    "reframing"
+  ],
+  "131": [
+    "cascade",
+    "Rebalancing design pattern",
+    "reframing"
+  ],
+  "132": [
+    "anomaly detection",
+    "BigQuery ML",
+    "cascade",
+    "Rebalancing design pattern",
+    "reframing",
+    "unsupervised learning"
+  ],
+  "133": [
+    "anomaly detection",
+    "centroid",
+    "Rebalancing design pattern"
+  ],
+  "134": [
+    "anomaly detection",
+    "centroid",
+    "downsampling",
+    "Ensemble design pattern",
+    "fraud detection",
+    "Rebalancing design pattern",
+    "SMOTE"
+  ],
+  "135": [
+    "anomaly detection",
+    "decision trees",
+    "downsampling",
+    "LSTM",
+    "Rebalancing design pattern",
+    "scikit-learn",
+    "TensorFlow",
+    "XGBoost"
+  ],
+  "136": [
+    "anomaly detection",
+    "attribution values",
+    "Explainable AI",
+    "Rebalancing design pattern",
+    "SHAP",
+    "What-If Tool"
+  ],
+  "139": [
+    "decision trees",
+    "DNN model",
+    "SGD",
+    "SVM",
+    "training loop"
+  ],
+  "140": [
+    "epochs",
+    "Keras Training Loop",
+    "SGD",
+    "test data",
+    "training loop",
+    "validation data"
+  ],
+  "141": [
+    "PDE",
+    "regularization",
+    "training loop",
+    "Useful Overfitting design pattern"
+  ],
+  "142": [
+    "overfit model",
+    "PDE",
+    "physics-based model",
+    "Useful Overfitting design pattern"
+  ],
+  "143": [
+    "inference",
+    "ML approximation",
+    "PDE",
+    "ray-tracing model",
+    "Useful Overfitting design pattern"
+  ],
+  "144": [
+    "Uniform Approximation Theorem",
+    "Useful Overfitting design pattern"
+  ],
+  "145": [
+    "chaos theory",
+    "ML approximation",
+    "Uniform Approximation Theorem",
+    "Useful Overfitting design pattern"
+  ],
+  "146": [
+    "Monte Carlo approach",
+    "PDE",
+    "regularization",
+    "Runge-Kutta methods",
+    "Useful Overfitting design pattern"
+  ],
+  "147": [
+    "Deep Galerkin Method",
+    "mesh-free approximation",
+    "Monte Carlo approach",
+    "neural networks",
+    "PDE",
+    "Useful Overfitting design pattern"
+  ],
+  "148": [
+    "Deep Galerkin Method",
+    "overfitting",
+    "Useful Overfitting design pattern"
+  ],
+  "149": [
+    "Checkpoints design pattern",
+    "overfitting",
+    "regularization",
+    "Useful Overfitting design pattern"
+  ],
+  "150": [
+    "Checkpoints design pattern",
+    "epochs",
+    "exported model",
+    "TPU",
+    "training loop"
+  ],
+  "151": [
+    "checkpointing",
+    "checkpoints",
+    "Checkpoints design pattern"
+  ],
+  "152": [
+    "checkpoints",
+    "Checkpoints design pattern",
+    "Keras",
+    "PyTorch",
+    "TensorFlow"
+  ],
+  "153": [
+    "binary classifier",
+    "checkpoints",
+    "Checkpoints design pattern"
+  ],
+  "154": [
+    "checkpoints",
+    "Checkpoints design pattern"
+  ],
+  "155": [
+    "checkpoint selection",
+    "checkpoints",
+    "Checkpoints design pattern",
+    "early stopping",
+    "epochs",
+    "regularization",
+    "TensorFlow",
+    "training loop",
+    "well-behaved training loop"
+  ],
+  "156": [
+    "checkpoint selection",
+    "Checkpoints design pattern",
+    "regularization"
+  ],
+  "157": [
+    "capacity",
+    "checkpoint selection",
+    "Checkpoints design pattern",
+    "fine-tuning",
+    "regularization",
+    "well-behaved training loop"
+  ],
+  "158": [
+    "Checkpoints design pattern",
+    "TensorFlow dataset"
+  ],
+  "159": [
+    "Checkpoints design pattern",
+    "epochs"
+  ],
+  "160": [
+    "Checkpoints design pattern",
+    "epochs",
+    "hyperparameter tuning"
+  ],
+  "161": [
+    "Checkpoints design pattern",
+    "Transfer Learning design pattern"
+  ],
+  "162": [
+    "GPU",
+    "ImageNet",
+    "Transfer Learning design pattern"
+  ],
+  "163": [
+    "bottleneck layer",
+    "ImageNet",
+    "Transfer Learning design pattern"
+  ],
+  "164": [
+    "bottleneck layer",
+    "Transfer Learning design pattern",
+    "VGG"
+  ],
+  "165": [
+    "bottleneck layer",
+    "ImageNet",
+    "Transfer Learning design pattern",
+    "VGG"
+  ],
+  "166": [
+    "bottleneck layer",
+    "Transfer Learning design pattern",
+    "VGG"
+  ],
+  "167": [
+    "bottleneck layer",
+    "Keras",
+    "TensorFlow hub",
+    "Transfer Learning design pattern",
+    "VGG"
+  ],
+  "168": [
+    "bottleneck layer",
+    "Transfer Learning design pattern",
+    "VGG"
+  ],
+  "169": [
+    "CNN",
+    "TensorFlow hub",
+    "Transfer Learning design pattern"
+  ],
+  "170": [
+    "CNN",
+    "Transfer Learning design pattern"
+  ],
+  "171": [
+    "CNN",
+    "Transfer Learning design pattern"
+  ],
+  "172": [
+    "feature extraction",
+    "fine-tuning",
+    "progressive fine-tuning",
+    "Transfer Learning design pattern"
+  ],
+  "173": [
+    "feature extraction",
+    "fine-tuning",
+    "tabular data",
+    "Transfer Learning design pattern"
+  ],
+  "174": [
+    "BERT",
+    "sentence embeddings",
+    "TabNet",
+    "tabular data",
+    "Transfer Learning design pattern",
+    "Universal Sentence Encoder"
+  ],
+  "175": [
+    "data parallelism",
+    "Distribution Strategy design pattern",
+    "GPU",
+    "model parallelism",
+    "PyTorch",
+    "TensorFlow"
+  ],
+  "176": [
+    "all-reduce algorithm",
+    "data parallelism",
+    "Distribution Strategy design pattern",
+    "GPU",
+    "Mirrored Variable",
+    "SGD",
+    "synchronous training",
+    "TensorFlow"
+  ],
+  "177": [
+    "CentralStorageStrategy",
+    "Distribution Strategy design pattern",
+    "GPU",
+    "Keras",
+    "MirroredStrategy",
+    "MultiWorkerMirroredStrategy",
+    "synchronous training"
+  ],
+  "178": [
+    "data parallelism",
+    "DistributedDataParallel",
+    "Distribution Strategy design pattern",
+    "GPU",
+    "PyTorch",
+    "synchronous training"
+  ],
+  "179": [
+    "asynchronous training",
+    "Distribution Strategy design pattern",
+    "MirroredStrategy",
+    "MultiWorkerMirroredStrategy",
+    "OneDeviceStrategy",
+    "parameter server architecture",
+    "synchronous training",
+    "training"
+  ],
+  "180": [
+    "asynchronous training",
+    "Distribution Strategy design pattern",
+    "epochs",
+    "OneDeviceStrategy",
+    "ParameterServerStrategy",
+    "synchronous training",
+    "training"
+  ],
+  "181": [
+    "asynchronous training",
+    "data parallelism",
+    "Distribution Strategy design pattern",
+    "synchronous training",
+    "training"
+  ],
+  "182": [
+    "Distribution Strategy design pattern"
+  ],
+  "183": [
+    "Distribution Strategy design pattern",
+    "model parallelism",
+    "Neural Machine Translation"
+  ],
+  "184": [
+    "ASIC",
+    "Azure",
+    "data parallelism",
+    "Distribution Strategy design pattern",
+    "field-programmable gate array (FPGA)",
+    "FPGA (field-programmable gate array)",
+    "GPU",
+    "Mesh TensorFlow",
+    "model parallelism",
+    "TPU"
+  ],
+  "185": [
+    "batch size",
+    "Distribution Strategy design pattern",
+    "TPAClusterResolver",
+    "TPUStrategy"
+  ],
+  "186": [
+    "batch size",
+    "BERT",
+    "Distribution Strategy design pattern",
+    "GPU",
+    "LAMB",
+    "TPU"
+  ],
+  "187": [
+    "Distribution Strategy design pattern",
+    "Hyperparameter Tuning design pattern",
+    "hyperparameters",
+    "model parameters"
+  ],
+  "188": [
+    "grid search",
+    "Hyperparameter Tuning design pattern",
+    "model parameters",
+    "RandomForestRegressor",
+    "trials"
+  ],
+  "189": [
+    "combinatorial explosion",
+    "grid search",
+    "Grid-SearchCV",
+    "Hyperparameter Tuning design pattern",
+    "random forest",
+    "scikit-learn"
+  ],
+  "190": [
+    "grid search",
+    "Hyperparameter Tuning design pattern",
+    "Keras",
+    "random search",
+    "RandomizedSearchCV",
+    "scikit-learn"
+  ],
+  "191": [
+    "Hyperparameter Tuning design pattern"
+  ],
+  "192": [
+    "grid search",
+    "Hyperparameter Tuning design pattern",
+    "random search"
+  ],
+  "193": [
+    "Bayesian optimization",
+    "Hyperparameter Tuning design pattern",
+    "Mockus",
+    "objective function"
+  ],
+  "194": [
+    "Bayesian optimization",
+    "Gaussian process",
+    "genetic algorithms",
+    "Hyperparameter Tuning design pattern",
+    "Parzen estimator",
+    "surrogate function"
+  ],
+  "195": [
+    "Hyperparameter Tuning design pattern"
+  ],
+  "196": [
+    "Hyperparameter Tuning design pattern",
+    "PyTorch"
+  ],
+  "197": [
+    "AI Platform Training",
+    "Darwin",
+    "genetic algorithms",
+    "Hyperparameter Tuning design pattern",
+    "survival of the fittest theory"
+  ],
+  "198": [
+    "fitness function",
+    "genetic algorithms",
+    "Hyperparameter Tuning design pattern"
+  ],
+  "201": [
+    "Batch Serving design pattern",
+    "Continued Model Evaluation design pattern",
+    "Keyed Predictions design pattern",
+    "Stateless Serving Function design pattern",
+    "Two-Phase Predictions design pattern"
+  ],
+  "202": [
+    "stateful vs. stateless components",
+    "stateless functions",
+    "Stateless Serving Function design pattern"
+  ],
+  "203": [
+    "model",
+    "stateful vs. stateless components",
+    "stateless functions",
+    "Stateless Serving Function design pattern"
+  ],
+  "204": [
+    "Stateless Serving Function design pattern"
+  ],
+  "205": [
+    "ONNX",
+    "SavedModel",
+    "saved_model_cli",
+    "Stateless Serving Function design pattern"
+  ],
+  "206": [
+    "AWS Lambda",
+    "Azure Functions",
+    "Cloud Run",
+    "Google App Engine",
+    "Google Cloud Functions",
+    "Heroku",
+    "Stateless Serving Function design pattern"
+  ],
+  "207": [
+    "data scientists",
+    "ML engineers",
+    "SageMaker",
+    "Stateless Serving Function design pattern",
+    "TensorFlow Serving",
+    "TorchServe"
+  ],
+  "208": [
+    "batching",
+    "JSON",
+    "Stateless Serving Function design pattern"
+  ],
+  "209": [
+    "custom serving function",
+    "low latency",
+    "model",
+    "software reliability engineer (SRE)",
+    "SRE (software reliability engineer)",
+    "Stateless Serving Function design pattern",
+    "Wheeler"
+  ],
+  "210": [
+    "Stateless Serving Function design pattern"
+  ],
+  "211": [
+    "Stateless Serving Function design pattern"
+  ],
+  "212": [
+    "SavedModel",
+    "Stateless Serving Function design pattern"
+  ],
+  "213": [
+    "Batch Serving design pattern",
+    "GPU",
+    "library function",
+    "prediction",
+    "REST API",
+    "Stateless Serving Function design pattern",
+    "TPU"
+  ],
+  "214": [
+    "Batch Serving design pattern",
+    "BigQuery",
+    "distributed data processing infrastructure"
+  ],
+  "215": [
+    "Batch Serving design pattern",
+    "low latency"
+  ],
+  "216": [
+    "Batch Serving design pattern",
+    "MapReduce"
+  ],
+  "217": [
+    "Apache Beam",
+    "Apache Spark",
+    "Batch Serving design pattern",
+    "BigQuery"
+  ],
+  "218": [
+    "batch serving",
+    "Batch Serving design pattern",
+    "time-windowed average"
+  ],
+  "219": [
+    "AWS Lambda",
+    "batch serving",
+    "Batch Serving design pattern",
+    "BigQuery",
+    "Cloud AI Platform Predictions",
+    "Cloud Dataflow",
+    "Cloud Spanner",
+    "Datastore",
+    "Lambda architecture",
+    "MySQL",
+    "SavedModel"
+  ],
+  "220": [
+    "batch serving",
+    "Batch Serving design pattern",
+    "concept drift",
+    "Continued Model Evaluation design pattern",
+    "data drift",
+    "fraud detection"
+  ],
+  "221": [
+    "Cloud AI Platform",
+    "Continued Model Evaluation design pattern"
+  ],
+  "222": [
+    "Continued Model Evaluation design pattern"
+  ],
+  "223": [
+    "Cloud AI Platform",
+    "confidence",
+    "Continued Model Evaluation design pattern",
+    "ground truth label",
+    "labeling"
+  ],
+  "224": [
+    "Continued Model Evaluation design pattern",
+    "counterfactual reasoning",
+    "fraud detection",
+    "ground truth label"
+  ],
+  "225": [
+    "confusion matrix",
+    "Continued Model Evaluation design pattern",
+    "ground truth label"
+  ],
+  "226": [
+    "Continued Model Evaluation design pattern",
+    "ground truth label"
+  ],
+  "227": [
+    "Continued Model Evaluation design pattern",
+    "ground truth label"
+  ],
+  "228": [
+    "AWS Lambda",
+    "Azure Functions",
+    "Cloud Functions",
+    "Continued Model Evaluation design pattern",
+    "retraining trigger",
+    "serverless triggers",
+    "Workflow Pipeline design pattern"
+  ],
+  "229": [
+    "Continued Model Evaluation design pattern",
+    "fine-tuning"
+  ],
+  "230": [
+    "AI Platform Pipelines",
+    "Cloud Composer/Apache Airflow",
+    "Continued Model Evaluation design pattern",
+    "online machine learning"
+  ],
+  "231": [
+    "concept drift",
+    "Continued Model Evaluation design pattern",
+    "data drift",
+    "data validation",
+    "Facets",
+    "TensorFlow Data Validation",
+    "TFX"
+  ],
+  "232": [
+    "edge",
+    "Two-Phase Predictions design pattern"
+  ],
+  "233": [
+    "edge",
+    "quantization",
+    "Tensorflow Lite",
+    "TensorFlow Lite",
+    "Two-Phase Predictions design pattern"
+  ],
+  "234": [
+    "Two-Phase Predictions design pattern"
+  ],
+  "235": [
+    "Kaggle",
+    "Two-Phase Predictions design pattern"
+  ],
+  "236": [
+    "ImageDataGenerator",
+    "Keras",
+    "MobileNetV2",
+    "Two-Phase Predictions design pattern"
+  ],
+  "237": [
+    "low latency",
+    "quantization",
+    "Tensorflow Lite",
+    "TF Lite Interpreter",
+    "Two-Phase Predictions design pattern"
+  ],
+  "238": [
+    "edge",
+    "MobileNetV2",
+    "quantization",
+    "TF Lite Interpreter",
+    "Two-Phase Predictions design pattern"
+  ],
+  "239": [
+    "ASIC",
+    "Coral Edge TPU",
+    "Jetson Nano",
+    "Two-Phase Predictions design pattern",
+    "VGG"
+  ],
+  "240": [
+    "batch prediction",
+    "Two-Phase Predictions design pattern"
+  ],
+  "241": [
+    "Google Translate",
+    "quantization aware training",
+    "Two-Phase Predictions design pattern"
+  ],
+  "242": [
+    "Google Bolo",
+    "Two-Phase Predictions design pattern"
+  ],
+  "243": [
+    "anomaly detection",
+    "data drift",
+    "Keyed Predictions design pattern",
+    "keys",
+    "Two-Phase Predictions design pattern"
+  ],
+  "244": [
+    "Keyed Predictions design pattern",
+    "keys"
+  ],
+  "245": [
+    "Keyed Predictions design pattern",
+    "keys"
+  ],
+  "246": [
+    "Keyed Predictions design pattern",
+    "keys"
+  ],
+  "247": [
+    "asynchronous serving",
+    "batch prediction",
+    "continuous evaluation",
+    "Keyed Predictions design pattern",
+    "keys",
+    "online prediction"
+  ],
+  "248": [
+    "continuous evaluation",
+    "Keyed Predictions design pattern",
+    "keys"
+  ],
+  "250": [
+    "BigQuery ML",
+    "Bridged Schema design pattern",
+    "Feature Store design pattern",
+    "Model Versioning design pattern",
+    "model",
+    "Repeatable Splitting design pattern",
+    "Transform design pattern",
+    "Windowed Inference design pattern",
+    "Workflow Pipeline design pattern"
+  ],
+  "251": [
+    "BigQuery ML",
+    "training-serving skew",
+    "Transform design pattern"
+  ],
+  "252": [
+    "BigQuery ML",
+    "feature columns",
+    "Keras",
+    "TensorFlow",
+    "Transform design pattern"
+  ],
+  "253": [
+    "feature columns",
+    "Keras",
+    "Transform design pattern"
+  ],
+  "254": [
+    "feature columns",
+    "Keras",
+    "Transform design pattern"
+  ],
+  "255": [
+    "dataset-level transformations",
+    "feature columns",
+    "instance-level transformations",
+    "Keras",
+    "Transform design pattern"
+  ],
+  "256": [
+    "Apache Beam",
+    "TensorFlow Extended",
+    "TensorFlow Serving",
+    "Transform design pattern"
+  ],
+  "257": [
+    "feature engineering",
+    "Feature Store design pattern",
+    "training-serving skew",
+    "Transform design pattern"
+  ],
+  "258": [
+    "random seed",
+    "Repeatable Splitting design pattern",
+    "test data",
+    "Transform design pattern"
+  ],
+  "259": [
+    "Farm Fingerprint hashing algorithm",
+    "random seed",
+    "Repeatable Splitting design pattern"
+  ],
+  "260": [
+    "feature extraction",
+    "Repeatable Splitting design pattern"
+  ],
+  "261": [
+    "Repeatable Splitting design pattern"
+  ],
+  "262": [
+    "Repeatable Splitting design pattern"
+  ],
+  "263": [
+    "Farm Fingerprint hashing algorithm",
+    "fraud detection",
+    "Repeatable Splitting design pattern"
+  ],
+  "264": [
+    "Repeatable Splitting design pattern",
+    "stratified split",
+    "test data"
+  ],
+  "265": [
+    "Farm Fingerprint hashing algorithm",
+    "fraud detection",
+    "Repeatable Splitting design pattern",
+    "unstructured data"
+  ],
+  "266": [
+    "Bridged Schema design pattern"
+  ],
+  "267": [
+    "Bridged Schema design pattern",
+    "one-hot encoding"
+  ],
+  "268": [
+    "Bridged Schema design pattern"
+  ],
+  "269": [
+    "Bridged Schema design pattern"
+  ],
+  "270": [
+    "Bridged Schema design pattern",
+    "imputation"
+  ],
+  "271": [
+    "Bridged Schema design pattern",
+    "cascade",
+    "imputation",
+    "regularization"
+  ],
+  "272": [
+    "Bridged Schema design pattern",
+    "Cascade design pattern",
+    "imputation"
+  ],
+  "273": [
+    "Bridged Schema design pattern",
+    "imputation",
+    "Windowed Inference design pattern"
+  ],
+  "274": [
+    "Windowed Inference design pattern"
+  ],
+  "275": [
+    "ARIMA",
+    "LSTM",
+    "stateful stream processing",
+    "Windowed Inference design pattern"
+  ],
+  "276": [
+    "Apache Beam",
+    "Windowed Inference design pattern"
+  ],
+  "277": [
+    "Apache Beam",
+    "Windowed Inference design pattern"
+  ],
+  "278": [
+    "Apache Beam",
+    "Windowed Inference design pattern"
+  ],
+  "279": [
+    "online update",
+    "Windowed Inference design pattern"
+  ],
+  "280": [
+    "BigQuery",
+    "Windowed Inference design pattern"
+  ],
+  "281": [
+    "LSTM",
+    "Windowed Inference design pattern"
+  ],
+  "282": [
+    "containers",
+    "data scientists",
+    "Two-Phase Predictions design pattern",
+    "Windowed Inference design pattern",
+    "Workflow Pipeline design pattern"
+  ],
+  "283": [
+    "microservices architecture",
+    "monolithic applications",
+    "Workflow Pipeline design pattern"
+  ],
+  "284": [
+    "Apache Airflow",
+    "BigQueryExampleGen component",
+    "Cloud AI Platform Pipelines",
+    "components",
+    "containers",
+    "ExampleGen components",
+    "ExampleValidator",
+    "GKE",
+    "Kubeflow Pipelines",
+    "MLflow",
+    "pipeline",
+    "SchemaGen",
+    "StatisticsGen component",
+    "TensorFlow Extended",
+    "TFX",
+    "Transform component",
+    "Workflow Pipeline design pattern"
+  ],
+  "285": [
+    "BigQuery",
+    "Cloud AI Platform Training",
+    "Pusher component",
+    "runs",
+    "TFX",
+    "Trainer component",
+    "Workflow Pipeline design pattern"
+  ],
+  "286": [
+    "BigQueryExampleGen component",
+    "TFX",
+    "Workflow Pipeline design pattern"
+  ],
+  "287": [
+    "Cloud AI Platform Pipelines",
+    "Cloud AI Platform Training",
+    "Docker container",
+    "GKE",
+    "Google Container Registry",
+    "GPU",
+    "TFX",
+    "TPU",
+    "Workflow Pipeline design pattern"
+  ],
+  "288": [
+    "AI Platform Pipelines",
+    "AI Platform Prediction",
+    "AI Platform pusher component",
+    "Azure ML Pipelines",
+    "containers",
+    "Kubeflow Pipelines",
+    "SageMaker",
+    "TFX",
+    "Trainer component",
+    "Workflow Pipeline design pattern"
+  ],
+  "289": [
+    "CI/CD",
+    "DAG",
+    "TFX",
+    "Workflow Pipeline design pattern"
+  ],
+  "290": [
+    "TFX",
+    "Workflow Pipeline design pattern"
+  ],
+  "291": [
+    "CI/CD",
+    "Cloud Functions",
+    "TFX",
+    "Workflow Pipeline design pattern"
+  ],
+  "292": [
+    "Apache Airflow",
+    "CI/CD",
+    "Cloud Build",
+    "DAG",
+    "GitHub Actions",
+    "GitLab Triggers",
+    "Kubeflow Pipelines",
+    "TFX",
+    "Workflow Pipeline design pattern"
+  ],
+  "293": [
+    "Kale",
+    "orchestration",
+    "Workflow Pipeline design pattern"
+  ],
+  "294": [
+    "lineage tracking",
+    "model evaluation",
+    "Workflow Pipeline design pattern"
+  ],
+  "295": [
+    "data scientists",
+    "feature engineering",
+    "Feature Store design pattern",
+    "ML engineers"
+  ],
+  "296": [
+    "Feature Store design pattern",
+    "low latency"
+  ],
+  "297": [
+    "Apache Beam",
+    "Apache Flink",
+    "Apache Spark",
+    "BigQuery",
+    "Cassandra",
+    "data engineers",
+    "Feature Store design pattern",
+    "Hive",
+    "low latency",
+    "ML engineers",
+    "Redis"
+  ],
+  "298": [
+    "Feast",
+    "Feature Store design pattern",
+    "low latency"
+  ],
+  "299": [
+    "Feast",
+    "Feature Store design pattern",
+    "FeatureSet"
+  ],
+  "300": [
+    "Feast",
+    "Feature Store design pattern",
+    "FeatureSet"
+  ],
+  "301": [
+    "Feast",
+    "Feature Store design pattern",
+    "FeatureSet"
+  ],
+  "302": [
+    "Feast",
+    "Feature Store design pattern",
+    "FeatureSet"
+  ],
+  "303": [
+    "Feast",
+    "Feature Store design pattern"
+  ],
+  "304": [
+    "Feast",
+    "Feature Store design pattern"
+  ],
+  "305": [
+    "Feast",
+    "Feature Store design pattern"
+  ],
+  "306": [
+    "Feast",
+    "Feature Store design pattern"
+  ],
+  "307": [
+    "Feast",
+    "Feature Store design pattern",
+    "low latency"
+  ],
+  "308": [
+    "CI/CD",
+    "Feast",
+    "Feature Store design pattern"
+  ],
+  "309": [
+    "Apache Beam",
+    "Apache Flink",
+    "Apache Spark",
+    "BigQuery",
+    "BigTable",
+    "Cassandra",
+    "Feast",
+    "Feature Store design pattern",
+    "Hive",
+    "Hopsworks",
+    "MySQL Cluster",
+    "Redis",
+    "training-serving skew",
+    "Transform design pattern"
+  ],
+  "310": [
+    "data drift",
+    "explainability",
+    "Feature Store design pattern",
+    "Model Versioning design pattern"
+  ],
+  "311": [
+    "data scientists",
+    "ML engineers",
+    "Model Versioning design pattern"
+  ],
+  "312": [
+    "default",
+    "Model Versioning design pattern"
+  ],
+  "313": [
+    "Model Versioning design pattern"
+  ],
+  "314": [
+    "Apigee",
+    "AWS Lambda",
+    "Azure",
+    "Azure Machine Learning",
+    "Continued Model Evaluation design pattern",
+    "ML engineers",
+    "Model Versioning design pattern",
+    "SageMaker"
+  ],
+  "315": [
+    "AI Platform Prediction",
+    "Cloud Run",
+    "Docker container",
+    "Model Versioning design pattern",
+    "serverless",
+    "Stateless Serving Function design pattern",
+    "TensorFlow Serving",
+    "XGBoost"
+  ],
+  "316": [
+    "Model Versioning design pattern",
+    "model"
+  ],
+  "317": [
+    "Model Versioning design pattern"
+  ],
+  "319": [
+    "ML engineers",
+    "ML researchers",
+    "model builders",
+    "stakeholders"
+  ],
+  "320": [
+    "Continued Model Evaluation design pattern",
+    "Explainable Predictions design pattern",
+    "Fairness Lens design pattern",
+    "Heuristic Benchmark design pattern",
+    "MAE (mean absolute error)",
+    "mean absolute error (MAE)",
+    "Neutral Class design pattern",
+    "Repeatable Splitting design pattern",
+    "responsible AI"
+  ],
+  "321": [
+    "heuristic benchmark",
+    "Heuristic Benchmark design pattern",
+    "MAP (mean average precision)",
+    "mean average precision (MAP)"
+  ],
+  "322": [
+    "binary classification",
+    "heuristic benchmark",
+    "Heuristic Benchmark design pattern",
+    "linear models",
+    "multilabel classification",
+    "regression models"
+  ],
+  "323": [
+    "heuristic benchmark",
+    "Heuristic Benchmark design pattern"
+  ],
+  "324": [
+    "heuristic benchmark",
+    "Heuristic Benchmark design pattern",
+    "labeling"
+  ],
+  "325": [
+    "Heuristic Benchmark design pattern"
+  ],
+  "326": [
+    "bias",
+    "Explainable Predictions design pattern"
+  ],
+  "327": [
+    "data scientists",
+    "decision trees",
+    "explainability",
+    "Explainable Predictions design pattern",
+    "interpretable by design",
+    "ML engineers",
+    "stakeholders"
+  ],
+  "328": [
+    "Explainable Predictions design pattern"
+  ],
+  "329": [
+    "explainability",
+    "Explainable Predictions design pattern",
+    "feature attributions",
+    "post hoc explainability method"
+  ],
+  "330": [
+    "baseline",
+    "Explainable Predictions design pattern",
+    "feature attributions",
+    "informative baseline",
+    "Shapley Value",
+    "uninformative baseline"
+  ],
+  "331": [
+    "baseline",
+    "Explainable Predictions design pattern",
+    "feature attributions",
+    "informative baseline",
+    "Reframing design pattern",
+    "uninformative baseline"
+  ],
+  "332": [
+    "baseline",
+    "Explainable Predictions design pattern",
+    "feature attributions",
+    "informative baseline",
+    "uninformative baseline"
+  ],
+  "333": [
+    "baseline",
+    "Explainable Predictions design pattern",
+    "feature attributions",
+    "heuristic benchmark",
+    "informative baseline",
+    "SHAP",
+    "Shapley Value"
+  ],
+  "334": [
+    "baseline",
+    "Explainable Predictions design pattern",
+    "feature attributions",
+    "SHAP"
+  ],
+  "335": [
+    "baseline",
+    "explainability",
+    "Explainable AI",
+    "Explainable Predictions design pattern",
+    "feature attributions",
+    "SHAP",
+    "TensorFlow",
+    "TensorFlow hub"
+  ],
+  "336": [
+    "AI Platform Notebooks",
+    "baseline",
+    "Explainable Predictions design pattern",
+    "feature attributions",
+    "IG",
+    "Sampled Shapley",
+    "SHAP"
+  ],
+  "337": [
+    "Explainable Predictions design pattern",
+    "feature attributions",
+    "IG",
+    "XRAI"
+  ],
+  "338": [
+    "Explainable Predictions design pattern",
+    "feature attributions"
+  ],
+  "339": [
+    "AutoML Tables",
+    "bias",
+    "counterfactual analysis",
+    "example-based explanation",
+    "Explainable AI",
+    "Explainable Predictions design pattern",
+    "feature attributions",
+    "What-If Tool"
+  ],
+  "340": [
+    "counterfactual analysis",
+    "example-based explanation",
+    "Explainable Predictions design pattern"
+  ],
+  "341": [
+    "counterfactual analysis",
+    "example-based explanation",
+    "Explainable Predictions design pattern"
+  ],
+  "342": [
+    "counterfactual analysis",
+    "example-based explanation",
+    "Explainable Predictions design pattern"
+  ],
+  "343": [
+    "bias",
+    "Explainable Predictions design pattern",
+    "Fairness Lens design pattern",
+    "model evaluation",
+    "problematic bias"
+  ],
+  "344": [
+    "bias",
+    "data distribution bias",
+    "Fairness Lens design pattern",
+    "problematic bias",
+    "reporting bias"
+  ],
+  "345": [
+    "bias",
+    "experimenter bias",
+    "Fairness Lens design pattern",
+    "implicit bias",
+    "labeling",
+    "model evaluation",
+    "problematic bias",
+    "proxy bias"
+  ],
+  "346": [
+    "bias",
+    "Fairness Lens design pattern",
+    "problematic bias"
+  ],
+  "347": [
+    "Fairness Lens design pattern",
+    "What-If Tool"
+  ],
+  "348": [
+    "data collection bias",
+    "data representation bias",
+    "Fairness Lens design pattern",
+    "What-If Tool"
+  ],
+  "349": [
+    "Fairness Lens design pattern",
+    "What-If Tool"
+  ],
+  "350": [
+    "bias",
+    "Civil Comments dataset",
+    "data collection bias",
+    "Fairness Lens design pattern",
+    "Rebalancing design pattern",
+    "What-If Tool"
+  ],
+  "351": [
+    "bias",
+    "Fairness Lens design pattern",
+    "What-If Tool"
+  ],
+  "352": [
+    "bias",
+    "Fairness Lens design pattern",
+    "What-If Tool"
+  ],
+  "353": [
+    "bias",
+    "classification threshold",
+    "Fairness Lens design pattern",
+    "What-If Tool"
+  ],
+  "354": [
+    "AI Platform Prediction",
+    "bias",
+    "Fairness Indicators",
+    "Fairness Lens design pattern",
+    "Language Interpretability Tool",
+    "TensorBoard",
+    "TensorFlow Data Validation",
+    "TensorFlow Serving",
+    "TFMA",
+    "TFX",
+    "What-If Tool"
+  ],
+  "355": [
+    "bias",
+    "Continued Model Evaluation design pattern",
+    "Fairness Lens design pattern",
+    "TFMA",
+    "Workflow Pipeline design pattern"
+  ],
+  "356": [
+    "ablation",
+    "bias",
+    "data augmentation",
+    "Fairness Lens design pattern",
+    "Smart Compose",
+    "Transfer Learning design pattern",
+    "Vision API"
+  ],
+  "357": [
+    "bias",
+    "explainability",
+    "Fairness Lens design pattern",
+    "Model Card Toolkit",
+    "Model Cards",
+    "responsible AI",
+    "Vision API"
+  ],
+  "358": [
+    "bias",
+    "explainability",
+    "Fairness Lens design pattern"
+  ],
+  "363": [
+    "Embedding design pattern",
+    "Feature Cross design pattern",
+    "Hashed Feature design pattern",
+    "Hyperparameter Tuning design pattern",
+    "Repeatable Splitting design pattern"
+  ],
+  "364": [
+    "Bridged Schema design pattern",
+    "Cascade design pattern",
+    "Checkpoints design pattern",
+    "Embedding design pattern",
+    "epochs",
+    "Feature Store design pattern",
+    "Neutral Class design pattern",
+    "Reframing design pattern",
+    "Transfer Learning design pattern"
+  ],
+  "365": [
+    "Batch Serving design pattern",
+    "Bridged Schema design pattern",
+    "Cascade design pattern",
+    "Continued Model Evaluation design pattern",
+    "Ensemble design pattern",
+    "explainability",
+    "Explainable Predictions design pattern",
+    "Feature Store design pattern",
+    "Keyed Predictions design pattern",
+    "Model Versioning design pattern",
+    "Multimodal Input design pattern",
+    "Rebalancing design pattern",
+    "Reframing design pattern",
+    "Stateless Serving Function design pattern",
+    "Transform design pattern",
+    "Workflow Pipeline design pattern"
+  ],
+  "366": [
+    "ML life cycle"
+  ],
+  "367": [
+    "KPI",
+    "ML life cycle"
+  ],
+  "368": [
+    "feature engineering",
+    "KPI"
+  ],
+  "369": [
+    "heuristic benchmark",
+    "KPI",
+    "machine learning feasibility study",
+    "ML life cycle"
+  ],
+  "370": [
+    "KPI",
+    "ML life cycle",
+    "Repeatable Splitting design pattern",
+    "responsible AI"
+  ],
+  "371": [
+    "ML life cycle",
+    "MLOps",
+    "productionizing models"
+  ],
+  "372": [
+    "CI/CD",
+    "ML life cycle"
+  ],
+  "373": [
+    "AI readiness",
+    "ML life cycle",
+    "MLOps"
+  ],
+  "374": [
+    "AI readiness"
+  ],
+  "375": [
+    "AI readiness"
+  ],
+  "376": [
+    "AI readiness",
+    "CI/CD",
+    "GPU",
+    "TPU"
+  ],
+  "377": [
+    "natural language understanding (NLU)",
+    "NLU (natural language understanding)"
+  ],
+  "378": [
+    "computer vision",
+    "predictive modeling"
+  ],
+  "379": [
+    "IoT analytics",
+    "recommendation systems"
+  ],
+  "380": [
+    "anomaly detection"
+  ]
+}

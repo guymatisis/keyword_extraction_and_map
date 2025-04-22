@@ -1,0 +1,6 @@
+# @package _global_
+defaults:
+  - default.yaml
+
+_target_: data.TransformersDataset
+dataset_name: natural-language-processing-with-transformers-revised-edition

@@ -1,0 +1,1124 @@
+text|keyphrases
+"<header><largefont><b>A</b></largefont> <largefont><b>Primer</b></largefont> <largefont><b>on</b></largefont> <largefont><b>Floating-Point</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Fixed-Point</b></largefont> <largefont><b>Numbers</b></largefont></header>
+Most transformers today are pretrained and fine-tuned with floating-point numbers
+(usually FP32 or a mix of FP16 and FP32), since they provide the precision needed to
+accommodate the very different ranges of weights, activations, and gradients. A
+floating-point number like FP32 represents a sequence of 32 bits that are grouped in
+terms of a <i>sign,</i> <i>exponent,</i> and <i>significand.</i> The sign determines whether the number is
+positive or negative, while the significand corresponds to the number of significant
+digits, which are scaled using the exponent in some fixed base (usually 2 for binary or
+10 for decimal).
+For example, the number 137.035 can be expressed as a decimal floating-point num‐
+ber through the following arithmetic:
+0 2
+137.035 = − 1 × 1.37035 × 10
+where the 1.37035 is the significand and 2 is the exponent of the base 10. Through the
+exponent we can represent a wide range of real numbers, and the decimal or binary
+point can be placed anywhere relative to the significant digits (hence the name
+“floating-point”).
+However, once a model is trained, we only need the forward pass to run inference, so
+we can reduce the precision of the data types without impacting the accuracy too
+much. For neural networks it is common to use a <i>fixed-point</i> <i>format</i> for the low-
+precision data types, where real numbers are represented as <i>B-bit</i> integers that are
+scaled by a common factor for all variables of the same type. For example, 137.035
+can be represented as the integer 137,035 that is scaled by 1/1,000. We can control the
+range and precision of a fixed-point number by adjusting the scaling factor.
+The basic idea behind quantization is that we can “discretize” the floating-point val‐
+ues <i>f</i> in each tensor by mapping their range [f , <i>f</i> ] into a smaller one
+max min
+[q ,q ] of fixed-point numbers <i>q,</i> and linearly distributing all values in between.
+max min
+Mathematically, this mapping is described by the following equation:
+<i>f</i> − <i>f</i>
+max min
+<i>f</i> = <i>q</i> − <i>Z</i> = <i>S</i> <i>q</i> − <i>Z</i>
+<i>q</i> − <i>q</i>
+max min
+where the scale factor <i>S</i> is a positive floating-point number and the constant <i>Z</i> has the
+same type as <i>q</i> and is called the <i>zero</i> <i>point</i> because it corresponds to the quantized
+value of the floating-point value <i>f</i> = 0. Note that the map needs to be <i>affine</i> so that we"|efficiency; exponent; fixed-point numbers; floating-point numbers; mantissa; quantization; radix point; sign; significand; tensors; transformers; zero point
+"<b>from</b> <b>sklearn.linear_model</b> <b>import</b> LogisticRegression
+<i>#</i> <i>We</i> <i>increase</i> <i>`max_iter`</i> <i>to</i> <i>guarantee</i> <i>convergence</i>
+lr_clf = LogisticRegression(max_iter=3000)
+lr_clf.fit(X_train, y_train)
+lr_clf.score(X_valid, y_valid)
+0.633
+Looking at the accuracy, it might appear that our model is just a bit better than ran‐
+dom—but since we are dealing with an unbalanced multiclass dataset, it’s actually sig‐
+nificantly better. We can examine whether our model is any good by comparing it
+against a simple baseline. In Scikit-learn there is a DummyClassifier that can be used
+to build a classifier with simple heuristics such as always choosing the majority class
+or always drawing a random class. In this case the best-performing heuristic is to
+always choose the most frequent class, which yields an accuracy of about 35%:
+<b>from</b> <b>sklearn.dummy</b> <b>import</b> DummyClassifier
+dummy_clf = DummyClassifier(strategy=""most_frequent"")
+dummy_clf.fit(X_train, y_train)
+dummy_clf.score(X_valid, y_valid)
+0.352
+So, our simple classifier with DistilBERT embeddings is significantly better than our
+baseline. We can further investigate the performance of the model by looking at the
+confusion matrix of the classifier, which tells us the relationship between the true and
+predicted labels:
+<b>from</b> <b>sklearn.metrics</b> <b>import</b> ConfusionMatrixDisplay, confusion_matrix
+<b>def</b> plot_confusion_matrix(y_preds, y_true, labels):
+cm = confusion_matrix(y_true, y_preds, normalize=""true"")
+fig, ax = plt.subplots(figsize=(6, 6))
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
+disp.plot(cmap=""Blues"", values_format="".2f"", ax=ax, colorbar=False)
+plt.title(""Normalized confusion matrix"")
+plt.show()
+y_preds = lr_clf.predict(X_valid)
+plot_confusion_matrix(y_preds, y_valid, labels)"|feature extractors; text classification; training text classifiers; transformers as feature extractors; as feature extractors
+"<header><largefont><b>Fine-Tuning</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Classifier</b></largefont></header>
+Now we’ll repeat the fine-tuning procedure, but with the slight difference that we load
+our own custom checkpoint:
+model_ckpt = f'{model_ckpt}-issues-128'
+config = AutoConfig.from_pretrained(model_ckpt)
+config.num_labels = len(all_labels)
+config.problem_type = ""multi_label_classification""
+<b>for</b> train_slice <b>in</b> train_slices:
+model = AutoModelForSequenceClassification.from_pretrained(model_ckpt,
+config=config)
+trainer = Trainer(
+model=model,
+tokenizer=tokenizer,
+args=training_args_fine_tune,
+compute_metrics=compute_metrics,
+train_dataset=ds_enc[""train""].select(train_slice),
+eval_dataset=ds_enc[""valid""],
+)
+trainer.train()
+pred = trainer.predict(ds_enc['test'])
+metrics = compute_metrics(pred)
+<i>#</i> <i>DA</i> <i>refers</i> <i>to</i> <i>domain</i> <i>adaptation</i>
+macro_scores['Fine-tune (DA)'].append(metrics['macro f1'])
+micro_scores['Fine-tune (DA)'].append(metrics['micro f1'])
+Comparing the results to the fine-tuning based on vanilla BERT, we see that we get an
+advantage especially in the low-data domain. We also gain a few percentage points in
+the regime where more labeled data is available:
+plot_metrics(micro_scores, macro_scores, train_samples, ""Fine-tune (DA)"")"|classifiers; labels; leveraging unlabeled data; unlabeled data
+"<header><largefont><b>The</b></largefont> <largefont><b>Tokenizer</b></largefont> <largefont><b>Model</b></largefont></header>
+As you saw in Chapter 4, the tokenizer is a processing pipeline consisting of four
+steps: normalization, pretokenization, the tokenizer model, and postprocessing. The
+part of the tokenizer pipeline that can be trained on data is the tokenizer model. As
+we discussed in Chapter 2, there are several subword tokenization algorithms that can
+be used, such as BPE, WordPiece, and Unigram.
+BPE starts from a list of basic units (single characters) and creates a vocabulary by a
+process of progressively creating new tokens formed by merging the most frequently
+co-occurring basic units and adding them to the vocabulary. This process is reiterated
+until a predefined vocabulary size is reached.
+Unigram starts from the other end, by initializing its base vocabulary with all the
+words in the corpus, and potential subwords. Then it progressively removes or splits
+the less useful tokens to obtain a smaller and smaller vocabulary, until the target
+vocabulary size is reached. WordPiece is a predecessor of Unigram, and its official
+implementation was never open-sourced by Google.
+The impact of these various algorithms on downstream performance varies depend‐
+ing on the task, and overall it’s quite difficult to identify if one algorithm is clearly
+superior to the others. Both BPE and Unigram have reasonable performance in most
+cases, but let’s have a look at some aspects to consider when evaluating.
+<header><largefont><b>Measuring</b></largefont> <largefont><b>Tokenizer</b></largefont> <largefont><b>Performance</b></largefont></header>
+The optimality and performance of a tokenizer are challenging to measure in prac‐
+tice. Some possible metrics include:
+• <i>Subword</i> <i>fertility,</i> which calculates the average number of subwords produced per
+tokenized word
+• <i>Proportion</i> <i>of</i> <i>continued</i> <i>words,</i> which refers to the proportion of tokenized words
+in a corpus that are split into at least two subtokens
+• <i>Coverage</i> <i>metrics</i> like the proportion of unknown words or rarely used tokens in
+a tokenized corpus
+In addition, robustness to misspelling or noise is often estimated, as well as model
+performance on such out-of-domain examples, as this strongly depends on the toke‐
+nization process.
+These measures give a set of different views on the tokenizer’s performance, but they
+tend to ignore the interaction of the tokenizer with the model. For example, subword
+fertility can be minimized by including all the possible words in the vocabulary, but
+this will produce a very large vocabulary for the model."|BPE (Byte-Pair Encoding); coverage metrics; open source; pipeline; proportion; subword fertility; tokenizer model; tokenizers; training transformers from scratch; measuring tokenizer performance; Unigram; WordPiece
+"gets these two as an input as well as all the encoder’s outputs to predict the next
+token, “fliegt”. In the next step the decoder gets “fliegt” as an additional input. We
+repeat the process until the decoder predicts the EOS token or we reached a max‐
+imum length.
+The Transformer architecture was originally designed for sequence-to-sequence tasks
+like machine translation, but both the encoder and decoder blocks were soon adapted
+as standalone models. Although there are hundreds of different transformer models,
+most of them belong to one of three types:
+<i>Encoder-only</i>
+These models convert an input sequence of text into a rich numerical representa‐
+tion that is well suited for tasks like text classification or named entity recogni‐
+tion. BERT and its variants, like RoBERTa and DistilBERT, belong to this class of
+architectures. The representation computed for a given token in this architecture
+depends both on the left (before the token) and the right (after the token) con‐
+texts. This is often called <i>bidirectional</i> <i>attention.</i>
+<i>Decoder-only</i>
+Given a prompt of text like “Thanks for lunch, I had a…” these models will auto-
+complete the sequence by iteratively predicting the most probable next word.
+The family of GPT models belong to this class. The representation computed for
+a given token in this architecture depends only on the left context. This is often
+called <i>causal</i> or <i>autoregressive</i> <i>attention.</i>
+<i>Encoder-decoder</i>
+These are used for modeling complex mappings from one sequence of text to
+another; they’re suitable for machine translation and summarization tasks. In
+addition to the Transformer architecture, which as we’ve seen combines an
+encoder and a decoder, the BART and T5 models belong to this class.
+In reality, the distinction between applications for decoder-only
+versus encoder-only architectures is a bit blurry. For example,
+decoder-only models like those in the GPT family can be primed
+for tasks like translation that are conventionally thought of as
+sequence-to-sequence tasks. Similarly, encoder-only models like
+BERT can be applied to summarization tasks that are usually asso‐
+ciated with encoder-decoder or decoder-only models.1
+Now that you have a high-level understanding of the Transformer architecture, let’s
+take a closer look at the inner workings of the encoder.
+1 Y.LiuandM.Lapata,“TextSummarizationwithPretrainedEncoder”,(2019)."|attention; autoregressive attention; bidirectional attention; causal attention; decoder-only model; encoder-decoder model; encoder-only model; Transformer architecture
+"From the plots we can see that there is a pattern: choosing <i>m</i> too large or small for a
+given <i>k</i> yields suboptimal results. The best performance is achieved when choosing a
+ratio of approximately <i>m/k</i> = 1/3. Let’s see which <i>k</i> and <i>m</i> give the best result overall:
+k, m = np.unravel_index(perf_micro.argmax(), perf_micro.shape)
+<b>print(f""Best</b> k: {k}, best m: {m}"")
+Best k: 15, best m: 5
+The perfomance is best when we choose <i>k</i> = 15 and <i>m</i> = 5, or in other words when
+we retrieve the 15 nearest neighbors and then assign the labels that occurred at least 5
+times. Now that we have a good method for finding the best values for the embedding
+lookup, we can play the same game as with the Naive Bayes classifier where we go
+through the slices of the training set and evaluate the performance. Before we can
+slice the dataset, we need to remove the index since we cannot slice a FAISS index like
+the dataset. The rest of the loops stay exactly the same, with the addition of using the
+validation set to get the best <i>k</i> and <i>m</i> values:
+embs_train.drop_index(""embedding"")
+test_labels = np.array(embs_test[""label_ids""])
+test_queries = np.array(embs_test[""embedding""], dtype=np.float32)
+<b>for</b> train_slice <b>in</b> train_slices:
+<i>#</i> <i>Create</i> <i>a</i> <i>Faiss</i> <i>index</i> <i>from</i> <i>training</i> <i>slice</i>
+embs_train_tmp = embs_train.select(train_slice)
+embs_train_tmp.add_faiss_index(""embedding"")
+<i>#</i> <i>Get</i> <i>best</i> <i>k,</i> <i>m</i> <i>values</i> <i>with</i> <i>validation</i> <i>set</i>
+perf_micro, _ = find_best_k_m(embs_train_tmp, valid_queries, valid_labels)
+k, m = np.unravel_index(perf_micro.argmax(), perf_micro.shape)
+<i>#</i> <i>Get</i> <i>predictions</i> <i>on</i> <i>test</i> <i>set</i>
+_, samples = embs_train_tmp.get_nearest_examples_batch(""embedding"",
+test_queries,
+k=int(k))
+y_pred = np.array([get_sample_preds(s, m) <b>for</b> s <b>in</b> samples])
+<i>#</i> <i>Evaluate</i> <i>predictions</i>"|using as a lookup table; labels; working with a few; lookup table
+"<i>Figure</i> <i>1-11.</i> <i>An</i> <i>example</i> <i>model</i> <i>card</i> <i>from</i> <i>the</i> <i>Hugging</i> <i>Face</i> <i>Hub:</i> <i>the</i> <i>inference</i> <i>widget,</i>
+<i>which</i> <i>allows</i> <i>you</i> <i>to</i> <i>interact</i> <i>with</i> <i>the</i> <i>model,</i> <i>is</i> <i>shown</i> <i>on</i> <i>the</i> <i>right</i>
+Let’s continue our tour with Tokenizers.
+PyTorch and TensorFlow also offer hubs of their own and are
+worth checking out if a particular model or dataset is not available
+on the Hugging Face Hub.
+<header><largefont><b>Hugging</b></largefont> <largefont><b>Face</b></largefont> <largefont><b>Tokenizers</b></largefont></header>
+Behind each of the pipeline examples that we’ve seen in this chapter is a tokenization
+step that splits the raw text into smaller pieces called tokens. We’ll see how this works
+in detail in Chapter 2, but for now it’s enough to understand that tokens may be
+words, parts of words, or just characters like punctuation. Transformer models are
+trained on numerical representations of these tokens, so getting this step right is
+pretty important for the whole NLP project!
+Tokenizers provides many tokenization strategies and is extremely fast at tokeniz‐
+backend.12
+ing text thanks to its Rust It also takes care of all the pre- and postprocess‐
+ing steps, such as normalizing the inputs and transforming the model outputs to the
+required format. With Tokenizers, we can load a tokenizer in the same way we can
+load pretrained model weights with Transformers.
+12 Rustisahigh-performanceprogramminglanguage."|Hugging Face; PyTorch library; Rust programming language; TensorFlow; Tokenizers library
+"<header><largefont><b>The</b></largefont> <largefont><b>Encoder</b></largefont></header>
+As we saw earlier, the transformer’s encoder consists of many encoder layers stacked
+next to each other. As illustrated in Figure 3-2, each encoder layer receives a sequence
+of embeddings and feeds them through the following sublayers:
+• A multi-head self-attention layer
+• A fully connected feed-forward layer that is applied to each input embedding
+The output embeddings of each encoder layer have the same size as the inputs, and
+we’ll soon see that the main role of the encoder stack is to “update” the input embed‐
+dings to produce representations that encode some contextual information in the
+sequence. For example, the word “apple” will be updated to be more “company-like”
+and less “fruit-like” if the words “keynote” or “phone” are close to it.
+<i>Figure</i> <i>3-2.</i> <i>Zooming</i> <i>into</i> <i>the</i> <i>encoder</i> <i>layer</i>
+Each of these sublayers also uses skip connections and layer normalization, which are
+standard tricks to train deep neural networks effectively. But to truly understand what
+makes a transformer work, we have to go deeper. Let’s start with the most important
+building block: the self-attention layer."|encoder; sublayer; Transformer architecture
+"Let’s now take a look at an example:
+<b>for</b> column <b>in</b> [""title"", ""body"", ""labels""]:
+<b>print(f""{column}:</b> {df_issues[column].iloc[26][:500]}\n"")
+title: Add new CANINE model
+body: # New model addition
+## Model description
+Google recently proposed a new **C**haracter **A**rchitecture with **N**o
+tokenization **I**n **N**eural **E**ncoders architecture (CANINE). Not only
+the title is exciting:
+Pipelined NLP systems have largely been superseded by end-to-end neural
+modeling, yet nearly all commonly-used models still require an explicit
+tokenization step. While recent tokenization approaches based on data-derived
+subword lexicons are less brittle than manually en
+labels: ['new model']
+In this example a new model architecture is proposed, so the new model tag makes
+title
+sense. We can also see that the contains information that will be useful for our
+classifier, so let’s concatenate it with the issue’s description in the body field:
+df_issues[""text""] = (df_issues
+.apply(lambda x: x[""title""] + ""\n\n"" + x[""body""], axis=1))
+Before we look at the rest of the data, let’s check for any duplicates in the data and
+drop them with the drop_duplicates() method:
+len_before = len(df_issues)
+df_issues = df_issues.drop_duplicates(subset=""text"")
+<b>print(f""Removed</b> {(len_before-len(df_issues))/len_before:.2%} duplicates."")
+Removed 1.88% duplicates.
+We can see that there were a few duplicate issues in our dataset, but they only repre‐
+sented a small percentage. As we’ve done in other chapters, it’s also a good idea to
+have a quick look at the number of words in our texts to see if we’ll lose much infor‐
+mation when we truncate to each model’s context size:
+<b>import</b> <b>numpy</b> <b>as</b> <b>np</b>
+<b>import</b> <b>matplotlib.pyplot</b> <b>as</b> <b>plt</b>
+(df_issues[""text""].str.split().apply(len)
+.hist(bins=np.linspace(0, 500, 50), grid=False, edgecolor=""C0""))
+plt.title(""Words per issue"")
+plt.xlabel(""Number of words"")
+plt.ylabel(""Number of issues"")
+plt.show()"|GitHub; building an Issues Tagger; Issues Tagger; labels; building GitHub Issues tagger
+"In a shocking finding, scientist discovered a herd of unicorns living in a
+remote, previously unexplored valley, in the Andes Mountains. Even more
+surprising to the researchers was the fact that the unicorns spoke perfect
+English.
+The researchers, from the University of California, Davis, and the University of
+Colorado, Boulder, were conducting a study on the Andean cloud forest, which is
+home to the rare species of cloud forest trees.
+The researchers were surprised to find that the unicorns were able to
+communicate with each other, and even with humans.
+The researchers were surprised to find that the unicorns were able
+Well, the first few sentences are quite different from the OpenAI example and amus‐
+ingly involve different universities being credited with the discovery! We can also see
+one of the main drawbacks with greedy search decoding: it tends to produce repeti‐
+tive output sequences, which is certainly undesirable in a news article. This is a com‐
+mon problem with greedy search algorithms, which can fail to give you the optimal
+solution; in the context of decoding, they can miss word sequences whose overall
+probability is higher just because high-probability words happen to be preceded by
+low-probability ones.
+Fortunately, we can do better—let’s examine a popular method known as <i>beam</i> <i>search</i>
+<i>decoding.</i>
+Although greedy search decoding is rarely used for text generation
+tasks that require diversity, it can be useful for producing short
+sequences like arithmetic where a deterministic and factually cor‐
+preferred.4
+rect output is For these tasks, you can condition GPT-2
+""5 + 8
+by providing a few line-separated examples in the format
+=> 13 \n 7 + 2 => 9 \n 1 + 0 =>""
+as the input prompt.
+<header><largefont><b>Beam</b></largefont> <largefont><b>Search</b></largefont> <largefont><b>Decoding</b></largefont></header>
+Instead of decoding the token with the highest probability at each step, beam search
+keeps track of the top-b most probable next tokens, where <i>b</i> is referred to as the num‐
+ber of <i>beams</i> or <i>partial</i> <i>hypotheses.</i> The next set of beams are chosen by considering
+all possible next-token extensions of the existing set and selecting the <i>b</i> most likely
+extensions. The process is repeated until we reach the maximum length or an EOS
+4 N.S.Keskaretal.,“CTRL:AConditionalTransformerLanguageModelforControllableGeneration”,(2019)."|beam search decoding; beams; decoding; metrics; partial hypotheses; text generation; timestep
+"<header><largefont><b>CHAPTER</b></largefont> <largefont><b>4</b></largefont></header>
+<header><largefont><b>Multilingual</b></largefont> <largefont><b>Named</b></largefont> <largefont><b>Entity</b></largefont> <largefont><b>Recognition</b></largefont></header>
+So far in this book we have applied transformers to solve NLP tasks on English cor‐
+pora—but what do you do when your documents are written in Greek, Swahili, or
+Klingon? One approach is to search the Hugging Face Hub for a suitable pretrained
+language model and fine-tune it on the task at hand. However, these pretrained mod‐
+els tend to exist only for “high-resource” languages like German, Russian, or Man‐
+darin, where plenty of webtext is available for pretraining. Another common
+challenge arises when your corpus is multilingual: maintaining multiple monolingual
+models in production will not be any fun for you or your engineering team.
+Fortunately, there is a class of multilingual transformers that come to the rescue. Like
+BERT, these models use masked language modeling as a pretraining objective, but
+they are trained jointly on texts in over one hundred languages. By pretraining on
+huge corpora across many languages, these multilingual transformers enable <i>zero-</i>
+<i>shot</i> <i>cross-lingual</i> <i>transfer.</i> This means that a model that is fine-tuned on one language
+can be applied to others without any further training! This also makes these models
+well suited for “code-switching,” where a speaker alternates between two or more lan‐
+guages or dialects in the context of a single conversation.
+In this chapter we will explore how a single transformer model called XLM-RoBERTa
+(introduced in Chapter 3)1 can be fine-tuned to perform named entity recognition
+(NER) across several languages. As we saw in Chapter 1, NER is a common NLP task
+that identifies entities like people, organizations, or locations in text. These entities
+can be used for various applications such as gaining insights from company docu‐
+ments, augmenting the quality of search engines, or simply building a structured
+database from a corpus.
+1 A.Conneauetal.,“UnsupervisedCross-LingualRepresentationLearningatScale”,(2019)."|multilingual named entity recognition; webtext; zero-shot cross-lingual transfer
+"<i>Figure</i> <i>11-14.</i> <i>Example</i> <i>of</i> <i>a</i> <i>visual</i> <i>question</i> <i>answering</i> <i>task</i> <i>from</i> <i>the</i> <i>VQA</i> <i>dataset</i> <i>(cour‐</i>
+<i>tesy</i> <i>of</i> <i>Yash</i> <i>Goyal)</i>
+Models such as LXMERT and VisualBERT use vision models like ResNets to extract
+features from the pictures and then use transformer encoders to combine them with
+the natural questions and predict an answer.17
+<b>LayoutLM</b>
+Analyzing scanned business documents like receipts, invoices, or reports is another
+area where extracting visual and layout information can be a useful way to recognize
+text fields of interest. Here the LayoutLM family of models are the current state of the
+art. They use an enhanced Transformer architecture that receives three modalities as
+input: text, image, and layout. Accordingly, as shown in Figure 11-15, there are
+embedding layers associated with each modality, a spatially aware self-attention
+mechanism, and a mix of image and text/image pretraining objectives to align the
+different modalities. By pretraining on millions of scanned documents, LayoutLM
+models are able to transfer to various downstream tasks in a manner similar to BERT
+for NLP.
+17 H.TanandM.Bansal,“LXMERT:LearningCross-ModalityEncoderRepresentationsfromTransformers”,
+(2019);L.H.Lietal.,“VisualBERT:ASimpleandPerformantBaselineforVisionandLanguage”,(2019)."|LayoutLM model; LXMERT model; LayoutLM; LXMERT; ResNet; VisualBERT; ResNet model; text; vision; VisualBERT model
+"Now that we have a reference point, let’s look at our first compression technique:
+knowledge distillation.
+The average latency values will differ depending on what type of
+hardware you are running on. For example, you can usually get
+better performance by running inference on a GPU since it enables
+batch processing. For the purposes of this chapter, what’s important
+is the relative difference in latencies between models. Once we have
+determined the best-performing model, we can then explore differ‐
+ent backends to reduce the absolute latency if needed.
+<header><largefont><b>Making</b></largefont> <largefont><b>Models</b></largefont> <largefont><b>Smaller</b></largefont> <largefont><b>via</b></largefont> <largefont><b>Knowledge</b></largefont> <largefont><b>Distillation</b></largefont></header>
+Knowledge distillation is a general-purpose method for training a smaller <i>student</i>
+model to mimic the behavior of a slower, larger, but better-performing <i>teacher.</i> Origi‐
+models,3
+nally introduced in 2006 in the context of ensemble it was later popularized
+in a famous 2015 paper that generalized the method to deep neural networks and
+applied it to image classification and automatic speech recognition.4
+Given the trend toward pretraining language models with ever-increasing parameter
+counts (the largest at the time of writing having over one trillion parameters),5 knowl‐
+edge distillation has also become a popular strategy to compress these huge models
+and make them more suitable for building practical applications.
+<header><largefont><b>Knowledge</b></largefont> <largefont><b>Distillation</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Fine-Tuning</b></largefont></header>
+So how is knowledge actually “distilled” or transferred from the teacher to the student
+during training? For supervised tasks like fine-tuning, the main idea is to augment
+the ground truth labels with a distribution of “soft probabilities” from the teacher
+which provide complementary information for the student to learn from. For exam‐
+ple, if our BERT-base classifier assigns high probabilities to multiple intents, then this
+could be a sign that these intents lie close to each other in the feature space. By train‐
+ing the student to mimic these probabilities, the goal is to distill some of this “dark
+knowledge”6 that the teacher has learned—that is, knowledge that is not available
+from the labels alone.
+3 C.Buciluăetal.,“ModelCompression,”Proceedingsofthe12thACMSIGKDDInternationalConferenceon
+<i>KnowledgeDiscoveryandDataMining(August2006):535–541,https://doi.org/10.1145/1150402.1150464.</i>
+4 G.Hinton,O.Vinyals,andJ.Dean,“DistillingtheKnowledgeinaNeuralNetwork”,(2015).
+5 W.Fedus,B.Zoph,andN.Shazeer,“SwitchTransformers:ScalingtoTrillionParameterModelswithSimple
+andEfficientSparsity”,(2021).
+6 GeoffHintoncoinedthisterminatalktorefertotheobservationthatsoftenedprobabilitiesrevealthehid‐
+denknowledgeoftheteacher."|BERT model; efficiency; creating performance benchmarks; ground truth; Hinton; knowledge distillation; performance; transformers
+"<i>Deployment</i>
+Finally, serving large language models also poses a significant challenge. In Chap‐
+ter 8 we looked at a few approaches, such as distillation, pruning, and quantiza‐
+tion, to help with these issues. However, this may not be enough if you are
+starting with a model that is hundreds of gigabytes in size. Hosted services such
+as the OpenAI API or Hugging Face’s Accelerated Inference API are designed to
+help companies that cannot or do not want to deal with these deployment
+challenges.
+This is by no means an exhaustive list, but it should give you an idea of the kinds of
+considerations and challenges that go hand in hand with scaling language models to
+ever larger sizes. While most of these efforts are centralized around a few institutions
+that have the resources and know-how to push the boundaries, there are currently
+two community-led projects that aim to produce and probe large language models in
+the open:
+<i>BigScience</i>
+This is a one-year-long research workshop that runs from 2021 to 2022 and is
+focused on large language models. The workshop aims to foster discussions and
+reflections around the research questions surrounding these models (capabilities,
+limitations, potential improvements, bias, ethics, environmental impact, role in
+the general AI/cognitive research landscape) as well as the challenges around cre‐
+ating and sharing such models and datasets for research purposes and among the
+research community. The collaborative tasks involve creating, sharing, and evalu‐
+ating a large multilingual dataset and a large language model. An unusually large
+compute budget was allocated for these collaborative tasks (several million GPU
+hours on several thousands GPUs). If successful, this workshop will run again in
+the future, focusing on involving an updated or different set of collaborative
+tasks. If you want to join the effort, you can find more information at the proj‐
+ect’s website.
+<i>EleutherAI</i>
+This is a decentralized collective of volunteer researchers, engineers, and devel‐
+opers focused on AI alignment, scaling, and open source AI research. One of its
+aims is to train and open-source a GPT-3-sized model, and the group has already
+released some impressive models like GPT-Neo and GPT-J, which is a 6-billion-
+parameter model and currently the best-performing publicly available trans‐
+former in terms of zero-shot performance. You can find more information at
+EleutherAI’s website.
+Now that we’ve explored how to scale transformers across compute, model size, and
+dataset size, let’s examine another active area of research: making self-attention more
+efficient."|BigScience; deployment; EleutherAI; GPT-J model; GPT-Neo model; Inference API; GPT-J; GPT-Neo; open source; OpenAI
+"<i>Figure</i> <i>5-2.</i> <i>Meena</i> <i>on</i> <i>the</i> <i>left</i> <i>telling</i> <i>a</i> <i>corny</i> <i>joke</i> <i>to</i> <i>a</i> <i>human</i> <i>on</i> <i>the</i> <i>right</i> <i>(courtesy</i> <i>of</i>
+<i>Daniel</i> <i>Adiwardana</i> <i>and</i> <i>Thang</i> <i>Luong)</i>
+In this chapter we’ll use GPT-2 to illustrate how text generation works for language
+models and explore how different decoding strategies impact the generated texts.
+<header><largefont><b>The</b></largefont> <largefont><b>Challenge</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Generating</b></largefont> <largefont><b>Coherent</b></largefont> <largefont><b>Text</b></largefont></header>
+So far in this book, we have focused on tackling NLP tasks via a combination of pre‐
+training and supervised fine-tuning. As we’ve seen, for task-specific heads like
+sequence or token classification, generating predictions is fairly straightforward; the
+model produces some logits and we either take the maximum value to get the predic‐
+ted class, or apply a softmax function to obtain the predicted probabilities per class.
+By contrast, converting the model’s probabilistic output to text requires a <i>decoding</i>
+<i>method,</i> which introduces a few challenges that are unique to text generation:
+• The decoding is done <i>iteratively</i> and thus involves significantly more compute
+than simply passing inputs once through the forward pass of a model.
+• The <i>quality</i> and <i>diversity</i> of the generated text depend on the choice of decoding
+method and associated hyperparameters.
+To understand how this decoding process works, let’s start by examining how GPT-2
+is pretrained and subsequently applied to generate text."|decoding method; logits; softmax; text generation
+"<b>import</b> <b>numpy</b> <b>as</b> <b>np</b>
+sum([np.log(0.5)] * 1024)
+-709.7827128933695
+This is a number we can easily deal with, and this approach still works for much
+smaller numbers. Since we only want to compare relative probabilities, we can do this
+directly with log probabilities.
+Let’s calculate and compare the log probabilities of the texts generated by greedy and
+beam search to see if beam search can improve the overall probability. Since Trans‐
+formers models return the unnormalized logits for the next token given the input
+tokens, we first need to normalize the logits to create a probability distribution over
+the whole vocabulary for each token in the sequence. We then need to select only the
+token probabilities that were present in the sequence. The following function imple‐
+ments these steps:
+<b>import</b> <b>torch.nn.functional</b> <b>as</b> <b>F</b>
+<b>def</b> log_probs_from_logits(logits, labels):
+logp = F.log_softmax(logits, dim=-1)
+logp_label = torch.gather(logp, 2, labels.unsqueeze(2)).squeeze(-1)
+<b>return</b> logp_label
+This gives us the log probability for a single token, so to get the total log probability
+of a sequence we just need to sum the log probabilities for each token:
+<b>def</b> sequence_logprob(model, labels, input_len=0):
+<b>with</b> torch.no_grad():
+output = model(labels)
+log_probs = log_probs_from_logits(
+output.logits[:, :-1, :], labels[:, 1:])
+seq_log_prob = torch.sum(log_probs[:, input_len:])
+<b>return</b> seq_log_prob.cpu().numpy()
+Note that we ignore the log probabilities of the input sequence because they are not
+generated by the model. We can also see that it is important to align the logits and the
+labels; since the model predicts the next token, we do not get a logit for the first label,
+and we don’t need the last logit because we don’t have a ground truth token for it.
+Let’s use these functions to first calculate the sequence log probability of the greedy
+decoder on the OpenAI prompt:
+logp = sequence_logprob(model, output_greedy, input_len=len(input_ids[0]))
+<b>print(tokenizer.decode(output_greedy[0]))</b>
+<b>print(f""\nlog-prob:</b> {logp:.2f}"")
+In a shocking finding, scientist discovered a herd of unicorns living in a
+remote, previously unexplored valley, in the Andes Mountains. Even more
+surprising to the researchers was the fact that the unicorns spoke perfect
+English."|beam search decoding; ground truth; text generation
+"<i>Figure</i> <i>8-1.</i> <i>How</i> <i>Roblox</i> <i>scaled</i> <i>BERT</i> <i>with</i> <i>knowledge</i> <i>distillation,</i> <i>dynamic</i> <i>padding,</i> <i>and</i>
+<i>weight</i> <i>quantization</i> <i>(photo</i> <i>courtesy</i> <i>of</i> <i>Roblox</i> <i>employees</i> <i>Quoc</i> <i>N.</i> <i>Le</i> <i>and</i> <i>Kip</i> <i>Kaehler)</i>
+To illustrate the benefits and trade-offs associated with each technique, we’ll use
+intent detection as a case study; this is an important component of text-based assis‐
+tants, where low latencies are critical for maintaining a conversation in real time.
+Along the way you’ll learn how to create custom trainers, perform efficient hyper‐
+parameter search, and gain a sense of what it takes to implement cutting-edge
+research with Transformers. Let’s dive in!
+<header><largefont><b>Intent</b></largefont> <largefont><b>Detection</b></largefont> <largefont><b>as</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Case</b></largefont> <largefont><b>Study</b></largefont></header>
+Let’s suppose that we’re trying to build a text-based assistant for our company’s call
+center so that customers can request their account balance or make bookings without
+needing to speak with a human agent. In order to understand the goals of a customer,
+our assistant will need to be able to classify a wide variety of natural language text
+into a set of predefined actions or <i>intents.</i> For example, a customer might send a mes‐
+sage like the following about an upcoming trip:
+Hey, I’d like to rent a vehicle from Nov 1st to Nov 15th in Paris and I need a 15 passen‐
+ger van
+and our intent classifier could automatically categorize this as a <i>Car</i> <i>Rental</i> intent,
+which then triggers an action and response. To be robust in a production environ‐
+ment, our classifier will also need to be able to handle <i>out-of-scope</i> queries, where a
+customer makes a query that doesn’t belong to any of the predefined intents and the
+system should yield a fallback response. For example, in the second case shown in
+Figure 8-2, a customer asks a question about sports (which is out of scope), and the
+text assistant mistakenly classifies it as one of the known in-scope intents and returns"|efficiency; intent detection; out-of-scope queries; transformers
+"<b>$</b> <b>cd</b> <b>../codeparrot-valid</b>
+<b>$</b> <b>cp</b> <b>../codeparrot/file-000000000183.json.gz</b> <b>.</b>
+<b>$</b> <b>mv</b> <b>./file-000000000183.json.gz</b> <b>./file-000000000183_validation.json.gz</b>
+<b>$</b> <b>git</b> <b>add</b> <b>.</b>
+<b>$</b> <b>git</b> <b>commit</b> <b>-m</b> <b>""Adding</b> <b>dataset</b> <b>files""</b>
+<b>$</b> <b>git</b> <b>push</b>
+The git add . step can take a couple of minutes since a hash of all the files is com‐
+puted. Uploading all the files will also take a little while. Since this will enable us to
+use streaming later in the chapter, however, this is not lost time, and this step will
+allow us to go significantly faster in the rest of our experiments. Note that we added a
+_validation suffix to the validation filename. This will enable us to load it later as a
+validation split.
+And that’s it! Our two splits of the dataset as well as the full dataset are now live on
+the Hugging Face Hub at the following URLs:
+• <i>https://huggingface.co/datasets/transformersbook/codeparrot</i>
+• <i>https://huggingface.co/datasets/transformersbook/codeparrot-train</i>
+• <i>https://huggingface.co/datasets/transformersbook/codeparrot-valid</i>
+It’s good practice to add README cards that explain how the data‐
+sets were created and provide as much useful information about
+them as possible. A well-documented dataset is more likely to be
+useful to other people, as well as your future self. You can read the
+Datasets README guide for a detailed description of how to
+write good dataset documentation. You can also use the web editor
+to modify your README cards directly on the Hub later.
+<header><largefont><b>Building</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Tokenizer</b></largefont></header>
+Now that we have gathered and loaded our large dataset, let’s see how we can effi‐
+ciently process the data to feed to our model. In the previous chapters we’ve used
+tokenizers that accompanied the models we used. This made sense since these models
+were pretrained using data passed through a specific preprocessing pipeline defined
+in the tokenizer. When using a pretrained model, it’s important to stick with the same
+preprocessing design choices selected for pretraining. Otherwise the model may be
+fed out-of-distribution patterns or unknown tokens.
+However, when we train a new model, using a tokenizer prepared for another dataset
+can be suboptimal. Here are a few examples of the kinds of problems we might run
+into when using an existing tokenizer:"|C4 dataset; CamemBERT tokenizer; corpus; dataset cards; datasets; C4; OSCAR; CamemBERT; T5; OSCAR corpus; README cards; T5 model; tokenizers; training transformers from scratch
+"<i>Figure</i> <i>6-1.</i> <i>Diagram</i> <i>of</i> <i>T5’s</i> <i>text-to-text</i> <i>framework</i> <i>(courtesy</i> <i>of</i> <i>Colin</i> <i>Raffel);</i> <i>besides</i>
+<i>translation</i> <i>and</i> <i>summarization,</i> <i>the</i> <i>CoLA</i> <i>(linguistic</i> <i>acceptability)</i> <i>and</i> <i>STSB</i> <i>(semantic</i>
+<i>similarity)</i> <i>tasks</i> <i>are</i> <i>shown</i>
+<header><largefont><b>BART</b></largefont></header>
+BART also uses an encoder-decoder architecture and is trained to reconstruct cor‐
+rupted inputs. It combines the pretraining schemes of BERT and GPT-2.2 We’ll use
+the facebook/bart-large-ccn checkpoint, which has been specifically fine-tuned on
+the CNN/DailyMail dataset:
+pipe = pipeline(""summarization"", model=""facebook/bart-large-cnn"")
+pipe_out = pipe(sample_text)
+summaries[""bart""] = ""\n"".join(sent_tokenize(pipe_out[0][""summary_text""]))
+<header><largefont><b>PEGASUS</b></largefont></header>
+Like BART, PEGASUS is an encoder-decoder transformer.3 As shown in Figure 6-2,
+its pretraining objective is to predict masked sentences in multisentence texts. The
+authors argue that the closer the pretraining objective is to the downstream task, the
+more effective it is. With the aim of finding a pretraining objective that is closer to
+summarization than general language modeling, they automatically identified, in a
+very large corpus, sentences containing most of the content of their surrounding
+paragraphs (using summarization evaluation metrics as a heuristic for content
+overlap) and pretrained the PEGASUS model to reconstruct these sentences, thereby
+obtaining a state-of-the-art model for text summarization.
+2 M.Lewisetal.,“BART:DenoisingSequence-to-SequencePre-trainingforNaturalLanguageGeneration,
+Translation,andComprehension”,(2019).
+3 J.Zhangetal.,“PEGASUS:Pre-TrainingwithExtractedGap-SentencesforAbstractiveSummarization”,
+(2019)."|BART model; PEGASUS; BART; PEGASUS model; summarization; text summarization pipelines
+"<i>Figure</i> <i>11-16.</i> <i>Generation</i> <i>examples</i> <i>with</i> <i>DALL·E</i> <i>(courtesy</i> <i>of</i> <i>Aditya</i> <i>Ramesh)</i>
+<b>CLIP</b>
+CLIP,19
+Finally, let’s have a look at which also combines text and vision but is designed
+for supervised tasks. Its creators constructed a dataset with 400 million image/caption
+pairs and used contrastive learning to pretrain the model. The CLIP architecture con‐
+sists of a text and an image encoder (both transformers) that create embeddings of
+the captions and images. A batch of images with captions is sampled, and the contras‐
+tive objective is to maximize the similarity of the embeddings (as measured by the dot
+product) of the corresponding pair while minimizing the similarity of the rest, as
+illustrated in Figure 11-17.
+In order to use the pretrained model for classification the possible classes are embed‐
+ded with the text encoder, similar to how we used the zero-shot pipeline. Then the
+embeddings of all the classes are compared to the image embedding that we want to
+classify, and the class with the highest similarity is chosen.
+19 A.Radfordetal.,“LearningTransferableVisualModelsfromNaturalLanguageSupervision”,(2021)."|CLIP model; dot product; CLIP; text; vision
+"<i>Figure</i> <i>6-2.</i> <i>Diagram</i> <i>of</i> <i>PEGASUS</i> <i>architecture</i> <i>(courtesy</i> <i>of</i> <i>Jingqing</i> <i>Zhang</i> <i>et</i> <i>al.)</i>
+This model has a special token for newlines, which is why we don’t need the
+sent_tokenize()
+function:
+pipe = pipeline(""summarization"", model=""google/pegasus-cnn_dailymail"")
+pipe_out = pipe(sample_text)
+summaries[""pegasus""] = pipe_out[0][""summary_text""].replace("" .<n>"", "".\n"")
+<header><largefont><b>Comparing</b></largefont> <largefont><b>Different</b></largefont> <largefont><b>Summaries</b></largefont></header>
+Now that we have generated summaries with four different models, let’s compare the
+results. Keep in mind that one model has not been trained on the dataset at all
+(GPT-2), one model has been fine-tuned on this task among others (T5), and two
+models have exclusively been fine-tuned on this task (BART and PEGASUS). Let’s
+have a look at the summaries these models have generated:
+<b>print(""GROUND</b> TRUTH"")
+<b>print(dataset[""train""][1][""highlights""])</b>
+<b>print("""")</b>
+<b>for</b> model_name <b>in</b> summaries:
+<b>print(model_name.upper())</b>
+<b>print(summaries[model_name])</b>
+<b>print("""")</b>
+GROUND TRUTH
+Usain Bolt wins third gold of world championship .
+Anchors Jamaica to 4x100m relay victory .
+Eighth gold at the championships for Bolt .
+Jamaica double up in women's 4x100m relay .
+BASELINE"|GPT-2 model; sent_tokenize() function; summarization; text summarization pipelines
+"<b>Epoch</b> <b>TrainingLoss</b> <b>ValidationLoss</b> <b>Accuracy</b>
+1 0.9031 0.574540 0.736452
+2 0.4481 0.285621 0.874839
+3 0.2528 0.179766 0.918710
+4 0.1760 0.139828 0.929355
+5 0.1416 0.121053 0.934839
+6 0.1243 0.111640 0.934839
+7 0.1133 0.106174 0.937742
+8 0.1075 0.103526 0.938710
+9 0.1039 0.101432 0.938065
+10 0.1018 0.100493 0.939355
+Remarkably, we’ve been able to train the student to match the accuracy of the teacher,
+despite it having almost half the number of parameters! Let’s push the model to the
+Hub for future use:
+distil_trainer.push_to_hub(""Training complete"")
+<header><largefont><b>Benchmarking</b></largefont> <largefont><b>Our</b></largefont> <largefont><b>Distilled</b></largefont> <largefont><b>Model</b></largefont></header>
+Now that we have an accurate student, let’s create a pipeline and redo our benchmark
+to see how we perform on the test set:
+distilled_ckpt = ""transformersbook/distilbert-base-uncased-distilled-clinc""
+pipe = pipeline(""text-classification"", model=distilled_ckpt)
+optim_type = ""Distillation""
+pb = PerformanceBenchmark(pipe, clinc[""test""], optim_type=optim_type)
+perf_metrics.update(pb.run_benchmark())
+Model size (MB) - 255.89
+Average latency (ms) - 25.96 +\- 1.63
+Accuracy on test set - 0.868
+plot_metrics()
+To put these results in context, let’s also visualize them with our
+function:
+plot_metrics(perf_metrics, optim_type)"|efficiency; benchmarking the model; plot_metrics() function; transformers
+"samples_per_step = accelerator.state.num_processes * args.train_batch_size
+<i>#</i> <i>Logging</i>
+logger, tb_writer, run_name = setup_logging(project_name.split(""/"")[1])
+logger.info(accelerator.state)
+<i>#</i> <i>Load</i> <i>model</i> <i>and</i> <i>tokenizer</i>
+<b>if</b> accelerator.is_main_process:
+hf_repo = Repository(""./"", clone_from=project_name, revision=run_name)
+model = AutoModelForCausalLM.from_pretrained(""./"", gradient_checkpointing=True)
+tokenizer = AutoTokenizer.from_pretrained(""./"")
+<i>#</i> <i>Load</i> <i>dataset</i> <i>and</i> <i>dataloader</i>
+train_dataloader, eval_dataloader = create_dataloaders(dataset_name)
+<i>#</i> <i>Prepare</i> <i>the</i> <i>optimizer</i> <i>and</i> <i>learning</i> <i>rate</i> <i>scheduler</i>
+optimizer = AdamW(get_grouped_params(model), lr=args.learning_rate)
+lr_scheduler = get_scheduler(name=args.lr_scheduler_type, optimizer=optimizer,
+num_warmup_steps=args.num_warmup_steps,
+num_training_steps=args.max_train_steps,)
+<b>def</b> get_lr():
+<b>return</b> optimizer.param_groups[0]['lr']
+<i>#</i> <i>Prepare</i> <i>everything</i> <i>with</i> <i>our</i> <i>`accelerator`</i> <i>(order</i> <i>of</i> <i>args</i> <i>is</i> <i>not</i> <i>important)</i>
+model, optimizer, train_dataloader, eval_dataloader = accelerator.prepare(
+model, optimizer, train_dataloader, eval_dataloader)
+<i>#</i> <i>Train</i> <i>model</i>
+model.train()
+completed_steps = 0
+<b>for</b> step, batch <b>in</b> enumerate(train_dataloader, start=1):
+loss = model(batch, labels=batch).loss
+log_metrics(step, {'lr': get_lr(), 'samples': step*samples_per_step,
+'steps': completed_steps, 'loss/train': loss.item()})
+loss = loss / args.gradient_accumulation_steps
+accelerator.backward(loss)
+<b>if</b> step % args.gradient_accumulation_steps == 0:
+optimizer.step()
+lr_scheduler.step()
+optimizer.zero_grad()
+completed_steps += 1
+<b>if</b> step % args.save_checkpoint_steps == 0:
+logger.info('Evaluating and saving model checkpoint')
+eval_loss, perplexity = evaluate()
+log_metrics(step, {'loss/eval': eval_loss, 'perplexity': perplexity})
+accelerator.wait_for_everyone()
+unwrapped_model = accelerator.unwrap_model(model)
+<b>if</b> accelerator.is_main_process:
+unwrapped_model.save_pretrained(""./"")
+hf_repo.push_to_hub(commit_message=f'step {step}')
+model.train()
+<b>if</b> completed_steps >= args.max_train_steps:"|training loop; training transformers from scratch; defining training loop
+"When using pretrained models, it is <i>really</i> important to make sure
+that you use the same tokenizer that the model was trained with.
+From the model’s perspective, switching the tokenizer is like shuf‐
+fling the vocabulary. If everyone around you started swapping
+random words like “house” for “cat,” you’d have a hard time under‐
+standing what was going on too!
+<header><largefont><b>Tokenizing</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Whole</b></largefont> <largefont><b>Dataset</b></largefont></header>
+map() DatasetDict
+To tokenize the whole corpus, we’ll use the method of our object.
+We’ll encounter this method many times throughout this book, as it provides a con‐
+venient way to apply a processing function to each element in a dataset. As we’ll soon
+map()
+see, the method can also be used to create new rows and columns.
+To get started, the first thing we need is a processing function to tokenize our exam‐
+ples with:
+<b>def</b> tokenize(batch):
+<b>return</b> tokenizer(batch[""text""], padding=True, truncation=True)
+This function applies the tokenizer to a batch of examples; padding=True will pad the
+truncation=True
+examples with zeros to the size of the longest one in a batch, and
+will truncate the examples to the model’s maximum context size. To see tokenize()
+in action, let’s pass a batch of two examples from the training set:
+<b>print(tokenize(emotions[""train""][:2]))</b>
+{'input_ids': [[101, 1045, 2134, 2102, 2514, 26608, 102, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0], [101, 1045, 2064, 2175, 2013, 3110, 2061, 20625, 2000,
+2061, 9636, 17772, 2074, 2013, 2108, 2105, 2619, 2040, 14977, 1998, 2003, 8300,
+102]], 'attention_mask': [[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+1, 1]]}
+Here we can see the result of padding: the first element of input_ids is shorter than
+the second, so zeros have been added to that element to make them the same length.
+These zeros have a corresponding [PAD] token in the vocabulary, and the set of spe‐
+cial tokens also includes the [CLS] and [SEP] tokens that we encountered earlier:
+<b>SpecialToken</b> [PAD] [UNK] [CLS] [SEP] [MASK]
+<b>SpecialTokenID</b> 0 100 101 102 103
+Also note that in addition to returning the encoded tweets as input_ids , the token‐
+attention_mask
+izer returns a list of arrays. This is because we do not want the
+model to get confused by the additional padding tokens: the attention mask allows
+the model to ignore the padded parts of the input. Figure 2-3 provides a visual
+explanation of how the input IDs and attention masks are padded."|AutoTokenizer; special token ID; processing data with the map() function; datasets; map() method; [SEP] token; text classification; tokenizing whole datasets; tokenization
+"file and uses it as a substitute for RAM, basically using the hard drive as a direct
+extension of the RAM memory.
+Up to now we have mostly used Datasets to access remote datasets on the Hugging
+Face Hub. Here, we will directly load our 50 GB of compressed JSON files that we
+codeparrot
+have stored locally in the repository. Since the JSON files are com‐
+pressed, we first need to decompress them, which Datasets takes care of for us. Be
+careful, because this requires about 180 GB of free disk space! However, it will use
+delete_extracted=True
+almost no RAM. By setting in the dataset’s downloading
+configuration, we can make sure that we delete all the files we don’t need anymore as
+soon as possible:
+<b>from</b> <b>datasets</b> <b>import</b> load_dataset, DownloadConfig
+download_config = DownloadConfig(delete_extracted=True)
+dataset = load_dataset(""./codeparrot"", split=""train"",
+download_config=download_config)
+Under the hood, Datasets extracted and read all the compressed JSON files by
+loading them in a single optimized cache file. Let’s see how big this dataset is once
+loaded:
+<b>import</b> <b>psutil</b>
+<b>print(f""Number</b> of python files code in dataset : {len(dataset)}"")
+ds_size = sum(os.stat(f[""filename""]).st_size <b>for</b> f <b>in</b> dataset.cache_files)
+<i>#</i> <i>os.stat.st_size</i> <i>is</i> <i>expressed</i> <i>in</i> <i>bytes,</i> <i>so</i> <i>we</i> <i>convert</i> <i>to</i> <i>GB</i>
+<b>print(f""Dataset</b> size (cache file) : {ds_size / 2**30:.2f} GB"")
+<i>#</i> <i>Process.memory_info</i> <i>is</i> <i>expressed</i> <i>in</i> <i>bytes,</i> <i>so</i> <i>we</i> <i>convert</i> <i>to</i> <i>MB</i>
+<b>print(f""RAM</b> used: {psutil.Process(os.getpid()).memory_info().rss >> 20} MB"")
+Number of python files code in dataset : 18695559
+Dataset size (cache file) : 183.68 GB
+RAM memory used: 4924 MB
+As we can see, the dataset is much larger than our typical RAM memory, but we can
+still load and access it, and we’re actually using a very limited amount of memory.
+You may wonder if this will make our training I/O-bound. In practice, NLP data is
+usually very lightweight to load in comparison to the model processing computa‐
+tions, so this is rarely an issue. In addition, the zero-copy/zero-overhead format uses
+Apache Arrow under the hood, which makes it very efficient to access any element.
+Depending on the speed of your hard drive and the batch size, iterating over the
+dataset can typically be done at a rate of a few tenths of a GB/s to several GB/s. This is
+great, but what if you can’t free enough disk space to store the full dataset locally?
+Everybody knows the feeling of helplessness when you get a full disk warning and
+need to painfully try to reclaim a few GB by looking for hidden files to delete. Luckily,
+you don’t need to store the full dataset locally if you use the streaming feature of
+Datasets!"|Apache Arrow; datasets; training transformers from scratch
+"<i>Figure</i> <i>8-5.</i> <i>Plot</i> <i>of</i> <i>the</i> <i>Rosenbrock</i> <i>function</i> <i>of</i> <i>two</i> <i>variables</i>
+objective()
+In Optuna, we can find the minimum of <i>f</i> <i>x,</i> <i>y</i> by defining an function
+that returns the value of <i>f</i> <i>x,</i> <i>y</i> :
+<b>def</b> objective(trial):
+x = trial.suggest_float(""x"", -2, 2)
+y = trial.suggest_float(""y"", -2, 2)
+<b>return</b> (1 - x) ** 2 + 100 * (y - x ** 2) ** 2
+The trial.suggest_float object specifies the parameter ranges to sample uniformly
+from; Optuna also provides suggest_int and suggest_categorical for integer and
+categorical parameters, respectively. Optuna collects multiple trials as a <i>study,</i> so to
+create one we just pass the objective() function to study.optimize() as follows:
+<b>import</b> <b>optuna</b>
+study = optuna.create_study()
+study.optimize(objective, n_trials=1000)
+Once the study is completed, we can then find the best parameters as follows:
+study.best_params
+{'x': 1.003024865971437, 'y': 1.00315167589307}
+We see that with one thousand trials, Optuna has managed to find values for <i>x</i> and <i>y</i>
+that are reasonably close to the global minimum. To use Optuna in Transformers,
+we use similar logic by first defining the hyperparameter space that we wish to opti‐
+mize over. In addition to <i>α</i> and <i>T,</i> we’ll include the number of training epochs as
+follows:"|efficiency; objective() function; transformers
+"There is a separate score in ROUGE to measure the longest common substring (LCS),
+called ROUGE-L. The LCS can be calculated for any pair of strings. For example, the
+LCS for “abab” and “abc” would be “ab”, and its the length would be 2. If we want to
+compare this value between two samples we need to somehow normalize it because
+otherwise a longer text would be at an advantage. To achieve this, the inventor of
+ROUGE came up with an <i>F-score-like</i> scheme where the LCS is normalized with the
+length of the reference and generated text, then the two normalized scores are mixed
+together:
+<i>LCS</i> <i>X,Y</i>
+<i>R</i> =
+<i>LCS</i>
+<i>m</i>
+<i>LCS</i> <i>X,Y</i>
+<i>P</i> =
+<i>LCS</i> <i>n</i>
+2
+1 + <i>β</i> <i>R</i> <i>P</i>
+<i>LCS</i> <i>LCS</i>
+<i>F</i> = ,where <i>β</i> = <i>P</i> /R
+<i>LCS</i> <i>R</i> + <i>βP</i> <i>LCS</i> <i>LCS</i>
+<i>LCS</i> <i>LCS</i>
+That way the LCS score is properly normalized and can be compared across samples.
+In the Datasets implementation, two variations of ROUGE are calculated: one cal‐
+culates the score per sentence and averages it for the summaries (ROUGE-L), and the
+other calculates it directly over the whole summary (ROUGE-Lsum).
+We can load the metric as follows:
+rouge_metric = load_metric(""rouge"")
+We already generated a set of summaries with GPT-2 and the other models, and now
+we have a metric to compare the summaries systematically. Let’s apply the ROUGE
+score to all the summaries generated by the models:
+reference = dataset[""train""][1][""highlights""]
+records = []
+rouge_names = [""rouge1"", ""rouge2"", ""rougeL"", ""rougeLsum""]
+<b>for</b> model_name <b>in</b> summaries:
+rouge_metric.add(prediction=summaries[model_name], reference=reference)
+score = rouge_metric.compute()
+rouge_dict = dict((rn, score[rn].mid.fmeasure) <b>for</b> rn <b>in</b> rouge_names)
+records.append(rouge_dict)
+pd.DataFrame.from_records(records, index=summaries.keys())
+<b>rouge1</b> <b>rouge2</b> <b>rougeL</b> <b>rougeLsum</b>
+0.303571 0.090909 0.214286 0.232143
+<b>baseline</b>
+<b>gpt2</b> 0.187500 0.000000 0.125000 0.187500"|loading metrics from the Hub; LCS (longest common substring); quality; summarization
+"<b>break</b>
+<i>#</i> <i>Evaluate</i> <i>and</i> <i>save</i> <i>the</i> <i>last</i> <i>checkpoint</i>
+logger.info('Evaluating and saving model after training')
+eval_loss, perplexity = evaluate()
+log_metrics(step, {'loss/eval': eval_loss, 'perplexity': perplexity})
+accelerator.wait_for_everyone()
+unwrapped_model = accelerator.unwrap_model(model)
+<b>if</b> accelerator.is_main_process:
+unwrapped_model.save_pretrained(""./"")
+hf_repo.push_to_hub(commit_message=f'final model')
+This is quite a code block, but remember that this is all the code you need to train a
+fancy, large language model on a distributed infrastructure. Let’s deconstruct the
+script a little bit and highlight the most important parts:
+<i>Model</i> <i>saving</i>
+We run the script from within the model repository, and at the start we check out
+run_name
+a new branch named after the we get from Weights & Biases. Later, we
+commit the model at each checkpoint and push it to the Hub. With that setup
+each experiment is on a new branch and each commit represents a model check‐
+point. Note that we need to call wait_for_everyone() and unwrap_model() to
+make sure the model is properly synchronized when we store it.
+<i>Optimization</i>
+AdamW
+For the model optimization we use with a cosine learning rate schedule
+after a linear warming-up period. For the hyperparameters, we closely follow the
+parameters described in the GPT-3 paper for similar-sized models.8
+<i>Evaluation</i>
+We evaluate the model on the evaluation set every time we save—that is, every
+save_checkpoint_steps and after training. Along with the validation loss we
+also log the validation perplexity.
+<i>Gradient</i> <i>accumulation</i> <i>and</i> <i>checkpointing</i>
+The required batch sizes don’t fit in a GPU’s memory, even when we run on the
+latest GPUs. Therefore, we implement gradient accumulation, which gathers gra‐
+dients over several backward passes and optimizes once enough gradients are
+Trainer
+accumulated. In Chapter 6, we saw how we can do this with the . For the
+large model, even a single batch does not quite fit on a single GPU. Using a
+method called <i>gradient</i> <i>checkpointing</i> we can trade some of the memory footprint
+8 T.Brownetal.,“LanguageModelsAreFew-ShotLearners”,(2020)."|gradient accumulation; gradient checkpointing; training loop; training transformers from scratch; defining training loop
+"<b>text</b> <b>label</b> <b>label_name</b>
+<b>2</b> imgrabbingaminutetopostifeelgreedywrong 3 anger
+iameverfeelingnostalgicaboutthefireplac... 2 love
+<b>3</b>
+iamfeelinggrouchy 3 anger
+<b>4</b>
+Before diving into building a classifier, let’s take a closer look at the dataset. As Andrej
+Karpathy notes in his famous blog post “A Recipe for Training Neural Networks”,
+becoming “one with the data” is an essential step for training great models!
+<header><largefont><b>Looking</b></largefont> <largefont><b>at</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Class</b></largefont> <largefont><b>Distribution</b></largefont></header>
+Whenever you are working on text classification problems, it is a good idea to exam‐
+ine the distribution of examples across the classes. A dataset with a skewed class dis‐
+tribution might require a different treatment in terms of the training loss and
+evaluation metrics than a balanced one.
+With Pandas and Matplotlib, we can quickly visualize the class distribution as follows:
+<b>import</b> <b>matplotlib.pyplot</b> <b>as</b> <b>plt</b>
+df[""label_name""].value_counts(ascending=True).plot.barh()
+plt.title(""Frequency of Classes"")
+plt.show()
+joy sadness
+In this case, we can see that the dataset is heavily imbalanced; the and
+love surprise
+classes appear frequently, whereas and are about 5–10 times rarer.
+There are several ways to deal with imbalanced data, including:"|class distribution; Karpathy; text classification
+"This concludes our analysis of the encoder and how we can combine it with a task-
+specific head. Let’s now cast our attention (pun intended!) to the decoder.
+<header><largefont><b>The</b></largefont> <largefont><b>Decoder</b></largefont></header>
+As illustrated in Figure 3-7, the main difference between the decoder and encoder is
+that the decoder has <i>two</i> attention sublayers:
+<i>Masked</i> <i>multi-head</i> <i>self-attention</i> <i>layer</i>
+Ensures that the tokens we generate at each timestep are only based on the past
+outputs and the current token being predicted. Without this, the decoder could
+cheat during training by simply copying the target translations; masking the
+inputs ensures the task is not trivial.
+<i>Encoder-decoder</i> <i>attention</i> <i>layer</i>
+Performs multi-head attention over the output key and value vectors of the
+encoder stack, with the intermediate representations of the decoder acting as the
+queries.6 This way the encoder-decoder attention layer learns how to relate
+tokens from two different sequences, such as two different languages. The
+decoder has access to the encoder keys and values in each block.
+Let’s take a look at the modifications we need to make to include masking in our self-
+attention layer, and leave the implementation of the encoder-decoder attention layer
+as a homework problem. The trick with masked self-attention is to introduce a <i>mask</i>
+<i>matrix</i> with ones on the lower diagonal and zeros above:
+seq_len = inputs.input_ids.size(-1)
+mask = torch.tril(torch.ones(seq_len, seq_len)).unsqueeze(0)
+mask[0]
+tensor([[1., 0., 0., 0., 0.],
+[1., 1., 0., 0., 0.],
+[1., 1., 1., 0., 0.],
+[1., 1., 1., 1., 0.],
+[1., 1., 1., 1., 1.]])
+tril()
+Here we’ve used PyTorch’s function to create the lower triangular matrix.
+Once we have this mask matrix, we can prevent each attention head from peeking at
+Tensor.masked_fill()
+future tokens by using to replace all the zeros with negative
+infinity:
+scores.masked_fill(mask == 0, -float(""inf""))
+6 Notethatunliketheself-attentionlayer,thekeyandqueryvectorsinencoder-decoderattentioncanhavedif‐
+ferentlengths.Thisisbecausetheencoderanddecoderinputswillgenerallyinvolvesequencesofdiffering
+length.Asaresult,thematrixofattentionscoresinthislayerisrectangular,notsquare."|encoder-decoder; masked multi-head self-; decoder; encoder-decoder attention; mask matrix; masked multi-head self-attention; tril() function; sublayer; Tensor.masked_fill() function; filling elements with a mask; timestep; torch.tril() function; Transformer architecture
+"<header><largefont><b>Using</b></largefont> <largefont><b>Embeddings</b></largefont> <largefont><b>as</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Lookup</b></largefont> <largefont><b>Table</b></largefont></header>
+Large language models such as GPT-3 have been shown to be excellent at solving
+tasks with limited data. The reason is that these models learn useful representations
+of text that encode information across many dimensions, such as sentiment, topic,
+text structure, and more. For this reason, the embeddings of large language models
+can be used to develop a semantic search engine, find similar documents or com‐
+ments, or even classify text.
+In this section we’ll create a text classifier that’s modeled after the OpenAI API classi‐
+fication endpoint. The idea follows a three-step process:
+1. Use the language model to embed all labeled texts.
+2. Perform a nearest neighbor search over the stored embeddings.
+3. Aggregate the labels of the nearest neighbors to get a prediction.
+The process is illustrated in Figure 9-3, which shows how labeled data is embedded
+with a model and stored with the labels. When a new text needs to be classified it is
+embedded as well, and the label is given based on the labels of the nearest neighbors.
+It is important to calibrate the number of neighbors to be searched for, as too few
+might be noisy and too many might mix in neighboring groups.
+<i>Figure</i> <i>9-3.</i> <i>An</i> <i>illustration</i> <i>of</i> <i>nearest</i> <i>neighbor</i> <i>embedding</i> <i>lookup</i>
+The beauty of this approach is that no model fine-tuning is necessary to leverage the
+few available labeled data points. Instead, the main decision to make this approach
+work is to select an appropriate model that is ideally pretrained on a similar domain
+to your dataset."|using as a lookup table; labels; working with a few; lookup table
+"<b>from</b> <b>transformers</b> <b>import</b> pipeline
+classifier = pipeline(""text-classification"")
+The first time you run this code you’ll see a few progress bars appear because the
+pipeline automatically downloads the model weights from the Hugging Face Hub.
+The second time you instantiate the pipeline, the library will notice that you’ve
+already downloaded the weights and will use the cached version instead. By default,
+text-classification
+the pipeline uses a model that’s designed for sentiment analy‐
+sis, but it also supports multiclass and multilabel classification.
+Now that we have our pipeline, let’s generate some predictions! Each pipeline takes a
+string of text (or a list of strings) as input and returns a list of predictions. Each pre‐
+diction is a Python dictionary, so we can use Pandas to display them nicely as a
+DataFrame :
+<b>import</b> <b>pandas</b> <b>as</b> <b>pd</b>
+outputs = classifier(text)
+pd.DataFrame(outputs)
+<b>label</b> <b>score</b>
+<b>0</b> NEGATIVE 0.901546
+In this case the model is very confident that the text has a negative sentiment, which
+makes sense given that we’re dealing with a complaint from an angry customer! Note
+POSITIVE NEG
+that for sentiment analysis tasks the pipeline only returns one of the or
+ATIVE labels, since the other can be inferred by computing 1-score .
+Let’s now take a look at another common task, identifying named entities in text.
+<header><largefont><b>Named</b></largefont> <largefont><b>Entity</b></largefont> <largefont><b>Recognition</b></largefont></header>
+Predicting the sentiment of customer feedback is a good first step, but you often want
+to know if the feedback was about a particular item or service. In NLP, real-world
+objects like products, places, and people are called <i>named</i> <i>entities,</i> and extracting
+them from text is called <i>named</i> <i>entity</i> <i>recognition</i> (NER). We can apply NER by load‐
+ing the corresponding pipeline and feeding our customer review to it:
+ner_tagger = pipeline(""ner"", aggregation_strategy=""simple"")
+outputs = ner_tagger(text)
+pd.DataFrame(outputs)
+<b>entity_group</b> <b>score</b> <b>word</b> <b>start</b> <b>end</b>
+<b>0</b> ORG 0.879010 Amazon 5 11
+<b>1</b> MISC 0.990859 OptimusPrime 36 49"|named entities; pipeline() function; named entity recognition; Transformers library
+"To load a ViT model, we just need to specify the image-classification pipeline,
+and then we feed in the image to extract the predicted classes:
+<b>import</b> <b>pandas</b> <b>as</b> <b>pd</b>
+<b>from</b> <b>transformers</b> <b>import</b> pipeline
+image_classifier = pipeline(""image-classification"")
+preds = image_classifier(image)
+preds_df = pd.DataFrame(preds)
+preds_df
+<b>score</b> <b>label</b>
+<b>0</b> 0.643599 Eskimodog,husky
+<b>1</b> 0.207407 Siberianhusky
+<b>2</b> 0.060160 dingo,warrigal,warragal,Canisdingo
+0.035359 Norwegianelkhound,elkhound
+<b>3</b>
+0.012927 malamute,malemute,Alaskanmalamute
+<b>4</b>
+Great, the predicted class seems to match the image!
+A natural extension of image models is video models. In addition to the spatial
+dimensions, videos come with a temporal dimension. This makes the task more chal‐
+lenging as the volume of data gets much bigger and one needs to deal with the extra
+dimension. Models such as TimeSformer introduce a spatial and temporal attention
+mechanism to account for both.12 In the future, such models can help build tools for a
+wide range of tasks such as classification or annotation of video sequences.
+12 G.Bertasius,H.Wang,andL.Torresani,“IsSpace-TimeAttentionAllYouNeedforVideoUnderstanding?”,
+(2021)."|text; TimeSformer model; vision
+"<b>rouge1</b> <b>rouge2</b> <b>rougeL</b> <b>rougeLsum</b>
+<b>t5</b> 0.486486 0.222222 0.378378 0.486486
+0.582278 0.207792 0.455696 0.506329
+<b>bart</b>
+0.866667 0.655172 0.800000 0.833333
+<b>pegasus</b>
+The ROUGE metric in the Datasets library also calculates confi‐
+dence intervals (by default, the 5th and 95th percentiles). The aver‐
+age value is stored in the attribute mid and the interval can be
+retrieved with low and high .
+These results are obviously not very reliable as we only looked at a single sample, but
+we can compare the quality of the summary for that one example. The table confirms
+our observation that of the models we considered, GPT-2 performs worst. This is not
+surprising since it is the only model of the group that was not explicitly trained to
+summarize. It is striking, however, that the simple first-three-sentence baseline
+doesn’t fare too poorly compared to the transformer models that have on the order of
+a billion parameters! PEGASUS and BART are the best models overall (higher
+ROUGE scores are better), but T5 is slightly better on ROUGE-1 and the LCS scores.
+These results place T5 and PEGASUS as the best models, but again these results
+should be treated with caution as we only evaluated the models on a single example.
+Looking at the results in the PEGASUS paper, we would expect the PEGASUS to out‐
+perform T5 on the CNN/DailyMail dataset.
+Let’s see if we can reproduce those results with PEGASUS.
+<header><largefont><b>Evaluating</b></largefont> <largefont><b>PEGASUS</b></largefont> <largefont><b>on</b></largefont> <largefont><b>the</b></largefont> <largefont><b>CNN/DailyMail</b></largefont> <largefont><b>Dataset</b></largefont></header>
+We now have all the pieces in place to evaluate the model properly: we have a dataset
+with a test set from CNN/DailyMail, we have a metric with ROUGE, and we have a
+summarization model. We just need to put the pieces together. Let’s first evaluate the
+performance of the three-sentence baseline:
+<b>def</b> evaluate_summaries_baseline(dataset, metric,
+column_text=""article"",
+column_summary=""highlights""):
+summaries = [three_sentence_summary(text) <b>for</b> text <b>in</b> dataset[column_text]]
+metric.add_batch(predictions=summaries,
+references=dataset[column_summary])
+score = metric.compute()
+<b>return</b> score
+Now we’ll apply the function to a subset of the data. Since the test fraction of the
+CNN/DailyMail dataset consists of roughly 10,000 samples, generating summaries for
+all these articles takes a lot of time. Recall from Chapter 5 that every generated token"|AutoTokenizer; CNN/DailyMail; PEGASUS; evaluating on CNN/DailyMail dataset; quality; summarization
+"plt.legend([""Zero-shot from de"", ""Fine-tuned on fr""], loc=""lower right"")
+plt.ylim((0, 1))
+plt.xlabel(""Number of Training Samples"")
+plt.ylabel(""F1 Score"")
+plt.show()
+From the plot we can see that zero-shot transfer remains competitive until about 750
+training examples, after which fine-tuning on French reaches a similar level of perfor‐
+mance to what we obtained when fine-tuning on German. Nevertheless, this result is
+not to be sniffed at! In our experience, getting domain experts to label even hundreds
+of documents can be costly, especially for NER, where the labeling process is fine-
+grained and time-consuming.
+There is one final technique we can try to evaluate multilingual learning: fine-tuning
+on multiple languages at once! Let’s see how we can do this.
+<header><largefont><b>Fine-Tuning</b></largefont> <largefont><b>on</b></largefont> <largefont><b>Multiple</b></largefont> <largefont><b>Languages</b></largefont> <largefont><b>at</b></largefont> <largefont><b>Once</b></largefont></header>
+So far we’ve seen that zero-shot cross-lingual transfer from German to French or Ital‐
+ian produces a drop of around 15 points in performance. One way to mitigate this is
+by fine-tuning on multiple languages at the same time. To see what type of gains we
+can get, let’s first use the concatenate_datasets() function from Datasets to con‐
+catenate the German and French corpora together:
+<b>from</b> <b>datasets</b> <b>import</b> concatenate_datasets
+<b>def</b> concatenate_splits(corpora):
+multi_corpus = DatasetDict()
+<b>for</b> split <b>in</b> corpora[0].keys():
+multi_corpus[split] = concatenate_datasets("|concatenate_datasets() function; cross-lingual transfer; fine-tuning multiple languages simultaneously; multiple languages simultaneously; multilingual named entity recognition; fine-tuning on multiple languages simultaneously
+"<b>if</b> k <b>in</b> tokenizer.model_input_names}
+<i>#</i> <i>Extract</i> <i>last</i> <i>hidden</i> <i>states</i>
+<b>with</b> torch.no_grad():
+last_hidden_state = model(**inputs).last_hidden_state
+<i>#</i> <i>Return</i> <i>vector</i> <i>for</i> <i>[CLS]</i> <i>token</i>
+<b>return</b> {""hidden_state"": last_hidden_state[:,0].cpu().numpy()}
+The only difference between this function and our previous logic is the final step
+where we place the final hidden state back on the CPU as a NumPy array. The map()
+method requires the processing function to return Python or NumPy objects when
+we’re using batched inputs.
+Since our model expects tensors as inputs, the next thing to do is convert the
+input_ids and attention_mask columns to the ""torch"" format, as follows:
+emotions_encoded.set_format(""torch"",
+columns=[""input_ids"", ""attention_mask"", ""label""])
+We can then go ahead and extract the hidden states across all splits in one go:
+emotions_hidden = emotions_encoded.map(extract_hidden_states, batched=True)
+Notice that we did not set batch_size=None in this case, which means the default
+batch_size=1000 extract_ hidden_
+is used instead. As expected, applying the
+states() function has added a new hidden_state column to our dataset:
+emotions_hidden[""train""].column_names
+['attention_mask', 'hidden_state', 'input_ids', 'label', 'text']
+Now that we have the hidden states associated with each tweet, the next step is to
+train a classifier on them. To do that, we’ll need a feature matrix—let’s take a look.
+<b>Creatingafeaturematrix</b>
+The preprocessed dataset now contains all the information we need to train a classi‐
+fier on it. We will use the hidden states as input features and the labels as targets. We
+can easily create the corresponding arrays in the well-known Scikit-learn format as
+follows:
+<b>import</b> <b>numpy</b> <b>as</b> <b>np</b>
+X_train = np.array(emotions_hidden[""train""][""hidden_state""])
+X_valid = np.array(emotions_hidden[""validation""][""hidden_state""])
+y_train = np.array(emotions_hidden[""train""][""label""])
+y_valid = np.array(emotions_hidden[""validation""][""label""])
+X_train.shape, X_valid.shape
+((16000, 768), (2000, 768))
+Before we train a model on the hidden states, it’s good practice to perform a quick
+check to ensure that they provide a useful representation of the emotions we want to"|feature extractors; feature matrix; Scikit-learn format; text classification; training text classifiers; transformers as feature extractors; as feature extractors

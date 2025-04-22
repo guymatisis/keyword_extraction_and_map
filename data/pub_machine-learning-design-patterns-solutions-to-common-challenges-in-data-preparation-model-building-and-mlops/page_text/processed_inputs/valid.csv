@@ -1,0 +1,1086 @@
+text|keyphrases
+"<header><largefont><b>CHAPTER</b></largefont> <largefont><b>5</b></largefont></header>
+<header><largefont><b>Design</b></largefont> <largefont><b>Patterns</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Resilient</b></largefont> <largefont><b>Serving</b></largefont></header>
+The purpose of a machine learning model is to use it to make inferences on data it
+hasn’t seen during training. Therefore, once a model has been trained, it is typically
+deployed into a production environment and used to make predictions in response to
+incoming requests. Software that is deployed into production environments is
+expected to be resilient and require little in the way of human intervention to keep it
+running. The design patterns in this chapter solve problems associated with resilience
+under different circumstances as it relates to production ML models.
+The <i>Stateless</i> <i>Serving</i> <i>Function</i> design pattern allows the serving infrastructure to
+scale and handle thousands or even millions of prediction requests per second. The
+<i>Batch</i> <i>Serving</i> design pattern allows the serving infrastructure to asynchronously han‐
+dle occasional or periodic requests for millions to billions of predictions. These pat‐
+terns are useful beyond resilience in that they reduce coupling between creators and
+users of machine learning models.
+The <i>Continued</i> <i>Model</i> <i>Evaluation</i> design pattern handles the common problem of
+detecting when a deployed model is no longer fit-for-purpose. The <i>Two-Phase</i> <i>Predic‐</i>
+<i>tions</i> design pattern provides a way to address the problem of keeping models sophis‐
+ticated and performant when they have to be deployed onto distributed devices. The
+<i>Keyed</i> <i>Predictions</i> design pattern is a necessity to scalably implement several of the
+design patterns discussed in this chapter.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>16:</b></largefont> <largefont><b>Stateless</b></largefont> <largefont><b>Serving</b></largefont> <largefont><b>Function</b></largefont></header>
+The Stateless Serving Function design pattern makes it possible for a production ML
+system to synchronously handle thousands to millions of prediction requests per sec‐
+ond. The production ML system is designed around a stateless function that captures
+the architecture and weights of a trained model."|Batch Serving design pattern; Continued Model Evaluation design pattern; Keyed Predictions design pattern; Stateless Serving Function design pattern; Two-Phase Predictions design pattern
+"<i>Table</i> <i>2-2.</i> <i>The</i> <i>expected</i> <i>number</i> <i>of</i> <i>entries</i> <i>per</i> <i>bucket</i> <i>and</i> <i>the</i> <i>probability</i> <i>of</i> <i>at</i> <i>least</i> <i>one</i>
+<i>collision</i> <i>when</i> <i>IATA</i> <i>airport</i> <i>codes</i> <i>are</i> <i>hashed</i> <i>into</i> <i>different</i> <i>numbers</i> <i>of</i> <i>buckets</i>
+<b>num_hash_buckets</b> <b>entries_per_bucket</b> <b>collision_prob</b>
+3 115.666667 1.000000
+10 34.700000 1.000000
+100 3.470000 1.000000
+1000 0.347000 1.000000
+10000 0.034700 0.997697
+100000 0.003470 0.451739
+<b>Skew</b>
+The loss of accuracy is particularly acute when the distribution of the categorical
+input is highly skewed. Consider the case of the hash bucket that contains ORD (Chi‐
+cago, one of the busiest airports in the world). We can find this using the following:
+<b>CREATE</b> <b>TEMPORARY</b> <b>FUNCTION</b> hashed(airport STRING, numbuckets INT64) <b>AS</b> (
+<b>ABS(MOD(FARM_FINGERPRINT(airport),</b> numbuckets))
+);
+<b>WITH</b> airports <b>AS</b> (
+<b>SELECT</b>
+departure_airport, <b>COUNT(1)</b> <b>AS</b> num_flights
+<b>FROM</b> `bigquery-samples.airline_ontime_data.flights`
+<b>GROUP</b> <b>BY</b> departure_airport
+)
+<b>SELECT</b>
+departure_airport, num_flights
+<b>FROM</b> airports
+<b>WHERE</b> hashed(departure_airport, 100) = hashed('ORD', 100)
+The result shows that while there are ~3.6 million flights from ORD, there are only
+~67,000 flights from BTV (Burlington, Vermont):
+<b>departure_airport</b> <b>num_flights</b>
+ORD 3610491
+BTV 66555
+MCI 597761
+This indicates that, for all practical purposes, the model will impute the long taxi
+times and weather delays that Chicago experiences to the municipal airport in
+Burlington, Vermont! The model accuracy for BTV and MCI (Kansas City airport)
+will be quite poor because there are so many flights out of Chicago."|Hashed Feature design pattern
+"designing your model. You can then find a balance between the product team’s goal
+of optimizing for precision and your goal of minimizing the model’s loss.
+When defining the goals for your model, it’s important to consider the needs of dif‐
+ferent teams across an organization, and how each team’s needs relate back to the
+model. By analyzing what each team is optimizing for before building out your solu‐
+tion, you can find areas of compromise in order to optimally balance these multiple
+objectives.
+<header><largefont><b>Summary</b></largefont></header>
+Design patterns are a way to codify the knowledge and experience of experts into
+advice that all practitioners can follow. The design patterns in this book capture best
+practices and solutions to commonly occurring problems in designing, building, and
+deploying machine learning systems. The common challenges in machine learning
+tend to revolve around data quality, reproducibility, data drift, scale, and having to
+satisfy multiple objectives.
+We tend to use different ML design patterns at different stages of the ML life cycle.
+There are patterns that are useful in problem framing and assessing feasibility. The
+majority of patterns address either development or deployment, and quite a few pat‐
+terns address the interplay between these stages."|data scientists
+"average precision (MAP) is 95%, we can expect to be asked: “Is a MAP of 95% good
+or bad?”
+It is no good to wave our hands and say that this depends on the problem. Of course,
+it does. So, what is a good MAE for the bicycle rental problem in New York City?
+How about in London? What is a good MAP for the product catalog image classifica‐
+tion task?
+Model performance is typically stated in terms of cold, hard numbers that are diffi‐
+cult for end users to put into context. Explaining the formula for MAP, MAE, and so
+on does not provide the intuition that business decision makers are asking for.
+<header><largefont><b>Solution</b></largefont></header>
+If this is the second ML model being developed for a task, an easy answer is to com‐
+pare the model’s performance against the currently operational version. It is quite
+easy to say that the MAE is now 30 seconds lower or that the MAP is 1% higher. This
+works even if the current production workflow doesn’t use ML. As long as this task is
+already being performed in production and evaluation metrics are being collected, we
+can compare the performance of our new ML model against the current production
+methodology.
+But what if there is no current production methodology in place, and we are building
+the very first model for a green-field task? In such cases, the solution is to create a
+simple benchmark for the sole purpose of comparing against our newly developed
+ML model. We call this a <i>heuristic</i> <i>benchmark.</i>
+A good heuristic benchmark should be intuitively easy to understand and relatively
+trivial to compute. If we find ourselves defending or debugging the algorithm used by
+the benchmark, we should search for a simpler, more understandable one. Good
+examples of a heuristic benchmark are constants, rules of thumb, or bulk statistics
+(such as the mean, median, or mode). Avoid the temptation to train even a simple
+machine learning model, such as a linear regression, on a dataset and use that as a
+benchmark—linear regression is likely not intuitive enough, especially once we start
+to include categorical variables, more than a handful of inputs, or engineered
+features.
+Do not use a heuristic benchmark if there is already an operational
+practice in place. Instead, we should compare our model against
+that existing standard. The existing operational practice does not
+need to use ML—it is simply whatever technique is currently being
+used to solve the problem."|heuristic benchmark; Heuristic Benchmark design pattern; MAP (mean average precision); mean average precision (MAP)
+"<i>Figure</i> <i>2-17.</i> <i>A</i> <i>feature</i> <i>cross</i> <i>of</i> <i>day_of_week</i> <i>and</i> <i>hour_of_day</i> <i>produces</i> <i>a</i> <i>sparse</i> <i>vector</i>
+<i>of</i> <i>dimension</i> <i>168.</i>
+<i>Figure</i> <i>2-18.</i> <i>An</i> <i>embedding</i> <i>layer</i> <i>is</i> <i>a</i> <i>useful</i> <i>way</i> <i>to</i> <i>address</i> <i>the</i> <i>sparsity</i> <i>of</i> <i>a</i> <i>feature</i>
+<i>cross.</i>
+Because the Embeddings design pattern allows us to capture closeness relationships,
+passing the feature cross through an embedding layer allows the model to generalize
+how certain feature crosses coming from pairs of hour and day combinations affect
+the output of the model. In the example of latitude and longitude above, we could
+have used an embedding feature column in place of the indicator column:
+crossed_feature = fc.embedding_column(lat_x_lon, dimension=2)"|closeness relationships; Feature Cross design pattern
+"Using grid search, we’d try every combination of the specified values, then use the
+combination that yielded the best evaluation metric on our model. Let’s see how this
+works on a random forest model trained on the Boston housing dataset, which comes
+pre-installed with scikit-learn. The model will predict the price of a house based on a
+number of factors. We can run grid search by creating an instance of the
+GridSearchCV
+class, and training the model passing it the values we defined earlier:
+<b>from</b> <b>sklearn.ensemble</b> <b>import</b> RandomForestRegressor
+<b>from</b> <b>sklearn.datasets</b> <b>import</b> load_boston
+X, y = load_boston(return_X_y=True)
+housing_model = RandomForestRegressor()
+grid_search_housing = GridSearchCV(
+housing_model, param_grid=grid_vals, scoring='max_error')
+grid_search_housing.fit(X, y)
+Note that the scoring parameter here is the metric we want to optimize. In the case of
+this regression model, we want to use the combination of hyperparameters that
+results in the lowest error for our model. To get the best combination of values from
+the grid search, we can run grid_search_housing.best_params_ . This returns the
+following:
+{'max_depth': 100, 'n_estimators': 150}
+We’d want to compare this to the error we’d get training a random forest regressor
+model <i>without</i> hyperparameter tuning, using scikit-learn’s default values for these
+parameters. This grid search approach works OK on the small example we’ve defined
+above, but with more complex models, we’d likely want to optimize more than two
+hyperparameters, each with a wide range of possible values. Eventually, grid search
+will lead to <i>combinatorial</i> <i>explosion—as</i> we add additional hyperparameters and val‐
+ues to our grid of options, the number of possible combinations we need to try and
+the time required to try them all increases significantly.
+Another problem with this approach is that no logic is being applied when choosing
+different combinations. Grid search is essentially a brute force solution, trying every
+possible combination of values. Let’s say that after a certain max_depth value, our
+model’s error increases. The grid search algorithm doesn’t learn from previous trials,
+max_depth
+so it wouldn’t know to stop trying values after a certain threshold. It will
+simply try every value you provide no matter the results."|combinatorial explosion; grid search; Grid-SearchCV; Hyperparameter Tuning design pattern; random forest; scikit-learn
+"pattern solves a problem by training multiple models and aggregating their respon‐
+ses. The <i>Neutral</i> <i>Class</i> design pattern looks at how to handle situations where experts
+disagree. The <i>Rebalancing</i> design pattern recommends approaches to handle highly
+skewed or imbalanced data.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>5:</b></largefont> <largefont><b>Reframing</b></largefont></header>
+The Reframing design pattern refers to changing the representation of the output of a
+machine learning problem. For example, we could take something that is intuitively a
+regression problem and instead pose it as a classification problem (and vice versa).
+<header><largefont><b>Problem</b></largefont></header>
+The first step of building any machine learning solution is framing the problem. Is
+this a supervised learning problem? Or unsupervised? What are the features? If it is a
+supervised problem, what are the labels? What amount of error is acceptable? Of
+course, the answers to these questions must be considered in context with the train‐
+ing data, the task at hand, and the metrics for success.
+For example, suppose we wanted to build a machine learning model to predict future
+rainfall amounts in a given location. Starting broadly, would this be a regression or
+classification task? Well, since we’re trying to predict rainfall amount (for example,
+0.3 cm), it makes sense to consider this as a time-series forecasting problem: given
+the current and historical climate and weather patterns, what amount of rainfall
+should we expect in a given area in the next 15 minutes? Alternately, because the
+label (the amount of rainfall) is a real number, we could build a regression model. As
+we start to develop and train our model, we find (perhaps not surprisingly) that
+weather prediction is harder than it sounds. Our predicted rainfall amounts are all off
+because, for the same set of features, it sometimes rains 0.3 cm and other times it
+rains 0.5 cm. What should we do to improve our predictions? Should we add more
+layers to our network? Or engineer more features? Perhaps more data will help?
+Maybe we need a different loss function?
+Any of these adjustments could improve our model. But wait. Is regression the only
+way we can pose this task? Perhaps we can reframe our machine learning objective in
+a way that improves our task performance.
+<header><largefont><b>Solution</b></largefont></header>
+The core issue here is that rainfall is probabilistic. For the same set of features, it
+sometimes rains 0.3 cm and other times it rains 0.5 cm. Yet, even if a regression
+model were able to learn the two possible amounts, it is limited to predicting only a
+single number."|Ensemble design pattern; Neutral Class design pattern; Reframing design pattern
+"Imbalanced datasets apply to many types of models, including binary classification,
+multiclass classification, multilabel classification, and regression. In regression cases,
+imbalanced datasets refer to data with outlier values that are either much higher or
+lower than the median in your dataset.
+A common pitfall in training models with imbalanced label classes is relying on mis‐
+leading accuracy values for model evaluation. If we train a fraud detection model and
+only 5% of our dataset contains fraudulent transactions, chances are our model will
+train to 95% accuracy without any modifications to the dataset or underlying model
+architecture. While this 95% accuracy number is <i>technically</i> correct, there’s a good
+chance the model is guessing the majority class (in this case, nonfraud) for each
+example. As such, it’s not learning anything about how to distinguish the minority
+class from other examples in our dataset.
+To avoid leaning too much on this misleading accuracy value, it’s worth looking at
+the model’s confusion matrix to see accuracy for each class. The confusion matrix for
+a poorly performing model trained on an imbalanced dataset often looks something
+like Figure 3-18.
+<i>Figure</i> <i>3-18.</i> <i>Confusion</i> <i>matrix</i> <i>for</i> <i>a</i> <i>model</i> <i>trained</i> <i>on</i> <i>an</i> <i>imbalanced</i> <i>dataset</i> <i>without</i>
+<i>dataset</i> <i>or</i> <i>model</i> <i>adjustments.</i>
+In this example, the model correctly guesses the majority class 95% of the time, but
+only guesses the minority class correctly 12% of the time. Typically, the confusion
+matrix for a high performing model has percentages close to 100 down the diagonal.
+<header><largefont><b>Solution</b></largefont></header>
+First, since accuracy can be misleading on imbalanced datasets, it’s important to
+choose an appropriate evaluation metric when building our model. Then, there are
+various techniques we can employ for handling inherently imbalanced datasets at
+both the dataset and model level. <i>Downsampling</i> changes the balance of our underly‐
+ing dataset, while <i>weighting</i> changes how our model handles certain classes. <i>Upsam‐</i>
+<i>pling</i> duplicates examples from our minority class, and often involves applying"|confusion matrix; downsampling; fraud detection; model evaluation; Rebalancing design pattern; reframing; upsampling
+"<i>Figure</i> <i>4-11.</i> <i>Resume</i> <i>from</i> <i>a</i> <i>checkpoint</i> <i>from</i> <i>before</i> <i>the</i> <i>training</i> <i>loss</i> <i>starts</i> <i>to</i> <i>plateau.</i>
+<i>Train</i> <i>only</i> <i>on</i> <i>fresh</i> <i>data</i> <i>for</i> <i>subsequent</i> <i>iterations.</i>
+Fine-tuning only works as long as you are not changing the model
+architecture.
+It is not necessary to always start from an earlier checkpoint. In some cases, the final
+checkpoint (that is used to serve the model) can be used as a warm start for another
+model training iteration. Still, starting from an earlier checkpoint tends to provide
+better generalization.
+<b>Redefininganepoch</b>
+Machine learning tutorials often have code like this:
+model.fit(X_train, y_train,
+batch_size=100,
+epochs=15)
+This code assumes that you have a dataset that fits in memory, and consequently that
+your model can iterate through 15 epochs without running the risk of machine fail‐
+ure. Both these assumptions are unreasonable—ML datasets range into terabytes, and
+when training can last hours, the chances of machine failure are high.
+To make the preceding code more resilient, supply a TensorFlow dataset (not just a
+NumPy array) because the TensorFlow dataset is an out-of-memory dataset. It pro‐
+vides iteration capability and lazy loading. The code is now as follows:"|Checkpoints design pattern; TensorFlow dataset
+"df.plot(kind='hist')
+Figure 3-20 shows the resulting histogram.
+<i>Figure</i> <i>3-20.</i> <i>A</i> <i>histogram</i> <i>depicting</i> <i>the</i> <i>distribution</i> <i>of</i> <i>baby</i> <i>weight</i> <i>for</i> <i>10,000</i> <i>examples</i>
+<i>in</i> <i>the</i> <i>BigQuery</i> <i>natality</i> <i>dataset.</i>
+If we count the number of babies weighing 3 lbs in the entire dataset, there are
+approximately 96,000 (.06% of the data). Babies weighing 12 lbs make up only .05%
+of the dataset. To get good regression performance over the entire range, we can
+combine downsampling with the Reframing and Cascade design patterns. First, we’ll
+split the data into three buckets: “underweight,” “average,” and “overweight.” We can
+do that with the following query:
+<b>SELECT</b>
+<b>CASE</b>
+<b>WHEN</b> weight_pounds < 5.5 <b>THEN</b> ""underweight""
+<b>WHEN</b> weight_pounds > 9.5 <b>THEN</b> ""overweight""
+<b>ELSE</b>
+""average""
+<b>END</b>
+<b>AS</b> weight,
+<b>COUNT(*)</b> <b>AS</b> num_examples,
+round(count(*) / <b>sum(count(*))</b> over(), 4) <b>as</b> percent_of_dataset
+<b>FROM</b>
+`bigquery-public-data.samples.natality`
+<b>GROUP</b> <b>BY</b>
+1
+Table 3-5 shows the results."|cascade; Rebalancing design pattern; reframing
+"<i>Figure</i> <i>7-12.</i> <i>The</i> <i>Features</i> <i>tab</i> <i>in</i> <i>the</i> <i>What-If</i> <i>Tool,</i> <i>which</i> <i>shows</i> <i>histograms</i> <i>of</i> <i>how</i> <i>a</i>
+<i>dataset</i> <i>is</i> <i>balanced</i> <i>for</i> <i>each</i> <i>column.</i>
+Once we’ve refined our dataset and prediction task, we can consider anything else we
+might want to optimize during model training. For example, maybe we care most
+about our model’s accuracy on applications it predicts as “approved.” During model
+training, we’d want to optimize for AUC (or another metric) on the “approved” class
+in this binary classification model.
+If we’ve done all we can to eliminate data collection bias and find
+that there is not enough data available for a specific class, we can
+follow “Design Pattern 10: Rebalancing ” on page 122 in Chapter 3.
+This pattern discusses techniques for building models to handle
+imbalanced data.
+<header><largefont><b>Bias</b></largefont> <largefont><b>in</b></largefont> <largefont><b>Other</b></largefont> <largefont><b>Forms</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Data</b></largefont></header>
+Although we’ve shown a tabular dataset here, bias is equally common in other types
+of data. The Civil Comments dataset provided by Jigsaw provides a good example of
+areas where we might find bias in text data. This dataset labels comments according
+to their toxicity (ranging from 0 to 1), and has been used to build models for flagging
+toxic online comments. Each comment in the dataset is tagged as to whether one of a
+collection of identity attributes is present, like the mention of a religion, race, or sex‐
+ual orientation. If we plan to use this data to train a model, it’s important that we look
+out for data representation bias. That is to say, the identity terms in a comment
+should <i>not</i> influence that comment’s toxicity, and any such bias should be accounted
+for before training a model."|bias; Civil Comments dataset; data collection bias; Fairness Lens design pattern; Rebalancing design pattern; What-If Tool
+"<i>Table</i> <i>2-5.</i> <i>One-hot</i> <i>and</i> <i>learned</i> <i>encodings</i> <i>for</i> <i>the</i> <i>plurality</i> <i>column</i> <i>in</i> <i>the</i> <i>natality</i> <i>dataset</i>
+<b>Plurality</b> <b>One-hotencoding</b> <b>Learnedencoding</b>
+Single(1) [1,0,0,0,0,0] [0.4,0.6]
+Multiple(2+) [0,1,0,0,0,0] [0.1,0.5]
+Twins(2) [0,0,1,0,0,0] [-0.1,0.3]
+Triplets(3) [0,0,0,1,0,0] [-0.2,0.5]
+Quadruplets(4) [0,0,0,0,1,0] [-0.4,0.3]
+Quintuplets(5) [0,0,0,0,0,1] [-0.6,0.5]
+The embedding maps a sparse, one-hot encoded vector to a dense vector in R2.
+In TensorFlow, we first construct a categorical feature column for the feature, then
+wrap that in an embedding feature column. For example, for our plurality feature, we
+would have:
+plurality = tf.feature_column.categorical_column_with_vocabulary_list(
+'plurality', ['Single(1)', 'Multiple(2+)', 'Twins(2)',
+'Triplets(3)', 'Quadruplets(4)', 'Quintuplets(5)'])
+plurality_embed = tf.feature_column.embedding_column(plurality, dimension=2)
+The resulting feature column ( plurality_embed ) is used as input to the downstream
+nodes of the neural network instead of the one-hot encoded feature column
+( plurality ).
+<b>Textembeddings</b>
+Text provides a natural setting where it is advantageous to use an embedding layer.
+Given the cardinality of a vocabulary (often on the order of tens of thousands of
+words), one-hot encoding each word isn’t practical. This would create an incredibly
+large (high-dimensional) and sparse matrix for training. Also, we’d like similar words
+to have embeddings close by and unrelated words to be far away in embedding space.
+Therefore, we use a dense word embedding to vectorize the discrete text input before
+passing to our model.
+To implement a text embedding in Keras, we first create a tokenization for each word
+in our vocabulary, as shown in Figure 2-6. Then we use this tokenization to map to
+an embedding layer, similar to how it was done for the plurality column."|Embedding design pattern; feature columns; Keras; TensorFlow; text embeddings; tokenization; vocabulary
+"<i>XRAI</i>
+This approach is built upon IG and applies smoothing to return region-based
+attributions. XRAI works only with image models deployed on AI Platform.
+In our gcloud command, we specify the explanation method we’d like to use along
+with the number of integral steps or paths we want the method to use when comput‐
+steps parameter
+ing attribution values. 6 The refers to the number of feature combi‐
+nations sampled for each output. In general, increasing this number will improve
+explanation accuracy:
+!gcloud beta ai-platform versions create $VERSION_NAME <b>\</b>
+--model $MODEL_NAME <b>\</b>
+--origin $GCS_VERSION_LOCATION <b>\</b>
+--runtime-version 2.1 <b>\</b>
+--framework TENSORFLOW <b>\</b>
+--python-version 3.7 <b>\</b>
+--machine-type n1-standard-4 <b>\</b>
+--explanation-method xrai <b>\</b>
+--num-integral-steps 25
+Once the model is deployed, we can get explanations using the Explainable AI SDK:
+model = explainable_ai_sdk.load_model_from_ai_platform(
+GCP_PROJECT,
+MODEL_NAME,
+VERSION_NAME
+)
+request = model.explain([test_img])
+<i>#</i> <i>Print</i> <i>image</i> <i>with</i> <i>pixel</i> <i>attributions</i>
+request[0].visualize_attributions()
+In Figure 7-5, we can see a comparison of the IG and XRAI explanations returned
+from Explainable AI for our ImageNet model. The highlighted pixel regions show the
+pixels that contributed most to our model’s prediction of “husky.”
+Typically, IG is recommended for “non-natural” images like those taken in a medical,
+factory, or lab environment. XRAI usually works best for images taken in natural
+environments like the one of this husky. To understand why IG is preferred for non-
+natural images, see the IG attributions for the diabetic retinopathy image in
+Figure 7-6. In cases like this medical one, it helps to see attributions at a fine-grained,
+pixel level. In the dog image, on the other hand, knowing the exact pixels that caused
+our model to predict “husky” is less important, and XRAI gives us a higher-level
+summary of the important regions.
+6 Formoredetailsontheseexplanationmethodsandtheirimplementation,seetheExplainableAIwhitepaper."|Explainable Predictions design pattern; feature attributions; IG; XRAI
+"<i>Figure</i> <i>2-16.</i> <i>A</i> <i>feature</i> <i>cross</i> <i>between</i> <i>is_male</i> <i>and</i> <i>plurality</i> <i>creates</i> <i>an</i> <i>additional</i> <i>18</i>
+<i>binary</i> <i>features</i> <i>in</i> <i>our</i> <i>ML</i> <i>model.</i>
+Table 2-10 compares the training time in BigQuery ML and evaluation loss for both a
+linear model with a feature cross of ( is_male, plurality ) and a deep neural net‐
+work without any feature cross.
+<i>Table</i> <i>2-10.</i> <i>A</i> <i>comparison</i> <i>of</i> <i>BigQuery</i> <i>ML</i> <i>training</i> <i>metrics</i> <i>for</i> <i>models</i> <i>with</i> <i>and</i> <i>without</i>
+<i>feature</i> <i>crosses</i>
+<b>Modeltype</b> <b>Incl.featurecross</b> <b>Trainingtime(minutes)</b> <b>Eval.loss</b>
+<b>(RMSE)</b>
+Linear Yes 0.42 1.05
+DNN No 48 1.07
+A simple linear regression achieves comparable error on the evaluation set but trains
+one hundred times faster. Combining feature crosses with massive data is an alterna‐
+tive strategy for learning complex relationships in training data.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+While we discussed feature crosses as a way of handling categorical variables, they
+can be applied, with a bit of preprocessing, to numerical features also. Feature crosses
+cause sparsity in models and are often used along with techniques that counteract
+that sparsity."|Feature Cross design pattern
+"approach to approximate the precise solution, and concepts like overfitting must be
+reevaluated.
+For example, a ray-tracing approach is used to simulate the satellite imagery that
+would result from the output of numerical weather prediction models. This involves
+calculating how much of a solar ray gets absorbed by the predicted hydrometeors
+(rain, snow, hail, ice pellets, and so on) at each atmospheric level. There is a finite
+number of possible hydrometeor types and a finite number of heights that the
+numerical model predicts. So the ray-tracing model has to apply optical equations to
+a large but finite set of inputs.
+The equations of radiative transfer govern the complex dynamical system of how
+electromagnetic radiation propagates in the atmosphere, and forward radiative trans‐
+fer models are an effective means of inferring the future state of satellite images.
+However, classical numerical methods to compute the solutions to these equations
+can take tremendous computational effort and are too slow to use in practice.
+Enter machine learning. It is possible to use machine learning to build a model that
+approximates solutions to the forward radiative transfer model (see Figure 4-3). This
+ML approximation can be made close enough to the solution of the model that was
+originally achieved by using more classical methods. The advantage is that inference
+using the learned ML approximation (which needs to just calculate a closed formula)
+takes only a fraction of the time required to carry out ray tracing (which would
+require numerical methods). At the same time, the training dataset is too large (mul‐
+tiple terabytes) and too unwieldy to use as a lookup table in production.
+<i>Figure</i> <i>4-3.</i> <i>Architecture</i> <i>for</i> <i>using</i> <i>a</i> <i>neural</i> <i>network</i> <i>to</i> <i>model</i> <i>the</i> <i>solution</i> <i>of</i> <i>a</i> <i>partial</i>
+<i>differential</i> <i>equation</i> <i>to</i> <i>solve</i> <i>for</i> <i>I(r,t,n).</i>
+There is an important difference between training an ML model to approximate the
+solution to a dynamical system like this and training an ML model to predict baby
+weight based on natality data collected over the years. Namely, the dynamical system
+is a set of equations governed by the laws of electromagnetic radiation—there is no
+unobserved variable, no noise, and no statistical variability. For a given set of inputs,"|inference; ML approximation; PDE; ray-tracing model; Useful Overfitting design pattern
+"When we deploy updates to our model, we’ll also likely want a way to track how the
+model is performing in production and compare this with previous iterations. We
+may also want a way to test a new model with only a subset of our users. Both perfor‐
+mance monitoring and split testing, along with other possible model changes, will be
+difficult to solve by replacing a single production model each time we make updates.
+Doing this will break applications that are relying on our model output to match a
+specific format. To handle this, we’ll need a solution that allows us to continuously
+update our model without breaking existing users.
+<header><largefont><b>Solution</b></largefont></header>
+To gracefully handle updates to a model, deploy multiple model versions with differ‐
+ent REST endpoints. This ensures backward compatibility—by keeping multiple ver‐
+sions of a model deployed at a given time, those users relying on older versions will
+still be able to use the service. Versioning also allows for fine-grained performance
+monitoring and analytics tracking across versions. We can compare accuracy and
+usage statistics, and use this to determine when to take a particular version offline. If
+we have a model update that we want to test with only a small subset of users, the
+Model Versioning design pattern makes it possible to perform A/B testing.
+Additionally, with model versioning, each deployed version of our model is a micro‐
+service—thus decoupling changes to our model from our application frontend. To
+add support for a new version, our team’s application developers only need to change
+the name of the API endpoint pointing to the model. Of course, if a new model ver‐
+sion introduces changes to the model’s response format, we’ll need to make changes
+to our app to accommodate this, but the model and application code are still sepa‐
+rate. Data scientists or ML engineers can therefore deploy and test a new model ver‐
+sion on our own without worrying about breaking our production app.
+<b>Typesofmodelusers</b>
+When we refer to “end users” of our model, this includes two different groups of peo‐
+ple. If we’re making our model API endpoint available to application developers out‐
+side our organization, these developers can be thought of as one type of model user.
+They are building applications that rely on our model for serving predictions to oth‐
+ers. The backward compatibility benefit that comes with model versioning is most
+important for these users. If the format of our model’s response changes, application
+developers may want to use an older model version until they’ve updated their appli‐
+cation code to support the latest response format.
+The other group of end users refers to those using an application that calls our
+deployed model. This could be a doctor relying on our model to predict the presence
+of disease in an image, someone using our book recommendation app, our organiza‐
+tion’s business unit analyzing the output of a revenue prediction model we built, and"|data scientists; ML engineers; Model Versioning design pattern
+"<header><largefont><b>CHAPTER</b></largefont> <largefont><b>1</b></largefont></header>
+<header><largefont><b>The</b></largefont> <largefont><b>Need</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Machine</b></largefont> <largefont><b>Learning</b></largefont></header>
+<header><largefont><b>Design</b></largefont> <largefont><b>Patterns</b></largefont></header>
+In engineering disciplines, design patterns capture best practices and solutions to
+commonly occurring problems. They codify the knowledge and experience of experts
+into advice that all practitioners can follow. This book is a catalog of machine learn‐
+ing design patterns that we have observed in the course of working with hundreds of
+machine learning teams.
+<header><largefont><b>What</b></largefont> <largefont><b>Are</b></largefont> <largefont><b>Design</b></largefont> <largefont><b>Patterns?</b></largefont></header>
+The idea of patterns, and a catalog of proven patterns, was introduced in the field of
+architecture by Christopher Alexander and five coauthors in a hugely influential
+book titled <i>A</i> <i>Pattern</i> <i>Language</i> (Oxford University Press, 1977). In their book, they
+catalog 253 patterns, introducing them this way:
+Each pattern describes a problem which occurs over and over again in our environ‐
+ment, and then describes the core of the solution to that problem, in such a way that
+you can use this solution a million times over, without ever doing it the same way
+twice.
+…
+Each solution is stated in such a way that it gives the essential field of relationships
+needed to solve the problem, but in a very general and abstract way—so that you can
+solve the problem for yourself, in your own way, by adapting it to your preferences,
+and the local conditions at the place where you are making it.
+For example, a couple of the patterns that incorporate human details when building a
+home are <i>Light</i> <i>on</i> <i>Two</i> <i>Sides</i> <i>of</i> <i>Every</i> <i>Room</i> and <i>Six-Foot</i> <i>Balcony.</i> Think of your
+favorite room in your home, and your least-favorite room. Does your favorite room"|Alexander; design patterns; Light on Two Sides of Every Room pattern; Pattern Language; Six-Foot Balcony pattern
+"Figure 6-4 (the notebook on GitHub has the full details) that the evaluation metric
+drops steeply until 20,000 examples and then starts to plateau.
+<i>Figure</i> <i>6-4.</i> <i>Determine</i> <i>the</i> <i>number</i> <i>of</i> <i>older</i> <i>examples</i> <i>to</i> <i>bridge</i> <i>by</i> <i>carrying</i> <i>out</i> <i>hyper‐</i>
+<i>parameter</i> <i>tuning.</i> <i>In</i> <i>this</i> <i>case,</i> <i>it</i> <i>is</i> <i>apparent</i> <i>that</i> <i>there</i> <i>are</i> <i>diminishing</i> <i>returns</i> <i>after</i>
+<i>20,000</i> <i>bridged</i> <i>examples.</i>
+For best results, we should choose the smallest number of older examples that we can
+get away with—ideally, over time, as the number of new examples grows, we’ll rely
+less and less on bridged examples. At some point, we’ll be able to get rid of the older
+examples altogether.
+It is worth noting that, on this problem, bridging does bring benefits because when
+we use no bridged examples, the evaluation metric is worse. If this is not the case,
+then the imputation method (the method of choosing the static value used for bridg‐
+ing) needs to be reexamined. We suggest an alternate imputation method (Cascade)
+in the next section."|Bridged Schema design pattern; imputation
+"<i>Figure</i> <i>7-7.</i> <i>Counterfactual</i> <i>analysis</i> <i>in</i> <i>the</i> <i>What-If</i> <i>Tool</i> <i>for</i> <i>two</i> <i>data</i> <i>points</i> <i>from</i> <i>a</i> <i>US</i>
+<i>mortgage</i> <i>application</i> <i>dataset.</i> <i>Differences</i> <i>between</i> <i>the</i> <i>two</i> <i>data</i> <i>points</i> <i>are</i> <i>bolded.</i>
+<i>More</i> <i>information</i> <i>on</i> <i>this</i> <i>dataset</i> <i>can</i> <i>be</i> <i>found</i> <i>in</i> <i>the</i> <i>discussion</i> <i>of</i> <i>the</i> <i>Fairness</i> <i>Lens</i>
+<i>pattern</i> <i>in</i> <i>this</i> <i>chapter.</i>
+To better understand this approach, let’s look at the game Quick, Draw!7 The game
+asks players to draw an item, and guesses what they are drawing in real time, using a
+deep neural network trained on thousands of drawings by others. After players finish
+a drawing, they can see how the neural network arrived at its prediction by looking at
+7 FormoredetailsonQuick,Draw!andexample-basedexplanations,seethispaper."|counterfactual analysis; example-based explanation; Explainable Predictions design pattern
+"error_i cov = var
+If the errors are perfectly correlated so that , then the mean square
+error of the ensemble model reduces to var . In this case, model averaging doesn’t
+error_i
+help at all. On the other extreme, if the errors are perfectly uncorrelated,
+then cov = 0 and the mean square error of the ensemble model is var/k . So, the
+expected square error decreases linearly with the number <i>k</i> of models in the ensem‐
+ble. 1 To summarize, on average, the ensemble will perform at least as well as any of
+the individual models in the ensemble. Furthermore, if the models in the ensemble
+make independent errors (for example, cov = 0 ), then the ensemble will perform sig‐
+nificantly better. Ultimately, the key to success with bagging is model diversity.
+This also explains why bagging is typically less effective for more stable learners like
+k-nearest neighbors (kNN), naive Bayes, linear models, or support vector machines
+(SVMs) since the size of the training set is reduced through bootstrapping. Even
+when using the same training data, neural networks can reach a variety of solutions
+due to random weight initializations or random mini-batch selection or different
+hyperparameters, creating models whose errors are partially independent. Thus,
+model averaging can even benefit neural networks trained on the same dataset. In
+fact, one recommended solution to fix the high variance of neural networks is to train
+multiple models and aggregate their predictions.
+<b>Boosting</b>
+The boosting algorithm works by iteratively improving the model to reduce the pre‐
+diction error. Each new weak learner corrects for the mistakes of the previous predic‐
+delta_i
+tion by modeling the residuals of each step. The final prediction is the sum
+of the outputs from the base learner and each of the successive weak learners, as
+shown in Figure 3-13.
+<i>Figure</i> <i>3-13.</i> <i>Boosting</i> <i>iteratively</i> <i>builds</i> <i>a</i> <i>strong</i> <i>learner</i> <i>from</i> <i>a</i> <i>sequence</i> <i>of</i> <i>weak</i> <i>learn‐</i>
+<i>ers</i> <i>that</i> <i>model</i> <i>the</i> <i>residual</i> <i>error</i> <i>of</i> <i>the</i> <i>previous</i> <i>iteration.</i>
+Thus, the resulting ensemble model becomes successively more and more complex,
+having more capacity than any one of its members. This also explains why boosting is
+particularly good for combating high bias. Recall, the bias is related to the model’s
+1 Fortheexplicitcomputationofthesevalues,seeIanGoodfellow,YoshuaBengio,andAaronCourville,Deep
+<i>Learning(Cambridge,MA:MITPress,2016),Ch.7.</i>"|bagging; bias; boosting; Ensemble design pattern; k-nearest neighbors (kNN); kNN (k-nearest neighbors); naive Bayes; SVM
+"<i>Figure</i> <i>1-2.</i> <i>There</i> <i>are</i> <i>many</i> <i>different</i> <i>job</i> <i>roles</i> <i>related</i> <i>to</i> <i>data</i> <i>and</i> <i>machine</i> <i>learning,</i>
+<i>and</i> <i>these</i> <i>roles</i> <i>collaborate</i> <i>on</i> <i>the</i> <i>ML</i> <i>workflow,</i> <i>from</i> <i>data</i> <i>ingestion</i> <i>to</i> <i>model</i> <i>serving</i>
+<i>and</i> <i>the</i> <i>end</i> <i>user</i> <i>interface.</i> <i>For</i> <i>example,</i> <i>the</i> <i>data</i> <i>engineer</i> <i>works</i> <i>on</i> <i>data</i> <i>ingestion</i> <i>and</i>
+<i>data</i> <i>validation</i> <i>and</i> <i>collaborates</i> <i>closely</i> <i>with</i> <i>data</i> <i>scientists.</i>
+<header><largefont><b>Common</b></largefont> <largefont><b>Challenges</b></largefont> <largefont><b>in</b></largefont> <largefont><b>Machine</b></largefont> <largefont><b>Learning</b></largefont></header>
+Why do we need a book about machine learning design patterns? The process of
+building out ML systems presents a variety of unique challenges that influence ML
+design. Understanding these challenges will help you, an ML practitioner, develop a
+frame of reference for the solutions introduced throughout the book.
+<header><largefont><b>Data</b></largefont> <largefont><b>Quality</b></largefont></header>
+Machine learning models are only as reliable as the data used to train them. If you
+train a machine learning model on an incomplete dataset, on data with poorly
+selected features, or on data that doesn’t accurately represent the population using
+the model, your model’s predictions will be a direct reflection of that data. As a result,
+machine learning models are often referred to as “garbage in, garbage out.” Here we’ll
+highlight four important components of data quality: accuracy, completeness, consis‐
+tency, and timeliness.
+Data <i>accuracy</i> refers to both your training data’s features and the ground truth labels
+corresponding with those features. Understanding where your data came from and
+any potential errors in the data collection process can help ensure feature accuracy.
+After your data has been collected, it’s important to do a thorough analysis to screen
+for typos, duplicate entries, measurement inconsistencies in tabular data, missing fea‐
+tures, and any other errors that may affect data quality. Duplicates in your training
+dataset, for example, can cause your model to incorrectly assign more weight to these
+data points."|data accuracy
+"<i>Figure</i> <i>4-14.</i> <i>Research</i> <i>from</i> <i>Zeiler</i> <i>and</i> <i>Fergus</i> <i>(2013)</i> <i>in</i> <i>deconstructing</i> <i>CNNs</i> <i>helps</i> <i>us</i>
+<i>visualize</i> <i>how</i> <i>a</i> <i>CNN</i> <i>sees</i> <i>images</i> <i>at</i> <i>each</i> <i>layer</i> <i>of</i> <i>the</i> <i>network.</i>"|CNN; Transfer Learning design pattern
+"<b>Usingimageswithmetadata.</b>
+Earlier we discussed different types of metadata that
+might be associated with text, and how to extract and represent this metadata as tab‐
+ular features for our model. We can also apply this concept to images. To do this, let’s
+return to the example referenced in Figure 2-19 of a model using footage of an inter‐
+section to predict whether or not it contains a traffic violation. Our model can extract
+many patterns from the traffic images on their own, but there may be other data
+available that could improve our model’s accuracy. For example, maybe certain
+behavior (e.g., a right turn on red) is not permitted during rush hour but is OK at
+other times of day. Or maybe drivers are more likely to violate traffic laws in bad
+weather. If we’re collecting image data from multiple intersections, knowing the loca‐
+tion of our image might also be useful to our model.
+We’ve now identified three additional tabular features that could enhance our image
+model:
+• Time of day
+• Weather
+• Location
+Next, let’s think about possible representations for each of these features. We could
+represent time as an integer indicating the <i>hour</i> of the day. This might help us iden‐
+tify patterns associated with high-traffic times like rush hour. In the context of this
+model, it may be more useful to know whether or not it was dark when the image was
+taken. In this case, we could represent time as a boolean feature.
+Weather can also be represented in various ways, as both numeric and categorical
+values. We could include temperature as a feature, but in this case, visibility might be
+more useful. Another option for representing weather is through a categorical vari‐
+able indicating the presence of rain or snow.
+If we’re collecting data from many locations, we’d likely want to encode this as a fea‐
+ture as well. This would make most sense as a categorical feature, and could even be
+multiple features (city, country, state, etc.) depending on how many locations we’re
+collecting footage from.
+For this example, let’s say we’d like to use the following tabular features:
+• Time as hour of the day (integer)
+• Visibility (float)
+• Inclement weather (categorical: rain, snow, none)
+• Location ID (categorical with five possible locations)
+Here’s what a subset of this dataset might look like for the three examples:"|Multimodal Input design pattern
+"<b>WHERE</b>
+<b>ABS(MOD(FARM_FINGERPRINT(CONCAT(date,</b> <b>arrival_airport)),</b> 10)) < 8
+arrival_airport
+If we split on a feature cross of multiple columns, we <i>can</i> use as
+one of the inputs to the model, since there will be examples of any particular airport
+in both the training and test sets. On the other hand, if we had split only on
+arrival_airport , then the training and test sets will have a mutually exclusive set of
+arrival_airport
+arrival airports and, therefore, cannot be an input to the model.
+<b>Repeatablesampling</b>
+The basic solution is good if we want 80% of the entire dataset as training, but what if
+we want to play around with a smaller dataset than what we have in BigQuery? This
+is common for local development. The flights dataset is 70 million rows, and perhaps
+what we want is a smaller dataset of one million flights. How would we pick 1 in 70
+flights, and then 80% of those as training?
+What we cannot do is something along the lines of:
+<b>SELECT</b>
+date,
+airline,
+departure_airport,
+departure_schedule,
+arrival_airport,
+arrival_delay
+<b>FROM</b>
+`bigquery-samples`.airline_ontime_data.flights
+<b>WHERE</b>
+<b>ABS(MOD(FARM_FINGERPRINT(date),</b> 70)) = 0
+<b>AND</b> <b>ABS(MOD(FARM_FINGERPRINT(date),</b> 10)) < 8
+We cannot pick 1 in 70 rows and then pick 8 in 10. If we are picking numbers that are
+divisible by 70, of course they are also going to be divisible by 10! That second mod‐
+ulo operation is useless.
+Here’s a better solution:
+<b>SELECT</b>
+date,
+airline,
+departure_airport,
+departure_schedule,
+arrival_airport,
+arrival_delay
+<b>FROM</b>
+`bigquery-samples`.airline_ontime_data.flights
+<b>WHERE</b>
+<b>ABS(MOD(FARM_FINGERPRINT(date),</b> 70)) = 0
+<b>AND</b> <b>ABS(MOD(FARM_FINGERPRINT(date),</b> 700)) < 560"|Repeatable Splitting design pattern
+"transformed_features = tf_transform_layer(parsed_features)
+<b>return</b> model(transformed_features)
+In this way, we are making sure to insert the transformations into the model graph
+for serving. At the same time, because the model training happens on the trans‐
+formed data, our training loop does not have to carry out these transformations dur‐
+ing each epoch.
+<b>Textandimagetransformations</b>
+In text models, it is common to preprocess input text (such as to remove punctua‐
+tion, stop words, capitalization, stemming, and so on) before providing the cleaned
+text as a feature to the model. Other common feature engineering on text inputs
+includes tokenization and regular expression matching. It is essential that the same
+cleanup or extraction steps be carried out at inference time.
+The need to capture transformations is important even if there is no explicit feature
+engineering as when using deep learning with images. Image models usually have an
+Input layer that accepts images of a specific size. Image inputs of a different size will
+have to be cropped, padded, or resampled to this fixed size before being fed into the
+model. Other common transformations in image models include color manipulations
+(gamma correction, grayscale conversion, and so on) and orientation correction. It is
+essential that such transformations be identical between what was carried out on the
+training dataset and what will be carried out during inference. The Transform pattern
+helps ensure this reproducibility.
+With image models, there are some transformations (such as data augmentation by
+random cropping and zooming) that are applied only during training. These trans‐
+formations do not need to be captured during inference. Such transformations will
+not be part of the Transform pattern.
+<b>Alternatepatternapproaches</b>
+An alternative approach to solving the training-serving skew problem is to employ
+the Feature Store pattern. The feature store comprises a coordinated computation
+engine and repository of transformed feature data. The computation engine supports
+low-latency access for inference and batch creation of transformed features while the
+data repository provides quick access to transformed features for model training. The
+advantage of a feature store is there is no requirement for the transformation opera‐
+tions to fit into the model graph. For example, as long as the feature store supports
+Java, the preprocessing operations could be carried out in Java while the model itself
+could be written in PyTorch. The disadvantage of a feature store is that it makes the
+model dependent on the feature store and makes the serving infrastructure much
+more complex."|feature engineering; Feature Store design pattern; training-serving skew; Transform design pattern
+"are expensive and difficult to manage. When designing enterprise applications, archi‐
+tects are careful to minimize the number of stateful components. Web applications,
+for example, are often designed to work based on REST APIs, and these involve
+transfer of state from the client to the server with each call.
+In a machine learning model, there is a lot of state captured during training. Things
+like the epoch number and learning rate are part of a model’s state and have to be
+remembered because typically, the learning rate is decayed with each successive
+epoch. By saying that the model has to be exported as a stateless function, we are
+requiring the model framework creators to keep track of these stateful variables and
+not include them in the exported file.
+When stateless functions are used, it simplifies the server code and makes it more
+scalable but can make client code more complicated. For example, some model func‐
+tions are inherently stateful. A spelling correction model that takes a word and
+returns the corrected form will need to be stateful because it has to know the previous
+few words in order to correct a word like “there” to “their” depending on the context.
+Models that operate on sequences maintain history using special structures like
+recurrent neural network units. In such cases, needing to export the model as a state‐
+less function requires changing the input from a single word to, for example, a sen‐
+tence. This means clients of a spelling correction model will need to manage the state
+(to collect a sequence of words and break them up into sentences) and send it along
+with every request. The resulting client-side complexity is most visible when the
+spell-checking client has to go back and change a previous word because of context
+that gets added later.
+<header><largefont><b>Problem</b></largefont></header>
+Let’s take a text classification model that uses, as its training data, movie reviews from
+the Internet Movie Database (IMDb). For the initial layer of the model, we will use a
+pre-trained embedding that maps text to 20-dimensional embedding vectors (for the
+full code, see the <i>serving_function.ipynb</i> notebook in the GitHub repository for this
+book):
+model = tf.keras.Sequential()
+embedding = (
+""https://tfhub.dev/google/tf2-preview/gnews-swivel-20dim-with-oov/1"")
+hub_layer = hub.KerasLayer(embedding, input_shape=[],
+dtype=tf.string, <b>trainable=True,</b> name='full_text')
+model.add(hub_layer)
+model.add(tf.keras.layers.Dense(16, activation='relu', name='h1_dense'))
+model.add(tf.keras.layers.Dense(1, name='positive_review_logits'))
+The embedding layer is obtained from TensorFlow Hub and marked as being traina‐
+ble so that we can carry out fine-tuning (see “Design Pattern 13: Transfer Learning”
+on page 161 in Chapter 4) on the vocabulary found in IMDb reviews. The subsequent"|model; stateful vs. stateless components; stateless functions; Stateless Serving Function design pattern
+"<b>Triggersforretraining</b>
+Model performance will usually degrade over time. Continuous evaluation allows you
+to measure precisely how much in a structured way and provides a trigger to retrain
+the model. So, does that mean you should retrain your model as soon as performance
+starts to dip? It depends. The answer to this question is heavily tied to the business
+use case and should be discussed alongside evaluation metrics and model assessment.
+Depending on the complexity of the model and ETL pipelines, the cost of retraining
+could be expensive. The trade-off to consider is what amount of deterioration of per‐
+formance is acceptable in relation to this cost.
+<header><largefont><b>Serverless</b></largefont> <largefont><b>Triggers</b></largefont></header>
+Cloud Functions, AWS Lambda, and Azure Functions provide serverless ways to
+automate retraining via triggers. The trigger type determines how and when your
+function executes. These triggers could be messages published to a message queue, a
+change notification from a cloud storage bucket indicating a new file has been added,
+changes to data in a database, or even an HTTPS request. Once the event has fired,
+the function code is executed.
+In the context of retraining, the cloud event trigger would be a significant change or
+dip in model accuracy. The function, or action taken, would be to invoke the training
+pipeline to retrain the model and deploy the new version. “Design Pattern 25: Work‐
+flow Pipeline” on page 282 describes how this can be accomplished. Workflow pipelines
+containerize and orchestrate the end-to-end machine learning workflow from data
+collection and validation to model building, training, and deployment. Once the new
+model version has been deployed, it can then be compared against the current version
+to determine if it should be replaced.
+The threshold itself could be set as an absolute value; for example, model retraining
+occurs once model accuracy falls below 95%. Or the threshold could be set as a rate of
+change of performance, for example, once performance begins to experience a down‐
+ward trajectory. Whichever approach, the philosophy for choosing the threshold is
+similar to that for checkpointing models during training. With a higher, more sensi‐
+tive threshold, models in production remain fresh, but there is a higher cost for fre‐
+quent retraining as well as technical overhead of maintaining and switching between
+different model versions. With a lower threshold, training costs decrease but models
+in production are more stale. Figure 5-5 shows this trade-off between the perfor‐
+mance threshold and how it affects the number of model retraining jobs.
+If the model retraining pipeline is automatically triggered by such a threshold, it is
+important to track and validate the triggers as well. Not knowing when your model
+has been retrained inevitably leads to issues. Even if the process is automated, you"|AWS Lambda; Azure Functions; Cloud Functions; Continued Model Evaluation design pattern; retraining trigger; serverless triggers; Workflow Pipeline design pattern
+"Another data augmentation approach involves generating new data, and it was used
+by Google Translate to minimize gender bias when translating text to and from
+gender-neutral and gender-specific languages. The solution involved rewriting trans‐
+lation data such that when applicable, a provided translation would be offered in both
+the feminine and masculine form. For example, the gender-neutral English sentence
+“We are doctors” would yield two results when being translated to Spanish, as seen in
+Figure 7-16. In Spanish, the word “we” can have both a feminine and masculine
+form.
+<i>Figure</i> <i>7-16.</i> <i>When</i> <i>translating</i> <i>a</i> <i>gender-neutral</i> <i>word</i> <i>in</i> <i>one</i> <i>language</i> <i>(here,</i> <i>the</i> <i>word</i>
+<i>“we”</i> <i>in</i> <i>English)</i> <i>to</i> <i>a</i> <i>language</i> <i>where</i> <i>that</i> <i>word</i> <i>is</i> <i>gender-specific,</i> <i>Google</i> <i>Translate</i>
+<i>now</i> <i>provides</i> <i>multiple</i> <i>translations</i> <i>to</i> <i>minimize</i> <i>gender</i> <i>bias.</i>
+<b>ModelCards</b>
+Originally introduced in a research paper, Model Cards provide a framework for
+reporting a model’s capabilities and limitations. The goal of Model Cards is to
+improve model transparency by providing details on scenarios where a model should
+and should not be used, since mitigating problematic bias only works if a model is
+used in the way it was intended. In this way, Model Cards encourage accountability
+for using a model in the correct context.
+The first Model Cards released provide summaries and fairness metrics for the Face
+Detection and Object Detection features in Google Cloud’s Vision API. To generate
+Model Cards for our own ML models, TensorFlow provides a Model Card Toolkit
+(MCT) that can be run as a standalone Python library or as part of a TFX pipeline.
+The toolkit reads exported model assets and generates a series of charts with various
+performance and fairness metrics.
+<b>Fairnessversusexplainability</b>
+The concepts of fairness and explainability in ML are sometimes confused since they
+are often used together and are both part of the larger initiative of Responsible AI.
+Fairness applies specifically to identifying and removing bias from models, and"|bias; explainability; Fairness Lens design pattern; Model Card Toolkit; Model Cards; responsible AI; Vision API
+"We also saw how the Rebalancing pattern could be approached by combining two
+other design patterns: Reframing and Cascade. Reframing would allow us to repre‐
+sent the imbalanced dataset as a classification of either “normal” or “outlier.” The
+output of that model would then be passed to a secondary regression model, which is
+optimized for prediction on either data distribution. These patterns will likely also
+lead to the Explainable Predictions pattern, since when dealing with imbalanced data,
+it is especially important to verify that the model is picking up on the right signals for
+prediction. In fact, it’s encouraged to consider the Explainable Predictions pattern
+when building a solution involving a cascade of multiple models, since this can limit
+model explainability. This trade-off of model explainability shows up again with the
+Ensemble and Multimodel Input patterns since these techniques also don’t lend
+themselves well to some explainability methods.
+The Cascade design pattern might also be helpful when using the Bridged Schema
+pattern and could be used as an alternative pattern by having a preliminary model
+that imputes missing values of the secondary schema. These two patterns might then
+be combined to save the resulting feature set for later use as described in the Feature
+Store pattern. This is another example which highlights the versatility of the Feature
+Store pattern and how it is often combined with other design patterns. For example, a
+feature store provides a convenient way to maintain and utilize streaming model fea‐
+tures that may arise through the Windowed Inference pattern. Feature stores also
+work hand in hand with managing different datasets that might arise in the Refram‐
+ing pattern, and provide a reusable version of the techniques that arise when using
+the Transform pattern. The feature versioning capability as discussed in the Feature
+Store pattern also plays a role with the Model Versioning design pattern.
+The Model Versioning pattern, on the other hand, is closely related to the Stateless
+Serving Function and Continued Model Evaluation patterns. In Continued Model
+Evaluation, different model versions may be used when assessing how a model’s per‐
+formance has degraded over time. Similarly, the different model signatures of the
+serving function provide an easy means of creating different model versions. This
+approach to model versioning via the Stateless Serving Function pattern can be con‐
+nected back to the Reframing pattern where two different model versions could pro‐
+vide their own REST API endpoints for the two different model output
+representations.
+We also discussed how, when using the Continued Model Evaluation pattern, it’s
+often advantageous to explore solutions presented in the Workflow Pipeline pattern
+as well, both to set up triggers that will initiate the retraining pipeline as well as main‐
+tain lineage tracking for various model versions that are created. Continued Model
+Evaluation is also closely connected to the Keyed Predictions pattern since this can
+provide a mechanism for easily joining ground truth to the model prediction outputs.
+In the same way, the Keyed Predictions pattern is also intertwined with the Batch
+Serving pattern. By the same token, the Batch Serving pattern is often used in"|Batch Serving design pattern; Bridged Schema design pattern; Cascade design pattern; Continued Model Evaluation design pattern; Ensemble design pattern; explainability; Explainable Predictions design pattern; Feature Store design pattern; Keyed Predictions design pattern; Model Versioning design pattern; Multimodal Input design pattern; Rebalancing design pattern; Reframing design pattern; Stateless Serving Function design pattern; Transform design pattern; Workflow Pipeline design pattern
+"<i>Figure</i> <i>8-6.</i> <i>Fully</i> <i>automated</i> <i>processes</i> <i>support</i> <i>AI</i> <i>development.</i> <i>Figure</i> <i>adapted</i> <i>from</i>
+<i>Google</i> <i>Cloud</i> <i>documentation.</i>
+<header><largefont><b>Common</b></largefont> <largefont><b>Patterns</b></largefont> <largefont><b>by</b></largefont> <largefont><b>Use</b></largefont> <largefont><b>Case</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>Type</b></largefont></header>
+Many of the design patterns discussed in this book are utilized throughout the course
+of any machine learning development cycle and will likely be used regardless of the
+production use case—for example, Hyperparameter Tuning, Heuristic Benchmark,
+Repeatable Splitting, Model Versioning, Distributed Training, Workflow Pipelines,
+or Checkpoints. Other design patterns, you might find, are particularly useful for cer‐
+tain scenarios. Here, we’ll group together commonly used design patterns according
+to popular machine learning use cases.
+<header><largefont><b>Natural</b></largefont> <largefont><b>Language</b></largefont> <largefont><b>Understanding</b></largefont></header>
+Natural language understanding (NLU) is a branch of AI that focuses on training a
+machine to understand the meaning behind text and language. NLU is used by
+speech agents like Amazon’s Alexa, Apple’s Siri, and Google’s Assistant to under‐
+stand sentences like, “What is the weather forecast this weekend?” There are many
+use cases that fall under the umbrella of NLU and it can be applied to a lot of"|natural language understanding (NLU); NLU (natural language understanding)
+"Common idioms to handle arrays of numbers include the following:
+• Representing the input array in terms of its bulk statistics. For example, we might
+use the length (that is, count of previous books on topic), average, median, mini‐
+mum, maximum, and so forth.
+• Representing the input array in terms of its empirical distribution—i.e., by the
+10th/20th/... percentile, and so on.
+• If the array is ordered in a specific way (for example, in order of time or by size),
+representing the input array by the last three or some other fixed number of
+items. For arrays of length less than three, the feature is padded to a length of
+three with missing values.
+All these end up representing the variable-length array of data as a fixed-length fea‐
+ture. We could have also formulated this problem as a time-series forecasting prob‐
+lem, as the problem of forecasting the sales of the next book on the topic based on the
+time history of sales of previous books. By treating the sales of previous books as an
+array input, we are assuming that the most important factors in predicting a book’s
+sales are characteristics of the book itself (author, publisher, reviews, and so on) and
+not the temporal continuity of the sales amounts.
+<header><largefont><b>Categorical</b></largefont> <largefont><b>Inputs</b></largefont></header>
+Because most modern, large-scale machine learning models (random forests, support
+vector machines, neural networks) operate on numerical values, categorical inputs
+have to be represented as numbers.
+Simply enumerating the possible values and mapping them to an ordinal scale will
+work poorly. Suppose that one of the inputs to the model that predicts the sales of a
+nonfiction book is the language that the book is written in. We can’t simply create a
+mapping table like this:
+<b>Categoricalinput</b> <b>Numericfeature</b>
+English 1.0
+Chinese 2.0
+German 3.0
+This is because the machine learning model will then attempt to interpolate between
+the popularity of German and English books to get the popularity of the book in Chi‐
+nese! Because there is no ordinal relationship between languages, we need to use a
+categorical to numeric mapping that allows the model to learn the market for books
+written in these languages independently."|arrays; categorical inputs; idioms
+"<b>CREATE</b> <b>OR</b> <b>REPLACE</b> <b>TABLE</b> mlpatterns.Typical_trips <b>AS</b>
+<b>SELECT</b>
+* <b>EXCEPT(predicted_trip_type_probs,</b> predicted_trip_type)
+<b>FROM</b>
+ML.PREDICT(MODEL mlpatterns.classify_trips,
+(SELECT
+start_date, start_station_name, subscriber_type, ...,
+ST_Distance(start_station_geom, end_station_geom) <b>AS</b> distance
+<b>FROM</b> `bigquery-public-data.san_francisco_bikeshare.bikeshare_trips`)
+)
+<b>WHERE</b> predicted_trip_type = 'Typical' <b>AND</b> distance <b>IS</b> <b>NOT</b> <b>NULL</b>
+Then, we should use this dataset to train the model to predict distances:
+<b>CREATE</b> <b>OR</b> <b>REPLACE</b> MODEL mlpatterns.predict_distance_Typical
+<b>TRANSFORM(</b>
+distance,
+<b>EXTRACT</b> (HOUR <b>FROM</b> start_date) <b>AS</b> start_hour,
+<b>EXTRACT</b> (DAYOFWEEK <b>FROM</b> start_date) <b>AS</b> day_of_week,
+start_station_name,
+subscriber_type,
+...
+)
+<b>OPTIONS(model_type='linear_reg',</b> input_label_cols=['distance']) <b>AS</b>
+<b>SELECT</b>
+*
+<b>FROM</b>
+mlpatterns.Typical_trips
+Finally, our evaluation, prediction, etc. should take into account that we need to use
+three trained models, not just one. This is what we term the Cascade design pattern.
+In practice, it can become hard to keep a Cascade workflow straight. Rather than
+train the models individually, it is better to automate the entire workflow using the
+Workflow Pipelines pattern (Chapter 6) as shown in Figure 3-17. The key is to ensure
+that training datasets for the two downstream models are created each time the
+experiment is run based on the predictions of upstream models.
+Although we introduced the Cascade pattern as a way of predicting a value during
+both usual and unusual activity, the Cascade pattern’s solution is capable of address‐
+ing a more general situation. The pipeline framework allows us to handle any situa‐
+tion where a machine learning problem can be profitably broken into a series (or
+cascade) of ML problems. Whenever the output of a machine learning model needs
+to be fed as the input to another model, the second model needs to be trained on the
+predictions of the first model. In all such situations, a formal pipeline experimenta‐
+tion framework will be helpful."|Cascade design pattern; Workflow Pipeline design pattern
+"input_shape
+and indicates the length of input sequences. Since here we have padded
+the titles before passing to the model, we set input_shape=[MAX_LEN] :
+model = models.Sequential([layers.Embedding(input_dim=VOCAB_SIZE + 1,
+output_dim=embed_dim,
+input_shape=[MAX_LEN]),
+layers.Lambda(lambda x: tf.reduce_mean(x,axis=1)),
+layers.Dense(N_CLASSES, activation='softmax')])
+Note that we need to put a custom Keras Lambda layer in between the embedding
+layer and the dense softmax layer to average the word vectors returned by the embed‐
+ding layer. This is the average that’s fed to the dense softmax layer. By doing so, we
+create a model that is simple but that loses information about the word order, creat‐
+ing a model that sees sentences as a “bag of words.”
+<b>Imageembeddings</b>
+While text deals with very sparse input, other data types, such as images or audio,
+consist of dense, high-dimensional vectors, usually with multiple channels containing
+raw pixel or frequency information. In this setting, an Embedding captures a rele‐
+vant, low-dimensional representation of the input.
+For image embeddings, a complex convolutional neural network—like Inception or
+ResNet—is first trained on a large image dataset, like ImageNet, containing millions
+of images and thousands of possible classification labels. Then, the last softmax layer
+is removed from the model. Without the final softmax classifier layer, the model can
+be used to extract a feature vector for a given input. This feature vector contains all
+the relevant information of the image so it is essentially a low-dimensional embed‐
+ding of the input image.
+Similarly, consider the task of image captioning, that is, generating a textual caption
+of a given image, shown in Figure 2-8.
+<i>Figure</i> <i>2-8.</i> <i>For</i> <i>the</i> <i>image</i> <i>translation</i> <i>task,</i> <i>the</i> <i>encoder</i> <i>produces</i> <i>a</i> <i>low-dimensional</i>
+<i>embedding</i> <i>representation</i> <i>of</i> <i>the</i> <i>image.</i>"|Embedding design pattern; image embeddings; ImageNet; Inception; Keras; ResNet; softmax; text embeddings; tokenization
+"(KPIs) at the onset of an ML project can help to ensure everyone is aligned on the
+common goal. Ideally there is already some procedure in place that provides a conve‐
+nient baseline against which to measure future progress. This could be a model
+already in production, or even just a rules-based heuristic that is currently in use.
+Machine learning is not the answer to all problems, and sometimes a rule-based heu‐
+ristic is hard to beat. Development shouldn’t be done for development’s sake. A base‐
+line model, no matter how simple, is helpful to guide design decisions down the road
+and understand how each design choice moves the needle on that predetermined
+evaluation metric. In Chapter 7, we discussed the role of a Heuristic Benchmark as
+well as other topics related to Responsible AI that often come up when communicat‐
+ing the impact and influence of machine learning with business stakeholders.
+Of course, these conversations should also take place in the context of the data. A
+business deep dive should go hand in hand with a deep dive of data exploration (Step
+2 of Figure 8-2). As beneficial as a solution might be, if quality data is not available,
+then there is no project. Or perhaps the data exists, but because of data privacy rea‐
+sons, it cannot be used or must be scrubbed of relevant information needed for the
+model. In any case, the viability of a project and the potential for success all rely on
+the data. Thus, it is essential to have data stewards within the organization involved
+in these conversations early.
+The data guides the process and it’s important to understand the quality of the data
+that is available. What are the distributions of the key features? How many missing
+values are there? How will missing values be handled? Are there outliers? Are any
+input values highly correlated? What features exist in the input data and which fea‐
+tures should be engineered? Many machine learning models require a massive dataset
+for training. Is there enough data? How can we augment the dataset? Is there bias in
+the dataset? These are important questions, and they only touch the surface. One pos‐
+sible decision at this stage is that more data, or data of a specific scenario, needs to be
+collected before the project can proceed.
+Data exploration is a key step in answering the question of whether data of sufficient
+quality exists. Conversation alone is rarely a substitute for getting your hands dirty
+and experimenting with the data. Visualization plays an important role during this
+step. Density plots and histograms are helpful to understand the spread of different
+input values. Box plots can help to identify outliers. Scatter plots are useful for dis‐
+covering and describing bivariate relationships. Percentiles can help identify the
+range for numeric data. Averages, medians, and standard deviations can help to
+describe central tendency. These techniques and others can help determine which
+features are likely to benefit the model as well as further understanding of which data
+transformations will be needed to prepare the data for modeling."|feature engineering; KPI
+"layers are that of a simple neural network with one hidden layer and an output logits
+layer. This model can then be trained on the dataset of movie reviews to learn to pre‐
+dict whether or not a review is positive or negative.
+Once the model has been trained, we can use it to carry out inferences on how posi‐
+tive a review is:
+review1 = 'The film is based on a prize-winning novel.'
+review2 = 'The film is fast moving and has several great action scenes.'
+review3 = 'The film was very boring. I walked out half-way.'
+logits = <b>model.predict(x=tf.constant([review1,</b> review2, review3]))
+The result is a 2D array that might be something like:
+[[ 0.6965847]
+[ 1.61773 ]
+[-0.7543597]]
+model.predict()
+There are several problems with carrying out inferences by calling
+on an in-memory object (or a trainable object loaded into memory) as described in
+the preceding code snippet:
+• We have to load the entire Keras model into memory. The text embedding layer,
+which was set up to be trainable, can be quite large because it needs to store
+embeddings for the full vocabulary of English words. Deep learning models with
+many layers can also be quite large.
+• The preceding architecture imposes limits on the latency that can be achieved
+because calls to the predict() method have to be sent one by one.
+• Even though the data scientist’s programming language of choice is Python,
+model inference is likely to be invoked by programs written by developers who
+prefer other languages, or on mobile platforms like Android or iOS that require
+different languages.
+• The model input and output that is most effective for training may not be user
+friendly. In our example, the model output was logits because it is better for gra‐
+dient descent. This is why the second number in the output array is greater than
+1. What clients will typically want is the sigmoid of this so that the output range
+is 0 to1 and can be interpreted in a more user-friendly format as a probability.
+We will want to carry out this postprocessing on the server so that the client code
+is as simple as possible. Similarly, the model may have been trained from com‐
+pressed, binary records, whereas during production, we might want to be able to
+handle self-descriptive input formats like JSON."|Stateless Serving Function design pattern
+"<header><largefont><b>Solution</b></largefont></header>
+Imagine a different scenario. Suppose the electronic record that captures the doctor’s
+prescriptions also asks them whether the alternate pain medication would be accepta‐
+ble. If the doctor prescribes acetaminophen, the application asks the doctor whether
+the patient can use ibuprofen if they already have it in their medicine cabinet.
+Based on the answer to the second question, we have a neutral class. The prescription
+might still be written as “acetaminophen,” but the record captures that the doctor was
+neutral for this patient. Note that this fundamentally requires us to design the data
+collection appropriately—we cannot manufacture a neutral class after the fact. We
+have to correctly design the machine learning problem. Correct design, in this case,
+starts with how we pose the problem in the first place.
+If all we have is a historical dataset, we would need to get a labeling service involved.
+We could ask the human labelers to validate the doctor’s original choice and answer
+the question of whether an alternate pain medication would be acceptable.
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+We can explore the mechanism by which this works by simulating the mechanism
+involved with a synthetic dataset. Then, we will show that something akin to this also
+happens in the real world with marginal cases.
+<b>Syntheticdata</b>
+Let’s create a synthetic dataset of length <i>N</i> where 10% of the data represents patients
+with a history of jaundice. Since they are at risk of liver damage, their correct pre‐
+scription is ibuprofen (the full code is in GitHub):
+jaundice[0:N//10] = True
+prescription[0:N//10] = 'ibuprofen'
+Another 10% of the data will represent patients with a history of stomach ulcers;
+since they are at risk of stomach damage, their correct prescription is acetaminophen:
+ulcers[(9*N)//10:] = True
+prescription[(9*N)//10:] = 'acetaminophen'
+The remaining patients will be arbitrarily assigned to either medication. Naturally,
+this random assignment will cause the overall accuracy of a model trained on just two
+classes to be low. In fact, we can calculate the upper bound on the accuracy. Because
+80% of the training examples have random labels, the best that the model can do is to
+guess half of them correctly. So, the accuracy on that subset of the training examples
+will be 40%. The remaining 20% of the training examples have systematic labels, and
+an ideal model will learn this, so we expect that overall accuracy can be at best 60%.
+Indeed, training a model using scikit-learn as follows, we get an accuracy of 0.56:"|labeling; Neutral Class design pattern
+"Here’s what this might look like for a small dataset with three data points:
+rating_data = [2, 3, 5]
+<b>def</b> good_or_bad(rating):
+<b>if</b> rating > 3:
+<b>return</b> 1
+<b>else:</b>
+<b>return</b> 0
+rating_processed = []
+<b>for</b> i <b>in</b> rating_data:
+rating_processed.append([i, good_or_bad(i)])
+The resulting feature is a two-element array consisting of the integer rating and its
+boolean representation:
+[[2, 0], [3, 0], [5, 1]]
+If we had instead decided to create more than two buckets, we would one-hot encode
+each input and append this one-hot array to the integer representation.
+The reason it’s useful to represent rating in two ways is because the value of rating as
+measured by 1 to 5 stars does not necessarily increase linearly. Ratings of 4 and 5 are
+very similar, and ratings of 1 to 3 most likely indicate that the reviewer was dissatis‐
+fied. Whether you give something you dislike 1, 2, or 3 stars is often related to your
+review tendencies rather than the review itself. Despite this, it’s still useful to keep the
+more granular information present in the star rating, which is why we encode it in
+two ways.
+Additionally, consider features with a larger range than 1 to 5, like the distance
+between a reviewer’s home and a restaurant. If someone drives two hours to go to a
+restaurant, their review may be more critical than someone coming from across the
+street. In this case, we might have outlier values, and so it would make sense to both
+threshold the numeric distance representation at something like 50 km and to
+include a separate categorical representation of distance. The categorical feature
+could be bucketed into “in state,” “in country,” and “foreign.”
+<b>Multimodalrepresentationoftext</b>
+Both text and images are unstructured and require more transformations than tabu‐
+lar data. Representing them in various formats can help our models extract more pat‐
+terns. We’ll build on our discussion of text models in the preceding section by
+looking at different approaches for representing text data. Then we’ll introduce
+images and dive into a few options for representing image data in ML models.
+<b>Textdatamultipleways.</b> Given the complex nature of text data, there are many ways
+to extract meaning from it. The Embeddings design pattern enables a model to group"|Embedding design pattern; Multimodal Input design pattern; ratings; tabular data

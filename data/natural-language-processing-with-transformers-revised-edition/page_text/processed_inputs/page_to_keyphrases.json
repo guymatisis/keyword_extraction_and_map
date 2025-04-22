@@ -1,0 +1,2824 @@
+{
+  "1": [
+    "BERT model",
+    "GPT model",
+    "LSTM (long-short term memory) networks",
+    "LSTM",
+    "ULMFiT",
+    "neural network architecture",
+    "ULMFiT (Universal Language Model FineTuning)"
+  ],
+  "2": [
+    "encoder-decoder model",
+    "hidden state",
+    "RNN",
+    "RNNs (recurrent neural networks)"
+  ],
+  "3": [
+    "Karpathy",
+    "last hidden state",
+    "seq2seq (sequence-to-sequence)"
+  ],
+  "4": [
+    "attention mechanisms",
+    "information bottleneck",
+    "neural network architecture",
+    "timestep"
+  ],
+  "6": [
+    "self-",
+    "FF NNs (feed-forward neural networks)",
+    "ResNet",
+    "ResNet model",
+    "transfer learning",
+    "comparison with supervised learning"
+  ],
+  "7": [
+    "ImageNet",
+    "ImageNet dataset",
+    "pretraining",
+    "transfer learning"
+  ],
+  "8": [
+    "domain",
+    "domain adaptation",
+    "ELMO model",
+    "embeddings",
+    "IMDb",
+    "ELMO",
+    "ULMFiT",
+    "OpenAI",
+    "pretraining",
+    "transfer learning",
+    "ULMFiT (Universal Language Model FineTuning)"
+  ],
+  "9": [
+    "BERT model",
+    "BookCorpus dataset",
+    "corpus",
+    "BookCorpus",
+    "GPT model",
+    "Hugging Face Transformers",
+    "MLM (masked language modeling)",
+    "BERT",
+    "GPT",
+    "transfer learning",
+    "Transformers library"
+  ],
+  "10": [
+    "JAX library",
+    "pipeline",
+    "pipeline() function",
+    "PyTorch library",
+    "sentiment analysis",
+    "TensorFlow",
+    "transfer learning",
+    "transformer applications",
+    "Transformers library"
+  ],
+  "11": [
+    "named entities",
+    "pipeline() function",
+    "named entity recognition",
+    "Transformers library"
+  ],
+  "12": [
+    "context",
+    "hash symbols (#)",
+    "pipeline() function",
+    "tokenizers",
+    "transformer applications",
+    "Transformers library"
+  ],
+  "13": [
+    "extractive QA",
+    "pipeline() function",
+    "using a model from the Hub",
+    "transformer applications",
+    "Transformers library",
+    "translation"
+  ],
+  "14": [
+    "as a transformer application",
+    "pipeline() function",
+    "transformer applications",
+    "Transformers library"
+  ],
+  "15": [
+    "Accelerate library",
+    "Hugging Face",
+    "Tokenizers library",
+    "Transformers library"
+  ],
+  "16": [
+    "dataset cards",
+    "Datasets library",
+    "Hugging Face Hub",
+    "inference widget",
+    "model cards",
+    "model weights"
+  ],
+  "17": [
+    "Hugging Face",
+    "PyTorch library",
+    "Rust programming language",
+    "TensorFlow",
+    "Tokenizers library"
+  ],
+  "18": [
+    "Accelerate library",
+    "Datasets library",
+    "Hugging Face",
+    "memory mapping"
+  ],
+  "19": [
+    "bias",
+    "data",
+    "document length",
+    "language",
+    "opacity",
+    "main challenges with"
+  ],
+  "20": [
+    "Colab notebook",
+    "Google Colaboratory (Colab)"
+  ],
+  "21": [
+    "text classification"
+  ],
+  "22": [
+    "DistilBERT model",
+    "DistilBERT",
+    "text classification"
+  ],
+  "23": [
+    "Dataset (object)",
+    "datasets",
+    "GLUE",
+    "SQUAD",
+    "Datasets library",
+    "listing datasets on the Hub",
+    "loading datasets from the Hub",
+    "Emotion dataset",
+    "GLUE dataset",
+    "Hugging Face Datasets",
+    "listing datasets on",
+    "list_datasets() function",
+    "SQuAD (Stanford Question Answering Dataset)",
+    "text classification"
+  ],
+  "24": [
+    "Apache Arrow",
+    "ClassLabel",
+    "text classification"
+  ],
+  "25": [
+    "CSV dataset",
+    "custom datasets",
+    "datasets",
+    "CSV",
+    "JSON",
+    "loading local datasets",
+    "loading remote datasets",
+    "JSON dataset",
+    "loading",
+    "text classification",
+    "text dataset"
+  ],
+  "26": [
+    "int2str()",
+    "data",
+    "DataFrame",
+    "changing the output format",
+    "DataFrame converted to",
+    "int2str() method",
+    "set_format() method",
+    "text classification",
+    "DataFrames"
+  ],
+  "27": [
+    "class distribution",
+    "Karpathy",
+    "text classification"
+  ],
+  "28": [
+    "context size",
+    "DistilBERT model",
+    "Imbalanced-learn library",
+    "maximum content size",
+    "DistilBERT",
+    "text classification"
+  ],
+  "29": [
+    "character tokenization",
+    "changing the output format",
+    "numericalization",
+    "text classification",
+    "tokenization"
+  ],
+  "30": [
+    "get_dummies() function",
+    "one-hot encoding",
+    "one-hot vectors",
+    "one_hot() function",
+    "creating one-hot encodings",
+    "text classification"
+  ],
+  "31": [
+    "split() function",
+    "text classification",
+    "tokenization",
+    "word tokenization"
+  ],
+  "32": [
+    "text classification"
+  ],
+  "33": [
+    "from_pretrained()",
+    "loading from the cache",
+    "DistilBERT model",
+    "from_pretrained() method",
+    "loading",
+    "DistilBERT",
+    "subword tokenization",
+    "text classification",
+    "tokenization",
+    "loading tokenizers from the Hub",
+    "Transformers library",
+    "WordPiece"
+  ],
+  "34": [
+    "AutoTokenizer",
+    "convert_tokens_to_string()",
+    "[CLS] token",
+    "context size",
+    "convert_ids_to_tokens() method",
+    "convert_tokens_to_string() method",
+    "[SEP] token",
+    "text classification"
+  ],
+  "35": [
+    "AutoTokenizer",
+    "special token ID",
+    "processing data with the map() function",
+    "datasets",
+    "map() method",
+    "[SEP] token",
+    "text classification",
+    "tokenizing whole datasets",
+    "tokenization"
+  ],
+  "36": [
+    "data collators",
+    "DistilBERT model",
+    "DistilBERT",
+    "training",
+    "text classification",
+    "training text classifiers"
+  ],
+  "37": [
+    "[CLS] token",
+    "distilBERT",
+    "end-to-end",
+    "hidden state",
+    "one-hot vectors",
+    "text classification",
+    "training text classifiers"
+  ],
+  "38": [
+    "auto classes",
+    "AutoModel",
+    "feature extractors",
+    "from_pretrained() method",
+    "pretrained models",
+    "text classification",
+    "training text classifiers",
+    "transformers as feature extractors",
+    "Tokenizers library",
+    "as feature extractors",
+    "loading models from the Hub"
+  ],
+  "39": [
+    "last hidden states",
+    "feature extractors",
+    "frameworks",
+    "interoperability",
+    "last hidden state",
+    "PyTorch library",
+    "tensors",
+    "text classification",
+    "training text classifiers",
+    "transformers as feature extractors",
+    "as feature extractors",
+    "XLM-RoBERTa model"
+  ],
+  "40": [
+    "changing the output format",
+    "feature extractors",
+    "map() method",
+    "text classification",
+    "training text classifiers",
+    "transformers as feature extractors",
+    "as feature extractors"
+  ],
+  "41": [
+    "feature extractors",
+    "feature matrix",
+    "Scikit-learn format",
+    "text classification",
+    "training text classifiers",
+    "transformers as feature extractors",
+    "as feature extractors"
+  ],
+  "42": [
+    "feature extractors",
+    "text classification",
+    "training text classifiers",
+    "transformers as feature extractors",
+    "training sets",
+    "as feature extractors",
+    "UMAP algorithm",
+    "visualizing training sets"
+  ],
+  "43": [
+    "feature extractors",
+    "text classification",
+    "training text classifiers",
+    "transformers as feature extractors",
+    "as feature extractors"
+  ],
+  "44": [
+    "feature extractors",
+    "text classification",
+    "training text classifiers",
+    "transformers as feature extractors",
+    "as feature extractors"
+  ],
+  "45": [
+    "end-to-end",
+    "feature extractors",
+    "fine-tuning",
+    "text classification",
+    "fine-tuning transformers",
+    "training text classifiers",
+    "transformers as feature extractors",
+    "as feature extractors",
+    "fine-tuning models with"
+  ],
+  "46": [
+    "AutoModelForSequenceClassification",
+    "fine-tuning",
+    "loading",
+    "pretrained models",
+    "text classification",
+    "fine-tuning transformers",
+    "fine-tuning models with"
+  ],
+  "47": [
+    "accuracy metric",
+    "classifiers",
+    "compute_metrics() function",
+    "fine-tuning",
+    "Hugging Face Hub",
+    "Jupyter Notebook",
+    "metrics",
+    "training",
+    "performance",
+    "text classification",
+    "fine-tuning transformers",
+    "Trainer",
+    "TrainingArguments",
+    "fine-tuning models with"
+  ],
+  "48": [
+    "F1-score(s)",
+    "fine-tuning",
+    "F1-score",
+    "predict() method",
+    "text classification",
+    "fine-tuning transformers",
+    "Trainer",
+    "fine-tuning models",
+    "fine-tuning models with"
+  ],
+  "49": [
+    "fine-tuning",
+    "text classification",
+    "fine-tuning transformers",
+    "fine-tuning models with"
+  ],
+  "50": [
+    "TensorFlow class",
+    "error analysis",
+    "fine-tuning",
+    "with Keras",
+    "fit() method",
+    "Keras library",
+    "fine-tuning models using Keras API",
+    "converting to TensorFlow",
+    "text classification",
+    "fine-tuning transformers",
+    "to_tf_dataset() method",
+    "fine-tuning models with"
+  ],
+  "51": [
+    "processing data with the map() function",
+    "datasets",
+    "error analysis",
+    "fine-tuning",
+    "map() method",
+    "text classification",
+    "fine-tuning transformers"
+  ],
+  "52": [
+    "error analysis",
+    "fine-tuning",
+    "text classification",
+    "fine-tuning transformers"
+  ],
+  "53": [
+    "push_to_hub()",
+    "error analysis",
+    "fine-tuning",
+    "saving models on",
+    "saving",
+    "sharing",
+    "push_to_hub() method",
+    "sharing models",
+    "text classification",
+    "fine-tuning transformers",
+    "saving models on the Hub"
+  ],
+  "54": [
+    "fine-tuning",
+    "Inference API",
+    "text classification",
+    "fine-tuning transformers"
+  ],
+  "55": [
+    "text classification"
+  ],
+  "57": [
+    "embeddings",
+    "encoder",
+    "Transformer architecture"
+  ],
+  "58": [
+    "decoder",
+    "decoder layers",
+    "embeddings",
+    "encoder layers",
+    "EOS (end-of-sequence) token",
+    "positional embeddings",
+    "token embeddings",
+    "Transformer architecture"
+  ],
+  "59": [
+    "attention",
+    "autoregressive attention",
+    "bidirectional attention",
+    "causal attention",
+    "decoder-only model",
+    "encoder-decoder model",
+    "encoder-only model",
+    "Transformer architecture"
+  ],
+  "60": [
+    "encoder",
+    "sublayer",
+    "Transformer architecture"
+  ],
+  "61": [
+    "attention weights",
+    "contextualized embeddings",
+    "ELMO model",
+    "embeddings",
+    "self-attention",
+    "ELMO",
+    "self-attention layer",
+    "timestep",
+    "token embeddings",
+    "Transformer architecture",
+    "weighted average"
+  ],
+  "62": [
+    "scaled dot-product",
+    "attention scores",
+    "dot product",
+    "self-attention",
+    "key",
+    "query",
+    "scaled dot-product attention",
+    "similarity function",
+    "softmax",
+    "Transformer architecture",
+    "value"
+  ],
+  "63": [
+    "BertViz library",
+    "dot product",
+    "self-attention",
+    "scaled dot-product attention",
+    "Transformer architecture"
+  ],
+  "64": [
+    "dot product",
+    "self-attention",
+    "classes and methods",
+    "scaled dot-product attention",
+    "Transformer architecture"
+  ],
+  "65": [
+    "AutoConfig",
+    "excluding from tokenizer",
+    "dot product",
+    "embeddings",
+    "self-attention",
+    "one-hot encoding",
+    "scaled dot-product attention",
+    "[SEP] token",
+    "Transformer architecture"
+  ],
+  "66": [
+    "dot product",
+    "self-attention",
+    "matrices",
+    "scaled dot-product attention",
+    "softmax",
+    "tensors",
+    "torch.bmm() function",
+    "Transformer architecture"
+  ],
+  "67": [
+    "multi-headed",
+    "attention head",
+    "dot product",
+    "self-attention",
+    "multi-headed attention",
+    "scaled dot-product attention",
+    "Transformer architecture"
+  ],
+  "68": [
+    "self-attention",
+    "multi-headed attention",
+    "Transformer architecture"
+  ],
+  "69": [
+    "AutoModel",
+    "self-attention",
+    "head_view() function",
+    "multi-headed attention",
+    "Transformer architecture"
+  ],
+  "70": [
+    "feed-forward layer",
+    "self-attention",
+    "multi-headed attention",
+    "position-wise feed-forward layer",
+    "[SEP] token",
+    "sublayer",
+    "Transformer architecture"
+  ],
+  "71": [
+    "adding layer normalization",
+    "layer normalization",
+    "learning rate warm-up",
+    "normalization",
+    "post layer normalization",
+    "pre layer normalization",
+    "skip connections",
+    "Transformer architecture"
+  ],
+  "72": [
+    "permutation equivariant",
+    "Transformer architecture"
+  ],
+  "73": [
+    "embeddings",
+    "encoder",
+    "positional embeddings",
+    "Transformer architecture"
+  ],
+  "74": [
+    "absolute positional representations",
+    "relative positional representations",
+    "Transformer architecture"
+  ],
+  "75": [
+    "classification heads",
+    "adding classification heads",
+    "logits",
+    "Transformer architecture"
+  ],
+  "76": [
+    "encoder-decoder",
+    "masked multi-head self-",
+    "decoder",
+    "encoder-decoder attention",
+    "mask matrix",
+    "masked multi-head self-attention",
+    "tril() function",
+    "sublayer",
+    "Tensor.masked_fill() function",
+    "filling elements with a mask",
+    "timestep",
+    "torch.tril() function",
+    "Transformer architecture"
+  ],
+  "77": [
+    "dot product",
+    "Karpathy",
+    "minGPT model",
+    "minGPT",
+    "softmax",
+    "Transformer architecture"
+  ],
+  "78": [
+    "family tree",
+    "Transformer architecture"
+  ],
+  "79": [
+    "BERT model",
+    "encoder branch",
+    "GLUE dataset",
+    "NLU (natural language understanding)",
+    "Transformer architecture"
+  ],
+  "80": [
+    "BookCorpus dataset",
+    "Common Crawl corpus",
+    "corpus",
+    "datasets",
+    "BookCorpus",
+    "CommonCrawl",
+    "DistilBERT model",
+    "encoder branch",
+    "English Wikipedia dataset",
+    "MLM (masked language modeling)",
+    "DistilBERT",
+    "RoBERTa",
+    "XLM",
+    "NSP (next sentence prediction)",
+    "RoBERTa model",
+    "TLM (translation language modeling)",
+    "Transformer architecture",
+    "XLM model",
+    "XLM-RoBERTa model"
+  ],
+  "81": [
+    "ALBERT model",
+    "SuperGLUE",
+    "DeBERTa model",
+    "discriminator",
+    "ELECTRA model",
+    "encoder branch",
+    "ALBERT",
+    "DeBERTa",
+    "ELECTRA",
+    "softmax",
+    "SuperGLUE dataset",
+    "Transformer architecture"
+  ],
+  "82": [
+    "CTRL model",
+    "decoder branch",
+    "encoder branch",
+    "GPT model",
+    "GPT-2 model",
+    "CTRL",
+    "GPT-2",
+    "OpenAI",
+    "Transformer architecture",
+    "upscale"
+  ],
+  "83": [
+    "C4 dataset",
+    "C4",
+    "SuperGLUE",
+    "EleutherAI",
+    "encoder-decoder branch",
+    "GPT-3 model",
+    "GPT-J model",
+    "GPT-Neo model",
+    "GPT-3",
+    "GPT-J",
+    "GPT-Neo",
+    "T5",
+    "SuperGLUE dataset",
+    "T5 model",
+    "Transformer architecture"
+  ],
+  "84": [
+    "BART model",
+    "BigBird model",
+    "context size",
+    "M2M100 model",
+    "BART",
+    "BigBird",
+    "M2M100",
+    "Transformer architecture"
+  ],
+  "87": [
+    "multilingual named entity recognition",
+    "webtext",
+    "zero-shot cross-lingual transfer"
+  ],
+  "88": [
+    "zero-shot transfer",
+    "datasets",
+    "PAN-X",
+    "WikiANN",
+    "XTREME",
+    "inspecting all dataset configurations",
+    "get_dataset_config_names() function",
+    "loading a single configuration",
+    "multilingual named entity recognition",
+    "PAN-X dataset",
+    "WikiANN dataset",
+    "XTREME benchmark",
+    "zero-shot learning"
+  ],
+  "89": [
+    "datasets",
+    "ISO 639-1 language code",
+    "multilingual named entity recognition"
+  ],
+  "90": [
+    "select()",
+    "shuffle()",
+    "datasets",
+    "downsample",
+    "multilingual named entity recognition",
+    "select() method",
+    "Sequence class",
+    "shuffle() method"
+  ],
+  "91": [
+    "int2str()",
+    "datasets",
+    "multilingual named entity recognition"
+  ],
+  "92": [
+    "CoNLL dataset",
+    "corpus",
+    "datasets",
+    "CoNLL",
+    "multilingual named entity recognition",
+    "multilingual transformers",
+    "NER (named entity recognition)",
+    "transformers"
+  ],
+  "93": [
+    "Common Crawl corpus",
+    "XLM-RoBERTa",
+    "multilingual named entity recognition",
+    "SentencePiece tokenizer",
+    "tokenization",
+    "WordPiece",
+    "XLM-RoBERTa model"
+  ],
+  "94": [
+    "BPE (Byte-Pair Encoding)",
+    "multilingual named entity recognition",
+    "normalization",
+    "pipeline",
+    "pretokenization",
+    "[SEP] token",
+    "tokenizer pipeline",
+    "Unicode normalization"
+  ],
+  "95": [
+    "multilingual named entity recognition",
+    "SentencePiece tokenizer",
+    "postprocessing",
+    "[SEP] token",
+    "tokenizer model"
+  ],
+  "96": [
+    "multilingual named entity recognition",
+    "NER (named entity recognition)",
+    "transformers"
+  ],
+  "97": [
+    "multilingual named entity recognition"
+  ],
+  "98": [
+    "bodies (of neural network)",
+    "heads (of neural network)",
+    "multilingual named entity recognition"
+  ],
+  "99": [
+    "custom models",
+    "forward() function",
+    "multilingual named entity recognition"
+  ],
+  "100": [
+    "custom models",
+    "forward() function",
+    "init_weights() method",
+    "multilingual named entity recognition"
+  ],
+  "101": [
+    "overriding default values",
+    "ClassLabel",
+    "custom models",
+    "from_pretrained() method",
+    "loading",
+    "multilingual named entity recognition",
+    "loading custom models"
+  ],
+  "102": [
+    "argmax",
+    "custom models",
+    "logits",
+    "multilingual named entity recognition",
+    "loading custom models"
+  ],
+  "103": [
+    "processing data with the map() function",
+    "map() method",
+    "multilingual named entity recognition",
+    "NER (named entity recognition)",
+    "tokenization",
+    "word_ids() function"
+  ],
+  "104": [
+    "cross-entropy loss",
+    "processing data with the map() function",
+    "multilingual named entity recognition",
+    "NER (named entity recognition)",
+    "tokenization"
+  ],
+  "105": [
+    "decode()",
+    "processing data with the map() function",
+    "F1-score(s)",
+    "metrics",
+    "F1-score",
+    "multilingual named entity recognition",
+    "NER (named entity recognition)",
+    "performance",
+    "seqeval library",
+    "tokenization"
+  ],
+  "106": [
+    "multilingual named entity recognition",
+    "fine-tuning XLM-RoBERTa",
+    "TrainingArguments",
+    "XLM-RoBERTa model"
+  ],
+  "107": [
+    "data collators",
+    "model_init() method",
+    "multilingual named entity recognition",
+    "fine-tuning XLM-RoBERTa",
+    "Trainer",
+    "model_init()",
+    "using a data collator",
+    "XLM-RoBERTa model"
+  ],
+  "108": [
+    "compute_metrics() function",
+    "error analysis",
+    "multilingual named entity recognition",
+    "fine-tuning XLM-RoBERTa",
+    "NER (named entity recognition)",
+    "XLM-RoBERTa model"
+  ],
+  "109": [
+    "DataFrame",
+    "DataFrame converted to",
+    "error analysis",
+    "multilingual named entity recognition",
+    "fine-tuning XLM-RoBERTa",
+    "XLM-RoBERTa model"
+  ],
+  "110": [
+    "error analysis",
+    "multilingual named entity recognition",
+    "fine-tuning XLM-RoBERTa",
+    "pandas.Series.explode() function",
+    "XLM-RoBERTa model"
+  ],
+  "111": [
+    "error analysis",
+    "multilingual named entity recognition",
+    "fine-tuning XLM-RoBERTa",
+    "XLM-RoBERTa model"
+  ],
+  "112": [
+    "error analysis",
+    "multilingual named entity recognition",
+    "fine-tuning XLM-RoBERTa",
+    "XLM-RoBERTa model"
+  ],
+  "113": [
+    "error analysis",
+    "multilingual named entity recognition",
+    "fine-tuning XLM-RoBERTa",
+    "XLM-RoBERTa model"
+  ],
+  "114": [
+    "error analysis",
+    "multilingual named entity recognition",
+    "fine-tuning XLM-RoBERTa",
+    "PAN-X dataset",
+    "silver standard",
+    "XLM-RoBERTa model"
+  ],
+  "115": [
+    "cross-lingual transfer",
+    "error analysis",
+    "multilingual named entity recognition",
+    "fine-tuning XLM-RoBERTa",
+    "NER (named entity recognition)",
+    "predict() method",
+    "XLM-RoBERTa model"
+  ],
+  "116": [
+    "cross-lingual transfer",
+    "zero-shot transfer",
+    "downsample",
+    "multilingual named entity recognition"
+  ],
+  "117": [
+    "cross-lingual transfer",
+    "multilingual named entity recognition"
+  ],
+  "118": [
+    "concatenate_datasets() function",
+    "cross-lingual transfer",
+    "fine-tuning multiple languages simultaneously",
+    "multiple languages simultaneously",
+    "multilingual named entity recognition",
+    "fine-tuning on multiple languages simultaneously"
+  ],
+  "119": [
+    "cross-lingual transfer",
+    "fine-tuning multiple languages simultaneously",
+    "multiple languages simultaneously",
+    "multilingual named entity recognition",
+    "fine-tuning on multiple languages simultaneously",
+    "train_on_subset() function"
+  ],
+  "120": [
+    "cross-lingual transfer",
+    "fine-tuning multiple languages simultaneously",
+    "F1-score(s)",
+    "multiple languages simultaneously",
+    "F1-score",
+    "multilingual named entity recognition",
+    "fine-tuning on multiple languages simultaneously"
+  ],
+  "121": [
+    "Hugging Face Hub",
+    "MAD-X library",
+    "model widgets",
+    "multilingual named entity recognition",
+    "interacting with model widgets"
+  ],
+  "123": [
+    "GPT-2 model",
+    "OpenAI",
+    "text generation"
+  ],
+  "124": [
+    "AI Dungeon",
+    "Google's Meena",
+    "InferKit",
+    "Meena (Google)",
+    "Meena",
+    "text generation",
+    "Write With Transformer"
+  ],
+  "125": [
+    "decoding method",
+    "logits",
+    "softmax",
+    "text generation"
+  ],
+  "126": [
+    "autoregressive language models",
+    "causal language modeling",
+    "conditional text generation",
+    "text generation"
+  ],
+  "127": [
+    "argmax",
+    "decode()",
+    "decoding",
+    "generate() function",
+    "greedy search encoding",
+    "logits",
+    "softmax",
+    "text generation",
+    "timestep"
+  ],
+  "128": [
+    "decoding",
+    "text generation"
+  ],
+  "129": [
+    "decoding",
+    "GPT-2 model",
+    "OpenAI",
+    "text generation"
+  ],
+  "130": [
+    "beam search decoding",
+    "beams",
+    "decoding",
+    "metrics",
+    "partial hypotheses",
+    "text generation",
+    "timestep"
+  ],
+  "131": [
+    "beam search decoding",
+    "log probability",
+    "logits",
+    "text generation"
+  ],
+  "132": [
+    "beam search decoding",
+    "ground truth",
+    "text generation"
+  ],
+  "133": [
+    "beam search decoding",
+    "generate() function",
+    "n-gram penalty",
+    "next token probability",
+    "text generation"
+  ],
+  "134": [
+    "beam search decoding",
+    "logits",
+    "sampling methods",
+    "softmax",
+    "text generation",
+    "timestep"
+  ],
+  "135": [
+    "Boltzmann distribution",
+    "generate() function",
+    "sampling methods",
+    "text generation"
+  ],
+  "136": [
+    "nucleus sampling",
+    "sampling methods",
+    "text generation",
+    "top-k sampling",
+    "top-p sampling"
+  ],
+  "137": [
+    "nucleus sampling",
+    "sampling methods",
+    "text generation",
+    "top-k sampling",
+    "top-p sampling"
+  ],
+  "138": [
+    "cutoff",
+    "generate() function",
+    "nucleus sampling",
+    "sampling methods",
+    "text generation",
+    "top-k sampling",
+    "top-p sampling"
+  ],
+  "139": [
+    "nucleus sampling",
+    "sampling methods",
+    "text generation",
+    "top-k sampling",
+    "top-p sampling"
+  ],
+  "140": [
+    "decoding method",
+    "text generation",
+    "choosing decoding methods"
+  ],
+  "141": [
+    "abstractive summaries",
+    "CNN/DailyMail dataset",
+    "CNN/DailyMail",
+    "dialogue (conversation)",
+    "extractive summaries",
+    "loading a specific version",
+    "summarization"
+  ],
+  "142": [
+    "summarization"
+  ],
+  "143": [
+    "baseline summarization",
+    "summarization",
+    "text summarization pipelines"
+  ],
+  "144": [
+    "GPT-2 model",
+    "T5",
+    "summarization",
+    "text summarization pipelines",
+    "T5 model"
+  ],
+  "145": [
+    "BART model",
+    "PEGASUS",
+    "BART",
+    "PEGASUS model",
+    "summarization",
+    "text summarization pipelines"
+  ],
+  "146": [
+    "GPT-2 model",
+    "sent_tokenize() function",
+    "summarization",
+    "text summarization pipelines"
+  ],
+  "147": [
+    "ground truth",
+    "summarization"
+  ],
+  "148": [
+    "BLEU score",
+    "metrics",
+    "BLEU",
+    "quality",
+    "summarization"
+  ],
+  "149": [
+    "BLEU score",
+    "BLEU",
+    "quality",
+    "summarization"
+  ],
+  "150": [
+    "BLEU score",
+    "compute() function",
+    "loading metrics from the Hub",
+    "F1-score(s)",
+    "metrics",
+    "add() function",
+    "add_batch() function",
+    "BLEU",
+    "compute()",
+    "F1-score",
+    "SacreBLEU",
+    "quality",
+    "summarization"
+  ],
+  "151": [
+    "BLEU score",
+    "BLEU",
+    "quality",
+    "summarization"
+  ],
+  "152": [
+    "BLEU score",
+    "metrics",
+    "BLEU",
+    "ROUGE",
+    "n-grams",
+    "quality",
+    "ROUGE score",
+    "summarization"
+  ],
+  "153": [
+    "loading metrics from the Hub",
+    "LCS (longest common substring)",
+    "quality",
+    "summarization"
+  ],
+  "154": [
+    "AutoTokenizer",
+    "CNN/DailyMail",
+    "PEGASUS",
+    "evaluating on CNN/DailyMail dataset",
+    "quality",
+    "summarization"
+  ],
+  "155": [
+    "summarization"
+  ],
+  "156": [
+    "AutoModelForSeq2SeqLM",
+    "generate() function",
+    "summarization"
+  ],
+  "157": [
+    "SAMSum",
+    "dialogue (conversation)",
+    "training",
+    "SAMSum dataset",
+    "Samsung",
+    "summarization"
+  ],
+  "158": [
+    "PEGASUS",
+    "training",
+    "evaluating on SAMSum",
+    "summarization"
+  ],
+  "159": [
+    "as_target_tokenizer()",
+    "PEGASUS",
+    "training",
+    "summarization"
+  ],
+  "160": [
+    "context manager",
+    "data collators",
+    "PEGASUS",
+    "ground truth",
+    "training",
+    "summarization",
+    "using a data collator"
+  ],
+  "161": [
+    "AutoTokenizer",
+    "PEGASUS",
+    "gradient accumulation",
+    "training",
+    "summarization",
+    "TrainingArguments"
+  ],
+  "162": [
+    "dialogue summaries",
+    "PEGASUS",
+    "training",
+    "summarization",
+    "generating dialogue summaries"
+  ],
+  "163": [
+    "accuracy metric",
+    "metrics",
+    "training",
+    "summarization"
+  ],
+  "165": [
+    "QA (question answering)"
+  ],
+  "166": [
+    "community QA",
+    "extractive QA",
+    "Google searches",
+    "long-form QA",
+    "TAPAS",
+    "QA (question answering)",
+    "building review-based systems",
+    "long-form",
+    "question-answer pair",
+    "reading comprehension models",
+    "review-based QA systems",
+    "Stack Overflow",
+    "TAPAS model"
+  ],
+  "167": [
+    "datasets",
+    "SubjQA",
+    "QA (question answering)",
+    "building review-based systems",
+    "review-based QA systems",
+    "subjectivity",
+    "SubjQA dataset"
+  ],
+  "168": [
+    "closed-domain QA",
+    "data",
+    "flatten()",
+    "datasets",
+    "SubjQA",
+    "domain",
+    "flatten() method",
+    "get_dataset_config_names() function",
+    "choosing question answering models on",
+    "loading a single configuration",
+    "open-domain QA",
+    "QA (question answering)",
+    "building review-based systems",
+    "closed-domain",
+    "open-domain",
+    "review-based QA systems",
+    "SubjQA dataset"
+  ],
+  "169": [
+    "CUAD dataset",
+    "datasets",
+    "CUAD",
+    "SubjQA",
+    "QA (question answering)",
+    "building review-based systems",
+    "review-based QA systems",
+    "sample() method",
+    "SubjQA dataset"
+  ],
+  "170": [
+    "datasets",
+    "SubjQA",
+    "QA (question answering)",
+    "building review-based systems",
+    "review-based QA systems",
+    "SubjQA dataset"
+  ],
+  "171": [
+    "datasets",
+    "SQUAD",
+    "SubjQA",
+    "QA (question answering)",
+    "building review-based systems",
+    "SQuAD dataset",
+    "review-based QA systems",
+    "SQuAD (Stanford Question Answering Dataset)",
+    "SubjQA dataset"
+  ],
+  "172": [
+    "datasets",
+    "NQ",
+    "SubjQA",
+    "NQ dataset",
+    "QA (question answering)",
+    "building review-based systems",
+    "review-based QA systems",
+    "SubjQA dataset"
+  ],
+  "173": [
+    "answers from text",
+    "QA (question answering)",
+    "building review-based systems",
+    "extracting answers from text",
+    "span classification task",
+    "review-based QA systems",
+    "extracting answers from",
+    "fine-tuned on SQuAD"
+  ],
+  "174": [
+    "ALBERT model",
+    "answers from text",
+    "MiniLM model",
+    "ALBERT",
+    "miniLM",
+    "RoBERTa",
+    "QA (question answering)",
+    "building review-based systems",
+    "extracting answers from text",
+    "review-based QA systems",
+    "RoBERTa model",
+    "extracting answers from",
+    "XLM-RoBERTa model"
+  ],
+  "175": [
+    "decode()",
+    "answers from text",
+    "QA (question answering)",
+    "building review-based systems",
+    "extracting answers from text",
+    "review-based QA systems",
+    "text",
+    "extracting answers from",
+    "tokenization"
+  ],
+  "176": [
+    "AutoModelForQuestionAnswering",
+    "answers from text",
+    "logits",
+    "QA (question answering)",
+    "building review-based systems",
+    "extracting answers from text",
+    "review-based QA systems",
+    "[SEP] token",
+    "text",
+    "extracting answers from",
+    "tokenization"
+  ],
+  "177": [
+    "argmax",
+    "answers from text",
+    "logits",
+    "QA (question answering)",
+    "building review-based systems",
+    "extracting answers from text",
+    "review-based QA systems",
+    "text",
+    "extracting answers from",
+    "tokenization"
+  ],
+  "178": [
+    "argmax",
+    "answers from text",
+    "logits",
+    "QA (question answering)",
+    "building review-based systems",
+    "extracting answers from text",
+    "review-based QA systems",
+    "softmax",
+    "text",
+    "extracting answers from",
+    "tokenization"
+  ],
+  "179": [
+    "[CLS] token",
+    "answers from text",
+    "QA (question answering)",
+    "building review-based systems",
+    "extracting answers from text",
+    "question-context pair",
+    "review-based QA systems",
+    "extracting answers from"
+  ],
+  "180": [
+    "answers from text",
+    "QA (question answering)",
+    "building review-based systems",
+    "extracting answers from text",
+    "review-based QA systems",
+    "[SEP] token",
+    "extracting answers from"
+  ],
+  "181": [
+    "end-to-end",
+    "answers from text",
+    "building QA pipelines using",
+    "retriever-reader architecture",
+    "building using Haystack",
+    "QA (question answering)",
+    "building pipeline using Haystack",
+    "building review-based systems",
+    "extracting answers from text",
+    "readers",
+    "retriever",
+    "review-based QA systems",
+    "extracting answers from"
+  ],
+  "182": [
+    "deepset",
+    "document store",
+    "compatibility with Haystack retrievers",
+    "Haystack library",
+    "building QA pipelines using",
+    "building using Haystack",
+    "QA (question answering)",
+    "building pipeline using Haystack",
+    "building review-based systems",
+    "review-based QA systems"
+  ],
+  "183": [
+    "initializing with Elasticsearch",
+    "Elasticsearch",
+    "FAISS",
+    "building QA pipelines using",
+    "initializing document store",
+    "building using Haystack",
+    "Popen() function",
+    "QA (question answering)",
+    "building pipeline using Haystack",
+    "building review-based systems",
+    "review-based QA systems"
+  ],
+  "184": [
+    "building QA pipelines using",
+    "building using Haystack",
+    "QA (question answering)",
+    "building pipeline using Haystack",
+    "building review-based systems",
+    "review-based QA systems"
+  ],
+  "185": [
+    "loading documents with",
+    "Haystack library",
+    "building QA pipelines using",
+    "building using Haystack",
+    "QA (question answering)",
+    "building pipeline using Haystack",
+    "building review-based systems",
+    "retriever",
+    "review-based QA systems",
+    "Frequency) algorithm",
+    "write_documents() method"
+  ],
+  "186": [
+    "Amazon ASIN",
+    "Elasticsearch",
+    "building QA pipelines using",
+    "Lucene",
+    "building using Haystack",
+    "QA (question answering)",
+    "building pipeline using Haystack",
+    "building review-based systems",
+    "retrieve() method",
+    "review-based QA systems"
+  ],
+  "187": [
+    "deepset",
+    "FARM library",
+    "FARMReader",
+    "comparison with the pipeline() function",
+    "loading a model with",
+    "Haystack library",
+    "building QA pipelines using",
+    "logits",
+    "building using Haystack",
+    "QA (question answering)",
+    "building pipeline using Haystack",
+    "building review-based systems",
+    "readers",
+    "review-based QA systems",
+    "softmax",
+    "TransformersReader"
+  ],
+  "188": [
+    "predict_on_texts()",
+    "Haystack library",
+    "building QA pipelines using",
+    "building using Haystack",
+    "QA (question answering)",
+    "building pipeline using Haystack",
+    "building review-based systems",
+    "review-based QA systems",
+    "run() method"
+  ],
+  "189": [
+    "end-to-end",
+    "Haystack library",
+    "building QA pipelines using",
+    "metrics",
+    "mean average precision",
+    "building using Haystack",
+    "QA (question answering)",
+    "building pipeline using Haystack",
+    "building review-based systems",
+    "recall",
+    "retriever",
+    "review-based QA systems"
+  ],
+  "190": [
+    "ElasticsearchRetriever.eval() method",
+    "ground truth",
+    "Haystack library",
+    "mAP (mean average precision)",
+    "QA (question answering)",
+    "retriever",
+    "run() method"
+  ],
+  "191": [
+    "loading labels with",
+    "Haystack library",
+    "QA (question answering)",
+    "question-answer pair",
+    "retriever"
+  ],
+  "192": [
+    "get_all_labels_aggregated() method",
+    "Haystack library",
+    "QA (question answering)",
+    "retriever"
+  ],
+  "193": [
+    "end-to-end",
+    "Haystack library",
+    "QA (question answering)",
+    "retriever"
+  ],
+  "194": [
+    "DPR (Dense Passage Retrieval)",
+    "Haystack library",
+    "DPR",
+    "QA (question answering)",
+    "retriever"
+  ],
+  "195": [
+    "Haystack library",
+    "QA (question answering)",
+    "retriever"
+  ],
+  "196": [
+    "EM (Exact Match) score",
+    "F1-score(s)",
+    "FAISS",
+    "ground truth",
+    "Haystack library",
+    "Exact Match",
+    "QA (question answering)",
+    "readers",
+    "retriever"
+  ],
+  "197": [
+    "F1-score",
+    "QA (question answering)",
+    "question-answer pair",
+    "readers"
+  ],
+  "198": [
+    "QA (question answering)",
+    "readers",
+    "SQuAD (Stanford Question Answering Dataset)"
+  ],
+  "199": [
+    "domain",
+    "domain adaptation",
+    "training models with",
+    "train()",
+    "QA (question answering)",
+    "question-answer pair",
+    "readers",
+    "train() method"
+  ],
+  "200": [
+    "domain",
+    "domain adaptation",
+    "training models with",
+    "QA (question answering)"
+  ],
+  "201": [
+    "domain",
+    "domain adaptation",
+    "training models with",
+    "QA (question answering)"
+  ],
+  "202": [
+    "domain",
+    "domain adaptation",
+    "training models with",
+    "train()",
+    "QA (question answering)",
+    "SQuAD (Stanford Question Answering Dataset)"
+  ],
+  "203": [
+    "domain",
+    "domain adaptation",
+    "training models with",
+    "evaluating whole pipeline",
+    "QA (question answering)"
+  ],
+  "204": [
+    "QA (question answering)"
+  ],
+  "205": [
+    "abstractive QA",
+    "end-to-end",
+    "generative QA",
+    "RAG",
+    "QA (question answering)",
+    "RAG (retrieval-augmented generation)",
+    "RAG-Sequence models"
+  ],
+  "206": [
+    "QA (question answering)",
+    "RAG-Token models"
+  ],
+  "207": [
+    "Fast Forward QA series",
+    "Grid Dynamics",
+    "QA (question answering)"
+  ],
+  "208": [
+    "Haystack library"
+  ],
+  "209": [
+    "efficiency",
+    "Requests on CPUs\"",
+    "state of the art",
+    "transformers"
+  ],
+  "210": [
+    "efficiency",
+    "intent detection",
+    "out-of-scope queries",
+    "transformers"
+  ],
+  "211": [
+    "BERT model",
+    "efficiency",
+    "transformers"
+  ],
+  "212": [
+    "Ameisen",
+    "efficiency",
+    "creating performance benchmarks",
+    "latency",
+    "memory",
+    "performance of",
+    "performance",
+    "Stack Overflow",
+    "transformers"
+  ],
+  "213": [
+    "CLINC150 dataset",
+    "CLINC150",
+    "efficiency",
+    "creating performance benchmarks",
+    "performance",
+    "run_benchmark() method",
+    "transformers"
+  ],
+  "214": [
+    "accuracy metric",
+    "str2int()",
+    "compute_accuracy() method",
+    "loading metrics from the Hub",
+    "efficiency",
+    "creating performance benchmarks",
+    "ground truth",
+    "metrics",
+    "performance",
+    "str2int() method",
+    "torch.save() function",
+    "transformers"
+  ],
+  "215": [
+    "compute_size() function",
+    "efficiency",
+    "creating performance benchmarks",
+    "key/value pair",
+    "Path.stat() function",
+    "performance",
+    "perf_counter() function",
+    "time_pipeline() function",
+    "transformers"
+  ],
+  "216": [
+    "efficiency",
+    "creating performance benchmarks",
+    "performance",
+    "transformers"
+  ],
+  "217": [
+    "BERT model",
+    "efficiency",
+    "creating performance benchmarks",
+    "ground truth",
+    "Hinton",
+    "knowledge distillation",
+    "performance",
+    "transformers"
+  ],
+  "218": [
+    "efficiency",
+    "KL (Kullback-Leibler) divergence",
+    "logits",
+    "softmax",
+    "transformers"
+  ],
+  "219": [
+    "cross-entropy loss",
+    "efficiency",
+    "transformers"
+  ],
+  "220": [
+    "BERT model",
+    "efficiency",
+    "knowledge distillation",
+    "creating a trainer",
+    "pretraining",
+    "Trainer",
+    "creating a custom TrainingArguments",
+    "transformers"
+  ],
+  "221": [
+    "compile() method",
+    "compute_loss() method",
+    "efficiency",
+    "F.log_softmax() function",
+    "Keras library",
+    "logits",
+    "types of",
+    "softmax",
+    "test_step() method",
+    "computing custom loss",
+    "creating a custom Trainer",
+    "train_step() method",
+    "transformers"
+  ],
+  "222": [
+    "compute_metrics() function",
+    "efficiency",
+    "choosing student initialization",
+    "TrainingArguments",
+    "transformers"
+  ],
+  "223": [
+    "efficiency",
+    "ground truth",
+    "choosing student initialization",
+    "task agnostic distillation",
+    "train() method",
+    "Trainer",
+    "transformers"
+  ],
+  "224": [
+    "overriding default values",
+    "BERT model",
+    "efficiency",
+    "from_pretrained() method",
+    "choosing student initialization",
+    "transformers"
+  ],
+  "225": [
+    "efficiency",
+    "choosing student initialization",
+    "transformers"
+  ],
+  "226": [
+    "efficiency",
+    "hyperparameters",
+    "choosing student initialization",
+    "finding hyperparameters with Optuna",
+    "Optuna",
+    "transformers"
+  ],
+  "227": [
+    "efficiency",
+    "objective() function",
+    "transformers"
+  ],
+  "228": [
+    "efficiency",
+    "hyperparameter_search() method",
+    "hyperparameter_search()",
+    "transformers"
+  ],
+  "229": [
+    "efficiency",
+    "benchmarking the model",
+    "plot_metrics() function",
+    "transformers"
+  ],
+  "230": [
+    "efficiency",
+    "quantization",
+    "transformers"
+  ],
+  "231": [
+    "efficiency",
+    "exponent",
+    "fixed-point numbers",
+    "floating-point numbers",
+    "mantissa",
+    "quantization",
+    "radix point",
+    "sign",
+    "significand",
+    "tensors",
+    "transformers",
+    "zero point"
+  ],
+  "232": [
+    "efficiency",
+    "matrices",
+    "quantization",
+    "transformers"
+  ],
+  "233": [
+    "efficiency",
+    "quantization",
+    "quantize_per_tensor() function",
+    "tensors",
+    "transformers"
+  ],
+  "234": [
+    "efficiency",
+    "quantization",
+    "transformers"
+  ],
+  "235": [
+    "dynamic quantization",
+    "efficiency",
+    "getsizeof() function",
+    "quantization",
+    "static quantization",
+    "Tensor.storage() function",
+    "tensors",
+    "transformers"
+  ],
+  "236": [
+    "efficiency",
+    "benchmarking quantized models",
+    "quantization",
+    "quantization-aware training",
+    "quantize_dynamic() function",
+    "transformers"
+  ],
+  "237": [
+    "BERT model",
+    "efficiency",
+    "intermediate representation",
+    "ONNX-ML",
+    "transformers"
+  ],
+  "238": [
+    "constant folding",
+    "efficiency",
+    "fused operation",
+    "transformers"
+  ],
+  "239": [
+    "convert_graph_to_onnx.convert() function",
+    "efficiency",
+    "OpenMP",
+    "transformers"
+  ],
+  "240": [
+    "argmax",
+    "efficiency",
+    "ground truth",
+    "logits",
+    "operator sets",
+    "transformers"
+  ],
+  "241": [
+    "compute_accuracy() method",
+    "compute_size() function",
+    "efficiency",
+    "torch.save() function",
+    "transformers"
+  ],
+  "242": [
+    "efficiency",
+    "ORT (ONNX Runtime)",
+    "quantize_dynamic() function",
+    "transformers"
+  ],
+  "243": [
+    "efficiency",
+    "weight pruning and",
+    "transformers",
+    "weight pruning"
+  ],
+  "244": [
+    "deep neural networks",
+    "efficiency",
+    "mask matrix",
+    "matrices",
+    "transformers",
+    "weight pruning"
+  ],
+  "245": [
+    "efficiency",
+    "magnitude pruning",
+    "\"Optimal Brain Surgeon\" paper",
+    "transformers",
+    "weight pruning"
+  ],
+  "246": [
+    "efficiency",
+    "movement pruning",
+    "transformers",
+    "weight pruning"
+  ],
+  "247": [
+    "efficiency",
+    "Neural Networks Block Movement Pruning",
+    "transformers",
+    "weight pruning"
+  ],
+  "249": [
+    "labels"
+  ],
+  "250": [
+    "labels",
+    "UDA (Unsupervised Data Augmentation)",
+    "UST (Uncertainty-Aware Self-Training)"
+  ],
+  "251": [
+    "GitHub",
+    "building an Issues Tagger",
+    "Issues tab",
+    "Issues Tagger",
+    "Jira",
+    "labels",
+    "building GitHub Issues tagger",
+    "multilabel text classification problem",
+    "open source"
+  ],
+  "252": [
+    "GitHub",
+    "building an Issues Tagger",
+    "GitHub REST API",
+    "Issues Tagger",
+    "labels",
+    "building GitHub Issues tagger"
+  ],
+  "253": [
+    "GitHub",
+    "building an Issues Tagger",
+    "Issues Tagger",
+    "labels",
+    "building GitHub Issues tagger"
+  ],
+  "254": [
+    "GitHub",
+    "building an Issues Tagger",
+    "Issues Tagger",
+    "labels",
+    "building GitHub Issues tagger"
+  ],
+  "255": [
+    "GitHub",
+    "building an Issues Tagger",
+    "Issues Tagger",
+    "labels",
+    "building GitHub Issues tagger"
+  ],
+  "256": [
+    "GitHub",
+    "building an Issues Tagger",
+    "Issues Tagger",
+    "labels",
+    "building GitHub Issues tagger"
+  ],
+  "257": [
+    "GitHub",
+    "building an Issues Tagger",
+    "Issues Tagger",
+    "labels",
+    "building GitHub Issues tagger",
+    "Scikit-multilearn library",
+    "training sets"
+  ],
+  "258": [
+    "balanced_split() function",
+    "DataFrame",
+    "DataFrame converted to",
+    "from_pandas() method",
+    "building an Issues Tagger",
+    "Issues Tagger",
+    "iterative_train_test_split() function",
+    "labels",
+    "building GitHub Issues tagger"
+  ],
+  "259": [
+    "building an Issues Tagger",
+    "Issues Tagger",
+    "iterative_train_test_split() function",
+    "labels",
+    "building GitHub Issues tagger",
+    "training slices"
+  ],
+  "260": [
+    "BERT model",
+    "F1-score(s)",
+    "labels",
+    "map() method",
+    "F1-score",
+    "Naive Bayes",
+    "Naive baseline",
+    "Naive Bayes classifier"
+  ],
+  "261": [
+    "labels",
+    "Naive Bayes",
+    "Naive baseline"
+  ],
+  "262": [
+    "labels",
+    "Naive Bayes",
+    "Naive baseline"
+  ],
+  "263": [
+    "BERT model",
+    "Davison",
+    "labels",
+    "working with no labeled data",
+    "Naive Bayes",
+    "Naive baseline",
+    "zero-shot classification"
+  ],
+  "264": [
+    "labels",
+    "working with no labeled data",
+    "zero-shot classification"
+  ],
+  "265": [
+    "MNLI",
+    "labels",
+    "working with no labeled data",
+    "MNLI dataset",
+    "NLI (natural language inference)",
+    "text entailment",
+    "zero-shot classification"
+  ],
+  "266": [
+    "labels",
+    "working with no labeled data",
+    "NLI (natural language inference)",
+    "zero-shot classification"
+  ],
+  "267": [
+    "get_preds() function",
+    "labels",
+    "working with no labeled data",
+    "map() method",
+    "NLI (natural language inference)",
+    "zero-shot classification"
+  ],
+  "268": [
+    "labels",
+    "working with no labeled data",
+    "NLI (natural language inference)",
+    "zero-shot classification"
+  ],
+  "269": [
+    "labels",
+    "working with no labeled data",
+    "NLI (natural language inference)",
+    "zero-shot classification"
+  ],
+  "270": [
+    "labels",
+    "working with no labeled data",
+    "NLI (natural language inference)",
+    "zero-shot classification"
+  ],
+  "271": [
+    "data",
+    "labels",
+    "working with a few",
+    "working with no labeled data",
+    "NLI (natural language inference)",
+    "zero-shot classification"
+  ],
+  "272": [
+    "back translation",
+    "Chaudhary",
+    "labels",
+    "working with a few",
+    "M2M100 model",
+    "M2M100",
+    "NlpAug library",
+    "TextAttack library",
+    "token perturbations"
+  ],
+  "273": [
+    "labels",
+    "working with a few",
+    "map() method"
+  ],
+  "274": [
+    "labels",
+    "working with a few"
+  ],
+  "275": [
+    "using as a lookup table",
+    "labels",
+    "working with a few",
+    "lookup table"
+  ],
+  "276": [
+    "using as a lookup table",
+    "GPT-2 model",
+    "GPT-3 model",
+    "labels",
+    "working with a few",
+    "lookup table",
+    "mean pooling",
+    "GPT-2",
+    "GPT-3",
+    "OpenAI",
+    "pooling"
+  ],
+  "277": [
+    "creating a FAISS index",
+    "datasets",
+    "add_faiss_index() function",
+    "using as a lookup table",
+    "FAISS",
+    "get_nearest_examples() function",
+    "labels",
+    "working with a few",
+    "lookup table"
+  ],
+  "278": [
+    "using as a lookup table",
+    "get_nearest_examples_batch() function",
+    "labels",
+    "working with a few",
+    "lookup table"
+  ],
+  "279": [
+    "using as a lookup table",
+    "labels",
+    "working with a few",
+    "lookup table"
+  ],
+  "280": [
+    "using as a lookup table",
+    "labels",
+    "working with a few",
+    "lookup table"
+  ],
+  "281": [
+    "using as a lookup table",
+    "labels",
+    "working with a few",
+    "lookup table"
+  ],
+  "282": [
+    "using as a lookup table",
+    "FAISS",
+    "efficient similarity search with",
+    "labels",
+    "working with a few",
+    "lookup table"
+  ],
+  "283": [
+    "labels",
+    "working with a few"
+  ],
+  "284": [
+    "CCMatrix corpus",
+    "corpus",
+    "labels",
+    "working with a few",
+    "M2M100 model",
+    "M2M100",
+    "speedup",
+    "vanilla transformers"
+  ],
+  "285": [
+    "F1-score(s)",
+    "labels",
+    "working with a few",
+    "F1-score"
+  ],
+  "286": [
+    "labels",
+    "working with a few",
+    "logits",
+    "Trainer"
+  ],
+  "287": [
+    "labels",
+    "working with a few"
+  ],
+  "288": [
+    "ADAPET method",
+    "few-shot learning",
+    "in-context learning",
+    "labels",
+    "working with a few",
+    "prompts"
+  ],
+  "289": [
+    "data collators",
+    "domain",
+    "domain adaptation",
+    "labels",
+    "leveraging unlabeled data",
+    "working with a few",
+    "language models",
+    "unlabeled data"
+  ],
+  "290": [
+    "AutoTokenizer",
+    "convert_ids_to_tokens()",
+    "labels",
+    "leveraging unlabeled data",
+    "language models",
+    "[SEP] token",
+    "using a data collator",
+    "unlabeled data"
+  ],
+  "291": [
+    "AutoModelForMaskedLM",
+    "labels",
+    "leveraging unlabeled data",
+    "language models",
+    "Trainer",
+    "unlabeled data"
+  ],
+  "292": [
+    "labels",
+    "leveraging unlabeled data",
+    "language models",
+    "unlabeled data"
+  ],
+  "293": [
+    "classifiers",
+    "labels",
+    "leveraging unlabeled data",
+    "unlabeled data"
+  ],
+  "294": [
+    "labels",
+    "leveraging unlabeled data",
+    "unlabeled data"
+  ],
+  "295": [
+    "cross-entropy loss",
+    "labels",
+    "leveraging unlabeled data",
+    "UDA (Unsupervised Data Augmentation)",
+    "unlabeled data",
+    "UST (Uncertainty-Aware Self-Training)"
+  ],
+  "296": [
+    "BALD (Bayesian Active Learning by Disagreement)",
+    "labels",
+    "leveraging unlabeled data",
+    "pseudo-labels",
+    "unlabeled data"
+  ],
+  "299": [
+    "CodeParrot model",
+    "CodeParrot",
+    "GitHub Copilot",
+    "Kite",
+    "TabNine",
+    "training transformers from scratch"
+  ],
+  "300": [
+    "corpus",
+    "datasets",
+    "GitHub",
+    "Jupyter Notebook",
+    "training transformers from scratch"
+  ],
+  "301": [
+    "bias",
+    "BookCorpus dataset",
+    "C4 dataset",
+    "corpus",
+    "datasets",
+    "BookCorpus",
+    "C4",
+    "training transformers from scratch"
+  ],
+  "302": [
+    "corpus",
+    "datasets",
+    "GPT model",
+    "GPT-2 model",
+    "GPT-2",
+    "training transformers from scratch"
+  ],
+  "303": [
+    "corpus",
+    "datasets",
+    "building custom code",
+    "GitHub Copilot",
+    "training transformers from scratch",
+    "building custom code datasets",
+    "webtext"
+  ],
+  "304": [
+    "CodeSearchNet dataset",
+    "datasets",
+    "building custom code",
+    "CodeSearchNet",
+    "creating with Google BigQuery",
+    "License API",
+    "GitHub REST API",
+    "Libraries.io",
+    "open source",
+    "training transformers from scratch",
+    "building custom code datasets",
+    "TransCoder model"
+  ],
+  "305": [
+    "datasets",
+    "building custom code",
+    "training transformers from scratch",
+    "building custom code datasets"
+  ],
+  "306": [
+    "BigQuery",
+    "datasets",
+    "building custom code",
+    "filtering noise",
+    "load_dataset() function",
+    "memory mapping",
+    "noise",
+    "training transformers from scratch",
+    "building custom code datasets"
+  ],
+  "307": [
+    "Apache Arrow",
+    "datasets",
+    "training transformers from scratch"
+  ],
+  "308": [
+    "datasets",
+    "load_dataset() function",
+    "shuffle() method",
+    "streaming datasets",
+    "training transformers from scratch"
+  ],
+  "309": [
+    "datasets",
+    "adding to Hugging Face Hub",
+    "adding datasets to",
+    "notebook_login() function",
+    "training transformers from scratch",
+    "adding datasets to Hugging Face Hub"
+  ],
+  "310": [
+    "C4 dataset",
+    "CamemBERT tokenizer",
+    "corpus",
+    "dataset cards",
+    "datasets",
+    "C4",
+    "OSCAR",
+    "CamemBERT",
+    "T5",
+    "OSCAR corpus",
+    "README cards",
+    "T5 model",
+    "tokenizers",
+    "training transformers from scratch"
+  ],
+  "311": [
+    "AutoTokenizer",
+    "tokenizers",
+    "training transformers from scratch"
+  ],
+  "312": [
+    "BPE (Byte-Pair Encoding)",
+    "coverage metrics",
+    "open source",
+    "pipeline",
+    "proportion",
+    "subword fertility",
+    "tokenizer model",
+    "tokenizers",
+    "training transformers from scratch",
+    "measuring tokenizer performance",
+    "Unigram",
+    "WordPiece"
+  ],
+  "313": [
+    "GPT-2 model",
+    "GPT-2",
+    "Python",
+    "tokenizers",
+    "training transformers from scratch"
+  ],
+  "314": [
+    "AutoTokenizer",
+    "byte-level",
+    "offset tracking",
+    "Python",
+    "Rust programming language",
+    "tokenizers",
+    "training transformers from scratch",
+    "Unicode normalization"
+  ],
+  "315": [
+    "Python",
+    "tokenizers",
+    "training transformers from scratch"
+  ],
+  "316": [
+    "BPE (Byte-Pair Encoding)",
+    "Python",
+    "tokenizers",
+    "training transformers from scratch"
+  ],
+  "317": [
+    "Python",
+    "tokenizers",
+    "training transformers from scratch"
+  ],
+  "318": [
+    "training",
+    "Python",
+    "tokenizers",
+    "training transformers from scratch",
+    "train_new_from_iterator() method"
+  ],
+  "319": [
+    "training",
+    "tokenizers",
+    "training transformers from scratch"
+  ],
+  "320": [
+    "training",
+    "recv keyword",
+    "tokenizers",
+    "training transformers from scratch"
+  ],
+  "321": [
+    "context size",
+    "GPT-2 model",
+    "GPT-2",
+    "training",
+    "nonlocal keyword",
+    "tokenizers",
+    "training transformers from scratch"
+  ],
+  "322": [
+    "saving custom tokenizers on",
+    "push_to_hub() method",
+    "custom tokenizers on Hugging Face Hub",
+    "saving on Hugging Face Hub",
+    "training transformers from scratch"
+  ],
+  "323": [
+    "causal language modeling",
+    "pretraining",
+    "training transformers from scratch"
+  ],
+  "324": [
+    "MLM (masked language modeling)",
+    "seq2seq (sequence-to-sequence)",
+    "training transformers from scratch"
+  ],
+  "325": [
+    "overriding default values",
+    "from_config()",
+    "from_config() method",
+    "from_pretrained() method",
+    "initializing",
+    "training transformers from scratch"
+  ],
+  "326": [
+    "Dataloader",
+    "training transformers from scratch",
+    "implementing Dataloader"
+  ],
+  "327": [
+    "Dataloader",
+    "training transformers from scratch",
+    "implementing Dataloader"
+  ],
+  "328": [
+    "Dataloader",
+    "iter() function",
+    "training transformers from scratch",
+    "implementing Dataloader"
+  ],
+  "329": [
+    "Dataloader",
+    "training transformers from scratch",
+    "implementing Dataloader"
+  ],
+  "330": [
+    "changes to training loop",
+    "comparison with Trainer",
+    "prepare()",
+    "data parallelism",
+    "GPT-2 model",
+    "GPT-2",
+    "prepare() function",
+    "training loop",
+    "training transformers from scratch",
+    "defining training loop"
+  ],
+  "331": [
+    "setup_logging() method",
+    "TensorBoard",
+    "training loop",
+    "training transformers from scratch",
+    "defining training loop",
+    "Weights & Biases"
+  ],
+  "332": [
+    "Accelerator",
+    "training loop",
+    "training transformers from scratch",
+    "defining training loop"
+  ],
+  "333": [
+    "AutoModelFor CausalLM",
+    "metrics",
+    "training loop",
+    "training transformers from scratch",
+    "defining training loop"
+  ],
+  "334": [
+    "training loop",
+    "training transformers from scratch",
+    "defining training loop"
+  ],
+  "335": [
+    "gradient accumulation",
+    "gradient checkpointing",
+    "training loop",
+    "training transformers from scratch",
+    "defining training loop"
+  ],
+  "336": [
+    "DDP (DataDistributedParallelism)",
+    "training loop",
+    "training transformers from scratch",
+    "defining training loop"
+  ],
+  "337": [
+    "Accelerate library",
+    "launching training jobs",
+    "CodeParrot model",
+    "CodeParrot",
+    "training loop",
+    "training run",
+    "training transformers from scratch",
+    "defining training loop"
+  ],
+  "338": [
+    "analysis",
+    "training transformers from scratch",
+    "results and analysis"
+  ],
+  "339": [
+    "analysis",
+    "training transformers from scratch",
+    "results and analysis"
+  ],
+  "340": [
+    "analysis",
+    "training transformers from scratch",
+    "results and analysis"
+  ],
+  "341": [
+    "analysis",
+    "training transformers from scratch",
+    "results and analysis"
+  ],
+  "342": [
+    "analysis",
+    "CodeParrot model",
+    "CodeParrot",
+    "training transformers from scratch",
+    "results and analysis"
+  ],
+  "343": [
+    "analysis",
+    "training transformers from scratch",
+    "results and analysis"
+  ],
+  "345": [
+    "scaling transformers",
+    "Sutton"
+  ],
+  "346": [
+    "GPT-3 model",
+    "GPT-3"
+  ],
+  "347": [
+    "cross-entropy loss",
+    "relationship with scale",
+    "scaling laws",
+    "scaling transformers",
+    "smooth power laws"
+  ],
+  "348": [
+    "sample efficiency"
+  ],
+  "349": [
+    "cost",
+    "datasets",
+    "infrastructure",
+    "evaluation of",
+    "scaling transformers",
+    "webtext"
+  ],
+  "350": [
+    "BigScience",
+    "deployment",
+    "EleutherAI",
+    "GPT-J model",
+    "GPT-Neo model",
+    "Inference API",
+    "GPT-J",
+    "GPT-Neo",
+    "open source",
+    "OpenAI"
+  ],
+  "351": [
+    "self-",
+    "self-attention mechanisms"
+  ],
+  "352": [
+    "attention",
+    "band attention",
+    "dilated attention",
+    "global attention",
+    "random attention",
+    "scaling transformers",
+    "sparse attention"
+  ],
+  "353": [
+    "attention",
+    "BigBird model",
+    "dot product",
+    "linearized attention",
+    "Longformer model",
+    "BigBird",
+    "Longformer",
+    "Reformer",
+    "Reformer model",
+    "scaling transformers"
+  ],
+  "354": [
+    "kernel function",
+    "text"
+  ],
+  "355": [
+    "CNN (convolutional neural network)",
+    "common sense limitation",
+    "facts limitation",
+    "human reporting bias limitation",
+    "iGPT model",
+    "modality limitation",
+    "iGPT",
+    "text",
+    "vision"
+  ],
+  "356": [
+    "ViT",
+    "text",
+    "vision",
+    "ViT model"
+  ],
+  "357": [
+    "text",
+    "vision"
+  ],
+  "358": [
+    "text",
+    "TimeSformer model",
+    "vision"
+  ],
+  "359": [
+    "TAPAS",
+    "Table QA",
+    "TAPAS model",
+    "text"
+  ],
+  "360": [
+    "text"
+  ],
+  "361": [
+    "multimodal transformers",
+    "speech-to-text",
+    "text"
+  ],
+  "362": [
+    "ASR (automatic speech recognition)",
+    "SUPERB",
+    "Wav2Vec2",
+    "multimodal transformers",
+    "speech-to-text",
+    "SUPERB dataset",
+    "text",
+    "Wav2Vec2 models"
+  ],
+  "363": [
+    "Jupyter Notebook",
+    "multimodal transformers",
+    "SoundFile library",
+    "speech-to-text",
+    "text"
+  ],
+  "364": [
+    "VQA",
+    "multimodal transformers",
+    "speech-to-text",
+    "text",
+    "vision",
+    "VQA dataset"
+  ],
+  "365": [
+    "LayoutLM model",
+    "LXMERT model",
+    "LayoutLM",
+    "LXMERT",
+    "ResNet",
+    "VisualBERT",
+    "ResNet model",
+    "text",
+    "vision",
+    "VisualBERT model"
+  ],
+  "366": [
+    "DALL-E model",
+    "generative tasks",
+    "DALL-E",
+    "text",
+    "vision"
+  ],
+  "367": [
+    "CLIP model",
+    "dot product",
+    "CLIP",
+    "text",
+    "vision"
+  ],
+  "368": [
+    "feature extractors",
+    "text",
+    "vision"
+  ],
+  "369": [
+    "text",
+    "vision"
+  ],
+  "370": [
+    "fastpages",
+    "Hugging Face",
+    "open source",
+    "text",
+    "vision"
+  ]
+}

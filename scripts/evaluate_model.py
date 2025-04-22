@@ -133,7 +133,7 @@ def make_compute_metrics(tokenizer):
 
             bertscore = get_bertscore(predicted_phrases, gt_labels)
             accuracy_score_value = accuracy_score(predicted_phrases, gt_labels)
-            f1_score = f1_score(predicted_phrases, gt_labels)
+            f1_score = calc_f1_score(predicted_phrases, gt_labels)
             rouge_1, rouge_2, rouge_L = compute_rouge_scores(predicted_phrases, gt_labels)
             
 
