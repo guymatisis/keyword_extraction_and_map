@@ -1,0 +1,28 @@
+The Drivetrain Approach, illustrated in Figure 2-2, was described in detail in
+“Designing Great Data Products”. The basic idea is to start with considering your
+objective, then think about what actions you can take to meet that objective and what
+data you have (or can acquire) that can help, and then build a model that you can use
+to determine the best actions to take to get the best results in terms of your objective.
+<i>Figure</i> <i>2-2.</i> <i>The</i> <i>Drivetrain</i> <i>Approach</i>
+Consider a model in an autonomous vehicle: you want to help a car drive safely from
+point A to point B without human intervention. Great predictive modeling is an
+important part of the solution, but it doesn’t stand on its own; as products become
+more sophisticated, it disappears into the plumbing. Someone using a self-driving car
+is completely unaware of the hundreds (if not thousands) of models and the petabytes
+of data that make it work. But as data scientists build increasingly sophisticated prod‐
+ucts, they need a systematic design approach.
+We use data not just to generate more data (in the form of predictions), but to pro‐
+duce <i>actionable</i> <i>outcomes.</i> That is the goal of the Drivetrain Approach. Start by defin‐
+ing a clear <i>objective.</i> For instance, Google, when creating its first search engine,
+considered “What is the user’s main objective in typing in a search query?” This led
+to Google’s objective, which was to “show the most relevant search result.” The next
+step is to consider what <i>levers</i> you can pull (i.e., what actions you can take) to better
+achieve that objective. In Google’s case, that was the ranking of the search results. The
+third step was to consider what new <i>data</i> they would need to produce such a ranking;
+they realized that the implicit information regarding which pages linked to which
+other pages could be used for this purpose.
+Only after these first three steps do we begin thinking about building the predictive
+<i>models.</i> Our objective and available levers, what data we already have and what addi‐
+tional data we will need to collect, determine the models we can build. The models
+will take both the levers and any uncontrollable variables as their inputs; the outputs
+from the models can be combined to predict the final state for our objective.

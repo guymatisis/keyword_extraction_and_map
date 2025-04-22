@@ -1,0 +1,28 @@
+scaled this up to thousands or even million of entries we would need to wait a while
+for each query to be processed.
+FAISS addresses this issue with several tricks. The main idea is to partition the data‐
+set. If we only need to compare the query vector to a subset of the database, we can
+speed up the process significantly. But if we just randomly partition the dataset, how
+can we decide which partition to search, and what guarantees do we get for finding
+the most similar entries? Evidently, there must be a better solution: apply <i>k-means</i>
+clustering to the dataset! This clusters the embeddings into groups by similarity. Fur‐
+thermore, for each group we get a centroid vector, which is the average of all mem‐
+bers of the group (Figure 9-4).
+<i>Figure</i> <i>9-4.</i> <i>The</i> <i>structure</i> <i>of</i> <i>a</i> <i>FAISS</i> <i>index:</i> <i>the</i> <i>gray</i> <i>points</i> <i>represent</i> <i>data</i> <i>points</i> <i>added</i>
+<i>to</i> <i>the</i> <i>index,</i> <i>the</i> <i>bold</i> <i>black</i> <i>points</i> <i>are</i> <i>the</i> <i>cluster</i> <i>centers</i> <i>found</i> <i>via</i> <i>k-means</i> <i>clustering,</i>
+<i>and</i> <i>the</i> <i>colored</i> <i>areas</i> <i>represent</i> <i>the</i> <i>regions</i> <i>belonging</i> <i>to</i> <i>a</i> <i>cluster</i> <i>center</i>
+Given such a grouping, searching among <i>n</i> vectors is much easier: we first search
+across the <i>k</i> centroids for the one that is most similar to our query (k comparisons),
+<i>k</i>
+and then we search within the group ( elements to compare). This reduces the num‐
+<i>n</i>
+<i>n</i>
+ber of comparisons from <i>n</i> to <i>k</i> + . So the question is, what is the best option for <i>k?</i>
+<i>k</i>
+If it is too small, each group still contains many samples we need to compare against
+in the second step, and if <i>k</i> is too large there are many centroids we need to search
+<i>n</i>
+through. Looking for the minimum of the function <i>f</i> <i>k</i> = <i>k</i> + with respect to <i>k,</i> we
+<i>k</i>
+20
+find <i>k</i> = <i>n.</i> In fact, we can visualize this with the following graphic with <i>n</i> = 2 .

@@ -1,0 +1,28 @@
+You can then compute the reconstruction pre-image error:
+<b>>>></b> <b>from</b> <b>sklearn.metrics</b> <b>import</b> mean_squared_error
+<b>>>></b> mean_squared_error(X, X_preimage)
+32.786308795766132
+Now you can use grid search with cross-validation to find the kernel and hyperpara‐
+meters that minimize this error.
+<header><largefont><b>LLE</b></largefont></header>
+<i>Locally</i> <i>Linear</i> <i>Embedding</i> (LLE)8 is another powerful <i>nonlinear</i> <i>dimensionality</i> <i>reduc‐</i>
+<i>tion</i> (NLDR) technique. It is a Manifold Learning technique that does not rely on
+projections, like the previous algorithms do. In a nutshell, LLE works by first measur‐
+ing how each training instance linearly relates to its closest neighbors (c.n.), and then
+looking for a low-dimensional representation of the training set where these local
+relationships are best preserved (more details shortly). This approach makes it partic‐
+ularly good at unrolling twisted manifolds, especially when there is not too much
+noise.
+LocallyLinearEmbedding
+The following code uses Scikit-Learn’s class to unroll the
+Swiss roll:
+<b>from</b> <b>sklearn.manifold</b> <b>import</b> LocallyLinearEmbedding
+lle = LocallyLinearEmbedding(n_components=2, n_neighbors=10)
+X_reduced = lle.fit_transform(X)
+The resulting 2D dataset is shown in Figure 8-12. As you can see, the Swiss roll is
+completely unrolled, and the distances between instances are locally well preserved.
+However, distances are not preserved on a larger scale: the left part of the unrolled
+Swiss roll is stretched, while the right part is squeezed. Nevertheless, LLE did a pretty
+good job at modeling the manifold.
+8 SamT.RoweisandLawrenceK.Saul,“NonlinearDimensionalityReductionbyLocallyLinearEmbedding,”
+<i>Science290,no.5500(2000):2323–2326.</i>

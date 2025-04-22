@@ -1,0 +1,20 @@
+<header><largefont><b>The</b></largefont> <largefont><b>Hugging</b></largefont> <largefont><b>Face</b></largefont> <largefont><b>Hub</b></largefont></header>
+As outlined earlier, transfer learning is one of the key factors driving the success of
+transformers because it makes it possible to reuse pretrained models for new tasks.
+Consequently, it is crucial to be able to load pretrained models quickly and run
+experiments with them.
+The Hugging Face Hub hosts over 20,000 freely available models. As shown in
+Figure 1-10, there are filters for tasks, frameworks, datasets, and more that are
+designed to help you navigate the Hub and quickly find promising candidates. As
+we’ve seen with the pipelines, loading a promising model in your code is then literally
+just one line of code away. This makes experimenting with a wide range of models
+simple, and allows you to focus on the domain-specific parts of your project.
+<i>Figure</i> <i>1-10.</i> <i>The</i> <i>Models</i> <i>page</i> <i>of</i> <i>the</i> <i>Hugging</i> <i>Face</i> <i>Hub,</i> <i>showing</i> <i>filters</i> <i>on</i> <i>the</i> <i>left</i> <i>and</i> <i>a</i>
+<i>list</i> <i>of</i> <i>models</i> <i>on</i> <i>the</i> <i>right</i>
+In addition to model weights, the Hub also hosts datasets and scripts for computing
+metrics, which let you reproduce published results or leverage additional data for
+your application.
+The Hub also provides <i>model</i> and <i>dataset</i> <i>cards</i> to document the contents of models
+and datasets and help you make an informed decision about whether they’re the right
+ones for you. One of the coolest features of the Hub is that you can try out any model
+directly through the various task-specific interactive widgets as shown in Figure 1-11.

@@ -1,0 +1,25 @@
+tendency to be underfit. By iteratively focusing on the hard-to-predict examples,
+boosting effectively decreases the bias of the resulting model.
+<b>Stacking</b>
+Stacking can be thought of as an extension of simple model averaging where we train
+<i>k</i> models to completion on the training dataset, then average the results to determine
+a prediction. Simple model averaging is similar to bagging, but the models in the
+ensemble could be of different types, while for bagging, the models are of the same
+type. More generally, we could modify the averaging step to take a weighted average,
+for example, to give more weight to one model in our ensemble over the others, as
+shown in Figure 3-14.
+<i>Figure</i> <i>3-14.</i> <i>The</i> <i>simplest</i> <i>form</i> <i>of</i> <i>model</i> <i>averaging</i> <i>averages</i> <i>the</i> <i>outputs</i> <i>of</i> <i>two</i> <i>or</i> <i>more</i>
+<i>different</i> <i>machine</i> <i>learning</i> <i>models.</i> <i>Alternatively,</i> <i>the</i> <i>average</i> <i>could</i> <i>be</i> <i>replaced</i> <i>with</i> <i>a</i>
+<i>weighted</i> <i>average</i> <i>where</i> <i>the</i> <i>weight</i> <i>might</i> <i>be</i> <i>based</i> <i>on</i> <i>the</i> <i>relative</i> <i>accuracy</i> <i>of</i> <i>the</i>
+<i>models.</i>
+You can think of stacking as a more advanced version of model averaging, where
+instead of taking an average or weighted average, we train a second machine learning
+model on the outputs to learn how best to combine the results to the models in our
+ensemble to produce a prediction as shown in Figure 3-15. This provides all the bene‐
+fits of decreasing variance as with bagging techniques but also controls for high bias.
+<i>Figure</i> <i>3-15.</i> <i>Stacking</i> <i>is</i> <i>an</i> <i>ensemble</i> <i>learning</i> <i>technique</i> <i>that</i> <i>combines</i> <i>the</i> <i>outputs</i> <i>of</i>
+<i>several</i> <i>different</i> <i>ML</i> <i>models</i> <i>as</i> <i>the</i> <i>input</i> <i>to</i> <i>a</i> <i>secondary</i> <i>ML</i> <i>model</i> <i>that</i> <i>makes</i>
+<i>predictions.</i>
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+Ensemble methods have become quite popular in modern machine learning and have
+played a large part in winning well-known challenges, perhaps most notably the

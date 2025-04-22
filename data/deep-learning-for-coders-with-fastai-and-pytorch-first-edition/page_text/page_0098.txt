@@ -1,0 +1,25 @@
+they broke frequently. IBM set up categorizations on its punch card system for the
+way that each person was killed, which group they were assigned to, and the logistical
+information necessary to track them through the vast Holocaust system (see
+Figure 3-3). IBM’s code for Jews in the concentration camps was 8: some 6,000,000
+were killed. Its code for Romanis was 12 (they were labeled by the Nazis as “asocials,”
+with over 300,000 killed in the <i>Zigeunerlager,</i> or “Gypsy camp”). General executions
+were coded as 4, death in the gas chambers as 6.
+<i>Figure</i> <i>3-3.</i> <i>A</i> <i>punch</i> <i>card</i> <i>used</i> <i>by</i> <i>IBM</i> <i>in</i> <i>concentration</i> <i>camps</i>
+Of course, the project managers and engineers and technicians involved were just liv‐
+ing their ordinary lives. Caring for their families, going to the church on Sunday,
+doing their jobs the best they could. Following orders. The marketers were just doing
+what they could to meet their business development goals. As Edwin Black, author of
+<i>IBM</i> <i>and</i> <i>the</i> <i>Holocaust</i> (Dialog Press) observed: “To the blind technocrat, the means
+were more important than the ends. The destruction of the Jewish people became
+even less important because the invigorating nature of IBM’s technical achievement
+was only heightened by the fantastical profits to be made at a time when bread lines
+stretched across the world.”
+Step back for a moment and consider: How would you feel if you discovered that you
+had been part of a system that ended up hurting society? Would you be open to find‐
+ing out? How can you help make sure this doesn’t happen? We have described the
+most extreme situation here, but there are many negative societal consequences
+linked to AI and machine learning being observed today, some of which we’ll
+describe in this chapter.
+It’s not just a moral burden, either. Sometimes technologists pay very directly for their
+actions. For instance, the first person who was jailed as a result of the Volkswagen

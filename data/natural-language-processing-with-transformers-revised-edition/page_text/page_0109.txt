@@ -1,0 +1,45 @@
+aspects we always need to keep in mind when we deploy a model in a production
+environment.
+For our analysis we will again use one of the most powerful tools at our disposal,
+which is to look at the validation examples with the highest loss. We can reuse much
+of the function we built to analyze the sequence classification model in Chapter 2, but
+we’ll now calculate a loss per token in the sample sequence.
+Let’s define a method that we can apply to the validation set:
+<b>from</b> <b>torch.nn.functional</b> <b>import</b> cross_entropy
+<b>def</b> forward_pass_with_label(batch):
+<i>#</i> <i>Convert</i> <i>dict</i> <i>of</i> <i>lists</i> <i>to</i> <i>list</i> <i>of</i> <i>dicts</i> <i>suitable</i> <i>for</i> <i>data</i> <i>collator</i>
+features = [dict(zip(batch, t)) <b>for</b> t <b>in</b> zip(*batch.values())]
+<i>#</i> <i>Pad</i> <i>inputs</i> <i>and</i> <i>labels</i> <i>and</i> <i>put</i> <i>all</i> <i>tensors</i> <i>on</i> <i>device</i>
+batch = data_collator(features)
+input_ids = batch["input_ids"].to(device)
+attention_mask = batch["attention_mask"].to(device)
+labels = batch["labels"].to(device)
+<b>with</b> torch.no_grad():
+<i>#</i> <i>Pass</i> <i>data</i> <i>through</i> <i>model</i>
+output = trainer.model(input_ids, attention_mask)
+<i>#</i> <i>logit.size:</i> <i>[batch_size,</i> <i>sequence_length,</i> <i>classes]</i>
+<i>#</i> <i>Predict</i> <i>class</i> <i>with</i> <i>largest</i> <i>logit</i> <i>value</i> <i>on</i> <i>classes</i> <i>axis</i>
+predicted_label = torch.argmax(output.logits, axis=-1).cpu().numpy()
+<i>#</i> <i>Calculate</i> <i>loss</i> <i>per</i> <i>token</i> <i>after</i> <i>flattening</i> <i>batch</i> <i>dimension</i> <i>with</i> <i>view</i>
+loss = cross_entropy(output.logits.view(-1, 7),
+labels.view(-1), reduction="none")
+<i>#</i> <i>Unflatten</i> <i>batch</i> <i>dimension</i> <i>and</i> <i>convert</i> <i>to</i> <i>numpy</i> <i>array</i>
+loss = loss.view(len(input_ids), -1).cpu().numpy()
+<b>return</b> {"loss":loss, "predicted_label": predicted_label}
+We can now apply this function to the whole validation set using map() and load all
+DataFrame
+the data into a for further analysis:
+valid_set = panx_de_encoded["validation"]
+valid_set = valid_set.map(forward_pass_with_label, batched=True, batch_size=32)
+df = valid_set.to_pandas()
+The tokens and the labels are still encoded with their IDs, so let’s map the tokens and
+labels back to strings to make it easier to read the results. For the padding tokens with
+IGN
+label –100 we assign a special label, , so we can filter them later. We also get rid of
+all the padding in the loss and predicted_label fields by truncating them to the
+length of the inputs:
+index2tag[-100] = "IGN"
+df["input_tokens"] = df["input_ids"].apply(
+<b>lambda</b> x: xlmr_tokenizer.convert_ids_to_tokens(x))
+df["predicted_label"] = df["predicted_label"].apply(
+<b>lambda</b> x: [index2tag[i] <b>for</b> i <b>in</b> x])

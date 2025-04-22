@@ -1,0 +1,34 @@
+However, the underlying items are all numeric:
+to.items.head(3)
+<b>state</b> <b>ProductGroup</b> <b>Drive_System</b> <b>Enclosure</b>
+<b>0</b> 1 6 0 3
+<b>1</b> 33 6 0 3
+<b>2</b> 32 3 0 6
+The conversion of categorical columns to numbers is done by simply replacing each
+unique level with a number. The numbers associated with the levels are chosen con‐
+secutively as they are seen in a column, so there’s no particular meaning to the num‐
+bers in categorical columns after conversion. The exception is if you first convert a
+column to a Pandas ordered category (as we did for ProductSize earlier), in which
+case the ordering you chose is used. We can see the mapping by looking at the
+classes attribute:
+to.classes['ProductSize']
+(#7) ['#na#','Large','Large / Medium','Medium','Small','Mini','Compact']
+Since it takes a minute or so to process the data to get to this point, we should save it
+—that way, in the future, we can continue our work from here without rerunning the
+previous steps. fastai provides a save method that uses Python’s <i>pickle</i> system to save
+nearly any Python object:
+(path/'to.pkl').save(to)
+To read this back later, you would type this:
+to = (path/'to.pkl').load()
+Now that all this preprocessing is done, we are ready to create a decision tree.
+<header><largefont><b>Creating</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Decision</b></largefont> <largefont><b>Tree</b></largefont></header>
+To begin, we define our independent and dependent variables:
+xs,y = to.train.xs,to.train.y
+valid_xs,valid_y = to.valid.xs,to.valid.y
+Now that our data is all numeric, and there are no missing values, we can create a
+decision tree:
+m = DecisionTreeRegressor(max_leaf_nodes=4)
+m.fit(xs, y);
+To keep it simple, we’ve told sklearn to create just four <i>leaf</i> <i>nodes.</i> To see what it’s
+learned, we can display the tree:
+draw_tree(m, xs, size=7, leaves_parallel=True, precision=2)

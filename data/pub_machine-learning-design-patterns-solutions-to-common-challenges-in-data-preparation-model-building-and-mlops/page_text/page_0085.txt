@@ -1,0 +1,37 @@
+tion task. Another approach is multitask learning that combines both tasks (classifi‐
+cation and regression) into a single model using multiple prediction heads. With any
+reframing technique, being aware of data limitations or the risk of introducing label
+bias is important.
+<b>Bucketizedoutputs</b>
+The typical approach to reframing a regression task as a classification is to bucketize
+the output values. For example, if our model is to be used to indicate when a baby
+might need critical care upon birth, the categories in Table 3-1 could be sufficient.
+<i>Table</i> <i>3-1.</i> <i>Bucketized</i> <i>outputs</i> <i>for</i> <i>baby</i> <i>weight</i>
+<b>Category</b> <b>Description</b>
+Highbirthweight Morethan8.8lbs
+Averagebirthweight Between5.5lbsand8.8lbs
+Lowbirthweight Between3.31lbsand5.5lbs
+Verylowbirthweight Lessthan3.31lbs
+Our regression model now becomes a multiclass classification. Intuitively, it is easier
+to predict one out of four possible categorical cases than to predict a single value
+from the continuum of real numbers—just as it would be easier to predict a binary 0
+versus 1 target for is_underweight instead of four separate categories high_weight
+avg_weight low_weight very_low_weight
+versus versus versus . By using categorical
+outputs, our model is incentivized less for getting arbitrarily close to the actual out‐
+put value since we’ve essentially changed the output label to a range of values instead
+of a single real number.
+In the notebook accompanying this section, we train both a regression and a multi‐
+class classification model. The regression model achieves an RMSE of 1.3 on the vali‐
+dation set while the classification model has an accuracy of 67%. Comparing these
+two models is difficult since one evaluation metric is RMSE and the other is accuracy.
+In the end, the design decision is governed by the use case. If medical decisions are
+based on bucketed values, then our model should be a classification using those buck‐
+ets. However, if a more precise prediction of baby weight is needed, then it makes
+sense to use the regression model.
+<b>Otherwaysofcapturinguncertainty</b>
+There are other ways to capture uncertainty in regression. A simple approach is to
+carry out quantile regression. For example, instead of predicting just the mean, we
+can estimate the conditional 10th, 20th, 30th, …, 90th percentile of what needs to be
+predicted. Quantile regression is an extension of linear regression. Reframing, on the
+other hand, can work with more complex machine learning models.

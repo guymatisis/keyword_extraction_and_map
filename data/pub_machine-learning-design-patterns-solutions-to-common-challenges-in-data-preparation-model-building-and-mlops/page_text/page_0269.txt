@@ -1,0 +1,17 @@
+rent production model (which we were able to train with one million examples), the
+evaluation dataset here might hold hundreds of thousands of examples. We can then
+compute the standard deviation of the evaluation metric over the 25 subsets, repeat
+this on different evaluation sizes, and graph this standard deviation against the evalu‐
+ation size. The resulting graph will be something like Figure 6-3.
+<i>Figure</i> <i>6-3.</i> <i>Determine</i> <i>the</i> <i>number</i> <i>of</i> <i>evaluation</i> <i>examples</i> <i>needed</i> <i>by</i> <i>evaluating</i> <i>the</i>
+<i>production</i> <i>model</i> <i>on</i> <i>subsets</i> <i>of</i> <i>varying</i> <i>sizes</i> <i>and</i> <i>tracking</i> <i>the</i> <i>variability</i> <i>of</i> <i>the</i> <i>evalua‐</i>
+<i>tion</i> <i>metric</i> <i>by</i> <i>the</i> <i>size</i> <i>of</i> <i>the</i> <i>subset.</i> <i>Here,</i> <i>the</i> <i>standard</i> <i>deviation</i> <i>starts</i> <i>to</i> <i>plateau</i> <i>at</i>
+<i>around</i> <i>2,000</i> <i>examples.</i>
+From Figure 6-3, we see that the number of evaluation examples needs to be at least
+2,000, and is ideally 3,000 or more. Let’s assume for the rest of this discussion that we
+choose to evaluate on 2,500 examples.
+The training set would contain the remaining 2,500 new examples (the amount of
+new data available after withholding 2,500 for evaluation) augmented by some num‐
+ber of older examples that have been bridged to match the new schema. How do we
+know how many older examples we need? We don’t. This is a hyperparameter that
+we will have to tune. For example, on the tip problem, using grid search, we see from

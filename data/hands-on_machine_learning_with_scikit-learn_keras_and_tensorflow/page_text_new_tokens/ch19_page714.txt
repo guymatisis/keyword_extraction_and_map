@@ -1,0 +1,32 @@
+resolver = tf.distribute.cluster_resolver.TPUClusterResolver()
+tf.tpu.experimental.initialize_tpu_system(resolver)
+tpu_strategy = tf.distribute.experimental.TPUStrategy(resolver)
+If you are a researcher, you may be eligible to use TPUs for free; see
+<i>https://tensorflow.org/tfrc</i> for more details.
+You can now train models across multiple GPUs and multiple servers: give yourself a
+pat on the back! If you want to train a large model, you will need many GPUs, across
+many servers, which will require either buying a lot of hardware or managing a lot of
+cloud VMs. In many cases, it’s going to be less hassle and less expensive to use a cloud
+service that takes care of provisioning and managing all this infrastructure for you,
+just when you need it. Let’s see how to do that on GCP.
+<header><largefont><b>Running</b></largefont> <largefont><b>Large</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Jobs</b></largefont> <largefont><b>on</b></largefont> <largefont><b>Google</b></largefont> <largefont><b>Cloud</b></largefont> <largefont><b>AI</b></largefont> <largefont><b>Platform</b></largefont></header>
+If you decide to use Google AI Platform, you can deploy a training job with the same
+training code as you would run on your own TF cluster, and the platform will take
+care of provisioning and configuring as many GPU VMs as you desire (within your
+quotas).
+gcloud
+To start the job, you will need the command-line tool, which is part of the
+Google Cloud SDK. You can either install the SDK on your own machine, or just use
+the Google Cloud Shell on GCP. This is a terminal you can use directly in your web
+browser; it runs on a free Linux VM (Debian), with the SDK already installed and
+preconfigured for you. The Cloud Shell is available anywhere in GCP: just click the
+Activate Cloud Shell icon at the top right of the page (see Figure 19-22).
+<i>Figure</i> <i>19-22.</i> <i>Activating</i> <i>the</i> <i>Google</i> <i>Cloud</i> <i>Shell</i>
+If you prefer to install the SDK on your machine, once you have installed it, you need
+gcloud init
+to initialize it by running : you will need to log in to GCP and grant
+access to your GCP resources, then select the GCP project you want to use (if you
+have more than one), as well as the region where you want the job to run. The gcloud
+command gives you access to every GCP feature, including the ones we used earlier.
+You don’t have to go through the web interface every time; you can write scripts that
+start or stop VMs for you, deploy models, or perform any other GCP action.

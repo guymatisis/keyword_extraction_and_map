@@ -1,0 +1,43 @@
+<b>def</b> next_char(text, temperature=1):
+X_new = preprocess([text])
+y_proba = model.predict(X_new)[0, -1:, :]
+rescaled_logits = tf.math.log(y_proba) / temperature
+char_id = tf.random.categorical(rescaled_logits, num_samples=1) + 1
+<b>return</b> tokenizer.sequences_to_texts(char_id.numpy())[0]
+Next, we can write a small function that will repeatedly call next_char() to get the
+next character and append it to the given text:
+<b>def</b> complete_text(text, n_chars=50, temperature=1):
+<b>for</b> _ <b>in</b> range(n_chars):
+text += next_char(text, temperature)
+<b>return</b> text
+We are now ready to generate some text! Let’s try with different temperatures:
+<b>>>></b> <b>print(complete_text("t",</b> temperature=0.2))
+the belly the great and who shall be the belly the
+<b>>>></b> <b>print(complete_text("w",</b> temperature=1))
+thing? or why you gremio.
+who make which the first
+<b>>>></b> <b>print(complete_text("w",</b> temperature=2))
+th no cce:
+yeolg-hormer firi. a play asks.
+fol rusb
+Apparently our Shakespeare model works best at a temperature close to 1. To gener‐
+ate more convincing text, you could try using more GRU layers and more neurons per
+recur
+layer, train for longer, and add some regularization (for example, you could set
+rent_dropout=0.3 in the GRU layers). Moreover, the model is currently incapable of
+n_steps,
+learning patterns longer than which is just 100 characters. You could try
+making this window larger, but it will also make training harder, and even LSTM and
+GRU cells cannot handle very long sequences. Alternatively, you could use a stateful
+RNN.
+<header><largefont><b>Stateful</b></largefont> <largefont><b>RNN</b></largefont></header>
+Until now, we have used only <i>stateless</i> <i>RNNs:</i> at each training iteration the model
+starts with a hidden state full of zeros, then it updates this state at each time step, and
+after the last time step, it throws it away, as it is not needed anymore. What if we told
+the RNN to preserve this final state after processing one training batch and use it as
+the initial state for the next training batch? This way the model can learn long-term
+patterns despite only backpropagating through short sequences. This is called a <i>state‐</i>
+<i>ful</i> <i>RNN.</i> Let’s see how to build one.
+First, note that a stateful RNN only makes sense if each input sequence in a batch
+starts exactly where the corresponding sequence in the previous batch left off. So the
+first thing we need to do to build a stateful RNN is to use sequential and nonoverlap‐

@@ -1,0 +1,37 @@
+Finally, we have “it encourages the differences between the largest logit and all others
+∂ℓ
+to become large, and this, combined with the bounded gradient , reduces the abil‐
+∂z
+<i>k</i>
+ity of the model to adapt.” The gradient of cross entropy, remember, is basically out
+put - target. Both output and target are between 0 and 1, so the difference is
+between -1 and 1, which is why the paper says the gradient is “bounded” (it can’t be
+infinite). Therefore, our SGD steps are bounded too. “Reduces the ability of the
+model to adapt” means that it is hard for it to be updated in a transfer learning set‐
+ting. This follows because the difference in loss due to incorrect predictions is
+unbounded, but we can take only a limited step each time.
+To use this in practice, we just have to change the loss function in our call to Learner:
+model = xresnet50()
+learn = Learner(dls, model, loss_func=LabelSmoothingCrossEntropy(),
+metrics=accuracy)
+learn.fit_one_cycle(5, 3e-3)
+As with Mixup, you won’t generally see significant improvements from label smooth‐
+ing until you train more epochs. Try it yourself and see: how many epochs do you
+have to train before label smoothing shows an improvement?
+<header><largefont><b>Conclusion</b></largefont></header>
+You have now seen everything you need to train a state-of-the-art model in computer
+vision, whether from scratch or using transfer learning. Now all you have to do is
+experiment on your own problems! See if training longer with Mixup and/or label
+smoothing avoids overfitting and gives you better results. Try progressive resizing
+and test time augmentation.
+Most importantly, remember that if your dataset is big, there is no point prototyping
+on the whole thing. Find a small subset that is representative of the whole, as we did
+with Imagenette, and experiment on it.
+In the next three chapters, we will look at the other applications directly supported by
+fastai: collaborative filtering, tabular modeling, and working with text. We will go
+back to computer vision in the next section of the book, with a deep dive into convo‐
+lutional neural networks in Chapter 13.
+<header><largefont><b>Questionnaire</b></largefont></header>
+1. What is the difference between ImageNet and Imagenette? When is it better to
+experiment on one versus the other?
+2. What is normalization?

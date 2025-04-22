@@ -1,0 +1,17 @@
+From the plot, we can see that there’s an inflection point around <i>k</i> = 5 and we get
+almost perfect recall from <i>k</i> = 10 onwards. Let’s now take a look at retrieving docu‐
+ments with dense vector techniques.
+<b>DensePassageRetrieval</b>
+We’ve seen that we get almost perfect recall when our sparse retriever returns <i>k</i> = 10
+documents, but can we do better at smaller values of <i>k?</i> The advantage of doing so is
+that we can pass fewer documents to the reader and thereby reduce the overall
+latency of our QA pipeline. A well-known limitation of sparse retrievers like BM25 is
+that they can fail to capture the relevant documents if the user query contains terms
+that don’t match exactly those of the review. One promising alternative is to use dense
+embeddings to represent the question and document, and the current state of the art
+is an architecture known as <i>Dense</i> <i>Passage</i> <i>Retrieval</i> (DPR). 14 The main idea behind
+DPR is to use two BERT models as encoders for the question and the passage. As
+illustrated in Figure 7-10, these encoders map the input text into a <i>d-dimensional</i>
+[CLS]
+vector representation of the token.
+14 V.Karpukhinetal.,“DensePassageRetrievalforOpen-DomainQuestionAnswering”,(2020).

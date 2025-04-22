@@ -1,0 +1,20 @@
+there are two edges that meet toward the top-left corner of the image. A CNN’s final
+layers can then piece together these groups of edges, developing an understanding of
+different features in the image. In the cat example, the model might be able to iden‐
+tify two triangular shapes toward the top of the image and two oval shapes below
+them. As humans, we know that these triangular shapes are ears and the oval shapes
+are eyes.
+We can visualize this process in Figure 4-14, from research by Zeiler and Fergus on
+deconstructing CNNs to understand the different features that were activated
+throughout each layer of the model. For each layer in a five-layer CNN, this shows an
+image’s feature map for a given layer alongside the actual image. This lets us see how
+the model’s perception of an image progresses as it moves throughout the network.
+Layers 1 and 2 recognize only edges, layer 3 begins to recognize objects, and layers 4
+and 5 can understand focal points within the entire image.
+Remember, though, that to our model, these are simply groupings of pixel values. It
+doesn’t know that the triangular and oval shapes are ears and eyes—it only knows to
+associate specific groupings of features with the labels it has been trained on. In this
+way, the model’s process of learning what groupings of features make up a cat isn’t
+<i>much</i> different from learning the groups of features that are part of other objects, like
+a table, a mountain, or even a celebrity. To a model, these are all just different combi‐
+nations of pixel values, edges, and shapes.

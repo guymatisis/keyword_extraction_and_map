@@ -1,0 +1,33 @@
+You can combine these with Python slice syntax ( [start:end] , with <i>end</i> being exclu‐
+ded) to select part of a row or column:
+tns[1,1:3]
+tensor([5, 6])
+And you can use the standard operators, such as +, -, *, and /:
+tns+1
+tensor([[2, 3, 4],
+[5, 6, 7]])
+Tensors have a type:
+tns.type()
+'torch.LongTensor'
+And will automatically change that type as needed; for example, from int to float:
+tns*1.5
+tensor([[1.5000, 3.0000, 4.5000],
+[6.0000, 7.5000, 9.0000]])
+So, is our baseline model any good? To quantify this, we must define a metric.
+<header><largefont><b>Computing</b></largefont> <largefont><b>Metrics</b></largefont> <largefont><b>Using</b></largefont> <largefont><b>Broadcasting</b></largefont></header>
+Recall that a <i>metric</i> is a number that is calculated based on the predictions of our
+model and the correct labels in our dataset, in order to tell us how good our model is.
+For instance, we could use either of the functions we saw in the previous section,
+mean squared error or mean absolute error, and take the average of them over the
+whole dataset. However, neither of these are numbers that are very understandable to
+most people; in practice, we normally use <i>accuracy</i> as the metric for classification
+models.
+As we’ve discussed, we want to calculate our metric over a <i>validation</i> <i>set.</i> This is so
+that we don’t inadvertently overfit—that is, train a model to work well only on our
+training data. This is not really a risk with the pixel similarity model we’re using here
+as a first try, since it has no trained components, but we’ll use a validation set anyway
+to follow normal practices and to be ready for our second try later.
+To get a validation set, we need to remove some of the data from training entirely, so
+it is not seen by the model at all. As it turns out, the creators of the MNIST dataset
+have already done this for us. Do you remember how there was a whole separate
+directory called <i>valid?</i> That’s what this directory is for!

@@ -1,0 +1,38 @@
+speed of PyTorch, usually by using two techniques: elementwise arithmetic and
+broadcasting.
+<header><largefont><b>Elementwise</b></largefont> <largefont><b>Arithmetic</b></largefont></header>
+All the basic operators (+, -, *, /, >, <, ==) can be applied elementwise. That means if
+we write a+b for two tensors a and b that have the same shape, we will get a tensor
+a b:
+composed of the sums of the elements of and
+a = tensor([10., 6, -4])
+b = tensor([2., 8, 7])
+a + b
+tensor([12., 14., 3.])
+The Boolean operators will return an array of Booleans:
+a < b
+tensor([False, True, True])
+a b,
+If we want to know if every element of is less than the corresponding element in
+or if two tensors are equal, we need to combine those elementwise operations with
+torch.all:
+(a < b).all(), (a==b).all()
+(tensor(False), tensor(False))
+Reduction operations like all, sum, and mean return tensors with only one element,
+called <i>rank-0</i> <i>tensors.</i> If you want to convert this to a plain Python Boolean or num‐
+ber, you need to call .item:
+(a + b).mean().item()
+9.666666984558105
+The elementwise operations work on tensors of any rank, as long as they have the
+same shape:
+m = tensor([[1., 2, 3], [4,5,6], [7,8,9]])
+m*m
+tensor([[ 1., 4., 9.],
+[16., 25., 36.],
+[49., 64., 81.]])
+However, you can’t perform elementwise operations on tensors that don’t have the
+same shape (unless they are broadcastable, as discussed in the next section):
+n = tensor([[1., 2, 3], [4,5,6]])
+m*n
+RuntimeError: The size of tensor a (3) must match the size of tensor b (2) at
+dimension 0

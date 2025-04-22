@@ -1,0 +1,41 @@
+model = Model(model_data=MODEL_LOCATION, role='SomeRole')
+predictor = model.deploy(initial_instance_count=1,
+instance_type='ml.c5.xlarge')
+With a REST endpoint in place, we can send a prediction request as a JSON with the
+form:
+{"instances":
+[
+{"reviews": "The film is based on a prize-winning novel."},
+{"reviews": "The film is fast moving and has several great action scenes."},
+{"reviews": "The film was very boring. I walked out half-way."}
+]
+}
+We get back the predicted values also wrapped in a JSON structure:
+{"predictions": [{ <b>"positive_review_logits":</b> [0.6965846419334412]},
+{"positive_review_logits": [1.6177300214767456]},
+{"positive_review_logits": [-0.754359781742096]}]}
+By allowing clients to send JSON requests with multiple instances
+in the request, called <i>batching,</i> we are allowing clients to trade off
+the higher throughput associated with fewer network calls against
+the increased parallelization if they send more requests with fewer
+instances per request.
+Besides batching, there are other knobs and levers to improve per‐
+formance or lower cost. Using a machine with more powerful
+GPUs, for example, typically helps to improve the performance of
+deep learning models. Choosing a machine with multiple accelera‐
+tors and/or threads helps improve the number of requests per sec‐
+ond. Using an autoscaling cluster of machines can help lower cost
+on spiky workloads. These kinds of tweaks are often done by the
+ML/DevOps team; some are ML-specific, some are not.
+<b>Language-neutral</b>
+Every modern programming language can speak REST, and a discovery service is
+provided to autogenerate the necessary HTTP stubs. Thus, Python clients can invoke
+the REST API as follows. Note that there is nothing framework specific in the code
+below. Because the cloud service abstracts the specifics of our ML model, we don’t
+need to provide any references to Keras or TensorFlow:
+credentials = GoogleCredentials.get_application_default()
+api = discovery.build("ml", "v1", credentials = credentials,
+discoveryServiceUrl = "https://storage.googleapis.com/cloud-
+ml/discovery/ml_v1_discovery.json")
+request_data = {"instances":
+[

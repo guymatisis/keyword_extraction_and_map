@@ -1,0 +1,39 @@
+the MD5 hash is not deterministic and not unique—it is a one-way hash and will
+have many unexpected collisions.
+In the Hashed Feature design pattern, we have to use a fingerprint hashing algorithm
+and not a cryptographic hashing algorithm. This is because the goal of a fingerprint
+function is to produce a deterministic and unique value. If you think about it, this is a
+key requirement of preprocessing functions in machine learning, since we need to
+apply the same function during model serving and get the same hashed value. A fin‐
+gerprint function does not produce a uniformly distributed output. Cryptographic
+algorithms such as MD5 or SHA1 do produce uniformly distributed output, but they
+are not deterministic and are purposefully made to be computationally expensive.
+Therefore, a cryptographic hash is not usable in a feature engineering context where
+the hashed value computed for a given input during prediction has to be the same as
+the hash computed during training, and where the hash function should not slow
+down the machine learning model.
+The reason that MD5 is not deterministic is that a “salt” is typically
+added to the string to be hashed. The salt is a random string added
+to each password to ensure that even if two users happen to use the
+same password, the hashed value in the database will be different.
+This is needed to thwart attacks based on “rainbow tables,” which
+are attacks that rely on dictionaries of commonly chosen pass‐
+words and that compare the hash of the known password against
+hashes in the database. As computational power has increased, it is
+possible to carry out a brute-force attack on every possible salt as
+well, and so modern cryptographic implementations do their hash‐
+ing in a loop to increase the computational expense. Even if we
+were to turn off the salt and reduce the number of iterations to one,
+the MD5 hash is only one way. It won’t be unique.
+The bottom line is that we need to use a fingerprint hashing algorithm, and we need
+to modulo the resulting hash.
+<b>Orderofoperations</b>
+Note that we do the modulo first, and then the absolute value:
+<b>CREATE</b> <b>TEMPORARY</b> <b>FUNCTION</b> hashed(airport STRING, numbuckets INT64) <b>AS</b> (
+<b>ABS(MOD(FARM_FINGERPRINT(airport),</b> numbuckets))
+);
+The order of ABS, MOD, and FARM_FINGERPRINT in the preceding snippet is important
+INT64
+because the range of is not symmetric. Specifically, its range is between
+–9,223,372,036,854,775,808 and 9,223,372,036,854,775,807 (both inclusive).
+So, if we were to do:

@@ -1,0 +1,29 @@
+of thumb, we’d choose 40. If we are doing hyperparameter tuning, it might be worth
+searching within this range.
+<b>Autoencoders</b>
+Training embeddings in a supervised way can be hard because it requires a lot of
+labeled data. For an image classification model like Inception to be able to produce
+useful image embeddings, it is trained on ImageNet, which has 14 million labeled
+images. Autoencoders provide one way to get around this need for a massive labeled
+dataset.
+The typical autoencoder architecture, shown in Figure 2-11, consists of a bottleneck
+layer, which is essentially an embedding layer. The portion of the network before the
+bottleneck (the “encoder”) maps the high-dimensional input into a lower-
+dimensional embedding layer, while the latter network (the “decoder”) maps that
+representation back to a higher dimension, typically the same dimension as the origi‐
+nal. The model is typically trained on some variant of a reconstruction error, which
+forces the model’s output to be as similar as possible to the input.
+<i>Figure</i> <i>2-11.</i> <i>When</i> <i>training</i> <i>an</i> <i>autoencoder,</i> <i>the</i> <i>feature</i> <i>and</i> <i>the</i> <i>label</i> <i>are</i> <i>the</i> <i>same</i> <i>and</i>
+<i>the</i> <i>loss</i> <i>is</i> <i>the</i> <i>reconstruction</i> <i>error.</i> <i>This</i> <i>allows</i> <i>the</i> <i>autoencoder</i> <i>to</i> <i>achieve</i> <i>nonlinear</i>
+<i>dimension</i> <i>reduction.</i>
+Because the input is the same as the output, no additional labels are needed. The
+encoder learns an optimal nonlinear dimension reduction of the input. Similar to
+how PCA achieves linear dimension reduction, the bottleneck layer of an autoen‐
+coder is able to obtain nonlinear dimension reduction through the embedding.
+This allows us to break a hard machine learning problem into two parts. First, we use
+all the unlabeled data we have to go from high cardinality to lower cardinality by
+using autoencoders as an <i>auxiliary</i> <i>learning</i> <i>task.</i> Then, we solve the actual image
+classification problem for which we typically have much less labeled data using the
+embedding produced by the auxiliary autoencoder task. This is likely to boost model
+performance, because now the model only has to learn the weights for the lower-
+dimension setting (i.e., it has to learn fewer weights).

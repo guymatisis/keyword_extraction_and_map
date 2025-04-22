@@ -1,0 +1,34 @@
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 3.000821 2.663942 0.438314 00:02
+1 2.139642 2.184780 0.240479 00:02
+2 1.607275 1.812682 0.439779 00:02
+3 1.347711 1.830982 0.497477 00:02
+4 1.123113 1.937766 0.594401 00:02
+5 0.852042 2.012127 0.631592 00:02
+6 0.565494 1.312742 0.725749 00:02
+7 0.347445 1.297934 0.711263 00:02
+8 0.208191 1.441269 0.731201 00:02
+9 0.126335 1.569952 0.737305 00:02
+10 0.079761 1.427187 0.754150 00:02
+11 0.052990 1.494990 0.745117 00:02
+12 0.039008 1.393731 0.757894 00:02
+13 0.031502 1.373210 0.758464 00:02
+14 0.028068 1.368083 0.758464 00:02
+Now that’s better than a multilayer RNN! We can still see there is a bit of overfitting,
+however, which is a sign that a bit of regularization might help.
+<header><largefont><b>Regularizing</b></largefont> <largefont><b>an</b></largefont> <largefont><b>LSTM</b></largefont></header>
+Recurrent neural networks, in general, are hard to train, because of the problem of
+vanishing activations and gradients we saw before. Using LSTM (or GRU) cells makes
+training easier than with vanilla RNNs, but they are still very prone to overfitting.
+Data augmentation, while a possibility, is less often used for text data than for images
+because in most cases it requires another model to generate random augmentations
+(e.g., by translating the text into another language and then back into the original lan‐
+guage). Overall, data augmentation for text data is currently not a well-explored
+space.
+However, we can use other regularization techniques instead to reduce overfitting,
+which were thoroughly studied for use with LSTMs in the paper “Regularizing and
+Optimizing LSTM Language Models” by Stephen Merity et al. This paper showed
+how effective use of dropout, activation regularization, and temporal activation regu‐
+larization could allow an LSTM to beat state-of-the-art results that previously
+required much more complicated models. The authors called an LSTM using these
+techniques an <i>AWD-LSTM.</i> We’ll look at each of these techniques in turn.

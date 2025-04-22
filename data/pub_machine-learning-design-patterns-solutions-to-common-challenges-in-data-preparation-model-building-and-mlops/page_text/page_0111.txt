@@ -1,0 +1,32 @@
+One way to solve this problem is to train a classification model to first classify trips
+based on whether they are Long or Typical (the full code is in the code repository of
+this book):
+<b>CREATE</b> <b>OR</b> <b>REPLACE</b> MODEL mlpatterns.classify_trips
+<b>TRANSFORM(</b>
+trip_type,
+<b>EXTRACT</b> (HOUR <b>FROM</b> start_date) <b>AS</b> start_hour,
+<b>EXTRACT</b> (DAYOFWEEK <b>FROM</b> start_date) <b>AS</b> day_of_week,
+start_station_name,
+subscriber_type,
+...
+)
+<b>OPTIONS(model_type='logistic_reg',</b>
+auto_class_weights=True,
+input_label_cols=['trip_type']) <b>AS</b>
+<b>SELECT</b>
+start_date, start_station_name, subscriber_type, ...
+IF(duration_sec > 3600*4, <b>'Long',</b> <b>'Typical')</b> <b>AS</b> trip_type
+<b>FROM</b> `bigquery-public-data.san_francisco_bikeshare.bikeshare_trips`
+It can be tempting to simply split the training dataset into two parts based on the
+actual duration of the rental and train the next two models, one on Long rentals and
+the other on Typical rentals. The problem is that the classification model just dis‐
+cussed will have errors. Indeed, evaluating the model on a held-out portion of the San
+Francisco bicycle data shows that the accuracy of the model is only around 75% (see
+Figure 3-16). Given this, training a model on a perfect split of the data will lead to
+tears.
+<i>Figure</i> <i>3-16.</i> <i>The</i> <i>accuracy</i> <i>of</i> <i>a</i> <i>classification</i> <i>model</i> <i>to</i> <i>predict</i> <i>atypical</i> <i>behavior</i> <i>is</i>
+<i>unlikely</i> <i>to</i> <i>be</i> <i>100%.</i>
+Instead, after training this classification model, we need to use the predictions of this
+model to create the training dataset for the next set of models. For example, we could
+create the training dataset for the model to predict the distance of Typical rentals
+using:

@@ -1,0 +1,32 @@
+<b>One-hotencoding</b>
+The simplest method of mapping categorical variables while ensuring that the vari‐
+ables are independent is <i>one-hot</i> <i>encoding.</i> In our example, the categorical input vari‐
+able would be converted into a three-element feature vector using the following
+mapping:
+<b>Categoricalinput</b> <b>Numericfeature</b>
+English [1.0,0.0,0.0]
+Chinese [0.0,1.0,0.0]
+German [0.0,0.0,1.0]
+One-hot encoding requires us to know the <i>vocabulary</i> of the categorical input before‐
+hand. Here, the vocabulary consists of three tokens (English, Chinese, and German),
+and the length of the resulting feature is the size of this vocabulary.
+<header><largefont><b>Dummy</b></largefont> <largefont><b>Coding</b></largefont> <largefont><b>or</b></largefont> <largefont><b>One-Hot</b></largefont> <largefont><b>Encoding?</b></largefont></header>
+Technically, a 2-element feature vector is enough to provide a unique mapping for a
+vocabulary of size 3:
+<b>Categoricalinput</b> <b>Numericfeature</b>
+English [0.0,0.0]
+Chinese [1.0,0.0]
+German [0.0,1.0]
+This is called <i>dummy</i> <i>coding.</i> Because dummy coding is a more compact representa‐
+tion, it is preferred in statistical models that perform better when the inputs are line‐
+arly independent.
+Modern machine learning algorithms, though, don’t require their inputs to be line‐
+arly independent and use methods such as L1 regularization to prune redundant
+inputs. The additional degree of freedom allows the framework to transparently han‐
+dle a missing input in production as all zeros:
+<b>Categoricalinput</b> <b>Numericfeature</b>
+English [1.0,0.0,0.0]
+Chinese [0.0,1.0,0.0]
+German [0.0,0.0,1.0]
+(missing) [0.0,0.0,0.0]
+Therefore, many machine learning frameworks often support only one-hot encoding.

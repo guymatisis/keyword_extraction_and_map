@@ -1,0 +1,35 @@
+get_nearest_examples_batch()
+we can make use of the function , which accepts a
+batch of queries:
+<b>def</b> get_sample_preds(sample, m):
+<b>return</b> (np.sum(sample["label_ids"], axis=0) >= m).astype(int)
+<b>def</b> find_best_k_m(ds_train, valid_queries, valid_labels, max_k=17):
+max_k = min(len(ds_train), max_k)
+perf_micro = np.zeros((max_k, max_k))
+perf_macro = np.zeros((max_k, max_k))
+<b>for</b> k <b>in</b> range(1, max_k):
+<b>for</b> m <b>in</b> range(1, k + 1):
+_, samples = ds_train.get_nearest_examples_batch("embedding",
+valid_queries, k=k)
+y_pred = np.array([get_sample_preds(s, m) <b>for</b> s <b>in</b> samples])
+clf_report = classification_report(valid_labels, y_pred,
+target_names=mlb.classes_, zero_division=0, output_dict=True)
+perf_micro[k, m] = clf_report["micro avg"]["f1-score"]
+perf_macro[k, m] = clf_report["macro avg"]["f1-score"]
+<b>return</b> perf_micro, perf_macro
+Let’s check what the best values would be with all the training samples and visualize
+the scores for all <i>k</i> and <i>m</i> configurations:
+valid_labels = np.array(embs_valid["label_ids"])
+valid_queries = np.array(embs_valid["embedding"], dtype=np.float32)
+perf_micro, perf_macro = find_best_k_m(embs_train, valid_queries, valid_labels)
+fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(10, 3.5), sharey=True)
+ax0.imshow(perf_micro)
+ax1.imshow(perf_macro)
+ax0.set_title("micro scores")
+ax0.set_ylabel("k")
+ax1.set_title("macro scores")
+<b>for</b> ax <b>in</b> [ax0, ax1]:
+ax.set_xlim([0.5, 17 - 0.5])
+ax.set_ylim([17 - 0.5, 0.5])
+ax.set_xlabel("m")
+plt.show()

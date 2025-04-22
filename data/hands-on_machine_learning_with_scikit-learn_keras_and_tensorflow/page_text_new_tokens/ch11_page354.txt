@@ -1,0 +1,32 @@
+<i>Figure</i> <i>11-6.</i> <i>Regular</i> <i>versus</i> <i>Nesterov</i> <i>momentum</i> <i>optimization:</i> <i>the</i> <i>former</i> <i>applies</i> <i>the</i>
+<i>gradients</i> <i>computed</i> <i>before</i> <i>the</i> <i>momentum</i> <i>step,</i> <i>while</i> <i>the</i> <i>latter</i> <i>applies</i> <i>the</i> <i>gradients</i>
+<i>computed</i> <i>after</i>
+<header><largefont><b>AdaGrad</b></largefont></header>
+Consider the elongated bowl problem again: Gradient Descent starts by quickly going
+down the steepest slope, which does not point straight toward the global optimum,
+then it very slowly goes down to the bottom of the valley. It would be nice if the algo‐
+rithm could correct its direction earlier to point a bit more toward the global opti‐
+mum. The <i>AdaGrad</i> algorithm 15 achieves this correction by scaling down the gradient
+vector along the steepest dimensions (see Equation 11-6).
+<i>Equation</i> <i>11-6.</i> <i>AdaGrad</i> <i>algorithm</i>
+1. <b>s</b> <b>s</b> + ∇ <i>J</i> <b>θ</b> ⊗ ∇ <i>J</i> <b>θ</b>
+<b>θ</b> <b>θ</b>
+<i>η∇</i> ⊘
+2. <b>θ</b> <b>θ</b> − <i>J</i> <b>θ</b> <b>s</b> + <i>ε</i>
+<b>θ</b>
+The first step accumulates the square of the gradients into the vector <b>s</b> (recall that the
+⊗
+symbol represents the element-wise multiplication). This vectorized form is equiv‐
+alent to computing <i>s</i> ← <i>s</i> + (∂ <i>J(θ)</i> / ∂ <i>θ)2</i> for each element <i>s</i> of the vector <b>s;</b> in other
+<i>i</i> <i>i</i> <i>i</i> <i>i</i>
+words, each <i>s</i> accumulates the squares of the partial derivative of the cost function
+<i>i</i>
+with regard to parameter <i>θ.</i> If the cost function is steep along the <i>i</i> th dimension, then
+<i>i</i>
+<i>s</i> will get larger and larger at each iteration.
+<i>i</i>
+The second step is almost identical to Gradient Descent, but with one big difference:
+⊘
+the gradient vector is scaled down by a factor of <b>s</b> + <i>ε</i> (the symbol represents the
+15 JohnDuchietal.,“AdaptiveSubgradientMethodsforOnlineLearningandStochasticOptimization,”Journal
+<i>ofMachineLearningResearch12(2011):2121–2159.</i>

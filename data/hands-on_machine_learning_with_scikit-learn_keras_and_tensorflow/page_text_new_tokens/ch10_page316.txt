@@ -1,0 +1,37 @@
+patience
+a number of epochs (defined by the argument), and it will optionally roll
+back to the best model. You can combine both callbacks to save checkpoints of your
+model (in case your computer crashes) and interrupt training early when there is no
+more progress (to avoid wasting time and resources):
+early_stopping_cb = keras.callbacks.EarlyStopping(patience=10,
+restore_best_weights=True)
+history = model.fit(X_train, y_train, epochs=100,
+validation_data=(X_valid, y_valid),
+callbacks=[checkpoint_cb, early_stopping_cb])
+The number of epochs can be set to a large value since training will stop automati‐
+cally when there is no more progress. In this case, there is no need to restore the best
+model saved because the EarlyStopping callback will keep track of the best weights
+and restore them for you at the end of training.
+keras.callbacks
+There are many other callbacks available in the
+package.
+If you need extra control, you can easily write your own custom callbacks. As an
+example of how to do that, the following custom callback will display the ratio
+between the validation loss and the training loss during training (e.g., to detect over‐
+fitting):
+<b>class</b> <b>PrintValTrainRatioCallback(keras.callbacks.Callback):</b>
+<b>def</b> on_epoch_end(self, epoch, logs):
+<b>print("\nval/train:</b> {:.2f}".format(logs["val_loss"] / logs["loss"]))
+on_train_begin(), on_train_end(),
+As you might expect, you can implement
+on_epoch_begin() , on_epoch_end() , on_batch_begin() , and on_batch_end() . Call‐
+backs can also be used during evaluation and predictions, should you ever need them
+on_test_begin()
+(e.g., for debugging). For evaluation, you should implement ,
+on_test_end() , on_test_batch_begin() , or on_test_batch_end() (called by evalu
+ate() ), and for prediction you should implement on_predict_begin() , on_pre
+dict_end() on_predict_batch_begin() on_predict_batch_end()
+, , or (called by
+predict()).
+Now let’s take a look at one more tool you should definitely have in your toolbox
+when using tf.keras: TensorBoard.

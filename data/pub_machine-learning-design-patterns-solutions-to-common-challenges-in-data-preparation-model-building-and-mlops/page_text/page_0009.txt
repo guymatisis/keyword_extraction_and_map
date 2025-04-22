@@ -1,0 +1,39 @@
+<i>BigQuery</i> is an enterprise data warehouse designed for analyzing large datasets
+quickly with SQL. We’ll use BigQuery in our examples for data collection and feature
+engineering. Data in BigQuery is organized by Datasets, and a Dataset can have mul‐
+tiple Tables. Many of our examples will use data from <i>Google</i> <i>Cloud</i> <i>Public</i> <i>Datasets,</i> a
+set of free, publicly available data hosted in BigQuery. Google Cloud Public Datasets
+consists of hundreds of different datasets, including NOAA weather data since 1929,
+Stack Overflow questions and answers, open source code from GitHub, natality data,
+and more. To build some of the models in our examples, we’ll use <i>BigQuery</i> <i>Machine</i>
+<i>Learning</i> (or BigQuery ML). BigQuery ML is a tool for building models from data
+stored in BigQuery. With BigQuery ML, we can train, evaluate, and generate predic‐
+tions on our models using SQL. It supports classification and regression models,
+along with unsupervised clustering models. It’s also possible to import previously
+trained TensorFlow models to BigQuery ML for prediction.
+<i>Cloud</i> <i>AI</i> <i>Platform</i> includes a variety of products for training and serving custom
+machine learning models on Google Cloud. In our examples, we’ll be using AI Plat‐
+form Training and AI Platform Prediction. AI Platform Training provides infrastruc‐
+ture for training machine learning models on Google Cloud. With AI Platform
+Prediction, you can deploy your trained models and generate predictions on them
+using an API. Both services support TensorFlow, scikit-Learn, and XGBoost models,
+along with custom containers for models built with other frameworks. We’ll also ref‐
+erence <i>Explainable</i> <i>AI,</i> a tool for interpreting the results of your model’s predictions,
+available for models deployed to AI Platform.
+<header><largefont><b>Roles</b></largefont></header>
+Within an organization, there are many different job roles relating to data and
+machine learning. Below we’ll define a few common ones referenced frequently
+throughout the book. This book is targeted primarily at data scientists, data engi‐
+neers, and ML engineers, so let’s start with those.
+A <i>data</i> <i>scientist</i> is someone focused on collecting, interpreting, and processing data‐
+sets. They run statistical and exploratory analysis on data. As it relates to machine
+learning, a data scientist may work on data collection, feature engineering, model
+building, and more. Data scientists often work in Python or R in a notebook
+environment, and are usually the first to build out an organization’s machine learn‐
+ing models.
+A <i>data</i> <i>engineer</i> is focused on the infrastructure and workflows powering an organi‐
+zation’s data. They might help manage how a company ingests data, data pipelines,
+and how data is stored and transferred. Data engineers implement infrastructure and
+pipelines around data.
+<i>Machine</i> <i>learning</i> <i>engineers</i> do similar tasks to data engineers, but for ML models.
+They take models developed by data scientists, and manage the infrastructure and

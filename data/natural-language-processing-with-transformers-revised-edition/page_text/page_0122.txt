@@ -1,0 +1,7 @@
+low-resource scenarios, and since MAD-X is built on top of Transformers you can
+easily adapt the code in this chapter to work with it!6
+So far we have looked at two tasks: sequence classification and token classification.
+These both fall into the domain of natural language understanding, where text is syn‐
+thesized into predictions. In the next chapter we have our first look at text generation,
+where not only the input but also the output of the model is text.
+6 J.Pfeifferetal.,“MAD-X:AnAdapter-BasedFrameworkforMulti-TaskCross-LingualTransfer”,(2020).

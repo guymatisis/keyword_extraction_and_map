@@ -1,0 +1,37 @@
+possible. Let’s see what the impact of removing one of these model columns has on
+the random forest:
+xs_filt2 = xs_filt.drop('fiModelDescriptor', axis=1)
+valid_xs_time2 = valid_xs_time.drop('fiModelDescriptor', axis=1)
+m2 = rf(xs_filt2, y_filt)
+m_rmse(m, xs_filt2, y_filt), m_rmse(m2, valid_xs_time2, valid_y)
+(0.176706, 0.230642)
+There’s minimal impact, so we will remove it as a predictor for our neural network:
+cat_nn.remove('fiModelDescriptor')
+We can create our TabularPandas object in the same way as when we created our
+random forest, with one very important addition: normalization. A random forest
+does not need any normalization—the tree building procedure cares only about the
+order of values in a variable, not at all about how they are scaled. But as we have seen,
+a neural network definitely does care about this. Therefore, we add the Normalize
+processor when we build our TabularPandas object:
+procs_nn = [Categorify, FillMissing, Normalize]
+to_nn = TabularPandas(df_nn_final, procs_nn, cat_nn, cont_nn,
+splits=splits, y_names=dep_var)
+Tabular models and data don’t generally require much GPU RAM, so we can use
+larger batch sizes:
+dls = to_nn.dataloaders(1024)
+As we’ve discussed, it’s a good idea to set y_range for regression models, so let’s find
+the min and max of our dependent variable:
+y = to_nn.train.y
+y.min(),y.max()
+(8.465899897028686, 11.863582336583399)
+We can now create the Learner to create this tabular model. As usual, we use the
+application-specific learner function, to take advantage of its application-customized
+defaults. We set the loss function to MSE, since that’s what this competition uses.
+By default, for tabular data fastai creates a neural network with two hidden layers,
+with 200 and 100 activations, respectively. This works quite well for small datasets,
+but here we’ve got quite a large dataset, so we increase the layer sizes to 500 and 250:
+<b>from</b> <b>fastai.tabular.all</b> <b>import</b> *
+learn = tabular_learner(dls, y_range=(8,12), layers=[500,250],
+n_out=1, loss_func=F.mse_loss)
+learn.lr_find()
+(0.005754399299621582, 0.0002754228771664202)

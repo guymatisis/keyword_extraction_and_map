@@ -1,0 +1,26 @@
+We’ll also need a <i>click</i> <i>event</i> <i>handler;</i> that is, a function that will be called when it’s
+pressed. We can just copy over the previous lines of code:
+<b>def</b> on_click_classify(change):
+img = PILImage.create(btn_upload.data[-1])
+out_pl.clear_output()
+<b>with</b> out_pl: display(img.to_thumb(128,128))
+pred,pred_idx,probs = learn_inf.predict(img)
+lbl_pred.value = f'Prediction: {pred}; Probability: {probs[pred_idx]:.04f}'
+btn_run.on_click(on_click_classify)
+You can test the button now by clicking it, and you should see the image and predic‐
+tions update automatically!
+We can now put them all in a vertical box ( VBox ) to complete our GUI:
+VBox([widgets.Label('Select your bear!'),
+btn_upload, btn_run, out_pl, lbl_pred])
+We have written all the code necessary for our app. The next step is to convert it into
+something we can deploy.
+<header><largefont><b>Turning</b></largefont> <largefont><b>Your</b></largefont> <largefont><b>Notebook</b></largefont> <largefont><b>into</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Real</b></largefont> <largefont><b>App</b></largefont></header>
+Now that we have everything working in this Jupyter notebook, we can create our
+application. To do this, start a new notebook and add to it only the code needed to
+create and show the widgets that you need, and Markdown for any text that you want
+to appear. Have a look at the <i>bear_classifier</i> notebook in the book’s repo to see the
+simple notebook application we created.
+Next, install Voilà if you haven’t already by copying these lines into a notebook cell
+and executing it:
+!pip install voila
+!jupyter serverextension enable voila --sys-prefix

@@ -1,0 +1,38 @@
+'L.A. Confidential (1997)',
+'Silence of the Lambs, The (1991)']
+Another interesting thing we can do with these learned embeddings is to look at
+<i>distance.</i>
+<header><largefont><b>Embedding</b></largefont> <largefont><b>Distance</b></largefont></header>
+On a two-dimensional map, we can calculate the distance between two coordinates by
+2 2
+using the formula of Pythagoras: <i>x</i> + <i>y</i> (assuming that <i>x</i> and <i>y</i> are the distances
+between the coordinates on each axis). For a 50-dimensional embedding, we can do
+exactly the same thing, except that we add up the squares of all 50 of the coordinate
+distances.
+If there were two movies that were nearly identical, their embedding vectors would
+also have to be nearly identical, because the users who would like them would be
+nearly exactly the same. There is a more general idea here: movie similarity can be
+defined by the similarity of users who like those movies. And that directly means that
+the distance between two movies’ embedding vectors can define that similarity. We
+can use this to find the most similar movie to <i>Silence</i> <i>of</i> <i>the</i> <i>Lambs:</i>
+movie_factors = learn.model.i_weight.weight
+idx = dls.classes['title'].o2i['Silence of the Lambs, The (1991)']
+distances = nn.CosineSimilarity(dim=1)(movie_factors, movie_factors[idx][None])
+idx = distances.argsort(descending=True)[1]
+dls.classes['title'][idx]
+'Dial M for Murder (1954)'
+Now that we have successfully trained a model, let’s see how to deal with the situation
+of having no data for a user. How can we make recommendations to new users?
+<header><largefont><b>Bootstrapping</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Collaborative</b></largefont> <largefont><b>Filtering</b></largefont> <largefont><b>Model</b></largefont></header>
+The biggest challenge with using collaborative filtering models in practice is the <i>boot‐</i>
+<i>strapping</i> <i>problem.</i> The most extreme version of this problem is having no users, and
+therefore no history to learn from. What products do you recommend to your very
+first user?
+But even if you are a well-established company with a long history of user transac‐
+tions, you still have the question: what do you do when a new user signs up? And
+indeed, what do you do when you add a new product to your portfolio? There is no
+magic solution to this problem, and really the solutions that we suggest are just varia‐
+tions of <i>use</i> <i>your</i> <i>common</i> <i>sense.</i> You could assign new users the mean of all of the
+embedding vectors of your other users, but this has the problem that that particular
+combination of latent factors may be not at all common (for instance, the average for
+the science-fiction factor may be high, and the average for the action factor may be

@@ -1,0 +1,10 @@
+The percentage of nonzero weights is getting much better, although it’s still quite
+high. We can see even more about what’s going on in our training by using
+color_dim, passing it a layer index:
+learn.activation_stats.color_dim(-2)
+color_dim was developed by fast.ai in conjunction with a student, Stefano Giomo.
+Giomo, who refers to the idea as the <i>colorful</i> <i>dimension,</i> provides an in-depth explan‐
+ation of the history and details behind the method. The basic idea is to create a histo‐
+gram of the activations of a layer, which we would hope would follow a smooth
+pattern such as the normal distribution (Figure 13-14).
+<i>Figure</i> <i>13-14.</i> <i>Histogram</i> <i>in</i> <i>colorful</i> <i>dimension</i> <i>(courtesy</i> <i>of</i> <i>Stefano</i> <i>Giomo)</i>

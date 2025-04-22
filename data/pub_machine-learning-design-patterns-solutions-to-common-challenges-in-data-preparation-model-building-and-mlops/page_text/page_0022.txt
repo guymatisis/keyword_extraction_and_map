@@ -1,0 +1,34 @@
+<header><largefont><b>Simple</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>Representations</b></largefont></header>
+Before we delve into learnable data representations, feature crosses, and more, let’s
+look at simpler data representations. We can think of these simple data representa‐
+tions as common <i>idioms</i> in machine learning—not quite patterns, but commonly
+employed solutions nevertheless.
+<header><largefont><b>Numerical</b></largefont> <largefont><b>Inputs</b></largefont></header>
+Most modern, large-scale machine learning models (random forests, support vector
+machines, neural networks) operate on numerical values, and so if our input is
+numeric, we can pass it through to the model unchanged.
+<b>Whyscalingisdesirable</b>
+Often, because the ML framework uses an optimizer that is tuned to work well with
+numbers in the [–1, 1] range, scaling the numeric values to lie in that range can be
+beneficial.
+<header><largefont><b>Why</b></largefont> <largefont><b>Scale</b></largefont> <largefont><b>Numeric</b></largefont> <largefont><b>Values</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Lie</b></largefont> <largefont><b>in</b></largefont> <largefont><b>[–1,</b></largefont> <largefont><b>1]?</b></largefont></header>
+Gradient descent optimizers require more steps to converge as the curvature of the
+loss function increases. This is because the derivatives of features with larger relative
+magnitudes will tend to be larger as well, and so lead to abnormal weight updates.
+The abnormally large weight updates will require more steps to converge and thereby
+increase the computation load.
+“Centering” the data to lie in the [–1, 1] range makes the error function more spheri‐
+cal. Therefore, models trained with transformed data tend to converge faster and are
+therefore faster/cheaper to train. In addition, the [–1, 1] range offers the highest float‐
+ing point precision.
+A quick test with one of scikit-learn’s built-in datasets can prove the point (this is
+an excerpt from this book’s code repository):
+<b>from</b> <b>sklearn</b> <b>import</b> datasets, linear_model
+diabetes_X, diabetes_y = datasets.load_diabetes(return_X_y=True)
+raw = diabetes_X[:, None, 2]
+max_raw = max(raw)
+min_raw = min(raw)
+scaled = (2*raw - max_raw - min_raw)/(max_raw - min_raw)
+<b>def</b> train_raw():
+linear_model.LinearRegression().fit(raw, diabetes_y)
+<b>def</b> train_scaled():

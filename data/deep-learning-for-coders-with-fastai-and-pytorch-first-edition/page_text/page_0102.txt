@@ -1,0 +1,30 @@
+26% of consumers had at least one mistake in their files, and 5% had errors that could
+be devastating.
+Yet, the process of getting such errors corrected is incredibly slow and opaque. When
+public radio reporter Bobby Allyn discovered that he was erroneously listed as having
+a firearms conviction, it took him “more than a dozen phone calls, the handiwork of a
+county court clerk and six weeks to solve the problem. And that was only after I con‐
+tacted the company’s communications department as a journalist.”
+As machine learning practitioners, we do not always think of it as our responsibility
+to understand how our algorithms end up being implemented in practice. But we
+need to.
+<header><largefont><b>Feedback</b></largefont> <largefont><b>Loops</b></largefont></header>
+We explained in Chapter 1 how an algorithm can interact with its environment to
+create a feedback loop, making predictions that reinforce actions taken in the real
+world, which lead to predictions even more pronounced in the same direction. As an
+example, let’s again consider YouTube’s recommendation system. A couple of years
+ago, the Google team talked about how they had introduced reinforcement learning
+(closely related to deep learning, but your loss function represents a result potentially
+a long time after an action occurs) to improve YouTube’s recommendation system.
+They described how they used an algorithm that made recommendations such that
+watch time would be optimized.
+However, human beings tend to be drawn to controversial content. This meant that
+videos about things like conspiracy theories started to get recommended more and
+more by the recommendation system. Furthermore, it turns out that the kinds of
+people who are interested in conspiracy theories are also people who watch a lot of
+online videos! So, they started to get drawn more and more toward YouTube. The
+increasing number of conspiracy theorists watching videos on YouTube resulted in
+the algorithm recommending more and more conspiracy theory and other extremist
+content, which resulted in more extremists watching videos on YouTube, and more
+people watching YouTube developing extremist views, which led to the algorithm rec‐
+ommending more extremist content. The system was spiraling out of control.

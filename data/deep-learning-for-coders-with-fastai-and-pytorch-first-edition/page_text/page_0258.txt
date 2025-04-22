@@ -1,0 +1,38 @@
+<b>movie</b> <b>title</b>
+<b>0</b> 1 ToyStory(1995)
+<b>1</b>
+2 GoldenEye(1995)
+<b>2</b> 3 FourRooms(1995)
+<b>3</b> 4 GetShorty(1995)
+<b>4</b> 5 Copycat(1995)
+We can merge this with our ratings table to get the user ratings by title:
+ratings = ratings.merge(movies)
+ratings.head()
+<b>user</b> <b>movie</b> <b>rating</b> <b>timestamp</b> <b>title</b>
+<b>0</b>
+196 242 3 881250949 Kolya(1996)
+<b>1</b>
+63 242 3 875747190 Kolya(1996)
+<b>2</b> 226 242 5 883888671 Kolya(1996)
+<b>3</b> 154 242 3 879138235 Kolya(1996)
+<b>4</b> 306 242 5 876503793 Kolya(1996)
+We can then build a DataLoaders object from this table. By default, it takes the first
+column for the user, the second column for the item (here our movies), and the third
+item_name
+column for the ratings. We need to change the value of in our case to use
+the titles instead of the IDs:
+dls = CollabDataLoaders.from_df(ratings, item_name='title', bs=64)
+dls.show_batch()
+<b>user</b> <b>title</b> <b>rating</b>
+<b>0</b> 207 FourWeddingsandaFuneral(1994) 3
+<b>1</b> 565 RemainsoftheDay,The(1993) 5
+<b>2</b> 506 Kids(1995) 1
+<b>3</b> 845 ChasingAmy(1997) 3
+<b>4</b>
+798 BeingHuman(1993) 2
+<b>5</b>
+500 DownbyLaw(1986) 4
+<b>6</b> 409 MuchAdoAboutNothing(1993) 3
+<b>7</b> 721 Braveheart(1995) 5
+<b>8</b> 316 Psycho(1960) 2
+<b>9</b> 883 JudgmentNight(1993) 5

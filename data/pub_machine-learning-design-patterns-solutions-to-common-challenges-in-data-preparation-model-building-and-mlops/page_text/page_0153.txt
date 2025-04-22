@@ -1,0 +1,16 @@
+<i>Figure</i> <i>4-7.</i> <i>Starting</i> <i>point</i> <i>of</i> <i>the</i> <i>spiral</i> <i>classification</i> <i>problem.</i> <i>You</i> <i>can</i> <i>get</i> <i>to</i> <i>this</i> <i>setup</i>
+<i>by</i> <i>opening</i> <i>up</i> <i>this</i> <i>link</i> <i>in</i> <i>a</i> <i>web</i> <i>browser.</i>
+In the playground, we are trying to build a classifier to distinguish between blue dots
+and orange dots (if you are reading this in the print book, please do follow along by
+navigating to the link in a web browser). The two input features are x and x , which
+1 2
+are the coordinates of the points. Based on these features, the model needs to output
+the probability that the point is blue. The model starts with random weights and the
+background of the dots shows the model prediction for each coordinate point. As you
+can see, because the weights are random, the probability tends to hover near the cen‐
+ter value for all the pixels.
+Starting the training by clicking on the arrow at the top left of the image, we see the
+model slowly start to learn with successive epochs, as shown in Figure 4-8.
+<i>Figure</i> <i>4-8.</i> <i>What</i> <i>the</i> <i>model</i> <i>learns</i> <i>as</i> <i>training</i> <i>progresses.</i> <i>The</i> <i>graphs</i> <i>at</i> <i>the</i> <i>top</i> <i>are</i> <i>the</i>
+<i>training</i> <i>loss</i> <i>and</i> <i>validation</i> <i>error,</i> <i>while</i> <i>the</i> <i>images</i> <i>show</i> <i>how</i> <i>the</i> <i>model</i> <i>at</i> <i>that</i> <i>stage</i>
+<i>would</i> <i>predict</i> <i>the</i> <i>color</i> <i>of</i> <i>a</i> <i>point</i> <i>at</i> <i>each</i> <i>coordinate</i> <i>in</i> <i>the</i> <i>grid.</i>

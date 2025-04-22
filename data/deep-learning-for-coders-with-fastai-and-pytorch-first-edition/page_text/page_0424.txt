@@ -1,0 +1,15 @@
+color images) and output an image with a different number of channels. As with our
+hidden size that represented the numbers of neurons in a linear layer, we can decide
+to have as many filters as we want, and each will be able to specialize (some to detect
+horizontal edges, others to detect vertical edges, and so forth) to give something like
+the examples we studied in Chapter 2.
+In one sliding window, we have a certain number of channels and we need as many
+filters (we don’t use the same kernel for all the channels). So our kernel doesn’t have a
+size of 3×3, but ch_in (for channels in) by 3×3. On each channel, we multiply the ele‐
+ments of our window by the elements of the corresponding filter, and then sum the
+results (as we saw before) and sum over all the filters. In the example given in
+Figure 13-12, the result of our conv layer on that window is red + green + blue.
+<i>Figure</i> <i>13-12.</i> <i>Convolution</i> <i>over</i> <i>an</i> <i>RGB</i> <i>image</i>
+So, in order to apply a convolution to a color picture, we require a kernel tensor with
+a size that matches the first axis. At each location, the corresponding parts of the ker‐
+nel and the image patch are multiplied together.

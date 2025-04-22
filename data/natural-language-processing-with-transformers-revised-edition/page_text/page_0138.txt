@@ -1,0 +1,39 @@
+preceding tokens. For example, there is roughly a 96% chance of picking any of the
+1,000 tokens with the highest probability. We see that the probability rises quickly
+above 90% but saturates to close to 100% only after several thousand tokens. The plot
+shows that there is a 1 in 100 chance of not picking any of the tokens that are not
+even in the top 2,000.
+Although these numbers might appear small at first sight, they become important
+because we sample once per token when generating text. So even if there is only a 1 in
+100 or 1,000 chance, if we sample hundreds of times there is a significant chance of
+picking an unlikely token at some point—and picking such tokens when sampling
+can badly influence the quality of the generated text. For this reason, we generally
+want to avoid these very unlikely tokens. This is where top-k and top-p sampling
+come into play.
+The idea behind top-k sampling is to avoid the low-probability choices by only sam‐
+pling from the <i>k</i> tokens with the highest probability. This puts a fixed cut on the long
+tail of the distribution and ensures that we only sample from likely choices. Going
+back to Figure 5-6, top-k sampling is equivalent to defining a vertical line and sam‐
+pling from the tokens on the left. Again, the generate() function provides an easy
+method to achieve this with the top_k argument:
+output_topk = model.generate(input_ids, max_length=max_length, do_sample=True,
+top_k=50)
+<b>print(tokenizer.decode(output_topk[0]))</b>
+In a shocking finding, scientist discovered a herd of unicorns living in a
+remote, previously unexplored valley, in the Andes Mountains. Even more
+surprising to the researchers was the fact that the unicorns spoke perfect
+English.
+The wild unicorns roam the Andes Mountains in the region of Cajamarca, on the
+border with Argentina (Picture: Alamy/Ecole Nationale Supérieure d'Histoire
+Naturelle)
+The researchers came across about 50 of the animals in the valley. They had
+lived in such a remote and isolated area at that location for nearly a thousand
+years that
+This is arguably the most human-looking text we’ve generated so far. But how do we
+choose <i>k?</i> The value of <i>k</i> is chosen manually and is the same for each choice in the
+sequence, independent of the actual output distribution. We can find a good value for
+<i>k</i> by looking at some text quality metrics, which we will explore in the next chapter—
+but that fixed cutoff might not be very satisfactory.
+An alternative is to use a <i>dynamic</i> cutoff. With nucleus or top-p sampling, instead of
+choosing a fixed cutoff value, we set a condition of when to cut off. This condition is
+when a certain probability mass in the selection is reached. Let’s say we set that value

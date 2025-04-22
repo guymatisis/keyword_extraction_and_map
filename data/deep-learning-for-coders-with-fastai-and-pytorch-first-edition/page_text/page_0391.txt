@@ -1,0 +1,29 @@
+<i>Figure</i> <i>12-9.</i> <i>Architecture</i> <i>of</i> <i>an</i> <i>LSTM</i>
+In this picture, our input <i>x</i> enters on the left with the previous hidden state (h )
+<i>t</i> <i>t−1</i>
+and cell state (c ). The four orange boxes represent four layers (our neural nets),
+<i>t−1</i>
+with the activation being either sigmoid (σ) or tanh. tanh is just a sigmoid function
+rescaled to the range –1 to 1. Its mathematical expression can be written like this:
+<i>x</i> −x
+<i>e</i> + <i>e</i>
+tanh <i>x</i> = = 2σ 2x − 1
+<i>x</i> −x
+<i>e</i> − <i>e</i>
+where <i>σ</i> is the sigmoid function. The green circles in the figure are elementwise oper‐
+ations. What goes out on the right is the new hidden state (h ) and new cell state (c ),
+<i>t</i> <i>t</i>
+ready for our next input. The new hidden state is also used as output, which is why
+the arrow splits to go up.
+Let’s go over the four neural nets (called <i>gates)</i> one by one and explain the diagram—
+but before this, notice how very little the cell state (at the top) is changed. It doesn’t
+even go directly through a neural net! This is exactly why it will carry on a longer-
+term state.
+First, the arrows for input and old hidden state are joined together. In the RNN we
+wrote earlier in this chapter, we were adding them together. In the LSTM, we stack
+them in one big tensor. This means the dimension of our embeddings (which is the
+dimension of <i>x</i> ) can be different from the dimension of our hidden state. If we call
+<i>t</i>
+those n_in and n_hid, the arrow at the bottom is of size n_in + n_hid; thus all the
+neural nets (orange boxes) are linear layers with n_in + n_hid inputs and n_hid
+outputs.

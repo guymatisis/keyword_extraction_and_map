@@ -1,0 +1,36 @@
+<header><largefont><b>Knowledge</b></largefont> <largefont><b>Distillation</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Pretraining</b></largefont></header>
+Knowledge distillation can also be used during pretraining to create a general-
+purpose student that can be subsequently fine-tuned on downstream tasks. In this
+case, the teacher is a pretrained language model like BERT, which transfers its knowl‐
+edge about masked language modeling to the student. For example, in the DistilBERT
+paper, 8 the masked language modeling loss <i>L</i> is augmented with a term from
+<i>mlm</i>
+knowledge distillation and a cosine embedding loss <i>L</i> = 1 − cos <i>h</i> ,h to align the
+<i>cos</i> <i>s</i> <i>t</i>
+directions of the hidden state vectors between the teacher and student:
+<i>L</i> = <i>αL</i> + <i>βL</i> + <i>γL</i>
+DistilBERT <i>mlm</i> <i>KD</i> <i>cos</i>
+Since we already have a fine-tuned BERT-base model, let’s see how we can use knowl‐
+edge distillation to fine-tune a smaller and faster model. To do that we’ll need a way
+to augment the cross-entropy loss with an <i>L</i> term. Fortunately we can do this by
+<i>KD</i>
+creating our own trainer!
+<header><largefont><b>Creating</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Knowledge</b></largefont> <largefont><b>Distillation</b></largefont> <largefont><b>Trainer</b></largefont></header>
+Trainer
+To implement knowledge distillation we need to add a few things to the base
+class:
+• The new hyperparameters <i>α</i> and <i>T,</i> which control the relative weight of the distil‐
+lation loss and how much the probability distribution of the labels should be
+smoothed
+• The fine-tuned teacher model, which in our case is BERT-base
+• A new loss function that combines the cross-entropy loss with the knowledge
+distillation loss
+Adding the new hyperparameters is quite simple, since we just need to subclass
+TrainingArguments and include them as new attributes:
+<b>from</b> <b>transformers</b> <b>import</b> TrainingArguments
+<b>class</b> <b>DistillationTrainingArguments(TrainingArguments):</b>
+<b>def</b> __init__(self, *args, alpha=0.5, temperature=2.0, **kwargs):
+super().__init__(*args, **kwargs)
+self.alpha = alpha
+self.temperature = temperature
+8 V.Sanhetal.,“DistilBERT,aDistilledVersionofBERT:Smaller,Faster,CheaperandLighter”,(2019).

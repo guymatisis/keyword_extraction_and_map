@@ -1,0 +1,41 @@
+As you can see, the CART algorithm is a <i>greedy</i> <i>algorithm:</i> it greed‐
+ily searches for an optimum split at the top level, then repeats the
+process at each subsequent level. It does not check whether or not
+the split will lead to the lowest possible impurity several levels
+down. A greedy algorithm often produces a solution that’s reasona‐
+bly good but not guaranteed to be optimal.
+Unfortunately, finding the optimal tree is known to be an <i>NP-</i>
+<i>Complete</i> problem:2 it requires <i>O(exp(m))</i> time, making the prob‐
+lem intractable even for small training sets. This is why we must
+settle for a “reasonably good” solution.
+<header><largefont><b>Computational</b></largefont> <largefont><b>Complexity</b></largefont></header>
+Making predictions requires traversing the Decision Tree from the root to a leaf.
+Decision Trees generally are approximately balanced, so traversing the Decision Tree
+requires going through roughly <i>O(log</i> (m)) nodes.3 Since each node only requires
+2
+checking the value of one feature, the overall prediction complexity is <i>O(log</i> (m)),
+2
+independent of the number of features. So predictions are very fast, even when deal‐
+ing with large training sets.
+The training algorithm compares all features (or less if max_features is set) on all
+samples at each node. Comparing all features on all samples at each node results in a
+training complexity of <i>O(n</i> × <i>m</i> log (m)). For small training sets (less than a few thou‐
+2
+pre
+sand instances), Scikit-Learn can speed up training by presorting the data (set
+sort=True), but doing that slows down training considerably for larger training sets.
+<header><largefont><b>Gini</b></largefont> <largefont><b>Impurity</b></largefont> <largefont><b>or</b></largefont> <largefont><b>Entropy?</b></largefont></header>
+By default, the Gini impurity measure is used, but you can select the <i>entropy</i> impurity
+measure instead by setting the criterion hyperparameter to "entropy" . The concept
+of entropy originated in thermodynamics as a measure of molecular disorder:
+entropy approaches zero when molecules are still and well ordered. Entropy later
+spread to a wide variety of domains, including Shannon’s <i>information</i> <i>theory,</i> where it
+measures the average information content of a message:4 entropy is zero when all
+messages are identical. In Machine Learning, entropy is frequently used as an
+2 Pisthesetofproblemsthatcanbesolvedinpolynomialtime.NPisthesetofproblemswhosesolutionscan
+beverifiedinpolynomialtime.AnNP-HardproblemisaproblemtowhichanyNPproblemcanbereduced
+inpolynomialtime.AnNP-CompleteproblemisbothNPandNP-Hard.Amajoropenmathematicalques‐
+tioniswhetherornotP=NP.IfP≠NP(whichseemslikely),thennopolynomialalgorithmwilleverbe
+foundforanyNP-Completeproblem(exceptperhapsonaquantumcomputer).
+3 log 2 isthebinarylogarithm.Itisequaltolog 2 (m)=log(m)/log(2).
+4 Areductionofentropyisoftencalledaninformationgain.

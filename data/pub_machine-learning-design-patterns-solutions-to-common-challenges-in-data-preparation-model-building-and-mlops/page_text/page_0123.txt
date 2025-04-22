@@ -1,0 +1,28 @@
+Imbalanced datasets apply to many types of models, including binary classification,
+multiclass classification, multilabel classification, and regression. In regression cases,
+imbalanced datasets refer to data with outlier values that are either much higher or
+lower than the median in your dataset.
+A common pitfall in training models with imbalanced label classes is relying on mis‐
+leading accuracy values for model evaluation. If we train a fraud detection model and
+only 5% of our dataset contains fraudulent transactions, chances are our model will
+train to 95% accuracy without any modifications to the dataset or underlying model
+architecture. While this 95% accuracy number is <i>technically</i> correct, there’s a good
+chance the model is guessing the majority class (in this case, nonfraud) for each
+example. As such, it’s not learning anything about how to distinguish the minority
+class from other examples in our dataset.
+To avoid leaning too much on this misleading accuracy value, it’s worth looking at
+the model’s confusion matrix to see accuracy for each class. The confusion matrix for
+a poorly performing model trained on an imbalanced dataset often looks something
+like Figure 3-18.
+<i>Figure</i> <i>3-18.</i> <i>Confusion</i> <i>matrix</i> <i>for</i> <i>a</i> <i>model</i> <i>trained</i> <i>on</i> <i>an</i> <i>imbalanced</i> <i>dataset</i> <i>without</i>
+<i>dataset</i> <i>or</i> <i>model</i> <i>adjustments.</i>
+In this example, the model correctly guesses the majority class 95% of the time, but
+only guesses the minority class correctly 12% of the time. Typically, the confusion
+matrix for a high performing model has percentages close to 100 down the diagonal.
+<header><largefont><b>Solution</b></largefont></header>
+First, since accuracy can be misleading on imbalanced datasets, it’s important to
+choose an appropriate evaluation metric when building our model. Then, there are
+various techniques we can employ for handling inherently imbalanced datasets at
+both the dataset and model level. <i>Downsampling</i> changes the balance of our underly‐
+ing dataset, while <i>weighting</i> changes how our model handles certain classes. <i>Upsam‐</i>
+<i>pling</i> duplicates examples from our minority class, and often involves applying

@@ -1,0 +1,13 @@
+Oh, dear—in this case, a confusion matrix is very hard to read. We have 37 pet
+breeds, which means we have 37×37 entries in this giant matrix! Instead, we can use
+most_confused
+the method, which just shows us the cells of the confusion matrix
+with the most incorrect predictions (here, with at least 5 or more):
+interp.most_confused(min_val=5)
+[('american_pit_bull_terrier', 'staffordshire_bull_terrier', 10),
+('Ragdoll', 'Birman', 6)]
+Since we are not pet breed experts, it is hard for us to know whether these category
+errors reflect actual difficulties in recognizing breeds. So again, we turn to Google. A
+little bit of Googling tells us that the most common category errors shown here are
+breed differences that even expert breeders sometimes disagree about. So this gives us
+some comfort that we are on the right track.

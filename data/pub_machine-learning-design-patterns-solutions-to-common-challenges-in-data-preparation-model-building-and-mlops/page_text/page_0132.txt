@@ -1,0 +1,39 @@
+gestation_weeks,
+weight
+<b>FROM</b>
+`project.dataset.baby_weight`
+Another approach is to use the Cascade pattern, training three separate regression
+models for each class. Then, we can use our multidesign pattern solution by passing
+our initial classification model an example and using the result of that classification
+to decide which regression model to send the example to for numeric prediction.
+<b>Anomalydetection</b>
+There are two approaches to handling regression models for imbalanced datasets:
+• Use the model’s error on a prediction as a signal.
+• Cluster incoming data and compare the distance of each new data point to exist‐
+ing clusters.
+To better understand each solution, let’s say we’re training a model on data collected
+by a sensor to predict temperature in the future. In this case, we’d need the model
+output to be a numerical value.
+For the first approach—using error as a signal—after training a model, we would
+then compare the model’s predicted value with the actual value for the current point
+in time. If there was a significant difference between the predicted and actual current
+value, we could flag the incoming data point as an anomaly. Of course, this requires a
+model trained with good accuracy on enough historical data to rely on its quality for
+future predictions. The main caveat for this approach is that it requires us to have
+new data readily available, so that we can compare the incoming data with the
+model’s prediction. As a result, it works best for problems involving streaming or
+time-series data.
+In the second approach—clustering data—we start by building a model with a clus‐
+tering algorithm, a modeling technique that organizes our data into clusters. Cluster‐
+ing is an <i>unsupervised</i> <i>learning</i> method, meaning it looks for patterns in the dataset
+without any knowledge of ground truth labels. A common clustering algorithm is k-
+means, which we can implement with BigQuery ML. The following shows how to
+train a k-means model on the BigQuery natality dataset using three features:
+<b>CREATE</b> <b>OR</b> <b>REPLACE</b> MODEL
+`project-name.dataset-name.baby_weight` <b>OPTIONS(model_type='kmeans',</b>
+num_clusters=4) <b>AS</b>
+<b>SELECT</b>
+weight_pounds,
+mother_age,
+gestation_weeks
+<b>FROM</b>

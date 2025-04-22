@@ -1,0 +1,23 @@
+that was used for fine-tuning our baseline on SQuAD. As before, we’ll load up the
+model with the FARMReader :
+minilm_ckpt = "microsoft/MiniLM-L12-H384-uncased"
+minilm_reader = FARMReader(model_name_or_path=minilm_ckpt, progress_bar=False,
+max_seq_len=max_seq_length, doc_stride=doc_stride,
+return_no_answer=True)
+Next, we fine-tune for one epoch:
+minilm_reader.train(data_dir=".", use_gpu=True, n_epochs=1, batch_size=16,
+train_filename=train_filename, dev_filename=dev_filename)
+and include the evaluation on the test set:
+reader_eval["Fine-tune on SubjQA"] = evaluate_reader(minilm_reader)
+plot_reader_eval(reader_eval)
+We can see that fine-tuning the language model directly on SubjQA results in consid‐
+erably worse performance than fine-tuning on SQuAD and SubjQA.
+When dealing with small datasets, it is best practice to use cross-
+validation when evaluating transformers as they can be prone to
+overfitting. You can find an example of how to perform cross-
+validation with SQuAD-formatted datasets in the FARM
+repository.
+<header><largefont><b>Evaluating</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Whole</b></largefont> <largefont><b>QA</b></largefont> <largefont><b>Pipeline</b></largefont></header>
+Now that we’ve seen how to evaluate the reader and retriever components individu‐
+ally, let’s tie them together to measure the overall performance of our pipeline. To do
+so, we’ll need to augment our retriever pipeline with nodes for the reader and its

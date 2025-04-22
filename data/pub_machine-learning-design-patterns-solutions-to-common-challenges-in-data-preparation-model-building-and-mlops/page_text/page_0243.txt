@@ -1,0 +1,37 @@
+results when the app is able to send the user’s queries to a cloud-hosted model. With
+this solution, the user still gets some functionality when they aren’t connected. When
+they come back online, they can then benefit from a full-featured app and robust ML
+model.
+<b>Handlingmanypredictionsinnearrealtime</b>
+In other cases, end users of your ML model may have reliable connectivity but might
+need to make hundreds or even thousands of predictions to your model at once. If
+you only have a cloud-hosted model and each prediction requires an API call to a
+hosted service, getting prediction responses on thousands of examples at once will
+take too much time.
+To understand this, let’s say we have embedded devices deployed in various areas
+throughout a user’s house. These devices are capturing data on temperature, air pres‐
+sure, and air quality. We have a model deployed in the cloud for detecting anomalies
+from this sensor data. Because the sensors are continuously collecting new data, it
+would be inefficient and expensive to send every incoming data point to our cloud
+model. Instead, we can have a model deployed directly on the sensors to identify pos‐
+sible anomaly candidates from incoming data. We can then send only the potential
+anomalies to our cloud model for consolidated verification, taking sensor readings
+from all the locations into account. This is a variation of the Two-Phase Predictions
+pattern described earlier, the main difference being that both the offline and cloud
+models perform the same prediction task but with different inputs. In this case, mod‐
+els also end up throttling the number of prediction requests sent to the cloud model
+at one time.
+<b>Continuousevaluationforofflinemodels</b>
+How can we ensure our on-device models stay up to date and don’t suffer from data
+drift? There are a few options for performing continuous evaluation on models that
+do not have network connectivity. First, we could save a subset of predictions that are
+received on-device. We could then periodically evaluate our model’s performance on
+these examples and determine if the model needs retraining. In the case of our two-
+phase model, it’s important we do this evaluation regularly since it’s likely that many
+calls to our on-device model will not go onto the second-phase cloud model. Another
+option is to create a replica of our on-device model to run <i>online,</i> only for continuous
+evaluation purposes. This solution is preferred if our offline and cloud models are
+running similar prediction tasks, like in the translation case mentioned previously.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>20:</b></largefont> <largefont><b>Keyed</b></largefont> <largefont><b>Predictions</b></largefont></header>
+Normally, you train your model on the same set of input features that the model will
+be supplied in real time when it is deployed. In many situations, however, it can be

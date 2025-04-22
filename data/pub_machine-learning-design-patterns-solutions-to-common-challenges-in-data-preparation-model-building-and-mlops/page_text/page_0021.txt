@@ -1,0 +1,27 @@
+be sparse. The learning algorithm needs to extract the most salient information from
+the input and represent it in a more concise way in the feature. The process of learn‐
+ing features to represent the input data is called <i>feature</i> <i>extraction,</i> and we can think
+of learnable data representations (like embeddings) as automatically engineered
+features.
+The data representation doesn’t even need to be of a single input variable—an obli‐
+que decision tree, for example, creates a boolean feature by thresholding a linear
+combination of two or more input variables. A decision tree where each node can
+represent only one input variable reduces to a stepwise linear function, whereas an
+oblique decision tree where each node can represent a linear combination of input
+variables reduces to a piecewise linear function (see Figure 2-2). Considering how
+many steps will have to be learned to adequately represent the line, the piecewise lin‐
+ear model is simpler and faster to learn. An extension of this idea is the <i>Feature</i> <i>Cross</i>
+design pattern, which simplifies the learning of AND relationships between multival‐
+ued categorical variables.
+<i>Figure</i> <i>2-2.</i> <i>A</i> <i>decision</i> <i>tree</i> <i>classifier</i> <i>where</i> <i>each</i> <i>node</i> <i>can</i> <i>threshold</i> <i>only</i> <i>one</i> <i>input</i>
+<i>value</i> <i>(x1</i> <i>or</i> <i>x2)</i> <i>will</i> <i>result</i> <i>in</i> <i>a</i> <i>stepwise</i> <i>linear</i> <i>boundary</i> <i>function,</i> <i>whereas</i> <i>an</i> <i>oblique</i>
+<i>tree</i> <i>classifier</i> <i>where</i> <i>a</i> <i>node</i> <i>can</i> <i>threshold</i> <i>a</i> <i>linear</i> <i>combination</i> <i>of</i> <i>input</i> <i>variables</i> <i>will</i>
+<i>result</i> <i>in</i> <i>a</i> <i>piecewise</i> <i>linear</i> <i>boundary</i> <i>function.</i> <i>The</i> <i>piecewise</i> <i>linear</i> <i>function</i> <i>requires</i>
+<i>fewer</i> <i>nodes</i> <i>and</i> <i>can</i> <i>achieve</i> <i>greater</i> <i>accuracy.</i>
+The data representation doesn’t need to be learned or fixed—a hybrid is also possible.
+The <i>Hashed</i> <i>Feature</i> design pattern is deterministic, but doesn’t require a model to
+know all the potential values that a particular input can take.
+The data representations we have looked at so far are all one-to-one. Although we
+could represent input data of different types separately or represent each piece of data
+as just one feature, it can be more advantageous to use <i>Multimodal</i> <i>Input.</i> That is the
+fourth design pattern we will explore in this chapter.

@@ -1,0 +1,19 @@
+<i>Figure</i> <i>11-13.</i> <i>Training</i> <i>scheme</i> <i>for</i> <i>wav2vec-U</i> <i>(courtesy</i> <i>of</i> <i>Alexsei</i> <i>Baevski)</i>
+Great, so transformers can now “read” text and “hear” audio—can they also “see”?
+The answer is yes, and this is one of the current hot research frontiers in the field.
+<header><largefont><b>Vision</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Text</b></largefont></header>
+Vision and text are another natural pair of modalities to combine since we frequently
+use language to communicate and reason about the contents of images and videos. In
+addition to the vision transformers, there have been several developments in the
+direction of combining visual and textual information. In this section we will look at
+four examples of models combining vision and text: VisualQA, LayoutLM, DALL·E,
+and CLIP.
+<b>VQA</b>
+In Chapter 7 we explored how we can use transformer models to extract answers to
+text-based questions. This can be done ad hoc to extract information from texts or
+offline, where the question answering model is used to extract structured information
+from a set of documents. There have been several efforts to expand this approach to
+VQA,16
+vision with datasets such as shown in Figure 11-14.
+16 Y.Goyaletal.,“MakingtheVinVQAMatter:ElevatingtheRoleofImageUnderstandinginVisualQuestion
+Answering”,(2016).

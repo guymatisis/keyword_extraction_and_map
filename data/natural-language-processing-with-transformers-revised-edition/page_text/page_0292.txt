@@ -1,0 +1,11 @@
+df_log = pd.DataFrame(trainer.state.log_history)
+(df_log.dropna(subset=["eval_loss"]).reset_index()["eval_loss"]
+.plot(label="Validation"))
+df_log.dropna(subset=["loss"]).reset_index()["loss"].plot(label="Train")
+plt.xlabel("Epochs")
+plt.ylabel("Loss")
+plt.legend(loc="upper right")
+plt.show()
+It seems that both the training and validation loss went down considerably. So let’s
+check if we can also see an improvement when we fine-tune a classifier based on this
+model.

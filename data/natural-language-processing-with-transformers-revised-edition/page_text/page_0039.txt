@@ -1,0 +1,35 @@
+the model will run on the GPU if we have one. If not, the model will run on the CPU,
+which can be considerably slower.
+The AutoModel class converts the token encodings to embeddings, and then feeds
+them through the encoder stack to return the hidden states. Let’s take a look at how
+we can extract these states from our corpus.
+<header><largefont><b>Interoperability</b></largefont> <largefont><b>Between</b></largefont> <largefont><b>Frameworks</b></largefont></header>
+Although the code in this book is mostly written in PyTorch, Transformers pro‐
+vides tight interoperability with TensorFlow and JAX. This means that you only need
+to change a few lines of code to load a pretrained model in your favorite deep learn‐
+ing framework! For example, we can load DistilBERT in TensorFlow by using the
+TFAutoModel class as follows:
+<b>from</b> <b>transformers</b> <b>import</b> TFAutoModel
+tf_model = TFAutoModel.from_pretrained(model_ckpt)
+This interoperability is especially useful when a model is only released in one frame‐
+work, but you’d like to use it in another. For example, the XLM-RoBERTa model that
+we’ll encounter in Chapter 4 only has PyTorch weights, so if you try to load it in
+TensorFlow as we did before:
+tf_xlmr = TFAutoModel.from_pretrained("xlm-roberta-base")
+you’ll get an error. In these cases, you can specify a from_pt=True argument to the
+TfAutoModel.from_pretrained() function, and the library will automatically down‐
+load and convert the PyTorch weights for you:
+tf_xlmr = TFAutoModel.from_pretrained("xlm-roberta-base", from_pt=True)
+As you can see, it is very simple to switch between frameworks in Transformers! In
+most cases, you can just add a “TF” prefix to the classes and you’ll get the equivalent
+"pt"
+TensorFlow 2.0 classes. When we use the string (e.g., in the following section),
+which is short for PyTorch, just replace it with " tf" , which is short for TensorFlow.
+<b>Extractingthelasthiddenstates</b>
+To warm up, let’s retrieve the last hidden states for a single string. The first thing we
+need to do is encode the string and convert the tokens to PyTorch tensors. This can
+be done by providing the return_tensors="pt" argument to the tokenizer as follows:
+text = "this is a test"
+inputs = tokenizer(text, return_tensors="pt")
+<b>print(f"Input</b> tensor shape: {inputs['input_ids'].size()}")
+Input tensor shape: torch.Size([1, 6])

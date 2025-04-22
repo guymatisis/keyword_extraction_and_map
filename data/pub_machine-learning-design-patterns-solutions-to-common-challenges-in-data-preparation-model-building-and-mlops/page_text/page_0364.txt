@@ -1,0 +1,20 @@
+<i>Figure</i> <i>8-1.</i> <i>Many</i> <i>of</i> <i>the</i> <i>patterns</i> <i>discussed</i> <i>in</i> <i>this</i> <i>book</i> <i>are</i> <i>related</i> <i>or</i> <i>can</i> <i>be</i> <i>used</i>
+<i>together.</i> <i>This</i> <i>image</i> <i>is</i> <i>available</i> <i>in</i> <i>the</i> <i>GitHub</i> <i>repository</i> <i>for</i> <i>this</i> <i>book.</i>
+In fact, the Hyperparameter Tuning design is a common part of the machine learning
+workflow and is often used in conjunction with other patterns. For example, we
+might use hyperparameter tuning to determine the number of older examples to use
+if we’re implementing the Bridged Schema pattern. And, when using hyperparameter
+tuning, it’s important to keep in mind how we’ve set up model Checkpoints using
+virtual epochs and Distributed Training. Meanwhile, the Checkpoints design pattern
+naturally connects to Transfer Learning since earlier model checkpoints are often
+used during fine-tuning.
+Embeddings show up throughout machine learning, so there are many ways in which
+the Embeddings design pattern interacts with other patterns. Perhaps the most nota‐
+ble is Transfer Learning since the output generated from the intermediate layers of a
+pre-trained model are essentially learned feature embeddings. We also saw how
+incorporating the Neutral Class design pattern in a classification model, either natu‐
+rally or through the Reframing pattern, can improve those learned embeddings. Fur‐
+ther downstream, if those embeddings are used as features for a model, it could be
+advantageous to save them using the Feature Store pattern so they can be easily
+accessed and versioned. Or, in the case of Transfer Learning, the pre-trained model
+output could be viewed as the initial output of a Cascade pattern.

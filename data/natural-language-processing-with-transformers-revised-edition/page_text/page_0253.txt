@@ -1,0 +1,40 @@
+The GitHub REST API treats pull requests as issues, so our dataset
+contains a mix of both. To keep things simple, we’ll develop our
+classifier for both types of issue, although in practice you might
+consider building two separate classifiers to have more fine-grained
+control over the model’s performance.
+Now that we know how to grab the data, let’s take a look at cleaning it up.
+<header><largefont><b>Preparing</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Data</b></largefont></header>
+Once we’ve downloaded all the issues, we can load them using Pandas:
+<b>import</b> <b>pandas</b> <b>as</b> <b>pd</b>
+dataset_url = "https://git.io/nlp-with-transformers"
+df_issues = pd.read_json(dataset_url, lines=True)
+<b>print(f"DataFrame</b> shape: {df_issues.shape}")
+DataFrame shape: (9930, 26)
+There are almost 10,000 issues in our dataset, and by looking at a single row we can
+see that the information retrieved from the GitHub API contains many fields such as
+URLs, IDs, dates, users, title, body, as well as labels:
+cols = ["url", "id", "title", "user", "labels", "state", "created_at", "body"]
+df_issues.loc[2, cols].to_frame()
+<b>2</b>
+https://api.github.com/repos/huggingface/trans...
+<b>url</b>
+<b>id</b> 849529761
+<b>title</b> [DeepSpeed]ZeROstage3integration:getting...
+<b>user</b> {'login’:’stas00',‘id’:10676103,‘node_id’:...
+<b>labels</b> [{'id’:2659267025,‘node_id’:‘MDU6TGFiZWwyNj...
+open
+<b>state</b>
+2021-04-0223:40:42
+<b>created_at</b>
+**[Thisisnotyetalive,preparingforthere...
+<b>body</b>
+The labels column is the thing that we’re interested in, and each row contains a list
+of JSON objects with metadata about each label:
+[
+{
+<b>"id":2659267025,</b>
+<b>"node_id":"MDU6TGFiZWwyNjU5MjY3MDI1",</b>
+<b>"url":"https://api.github.com/repos/huggingface...",</b>
+<b>"name":"DeepSpeed",</b>
+<b>"color":"4D34F7",</b>

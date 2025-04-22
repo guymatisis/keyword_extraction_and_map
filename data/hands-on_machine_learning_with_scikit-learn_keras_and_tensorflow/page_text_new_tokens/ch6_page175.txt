@@ -1,0 +1,26 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>6</b></largefont></header>
+<header><largefont><b>Decision</b></largefont> <largefont><b>Trees</b></largefont></header>
+Like SVMs, <i>Decision</i> <i>Trees</i> are versatile Machine Learning algorithms that can per‐
+form both classification and regression tasks, and even multioutput tasks. They are
+powerful algorithms, capable of fitting complex datasets. For example, in Chapter 2
+you trained a DecisionTreeRegressor model on the California housing dataset, fit‐
+ting it perfectly (actually, overfitting it).
+Decision Trees are also the fundamental components of Random Forests (see Chap‐
+ter 7), which are among the most powerful Machine Learning algorithms available
+today.
+In this chapter we will start by discussing how to train, visualize, and make predic‐
+tions with Decision Trees. Then we will go through the CART training algorithm
+used by Scikit-Learn, and we will discuss how to regularize trees and use them for
+regression tasks. Finally, we will discuss some of the limitations of Decision Trees.
+<header><largefont><b>Training</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Visualizing</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Decision</b></largefont> <largefont><b>Tree</b></largefont></header>
+To understand Decision Trees, let’s build one and take a look at how it makes predic‐
+DecisionTreeClassifier
+tions. The following code trains a on the iris dataset (see
+Chapter 4):
+<b>from</b> <b>sklearn.datasets</b> <b>import</b> load_iris
+<b>from</b> <b>sklearn.tree</b> <b>import</b> DecisionTreeClassifier
+iris = load_iris()
+X = iris.data[:, 2:] <i>#</i> <i>petal</i> <i>length</i> <i>and</i> <i>width</i>
+y = iris.target
+tree_clf = DecisionTreeClassifier(max_depth=2)
+tree_clf.fit(X, y)

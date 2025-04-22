@@ -1,0 +1,42 @@
+<b>Value</b>
+<b>bp</b> 0.818731
+5
+<b>sys_len</b>
+6
+<b>ref_len</b>
+We observe that the precision scores are much better. The 1-grams in the prediction
+all match, and only in the precision scores do we see that something is off. For the 4-
+["the", "cat", "is", "on"] ["cat",
+gram there are only two candidates, and
+"is", "on", "mat"] , where the last one does not match, hence the precision of 0.5.
+The BLEU score is widely used for evaluating text, especially in machine translation,
+since precise translations are usually favored over translations that include all possible
+and appropriate words.
+There are other applications, such as summarization, where the situation is different.
+There, we want all the important information in the generated text, so we favor high
+recall. This is where the ROUGE score is usually used.
+<header><largefont><b>ROUGE</b></largefont></header>
+The ROUGE score was specifically developed for applications like summarization
+where high recall is more important than just precision.5 The approach is very similar
+to the BLEU score in that we look at different <i>n-grams</i> and compare their occurrences
+in the generated text and the reference texts. The difference is that with ROUGE we
+check how many <i>n-grams</i> in the reference text also occur in the generated text. For
+BLEU we looked at how many <i>n-grams</i> in the generated text appear in the reference,
+so we can reuse the precision formula with the minor modification that we count
+the (unclipped) occurrence of reference <i>n-grams</i> in the generated text in the
+denominator:
+∑ ∑ <i>Count</i> <i>n‐gram</i>
+∈ ∈ ′
+snt’ <i>C</i> <i>n‐gram</i> <i>snt</i> <i>match</i>
+ROUGE‐N =
+∑ ∑ <i>Count</i> <i>n‐gram</i>
+snt’ ∈ <i>C</i> <i>n‐gram</i> ∈ <i>snt′</i>
+This was the original proposal for ROUGE. Subsequently, researchers have found that
+fully removing precision can have strong negative effects. Going back to the BLEU
+formula without the clipped counting, we can measure precision as well, and we can
+then combine both precision and recall ROUGE scores in the harmonic mean to get
+an <i>F</i> -score. This score is the metric that is nowadays commonly reported for
+1
+ROUGE.
+5 C-Y.Lin,“ROUGE:APackageforAutomaticEvaluationofSummaries,”TextSummarizationBranchesOut
+(July2004),https://aclanthology.org/W04-1013.pdf.

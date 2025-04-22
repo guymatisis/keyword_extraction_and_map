@@ -1,0 +1,30 @@
+In 2017 and 2018, several research groups proposed new approaches that finally
+made transfer learning work for NLP. It started with an insight from researchers at
+OpenAI who obtained strong performance on a sentiment classification task by using
+features extracted from unsupervised pretraining.8 This was followed by ULMFiT,
+which introduced a general framework to adapt pretrained LSTM models for various
+tasks.9
+As illustrated in Figure 1-8, ULMFiT involves three main steps:
+<i>Pretraining</i>
+The initial training objective is quite simple: predict the next word based on the
+previous words. This task is referred to as <i>language</i> <i>modeling.</i> The elegance of this
+approach lies in the fact that no labeled data is required, and one can make use of
+abundantly available text from sources such as Wikipedia. 10
+<i>Domain</i> <i>adaptation</i>
+Once the language model is pretrained on a large-scale corpus, the next step is to
+adapt it to the in-domain corpus (e.g., from Wikipedia to the IMDb corpus of
+movie reviews, as in Figure 1-8). This stage still uses language modeling, but now
+the model has to predict the next word in the target corpus.
+<i>Fine-tuning</i>
+In this step, the language model is fine-tuned with a classification layer for the
+target task (e.g., classifying the sentiment of movie reviews in Figure 1-8).
+<i>Figure</i> <i>1-8.</i> <i>The</i> <i>ULMFiT</i> <i>process</i> <i>(courtesy</i> <i>of</i> <i>Jeremy</i> <i>Howard)</i>
+By introducing a viable framework for pretraining and transfer learning in NLP,
+ULMFiT provided the missing piece to make transformers take off. In 2018, two
+transformers were released that combined self-attention with transfer learning:
+8 A.Radford,R.Jozefowicz,andI.Sutskever,“LearningtoGenerateReviewsandDiscoveringSentiment”,
+(2017).
+9 ArelatedworkatthistimewasELMo(EmbeddingsfromLanguageModels),whichshowedhowpretraining
+LSTMscouldproducehigh-qualitywordembeddingsfordownstreamtasks.
+10 ThisismoretrueforEnglishthanformostoftheworld’slanguages,whereobtainingalargecorpusofdigi‐
+tizedtextcanbedifficult.FindingwaystobridgethisgapisanactiveareaofNLPresearchandactivism.

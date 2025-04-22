@@ -1,0 +1,37 @@
+<header><largefont><b>Model</b></largefont> <largefont><b>Parallelism</b></largefont> <largefont><b>or</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>Parallelism?</b></largefont></header>
+A priori, neither scheme is better than the other. Each has its own benefits. Typically,
+the model architecture determines whether it is better to use data parallelism or
+model parallelism.
+In particular, model parallelism improves efficiency when the amount of computa‐
+tion per neuron activity is high, such as in wide models with many fully connected
+layers. This is because it is the neuron value that is being communicated between dif‐
+ferent components of the model. Outside of the training paradigm, model parallelism
+provides an added benefit for serving very large models where low latency is needed.
+Distributing the computation of a large model across multiple devices can vastly
+reduce the overall computation time when making online predictions.
+On the other hand, data parallelism is more efficient when the amount of computa‐
+tion per weight is high, such as when there are convolutional layers involved. This is
+because it is the model weights (and their gradient updates) that are being passed
+between different workers.
+Depending on the scale of your model and problem, it may be necessary to exploit
+both. Mesh TensorFlow is a library optimized for distributed deep learning that com‐
+bines synchronous data parallelism with model parallelism. It is implemented as a
+layer over TensorFlow and allows tensors to be easily split across different dimen‐
+sions. Splitting across the batch layer is synonymous with data parallelism, while
+splitting over any other dimension—for example, a dimension representing the size
+of a hidden layer—achieves model parallelism.
+<b>ASICsforbetterperformanceatlowercost</b>
+Another way to speed up the training process is by accelerating the underlying hard‐
+ware, such as by using application-specific integrated circuits (ASICs). In machine
+learning, this refers to hardware components designed specifically to optimize per‐
+formance on the types of large matrix computations at the heart of the training loop.
+TPUs in Google Cloud are ASICs that can be used for both model training and mak‐
+ing predictions. Similarly, Microsoft Azure offers the Azure FPGA (field-
+programmable gate array), which is also a custom machine learning chip like the
+ASIC except that it can be reconfigured over time. These chips are able to vastly min‐
+imize the time to accuracy when training large, complex neural network models. A
+model that takes two weeks to train on GPUs can converge in hours on TPUs.
+There are other advantages to using custom machine learning chips. For example, as
+accelerators (GPUs, FPGAs, TPUs, and so on) have gotten faster, I/O has become a
+significant bottleneck in ML training. Many training processes waste cycles waiting to
+read and move data to the accelerator and waiting for gradient updates to carry out

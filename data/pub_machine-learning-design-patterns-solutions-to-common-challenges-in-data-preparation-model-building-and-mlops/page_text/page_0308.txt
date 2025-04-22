@@ -1,0 +1,27 @@
+second, or there could be a monthly file that is generated from an external system
+reporting a summary of the last month’s transactions. Each of these need to be pro‐
+cessed and ingested into the feature store. By the same token, there may be different
+time horizons for retrieving data from the feature store. For example, a user-facing
+online application may operate at very low latency using up-to-the-second features,
+whereas when training the model, features are pulled offline as a larger batch but with
+higher latency.
+<i>Figure</i> <i>6-18.</i> <i>The</i> <i>Feature</i> <i>Store</i> <i>design</i> <i>pattern</i> <i>can</i> <i>handle</i> <i>both</i> <i>the</i> <i>requirements</i> <i>of</i> <i>data</i>
+<i>being</i> <i>highly</i> <i>scalable</i> <i>for</i> <i>large</i> <i>batches</i> <i>during</i> <i>training</i> <i>and</i> <i>extremely</i> <i>low</i> <i>latency</i> <i>for</i>
+<i>serving</i> <i>online</i> <i>applications.</i>
+There is no single database that can handle both scaling to potentially terabytes of
+data <i>and</i> extremely low latency on the order of milliseconds. The feature store ach‐
+ieves this with separate online and offline feature stores and ensures that features are
+handled in a consistent fashion in both scenarios.
+Lastly, a feature store acts as a version-controlled repository for feature datasets,
+allowing the same CI/CD practices of code and model development to be applied to
+the feature engineering process. This means that new ML projects start with a process
+of feature selection from a catalog instead of having to do feature engineering from
+scratch, allowing organizations to achieve an economies-of-scale effect—as new fea‐
+tures are created and added to the feature store, it becomes easier and faster to build
+new models that reuse those features.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+The Feast framework that we discussed is built on Google BigQuery, Redis, and
+Apache Beam. However, there are feature stores that rely on other tools and tech
+stacks. And, although a feature store is the recommended way to manage features at
+tf.transform
+scale, provides an alternative solution that addresses the issue of

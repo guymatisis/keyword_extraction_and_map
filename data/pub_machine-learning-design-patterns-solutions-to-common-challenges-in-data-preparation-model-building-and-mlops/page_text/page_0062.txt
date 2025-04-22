@@ -1,0 +1,34 @@
+As a related point, when choosing which features to combine for a feature cross, we
+would not want to cross two features that are highly correlated. We can think of a
+feature cross as combining two features to create an ordered pair. In fact, the term
+“cross” of “feature cross” refers to the Cartesian product. If two features are highly
+correlated, then the “span” of their feature cross doesn’t bring any new information
+to the model. As an extreme example, suppose we had two features, x_1 and x_2,
+where x_2 = 5*x_1. Bucketing values for x_1 and x_2 by their sign and creating a fea‐
+ture cross will still produce four new boolean features. However, due to the
+dependence of x_1 and x_2, two of those four features are actually empty, and the
+other two are precisely the two buckets created for x_1.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>4:</b></largefont> <largefont><b>Multimodal</b></largefont> <largefont><b>Input</b></largefont></header>
+The Multimodal Input design pattern addresses the problem of representing different
+types of data or data that can be expressed in complex ways by concatenating all the
+available data representations.
+<header><largefont><b>Problem</b></largefont></header>
+Typically, an input to a model can be represented as a number or as a category, an
+image, or free-form text. Many off-the-shelf models are defined for specific types of
+input only—a standard image classification model such as Resnet-50, for example,
+does not have the ability to handle inputs other than images.
+To understand the need for multimodal inputs, let’s say we’ve got a camera capturing
+footage at an intersection to identify traffic violations. We want our model to handle
+both image data (camera footage) and some metadata about when the image was cap‐
+tured (time of day, day of week, weather, etc.), as depicted in Figure 2-19.
+This problem also occurs when training a structured data model where one of the
+inputs is free-form text. Unlike numerical data, images and text cannot be fed directly
+into a model. As a result, we’ll need to represent image and text inputs in a way our
+model can understand (usually using the Embeddings design pattern), then combine
+these inputs with other tabular 7 features. For example, we might want to predict a
+restaurant patron’s rating based on their review text and other attributes such as what
+they paid and whether it was lunch or dinner (see Figure 2-20).
+7 Weusetheterm“tabulardata”torefertonumericalandcategoricalinputs,butnotfree-formtext.Youcan
+thinkoftabulardataasanythingyoumightcommonlyfindinaspreadsheet.Forexample,valueslikeage,
+typeofcar,price,ornumberofhoursworked.Tabulardatadoesnotincludefree-formtextlikedescriptions
+orreviews.

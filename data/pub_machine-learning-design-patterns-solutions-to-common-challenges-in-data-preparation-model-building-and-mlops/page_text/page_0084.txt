@@ -1,0 +1,38 @@
+approximate the complex target than a regression model. At inference time, the
+model then predicts a collection of probabilities corresponding to these potential out‐
+puts. That is, we obtain a discrete PDF giving the relative likelihood of any specific
+weight. Of course, care has to be taken here—classification models can be hugely
+uncalibrated (such as the model being overly confident and wrong).
+<b>Changingtheobjective</b>
+In some scenarios, reframing a classification task as a regression could be beneficial.
+For example, suppose we had a large movie database with customer ratings on a scale
+from 1 to 5, for all movies that the user had watched and rated. Our task is to build a
+machine learning model that will be used to serve recommendations to our users.
+Viewed as a classification task, we could consider building a model that takes as input
+user_id
+a , along with that user’s previous video watches and ratings, and predicts
+which movie from our database to recommend next. However, it is possible to
+reframe this problem as a regression. Instead of the model having a categorical out‐
+put corresponding to a movie in our database, our model could instead carry out
+multitask learning, with the model learning a number of key characteristics (such as
+income, customer segment, and so on) of users who are likely to watch a given movie.
+Reframed as a regression task, the model now predicts the user-space representation
+for a given movie. To serve recommendations, we choose the set of movies that are
+closest to the known characteristics of a user. In this way, instead of the model pro‐
+viding the probability that a user will like a movie as in a classification, we would get
+a cluster of movies that have been watched by users like this user.
+By reframing the classification problem of recommending movies to be a regression
+of user characteristics, we gain the ability to easily adapt our recommendation model
+to recommend trending videos, or classic movies, or documentaries without having
+to train a separate classification model each time.
+This type of model approach is also useful when the numerical representation has an
+intuitive interpretation; for example, a latitude and longitude pair can be used instead
+of urban area predictions. Suppose we wanted to predict which city will experience
+the next viral outbreak or which New York neighborhood will have a real estate pric‐
+ing surge. It could be easier to predict the latitude and longitude and choose the city
+or neighborhood closest to that location, rather than predicting the city or neighbor‐
+hood itself.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+There is rarely just one way to frame a problem, and it is helpful to be aware of any
+trade-offs or alternatives of a given implementation. For example, bucketizing the
+output values of a regression is an approach to reframing the problem as a classifica‐

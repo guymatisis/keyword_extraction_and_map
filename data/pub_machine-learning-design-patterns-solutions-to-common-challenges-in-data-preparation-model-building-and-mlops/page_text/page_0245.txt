@@ -1,0 +1,25 @@
+<i>Figure</i> <i>5-13.</i> <i>The</i> <i>client</i> <i>supplies</i> <i>a</i> <i>unique</i> <i>key</i> <i>with</i> <i>each</i> <i>input</i> <i>instance.</i> <i>The</i> <i>serving</i> <i>sys‐</i>
+<i>tem</i> <i>attaches</i> <i>those</i> <i>keys</i> <i>to</i> <i>the</i> <i>corresponding</i> <i>prediction.</i> <i>This</i> <i>allows</i> <i>the</i> <i>client</i> <i>to</i>
+<i>retrieve</i> <i>the</i> <i>correct</i> <i>prediction</i> <i>for</i> <i>each</i> <i>input</i> <i>even</i> <i>if</i> <i>outputs</i> <i>are</i> <i>out</i> <i>of</i> <i>order.</i>
+<b>HowtopassthroughkeysinKeras</b>
+In order to get your Keras model to pass through keys, supply a serving signature
+when exporting the model.
+For example, this is the code to take a model that would otherwise take four inputs
+(is_male, mother_age, plurality, gestation_weeks)
+and and have it also take a key
+that it will pass through to the output along with the original output of the model
+(the babyweight ):
+<i>#</i> <i>Serving</i> <i>function</i> <i>that</i> <i>passes</i> <i>through</i> <i>keys</i>
+@tf.function(input_signature=[{
+'is_male': tf.TensorSpec([None,], dtype=tf.string, name='is_male'),
+'mother_age': tf.TensorSpec([None,], dtype=tf.float32,
+name='mother_age'),
+'plurality': tf.TensorSpec([None,], dtype=tf.string, name='plurality'),
+'gestation_weeks': tf.TensorSpec([None,], dtype=tf.float32,
+name='gestation_weeks'),
+<b>'key':</b> <b>tf.TensorSpec([None,],</b> <b>dtype=tf.string,</b> <b>name='key')</b>
+}])
+<b>def</b> keyed_prediction(inputs):
+feats = inputs.copy()
+key = feats.pop('key') <i>#</i> <i>get</i> <i>the</i> <i>key</i> <i>from</i> <i>input</i>
+output = model(feats) <i>#</i> <i>invoke</i> <i>model</i>

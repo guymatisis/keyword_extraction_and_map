@@ -1,0 +1,40 @@
+<header><largefont><b>Stateless</b></largefont> <largefont><b>Functions</b></largefont></header>
+A stateless function is a function whose outputs are determined purely by its inputs.
+This function, for example, is stateless:
+<b>def</b> stateless_fn(x):
+<b>return</b> 3*x + 15
+Another way to think of a stateless function is as an immutable object, where the
+weights and biases are stored as constants:
+<b>class</b> <b>Stateless:</b>
+<b>def</b> <b>__init__(self):</b>
+self.weight = 3
+self.bias = 15
+<b>def</b> <b>__call__(self,</b> x):
+<b>return</b> self.weight*x + self.bias
+A function that maintains a counter of the number of times it has been invoked and
+returns a different value depending on whether the counter is odd or even is an
+example of a function that is stateful, not stateless:
+<b>class</b> <b>State:</b>
+<b>def</b> <b>__init__(self):</b>
+self.counter = 0
+<b>def</b> <b>__call__(self,</b> x):
+self.counter += 1
+<b>if</b> self.counter % 2 == 0:
+<b>return</b> 3*x + 15
+<b>else:</b>
+<b>return</b> 3*x - 15
+Invoking stateless_fn(3) or Stateless()(3) always returns 24, whereas
+a = State()
+and then invoking
+a(3)
+returns a value that rocks between −6 and 24. The counter in this case is the state of
+the function, and the output depends on both the input (x) and the state (counter) .
+The state is typically maintained using class variables (as in our example) or using
+global variables.
+Because stateless components don’t have any state, they can be shared by multiple cli‐
+ents. Servers typically create an instance pool of stateless components and use them
+to service client requests as they come in. On the other hand, stateful components will
+need to represent each client’s conversational state. The life cycle of stateless compo‐
+nents needs to be managed by the server. For example, they need to be initialized on
+the first request and destroyed when the client terminates or times out. Because of
+these factors, stateless components are highly scalable, whereas stateful components

@@ -1,0 +1,37 @@
+From time to time, you will hear directly from us in sidebars, like this one from
+Jeremy:
+<b>JeremySays</b>
+Hi, everybody; I’m Jeremy! You might be interested to know that I
+do not have any formal technical education. I completed a BA with
+a major in philosophy, and didn’t have great grades. I was much
+more interested in doing real projects than theoretical studies, so I
+worked full time at a management consulting firm called McKinsey
+and Company throughout my university years. If you’re somebody
+who would rather get their hands dirty building stuff than spend
+years learning abstract concepts, you will understand where I am
+coming from! Look out for sidebars from me to find information
+most suited to people with a less mathematical or formal technical
+background—that is, people like me…
+Sylvain, on the other hand, knows a lot about formal technical education. He has
+written 10 math textbooks, covering the entire advanced French math curriculum!
+<b>SylvainSays</b>
+Unlike Jeremy, I have not spent many years coding and applying
+machine learning algorithms. Rather, I recently came to the
+machine learning world by watching Jeremy’s fast.ai course videos.
+So, if you are somebody who has not opened a terminal and writ‐
+ten commands at the command line, you will understand where I
+am coming from! Look out for sidebars from me to find informa‐
+tion most suited to people with a more mathematical or formal
+technical background, but less real-world coding experience—that
+is, people like me…
+The fast.ai course has been studied by hundreds of thousands of students, from all
+walks of life, from all parts of the world. Sylvain stood out as the most impressive stu‐
+dent of the course that Jeremy had ever seen, which led to him joining fast.ai and then
+becoming the coauthor, along with Jeremy, of the fastai software library.
+All this means that between us, you have the best of both worlds: the people who
+know more about the software than anybody else, because they wrote it; an expert on
+math, and an expert on coding and machine learning; and also people who under‐
+stand both what it feels like to be a relative outsider in math, and a relative outsider in
+coding and machine learning.
+Anybody who has watched sports knows that if you have a two-person commentary
+team, you also need a third person to do “special comments.” Our special

@@ -1,0 +1,21 @@
+<i>Figure</i> <i>9-6.</i> <i>An</i> <i>example</i> <i>of</i> <i>decision</i> <i>tree</i>
+Let’s consider how we find the right questions to ask. Of course, we wouldn’t want to
+have to create all these questions ourselves—that’s what computers are for! The basic
+steps to train a decision tree can be written down very easily:
+1. Loop through each column of the dataset in turn.
+2. For each column, loop through each possible level of that column in turn.
+3. Try splitting the data into two groups, based on whether they are greater than or
+less than that value (or if it is a categorical variable, based on whether they are
+equal to or not equal to that level of that categorical variable).
+4. Find the average sale price for each of those two groups, and see how close that is
+to the actual sale price of each of the items of equipment in that group. Treat this
+as a very simple “model” in which our predictions are simply the average sale
+price of the item’s group.
+5. After looping through all of the columns and all the possible levels for each, pick
+the split point that gave the best predictions using that simple model.
+6. We now have two groups for our data, based on this selected split. Treat each
+group as a separate dataset, and find the best split for each by going back to step 1
+for each group.
+7. Continue this process recursively, until you have reached some stopping criterion
+for each group—for instance, stop splitting a group further when it has only 20
+items in it.

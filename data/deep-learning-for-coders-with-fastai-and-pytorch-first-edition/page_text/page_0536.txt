@@ -1,0 +1,34 @@
+<header><largefont><b>Loss</b></largefont></header>
+We’ve already seen how to define “negative log likelihood”:
+<b>def</b> nll(input, target): <b>return</b> -input[range(target.shape[0]), target].mean()
+Well actually, there’s no log here, since we’re using the same definition as PyTorch.
+That means we need to put the log together with softmax:
+<b>def</b> log_softmax(x): <b>return</b> (x.exp()/(x.exp().sum(-1,keepdim=True))).log()
+sm = log_softmax(r); sm[0][0]
+tensor(-1.2790, grad_fn=<SelectBackward>)
+Combining these gives us our cross-entropy loss:
+loss = nll(sm, yb)
+loss
+tensor(2.5666, grad_fn=<NegBackward>)
+Note that the formula
+<i>a</i>
+log = log <i>a</i> − log <i>b</i>
+<i>b</i>
+gives a simplification when we compute the log softmax, which was previously
+defined as (x.exp()/(x.exp().sum(-1))).log() :
+<b>def</b> log_softmax(x): <b>return</b> x - x.exp().sum(-1,keepdim=True).log()
+sm = log_softmax(r); sm[0][0]
+tensor(-1.2790, grad_fn=<SelectBackward>)
+Then, there is a more stable way to compute the log of the sum of exponentials, called
+the <i>LogSumExp</i> trick. The idea is to use the following formula
+<i>n</i> <i>x</i> <i>n</i> <i>x</i> −a <i>n</i> <i>x</i> −a
+<largefont>∑</largefont> <i>j</i> <i>a</i> <largefont>∑</largefont> <i>j</i> <largefont>∑</largefont> <i>j</i>
+log <i>e</i> = log <i>e</i> <i>e</i> = <i>a</i> + log <i>e</i>
+<i>j</i> = 1 <i>j</i> = 1 <i>j</i> = 1
+where <i>a</i> is the maximum of <i>x</i> .
+<i>j</i>
+Here’s the same thing in code:
+x = torch.rand(5)
+a = x.max()
+x.exp().sum().log() == a + (x-a).exp().sum().log()
+tensor(True)

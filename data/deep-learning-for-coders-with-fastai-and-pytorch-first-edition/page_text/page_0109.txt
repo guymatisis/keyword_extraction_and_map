@@ -1,0 +1,13 @@
+<i>Figure</i> <i>3-10.</i> <i>Error</i> <i>rate</i> <i>per</i> <i>gender</i> <i>and</i> <i>race</i> <i>for</i> <i>various</i> <i>facial</i> <i>recognition</i> <i>systems</i>
+IBM’s system, for instance, had a 34.7% error rate for darker females, versus 0.3% for
+lighter males—over 100 times more errors! Some people incorrectly reacted to these
+experiments by claiming that the difference was simply because darker skin is harder
+for computers to recognize. However, what happened was that, after the negative
+publicity that this result created, all of the companies in question dramatically
+improved their models for darker skin, such that one year later, they were nearly as
+good as for lighter skin. So what this showed is that the developers failed to utilize
+datasets containing enough darker faces, or test their product with darker faces.
+One of the MIT researchers, Joy Buolamwini, warned: “We have entered the age of
+automation overconfident yet underprepared. If we fail to make ethical and inclusive
+artificial intelligence, we risk losing gains made in civil rights and gender equity
+under the guise of machine neutrality.”

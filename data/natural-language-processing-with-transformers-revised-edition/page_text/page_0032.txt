@@ -1,0 +1,35 @@
+One simple class of word tokenizers uses whitespace to tokenize the text. We can do
+this by applying Python’s split() function directly on the raw text (just like we did to
+measure the tweet lengths):
+tokenized_text = text.split()
+<b>print(tokenized_text)</b>
+['Tokenizing', 'text', 'is', 'a', 'core', 'task', 'of', 'NLP.']
+From here we can take the same steps we took for the character tokenizer to map
+each word to an ID. However, we can already see one potential problem with this
+tokenization scheme: punctuation is not accounted for, so NLP. is treated as a single
+token. Given that words can include declinations, conjugations, or misspellings, the
+size of the vocabulary can easily grow into the millions!
+Some word tokenizers have extra rules for punctuation. One can
+also apply stemming or lemmatization, which normalizes words to
+their stem (e.g., “great”, “greater”, and “greatest” all become “great”),
+at the expense of losing some information in the text.
+Having a large vocabulary is a problem because it requires neural networks to have an
+enormous number of parameters. To illustrate this, suppose we have 1 million unique
+words and want to compress the 1-million-dimensional input vectors to 1-thousand-
+dimensional vectors in the first layer of our neural network. This is a standard step in
+most NLP architectures, and the resulting weight matrix of this first layer would con‐
+tain 1 million × 1 thousand = 1 billion weights. This is already comparable to the
+largest GPT-2 model,4 which has around 1.5 billion parameters in total!
+Naturally, we want to avoid being so wasteful with our model parameters since mod‐
+els are expensive to train, and larger models are more difficult to maintain. A com‐
+mon approach is to limit the vocabulary and discard rare words by considering, say,
+the 100,000 most common words in the corpus. Words that are not part of the
+vocabulary are classified as “unknown” and mapped to a shared UNK token. This
+means that we lose some potentially important information in the process of word
+UNK
+tokenization, since the model has no information about words associated with .
+Wouldn’t it be nice if there was a compromise between character and word tokeniza‐
+tion that preserved all the input information <i>and</i> some of the input structure? There
+is: <i>subword</i> <i>tokenization.</i>
+4 GPT-2isthesuccessorofGPT,anditcaptivatedthepublic’sattentionwithitsimpressiveabilitytogenerate
+realistictext.We’llexploreGPT-2indetailinChapter6.

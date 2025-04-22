@@ -1,0 +1,23 @@
+We’ll create a ResNet-34 without pretraining and pass along any arguments received:
+<b>def</b> get_learner(**kwargs):
+<b>return</b> cnn_learner(dls, resnet34, pretrained=False,
+metrics=accuracy, **kwargs).to_fp16()
+Here’s the default fastai optimizer, with the usual 3e-3 learning rate:
+learn = get_learner()
+learn.fit_one_cycle(3, 0.003)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 2.571932 2.685040 0.322548 00:11
+1 1.904674 1.852589 0.437452 00:11
+2 1.586909 1.374908 0.594904 00:11
+Now let’s try plain SGD. We can pass opt_func (optimization function) to
+cnn_learner to get fastai to use any optimizer:
+learn = get_learner(opt_func=SGD)
+The first thing to look at is lr_find :
+learn.lr_find()
+(0.017378008365631102, 3.019951861915615e-07)
+It looks like we’ll need to use a higher learning rate than we normally use:
+learn.fit_one_cycle(3, 0.03, moms=(0,0,0))
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 2.969412 2.214596 0.242038 00:09
+1 2.442730 1.845950 0.362548 00:09
+2 2.157159 1.741143 0.408917 00:09

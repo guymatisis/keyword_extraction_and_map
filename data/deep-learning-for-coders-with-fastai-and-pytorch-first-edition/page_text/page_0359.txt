@@ -1,0 +1,37 @@
+Note that the method called and the method implemented are different, for each of
+these methods:
+<b>Class</b> <b>Tocall</b> <b>Toimplement</b>
+nn.Module(PyTorch) ()(i.e.,callasfunction) forward
+Transform () encodes
+Transform decode() decodes
+Transform setup() setups
+So, for instance, you would never call setups directly, but instead would call setup.
+setup setups
+The reason is that does some work before and after calling for you. To
+learn more about Transforms and how you can use them to implement different
+behavior depending on the type of input, be sure to check the tutorials in the fastai
+docs.
+<header><largefont><b>Pipeline</b></largefont></header>
+To compose several transforms together, fastai provides the Pipeline class. We define
+a Pipeline by passing it a list of Transforms; it will then compose the transforms
+Pipeline
+inside it. When you call a on an object, it will automatically call the trans‐
+forms inside, in order:
+tfms = Pipeline([tok, num])
+t = tfms(txts[0]); t[:20]
+tensor([ 2, 8, 76, 10, 23, 3112, 23, 34, 3113, 33, 10, 8,
+> 4477, 22, 88, 32, 10, 27, 42, 14])
+And you can call decode on the result of your encoding, to get back something you
+can display and analyze:
+tfms.decode(t)[:100]
+'xxbos xxmaj well , " cube " ( 1997 ) , xxmaj vincenzo \'s first movie , was one
+> of the most interesti'
+Transform
+The only part that doesn’t work the same way as in is the setup. To prop‐
+erly set up a Pipeline of Transforms on some data, you need to use a TfmdLists.
+<header><largefont><b>TfmdLists</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Datasets:</b></largefont> <largefont><b>Transformed</b></largefont> <largefont><b>Collections</b></largefont></header>
+Your data is usually a set of raw items (like filenames, or rows in a DataFrame) to
+which you want to apply a succession of transformations. We just saw that a succes‐
+sion of transformations is represented by a Pipeline in fastai. The class that groups
+Pipeline TfmdLists.
+this with your raw items is called

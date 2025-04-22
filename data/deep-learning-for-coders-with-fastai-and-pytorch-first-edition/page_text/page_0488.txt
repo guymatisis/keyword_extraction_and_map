@@ -1,0 +1,39 @@
+CancelValidException
+Skip the rest of this epoch and go to after_epoch.
+CancelBatchException
+Interrupt training and go to after_fit.
+You can detect if one of those exceptions has occurred and add code that executes
+right after with the following events:
+after_cancel_batch
+CancelBatchException
+Reached immediately after a before proceeding to
+after_batch
+after_cancel_train
+Reached immediately after a CancelTrainException before proceeding to
+after_epoch
+after_cancel_valid
+CancelValidException
+Reached immediately after a before proceeding to
+after_epoch
+after_cancel_epoch
+Reached immediately after a CancelEpochException before proceeding to
+after_epoch
+after_cancel_fit
+CancelFitException
+Reached immediately after a before proceeding to
+after_fit
+Sometimes callbacks need to be called in a particular order. For example, in the case
+TerminateOnNaNCallback, Recorder after_batch
+of it’s important that runs its after
+this callback, to avoid registering an NaN loss. You can specify run_before (this call‐
+back must run before…) or run_after (this callback must run after…) in your call‐
+back to ensure the ordering that you need.
+<header><largefont><b>Conclusion</b></largefont></header>
+In this chapter, we took a close look at the training loop, exploring variants of SGD
+and why they can be more powerful. At the time of writing, developing new optimiz‐
+ers is an active area of research, so by the time you read this chapter, there may be an
+addendum on the book’s website that presents new variants. Be sure to check out how
+our general optimizer framework can help you implement new optimizers quickly.
+We also examined the powerful callback system that allows you to customize every bit
+of the training loop by enabling you to inspect and modify any parameter you like
+between each step.

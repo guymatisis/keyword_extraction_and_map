@@ -1,0 +1,20 @@
+<header><largefont><b>Extracting</b></largefont> <largefont><b>Answers</b></largefont> <largefont><b>from</b></largefont> <largefont><b>Text</b></largefont></header>
+The first thing we’ll need for our QA system is to find a way to identify a potential
+answer as a span of text in a customer review. For example, if a we have a question
+like “Is it waterproof?” and the review passage is “This watch is waterproof at 30m
+depth”, then the model should output “waterproof at 30m”. To do this we’ll need to
+understand how to:
+• Frame the supervised learning problem.
+• Tokenize and encode text for QA tasks.
+• Deal with long passages that exceed a model’s maximum context size.
+Let’s start by taking a look at how to frame the problem.
+<b>Spanclassification</b>
+The most common way to extract answers from text is by framing the problem as a
+<i>span</i> <i>classification</i> task, where the start and end tokens of an answer span act as the
+labels that a model needs to predict. This process is illustrated in Figure 7-4.
+<i>Figure</i> <i>7-4.</i> <i>The</i> <i>span</i> <i>classification</i> <i>head</i> <i>for</i> <i>QA</i> <i>tasks</i>
+Since our training set is relatively small, with only 1,295 examples, a good strategy is
+to start with a language model that has already been fine-tuned on a large-scale QA
+dataset like SQuAD. In general, these models have strong reading comprehension
+capabilities and serve as a good baseline upon which to build a more accurate system.
+This is a somewhat different approach to that taken in previous chapters, where we

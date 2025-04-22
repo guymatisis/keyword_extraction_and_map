@@ -1,0 +1,39 @@
+The result is nans everywhere. So maybe the scale of our matrix was too big, and we
+need to have smaller weights? But if we use too small weights, we will have the oppo‐
+site problem—the scale of our activations will go from 1 to 0.1, and after 100 layers
+we’ll be left with zeros everywhere:
+x = torch.randn(200, 100)
+<b>for</b> i <b>in</b> range(50): x = x @ (torch.randn(100,100) * 0.01)
+x[0:5,0:5]
+tensor([[0., 0., 0., 0., 0.],
+[0., 0., 0., 0., 0.],
+[0., 0., 0., 0., 0.],
+[0., 0., 0., 0., 0.],
+[0., 0., 0., 0., 0.]])
+So we have to scale our weight matrices exactly right so that the standard deviation of
+our activations stays at 1. We can compute the exact value to use mathematically, as
+illustrated by Xavier Glorot and Yoshua Bengio in “Understanding the Difficulty of
+Training Deep Feedforward Neural Networks”. The right scale for a given layer is
+1/ <i>n</i> , where <i>n</i> represents the number of inputs.
+<i>in</i> <i>in</i>
+In our case, if we have 100 inputs, we should scale our weight matrices by 0.1:
+x = torch.randn(200, 100)
+<b>for</b> i <b>in</b> range(50): x = x @ (torch.randn(100,100) * 0.1)
+x[0:5,0:5]
+tensor([[ 0.7554, 0.6167, -0.1757, -1.5662, 0.5644],
+[-0.1987, 0.6292, 0.3283, -1.1538, 0.5416],
+[ 0.6106, 0.2556, -0.0618, -0.9463, 0.4445],
+[ 0.4484, 0.7144, 0.1164, -0.8626, 0.4413],
+[ 0.3463, 0.5930, 0.3375, -0.9486, 0.5643]])
+nan!
+Finally, some numbers that are neither zeros nor Notice how stable the scale of
+our activations is, even after those 50 fake layers:
+x.std()
+tensor(0.7042)
+If you play a little bit with the value for scale, you’ll notice that even a slight variation
+from 0.1 will get you either to very small or very large numbers, so initializing the
+weights properly is extremely important.
+Let’s go back to our neural net. Since we messed a bit with our inputs, we need to
+redefine them:
+x = torch.randn(200, 100)
+y = torch.randn(200)

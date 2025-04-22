@@ -1,0 +1,24 @@
+<header><largefont><b>Dropout</b></largefont></header>
+<i>Dropout</i> is a regularization technique that was introduced by Geoffrey Hinton et al. in
+“Improving Neural Networks by Preventing Co-Adaptation of Feature Detectors”.
+The basic idea is to randomly change some activations to zero at training time. This
+makes sure all neurons actively work toward the output, as seen in Figure 12-10
+(from “Dropout: A Simple Way to Prevent Neural Networks from Overfitting” by
+Nitish Srivastava et al.).
+<i>Figure</i> <i>12-10.</i> <i>Applying</i> <i>dropout</i> <i>in</i> <i>a</i> <i>neural</i> <i>network</i> <i>(courtesy</i> <i>of</i> <i>Nitish</i> <i>Srivastava</i> <i>et</i> <i>al.)</i>
+Hinton used a nice metaphor when he explained, in an interview, the inspiration for
+dropout:
+I went to my bank. The tellers kept changing, and I asked one of them why. He said he
+didn’t know but they got moved around a lot. I figured it must be because it would
+require cooperation between employees to successfully defraud the bank. This made
+me realize that randomly removing a different subset of neurons on each example
+would prevent conspiracies and thus reduce overfitting.
+In the same interview, he also explained that neuroscience provided additional
+inspiration:
+We don’t really know why neurons spike. One theory is that they want to be noisy so as
+to regularize, because we have many more parameters than we have data points. The
+idea of dropout is that if you have noisy activations, you can afford to use a much big‐
+ger model.
+This explains the idea behind why dropout helps to generalize: first it helps the neu‐
+rons to cooperate better together; then it makes the activations more noisy, thus mak‐
+ing the model more robust.

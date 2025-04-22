@@ -1,0 +1,21 @@
+<b>from</b> <b>sklearn.metrics</b> <b>import</b> precision_recall_curve
+precisions, recalls, thresholds = precision_recall_curve(y_train_5, y_scores)
+Finally, use Matplotlib to plot precision and recall as functions of the threshold value
+(Figure 3-4):
+<b>def</b> plot_precision_recall_vs_threshold(precisions, recalls, thresholds):
+plt.plot(thresholds, precisions[:-1], "b--", label="Precision")
+plt.plot(thresholds, recalls[:-1], "g-", label="Recall")
+[...] <i>#</i> <i>highlight</i> <i>the</i> <i>threshold</i> <i>and</i> <i>add</i> <i>the</i> <i>legend,</i> <i>axis</i> <i>label,</i> <i>and</i> <i>grid</i>
+plot_precision_recall_vs_threshold(precisions, recalls, thresholds)
+plt.show()
+<i>Figure</i> <i>3-4.</i> <i>Precision</i> <i>and</i> <i>recall</i> <i>versus</i> <i>the</i> <i>decision</i> <i>threshold</i>
+You may wonder why the precision curve is bumpier than the recall
+curve in Figure 3-4. The reason is that precision may sometimes go
+down when you raise the threshold (although in general it will go
+up). To understand why, look back at Figure 3-3 and notice what
+happens when you start from the central threshold and move it just
+one digit to the right: precision goes from 4/5 (80%) down to 3/4
+(75%). On the other hand, recall can only go down when the thres‐
+hold is increased, which explains why its curve looks smooth.
+Another way to select a good precision/recall trade-off is to plot precision directly
+against recall, as shown in Figure 3-5 (the same threshold as earlier is highlighted).

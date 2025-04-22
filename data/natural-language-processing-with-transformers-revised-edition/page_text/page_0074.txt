@@ -1,0 +1,39 @@
+embeddings = self.dropout(embeddings)
+<b>return</b> embeddings
+embedding_layer = Embeddings(config)
+embedding_layer(inputs.input_ids).size()
+torch.Size([1, 5, 768])
+We see that the embedding layer now creates a single, dense embedding for each
+token.
+While learnable position embeddings are easy to implement and widely used, there
+are some alternatives:
+<i>Absolute</i> <i>positional</i> <i>representations</i>
+Transformer models can use static patterns consisting of modulated sine and
+cosine signals to encode the positions of the tokens. This works especially well
+when there are not large volumes of data available.
+<i>Relative</i> <i>positional</i> <i>representations</i>
+Although absolute positions are important, one can argue that when computing
+an embedding, the surrounding tokens are most important. Relative positional
+representations follow that intuition and encode the relative positions between
+tokens. This cannot be set up by just introducing a new relative embedding layer
+at the beginning, since the relative embedding changes for each token depending
+on where from the sequence we are attending to it. Instead, the attention mecha‐
+nism itself is modified with additional terms that take the relative position
+representations.5
+between tokens into account. Models such as DeBERTa use such
+Let’s put all of this together now by building the full transformer encoder combining
+the embeddings with the encoder layers:
+<b>class</b> <b>TransformerEncoder(nn.Module):</b>
+<b>def</b> __init__(self, config):
+super().__init__()
+self.embeddings = Embeddings(config)
+self.layers = nn.ModuleList([TransformerEncoderLayer(config)
+<b>for</b> _ <b>in</b> range(config.num_hidden_layers)])
+<b>def</b> forward(self, x):
+x = self.embeddings(x)
+<b>for</b> layer <b>in</b> self.layers:
+x = layer(x)
+<b>return</b> x
+Let’s check the output shapes of the encoder:
+5 Bycombiningtheideaofabsoluteandrelativepositionalrepresentations,rotarypositionembeddingsachieve
+excellentresultsonmanytasks.GPT-Neoisanexampleofamodelwithrotarypositionembeddings.

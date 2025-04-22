@@ -1,0 +1,35 @@
+Also, you’ll see that we’ve removed the ReLU ( act_cls=None ) from the final convolu‐
+tion in convs and from idconv, and moved it to <i>after</i> we add the skip connection.
+The thinking behind this is that the whole ResNet block is like a layer, and you want
+your activation to be after your layer.
+Let’s replace our block with ResBlock and try it out:
+<b>def</b> block(ni,nf): <b>return</b> ResBlock(ni, nf, stride=2)
+learn = get_learner(get_model())
+learn.fit_one_cycle(5, 3e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 1.973174 1.845491 0.373248 00:08
+1 1.678627 1.778713 0.439236 00:08
+2 1.386163 1.596503 0.507261 00:08
+3 1.177839 1.102993 0.644841 00:09
+4 1.052435 1.038013 0.667771 00:09
+It’s not much better. But the whole point of this was to allow us to train <i>deeper</i> mod‐
+els, and we’re not really taking advantage of that yet. To create a model that’s, say,
+twice as deep, all we need to do is replace our block with two ResBlocks in a row:
+<b>def</b> block(ni, nf):
+<b>return</b> nn.Sequential(ResBlock(ni, nf, stride=2), ResBlock(nf, nf))
+learn = get_learner(get_model())
+learn.fit_one_cycle(5, 3e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 1.964076 1.864578 0.355159 00:12
+1 1.636880 1.596789 0.502675 00:12
+2 1.335378 1.304472 0.588535 00:12
+3 1.089160 1.065063 0.663185 00:12
+4 0.942904 0.963589 0.692739 00:12
+Now we’re making good progress!
+The authors of the ResNet paper went on to win the 2015 ImageNet challenge. At the
+time, this was by far the most important annual event in computer vision. We have
+already seen another ImageNet winner: the 2013 winners, Zeiler and Fergus. It is
+interesting to note that in both cases, the starting points for the breakthroughs were
+experimental observations: observations about what layers actually learn, in the case
+of Zeiler and Fergus, and observations about which kinds of networks can be trained,
+in the case of the ResNet authors. This ability to design and analyze thoughtful

@@ -1,0 +1,15 @@
+Do you recognize that name? You saw it in Chapter 2, when we were talking about
+the Turing Award winners who established the foundations of deep learning today!
+Jeremy also asked on Twitter for help checking that our description of label smooth‐
+ing in Chapter 7 was accurate, and got a response again directly from Christian Szeg‐
+edy (label smoothing was originally introduced in the Inception paper):
+Many of the top people in deep learning today are Twitter regulars, and are very open
+about interacting with the wider community. One good way to get started is to look at
+a list of Jeremy’s recent Twitter likes, or Sylvain’s. That way, you can see a list of Twit‐
+ter users whom we think have interesting and useful things to say.
+Twitter is the main way we both stay up to date with interesting papers, software
+releases, and other deep learning news. For making connections with the deep learn‐
+ing community, we recommend getting involved both in the fast.ai forums and on
+Twitter.
+That said, let’s get back to the meat of this chapter. Up until now, we have shown you
+examples of pictures in only black and white, with one value per pixel. In practice,

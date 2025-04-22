@@ -1,0 +1,12 @@
+subtracting the feature map’s mean and dividing by its standard deviation), then
+it uses the style vector to determine the scale and offset of each feature map (the
+style vector contains one scale and one bias term for each feature map).
+<i>Figure</i> <i>17-20.</i> <i>StyleGAN’s</i> <i>generator</i> <i>architecture</i> <i>(part</i> <i>of</i> <i>figure</i> <i>1</i> <i>from</i> <i>the</i> <i>StyleGAN</i>
+<i>paper)19</i>
+The idea of adding noise independently from the codings is very important. Some
+parts of an image are quite random, such as the exact position of each freckle or hair.
+In earlier GANs, this randomness had to either come from the codings or be some
+pseudorandom noise produced by the generator itself. If it came from the codings, it
+meant that the generator had to dedicate a significant portion of the codings’ repre‐
+sentational power to store noise: this is quite wasteful. Moreover, the noise had to be
+19 Reproducedwiththekindauthorizationoftheauthors.

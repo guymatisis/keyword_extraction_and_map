@@ -1,0 +1,25 @@
+<i>Figure</i> <i>3-6.</i> <i>Different</i> <i>arrangements</i> <i>of</i> <i>layer</i> <i>normalization</i> <i>in</i> <i>a</i> <i>transformer</i> <i>encoder</i>
+<i>layer</i>
+We’ll use the second arrangement, so we can simply stick together our building
+blocks as follows:
+<b>class</b> <b>TransformerEncoderLayer(nn.Module):</b>
+<b>def</b> __init__(self, config):
+super().__init__()
+self.layer_norm_1 = nn.LayerNorm(config.hidden_size)
+self.layer_norm_2 = nn.LayerNorm(config.hidden_size)
+self.attention = MultiHeadAttention(config)
+self.feed_forward = FeedForward(config)
+<b>def</b> forward(self, x):
+<i>#</i> <i>Apply</i> <i>layer</i> <i>normalization</i> <i>and</i> <i>then</i> <i>copy</i> <i>input</i> <i>into</i> <i>query,</i> <i>key,</i> <i>value</i>
+hidden_state = self.layer_norm_1(x)
+<i>#</i> <i>Apply</i> <i>attention</i> <i>with</i> <i>a</i> <i>skip</i> <i>connection</i>
+x = x + self.attention(hidden_state)
+<i>#</i> <i>Apply</i> <i>feed-forward</i> <i>layer</i> <i>with</i> <i>a</i> <i>skip</i> <i>connection</i>
+x = x + self.feed_forward(self.layer_norm_2(x))
+<b>return</b> x
+Let’s now test this with our input embeddings:
+encoder_layer = TransformerEncoderLayer(config)
+inputs_embeds.shape, encoder_layer(inputs_embeds).size()
+(torch.Size([1, 5, 768]), torch.Size([1, 5, 768]))
+We’ve now implemented our very first transformer encoder layer from scratch! How‐
+ever, there is a caveat with the way we set up the encoder layers: they are totally

@@ -1,0 +1,16 @@
+As expected, the model size and latency remain essentially unchanged compared to
+the DistilBERT benchmark, but the accuracy has improved and even surpassed the
+performance of the teacher! One way to interpret this surprising result is that the
+teacher has likely not been fine-tuned as systematically as the student. This is great,
+but we can actually compress our distilled model even further using a technique
+known as quantization. That’s the topic of the next section.
+<header><largefont><b>Making</b></largefont> <largefont><b>Models</b></largefont> <largefont><b>Faster</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Quantization</b></largefont></header>
+We’ve now seen that with knowledge distillation we can reduce the computational
+and memory cost of running inference by transferring the information from a
+teacher into a smaller student. Quantization takes a different approach; instead of
+reducing the number of computations, it makes them much more efficient by repre‐
+senting the weights and activations with low-precision data types like 8-bit integer
+(INT8) instead of the usual 32-bit floating point (FP32). Reducing the number of bits
+means the resulting model requires less memory storage, and operations like matrix
+multiplication can be performed much faster with integer arithmetic. Remarkably,
+these performance gains can be realized with little to no loss in accuracy!

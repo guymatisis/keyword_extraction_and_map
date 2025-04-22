@@ -1,0 +1,43 @@
+shuffle()
+Here we’ve used the method to make sure we don’t accidentally bias our
+dataset splits, while select() allows us to downsample each corpus according to the
+fracs.
+values in Let’s have a look at how many examples we have per language in the
+training sets by accessing the Dataset.num_rows attribute:
+<b>import</b> <b>pandas</b> <b>as</b> <b>pd</b>
+pd.DataFrame({lang: [panx_ch[lang]["train"].num_rows] <b>for</b> lang <b>in</b> langs},
+index=["Number of training examples"])
+<b>de</b> <b>fr</b> <b>it</b> <b>en</b>
+<b>Numberoftrainingexamples</b> 12580 4580 1680 1180
+By design, we have more examples in German than all other languages combined, so
+we’ll use it as a starting point from which to perform zero-shot cross-lingual transfer
+to French, Italian, and English. Let’s inspect one of the examples in the German
+corpus:
+element = panx_ch["de"]["train"][0]
+<b>for</b> key, value <b>in</b> element.items():
+<b>print(f"{key}:</b> {value}")
+langs: ['de', 'de', 'de', 'de', 'de', 'de', 'de', 'de', 'de', 'de', 'de', 'de']
+ner_tags: [0, 0, 0, 0, 5, 6, 0, 0, 5, 5, 6, 0]
+tokens: ['2.000', 'Einwohnern', 'an', 'der', 'Danziger', 'Bucht', 'in', 'der',
+'polnischen', 'Woiwodschaft', 'Pommern', '.']
+Dataset
+As with our previous encounters with objects, the keys of our example corre‐
+spond to the column names of an Arrow table, while the values denote the entries in
+ner_tags
+each column. In particular, we see that the column corresponds to the map‐
+ping of each entity to a class ID. This is a bit cryptic to the human eye, so let’s create a
+new column with the familiar LOC , PER , and ORG tags. To do this, the first thing to
+Dataset features
+notice is that our object has a attribute that specifies the underly‐
+ing data types associated with each column:
+<b>for</b> key, value <b>in</b> panx_ch["de"]["train"].features.items():
+<b>print(f"{key}:</b> {value}")
+tokens: Sequence(feature=Value(dtype='string', id=None), length=-1, id=None)
+ner_tags: Sequence(feature=ClassLabel(num_classes=7, names=['O', 'B-PER',
+'I-PER', 'B-ORG', 'I-ORG', 'B-LOC', 'I-LOC'], names_file=None, id=None),
+length=-1, id=None)
+langs: Sequence(feature=Value(dtype='string', id=None), length=-1, id=None)
+Sequence
+The class specifies that the field contains a list of features, which in the case
+of ner_tags corresponds to a list of ClassLabel features. Let’s pick out this feature
+from the training set as follows:

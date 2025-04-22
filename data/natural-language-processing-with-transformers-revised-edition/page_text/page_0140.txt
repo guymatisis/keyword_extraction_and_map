@@ -1,0 +1,26 @@
+<header><largefont><b>Which</b></largefont> <largefont><b>Decoding</b></largefont> <largefont><b>Method</b></largefont> <largefont><b>Is</b></largefont> <largefont><b>Best?</b></largefont></header>
+Unfortunately, there is no universally “best” decoding method. Which approach is
+best will depend on the nature of the task you are generating text for. If you want
+your model to perform a precise task like arithmetic or providing an answer to a spe‐
+cific question, then you should lower the temperature or use deterministic methods
+like greedy search in combination with beam search to guarantee getting the most
+likely answer. If you want the model to generate longer texts and even be a bit crea‐
+tive, then you should switch to sampling methods and increase the temperature or
+use a mix of top-k and nucleus sampling.
+<header><largefont><b>Conclusion</b></largefont></header>
+In this chapter we looked at text generation, which is a very different task from the
+NLU tasks we encountered previously. Generating text requires at least one forward
+pass per generated token, and even more if we use beam search. This makes text gen‐
+eration computationally demanding, and one needs the right infrastructure to run a
+text generation model at scale. In addition, a good decoding strategy that transforms
+the model’s output probabilities into discrete tokens can improve the text quality.
+Finding the best decoding strategy requires some experimentation and a subjective
+evaluation of the generated texts.
+In practice, however, we don’t want to make these decisions based on gut feeling
+alone! Like with other NLP tasks, we should choose a model performance metric that
+reflects the problem we want to solve. Unsurprisingly, there are a wide range of
+choices, and we will encounter the most common ones in the next chapter, where we
+have a look at how to train and evaluate a model for text summarization. Or, if you
+can’t wait to learn how to train a GPT-type model from scratch, you can skip right to
+Chapter 10, where we collect a large dataset of code and then train an autoregressive
+language model on it.

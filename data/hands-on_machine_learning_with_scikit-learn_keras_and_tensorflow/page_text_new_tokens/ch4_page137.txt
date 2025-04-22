@@ -1,0 +1,39 @@
+same. Equation 4-9 shows the closed-form solution, where <b>A</b> is the (n + 1) × (n + 1)
+<i>identity</i> <i>matrix,11</i> except with a 0 in the top-left cell, corresponding to the bias term.
+<i>Equation</i> <i>4-9.</i> <i>Ridge</i> <i>Regression</i> <i>closed-form</i> <i>solution</i>
+⊺ −1 ⊺
+<b>θ</b> = <b>X</b> <b>X</b> + <i>αA</i> <b>X</b> <b>y</b>
+Here is how to perform Ridge Regression with Scikit-Learn using a closed-form solu‐
+tion (a variant of Equation 4-9 that uses a matrix factorization technique by André-
+Louis Cholesky):
+<b>>>></b> <b>from</b> <b>sklearn.linear_model</b> <b>import</b> Ridge
+<b>>>></b> ridge_reg = Ridge(alpha=1, solver="cholesky")
+<b>>>></b> ridge_reg.fit(X, y)
+<b>>>></b> ridge_reg.predict([[1.5]])
+array([[1.55071465]])
+And using Stochastic Gradient Descent: 12
+<b>>>></b> sgd_reg = SGDRegressor(penalty="l2")
+<b>>>></b> sgd_reg.fit(X, y.ravel())
+<b>>>></b> sgd_reg.predict([[1.5]])
+array([1.47012588])
+penalty
+The hyperparameter sets the type of regularization term to use. Specifying
+"l2" indicates that you want SGD to add a regularization term to the cost function
+equal to half the square of the ℓ norm of the weight vector: this is simply Ridge
+2
+Regression.
+<header><largefont><b>Lasso</b></largefont> <largefont><b>Regression</b></largefont></header>
+<i>Least</i> <i>Absolute</i> <i>Shrinkage</i> <i>and</i> <i>Selection</i> <i>Operator</i> <i>Regression</i> (usually simply called
+<i>Lasso</i> <i>Regression)</i> is another regularized version of Linear Regression: just like Ridge
+Regression, it adds a regularization term to the cost function, but it uses the ℓ norm
+1
+of the weight vector instead of half the square of the ℓ norm (see Equation 4-10).
+2
+<i>Equation</i> <i>4-10.</i> <i>Lasso</i> <i>Regression</i> <i>cost</i> <i>function</i>
+<i>n</i>
+<i>J</i> <b>θ</b> = MSE <b>θ</b> + <i>α∑</i> <i>θ</i>
+<i>i</i> = 1 <i>i</i>
+11 Asquarematrixfullof0sexceptfor1sonthemaindiagonal(toplefttobottomright).
+12 Alternativelyyoucanusethe Ridge classwiththe "sag" solver.StochasticAverageGDisavariantofStochas‐
+ticGD.Formoredetails,seethepresentation“MinimizingFiniteSumswiththeStochasticAverageGradient
+Algorithm”byMarkSchmidtetal.fromtheUniversityofBritishColumbia.

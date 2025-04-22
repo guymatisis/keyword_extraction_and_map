@@ -1,0 +1,32 @@
+functionality and many large software companies have developed their own end-to-
+end ML platforms, like Uber’s Michelangelo or Google’s TFX, which are also open
+source.
+Successful operationalization incorporates components of continuous integration
+and continuous delivery (CI/CD) that are the familiar best practices of software
+development. These CI/CD practices are focused on reliability, reproducibility,
+speed, security, and version control within code development. ML/AI workflows ben‐
+efit from the same considerations, though there are some notable differences. For
+example, in addition to the code that is used to develop the model, it is important to
+apply these CI/CD principles to the data, including data cleaning, versioning, and
+orchestration of data pipelines.
+The final step to be considered in the deployment stage is to monitor and maintain
+the model. Once the model has been operationalized and is in production, it’s neces‐
+sary to monitor the model’s performance. Over time, data distributions change, caus‐
+ing the model to become stale. This model staleness (see Figure 8-3) can occur for
+many reasons, from changes in customer behavior to shifts in the environment. For
+this reason, it is important to have in place mechanisms to efficiently monitor the
+machine learning model and all the various components that contribute to its perfor‐
+mance, from data collection to the quality of the predictions during serving. The dis‐
+cussion of “Design Pattern 18: Continued Model Evaluation” on page 220 in
+Chapter 5 covers this common problem and its solution in detail.
+<i>Figure</i> <i>8-3.</i> <i>Model</i> <i>staleness</i> <i>can</i> <i>occur</i> <i>for</i> <i>many</i> <i>reasons.</i> <i>Retraining</i> <i>models</i> <i>periodically</i>
+<i>can</i> <i>help</i> <i>to</i> <i>improve</i> <i>their</i> <i>performance</i> <i>over</i> <i>time.</i>
+For example, it is important to monitor the distribution of feature values to compare
+against the distributions that were used during the development steps. It is also
+important to monitor the distribution of label values to ensure that some data drift
+hasn’t caused an imbalance or shift in label distribution. Oftentimes, a machine
+learning model relies on data collected from an outside source. Perhaps our model
+relies on a third-party traffic API to predict wait times for car pickups or uses data
+from a weather API as input to a model that predicts flight delays. These APIs are not
+managed by our team. If that API fails or its output format changes in a significant
+way, it will have consequences for our production model. In this case, it is important

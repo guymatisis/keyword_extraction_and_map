@@ -1,0 +1,40 @@
+<header><largefont><b>How</b></largefont> <largefont><b>Bag</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Words</b></largefont> <largefont><b>Works</b></largefont></header>
+The first step in BOW encoding is choosing our vocabulary size, which will include
+the top <i>N</i> most frequently occurring words in our text corpus. In theory, our vocabu‐
+lary size could be equal to the number of unique words in our entire dataset. How‐
+ever, this would lead to very large input arrays of mostly zeros, since many words
+could be unique to a single question. Instead, we’ll want to choose a vocabulary size
+small enough to include key, recurring words that convey meaning for our prediction
+task, but big enough that our vocabulary isn’t limited to words found in nearly every
+question (like “the,” “is,” “and,” etc.).
+Each input to our model will then be an array the size of our vocabulary. This BOW
+representation therefore entirely disregards words that aren’t included in our
+vocabulary. There isn’t a magic number or percentage for choosing vocabulary size—
+it’s helpful to try a few and see which performs best on our model.
+To understand BOW encoding, let’s first look at a simplified example. For this exam‐
+ple, let’s say we’re predicting the tag of a Stack Overflow question from a list of three
+possible tags: “pandas,” “keras,” and “matplotlib.” To keep things simple, assume our
+vocabulary consists of only the 10 words listed below:
+dataframe
+layer
+series
+graph
+column
+plot
+color
+axes
+read_csv
+activation
+This list is our <i>word</i> <i>index,</i> and every input we feed into our model will be a 10-
+element array where each index corresponds with one of the words listed above. For
+example, a 1 in the first index of an input array means a particular question contains
+the word <i>dataframe.</i> To understand BOW encoding from the perspective of our
+model, imagine we’re learning a new language and the 10 words above are the only
+words we know. Every “prediction” we make will be based solely on the presence or
+absence of these 10 words and will disregard any words outside this list.
+Therefore, given question title, “How to plot dataframe bar graph,” how will we
+transform it into a BOW representation? First, let’s take note of the words in this sen‐
+tence that appear in our vocabulary: <i>plot,</i> <i>dataframe,</i> and <i>graph.</i> The other words in
+this sentence will be ignored by the bag of words approach. Using our word index
+above, this sentence becomes:
+[ 1 0 0 1 0 1 0 0 0 0 ]

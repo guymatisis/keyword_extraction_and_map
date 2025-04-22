@@ -1,0 +1,39 @@
+So, when we prepare our batch, we set up the decoder inputs by shifting the labels to
+the right by one. After that, we make sure the padding tokens in the labels are ignored
+by the loss function by setting them to –100. We actually don’t have to do this man‐
+ually, though, since the DataCollatorForSeq2Seq comes to the rescue and takes care
+of all these steps for us:
+<b>from</b> <b>transformers</b> <b>import</b> DataCollatorForSeq2Seq
+seq2seq_data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
+Then, as usual, we set up a the TrainingArguments for training:
+<b>from</b> <b>transformers</b> <b>import</b> TrainingArguments, Trainer
+training_args = TrainingArguments(
+output_dir='pegasus-samsum', num_train_epochs=1, warmup_steps=500,
+per_device_train_batch_size=1, per_device_eval_batch_size=1,
+weight_decay=0.01, logging_steps=10, push_to_hub=True,
+evaluation_strategy='steps', eval_steps=500, save_steps=1e6,
+gradient_accumulation_steps=16)
+One thing that is different from the previous settings is that new argument,
+gradient_accumulation_steps . Since the model is quite big, we had to set the batch
+size to 1. However, a batch size that is too small can hurt convergence. To resolve that
+issue, we can use a nifty technique called <i>gradient</i> <i>accumulation.</i> As the name sug‐
+gests, instead of calculating the gradients of the full batch all at once, we make smaller
+batches and aggregate the gradients. When we have aggregated enough gradients, we
+run the optimization step. Naturally this is a bit slower than doing it in one pass, but
+it saves us a lot of GPU memory.
+Let’s now make sure that we are logged in to Hugging Face so we can push the model
+to the Hub after training:
+<b>from</b> <b>huggingface_hub</b> <b>import</b> notebook_login
+notebook_login()
+We have now everything we need to initialize the trainer with the model, tokenizer,
+training arguments, and data collator, as well as the training and evaluation sets:
+trainer = Trainer(model=model, args=training_args,
+tokenizer=tokenizer, data_collator=seq2seq_data_collator,
+train_dataset=dataset_samsum_pt["train"],
+eval_dataset=dataset_samsum_pt["validation"])
+We are ready for training. After training, we can directly run the evaluation function
+on the test set to see how well the model performs:
+trainer.train()
+score = evaluate_summaries_pegasus(
+dataset_samsum["test"], rouge_metric, trainer.model, tokenizer,
+batch_size=2, column_text="dialogue", column_summary="summary")

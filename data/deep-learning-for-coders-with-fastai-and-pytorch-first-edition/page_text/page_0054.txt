@@ -1,0 +1,35 @@
+training data, so in this case you’d want your validation set to also include boats that
+are not in the training set.
+Sometimes it may not be clear how your validation data will differ. For instance, for a
+problem using satellite imagery, you’d need to gather more information on whether
+the training set contained just certain geographic locations or came from geographi‐
+cally scattered data.
+Now that you have gotten a taste of how to build a model, you can decide what you
+want to dig into next.
+<header><largefont><b>Choose</b></largefont> <largefont><b>Your</b></largefont> <largefont><b>Own</b></largefont> <largefont><b>Adventure</b></largefont></header>
+<header><largefont><b>A</b></largefont> <largefont><b>Moment</b></largefont></header>
+If you would like to learn more about how to use deep learning models in practice,
+including how to identify and fix errors, create a real working web application, and
+avoid your model causing unexpected harm to your organization or society more
+generally, then keep reading the next two chapters. If you would like to start learning
+the foundations of how deep learning works under the hood, skip to Chapter 4. (Did
+you ever read <i>Choose</i> <i>Your</i> <i>Own</i> <i>Adventure</i> books as a kid? Well, this is kind of like
+that…except with more deep learning than that book series contained.)
+You will need to read all these chapters to progress further in the book, but the order
+in which you read them is totally up to you. They don’t depend on each other. If you
+skip ahead to Chapter 4, we will remind you at the end to come back and read the
+chapters you skipped over before you go any further.
+<header><largefont><b>Questionnaire</b></largefont></header>
+After reading pages and pages of prose, it can be hard to know which key things you
+really need to focus on and remember. So, we’ve prepared a list of questions and sug‐
+gested steps to complete at the end of each chapter. All the answers are in the text of
+the chapter, so if you’re not sure about anything here, reread that part of the text and
+make sure you understand it. Answers to all these questions are also available on the
+book’s website. You can also visit the forums if you get stuck to get help from other
+folks studying this material.
+1. Do you need these for deep learning?
+• Lots of math T/F
+• Lots of data T/F
+• Lots of expensive computers T/F
+• A PhD T/F
+2. Name five areas where deep learning is now the best tool in the world.

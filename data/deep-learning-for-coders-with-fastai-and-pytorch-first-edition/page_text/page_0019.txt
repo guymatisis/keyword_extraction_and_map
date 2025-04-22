@@ -1,0 +1,26 @@
+So, how do we know if this model is any good? In the last column of the table, you
+can see the <i>error</i> <i>rate,</i> which is the proportion of images that were incorrectly identi‐
+fied. The error rate serves as our metric—our measure of model quality, chosen to be
+intuitive and comprehensible. As you can see, the model is nearly perfect, even
+though the training time was only a few seconds (not including the one-time down‐
+loading of the dataset and the pretrained model). In fact, the accuracy you’ve
+achieved already is far better than anybody had ever achieved just 10 years ago!
+Finally, let’s check that this model actually works. Go and get a photo of a dog or a cat;
+if you don’t have one handy, just search Google Images and download an image that
+you find there. Now execute the cell with uploader defined. It will output a button
+you can click, so you can select the image you want to classify:
+uploader = widgets.FileUpload()
+uploader
+Now you can pass the uploaded file to the model. Make sure that it is a clear photo of
+a single dog or a cat, and not a line drawing, cartoon, or similar. The notebook will
+tell you whether it thinks it is a dog or a cat, and how confident it is. Hopefully, you’ll
+find that your model did a great job:
+img = PILImage.create(uploader.data[0])
+is_cat,_,probs = learn.predict(img)
+<b>print(f"Is</b> this a cat?: {is_cat}.")
+<b>print(f"Probability</b> it's a cat: {probs[1].item():.6f}")
+Is this a cat?: True.
+Probability it's a cat: 0.999986
+Congratulations on your first classifier!
+But what does this mean? What did you actually do? In order to explain this, let’s
+zoom out again to take in the big picture.

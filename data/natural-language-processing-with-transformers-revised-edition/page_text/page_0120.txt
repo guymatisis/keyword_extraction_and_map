@@ -1,0 +1,40 @@
+<i>#</i> <i>Add</i> <i>monolingual</i> <i>corpus</i> <i>to</i> <i>list</i> <i>of</i> <i>corpora</i> <i>to</i> <i>concatenate</i>
+corpora.append(ds_encoded)
+Now that we’ve fine-tuned on each language’s corpus, the next step is to concatenate
+all the splits together to create a multilingual corpus of all four languages. As with the
+previous German and French analysis, we can use the concatenate_splits() func‐
+tion to do this step for us on the list of corpora we generated in the previous step:
+corpora_encoded = concatenate_splits(corpora)
+Now that we have our multilingual corpus, we run the familiar steps with the trainer:
+training_args.logging_steps = len(corpora_encoded["train"]) // batch_size
+training_args.output_dir = "xlm-roberta-base-finetuned-panx-all"
+trainer = Trainer(model_init=model_init, args=training_args,
+data_collator=data_collator, compute_metrics=compute_metrics,
+tokenizer=xlmr_tokenizer, train_dataset=corpora_encoded["train"],
+eval_dataset=corpora_encoded["validation"])
+trainer.train()
+trainer.push_to_hub(commit_message="Training completed!")
+The final step is to generate the predictions from the trainer on each language’s test
+set. This will give us an insight into how well multilingual learning is really working.
+f1_scores DataFrame
+We’ll collect the <i>F</i> -scores in our dictionary and then create a
+1
+that summarizes the main results from our multilingual experiments:
+<b>for</b> idx, lang <b>in</b> enumerate(langs):
+f1_scores["all"][lang] = get_f1_score(trainer, corpora[idx]["test"])
+scores_data = {"de": f1_scores["de"],
+"each": {lang: f1_scores[lang][lang] <b>for</b> lang <b>in</b> langs},
+"all": f1_scores["all"]}
+f1_scores_df = pd.DataFrame(scores_data).T.round(4)
+f1_scores_df.rename_axis(index="Fine-tune on", columns="Evaluated on",
+inplace=True)
+f1_scores_df
+<b>Evaluatedon</b> <b>de</b> <b>fr</b> <b>it</b> <b>en</b>
+<b>Fine-tuneon</b>
+<b>de</b> 0.8677 0.7141 0.6923 0.5890
+<b>each</b> 0.8677 0.8505 0.8192 0.7068
+0.8682 0.8647 0.8575 0.7870
+<b>all</b>
+From these results we can draw a few general conclusions:
+• Multilingual learning can provide significant gains in performance, especially if
+the low-resource languages for cross-lingual transfer belong to similar language

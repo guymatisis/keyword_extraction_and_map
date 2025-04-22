@@ -1,0 +1,22 @@
+<header><largefont><b>Using</b></largefont> <largefont><b>Embeddings</b></largefont> <largefont><b>as</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Lookup</b></largefont> <largefont><b>Table</b></largefont></header>
+Large language models such as GPT-3 have been shown to be excellent at solving
+tasks with limited data. The reason is that these models learn useful representations
+of text that encode information across many dimensions, such as sentiment, topic,
+text structure, and more. For this reason, the embeddings of large language models
+can be used to develop a semantic search engine, find similar documents or com‐
+ments, or even classify text.
+In this section we’ll create a text classifier that’s modeled after the OpenAI API classi‐
+fication endpoint. The idea follows a three-step process:
+1. Use the language model to embed all labeled texts.
+2. Perform a nearest neighbor search over the stored embeddings.
+3. Aggregate the labels of the nearest neighbors to get a prediction.
+The process is illustrated in Figure 9-3, which shows how labeled data is embedded
+with a model and stored with the labels. When a new text needs to be classified it is
+embedded as well, and the label is given based on the labels of the nearest neighbors.
+It is important to calibrate the number of neighbors to be searched for, as too few
+might be noisy and too many might mix in neighboring groups.
+<i>Figure</i> <i>9-3.</i> <i>An</i> <i>illustration</i> <i>of</i> <i>nearest</i> <i>neighbor</i> <i>embedding</i> <i>lookup</i>
+The beauty of this approach is that no model fine-tuning is necessary to leverage the
+few available labeled data points. Instead, the main decision to make this approach
+work is to select an appropriate model that is ideally pretrained on a similar domain
+to your dataset.

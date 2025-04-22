@@ -1,0 +1,40 @@
+Training a machine learning model requires a substantial amount of work, but to
+fully realize the value of that effort, the model must run in production to support the
+business efforts it was designed to improve. There are several approaches that achieve
+this goal and deployment can look different among different organizations depend‐
+ing on the use case. For example, productionized ML assets could take the form of
+interactive dashboards, static notebooks, code that is wrapped in a reusable library, or
+web services endpoints.
+There are many considerations and design decisions for productionizing models. As
+before, many of the decisions that are made during the discovery stage guide this step
+as well. How should model retraining be managed? Will input data need to stream
+in? Should training happen on new batches of data or in real time? What about
+model inference? Should we plan for one-off batch inference jobs each week or do we
+need to support real-time prediction? Are there special throughput or latency issues
+to consider? Is there a need to handle spiky workloads? Is low latency a priority? Is
+network connectivity an issue? The design patterns in Chapter 5 touch on some of
+the issues that arise when operationalizing an ML model.
+These are important considerations, and this final stage tends to be the largest hurdle
+for many businesses, as it can require strong coordination among different parts of
+the organization and integration of a variety of technical components. This difficulty
+is also in part due to the fact that productionization requires integrating a new pro‐
+cess, one that relies on the machine learning model, into an existing system. This can
+involve dealing with legacy systems that were developed to support a single approach,
+or there could be complex change control and production processes to navigate
+within the organization. Also, many times, existing systems do not have a mechanism
+for supporting predictions coming from a machine learning model, so new applica‐
+tions and workflows must be developed. It is important to anticipate these challenges,
+and developing a comprehensive solution requires significant investment from the
+business operations side to make the transition as easy as possible and increase the
+speed to market.
+The next step of the deployment stage is to operationalize the model (Step 9 in
+Figure 8-2). This field of the practice is typically referred to as MLOps (ML Opera‐
+tions) and covers aspects related to automating, monitoring, testing, managing, and
+maintaining machine learning models in production. It is a necessary component for
+any company hoping to scale the number of machine learning–driven applications
+within their organization.
+One of the key characteristics of operationalized models is automated workflow pipe‐
+lines. The development stage of the ML life cycle is a multistep process. Building
+pipelines to automate these steps enables more efficient workflows and repeatable
+processes that improve future model development, and allows for increased agility in
+solving problems that arise. Today, open source tools like Kubeflow provide this

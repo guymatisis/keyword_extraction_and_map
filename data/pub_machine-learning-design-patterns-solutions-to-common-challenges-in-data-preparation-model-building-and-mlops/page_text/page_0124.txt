@@ -1,0 +1,28 @@
+augmentations to generate additional samples. We’ll also look at approaches for
+<i>reframing</i> the problem: changing it to a regression task, analyzing our model’s error
+values for each example, or clustering.
+<b>Choosinganevaluationmetric</b>
+For imbalanced datasets like the one in our fraud detection example, it’s best to use
+metrics like precision, recall, or F-measure to get a complete picture of how our
+model is performing. <i>Precision</i> measures the percentage of positive classifications that
+were correct out of all positive predictions made by the model. Conversely, <i>recall</i>
+measures the proportion of actual positive examples that were identified correctly by
+the model. The biggest difference between these two metrics is the denominator used
+to calculate them. For precision, the denominator is the total number of positive class
+predictions made by our model. For recall, it is the number of <i>actual</i> positive class
+examples present in our dataset.
+A perfect model would have both precision and recall of 1.0, but in practice, these
+two measures are often at odds with each other. The <i>F-measure</i> is a metric that ranges
+from 0 to 1 and takes both precision and recall into account. It is calculated as:
+2 * (precision * recall / (precision + recall))
+Let’s return to the fraud detection use case to see how each of these metrics plays out
+in practice. For this example, let’s say our test set contains a total of 1,000 examples,
+50 of which should be labeled as fraudulent transactions. For these examples, our
+model predicts 930/950 nonfraudulent examples correctly, and 15/50 fraudulent
+examples correctly. We can visualize these results in Figure 3-19.
+<i>Figure</i> <i>3-19.</i> <i>Sample</i> <i>predictions</i> <i>for</i> <i>a</i> <i>fraud</i> <i>detection</i> <i>model.</i>
+In this case, our model’s precision is 15/35 (42%), recall is 15/50 (30%), and F-
+measure is 35%. These do a much better job capturing our model’s inability to
+correctly identify fraudulent transactions compared to accuracy, which is 945/1000
+(94.5%). Therefore, for models trained on imbalanced datasets, metrics other than
+accuracy are preferred. In fact, accuracy may even go down when optimizing for

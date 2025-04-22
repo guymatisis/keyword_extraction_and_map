@@ -1,0 +1,37 @@
+<i>Regulatory</i> <i>and</i> <i>compliance</i> <i>agencies</i>
+People and organizations who need an executive-level summary of how a model
+is making decisions from a regulatory compliance perspective. This could
+include financial auditors, government agencies, or governance teams within an
+organization.
+Throughout this chapter, we’ll look at patterns that address a model’s impact on indi‐
+viduals and groups outside the team and organization building a model. The <i>Heuris‐</i>
+<i>tic</i> <i>Benchmark</i> design pattern provides a way of putting the model’s performance in a
+context that end users and decision makers can understand. The <i>Explainable</i> <i>Predic‐</i>
+<i>tions</i> pattern provides approaches to improving trust in ML systems by fostering an
+understanding of the signals a model is using to make predictions. The <i>Fairness</i> <i>Lens</i>
+design pattern aims to ensure that models behave equitably across different subsets of
+users and prediction scenarios.
+Taken together, the patterns in this chapter fall under the practice of <i>Responsible</i> <i>AI.</i>
+This is an area of active research and is concerned with the best ways to build fair‐
+ness, interpretability, privacy, and security into AI systems. Recommended practices
+for responsible AI include employing a human-centered design approach by engag‐
+ing with a diverse set of users and use-case scenarios throughout project develop‐
+ment, understanding the limitations of datasets and models, and continuing to
+monitor and update ML systems after deployment. Responsible AI patterns are not
+limited to the three that we discuss in this chapter—many of the patterns in earlier
+chapters (like Continuous Evaluation, Repeatable Splitting, and Neutral Class, to
+name a few) provide methods to implement these recommended practices and attain
+the goal of building fairness, interpretability, privacy, and security into AI systems.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>28:</b></largefont> <largefont><b>Heuristic</b></largefont> <largefont><b>Benchmark</b></largefont></header>
+The Heuristic Benchmark pattern compares an ML model against a simple, easy-to-
+understand heuristic in order to explain the model’s performance to business deci‐
+sion makers.
+<header><largefont><b>Problem</b></largefont></header>
+Suppose a bicycle rental agency wishes to use the expected duration of rentals to
+build a dynamic pricing solution. After training an ML model to predict the duration
+of a bicycle’s rental period, they evaluate the model on a test dataset and determine
+that the mean absolute error (MAE) of the trained ML model is 1,200 seconds. When
+they present this model to the business decision makers, they will likely be asked: “Is
+an MAE of 1,200 seconds good or bad?” This is a question we need to be ready to
+handle whenever we develop a model and present it to business stakeholders. If we
+train an image classification model on items in a product catalog and the mean

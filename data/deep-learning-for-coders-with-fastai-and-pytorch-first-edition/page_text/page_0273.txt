@@ -1,0 +1,37 @@
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 0.940104 0.959786 00:15
+1 0.893943 0.905222 00:14
+2 0.865591 0.875238 00:14
+3 0.800177 0.867468 00:14
+4 0.760255 0.867455 00:14
+fastai provides this model in fastai.collab if you pass use_nn=True in your call to
+collab_learner (including calling get_emb_sz for you), and it lets you easily create
+more layers. For instance, here we’re creating two hidden layers, of size 100 and 50,
+respectively:
+learn = collab_learner(dls, use_nn=True, y_range=(0, 5.5), layers=[100,50])
+learn.fit_one_cycle(5, 5e-3, wd=0.1)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 1.002747 0.972392 00:16
+1 0.926903 0.922348 00:16
+2 0.877160 0.893401 00:16
+3 0.838334 0.865040 00:16
+4 0.781666 0.864936 00:16
+learn.model is an object of type EmbeddingNN . Let’s take a look at fastai’s code for this
+class:
+@delegates(TabularModel)
+<b>class</b> <b>EmbeddingNN(TabularModel):</b>
+<b>def</b> <b>__init__(self,</b> emb_szs, layers, **kwargs):
+super().__init__(emb_szs, layers=layers, n_cont=0, out_sz=1, **kwargs)
+TabularModel,
+Wow, that’s not a lot of code! This class <i>inherits</i> from which is where it
+gets all its functionality from. In __init__, it calls the same method in TabularModel,
+passing n_cont=0 and out_sz=1; other than that, it passes along only whatever argu‐
+ments it received.
+<header><largefont><b>kwargs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Delegates</b></largefont></header>
+EmbeddingNN includes **kwargs as a parameter to __init__ . In Python, **kwargs in
+a parameter list means “put any additional keyword arguments into a dict called
+kwargs.” And **kwargs in an argument list means “insert all key/value pairs in the
+kwargs dict as named arguments here.” This approach is used in many popular libra‐
+ries, such as matplotlib, in which the main plot function simply has the signature
+plot(*args, **kwargs). The plot documentation says “The kwargs are Line2D
+properties” and then lists those properties.

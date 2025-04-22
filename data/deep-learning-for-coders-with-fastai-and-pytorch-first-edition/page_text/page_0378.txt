@@ -1,0 +1,17 @@
+An arrow represents the actual layer computation—i.e., the linear layer followed by
+the activation function. Using this notation, Figure 12-3 shows what our simple lan‐
+guage model looks like.
+<i>Figure</i> <i>12-3.</i> <i>Representation</i> <i>of</i> <i>our</i> <i>basic</i> <i>language</i> <i>model</i>
+To simplify things, we’ve removed the details of the layer computation from each
+arrow. We’ve also color-coded the arrows, such that all arrows with the same color
+have the same weight matrix. For instance, all the input layers use the same embed‐
+ding matrix, so they all have the same color (green).
+Let’s try training this model and see how it goes:
+learn = Learner(dls, LMModel1(len(vocab), 64), loss_func=F.cross_entropy,
+metrics=accuracy)
+learn.fit_one_cycle(4, 1e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 1.824297 1.970941 0.467554 00:02
+1 1.386973 1.823242 0.467554 00:02
+2 1.417556 1.654497 0.494414 00:02
+3 1.376440 1.650849 0.494414 00:02

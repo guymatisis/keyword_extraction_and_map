@@ -1,0 +1,34 @@
+trees versus the random forest. A decision tree ultimately learns boundary values for
+each feature that guide a single instance to the model’s final prediction. As such, it is
+easy to explain why a decision tree makes the predictions it did. The random forest,
+being an ensemble of many decision trees, loses this level of local interpretability.
+<b>Choosingtherighttoolfortheproblem</b>
+It’s also important to keep in mind the bias–variance trade-off. Some ensemble tech‐
+niques are better at addressing bias or variance than others (Table 3-2). In particular,
+boosting is adapted for addressing high bias, while bagging is useful for correcting
+high variance. That being said, as we saw in the section on “Bagging” on page 100,
+combining two models with highly correlated errors will do nothing to help lower the
+variance. In short, using the wrong ensemble method for our problem won’t neces‐
+sarily improve performance; it will just add unnecessary overhead.
+<i>Table</i> <i>3-2.</i> <i>A</i> <i>summary</i> <i>of</i> <i>the</i> <i>trade-off</i> <i>between</i> <i>bias</i> <i>and</i> <i>variance</i>
+<b>Problem</b> <b>Ensemblesolution</b>
+Highbias(underfitting) Boosting
+Highvariance(overfitting) Bagging
+<b>Otherensemblemethods</b>
+We’ve discussed some of the more common ensemble techniques in machine learn‐
+ing. The list discussed earlier is by no means exhaustive and there are different
+algorithms that fit with these broad categories. There are also other ensemble techni‐
+ques, including many that incorporate a Bayesian approach or that combine neural
+architecture search and reinforcement learning, like Google’s AdaNet or AutoML
+techniques. In short, the Ensemble design pattern encompasses techniques that com‐
+bine multiple machine learning models to improve overall model performance and
+can be particularly useful when addressing common training issues like high bias or
+high variance.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>8:</b></largefont> <largefont><b>Cascade</b></largefont></header>
+The Cascade design pattern addresses situations where a machine learning problem
+can be profitably broken into a series of ML problems. Such a cascade often requires
+careful design of the ML experiment.
+<header><largefont><b>Problem</b></largefont></header>
+What happens if we need to predict a value during both usual and unusual activity?
+The model will learn to ignore the unusual activity because it is rare. If the unusual
+activity is also associated with abnormal values, then trainability suffers.

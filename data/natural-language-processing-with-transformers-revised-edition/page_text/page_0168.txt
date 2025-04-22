@@ -1,0 +1,39 @@
+finding answers to factual questions like “What is the currency of the United King‐
+dom?” First, the query is about “poor quality,” which is subjective and depends on the
+user’s definition of quality. Second, important parts of the query do not appear in the
+review at all, which means it cannot be answered with shortcuts like keyword search
+or paraphrasing the input question. These features make SubjQA a realistic dataset to
+benchmark our review-based QA models on, since user-generated content like that
+shown in Figure 7-2 resembles what we might encounter in the wild.
+QA systems are usually categorized by the <i>domain</i> of data that they
+have access to when responding to a query. <i>Closed-domain</i> QA
+deals with questions about a narrow topic (e.g., a single product
+category), while <i>open-domain</i> QA deals with questions about
+almost anything (e.g., Amazon’s whole product catalog). In general,
+closed-domain QA involves searching through fewer documents
+than the open-domain case.
+To get started, let’s download the dataset from the Hugging Face Hub. As we did in
+Chapter 4, we can use the get_dataset_config_names() function to find out which
+subsets are available:
+<b>from</b> <b>datasets</b> <b>import</b> get_dataset_config_names
+domains = get_dataset_config_names("subjqa")
+domains
+['books', 'electronics', 'grocery', 'movies', 'restaurants', 'tripadvisor']
+For our use case, we’ll focus on building a QA system for the Electronics domain. To
+download the electronics subset, we just need to pass this value to the name argu‐
+load_dataset()
+ment of the function:
+<b>from</b> <b>datasets</b> <b>import</b> load_dataset
+subjqa = load_dataset("subjqa", name="electronics")
+Like other question answering datasets on the Hub, SubjQA stores the answers to
+each question as a nested dictionary. For example, if we inspect one of the rows in the
+answers
+column:
+<b>print(subjqa["train"]["answers"][1])</b>
+{'text': ['Bass is weak as expected', 'Bass is weak as expected, even with EQ
+adjusted up'], 'answer_start': [1302, 1302], 'answer_subj_level': [1, 1],
+'ans_subj_score': [0.5083333253860474, 0.5083333253860474], 'is_ans_subjective':
+[True, True]}
+text
+we can see that the answers are stored in a field, while the starting character
+indices are provided in answer_start. To explore the dataset more easily, we’ll flatten

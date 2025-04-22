@@ -1,0 +1,42 @@
+tokenized_inputs = self.tokenizer(buffer, truncation=False)
+<b>for</b> tokenized_input <b>in</b> tokenized_inputs["input_ids'"]:
+<b>for</b> tokenized_input <b>in</b> tokenized_inputs:
+all_token_ids.extend(tokenized_input + [self.concat_token_id])
+<b>for</b> i <b>in</b> range(0, len(all_token_ids), self.seq_length):
+input_ids = all_token_ids[i : i + self.seq_length]
+<b>if</b> len(input_ids) == self.seq_length:
+<b>yield</b> torch.tensor(input_ids)
+The __iter__() function builds up a buffer of strings until it contains enough char‐
+acters. All the elements in the buffer are tokenized and concatenated with the EOS
+token, then the long sequence in all_token_ids is chunked in seq_length -sized sli‐
+ces. Normally, we need attention masks to stack padded sequences of varying length
+and make sure the padding is ignored during training. We have taken care of this by
+only providing sequences of the same (maximal) length, so we don’t need the masks
+here and only return the input_ids . Let’s test our iterable dataset:
+shuffled_dataset = dataset.shuffle(buffer_size=100)
+constant_length_dataset = ConstantLengthDataset(tokenizer, shuffled_dataset,
+num_of_sequences=10)
+dataset_iterator = iter(constant_length_dataset)
+lengths = [len(b) <b>for</b> _, b <b>in</b> zip(range(5), dataset_iterator)]
+<b>print(f"Lengths</b> of the sequences: {lengths}")
+Fill buffer: 0<36864
+Fill buffer: 3311<36864
+Fill buffer: 9590<36864
+Fill buffer: 22177<36864
+Fill buffer: 25530<36864
+Fill buffer: 31098<36864
+Fill buffer: 32232<36864
+Fill buffer: 33867<36864
+Buffer full: 41172>=36864
+Lengths of the sequences: [1024, 1024, 1024, 1024, 1024]
+Nice, this works as intended and we get constant-length inputs for the model. Now
+that we have a reliable data source for the model, it’s time to build the actual training
+loop.
+Constant
+Notice that we shuffled the raw dataset before creating a
+LengthDataset
+. Since this is an iterable dataset, we can’t just shuffle
+the whole dataset at the beginning. Instead, we set up a buffer with
+buffer_size
+size and shuffle the elements in this buffer before we
+get elements from the dataset.

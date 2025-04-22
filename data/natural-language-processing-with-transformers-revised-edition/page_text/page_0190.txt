@@ -1,0 +1,39 @@
+In Haystack, there are two ways to evaluate retrievers:
+• Use the retriever’s in-built eval() method. This can be used for both open- and
+closed-domain QA, but not for datasets like SubjQA where each document is
+paired with a single product and we need to filter by product ID for every query.
+Pipeline EvalRetriever
+• Build a custom that combines a retriever with the class.
+This enables the implementation of custom metrics and query flows.
+A complementary metric to recall is <i>mean</i> <i>average</i> <i>precision</i> (mAP),
+which rewards retrievers that can place the correct answers higher
+up in the document ranking.
+Since we need to evaluate the recall per product and then aggregate across all prod‐
+ucts, we’ll opt for the second approach. Each node in the Pipeline graph represents a
+run()
+class that takes some inputs and produces some outputs via a method:
+<b>class</b> <b>PipelineNode:</b>
+<b>def</b> __init__(self):
+self.outgoing_edges = 1
+<b>def</b> run(self, **kwargs):
+...
+<b>return</b> (outputs, "outgoing_edge_name")
+Here kwargs corresponds to the outputs from the previous node in the graph, which
+is manipulated within the run() method to return a tuple of the outputs for the next
+node, along with a name for the outgoing edge. The only other requirement is to
+include an outgoing_edges attribute that indicates the number of outputs from the
+node (in most cases outgoing_edges=1 , unless you have branches in the pipeline that
+route the inputs according to some criterion).
+In our case, we need a node to evaluate the retriever, so we’ll use the EvalRetriever
+class whose run() method keeps track of which documents have answers that match
+Pipeline
+the ground truth. With this class we can then build up a graph by adding
+the evaluation node after a node that represents the retriever itself:
+<b>from</b> <b>haystack.pipeline</b> <b>import</b> Pipeline
+<b>from</b> <b>haystack.eval</b> <b>import</b> EvalDocuments
+<b>class</b> <b>EvalRetrieverPipeline:</b>
+<b>def</b> __init__(self, retriever):
+self.retriever = retriever
+self.eval_retriever = EvalDocuments()
+pipe = Pipeline()
+pipe.add_node(component=self.retriever, name="ESRetriever",

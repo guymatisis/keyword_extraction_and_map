@@ -1,0 +1,39 @@
+<b>text</b> <b>label</b> <b>predicted_label</b> <b>loss</b>
+ifeelthathewasbeingovershadowedbythesupportingcharacters love sadness 5.704531
+icalledmyselfprolifeandvotedforperrywithoutknowingthisinformationi joy sadness 5.484461
+wouldfeelbetrayedbutmoreoveriwouldfeelthatihadbetrayedgodby
+supportingamanwhomandatedabarelyyearoldvaccineforlittlegirlsputting
+themindangertofinanciallysupportpeopleclosetohim
+iguessifeelbetrayedbecauseiadmiredhimsomuchandforsomeonetodothis joy sadness 5.434768
+tohiswifeandkidsjustgoesbeyondthepale
+ifeelbadlyaboutrenegingonmycommitmenttobringdonutstothefaithfulat love sadness 5.257482
+holyfamilycatholicchurchincolumbusohio
+iasrepresentativeofeverythingthatswrongwithcorporateamericaandfeelthat surprise sadness 4.827708
+sendinghimtowashingtonisaludicrousidea
+iguessthisisamemoirsoitfeelslikethatshouldbefinetooexceptidontknow joy fear 4.713047
+somethingaboutsuchadeepamountofselfabsorptionmademefeel
+uncomfortable
+iamgoingtoseveralholidaypartiesandicantwaittofeelsuperawkwardiam joy sadness 4.704955
+goingtoseveralholidaypartiesandicantwaittofeelsuperawkwardahrefhttp
+badplaydate
+ifeltashamedofthesefeelingsandwasscaredbecauseiknewthatsomething fear sadness 4.656096
+wrongwithmeandthoughtimightbegay
+iguesswewouldnaturallyfeelasenseoflonelinesseventhepeoplewhosaid anger sadness 4.593202
+unkindthingstoyoumightbemissed
+imlazymycharactersfallintocategoriesofsmugandorblaspeopleandtheirfoils joy fear 4.311287
+peoplewhofeelinconveniencedbysmugandorblaspeople
+We can clearly see that the model predicted some of the labels incorrectly. On the
+other hand, it seems that there are quite a few examples with no clear class, which
+might be either mislabeled or require a new class altogether. In particular, joy seems
+to be mislabeled several times. With this information we can refine the dataset, which
+often can lead to as big a performance gain (or more) as having more data or larger
+models!
+When looking at the samples with the lowest losses, we observe that the model seems
+sadness
+to be most confident when predicting the class. Deep learning models are
+exceptionally good at finding and exploiting shortcuts to get to a prediction. For this
+reason, it is also worth investing time into looking at the examples that the model is
+most confident about, so that we can be confident that the model does not improp‐
+erly exploit certain features of the text. So, let’s also look at the predictions with the
+smallest loss:
+df_test.sort_values("loss", ascending=True).head(10)

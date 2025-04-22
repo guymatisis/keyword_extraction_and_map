@@ -1,0 +1,24 @@
+In practice, we’d have a larger dataset and would want to calculate global-level attri‐
+butions on more examples. We could then use this analysis to summarize the behav‐
+ior on our model to other stakeholders within and outside our organization.
+<i>Figure</i> <i>7-4.</i> <i>An</i> <i>example</i> <i>of</i> <i>global-level</i> <i>feature</i> <i>attributions</i> <i>for</i> <i>the</i> <i>fuel</i> <i>efficiency</i> <i>model,</i>
+<i>calculated</i> <i>on</i> <i>the</i> <i>first</i> <i>10</i> <i>examples</i> <i>from</i> <i>the</i> <i>test</i> <i>dataset.</i>
+<b>Explanationsfromdeployedmodels</b>
+SHAP provides an intuitive API for getting attributions in Python, typically used in a
+script or notebook environment. This works well during model development, but
+there are scenarios where you’d want to get explanations on a deployed model in
+addition to the model’s prediction output. In this case, cloud-based explainability
+tools are the best option. Here, we’ll demonstrate how to get feature attributions on a
+deployed model using Google Cloud’s Explainable AI. At the time of this writing,
+Explainable AI works with custom TensorFlow models and tabular data models built
+with AutoML.
+We’ll deploy an image model to AI Platform to show explanations, but we could also
+use Explainable AI with TensorFlow models trained on tabular or text data. To start,
+we’ll deploy a TensorFlow Hub model trained on the ImageNet dataset. So that we
+can focus on the task of getting explanations, we won’t do any transfer learning on
+the model and will use ImageNet’s original 1,000 label classes:
+model = tf.keras.Sequential([
+hub.KerasLayer(".../mobilenet_v2/classification/2",
+input_shape=(224,224,3)),
+tf.keras.layers.Softmax()
+])

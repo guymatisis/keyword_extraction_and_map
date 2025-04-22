@@ -1,0 +1,35 @@
+<i>RAG-Token</i>
+Can use a different document to generate each token in the answer. This allows
+the generator to synthesize evidence from multiple documents.
+Since RAG-Token models tend to perform better than RAG-Sequence ones, we’ll use
+the token model that was fine-tuned on NQ as our generator. Instantiating a genera‐
+tor in Haystack is similar to instantiating the reader, but instead of specifying the
+max_seq_length and doc_stride parameters for a sliding window over the contexts,
+we specify hyperparameters that control the text generation:
+<b>from</b> <b>haystack.generator.transformers</b> <b>import</b> RAGenerator
+generator = RAGenerator(model_name_or_path="facebook/rag-token-nq",
+embed_title=False, num_beams=5)
+Here num_beams specifies the number of beams to use in beam search (text generation
+is covered at length in Chapter 5). As we did with the DPR retriever, we don’t embed
+the document titles since our corpus is always filtered per product ID.
+The next thing to do is tie together the retriever and generator using Haystack’s
+GenerativeQAPipeline :
+<b>from</b> <b>haystack.pipeline</b> <b>import</b> GenerativeQAPipeline
+pipe = GenerativeQAPipeline(generator=generator, retriever=dpr_retriever)
+In RAG, both the query encoder and the generator are trained end-
+to-end, while the context encoder is frozen. In Haystack, the
+GenerativeQAPipeline uses the query encoder from RAGenerator
+and the context encoder from DensePassageRetriever .
+Let’s now give RAG a spin by feeding in some queries about the Amazon Fire tablet
+from before. To simplify the querying, we’ll write a simple function that takes the
+query and prints out the top answers:
+<b>def</b> generate_answers(query, top_k_generator=3):
+preds = pipe.run(query=query, top_k_generator=top_k_generator,
+top_k_retriever=5, filters={"item_id":["B0074BW614"]})
+<b>print(f"Question:</b> {preds['query']} <b>\n")</b>
+<b>for</b> idx <b>in</b> range(top_k_generator):
+<b>print(f"Answer</b> {idx+1}: {preds['answers'][idx]['answer']}")
+OK, now we’re ready to give it a test:
+generate_answers(query)
+Question: Is it good for reading?
+Answer 1: the screen is absolutely beautiful

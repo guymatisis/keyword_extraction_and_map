@@ -1,0 +1,19 @@
+create_bucket = CreateBucketComponent(
+bucket_name='my-bucket')
+<b>IntegratingCI/CDwithpipelines</b>
+In addition to invoking pipelines via the dashboard or programmatically via the CLI
+or API, chances are we’ll want to automate runs of our pipeline as we productionize
+the model. For example, we may want to invoke our pipeline whenever a certain
+amount of new training data is available. Or we might want to trigger a pipeline run
+when the source code for the pipeline changes. Adding CI/CD to our Workflow Pipe‐
+line can help connect trigger events to pipeline runs.
+There are many managed services available for setting up triggers to run a pipeline
+when we want to retrain a model on new data. We could use a managed scheduling
+service to invoke our pipeline on a schedule. Alternatively, we could use a serverless
+event-based service like Cloud Functions to invoke our pipeline when new data is
+added to a storage location. In our function, we could specify conditions—like a
+threshold for the amount of new data added to necessitate retraining—for creating a
+new pipeline run. Once enough new training data is available, we can instantiate a
+pipeline run for retraining and redeploying the model as demonstrated in Figure 6-9.
+<i>Figure</i> <i>6-9.</i> <i>A</i> <i>CI/CD</i> <i>workflow</i> <i>using</i> <i>Cloud</i> <i>Functions</i> <i>to</i> <i>invoke</i> <i>a</i> <i>pipeline</i> <i>when</i> <i>enough</i>
+<i>new</i> <i>data</i> <i>is</i> <i>added</i> <i>to</i> <i>a</i> <i>storage</i> <i>location.</i>

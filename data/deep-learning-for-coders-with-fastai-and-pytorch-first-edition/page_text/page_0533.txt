@@ -1,0 +1,37 @@
+PyTorch hooks aren’t doing anything fancy at all—they’re just calling any hooks have
+been registered.
+Other than these pieces of functionality, our Module also provides cuda and training
+attributes, which we’ll use shortly.
+Now we can create our first Module, which is ConvLayer:
+<b>class</b> <b>ConvLayer(Module):</b>
+<b>def</b> <b>__init__(self,</b> ni, nf, stride=1, bias=True, act=True):
+super().__init__()
+self.w = Parameter(torch.zeros(nf,ni,3,3))
+self.b = Parameter(torch.zeros(nf)) <b>if</b> bias <b>else</b> None
+self.act,self.stride = act,stride
+init = nn.init.kaiming_normal_ <b>if</b> act <b>else</b> nn.init.xavier_normal_
+init(self.w)
+<b>def</b> forward(self, x):
+x = F.conv2d(x, self.w, self.b, stride=self.stride, padding=1)
+<b>if</b> self.act: x = F.relu(x)
+<b>return</b> x
+We’re not implementing F.conv2d from scratch, since you should have already done
+that (using unfold ) in the questionnaire in Chapter 17. Instead we’re just creating a
+small class that wraps it up along with bias and weight initialization. Let’s check that it
+works correctly with Module.parameters :
+l = ConvLayer(3, 4)
+len(l.parameters())
+2
+And that we can call it (which will result in forward being called):
+xbt = tfm_x(xb)
+r = l(xbt)
+r.shape
+torch.Size([128, 4, 64, 64])
+In the same way, we can implement Linear :
+<b>class</b> <b>Linear(Module):</b>
+<b>def</b> <b>__init__(self,</b> ni, nf):
+super().__init__()
+self.w = Parameter(torch.zeros(nf,ni))
+self.b = Parameter(torch.zeros(nf))
+nn.init.xavier_normal_(self.w)
+<b>def</b> forward(self, x): <b>return</b> x@self.w.t() + self.b

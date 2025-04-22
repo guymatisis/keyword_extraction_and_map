@@ -1,0 +1,40 @@
+<b>class</b> <b>Lin(LayerFunction):</b>
+<b>def</b> <b>__init__(self,</b> w, b): self.w,self.b = w,b
+<b>def</b> forward(self, inp): <b>return</b> inp@self.w + self.b
+<b>def</b> bwd(self, out, inp):
+inp.g = out.g @ self.w.t()
+self.w.g = self.inp.t() @ self.out.g
+self.b.g = out.g.sum(0)
+<b>class</b> <b>Mse(LayerFunction):</b>
+<b>def</b> forward (self, inp, targ): <b>return</b> (inp.squeeze() - targ).pow(2).mean()
+<b>def</b> bwd(self, out, inp, targ):
+inp.g = 2*(inp.squeeze()-targ).unsqueeze(-1) / targ.shape[0]
+The rest of our model can be the same as before. This is getting closer and closer to
+what PyTorch does. Each basic function we need to differentiate is written as a
+torch.autograd.Function object that has a forward and a backward method.
+PyTorch will then keep track of any computation we do to be able to properly run the
+backward pass, unless we set the requires_grad attribute of our tensors to False .
+Writing one of these is (almost) as easy as writing our original classes. The difference
+is that we choose what to save and what to put in a context variable (so that we make
+sure we don’t save anything we don’t need), and we return the gradients in the
+backward pass. It’s rare to have to write your own Function, but if you ever need
+something exotic or want to mess with the gradients of a regular function, here is
+how to write one:
+<b>from</b> <b>torch.autograd</b> <b>import</b> Function
+<b>class</b> <b>MyRelu(Function):</b>
+@staticmethod
+<b>def</b> forward(ctx, i):
+result = i.clamp_min(0.)
+ctx.save_for_backward(i)
+<b>return</b> result
+@staticmethod
+<b>def</b> backward(ctx, grad_output):
+i, = ctx.saved_tensors
+<b>return</b> grad_output * (i>0).float()
+The structure used to build a more complex model that takes advantage of those Func
+tions is a torch.nn.Module. This is the base structure for all models, and all the neu‐
+ral nets you have seen up until now were from that class. It mostly helps to register all
+the trainable parameters, which as we’ve seen can be used in the training loop.
+To implement an nn.Module you just need to do the following:
+__init__
+1. Make sure the superclass is called first when you initialize it.

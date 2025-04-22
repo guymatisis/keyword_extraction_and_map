@@ -1,0 +1,35 @@
+<header><largefont><b>Exploding</b></largefont> <largefont><b>or</b></largefont> <largefont><b>Disappearing</b></largefont> <largefont><b>Activations</b></largefont></header>
+In practice, creating accurate models from this kind of RNN is difficult. We will get
+better results if we call detach less often, and have more layers—this gives our RNN a
+longer time horizon to learn from and richer features to create. But it also means we
+have a deeper model to train. The key challenge in the development of deep learning
+has been figuring out how to train these kinds of models.
+This is challenging because of what happens when you multiply by a matrix many
+times. Think about what happens when you multiply by a number many times. For
+example, if you multiply by 2, starting at 1, you get the sequence 1, 2, 4, 8,…and after
+32 steps, you are already at 4,294,967,296. A similar issue happens if you multiply by
+0.5: you get 0.5, 0.25, 0.125…and after 32 steps, it’s 0.00000000023. As you can see,
+multiplying by a number even slightly higher or lower than 1 results in an explosion
+or disappearance of our starting number, after just a few repeated multiplications.
+Because matrix multiplication is just multiplying numbers and adding them up,
+exactly the same thing happens with repeated matrix multiplications. And that’s all a
+deep neural network is—each extra layer is another matrix multiplication. This
+means that it is very easy for a deep neural network to end up with extremely large or
+extremely small numbers.
+This is a problem, because the way computers store numbers (known as <i>floating</i>
+<i>point)</i> means that they become less and less accurate the further away the numbers
+get from zero. The diagram in Figure 12-8, from the excellent article “What You
+Never Wanted to Know about Floating Point but Will Be Forced to Find Out”, shows
+how the precision of floating-point numbers varies over the number line.
+<i>Figure</i> <i>12-8.</i> <i>Precision</i> <i>of</i> <i>floating-point</i> <i>numbers</i>
+This inaccuracy means that often the gradients calculated for updating the weights
+end up as zero or infinity for deep networks. This is commonly referred to as the
+<i>vanishing</i> <i>gradients</i> or <i>exploding</i> <i>gradients</i> problem. It means that in SGD, the weights
+are either not updated at all or jump to infinity. Either way, they won’t improve with
+training.
+Researchers have developed ways to tackle this problem, which we will be discussing
+later in the book. One option is to change the definition of a layer in a way that makes
+it less likely to have exploding activations. We’ll look at the details of how this is done
+in Chapter 13, when we discuss batch normalization, and Chapter 14, when we dis‐
+cuss ResNets, although these details don’t generally matter in practice (unless you are
+a researcher who is creating new approaches to solving this problem). Another

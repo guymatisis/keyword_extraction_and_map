@@ -1,0 +1,20 @@
+What is remarkable is that deep learning has such varied applications, yet nearly all of
+deep learning is based on a single innovative type of model: the neural network.
+But neural networks are not, in fact, completely new. In order to have a wider per‐
+spective on the field, it is worth starting with a bit of history.
+<header><largefont><b>Neural</b></largefont> <largefont><b>Networks:</b></largefont> <largefont><b>A</b></largefont> <largefont><b>Brief</b></largefont> <largefont><b>History</b></largefont></header>
+In 1943 Warren McCulloch, a neurophysiologist, and Walter Pitts, a logician, teamed
+up to develop a mathematical model of an artificial neuron. In their paper “A Logical
+Calculus of the Ideas Immanent in Nervous Activity,” they declared the following:
+Because of the “all-or-none” character of nervous activity, neural events and the rela‐
+tions among them can be treated by means of propositional logic. It is found that the
+behavior of every net can be described in these terms.
+McCulloch and Pitts realized that a simplified model of a real neuron could be repre‐
+sented using simple addition and thresholding, as shown in Figure 1-1. Pitts was self-
+taught, and by age 12, had received an offer to study at Cambridge University with
+the great Bertrand Russell. He did not take up this invitation, and indeed throughout
+his life did not accept any offers of advanced degrees or positions of authority. Most
+of his famous work was done while he was homeless. Despite his lack of an officially
+recognized position and increasing social isolation, his work with McCulloch was
+influential and was taken up by a psychologist named Frank Rosenblatt.
+<i>Figure</i> <i>1-1.</i> <i>Natural</i> <i>and</i> <i>artificial</i> <i>neurons</i>

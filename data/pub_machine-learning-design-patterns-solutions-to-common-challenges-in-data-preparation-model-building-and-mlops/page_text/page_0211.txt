@@ -1,0 +1,40 @@
+When this model is deployed and used for inference, the output JSON contains both
+the logits and the probability:
+{'predictions': [
+{'positive_review_probability': [0.6674301028251648],
+'positive_review_logits': [0.6965846419334412]},
+{'positive_review_probability': <b>[0.8344818353652954],</b>
+'positive_review_logits': [1.6177300214767456]},
+{'positive_review_probability': [0.31987208127975464],
+'positive_review_logits': [-0.754359781742096]}
+]}
+Note that add_prob is a function that we write. In this case, we did a bit of postpro‐
+cessing of the output. However, we could have done pretty much any (stateless) thing
+that we wanted inside that function.
+<b>Multiplesignatures</b>
+It is quite common for models to support multiple objectives or clients who have dif‐
+ferent needs. While outputting a dictionary can allow different clients to pull out
+whatever they want, this may not be ideal in some cases. For example, the function
+tf.sigmoid()
+we had to invoke to get a probability from the logits was simply . This
+is pretty inexpensive, and there is no problem with computing it even for clients who
+will discard it. On the other hand, if the function had been expensive, computing it
+for clients who don’t need the value can add considerable overhead.
+If a small number of clients require a very expensive operation, it is helpful to provide
+multiple serving signatures and have the client inform the serving framework which
+signature to invoke. This is done by specifying a name other than serving_default
+when the model is exported. For example, we might write out two signatures using:
+model.save(export_path, signatures={
+'serving_default': func1,
+'expensive_result': func2,
+})
+Then, the input JSON request includes the signature name to choose which serving
+endpoint of the model is desired:
+{
+<b>"signature_name":</b> "expensive_result",
+{"instances": …}
+}
+<b>Onlineprediction</b>
+Because the exported serving function is ultimately just a file format, it can be used to
+provide online prediction capabilities when the original machine learning training
+framework does not natively support online predictions.

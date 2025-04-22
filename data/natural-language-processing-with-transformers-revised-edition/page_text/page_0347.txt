@@ -1,0 +1,27 @@
+obey a <i>power</i> <i>law</i> <i>relationship</i> with model size and other factors that is codified in a set
+of scaling laws.1 Let’s take a look at this exciting area of research.
+<header><largefont><b>Scaling</b></largefont> <largefont><b>Laws</b></largefont></header>
+Scaling laws allow one to empirically quantify the “bigger is better” paradigm for lan‐
+guage models by studying their behavior with varying compute budget <i>C,</i> dataset size
+<i>D,</i> and model size <i>N.</i> 2 The basic idea is to chart the dependence of the cross-entropy
+loss <i>L</i> on these three factors and determine if a relationship emerges. For autoregres‐
+sive models like those in the GPT family, the resulting loss curves are shown in
+Figure 11-2, where each blue curve represents the training run of a single model.
+<i>Figure</i> <i>11-2.</i> <i>Power-law</i> <i>scaling</i> <i>of</i> <i>test</i> <i>loss</i> <i>versus</i> <i>compute</i> <i>budget</i> <i>(left),</i> <i>dataset</i> <i>size</i>
+<i>(middle),</i> <i>and</i> <i>model</i> <i>size</i> <i>(right)</i> <i>(courtesy</i> <i>of</i> <i>Jared</i> <i>Kaplan)</i>
+From these loss curves we can draw a few conclusions about:
+<i>The</i> <i>relationship</i> <i>of</i> <i>performance</i> <i>and</i> <i>scale</i>
+Although many NLP researchers focus on architectural tweaks or hyperparame‐
+ter optimization (like tuning the number of layers or attention heads) to improve
+performance on a fixed set of datasets, the implication of scaling laws is that a
+more productive path toward better models is to focus on increasing <i>N,</i> <i>C,</i> and <i>D</i>
+in tandem.
+<i>Smooth</i> <i>power</i> <i>laws</i>
+The test loss <i>L</i> has a power law relationship with each of <i>N,</i> <i>C,</i> and <i>D</i> across sev‐
+eral orders of magnitude (power law relationships are linear on a log-log scale).
+<i>α</i>
+For <i>X</i> = <i>N,C,D</i> we can express these power law relationships as <i>L</i> <i>X</i> ∼ 1/X ,
+where <i>α</i> is a scaling exponent that is determined by a fit to the loss curves shown
+1 J.Kaplanetal.,“ScalingLawsforNeuralLanguageModels”,(2020).
+2 Thedatasetsizeismeasuredinthenumberoftokens,whilethemodelsizeexcludesparametersfromthe
+embeddinglayers.

@@ -1,0 +1,29 @@
+and we often use it even when there are just two categories, just to make things a bit
+more consistent. We could create other functions that have the properties that all acti‐
+vations are between 0 and 1, and sum to 1; however, no other function has the same
+relationship to the sigmoid function, which we’ve seen is smooth and symmetric.
+Also, we’ll see shortly that the softmax function works well hand in hand with the loss
+function we will look at in the next section.
+If we have three output activations, such as in our bear classifier, calculating softmax
+for a single bear image would then look like something like Figure 5-3.
+<i>Figure</i> <i>5-3.</i> <i>Example</i> <i>of</i> <i>softmax</i> <i>on</i> <i>the</i> <i>bear</i> <i>classifier</i>
+What does this function do in practice? Taking the exponential ensures all our num‐
+bers are positive, and then dividing by the sum ensures we are going to have a bunch
+of numbers that add up to 1. The exponential also has a nice property: if one of the
+numbers in our activations x is slightly bigger than the others, the exponential will
+amplify this (since it grows, well…exponentially), which means that in the softmax,
+that number will be closer to 1.
+Intuitively, the softmax function <i>really</i> wants to pick one class among the others, so
+it’s ideal for training a classifier when we know each picture has a definite label. (Note
+that it may be less ideal during inference, as you might want your model to some‐
+times tell you it doesn’t recognize any of the classes that it has seen during training,
+and not pick a class because it has a slightly bigger activation score. In this case, it
+might be better to train a model using multiple binary output columns, each using a
+sigmoid activation.)
+Softmax is the first part of the cross-entropy loss—the second part is log likelihood.
+<header><largefont><b>Log</b></largefont> <largefont><b>Likelihood</b></largefont></header>
+When we calculated the loss for our MNIST example in the preceding chapter, we
+used this:
+<b>def</b> mnist_loss(inputs, targets):
+inputs = inputs.sigmoid()
+<b>return</b> torch.where(targets==1, 1-inputs, inputs).mean()

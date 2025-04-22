@@ -1,0 +1,39 @@
+The ML life cycle consists of three stages, as shown in Figure 8-2: discovery, develop‐
+ment, and deployment. There is a canonical order to the individual steps of each
+stage. However, these steps are completed in an iterative manner and earlier steps
+may be revisited depending on the outcomes and insights gathered from later stages.
+<b>Discovery</b>
+Machine learning exists as a tool to solve a problem. The discovery stage of an ML
+project begins with defining the business use case (Step 1 of Figure 8-2). This is a cru‐
+cial time for business leaders and ML practitioners to align on the specifics of the
+problem and develop an understanding of what ML can and cannot do to achieve
+that goal.
+It is important to keep sight of the business value through each stage of the life cycle.
+Many choices and design decisions must be made throughout the various stages, and
+often there is no single “right” answer. Rather, the best option is determined by how
+the model will be used in support of the business goal. While a feasible goal for a
+research project could be to eke out 0.1% more accuracy on a benchmark dataset, this
+is not acceptable in industry. For a production model built for a corporate organiza‐
+tion, success is governed by factors more closely tied to the business, like improving
+customer retention, optimizing business processes, increasing customer engagement,
+or decreasing churn rates. There could also be indirect factors related to the business
+use case that influence development choices, like speed of inference, model size, or
+model interpretability. Any machine learning project should begin with a thorough
+understanding of the business opportunity and how a machine learning model can
+make a tangible improvement on current operations.
+A successful discovery stage requires collaboration between the business domain
+experts as well as machine learning experts to assess the viability of an ML approach.
+It is crucial to have someone who understands the business and the data collaborat‐
+ing with teams that understand the technical challenges and the engineering effort
+that would be involved. If the overall investment of development resources outweighs
+the value to the organization, then it is not a worthwhile solution. It is possible that
+the technical overhead and cost of resources for productionization exceed the benefit
+provided by a model that ultimately improves churn prediction by only 0.1%. Or
+maybe not. If an organization’s customer base has 1 billion people, then 0.1% is still 1
+million happier customers.
+During the discovery phase, it is important to outline the business objectives and
+scope for the task. This is also the time to determine which metrics will be used to
+measure or define success. Success can look different for different organizations, or
+even within different groups of the same organization. See, for example, the discus‐
+sion on multiple objectives in “Common Challenges in Machine Learning” on page
+11 in Chapter 1. Creating well-defined metrics and key performance indicators

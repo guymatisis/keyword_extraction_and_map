@@ -1,0 +1,23 @@
+<i>Figure</i> <i>4-10.</i> <i>In</i> <i>the</i> <i>ideal</i> <i>situation,</i> <i>validation</i> <i>error</i> <i>does</i> <i>not</i> <i>increase.</i> <i>Instead,</i> <i>both</i> <i>the</i>
+<i>training</i> <i>loss</i> <i>and</i> <i>validation</i> <i>error</i> <i>plateau.</i>
+If early stopping is not carried out, and only the training loss is used to decide con‐
+vergence, then we can avoid having to set aside a separate testing dataset. Even if we
+are not doing early stopping, displaying the progress of the model training can be
+helpful, particularly if the model takes a long time to train. Although the performance
+and progress of the model training is normally monitored on the validation dataset
+during the training loop, it is for visualization purposes only. Since we don’t have to
+take any action based on metrics being displayed, we can carry out visualization on
+the test dataset.
+The reason that using regularization might be better than early stopping is that regu‐
+larization allows you to use the entire dataset to change the weights of the model,
+whereas early stopping requires you to waste 10% to 20% of your dataset purely to
+decide when to stop training. Other methods to limit overfitting (such as dropout
+and using models with lower complexity) are also good alternatives to early stopping.
+In addition, recent research indicates that double descent happens in a variety of
+machine learning problems, and therefore it is better to train longer rather than risk a
+suboptimal solution by stopping early.
+<b>Twosplits.</b>
+Isn’t the advice in the regularization section in conflict with the advice in
+the previous sections on early stopping or checkpoint selection? Not really.
+We recommend that you split your data into two parts: a training dataset and an
+evaluation dataset. The evaluation dataset plays the part of the test dataset during

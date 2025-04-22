@@ -1,0 +1,28 @@
+As you can see, it takes any input value, positive or negative, and smooshes it into an
+output value between 0 and 1. It’s also a smooth curve that only goes up, which makes
+it easier for SGD to find meaningful gradients.
+mnist_loss sigmoid
+Let’s update to first apply to the inputs:
+<b>def</b> mnist_loss(predictions, targets):
+predictions = predictions.sigmoid()
+<b>return</b> torch.where(targets==1, 1-predictions, predictions).mean()
+Now we can be confident our loss function will work, even if the predictions are not
+between 0 and 1. All that is required is that a higher prediction corresponds to higher
+confidence.
+Having defined a loss function, now is a good moment to recapitulate why we did
+this. After all, we already had a metric, which was overall accuracy. So why did we
+define a loss?
+The key difference is that the metric is to drive human understanding and the loss is
+to drive automated learning. To drive automated learning, the loss must be a function
+that has a meaningful derivative. It can’t have big flat sections and large jumps, but
+instead must be reasonably smooth. This is why we designed a loss function that
+would respond to small changes in confidence level. This requirement means that
+sometimes it does not really reflect exactly what we are trying to achieve, but is rather
+a compromise between our real goal and a function that can be optimized using its
+gradient. The loss function is calculated for each item in our dataset, and then at the
+end of an epoch, the loss values are all averaged and the overall mean is reported for
+the epoch.
+Metrics, on the other hand, are the numbers that we care about. These are the values
+that are printed at the end of each epoch that tell us how our model is doing. It is
+important that we learn to focus on these metrics, rather than the loss, when judging
+the performance of a model.

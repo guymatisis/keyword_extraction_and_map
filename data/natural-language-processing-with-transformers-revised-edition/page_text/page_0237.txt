@@ -1,0 +1,15 @@
+plot_metrics(perf_metrics, optim_type)
+Nice, the quantized model is almost half the size of our distilled one and has even
+gained a slight accuracy boost! Let’s see if we can push our optimization to the limit
+with a powerful framework called the ONNX Runtime.
+<header><largefont><b>Optimizing</b></largefont> <largefont><b>Inference</b></largefont> <largefont><b>with</b></largefont> <largefont><b>ONNX</b></largefont> <largefont><b>and</b></largefont> <largefont><b>the</b></largefont> <largefont><b>ONNX</b></largefont> <largefont><b>Runtime</b></largefont></header>
+ONNX is an open standard that defines a common set of operators and a common
+file format to represent deep learning models in a wide variety of frameworks, includ‐
+ing PyTorch and TensorFlow.14 When a model is exported to the ONNX format, these
+operators are used to construct a computational graph (often called an <i>intermediate</i>
+<i>representation)</i> that represents the flow of data through the neural network. An exam‐
+ple of such a graph for BERT-base is shown in Figure 8-8, where each node receives
+some input, applies an operation like Add or Squeeze , and then feeds the output to the
+next set of nodes.
+14 ThereisaseparatestandardcalledONNX-MLthatisdesignedfortraditionalmachinelearningmodelslike
+randomforestsandframeworkslikeScikit-learn.

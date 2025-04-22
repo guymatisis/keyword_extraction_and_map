@@ -1,0 +1,2 @@
+<i>Figure</i> <i>4-14.</i> <i>Research</i> <i>from</i> <i>Zeiler</i> <i>and</i> <i>Fergus</i> <i>(2013)</i> <i>in</i> <i>deconstructing</i> <i>CNNs</i> <i>helps</i> <i>us</i>
+<i>visualize</i> <i>how</i> <i>a</i> <i>CNN</i> <i>sees</i> <i>images</i> <i>at</i> <i>each</i> <i>layer</i> <i>of</i> <i>the</i> <i>network.</i>

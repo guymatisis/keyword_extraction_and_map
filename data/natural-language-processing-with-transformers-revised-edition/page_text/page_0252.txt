@@ -1,0 +1,13 @@
+<i>Figure</i> <i>9-2.</i> <i>A</i> <i>typical</i> <i>GitHub</i> <i>issue</i> <i>on</i> <i>the</i> <i>Transformers</i> <i>repository</i>
+Now that we’ve seen what the GitHub issues look like, let’s see how we can download
+them to create our dataset.
+<header><largefont><b>Getting</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Data</b></largefont></header>
+Issues
+To grab all the repository’s issues, we’ll use the GitHub REST API to poll the
+endpoint. This endpoint returns a list of JSON objects, with each containing a large
+number of fields about the issue at hand, including its state (open or closed), who
+opened the issue, as well as the title, body, and labels we saw in Figure 9-2.
+Since it takes a while to fetch all the issues, we’ve included a <i>github-issues-</i>
+fetch_issues()
+<i>transformers.jsonl</i> file in this book’s GitHub repository, along with a
+function that you can use to download them yourself.

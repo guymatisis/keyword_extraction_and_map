@@ -1,0 +1,11 @@
+<i>Figure</i> <i>5-1.</i> <i>Presizing</i> <i>on</i> <i>the</i> <i>training</i> <i>set</i>
+This picture shows the two steps:
+1. <i>Crop</i> <i>full</i> <i>width</i> <i>or</i> <i>height:</i> This is in item_tfms, so it’s applied to each individual
+image before it is copied to the GPU. It’s used to ensure all images are the same
+size. On the training set, the crop area is chosen randomly. On the validation set,
+the center square of the image is always chosen.
+batch_tfms,
+2. <i>Random</i> <i>crop</i> <i>and</i> <i>augment:</i> This is in so it’s applied to a batch all at
+once on the GPU, which means it’s fast. On the validation set, only the resize to
+the final size needed for the model is done here. On the training set, the random
+crop and any other augmentations are done first.

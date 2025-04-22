@@ -1,0 +1,34 @@
+• When a flight arrives, its arrival delay can be classified as anomalous or not using
+the externalized model state—it is not necessary to have the full list of flights over
+the past 2 hours.
+We can use Apache Beam for streaming pipelines because then, the same code will
+work on both the historical data and on newly arriving data. In Apache Beam, the
+sliding window is set up as follows (full code is on GitHub):
+windowed = (data
+| 'window' >> beam.WindowInto(
+beam.window.SlidingWindows(2 * 60 * 60, 10*60))
+The model is updated by combining all the flight data collected over the past two
+ModelFn
+hours and passing it to a function that we call :
+model_state = (windowed
+| 'model' >> beam.transforms.CombineGlobally(ModelFn()))
+ModelFn
+updates the internal model state with flight information. Here, the internal
+model state will consist of a pandas dataframe that is updated with the flights in the
+window:
+<b>class</b> <b>ModelFn(beam.CombineFn):</b>
+<b>def</b> create_accumulator(self):
+<b>return</b> pd.DataFrame()
+<b>def</b> add_input(self, df, window):
+<b>return</b> df.append(window, ignore_index=True)
+Every time the window is closed, the output is extracted. The output here (we refer to
+it as externalized model state) consists of the model parameters:
+<b>def</b> extract_output(self, df):
+<b>if</b> len(df) < 1:
+<b>return</b> {}
+orig = df['delay'].values
+xarr = np.delete(orig, [np.argmin(orig), np.argmax(orig)])
+<b>return</b> {
+'prediction': np.mean(xarr),
+'acceptable_deviation': 4 * np.std(xarr)
+}

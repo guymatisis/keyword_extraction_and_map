@@ -1,0 +1,40 @@
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+We will often find that a heuristic benchmark is useful beyond the primary purpose
+of explaining model performance. In some cases, the heuristic benchmark might
+require special data collection. Finally, there are instances where a heuristic bench‐
+mark may be insufficient because the comparison itself needs context.
+<b>Developmentcheck</b>
+It is often the case that a heuristic benchmark proves useful beyond explaining the
+performance of ML models. During development, it can also help with diagnosing
+problems with a particular model approach.
+For example, say that we are building a model to predict the duration of rentals and
+our benchmark is a lookup table of average rental duration given the station name
+and whether or not it is peak commute hour:
+<b>CREATE</b> <b>TEMPORARY</b> <b>FUNCTION</b> is_peak_hour(start_date <b>TIMESTAMP)</b> <b>AS</b>
+<b>EXTRACT(DAYOFWEEK</b> <b>FROM</b> start_date) <b>BETWEEN</b> 2 <b>AND</b> 6 <i>--</i> <i>weekday</i>
+<b>AND</b> (
+<b>EXTRACT(HOUR</b> <b>FROM</b> start_date) <b>BETWEEN</b> 6 <b>AND</b> 10
+<b>OR</b>
+<b>EXTRACT(HOUR</b> <b>FROM</b> start_date) <b>BETWEEN</b> 15 <b>AND</b> 18)
+;
+<b>SELECT</b>
+start_station_name,
+is_peak_hour(start_date) <b>AS</b> is_peak,
+<b>AVG(duration)</b> <b>AS</b> predicted_duration,
+<b>FROM</b> `bigquery-public-data.london_bicycles.cycle_hire`
+<b>GROUP</b> <b>BY</b> 1, 2
+As we develop our model, it is a good idea to compare the performance of our ML
+model against this benchmark. In order to do this, we will be evaluating model per‐
+formance on different stratifications of the evaluation dataset. Here, the evaluation
+start_station_name is_peak
+dataset will be stratified by and . By doing so, we can
+easily diagnose whether our model is overemphasizing the busy, popular stations and
+ignoring infrequent stations in the training data. If that is happening, we can experi‐
+ment with increasing model complexity or balancing the dataset to overweight less
+popular stations.
+<b>Humanexperts</b>
+We recommended that in classification problems like diagnosing eye disease—where
+the work is carried out by human experts—that the benchmark would involve a panel
+of such experts. By having three or more physicians examine each image, it is possible
+to identify the extent to which human physicians make errors and compare the error
+rate of the model against that of human experts. In the case of such image

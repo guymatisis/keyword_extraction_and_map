@@ -1,0 +1,15 @@
+<b>Dealingwithlongpassages</b>
+One subtlety faced by reading comprehension models is that the context often con‐
+tains more tokens than the maximum sequence length of the model (which is usually
+a few hundred tokens at most). As illustrated in Figure 7-7, a decent portion of the
+SubjQA training set contains question-context pairs that won’t fit within MiniLM’s
+context size of 512 tokens.
+<i>Figure</i> <i>7-7.</i> <i>Distribution</i> <i>of</i> <i>tokens</i> <i>for</i> <i>each</i> <i>question-context</i> <i>pair</i> <i>in</i> <i>the</i> <i>SubjQA</i> <i>training</i>
+<i>set</i>
+For other tasks, like text classification, we simply truncated long texts under the
+assumption that enough information was contained in the embedding of the [CLS]
+token to generate accurate predictions. For QA, however, this strategy is problematic
+because the answer to a question could lie near the end of the context and thus would
+be removed by truncation. As illustrated in Figure 7-8, the standard way to deal with
+this is to apply a <i>sliding</i> <i>window</i> across the inputs, where each window contains a pas‐
+sage of tokens that fit in the model’s context.

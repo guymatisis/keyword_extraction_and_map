@@ -1,0 +1,5 @@
+This highlights that domain adaptation can provide a slight boost to the model’s per‐
+formance with unlabeled data and little effort. Naturally, the more unlabeled data and
+the less labeled data you have, the more impact you will get with this method. Before
+we conclude this chapter, we’ll show you a few more tricks for taking advantage of
+unlabeled data.

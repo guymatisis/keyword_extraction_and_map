@@ -1,0 +1,24 @@
+One thing that makes this harder to interpret is that there seem to be some variables
+with very similar meanings: for example, ProductGroup and ProductGroupDesc. Let’s
+try to remove any redundant features.
+<header><largefont><b>Removing</b></largefont> <largefont><b>Redundant</b></largefont> <largefont><b>Features</b></largefont></header>
+Let’s start with this:
+cluster_columns(xs_imp)
+In this chart, the pairs of columns that are most similar are the ones that were merged
+together early, far from the “root” of the tree at the left. Unsurprisingly, the fields Pro
+ductGroup ProductGroupDesc saleYear
+and were merged quite early, as were and
+saleElapsed, and fiModelDesc and fiBaseModel. These might be so closely correla‐
+ted they are practically synonyms for each other.
+<b>DeterminingSimilarity</b>
+The most similar pairs are found by calculating the <i>rank</i> <i>correla‐</i>
+<i>tion,</i> which means that all the values are replaced with their <i>rank</i>
+(first, second, third, etc. within the column), and then the <i>correla‐</i>
+<i>tion</i> is calculated. (Feel free to skip over this minor detail though,
+since it’s not going to come up again in the book!)
+Let’s try removing some of these closely related features to see if the model can be
+simplified without impacting the accuracy. First, we create a function that quickly
+trains a random forest and returns the OOB score, by using a lower max_samples and
+min_samples_leaf.
+higher The OOB score is a number returned by sklearn that
+ranges between 1.0 for a perfect model and 0.0 for a random model. (In statistics it’s

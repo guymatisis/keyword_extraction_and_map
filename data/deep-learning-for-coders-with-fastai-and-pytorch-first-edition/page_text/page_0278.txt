@@ -1,0 +1,39 @@
+At the end of 2015, the Rossmann sales competition ran on Kaggle. Competitors were
+given a wide range of information about various stores in Germany, and were tasked
+with trying to predict sales on a number of days. The goal was to help the company
+manage stock properly and be able to satisfy demand without holding unnecessary
+inventory. The official training set provided a lot of information about the stores. It
+was also permitted for competitors to use additional data, as long as that data was
+made public and available to all participants.
+One of the gold medalists used deep learning, in one of the earliest known examples
+of a state-of-the-art deep learning tabular model. Their method involved far less fea‐
+ture engineering, based on domain knowledge, than those of the other gold medalists.
+The paper “Entity Embeddings of Categorical Variables” describes their approach. In
+an online-only chapter on the book’s website, we show how to replicate it from
+scratch and attain the same accuracy shown in the paper. In the abstract of the paper,
+the authors (Cheng Guo and Felix Bekhahn) say:
+Entity embedding not only reduces memory usage and speeds up neural networks
+compared with one-hot encoding, but more importantly by mapping similar values
+close to each other in the embedding space it reveals the intrinsic properties of the cat‐
+egorical variables…[It] is especially useful for datasets with lots of high cardinality fea‐
+tures, where other methods tend to overfit…As entity embedding defines a distance
+measure for categorical variables, it can be used for visualizing categorical data and for
+data clustering.
+We have already noticed all of these points when we built our collaborative filtering
+model. We can clearly see that these insights go far beyond just collaborative filtering,
+however.
+The paper also points out that (as we discussed in the preceding chapter) an embed‐
+ding layer is exactly equivalent to placing an ordinary linear layer after every one-hot-
+encoded input layer. The authors used the diagram in Figure 9-1 to show this
+equivalence. Note that “dense layer” is a term with the same meaning as “linear layer,”
+and the one-hot encoding layers represent inputs.
+The insight is important because we already know how to train linear layers, so this
+shows that from the point of view of the architecture and our training algorithm, the
+embedding layer is just another layer. We also saw this in practice in the preceding
+chapter, when we built a collaborative filtering neural network that looks exactly like
+this diagram.
+Just as we analyzed the embedding weights for movie reviews, the authors of the
+entity embeddings paper analyzed the embedding weights for their sales prediction
+model. What they found was quite amazing, and illustrates their second key insight:
+the embedding transforms the categorical variables into inputs that are both continu‐
+ous and meaningful.

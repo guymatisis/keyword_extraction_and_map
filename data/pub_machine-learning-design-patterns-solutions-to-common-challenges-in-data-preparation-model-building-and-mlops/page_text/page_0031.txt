@@ -1,0 +1,38 @@
+<b>Arrayofcategoricalvariables</b>
+Sometimes, the input data is an array of categories. If the array is of fixed length, we
+can treat each array position as a separate feature. But often, the array will be of vari‐
+able length. For example, one of the inputs to the natality model might be the type of
+previous births to this mother:
+[Induced, Induced, Natural, Cesarean]
+Obviously, the length of this array will vary in each row because there are different
+numbers of older siblings for each baby.
+Common idioms to handle arrays of categorical variables include the following:
+• <i>Counting</i> the number of occurrences of each vocabulary item. So, the representa‐
+[2, 1, 1]
+tion for our example would be assuming that the vocabulary is
+Induced, Natural , and Cesarean (in that order). This is now a fixed-length
+array of numbers that can be flattened and used in positional order. If we have an
+array where an item can occur only once (for example, of languages a person
+speaks), or if the feature just indicates presence and not count (such as whether
+the mother has ever had a Cesarean operation), then the count at each position is
+0 or 1, and this is called <i>multi-hot</i> <i>encoding.</i>
+• To avoid large numbers, the <i>relative</i> <i>frequency</i> can be used instead of the count.
+The representation for our example would be [0.5, 0.25, 0.25] instead of [2,
+1, 1] . Empty arrays (first-born babies with no previous siblings) are represented
+[0, 0, 0].
+as In natural language processing, the relative frequency of a word
+overall is normalized by the relative frequency of documents that contain the
+word to yield TF-IDF (short for term frequency–inverse document frequency).
+TF-IDF reflects how unique a word is to a document.
+• If the array is ordered in a specific way (e.g., in order of time), representing the
+input array by the last three items. Arrays shorter than three are padded with
+missing values.
+• Representing the array by bulk statistics, e.g., the length of the array, the mode
+(most common entry), the median, the 10th/20th/… percentile, etc.
+Of these, the counting/relative-frequency idiom is the most common. Note that both
+of these are a generalization of one-hot encoding—if the baby had no older siblings,
+the representation would be [0, 0, 0] , and if the baby had one older sibling who
+[0, 1, 0]
+was born in a natural birth, the representation would be .
+Having seen simple data representations, let’s discuss design patterns that help with
+data representation.

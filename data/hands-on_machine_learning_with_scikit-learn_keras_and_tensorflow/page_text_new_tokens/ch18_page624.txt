@@ -1,0 +1,43 @@
+We are now ready to build and run the training loop!
+<b>for</b> iteration <b>in</b> range(n_iterations):
+all_rewards, all_grads = play_multiple_episodes(
+env, n_episodes_per_update, n_max_steps, model, loss_fn)
+all_final_rewards = discount_and_normalize_rewards(all_rewards,
+discount_factor)
+all_mean_grads = []
+<b>for</b> var_index <b>in</b> range(len(model.trainable_variables)):
+mean_grads = tf.reduce_mean(
+[final_reward * all_grads[episode_index][step][var_index]
+<b>for</b> episode_index, final_rewards <b>in</b> enumerate(all_final_rewards)
+<b>for</b> step, final_reward <b>in</b> enumerate(final_rewards)], axis=0)
+all_mean_grads.append(mean_grads)
+optimizer.apply_gradients(zip(all_mean_grads, model.trainable_variables))
+Let’s walk through this code:
+play_multiple_episodes()
+• At each training iteration, this loop calls the func‐
+tion, which plays the game 10 times and returns all the rewards and gradients for
+every episode and step.
+discount_and_normalize_rewards()
+• Then we call the to compute each action’s
+normalized advantage (which in the code we call the final_reward ). This pro‐
+vides a measure of how good or bad each action actually was, in hindsight.
+• Next, we go through each trainable variable, and for each of them we compute
+the weighted mean of the gradients for that variable over all episodes and all
+final_reward.
+steps, weighted by the
+• Finally, we apply these mean gradients using the optimizer: the model’s trainable
+variables will be tweaked, and hopefully the policy will be a bit better.
+And we’re done! This code will train the neural network policy, and it will success‐
+fully learn to balance the pole on the cart (you can try it out in the “Policy Gradients”
+section of the Jupyter notebook). The mean reward per episode will get very close to
+200 (which is the maximum by default with this environment). Success!
+Researchers try to find algorithms that work well even when the
+agent initially knows nothing about the environment. However,
+unless you are writing a paper, you should not hesitate to inject
+prior knowledge into the agent, as it will speed up training dramat‐
+ically. For example, since you know that the pole should be as verti‐
+cal as possible, you could add negative rewards proportional to the
+pole’s angle. This will make the rewards much less sparse and speed
+up training. Also, if you already have a reasonably good policy (e.g.,
+hardcoded), you may want to train the neural network to imitate it
+before using policy gradients to improve it.

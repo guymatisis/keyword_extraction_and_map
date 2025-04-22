@@ -1,0 +1,9 @@
+<i>Figure</i> <i>3-21.</i> <i>Feature</i> <i>attributions</i> <i>from</i> <i>Explainable</i> <i>AI</i> <i>for</i> <i>two</i> <i>correctly</i> <i>classified</i> <i>frau‐</i>
+<i>dulent</i> <i>transactions.</i>
+<header><largefont><b>Summary</b></largefont></header>
+This chapter looked at different ways to represent a prediction task through the lens
+of model architecture and model output. Thinking about how you’ll apply your
+model can guide your decision on the type of model to build, and how to format your
+output for prediction. With this in mind, we started with the <i>Reframing</i> design pat‐
+tern, which explores changing your problem from a regression task to a classification
+task (or vice versa) to improve the quality of your model. You can do this by

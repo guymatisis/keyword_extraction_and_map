@@ -1,0 +1,20 @@
+<header><largefont><b>Attention</b></largefont> <largefont><b>Please!</b></largefont></header>
+We’ve seen throughout this book that the self-attention mechanism plays a central
+role in the architecture of transformers; after all, the original Transformer paper is
+called “Attention Is All You Need”! However, there is a key challenge associated with
+self-attention: since the weights are generated from pairwise comparisons of all the
+tokens in a sequence, this layer becomes a computational bottleneck when trying to
+process long documents or apply transformers to domains like speech processing or
+computer vision. In terms of time and memory complexity, the self-attention layer of
+2
+the Transformer architecture naively scales like <i>n</i> , where <i>n</i> is the length of the
+sequence.5
+As a result, much of the recent research on transformers has focused on making self-
+attention more efficient. The research directions are broadly clustered in Figure 11-4.
+<i>Figure</i> <i>11-4.</i> <i>A</i> <i>summarization</i> <i>of</i> <i>research</i> <i>directions</i> <i>to</i> <i>make</i> <i>attention</i> <i>more</i> <i>efficient</i>
+<i>(courtesy</i> <i>of</i> <i>Yi</i> <i>Tay</i> <i>et</i> <i>al.)6</i>
+2
+5 Althoughstandardimplementationsofself-attentionhaveO <i>n</i> timeandmemorycomplexity,arecentpaper
+byGoogleresearchersshowsthatthememorycomplexitycanbereducedtoO log <i>n</i> viaasimplereordering
+oftheoperations.
+6 YiTayetal.,“EfficientTransformers:ASurvey”,(2020).

@@ -1,0 +1,30 @@
+From the plots we can see that there is a pattern: choosing <i>m</i> too large or small for a
+given <i>k</i> yields suboptimal results. The best performance is achieved when choosing a
+ratio of approximately <i>m/k</i> = 1/3. Let’s see which <i>k</i> and <i>m</i> give the best result overall:
+k, m = np.unravel_index(perf_micro.argmax(), perf_micro.shape)
+<b>print(f"Best</b> k: {k}, best m: {m}")
+Best k: 15, best m: 5
+The perfomance is best when we choose <i>k</i> = 15 and <i>m</i> = 5, or in other words when
+we retrieve the 15 nearest neighbors and then assign the labels that occurred at least 5
+times. Now that we have a good method for finding the best values for the embedding
+lookup, we can play the same game as with the Naive Bayes classifier where we go
+through the slices of the training set and evaluate the performance. Before we can
+slice the dataset, we need to remove the index since we cannot slice a FAISS index like
+the dataset. The rest of the loops stay exactly the same, with the addition of using the
+validation set to get the best <i>k</i> and <i>m</i> values:
+embs_train.drop_index("embedding")
+test_labels = np.array(embs_test["label_ids"])
+test_queries = np.array(embs_test["embedding"], dtype=np.float32)
+<b>for</b> train_slice <b>in</b> train_slices:
+<i>#</i> <i>Create</i> <i>a</i> <i>Faiss</i> <i>index</i> <i>from</i> <i>training</i> <i>slice</i>
+embs_train_tmp = embs_train.select(train_slice)
+embs_train_tmp.add_faiss_index("embedding")
+<i>#</i> <i>Get</i> <i>best</i> <i>k,</i> <i>m</i> <i>values</i> <i>with</i> <i>validation</i> <i>set</i>
+perf_micro, _ = find_best_k_m(embs_train_tmp, valid_queries, valid_labels)
+k, m = np.unravel_index(perf_micro.argmax(), perf_micro.shape)
+<i>#</i> <i>Get</i> <i>predictions</i> <i>on</i> <i>test</i> <i>set</i>
+_, samples = embs_train_tmp.get_nearest_examples_batch("embedding",
+test_queries,
+k=int(k))
+y_pred = np.array([get_sample_preds(s, m) <b>for</b> s <b>in</b> samples])
+<i>#</i> <i>Evaluate</i> <i>predictions</i>

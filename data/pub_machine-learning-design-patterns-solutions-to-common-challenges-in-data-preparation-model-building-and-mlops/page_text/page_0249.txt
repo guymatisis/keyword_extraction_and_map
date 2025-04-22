@@ -1,0 +1,28 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>6</b></largefont></header>
+<header><largefont><b>Reproducibility</b></largefont> <largefont><b>Design</b></largefont> <largefont><b>Patterns</b></largefont></header>
+Software best practices such as unit testing assume that if we run a piece of code, it
+produces deterministic output:
+<b>def</b> sigmoid(x):
+<b>return</b> 1.0 / (1 + np.exp(-x))
+<b>class</b> <b>TestSigmoid(unittest.TestCase):</b>
+<b>def</b> test_zero(self):
+self.assertAlmostEqual(sigmoid(0), 0.5)
+<b>def</b> test_neginf(self):
+self.assertAlmostEqual(sigmoid(float("-inf")), 0)
+<b>def</b> test_inf(self):
+self.assertAlmostEqual(sigmoid(float("inf")), 1)
+This sort of reproducibility is difficult in machine learning. During training, machine
+learning models are initialized with random values and then adjusted based on train‐
+ing data. A simple k-means algorithm implemented by scikit-learn requires setting
+random_state
+the in order to ensure the algorithm returns the same results each
+time:
+<b>def</b> cluster_kmeans(X):
+<b>from</b> <b>sklearn</b> <b>import</b> cluster
+k_means = cluster.KMeans(n_clusters=10, <b>random_state=10)</b>
+labels = k_means.fit(X).labels_[::]
+<b>return</b> labels
+Beyond the random seed, there are many other artifacts that need to be fixed in order
+to ensure reproducibility during training. In addition, machine learning consists of
+different stages, such as training, deployment, and retraining. It is often important
+that some things are reproducible across these stages as well.

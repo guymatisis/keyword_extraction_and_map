@@ -1,0 +1,20 @@
+continually update your training dataset, retrain your model, and modify the weight
+your model assigns to particular groups of input data.
+To see a less-obvious example of drift, look at the NOAA dataset of severe storms in
+BigQuery. If we were training a model to predict the likelihood of a storm in a given
+area, we would need to take into account the way weather reporting has changed over
+time. We can see in Figure 1-3 that the total number of severe storms recorded has
+been steadily increasing since 1950.
+<i>Figure</i> <i>1-3.</i> <i>Number</i> <i>of</i> <i>severe</i> <i>storms</i> <i>reported</i> <i>in</i> <i>a</i> <i>year,</i> <i>as</i> <i>recorded</i> <i>by</i> <i>NOAA</i> <i>from</i>
+<i>1950</i> <i>to</i> <i>2011.</i>
+From this trend, we can see that training a model on data before 2000 to generate
+predictions on storms today would lead to inaccurate predictions. In addition to the
+total number of reported storms increasing, it’s also important to consider other fac‐
+tors that may have influenced the data in Figure 1-3. For example, the technology for
+observing storms has improved over time, most dramatically with the introduction of
+weather radars in the 1990s. In the context of features, this may mean that newer data
+contains more information about each storm, and that a feature available in today’s
+data may not have been observed in 1950. Exploratory data analysis can help identify
+this type of drift and can inform the correct window of data to use for training. Sec‐
+tion , “Design Pattern 23: Bridged Schema” on page 266 provides a way to handle data‐
+sets in which the availability of features improves over time.

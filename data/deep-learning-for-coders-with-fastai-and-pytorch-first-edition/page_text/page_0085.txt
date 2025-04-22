@@ -1,0 +1,37 @@
+Finally, once it has started the app running, it will navigate your browser to your new
+web app. You can share the URL you copied to allow others to access your app as
+well.
+For other (both free and paid) options for deploying your web app, be sure to take a
+look at the book’s website.
+You may well want to deploy your application onto mobile devices, or edge devices
+such as a Raspberry Pi. There are a lot of libraries and frameworks that allow you to
+integrate a model directly into a mobile application. However, these approaches tend
+to require a lot of extra steps and boilerplate, and do not always support all the
+PyTorch and fastai layers that your model might use. In addition, the work you do
+will depend on the kinds of mobile devices you are targeting for deployment—you
+might need to do some work to run on iOS devices, different work to run on newer
+Android devices, different work for older Android devices, etc. Instead, we recom‐
+mend wherever possible that you deploy the model itself to a server, and have your
+mobile or edge application connect to it as a web service.
+There are quite a few upsides to this approach. The initial installation is easier,
+because you have to deploy only a small GUI application, which connects to the
+server to do all the heavy lifting. More importantly perhaps, upgrades of that core
+logic can happen on your server, rather than needing to be distributed to all of your
+users. Your server will have a lot more memory and processing capacity than most
+edge devices, and it is far easier to scale those resources if your model becomes more
+demanding. The hardware that you will have on a server is also going to be more
+standard and more easily supported by fastai and PyTorch, so you don’t have to com‐
+pile your model into a different form.
+There are downsides too, of course. Your application will require a network connec‐
+tion, and there will be some latency each time the model is called. (It takes a while for
+a neural network model to run anyway, so this additional network latency may not
+make a big difference to your users in practice. In fact, since you can use better hard‐
+ware on the server, the overall latency may even be less than if it were running
+locally!) Also, if your application uses sensitive data, your users may be concerned
+about an approach that sends that data to a remote server, so sometimes privacy con‐
+siderations will mean that you need to run the model on the edge device (it may be
+possible to avoid this by having an <i>on-premise</i> server, such as inside a company’s fire‐
+wall). Managing the complexity and scaling the server can create additional overhead
+too, whereas if your model runs on the edge devices, each user is bringing their own
+compute resources, which leads to easier scaling with an increasing number of users
+(also known as <i>horizontal</i> <i>scaling).</i>

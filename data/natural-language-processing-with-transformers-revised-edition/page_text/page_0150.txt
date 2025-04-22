@@ -1,0 +1,44 @@
+By taking the minimum, we ensure that this penalty never exceeds 1 and the expo‐
+nential term becomes exponentially small when the length of the generated text <i>l</i> is
+<i>gen</i>
+smaller than the reference text <i>l</i> . At this point you might ask, why don’t we just use
+<i>ref</i>
+something like an <i>F</i> -score to account for recall as well? The answer is that often in
+1
+translation datasets there are multiple reference sentences instead of just one, so if we
+also measured recall we would incentivize translations that used all the words from all
+the references. Therefore, it’s preferable to look for high precision in the translation
+and make sure the translation and reference have a similar length.
+Finally, we can put everything together and get the equation for the BLEU score:
+1/N
+<i>N</i>
+<largefont>∏</largefont>
+BLEU‐N = <i>BR</i> × <i>p</i>
+<i>n</i>
+<i>n</i> = 1
+The last term is the geometric mean of the modified precision up to <i>n-gram</i> <i>N.</i> In
+practice, the BLEU-4 score is often reported. However, you can probably already see
+that this metric has many limitations; for instance, it doesn’t take synonyms into
+account, and many steps in the derivation seem like ad hoc and rather fragile heuris‐
+tics. You can find a wonderful exposition of BLEU’s flaws in Rachel Tatman’s blog
+post “Evaluating Text Output in NLP: BLEU at Your Own Risk”.
+In general, the field of text generation is still looking for better evaluation metrics,
+and finding ways to overcome the limits of metrics like BLEU is an active area of
+research. Another weakness of the BLEU metric is that it expects the text to already
+be tokenized. This can lead to varying results if the exact same method for text toke‐
+nization is not used. The SacreBLEU metric addresses this issue by internalizing the
+tokenization step; for this reason, it is the preferred metric for benchmarking.
+We’ve now worked through some theory, but what we really want to do is calculate
+the score for some generated text. Does that mean we need to implement all this logic
+in Python? Fear not, Datasets also provides metrics! Loading a metric works just
+like loading a dataset:
+<b>from</b> <b>datasets</b> <b>import</b> load_metric
+bleu_metric = load_metric("sacrebleu")
+The bleu_metric object is an instance of the Metric class, and works like an aggrega‐
+add() add_batch().
+tor: you can add single instances with or whole batches via Once
+compute()
+you have added all the samples you need to evaluate, you then call and the
+metric is calculated. This returns a dictionary with several values, such as the preci‐
+sion for each <i>n-gram,</i> the length penalty, as well as the final BLEU score. Let’s look at
+the example from before:

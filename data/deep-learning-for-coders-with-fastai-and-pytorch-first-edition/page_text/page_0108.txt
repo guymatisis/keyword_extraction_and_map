@@ -1,0 +1,14 @@
+Yes, that is showing what you think it is: Google Photos classified a Black user’s photo
+with their friend as “gorillas”! This algorithmic misstep got a lot of attention in the
+media. “We’re appalled and genuinely sorry that this happened,” a company spokes‐
+woman said. “There is still clearly a lot of work to do with automatic image labeling,
+and we’re looking at how we can prevent these types of mistakes from happening in
+the future.”
+Unfortunately, fixing problems in machine learning systems when the input data has
+problems is hard. Google’s first attempt didn’t inspire confidence, as coverage by <i>The</i>
+<i>Guardian</i> suggested (Figure 3-9).
+<i>Figure</i> <i>3-9.</i> <i>Google’s</i> <i>first</i> <i>response</i> <i>to</i> <i>the</i> <i>problem</i>
+These kinds of problems are certainly not limited to Google. MIT researchers studied
+the most popular online computer vision APIs to see how accurate they were. But
+they didn’t just calculate a single accuracy number—instead, they looked at the accu‐
+racy across four groups, as illustrated in Figure 3-10.

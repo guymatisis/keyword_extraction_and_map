@@ -1,0 +1,29 @@
+<i>Figure</i> <i>5-7.</i> <i>SVM</i> <i>classifiers</i> <i>with</i> <i>a</i> <i>polynomial</i> <i>kernel</i>
+A common approach to finding the right hyperparameter values is
+to use grid search (see Chapter 2). It is often faster to first do a very
+coarse grid search, then a finer grid search around the best values
+found. Having a good sense of what each hyperparameter actually
+does can also help you search in the right part of the hyperparame‐
+ter space.
+<header><largefont><b>Similarity</b></largefont> <largefont><b>Features</b></largefont></header>
+Another technique to tackle nonlinear problems is to add features computed using a
+<i>similarity</i> <i>function,</i> which measures how much each instance resembles a particular
+<i>landmark.</i> For example, let’s take the 1D dataset discussed earlier and add two land‐
+marks to it at <i>x</i> = –2 and <i>x</i> = 1 (see the left plot in Figure 5-8). Next, let’s define the
+1 1
+similarity function to be the Gaussian <i>Radial</i> <i>Basis</i> <i>Function</i> (RBF) with <i>γ</i> = 0.3 (see
+Equation 5-1).
+<i>Equation</i> <i>5-1.</i> <i>Gaussian</i> <i>RBF</i>
+∥ ∥ 2
+<i>ϕ</i> <b>x,ℓ</b> = exp −γ <b>x</b> − ℓ
+<i>γ</i>
+This is a bell-shaped function varying from 0 (very far away from the landmark) to 1
+(at the landmark). Now we are ready to compute the new features. For example, let’s
+look at the instance <i>x</i> = –1: it is located at a distance of 1 from the first landmark and
+1
+2 from the second landmark. Therefore its new features are <i>x</i> = exp(–0.3 × 12) ≈ 0.74
+2
+and <i>x</i> = exp(–0.3 × 2 2 ) ≈ 0.30. The plot on the right in Figure 5-8 shows the trans‐
+3
+formed dataset (dropping the original features). As you can see, it is now linearly
+separable.

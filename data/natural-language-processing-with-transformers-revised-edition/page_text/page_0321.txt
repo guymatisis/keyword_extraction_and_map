@@ -1,0 +1,38 @@
+We don’t expect the most frequent tokens to change much when adding more docu‐
+ments, but let’s look at the last tokens:
+tokens = sorted(new_tokenizer_larger.vocab.items(), key=lambda x: x[1],
+reverse=False)
+<b>print([f'{tokenizer.convert_tokens_to_string(t)}'</b> <b>for</b> t, _ <b>in</b> tokens[-12:]]);
+['lineEdit', 'spik', ' BC', 'pective', 'OTA', 'theus', 'FLUSH', ' excutils',
+'00000002', ' DIVISION', 'CursorPosition', ' InfoBar']
+A brief inspection doesn’t show any regular programming keywords here, which is
+promising. Let’s try tokenizing our sample code example with the new larger
+tokenizer:
+<b>print(new_tokenizer_larger(python_code).tokens())</b>
+['def', 'Ġsay', '_', 'hello', '():', 'ĊĠĠĠ', 'Ġprint', '("', 'Hello', ',',
+'ĠWorld', '!")', 'Ġ#', 'ĠPrint', 'Ġit', 'Ċ', 'Ċ', 'say', '_', 'hello', '()',
+'Ċ']
+Here also the indents are conveniently kept in the vocabulary, and we see that com‐
+Hello World say
+mon English words like , , and are also included as single tokens. This
+seems more in line with our expectations of the data the model may see in the down‐
+stream task. Let’s investigate the common Python keywords, as we did before:
+<b>for</b> keyw <b>in</b> keyword.kwlist:
+<b>if</b> keyw <b>not</b> <b>in</b> new_tokenizer_larger.vocab:
+<b>print(f'No,</b> keyword `{keyw}` is not in the vocabulary')
+No, keyword `nonlocal` is not in the vocabulary
+We are still missing the nonlocal keyword, but it’s also rarely used in practice as it
+makes the syntax more complex. Keeping it out of the vocabulary seems reasonable.
+After this manual inspection, our larger tokenizer seems well adapted for our task—
+but as we mentioned earlier, objectively evaluating the performance of a tokenizer is a
+challenging task without measuring the model’s performance. We will proceed with
+this one and train a model to see how well it works in practice.
+You can easily verify that the new tokenizer is about twice as effi‐
+cient than the standard GPT-2 tokenizer by comparing the
+sequence lengths of tokenized code examples. Our tokenizer uses
+approximately half as many tokens as the existing one to encode a
+text, which gives us twice the effective model context for free.
+When we train a new model with the new tokenizer on a context
+window of size 1,024 it is equivalent to training the same model
+with the old tokenizer on a context window of size 2,048, with the
+advantage of being much faster and more memory efficient.

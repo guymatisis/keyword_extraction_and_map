@@ -1,0 +1,35 @@
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>23:</b></largefont> <largefont><b>Bridged</b></largefont> <largefont><b>Schema</b></largefont></header>
+The Bridged Schema design pattern provides ways to adapt the data used to train a
+model from its older, original data schema to newer, better data. This pattern is use‐
+ful because when an input provider makes improvements to their data feed, it often
+takes time for enough data of the improved schema to be collected for us to ade‐
+quately train a replacement model. The Bridged Schema pattern allows us to use as
+much of the newer data as is available, but augment it with some of the older data to
+improve model accuracy.
+<header><largefont><b>Problem</b></largefont></header>
+Consider a point-of-sale application that suggests how much to tip a delivery person.
+The application might use a machine learning model that predicts the tip amount,
+taking into account the order amount, delivery time, delivery distance, and so on.
+Such a model would be trained on the actual tips added by customers.
+Assume that one of the inputs to the model is the payment type. In the historical
+data, this has been recorded as “cash” or “card.” However, let’s say the payment sys‐
+tem has been upgraded and it now provides more detail on the type of card (gift card,
+debit card, credit card) that was used. This is extremely useful information because
+the tipping behavior varies between the three types of cards.
+At prediction time, the newer information will always be available since we are
+always predicting tip amounts on transactions conducted after the payment system
+upgrade. Because the new information is extremely valuable, and it is already avail‐
+able in production to the prediction system, we would like to use it in the model as
+soon as possible.
+We cannot train a new model exclusively on the newer data because the quantity of
+new data will be quite small, limited as it is to transactions after the payment system
+upgrade. Because the quality of an ML model is highly dependent on the amount of
+data used to train it, it is likely that a model trained with only the new data is going to
+fare poorly.
+<header><largefont><b>Solution</b></largefont></header>
+The solution is to bridge the schema of the old data to match the new data. Then, we
+train an ML model using as much of the new data as is available and augment it with
+the older data. There are two questions to answer. First, how will we square the fact
+that the older data has only two categories for payment type, whereas the new data
+has four categories? Second, how will the augmentation be done to create datasets for
+training, validation, and testing?

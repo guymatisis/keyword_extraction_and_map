@@ -1,0 +1,25 @@
+<i>Figure</i> <i>2-10.</i> <i>By</i> <i>learning</i> <i>a</i> <i>low-dimensional,</i> <i>dense</i> <i>embedding</i> <i>vector</i> <i>for</i> <i>each</i> <i>customer</i>
+<i>and</i> <i>video,</i> <i>an</i> <i>embedding-based</i> <i>model</i> <i>is</i> <i>able</i> <i>to</i> <i>generalize</i> <i>well</i> <i>with</i> <i>less</i> <i>of</i> <i>a</i> <i>manual</i>
+<i>feature</i> <i>engineering</i> <i>burden.</i>
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+The main trade-off with using an embedding is the compromised representation of
+the data. There is a loss of information involved in going from a high-cardinality rep‐
+resentation to a lower-dimensional representation. In return, we gain information
+about closeness and context of the items.
+<b>Choosingtheembeddingdimension</b>
+The exact dimensionality of the embedding space is something that we choose as a
+practitioner. So, should we choose a large or small embedding dimension? Of course,
+as with most things in machine learning, there is a trade-off. The lossiness of the rep‐
+resentation is controlled by the size of the embedding layer. By choosing a very small
+output dimension of an embedding layer, too much information is forced into a
+small vector space and context can be lost. On the other hand, when the embedding
+dimension is too large, the embedding loses the learned contextual importance of the
+features. At the extreme, we’re back to the problem encountered with one-hot encod‐
+ing. The optimal embedding dimension is often found through experimentation,
+similar to choosing the number of neurons in a deep neural network layer.
+If we’re in a hurry, one rule of thumb is to use the fourth root of the total number of
+unique categorical elements while another is that the embedding dimension should
+be approximately 1.6 times the square root of the number of unique elements in the
+category, and no less than 600. For example, suppose we wanted to use an embedding
+layer to encode a feature that has 625 unique values. Using the first rule of thumb, we
+would choose an embedding dimension for plurality of 5, and using the second rule

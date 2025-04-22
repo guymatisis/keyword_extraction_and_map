@@ -1,0 +1,37 @@
+each epoch? We used the ModelResetter callback provided by fastai to do this for us.
+But how does it work exactly? Here’s the full source code for that class:
+<b>class</b> <b>ModelResetter(Callback):</b>
+<b>def</b> begin_train(self): self.model.reset()
+<b>def</b> begin_validate(self): self.model.reset()
+Yes, that’s actually it! It just does what we said in the preceding paragraph: after com‐
+pleting training or validation for an epoch, call a method named reset.
+Callbacks are often “short and sweet” like this one. In fact, let’s look at one more.
+Here’s the fastai source for the callback that adds RNN regularization (AR and TAR):
+<b>class</b> <b>RNNRegularizer(Callback):</b>
+<b>def</b> <b>__init__(self,</b> alpha=0., beta=0.): self.alpha,self.beta = alpha,beta
+<b>def</b> after_pred(self):
+self.raw_out,self.out = self.pred[1],self.pred[2]
+self.learn.pred = self.pred[0]
+<b>def</b> after_loss(self):
+<b>if</b> <b>not</b> self.training: <b>return</b>
+<b>if</b> self.alpha != 0.:
+self.learn.loss += self.alpha * self.out[-1].float().pow(2).mean()
+<b>if</b> self.beta != 0.:
+h = self.raw_out[-1]
+<b>if</b> len(h)>1:
+self.learn.loss += self.beta * (h[:,1:] - h[:,:-1]
+).float().pow(2).mean()
+<b>CodeItYourself</b>
+Go back and reread “Activation Regularization and Temporal Acti‐
+vation Regularization” on page 397, and then take another look at
+the code here. Make sure you understand what it’s doing and why.
+In both of these examples, notice how we can access attributes of the training loop by
+directly checking self.model or self.pred . That’s because a Callback will always try
+to get an attribute it doesn’t have inside the Learner associated with it. These are
+shortcuts for self.learn.model or self.learn.pred . Note that they work for read‐
+RNNRegularizer
+ing attributes, but not for writing them, which is why when changes
+the loss or the predictions, you see self.learn.loss = or self.learn.pred =.
+When writing a callback, the following attributes of Learner are available:
+model
+The model used for training/validation.

@@ -1,0 +1,33 @@
+<b>def</b> hp_space(trial):
+<b>return</b> {"num_train_epochs": trial.suggest_int("num_train_epochs", 5, 10),
+"alpha": trial.suggest_float("alpha", 0, 1),
+"temperature": trial.suggest_int("temperature", 2, 20)}
+Running the hyperparameter search with the Trainer is then quite simple; we just
+need to specify the number of trials to run and a direction to optimize for. Because we
+want the best possible accuracy, we specify direction="maximize" in the hyper
+parameter_ search() method of the trainer and pass the hyperparameter search
+space as follows:
+best_run = distilbert_trainer.hyperparameter_search(
+n_trials=20, direction="maximize", hp_space=hp_space)
+hyperparameter_search() BestRun
+The method returns a object, which contains the
+value of the objective that was maximized (by default, the sum of all metrics) and the
+hyperparameters it used for that run:
+<b>print(best_run)</b>
+BestRun(run_id='1', objective=0.927741935483871,
+hyperparameters={'num_train_epochs': 10, 'alpha': 0.12468168730193585,
+'temperature': 7})
+This value of <i>α</i> tells us that most of the training signal is coming from the knowledge
+distillation term. Let’s update our training arguments with these values and run the
+final training run:
+<b>for</b> k,v <b>in</b> best_run.hyperparameters.items():
+setattr(student_training_args, k, v)
+<i>#</i> <i>Define</i> <i>a</i> <i>new</i> <i>repository</i> <i>to</i> <i>store</i> <i>our</i> <i>distilled</i> <i>model</i>
+distilled_ckpt = "distilbert-base-uncased-distilled-clinc"
+student_training_args.output_dir = distilled_ckpt
+<i>#</i> <i>Create</i> <i>a</i> <i>new</i> <i>Trainer</i> <i>with</i> <i>optimal</i> <i>parameters</i>
+distil_trainer = DistillationTrainer(model_init=student_init,
+teacher_model=teacher_model, args=student_training_args,
+train_dataset=clinc_enc['train'], eval_dataset=clinc_enc['validation'],
+compute_metrics=compute_metrics, tokenizer=student_tokenizer)
+distil_trainer.train();

@@ -1,0 +1,13 @@
+The sklearn docs show an example of the effects of different max_features choices,
+with increasing numbers of trees. In the plot, the blue plot line uses the fewest fea‐
+tures, and the green line uses the most (it uses all the features). As you can see in
+Figure 9-7, the models with the lowest error result from using a subset of features but
+with a larger number of trees.
+<i>Figure</i> <i>9-7.</i> <i>Error</i> <i>based</i> <i>on</i> <i>max</i> <i>features</i> <i>and</i> <i>number</i> <i>of</i> <i>trees</i> <i>(source:</i> <i>https://oreil.ly/</i>
+<i>E0Och)</i>
+To see the impact of n_estimators, let’s get the predictions from each individual tree
+in our forest (these are in the estimators_ attribute):
+preds = np.stack([t.predict(valid_xs) <b>for</b> t <b>in</b> m.estimators_])
+As you can see, preds.mean(0) gives the same results as our random forest:
+r_mse(preds.mean(0), valid_y)
+0.233502

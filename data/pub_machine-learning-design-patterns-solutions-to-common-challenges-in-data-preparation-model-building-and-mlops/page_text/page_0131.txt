@@ -1,0 +1,46 @@
+<i>Table</i> <i>3-5.</i> <i>The</i> <i>percentage</i> <i>of</i> <i>each</i> <i>weight</i> <i>class</i> <i>present</i> <i>in</i> <i>the</i> <i>natality</i> <i>dataset</i>
+<b>weight</b> <b>num_examples</b> <b>percent_of_dataset</b>
+Average 123781044 0.8981
+Underweight 9649724 0.07
+Overweight 4395995 0.0319
+For demo purposes, we’ll take 100,000 examples from each class to train a model on
+an updated, balanced dataset:
+<b>SELECT</b>
+is_male,
+gestation_weeks,
+mother_age,
+weight_pounds,
+weight
+<b>FROM</b> (
+<b>SELECT</b>
+*,
+ROW_NUMBER() OVER (PARTITION <b>BY</b> weight <b>ORDER</b> <b>BY</b> RAND()) <b>AS</b> row_num
+<b>FROM</b> (
+<b>SELECT</b>
+is_male,
+gestation_weeks,
+mother_age,
+weight_pounds,
+<b>CASE</b>
+<b>WHEN</b> weight_pounds < 5.5 <b>THEN</b> "underweight"
+<b>WHEN</b> weight_pounds > 9.5 <b>THEN</b> "overweight"
+<b>ELSE</b>
+"average"
+<b>END</b>
+<b>AS</b> weight,
+<b>FROM</b>
+`bigquery-public-data.samples.natality`
+<b>LIMIT</b>
+4000000) )
+<b>WHERE</b>
+row_num < 100000
+We can save the results of that query to a table, and with a more balanced dataset, we
+can now train a classification model to label babies as “underweight,” “average,” or
+“overweight”:
+<b>CREATE</b> <b>OR</b> <b>REPLACE</b> MODEL
+`project.dataset.baby_weight_classification` <b>OPTIONS(model_type='logistic_reg',</b>
+input_label_cols=['weight']) <b>AS</b>
+<b>SELECT</b>
+is_male,
+weight_pounds,
+mother_age,

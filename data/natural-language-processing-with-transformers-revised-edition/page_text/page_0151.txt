@@ -1,0 +1,41 @@
+<b>import</b> <b>pandas</b> <b>as</b> <b>pd</b>
+<b>import</b> <b>numpy</b> <b>as</b> <b>np</b>
+bleu_metric.add(
+prediction="the the the the the the", reference=["the cat is on the mat"])
+results = bleu_metric.compute(smooth_method="floor", smooth_value=0)
+results["precisions"] = [np.round(p, 2) <b>for</b> p <b>in</b> results["precisions"]]
+pd.DataFrame.from_dict(results, orient="index", columns=["Value"])
+<b>Value</b>
+<b>score</b> 0.0
+<b>counts</b> [2,0,0,0]
+<b>totals</b> [6,5,4,3]
+<b>precisions</b> [33.33,0.0,0.0,0.0]
+<b>bp</b> 1.0
+6
+<b>sys_len</b>
+6
+<b>ref_len</b>
+The BLEU score also works if there are multiple reference transla‐
+tions. This is why reference is passed as a list. To make the metric
+smoother for zero counts in the <i>n-grams,</i> BLEU integrates methods
+to modify the precision calculation. One method is to add a con‐
+stant to the numerator. That way, a missing <i>n-gram</i> does not cause
+the score to automatically go to zero. For the purpose of explaining
+the values, we turn it off by setting smooth_value=0 .
+We can see the precision of the 1-gram is indeed 2/6, whereas the precisions for the
+2/3/4-grams are all 0. (For more information about the individual metrics, like counts
+and bp, see the SacreBLEU repository.) This means the geometric mean is zero, and
+thus also the BLEU score. Let’s look at another example where the prediction is
+almost correct:
+bleu_metric.add(
+prediction="the cat is on mat", reference=["the cat is on the mat"])
+results = bleu_metric.compute(smooth_method="floor", smooth_value=0)
+results["precisions"] = [np.round(p, 2) <b>for</b> p <b>in</b> results["precisions"]]
+pd.DataFrame.from_dict(results, orient="index", columns=["Value"])
+<b>Value</b>
+<b>score</b> 57.893007
+[5,3,2,1]
+<b>counts</b>
+[5,4,3,2]
+<b>totals</b>
+<b>precisions</b> [100.0,75.0,66.67,50.0]

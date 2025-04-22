@@ -1,0 +1,9 @@
+<i>Figure</i> <i>1-15.</i> <i>Converting</i> <i>a</i> <i>time</i> <i>series</i> <i>into</i> <i>an</i> <i>image</i>
+Another interesting fast.ai student project example comes from Gleb Esman. He was
+working on fraud detection at Splunk, using a dataset of users’ mouse movements
+and mouse clicks. He turned these into pictures by drawing an image displaying the
+position, speed, and acceleration of the mouse pointer by using colored lines, and the
+clicks were displayed using small colored circles, as shown in Figure 1-16. He fed this
+into an image recognition model just like the one we’ve used in this chapter, and it
+worked so well that it led to a patent for this approach to fraud analytics!
+<i>Figure</i> <i>1-16.</i> <i>Converting</i> <i>computer</i> <i>mouse</i> <i>behavior</i> <i>to</i> <i>an</i> <i>image</i>

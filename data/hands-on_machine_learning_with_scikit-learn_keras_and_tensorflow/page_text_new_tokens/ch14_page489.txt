@@ -1,0 +1,16 @@
+<i>Figure</i> <i>14-25.</i> <i>The</i> <i>same</i> <i>fully</i> <i>convolutional</i> <i>network</i> <i>processing</i> <i>a</i> <i>small</i> <i>image</i> <i>(left)</i> <i>and</i> <i>a</i>
+<i>large</i> <i>one</i> <i>(right)</i>
+<header><largefont><b>You</b></largefont> <largefont><b>Only</b></largefont> <largefont><b>Look</b></largefont> <largefont><b>Once</b></largefont> <largefont><b>(YOLO)</b></largefont></header>
+YOLO is an extremely fast and accurate object detection architecture proposed by
+paper,28 201629
+Joseph Redmon et al. in a 2015 and subsequently improved in
+(YOLOv2) and in 2018 30 (YOLOv3). It is so fast that it can run in real time on a video,
+as seen in Redmon’s demo.
+YOLOv3’s architecture is quite similar to the one we just discussed, but with a few
+important differences:
+28 JosephRedmonetal.,“YouOnlyLookOnce:Unified,Real-TimeObjectDetection,”ProceedingsoftheIEEE
+<i>ConferenceonComputerVisionandPatternRecognition(2016):779–788.</i>
+29 JosephRedmonandAliFarhadi,“YOLO9000:Better,Faster,Stronger,”ProceedingsoftheIEEEConferenceon
+<i>ComputerVisionandPatternRecognition(2017):6517–6525.</i>
+30 JosephRedmonandAliFarhadi,“YOLOv3:AnIncrementalImprovement,”arXivpreprintarXiv:1804.02767
+(2018).

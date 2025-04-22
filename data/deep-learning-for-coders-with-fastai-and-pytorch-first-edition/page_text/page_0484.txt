@@ -1,0 +1,34 @@
+begin_batch
+Called at the beginning of each batch, just after drawing said batch. It can be used
+to do any setup necessary for the batch (like hyperparameter scheduling) or to
+change the input/target before it goes into the model (for instance, by applying
+Mixup).
+after_pred
+Called after computing the output of the model on the batch. It can be used to
+change that output before it’s fed to the loss function.
+after_loss
+Called after the loss has been computed, but before the backward pass. It can be
+used to add a penalty to the loss (AR or TAR in RNN training, for instance).
+after_backward
+Called after the backward pass, but before the update of the parameters. It can be
+used to make changes to the gradients before said update (via gradient clipping,
+for instance).
+after_step
+Called after the step and before the gradients are zeroed.
+after_batch
+Called at the end of a batch, to perform any required cleanup before the next one.
+after_train
+Called at the end of the training phase of an epoch.
+begin_validate
+Called at the beginning of the validation phase of an epoch; useful for any setup
+needed specifically for validation.
+after_validate
+Called at the end of the validation part of an epoch.
+after_epoch
+Called at the end of an epoch, for any cleanup before the next one.
+after_fit
+Called at the end of training, for final cleanup.
+The elements of this list are available as attributes of the special variable event, so you
+can just type event. and hit Tab in your notebook to see a list of all the options
+Let’s take a look at an example. Do you recall how in Chapter 12 we needed to ensure
+that our special reset method was called at the start of training and validation for

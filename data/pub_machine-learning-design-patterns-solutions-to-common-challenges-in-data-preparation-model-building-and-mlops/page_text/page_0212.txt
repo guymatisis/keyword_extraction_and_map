@@ -1,0 +1,45 @@
+For example, we can train a model to infer whether or not a baby will require atten‐
+tion by training a logistic regression model on the natality dataset:
+<b>CREATE</b> <b>OR</b> <b>REPLACE</b> MODEL
+mlpatterns.neutral_3classes <b>OPTIONS(model_type='logistic_reg',</b>
+input_label_cols=['health']) <b>AS</b>
+<b>SELECT</b>
+IF
+(apgar_1min = 10,
+'Healthy',
+IF
+(apgar_1min >= 8,
+'Neutral',
+'NeedsAttention')) <b>AS</b> health,
+plurality,
+mother_age,
+gestation_weeks,
+ever_born
+<b>FROM</b>
+`bigquery-public-data.samples.natality`
+<b>WHERE</b>
+apgar_1min <= 10
+Once the model is trained, we can carry out prediction using SQL:
+<b>SELECT</b> * <b>FROM</b> ML.PREDICT(MODEL mlpatterns.neutral_3classes,
+(SELECT
+2 <b>AS</b> plurality,
+32 <b>AS</b> mother_age,
+41 <b>AS</b> gestation_weeks,
+1 <b>AS</b> ever_born
+)
+)
+However, BigQuery is primarily for distributed data processing. While it was great
+for training the ML model on gigabytes of data, using such a system to carry out
+inference on a single row is not the best fit—latencies can be as high as a second or
+ML.PREDICT
+two. Rather, the functionality is more appropriate for batch serving.
+In order to carry out online prediction, we can ask BigQuery to export the model as a
+TensorFlow SavedModel:
+bq extract -m --destination_format=ML_TF_SAVED_MODEL <b>\</b>
+mlpatterns.neutral_3classes gs://${BUCKET}/export/baby_health
+Now, we can deploy the SavedModel into a serving framework like Cloud AI Plat‐
+form that supports SavedModel to get the benefits of low-latency, autoscaled ML
+model serving. See the notebook in GitHub for the complete code.
+Even if this ability to export the model as a SavedModel did not exist, we could have
+extracted the weights, written a mathematical model to carry out the linear model,
+containerized it, and deployed the container image into a serving platform.

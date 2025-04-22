@@ -1,0 +1,37 @@
+2. Define any parameters of the model as attributes with nn.Parameter .
+3. Define a forward function that returns the output of your model.
+As an example, here is the linear layer from scratch:
+<b>import</b> <b>torch.nn</b> <b>as</b> <b>nn</b>
+<b>class</b> <b>LinearLayer(nn.Module):</b>
+<b>def</b> <b>__init__(self,</b> n_in, n_out):
+super().__init__()
+self.weight = nn.Parameter(torch.randn(n_out, n_in) * sqrt(2/n_in))
+self.bias = nn.Parameter(torch.zeros(n_out))
+<b>def</b> forward(self, x): <b>return</b> x @ self.weight.t() + self.bias
+As you see, this class automatically keeps track of what parameters have been defined:
+lin = LinearLayer(10,2)
+p1,p2 = lin.parameters()
+p1.shape,p2.shape
+(torch.Size([2, 10]), torch.Size([2]))
+nn.Module opt.step
+It is thanks to this feature of that we can just say and have an
+optimizer loop through the parameters and update each one.
+Note that in PyTorch, the weights are stored as an n_out x n_in matrix, which is why
+we have the transpose in the forward pass.
+By using the linear layer from PyTorch (which uses the Kaiming initialization as
+well), the model we have been building up during this chapter can be written like this:
+<b>class</b> <b>Model(nn.Module):</b>
+<b>def</b> <b>__init__(self,</b> n_in, nh, n_out):
+super().__init__()
+self.layers = nn.Sequential(
+nn.Linear(n_in,nh), nn.ReLU(), nn.Linear(nh,n_out))
+self.loss = mse
+<b>def</b> forward(self, x, targ): <b>return</b> self.loss(self.layers(x).squeeze(), targ)
+fastai provides its own variant of Module that is identical to nn.Module, but doesn’t
+require you to call super().__init__() (it does that for you automatically):
+<b>class</b> <b>Model(Module):</b>
+<b>def</b> <b>__init__(self,</b> n_in, nh, n_out):
+self.layers = nn.Sequential(
+nn.Linear(n_in,nh), nn.ReLU(), nn.Linear(nh,n_out))
+self.loss = mse
+<b>def</b> forward(self, x, targ): <b>return</b> self.loss(self.layers(x).squeeze(), targ)

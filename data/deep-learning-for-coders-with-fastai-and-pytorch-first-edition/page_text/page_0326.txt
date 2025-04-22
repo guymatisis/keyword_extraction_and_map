@@ -1,0 +1,34 @@
+From that foundation, you can try neural nets and GBMs, and if they give you signifi‐
+cantly better results on your validation set in a reasonable amount of time, you can
+use them. If decision tree ensembles are working well for you, try adding the embed‐
+dings for the categorical variables to the data, and see if that helps your decision trees
+learn better.
+<header><largefont><b>Questionnaire</b></largefont></header>
+1. What is a continuous variable?
+2. What is a categorical variable?
+3. Provide two of the words that are used for the possible values of a categorical
+variable.
+4. What is a dense layer?
+5. How do entity embeddings reduce memory usage and speed up neural networks?
+6. What kinds of datasets are entity embeddings especially useful for?
+7. What are the two main families of machine learning algorithms?
+8. Why do some categorical columns need a special ordering in their classes? How
+do you do this in Pandas?
+9. Summarize what a decision tree algorithm does.
+10. Why is a date different from a regular categorical or continuous variable, and
+how can you preprocess it to allow it to be used in a model?
+11. Should you pick a random validation set in the bulldozer competition? If no,
+what kind of validation set should you pick?
+12. What is pickle and what is it useful for?
+13. How are mse , samples , and values calculated in the decision tree drawn in this
+chapter?
+14. How do we deal with outliers before building a decision tree?
+15. How do we handle categorical variables in a decision tree?
+16. What is bagging?
+17. What is the difference between max_samples and max_features when creating a
+random forest?
+18. If you increase n_estimators to a very high value, can that lead to overfitting?
+Why or why not?
+19. In the section “Creating a Random Forest”, after Figure 9-7, why did
+preds.mean(0) give the same result as our random forest?
+20. What is out-of-bag error?

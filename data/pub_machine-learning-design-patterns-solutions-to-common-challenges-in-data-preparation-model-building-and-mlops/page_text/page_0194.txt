@@ -1,0 +1,39 @@
+cycle. This might seem trivial with a small model like the scikit-learn one we trained
+above, but for many production models, the training process requires significant
+infrastructure and time.
+Instead of training our model each time we try a new combination of hyperparame‐
+ters, Bayesian optimization defines a new function that emulates our model but is
+much cheaper to run. This is referred to as the <i>surrogate</i> <i>function—the</i> inputs to this
+function are your hyperparameter values and the output is your optimization metric.
+The surrogate function is called much more frequently than the objective function,
+with the goal of finding an optimal combination of hyperparameters <i>before</i> complet‐
+ing a training run on your model. With this approach, more compute time is spent
+choosing the hyperparameters for each trial as compared with grid search. However,
+because this is significantly cheaper than running our objective function each time we
+try different hyperparameters, the Bayesian approach of using a surrogate function is
+preferred. Common approaches to generate the surrogate function include a Gaus‐
+sian process or a tree-structured Parzen estimator.
+So far, we’ve touched on the different pieces of Bayesian optimization, but how do
+they work together? First, we must choose the hyperparameters we want to optimize
+and define a range of values for each hyperparameter. This part of the process is
+manual and will define the space in which our algorithm will search for optimal val‐
+ues. We’ll also need to define our objective function, which is the code that calls our
+model training process. From there, Bayesian optimization develops a surrogate
+function to simulate our model training process and uses that function to determine
+the best combination of hyperparameters to run on our model. It is only once this
+surrogate arrives at what it thinks is a good combination of hyperparameters that we
+do a full training run (trial) on our model. The results of this are then fed back to the
+surrogate function and the process is repeated for the number of trials we’ve
+specified.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+Genetic algorithms are an alternative to Bayesian methods for hyperparameter tun‐
+ing, but they tend to require many more model training runs than Bayesian methods.
+We’ll also show you how to use a managed service for hyperparameter tuning optimi‐
+zation on models built with a variety of ML frameworks.
+<b>Fullymanagedhyperparametertuning</b>
+keras-tuner
+The approach may not scale to large machine learning problems
+because we’d like the trials to happen in parallel, and the likelihood of machine error
+and other failure increases as the time for model training stretches into the hours.
+Hence, a fully managed, resilient approach that provides black-box optimization is
+useful for hyperparameter tuning. An example of a managed service that implements

@@ -1,0 +1,43 @@
+max_length
+The maximum size of the replay buffer. We created a large replay buffer that can
+store one million trajectories (as was done in the 2015 DQN paper). This will
+require a lot of RAM.
+When we store two consecutive trajectories, they contain two con‐
+Fra
+secutive observations with four frames each (since we used the
+meStack4
+wrapper), and unfortunately three of the four frames in
+the second observation are redundant (they are already present in
+the first observation). In other words, we are using about four
+times more RAM than necessary. To avoid this, you can instead use
+a PyHashedReplayBuffer from the tf_agents.replay_buf
+fers.py_hashed_replay_buffer package: it deduplicates data in
+the stored trajectories along the last axis of the observations.
+Now we can create the observer that will write the trajectories to the replay buffer. An
+observer is just a function (or a callable object) that takes a trajectory argument, so we
+add_method() replay_buffer
+can directly use the method (bound to the object) as
+our observer:
+replay_buffer_observer = replay_buffer.add_batch
+If you wanted to create your own observer, you could write any function with a
+trajectory
+argument. If it must have a state, you can write a class with a
+__call__(self, trajectory) method. For example, here is a simple observer that
+will increment a counter every time it is called (except when the trajectory represents
+a boundary between two episodes, which does not count as a step), and every 100
+\r
+increments it displays the progress up to a given total (the carriage return along
+with end="" ensures that the displayed counter remains on the same line):
+<b>class</b> <b>ShowProgress:</b>
+<b>def</b> <b>__init__(self,</b> total):
+self.counter = 0
+self.total = total
+<b>def</b> <b>__call__(self,</b> trajectory):
+<b>if</b> <b>not</b> trajectory.is_boundary():
+self.counter += 1
+<b>if</b> self.counter % 100 == 0:
+<b>print("\r{}/{}".format(self.counter,</b> self.total), end="")
+Now let’s create a few training metrics.
+<header><largefont><b>Creating</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Metrics</b></largefont></header>
+TF-Agents implements several RL metrics in the tf_agents.metrics package, some
+purely in Python and some based on TensorFlow. Let’s create a few of them in order

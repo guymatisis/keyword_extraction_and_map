@@ -1,0 +1,31 @@
+21. List the reasons that a model’s validation set error might be worse than the OOB
+error. How could you test your hypotheses?
+22. Explain why random forests are well suited to answering each of the following
+questions:
+• How confident are we in our predictions using a particular row of data?
+• For predicting with a particular row of data, what were the most important fac‐
+tors, and how did they influence that prediction?
+• Which columns are the strongest predictors?
+• How do predictions vary as we vary these columns?
+23. What’s the purpose of removing unimportant variables?
+24. What’s a good type of plot for showing tree interpreter results?
+25. What is the extrapolation problem?
+26. How can you tell if your test or validation set is distributed in a different way
+than your training set?
+saleElapsed
+27. Why do we make a continuous variable, even though it has fewer
+than 9,000 distinct values?
+28. What is boosting?
+29. How could we use embeddings with a random forest? Would we expect this to
+help?
+30. Why might we not always use a neural net for tabular modeling?
+<header><largefont><b>Further</b></largefont> <largefont><b>Research</b></largefont></header>
+1. Pick a competition on Kaggle with tabular data (current or past) and try to adapt
+the techniques seen in this chapter to get the best possible results. Compare your
+results to the private leaderboard.
+2. Implement the decision tree algorithm in this chapter from scratch yourself, and
+try it on the dataset you used in the first exercise.
+3. Use the embeddings from the neural net in this chapter in a random forest, and
+see if you can improve on the random forest results we saw.
+4. Explain what each line of the source of TabularModel does (with the exception of
+the BatchNorm1d and Dropout layers).

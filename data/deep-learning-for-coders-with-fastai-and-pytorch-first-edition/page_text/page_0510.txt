@@ -1,0 +1,38 @@
+<header><largefont><b>SymPy</b></largefont></header>
+SymPy is a library for symbolic computation that is extremely useful when working
+with calculus. Per the documentation:
+Symbolic computation deals with the computation of mathematical objects symboli‐
+cally. This means that the mathematical objects are represented exactly, not approxi‐
+mately, and mathematical expressions with unevaluated variables are left in symbolic
+form.
+To do symbolic computation, we define a <i>symbol</i> and then do a computation, like so:
+<b>from</b> <b>sympy</b> <b>import</b> symbols,diff
+sx,sy = symbols('sx sy')
+diff(sx**2, sx)
+2*sx
+Here, SymPy has taken the derivative of x**2 for us! It can take the derivative of com‐
+plicated compound expressions, simplify and factor equations, and much more.
+There’s really not much reason for anyone to do calculus manually nowadays—for
+calculating gradients, PyTorch does it for us, and for showing the equations, SymPy
+does it for us!
+Once we have defined those functions, we can use them to write the backward pass.
+Since each gradient is automatically populated in the right tensor, we don’t need to
+store the results of those _grad functions anywhere—we just need to execute them in
+out.g
+the reverse order of the forward pass, to make sure that in each function exists:
+<b>def</b> forward_and_backward(inp, targ):
+<i>#</i> <i>forward</i> <i>pass:</i>
+l1 = inp @ w1 + b1
+l2 = relu(l1)
+out = l2 @ w2 + b2
+<i>#</i> <i>we</i> <i>don't</i> <i>actually</i> <i>need</i> <i>the</i> <i>loss</i> <i>in</i> <i>backward!</i>
+loss = mse(out, targ)
+<i>#</i> <i>backward</i> <i>pass:</i>
+mse_grad(out, targ)
+lin_grad(l2, out, w2, b2)
+relu_grad(l1, l2)
+lin_grad(inp, l1, w1, b1)
+And now we can access the gradients of our model parameters in w1.g, b1.g, w2.g,
+b2.g.
+and We have sucessfuly defined our model—now let’s make it a bit more like a
+PyTorch module.

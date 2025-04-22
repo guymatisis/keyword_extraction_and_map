@@ -1,0 +1,35 @@
+If the network is a simple stack of dense layers, then it can self-normalize, and you
+should use the configuration in Table 11-4 instead.
+<i>Table</i> <i>11-4.</i> <i>DNN</i> <i>configuration</i> <i>for</i> <i>a</i> <i>self-normalizing</i> <i>net</i>
+<b>Hyperparameter</b> <b>Defaultvalue</b>
+Kernelinitializer LeCuninitialization
+Activationfunction SELU
+Normalization None(self-normalization)
+Regularization Alphadropoutifneeded
+Optimizer Momentumoptimization(orRMSProporNadam)
+Learningrateschedule 1cycle
+Don’t forget to normalize the input features! You should also try to reuse parts of a
+pretrained neural network if you can find one that solves a similar problem, or use
+unsupervised pretraining if you have a lot of unlabeled data, or use pretraining on an
+auxiliary task if you have a lot of labeled data for a similar task.
+While the previous guidelines should cover most cases, here are some exceptions:
+• If you need a sparse model, you can use ℓ regularization (and optionally zero out
+1
+the tiny weights after training). If you need an even sparser model, you can use
+the TensorFlow Model Optimization Toolkit. This will break self-normalization,
+so you should use the default configuration in this case.
+• If you need a low-latency model (one that performs lightning-fast predictions),
+you may need to use fewer layers, fold the Batch Normalization layers into the
+previous layers, and possibly use a faster activation function such as leaky ReLU
+or just ReLU. Having a sparse model will also help. Finally, you may want to
+reduce the float precision from 32 bits to 16 or even 8 bits (see “Deploying a
+Model to a Mobile or Embedded Device” on page 685). Again, check out TF-
+MOT.
+• If you are building a risk-sensitive application, or inference latency is not very
+important in your application, you can use MC Dropout to boost performance
+and get more reliable probability estimates, along with uncertainty estimates.
+With these guidelines, you are now ready to train very deep nets! I hope you are now
+convinced that you can go quite a long way using just Keras. There may come a time,
+however, when you need to have even more control; for example, to write a custom
+loss function or to tweak the training algorithm. For such cases you will need to use
+TensorFlow’s lower-level API, as you will see in the next chapter.

@@ -1,0 +1,37 @@
+<header><largefont><b>Stochastic</b></largefont> <largefont><b>Gradient</b></largefont> <largefont><b>Descent</b></largefont></header>
+Do you remember the way that Arthur Samuel described machine learning, which we
+quoted in Chapter 1?
+Suppose we arrange for some automatic means of testing the effectiveness of any cur‐
+rent weight assignment in terms of actual performance and provide a mechanism for
+altering the weight assignment so as to maximize the performance. We need not go
+into the details of such a procedure to see that it could be made entirely automatic and
+to see that a machine so programmed would “learn” from its experience.
+As we discussed, this is the key to allowing us to have a model that can get better and
+better—that can learn. But our pixel similarity approach does not really do this. We
+do not have any kind of weight assignment, or any way of improving based on testing
+the effectiveness of a weight assignment. In other words, we can’t really improve our
+pixel similarity approach by modifying a set of parameters. To take advantage of the
+power of deep learning, we will first have to represent our task in the way that Samuel
+described it.
+Instead of trying to find the similarity between an image and an “ideal image,” we
+could instead look at each individual pixel and come up with a set of weights for each,
+such that the highest weights are associated with those pixels most likely to be black
+for a particular category. For instance, pixels toward the bottom right are not very
+likely to be activated for a 7, so they should have a low weight for a 7, but they are
+likely to be activated for an 8, so they should have a high weight for an 8. This can be
+represented as a function and set of weight values for each possible category—for
+instance, the probability of being the number 8:
+def pr_eight(x,w) = (x*w).sum()
+Here we are assuming that X is the image, represented as a vector—in other words,
+with all of the rows stacked up end to end into a single long line. And we are assum‐
+W.
+ing that the weights are a vector If we have this function, we just need some way to
+update the weights to make them a little bit better. With such an approach, we can
+repeat that step a number of times, making the weights better and better, until they
+are as good as we can make them.
+W
+We want to find the specific values for the vector that cause the result of our func‐
+tion to be high for those images that are 8s, and low for those images that are not.
+Searching for the best vector W is a way to search for the best function for recognizing
+8s. (Because we are not yet using a deep neural network, we are limited by what our
+function can do—we are going to fix that constraint later in this chapter.)

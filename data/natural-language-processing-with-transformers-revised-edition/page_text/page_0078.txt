@@ -1,0 +1,31 @@
+We’ve given you a lot of technical information here, but now you should have a good
+understanding of how every piece of the Transformer architecture works. Before we
+move on to building models for tasks more advanced than text classification, let’s
+round out the chapter by stepping back a bit and looking at the landscape of different
+transformer models and how they relate to each other.
+<header><largefont><b>Demystifying</b></largefont> <largefont><b>Encoder-Decoder</b></largefont> <largefont><b>Attention</b></largefont></header>
+Let’s see if we can shed some light on the mysteries of encoder-decoder attention.
+Imagine you (the decoder) are in class taking an exam. Your task is to predict the next
+word based on the previous words (decoder inputs), which sounds simple but is
+incredibly hard (try it yourself and predict the next words in a passage of this book).
+Fortunately, your neighbor (the encoder) has the full text. Unfortunately, they’re a
+foreign exchange student and the text is in their mother tongue. Cunning students
+that you are, you figure out a way to cheat anyway. You draw a little cartoon illustrat‐
+ing the text you already have (the query) and give it to your neighbor. They try to
+figure out which passage matches that description (the key), draw a cartoon describ‐
+ing the word following that passage (the value), and pass that back to you. With this
+system in place, you ace the exam.
+<header><largefont><b>Meet</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Transformers</b></largefont></header>
+As you’ve seen in this chapter, there are three main architectures for transformer
+models: encoders, decoders, and encoder-decoders. The initial success of the early
+transformer models triggered a Cambrian explosion in model development as
+researchers built models on various datasets of different size and nature, used new
+pretraining objectives, and tweaked the architecture to further improve performance.
+Although the zoo of models is still growing fast, they can still be divided into these
+three categories.
+In this section we’ll provide a brief overview of the most important transformer mod‐
+els in each class. Let’s start by taking a look at the transformer family tree.
+<header><largefont><b>The</b></largefont> <largefont><b>Transformer</b></largefont> <largefont><b>Tree</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Life</b></largefont></header>
+Over time, each of the three main architectures has undergone an evolution of its
+own. This is illustrated in Figure 3-8, which shows a few of the most prominent mod‐
+els and their descendants.

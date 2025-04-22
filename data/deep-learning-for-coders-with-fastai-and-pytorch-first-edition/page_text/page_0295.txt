@@ -1,0 +1,24 @@
+That change makes the split much clearer in the tree visualization, even although it
+doesn’t change the result of the model in any significant way. This is a great example
+of how resilient decision trees are to data issues!
+m = DecisionTreeRegressor(max_leaf_nodes=4).fit(xs, y)
+dtreeviz(m, xs.iloc[samp_idx], y.iloc[samp_idx], xs.columns, dep_var,
+fontname='DejaVu Sans', scale=1.6, label_fontsize=10,
+orientation='LR')
+Let’s now have the decision tree algorithm build a bigger tree. Here, we are not pass‐
+ing in any stopping criteria such as max_leaf_nodes:
+m = DecisionTreeRegressor()
+m.fit(xs, y);
+We’ll create a little function to check the root mean squared error of our model
+(m_rmse), since that’s how the competition was judged:
+<b>def</b> r_mse(pred,y): <b>return</b> round(math.sqrt(((pred-y)**2).mean()), 6)
+<b>def</b> m_rmse(m, xs, y): <b>return</b> r_mse(m.predict(xs), y)
+m_rmse(m, xs, y)
+0.0
+So, our model is perfect, right? Not so fast…remember, we really need to check the
+validation set, to ensure we’re not overfitting:
+m_rmse(m, valid_xs, valid_y)
+0.337727
+Oops—it looks like we might be overfitting pretty badly. Here’s why:
+m.get_n_leaves(), len(xs)
+(340909, 404710)

@@ -1,0 +1,24 @@
+We can view the learning rate and momentum throughout training by calling
+plot_sched on learn.recorder. learn.recorder (as the name suggests) records
+everything that happens during training, including losses, metrics, and hyperparame‐
+ters such as learning rate and momentum:
+learn.recorder.plot_sched()
+Smith’s original 1cycle paper used a linear warmup and linear annealing. As you can
+see, we adapted the approach in fastai by combining it with another popular
+approach: cosine annealing. fit_one_cycle provides the following parameters you
+can adjust:
+lr_max
+The highest learning rate that will be used (this can also be a list of learning rates
+for each layer group, or a Python slice object containing the first and last layer
+group learning rates)
+div
+How much to divide lr_max by to get the starting learning rate
+div_final
+How much to divide lr_max by to get the ending learning rate
+pct_start
+What percentage of the batches to use for the warmup
+moms
+A tuple (mom1,mom2,mom3), where <i>mom1</i> is the initial momentum, <i>mom2</i> is the
+minimum momentum, and <i>mom3</i> is the final momentum
+Let’s take a look at our layer stats again:
+learn.activation_stats.plot_layer_stats(-2)

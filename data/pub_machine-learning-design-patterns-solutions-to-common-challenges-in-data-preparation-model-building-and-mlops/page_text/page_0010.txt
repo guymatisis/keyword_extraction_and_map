@@ -1,0 +1,37 @@
+operations around training and deploying those models. ML engineers help build
+production systems to handle updating models, model versioning, and serving pre‐
+dictions to end users.
+The smaller the data science team at a company and the more agile the team is, the
+more likely it is that the same person plays multiple roles. If you are in such a situa‐
+tion, it is very likely that you read the above three descriptions and saw yourself parti‐
+ally in all three categories. You might commonly start out a machine learning project
+as a data engineer and build data pipelines to operationalize the ingest of data. Then,
+you transition to the data scientist role and build the ML model(s). Finally, you put
+on the ML engineer hat and move the model to production. In larger organizations,
+machine learning projects may move through the same phases, but different teams
+might be involved in each phase.
+Research scientists, data analysts, and developers may also build and use AI models,
+but these job roles are not a focus audience for this book.
+<i>Research</i> <i>scientists</i> focus primarily on finding and developing new algorithms to
+advance the discipline of ML. This could include a variety of subfields within
+machine learning, like model architectures, natural language processing, computer
+vision, hyperparameter tuning, model interpretability, and more. Unlike the other
+roles discussed here, research scientists spend most of their time prototyping and
+evaluating new approaches to ML, rather than building out production ML systems.
+<i>Data</i> <i>analysts</i> evaluate and gather insights from data, then summarize these insights
+for other teams within their organization. They tend to work in SQL and spread‐
+sheets, and use business intelligence tools to create data visualizations to share their
+findings. Data analysts work closely with product teams to understand how their
+insights can help address business problems and create value. While data analysts
+focus on identifying trends in existing data and deriving insights from it, data scien‐
+tists are concerned with using that data to generate future predictions and in auto‐
+mating or scaling out the generation of insights. With the increasing democratization
+of machine learning, data analysts can upskill themselves to become data scientists.
+<i>Developers</i> are in charge of building production systems that enable end users to
+access ML models. They are often involved in designing the APIs that query models
+and return predictions in a user-friendly format via a web or mobile application. This
+could involve models hosted in the cloud, or models served on-device. Developers
+utilize the model serving infrastructure implemented by ML Engineers to build appli‐
+cations and user interfaces for surfacing predictions to model users.
+Figure 1-2 illustrates how these different roles work together throughout an organiza‐
+tion’s machine learning model development process.

@@ -1,0 +1,33 @@
+Table 4-1 summarizes the key concepts related to SGD.
+<i>Table</i> <i>4-1.</i> <i>Deep</i> <i>learning</i> <i>vocabulary</i>
+<b>Term</b> <b>Meaning</b>
+ReLU Functionthatreturns0fornegativenumbersanddoesn’tchangepositivenumbers.
+Mini-batch Asmallgroupofinputsandlabelsgatheredtogetherintwoarrays.Agradientdescentstepisupdatedon
+thisbatch(ratherthanawholeepoch).
+Forwardpass Applyingthemodeltosomeinputandcomputingthepredictions.
+Loss Avaluethatrepresentshowwell(orbadly)ourmodelisdoing.
+Gradient Thederivativeofthelosswithrespecttosomeparameterofthemodel.
+Backwardpass Computingthegradientsofthelosswithrespecttoallmodelparameters.
+Gradient Takingastepinthedirectionoppositetothegradientstomakethemodelparametersalittlebitbetter.
+descent
+Learningrate ThesizeofthestepwetakewhenapplyingSGDtoupdatetheparametersofthemodel.
+<b>ChooseYourOwnAdventureReminder</b>
+Did you choose to skip over Chapters 2 and 3, in your excitement
+to peek under the hood? Well, here’s your reminder to head back to
+Chapter 2 now, because you’ll be needing to know that stuff soon!
+<header><largefont><b>Questionnaire</b></largefont></header>
+1. How is a grayscale image represented on a computer? How about a color image?
+2. How are the files and folders in the MNIST_SAMPLE dataset structured? Why?
+3. Explain how the “pixel similarity” approach to classifying digits works.
+4. What is a list comprehension? Create one now that selects odd numbers from a
+list and doubles them.
+5. What is a rank-3 tensor?
+6. What is the difference between tensor rank and shape? How do you get the rank
+from the shape?
+7. What are RMSE and L1 norm?
+8. How can you apply a calculation on thousands of numbers at once, many thou‐
+sands of times faster than a Python loop?
+9. Create a 3×3 tensor or array containing the numbers from 1 to 9. Double it.
+Select the bottom-right four numbers.
+10. What is broadcasting?
+11. Are metrics generally calculated using the training set or the validation set? Why?

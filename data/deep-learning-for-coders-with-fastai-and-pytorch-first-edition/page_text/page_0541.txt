@@ -1,0 +1,30 @@
+0 True 2.6336045582954903 0.11014890695955222
+0 False 2.230653363853503 0.18318471337579617
+And take a look at the results:
+plt.plot(lrfind.lrs[:-2],lrfind.losses[:-2])
+plt.xscale('log')
+Now we can define our OneCycle training callback:
+<b>class</b> <b>OneCycle(Callback):</b>
+<b>def</b> <b>__init__(self,</b> base_lr): self.base_lr = base_lr
+<b>def</b> before_fit(self): self.lrs = []
+<b>def</b> before_batch(self):
+<b>if</b> <b>not</b> self.model.training: <b>return</b>
+n = len(self.dls.train)
+bn = self.epoch*n + self.num
+mn = self.n_epochs*n
+pct = bn/mn
+pct_start,div_start = 0.25,10
+<b>if</b> pct<pct_start:
+pct /= pct_start
+lr = (1-pct)*self.base_lr/div_start + pct*self.base_lr
+<b>else:</b>
+pct = (pct-pct_start)/(1-pct_start)
+lr = (1-pct)*self.base_lr
+self.opt.lr = lr
+self.lrs.append(lr)
+We’ll try an LR of 0.1:
+onecyc = OneCycle(0.1)
+learn = Learner(simple_cnn(), dls, cross_entropy, lr=0.1, cbs=cbs+[onecyc])
+Let’s fit for a while and see how it looks (we won’t show all the output in the book—
+try it in the notebook to see the results):
+learn.fit(8)

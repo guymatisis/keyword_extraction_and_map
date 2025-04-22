@@ -1,0 +1,39 @@
+To see why so much computation occurs in the early layers, consider the very first
+convolution on a 128-pixel input image. If it is a stride-1 convolution, it will apply the
+kernel to every one of the 128×128 pixels. That’s a lot of work! In the later layers,
+however, the grid size could be as small as 4×4 or even 2×2, so there are far fewer
+kernel applications to do.
+On the other hand, the first-layer convolution has only 3 input features and 32 output
+features. Since it is a 3×3 kernel, this is 3×32×3×3 = 864 parameters in the weights.
+But the last convolution will have 256 input features and 512 output features, result‐
+ing in 1,179,648 weights! So the first layers contain the vast majority of the computa‐
+tion, but the last layers contain the vast majority of the parameters.
+A ResNet block takes more computation than a plain convolutional block, since (in
+the stride-2 case) a ResNet block has three convolutions and a pooling layer. That’s
+why we want to have plain convolutions to start off our ResNet.
+We’re now ready to show the implementation of a modern ResNet, with the “bag of
+tricks.” It uses the four groups of ResNet blocks, with 64, 128, 256, then 512 filters.
+Each group starts with a stride-2 block, except for the first one, since it’s just after a
+MaxPooling layer:
+<b>class</b> <b>ResNet(nn.Sequential):</b>
+<b>def</b> <b>__init__(self,</b> n_out, layers, expansion=1):
+stem = _resnet_stem(3,32,32,64)
+self.block_szs = [64, 64, 128, 256, 512]
+<b>for</b> i <b>in</b> range(1,5): self.block_szs[i] *= expansion
+blocks = [self._make_layer(*o) <b>for</b> o <b>in</b> enumerate(layers)]
+super().__init__(*stem, *blocks,
+nn.AdaptiveAvgPool2d(1), Flatten(),
+nn.Linear(self.block_szs[-1], n_out))
+<b>def</b> _make_layer(self, idx, n_layers):
+stride = 1 <b>if</b> idx==0 <b>else</b> 2
+ch_in,ch_out = self.block_szs[idx:idx+2]
+<b>return</b> nn.Sequential(*[
+ResBlock(ch_in <b>if</b> i==0 <b>else</b> ch_out, ch_out, stride <b>if</b> i==0 <b>else</b> 1)
+<b>for</b> i <b>in</b> range(n_layers)
+])
+The _make_layer function is just there to create a series of n_layers blocks. The first
+one is going from ch_in to ch_out with the indicated stride, and all the others are
+blocks of stride 1 with ch_out to ch_out tensors. Once the blocks are defined, our
+model is purely sequential, which is why we define it as a subclass of nn.Sequential .
+(Ignore the expansion parameter for now; we’ll discuss it in the next section. For
+now, it’ll be 1, so it doesn’t do anything.)

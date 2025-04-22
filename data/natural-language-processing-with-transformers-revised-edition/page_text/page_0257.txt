@@ -1,0 +1,24 @@
+The distribution has the long tail characteristic of many text datasets. Most of the
+texts are fairly short, but there are also issues with more than 500 words. It is com‐
+mon to have some very long issues, especially when error messages and code snippets
+are posted along with them. Given that most transformer models have a context size
+of 512 tokens or larger, truncating a handful of long issues is not likely to affect the
+overall performance. Now that we’ve explored and cleaned up our dataset, the final
+thing to do is define our training and validation sets to benchmark our classifiers.
+Let’s take a look at how to do this.
+<header><largefont><b>Creating</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Sets</b></largefont></header>
+Creating training and validation sets is a bit trickier for multlilabel problems because
+there is no guaranteed balance for all labels. However, it can be approximated, and we
+can use the Scikit-multilearn library, which is specifically set up for this purpose. The
+pytorch tokeniza
+first thing we need to do is transform our set of labels, like and
+tion, into a format that the model can process. Here we can use Scikit-learn’s Multi
+LabelBinarizer
+class, which takes a list of label names and creates a vector with
+zeros for absent labels and ones for present labels. We can test this by fitting Multi
+Label Binarizer on all_labels to learn the mapping from label name to ID as
+follows:
+<b>from</b> <b>sklearn.preprocessing</b> <b>import</b> MultiLabelBinarizer
+mlb = MultiLabelBinarizer()
+mlb.fit([all_labels])
+mlb.transform([["tokenization", "new model"], ["pytorch"]])

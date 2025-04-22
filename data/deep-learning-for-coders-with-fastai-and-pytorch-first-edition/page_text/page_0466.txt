@@ -1,0 +1,39 @@
+a single PyTorch module. This encoder will provide an activation for every word of
+the input, because a language model needs to output a prediction for every next
+word.
+To create a classifier from this, we use an approach described in the ULMFiT paper as
+“BPTT for Text Classification (BPT3C)”:
+We divide the document into fixed-length batches of size <i>b.</i> At the beginning of each
+batch, the model is initialized with the final state of the previous batch; we keep track
+of the hidden states for mean and max-pooling; gradients are back-propagated to the
+batches whose hidden states contributed to the final prediction. In practice, we use
+variable length backpropagation sequences.
+In other words, the classifier contains a for loop, which loops over each batch of a
+sequence. The state is maintained across batches, and the activations of each batch are
+stored. At the end, we use the same average and max concatenated pooling trick that
+we use for computer vision models—but this time, we do not pool over CNN grid
+cells, but over RNN sequences.
+For this for loop, we need to gather our data in batches, but each text needs to be
+treated separately, as they each have their own labels. However, it’s very likely that
+those texts won’t all be of the same length, which means we won’t be able to put them
+all in the same array, as we did with the language model.
+That’s where padding is going to help: when grabbing a bunch of texts, we determine
+the one with the greatest length; then we fill the ones that are shorter with a special
+xxpad.
+token called To avoid extreme cases of having a text with 2,000 tokens in the
+same batch as a text with 10 tokens (so a lot of padding, and a lot of wasted computa‐
+tion), we alter the randomness by making sure texts of comparable size are put
+together. The texts will still be in a somewhat random order for the training set (for
+the validation set, we can simply sort them by order of length), but not completely so.
+This is done automatically behind the scenes by the fastai library when creating our
+DataLoaders.
+<header><largefont><b>Tabular</b></largefont></header>
+Finally, let’s take a look at fastai.tabular models. (We don’t need to look at collabo‐
+rative filtering separately, since we’ve already seen that these models are just tabular
+models or use the dot product approach, which we implemented earlier from
+scratch.)
+Here is the forward method for TabularModel :
+<b>if</b> self.n_emb != 0:
+x = [e(x_cat[:,i]) <b>for</b> i,e <b>in</b> enumerate(self.embeds)]
+x = torch.cat(x, 1)
+x = self.emb_drop(x)

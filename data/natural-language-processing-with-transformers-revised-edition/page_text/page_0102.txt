@@ -1,0 +1,36 @@
+<s> </s>
+As you can see here, the start and end tokens are given the IDs 0 and 2,
+respectively.
+Finally, we need to pass the inputs to the model and extract the predictions by taking
+the argmax to get the most likely class per token:
+outputs = xlmr_model(input_ids.to(device)).logits
+predictions = torch.argmax(outputs, dim=-1)
+<b>print(f"Number</b> of tokens in sequence: {len(xlmr_tokens)}")
+<b>print(f"Shape</b> of outputs: {outputs.shape}")
+Number of tokens in sequence: 10
+Shape of outputs: torch.Size([1, 10, 7])
+Here we see that the logits have the shape [batch_size, num_tokens, num_tags],
+with each token given a logit among the seven possible NER tags. By enumerating
+over the sequence, we can quickly see what the pretrained model predicts:
+preds = [tags.names[p] <b>for</b> p <b>in</b> predictions[0].cpu().numpy()]
+pd.DataFrame([xlmr_tokens, preds], index=["Tokens", "Tags"])
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b> <b>6</b> <b>7</b> <b>8</b> <b>9</b>
+<b>Tokens</b> <s> ▁Jack ▁Spar row ▁love s ▁New ▁York ! </s>
+<b>Tags</b> O I-LOC B-LOC B-LOC O I-LOC O O I-LOC B-LOC
+Unsurprisingly, our token classification layer with random weights leaves a lot to be
+desired; let’s fine-tune on some labeled data to make it better! Before doing so, let’s
+wrap the preceding steps into a helper function for later use:
+<b>def</b> tag_text(text, tags, model, tokenizer):
+<i>#</i> <i>Get</i> <i>tokens</i> <i>with</i> <i>special</i> <i>characters</i>
+tokens = tokenizer(text).tokens()
+<i>#</i> <i>Encode</i> <i>the</i> <i>sequence</i> <i>into</i> <i>IDs</i>
+input_ids = xlmr_tokenizer(text, return_tensors="pt").input_ids.to(device)
+<i>#</i> <i>Get</i> <i>predictions</i> <i>as</i> <i>distribution</i> <i>over</i> <i>7</i> <i>possible</i> <i>classes</i>
+outputs = model(input_ids)[0]
+<i>#</i> <i>Take</i> <i>argmax</i> <i>to</i> <i>get</i> <i>most</i> <i>likely</i> <i>class</i> <i>per</i> <i>token</i>
+predictions = torch.argmax(outputs, dim=2)
+<i>#</i> <i>Convert</i> <i>to</i> <i>DataFrame</i>
+preds = [tags.names[p] <b>for</b> p <b>in</b> predictions[0].cpu().numpy()]
+<b>return</b> pd.DataFrame([tokens, preds], index=["Tokens", "Tags"])
+Before we can train the model, we also need to tokenize the inputs and prepare the
+labels. We’ll do that next.

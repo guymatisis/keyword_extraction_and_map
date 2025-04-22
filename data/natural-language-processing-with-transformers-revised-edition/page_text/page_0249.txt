@@ -1,0 +1,18 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>9</b></largefont></header>
+<header><largefont><b>Dealing</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Few</b></largefont> <largefont><b>to</b></largefont> <largefont><b>No</b></largefont> <largefont><b>Labels</b></largefont></header>
+There is one question so deeply ingrained into every data scientist’s mind that it’s usu‐
+ally the first thing they ask at the start of a new project: is there any labeled data?
+More often than not, the answer is “no” or “a little bit,” followed by an expectation
+from the client that your team’s fancy machine learning models should still perform
+well. Since training models on very small datasets does not typically yield good
+results, one obvious solution is to annotate more data. However, this takes time and
+can be very expensive, especially if each annotation requires domain expertise to
+validate.
+Fortunately, there are several methods that are well suited for dealing with few to no
+labels! You may already be familiar with some of them, such as <i>zero-shot</i> or <i>few-shot</i>
+<i>learning,</i> as witnessed by GPT-3’s impressive ability to perform a diverse range of
+tasks with just a few dozen examples.
+In general, the best-performing method will depend on the task, the amount of avail‐
+able data, and what fraction of that data is labeled. The decision tree shown in
+Figure 9-1 can help guide us through the process of picking the most appropriate
+method.

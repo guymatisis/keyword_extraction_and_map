@@ -1,0 +1,28 @@
+For example, Kaggle had a competition to predict the sales in a chain of Ecuadorian
+grocery stores. Kaggle’s training data ran from Jan 1, 2013 to Aug 15, 2017, and the
+test data spanned from Aug 16, 2017 to Aug 31, 2017. That way, the competition
+organizer ensured that entrants were making predictions for a time period that was <i>in</i>
+<i>the</i> <i>future,</i> from the perspective of their model. This is similar to the way quantitative
+hedge fund traders do <i>backtesting</i> to check whether their models are predictive of
+future periods, based on past data.
+A second common case occurs when you can easily anticipate ways the data you will
+be making predictions for in production may be <i>qualitatively</i> <i>different</i> from the data
+you have to train your model with.
+In the Kaggle distracted driver competition, the independent variables are pictures of
+drivers at the wheel of a car, and the dependent variables are categories such as text‐
+ing, eating, or safely looking ahead. Lots of pictures are of the same drivers in differ‐
+ent positions, as we can see in Figure 1-22. If you were an insurance company
+building a model from this data, note that you would be most interested in how the
+model performs on drivers it hasn’t seen before (since you would likely have training
+data for only a small group of people). In recognition of this, the test data for the
+competition consists of images of people that don’t appear in the training set.
+<i>Figure</i> <i>1-22.</i> <i>Two</i> <i>pictures</i> <i>from</i> <i>the</i> <i>training</i> <i>data</i>
+If you put one of the images in Figure 1-22 in your training set and one in the valida‐
+tion set, your model will have an easy time making a prediction for the one in the
+validation set, so it will seem to be performing better than it would on new people.
+Another perspective is that if you used all the people in training your model, your
+model might be overfitting to particularities of those specific people and not just
+learning the states (texting, eating, etc.).
+A similar dynamic was at work in the Kaggle fisheries competition to identify the spe‐
+cies of fish caught by fishing boats in order to reduce illegal fishing of endangered
+populations. The test set consisted of images from boats that didn’t appear in the

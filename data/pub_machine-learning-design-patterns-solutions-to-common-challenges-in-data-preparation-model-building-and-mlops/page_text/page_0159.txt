@@ -1,0 +1,40 @@
+cp_callback = tf.keras.callbacks.ModelCheckpoint(...)
+history = model.fit(trainds,
+validation_data=evalds,
+epochs=15,
+batch_size=128,
+callbacks=[cp_callback])
+However, using epochs on large datasets remains a bad idea. Epochs may be easy to
+understand, but the use of epochs leads to bad effects in real-world ML models. To
+see why, imagine that you have a training dataset with one million examples. It can
+be tempting to simply go through this dataset 15 times (for example) by setting the
+number of epochs to 15. There are several problems with this:
+• The number of epochs is an integer, but the difference in training time between
+processing the dataset 14.3 times and 15 times can be hours. If the model has
+converged after having seen 14.3 million examples, you might want to exit and
+not waste the computational resources necessary to process 0.7 million more
+examples.
+• You checkpoint once per epoch, and waiting one million examples between
+checkpoints might be way too long. For resilience, you might want to checkpoint
+more often.
+• Datasets grow over time. If you get 100,000 more examples and you train the
+model and get a higher error, is it because you need to do an early stop, or is the
+new data corrupt in some way? You can’t tell because the prior training was on
+15 million examples and the new one is on 16.5 million examples.
+• In distributed, parameter-server training (see “Design Pattern 14: Distribution
+Strategy” on page 175) with data parallelism and proper shuffling, the concept of an
+epoch is not clear anymore. Because of potentially straggling workers, you can
+only instruct the system to train on some number of mini-batches.
+<b>Stepsperepoch.</b>
+Instead of training for 15 epochs, we might decide to train for
+143,000 steps where the batch_size is 100:
+NUM_STEPS = 143000
+BATCH_SIZE = 100
+NUM_CHECKPOINTS = 15
+cp_callback = tf.keras.callbacks.ModelCheckpoint(...)
+history = model.fit(trainds,
+validation_data=evalds,
+epochs=NUM_CHECKPOINTS,
+steps_per_epoch=NUM_STEPS // NUM_CHECKPOINTS,
+batch_size=BATCH_SIZE,
+callbacks=[cp_callback])

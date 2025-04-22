@@ -1,0 +1,39 @@
+Taking the Stack Overflow dataset example, there will likely be many questions tag‐
+ged as both TensorFlow and Keras . But there will also be questions about Keras that
+have nothing to do with TensorFlow. Similarly, we might see questions about plot‐
+matplotlib pandas,
+ting data that is tagged with both and and questions about data
+preprocessing that are tagged both pandas and scikit-learn . In order for our model
+to learn what is unique to each tag, we’ll want to ensure the training dataset consists
+matplotlib
+of varied combinations of each tag. If the majority of questions in our
+dataset are also tagged pandas , the model won’t learn to classify matplotlib on its
+own. To account for this, think about the different relationships between labels that
+might be present in our model and count the number of training examples that
+belong to each overlapping combination of labels.
+When exploriing relationships between labels in our dataset, we may also encounter
+hierarchical labels. ImageNet, the popular image classification dataset, contains thou‐
+sands of labeled images and is often used as a starting point for transfer learning on
+image models. All of the labels used in ImageNet are hierarchical, meaning all images
+have at least one label, and many images have more specific labels that are part of a
+hierarchy. Here’s an example of one label hierarchy in ImageNet:
+animal → invertebrate → arthropod → arachnid → spider
+Depending on the size and nature of the dataset, there are two common approaches
+for handling hierarchical labels:
+• Use a flat approach and put every label in the same output array regardless of
+hierarchy, making sure you have enough examples of each “leaf node” label.
+• Use the Cascade design pattern. Build one model to identify higher-level labels.
+Based on the high-level classification, send the example to a separate model for a
+more specific classification task. For example, we might have an initial model
+that labels images as “Plant,” “Animal,” or “Person.” Depending on which labels
+the first model applies, we’ll send the image to different model(s) to apply more
+granular labels like “succulent” or “barbary lion.”
+The flat approach is more straightforward than following the Cascade design pattern
+since it only requires one model. However, this might cause the model to lose infor‐
+mation about more detailed label classes since there will naturally be more training
+examples with the higher-level labels in our dataset.
+<b>Inputswithoverlappinglabels</b>
+The Multilabel design pattern is also useful in cases where input data occasionally has
+overlapping labels. Let’s take an image model that’s classifying clothing items for a
+catalog as an example. If we have multiple people labeling each image in the training
+dataset, one labeler may label an image of a skirt as “maxi skirt,” while another

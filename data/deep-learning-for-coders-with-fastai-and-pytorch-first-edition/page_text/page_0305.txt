@@ -1,0 +1,22 @@
+<header><largefont><b>Removing</b></largefont> <largefont><b>Low-Importance</b></largefont> <largefont><b>Variables</b></largefont></header>
+It seems likely that we could use a subset of the columns by removing the variables of
+low importance and still get good results. Let’s try keeping just those with a feature
+importance greater than 0.005:
+to_keep = fi[fi.imp>0.005].cols
+len(to_keep)
+21
+We can retrain our model using just this subset of the columns:
+xs_imp = xs[to_keep]
+valid_xs_imp = valid_xs[to_keep]
+m = rf(xs_imp, y)
+And here’s the result:
+m_rmse(m, xs_imp, y), m_rmse(m, valid_xs_imp, valid_y)
+(0.181208, 0.232323)
+Our accuracy is about the same, but we have far fewer columns to study:
+len(xs.columns), len(xs_imp.columns)
+(78, 21)
+We’ve found that generally the first step to improving a model is simplifying it—78
+columns was too many for us to study them all in depth! Furthermore, in practice,
+often a simpler, more interpretable model is easier to roll out and maintain.
+This also makes our feature importance plot easier to interpret. Let’s look at it again:
+plot_fi(rf_feat_importance(m, xs_imp));

@@ -1,0 +1,38 @@
+model = DotProductBias(n_users, n_movies, 50)
+learn = Learner(dls, model, loss_func=MSELossFlat())
+learn.fit_one_cycle(5, 5e-3, wd=0.1)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 0.962146 0.936952 00:14
+1 0.858084 0.884951 00:14
+2 0.740883 0.838549 00:14
+3 0.592497 0.823599 00:14
+4 0.473570 0.824263 00:14
+Now, let’s take a look at what our model has learned.
+<header><largefont><b>Interpreting</b></largefont> <largefont><b>Embeddings</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Biases</b></largefont></header>
+Our model is already useful, in that it can provide us with movie recommendations
+for our users—but it is also interesting to see what parameters it has discovered. The
+easiest to interpret are the biases. Here are the movies with the lowest values in the
+bias vector:
+movie_bias = learn.model.movie_bias.squeeze()
+idxs = movie_bias.argsort()[:5]
+[dls.classes['title'][i] <b>for</b> i <b>in</b> idxs]
+['Children of the Corn: The Gathering (1996)',
+'Lawnmower Man 2: Beyond Cyberspace (1996)',
+'Beautician and the Beast, The (1997)',
+'Crow: City of Angels, The (1996)',
+'Home Alone 3 (1997)']
+Think about what this means. What it’s saying is that for each of these movies, even
+when a user is very well matched to its latent factors (which, as we will see in a
+moment, tend to represent things like level of action, age of movie, and so forth), they
+still generally don’t like it. We could have simply sorted the movies directly by their
+average rating, but looking at the learned bias tells us something much more interest‐
+ing. It tells us not just whether a movie is of a kind that people tend not to enjoy
+watching, but that people tend to not like watching it even if it is of a kind that they
+would otherwise enjoy! By the same token, here are the movies with the highest bias:
+idxs = movie_bias.argsort(descending=True)[:5]
+[dls.classes['title'][i] <b>for</b> i <b>in</b> idxs]
+['L.A. Confidential (1997)',
+'Titanic (1997)',
+'Silence of the Lambs, The (1991)',
+'Shawshank Redemption, The (1994)',
+'Star Wars (1977)']

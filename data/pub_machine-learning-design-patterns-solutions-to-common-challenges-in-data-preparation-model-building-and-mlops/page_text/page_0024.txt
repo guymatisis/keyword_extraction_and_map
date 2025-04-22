@@ -1,0 +1,39 @@
+The name of the method reflects the fact that the scaled value has zero mean and
+is normalized by the standard deviation so that it has unit variance over the
+training dataset. The scaled value is unbounded, but does lie between [–1, 1] the
+majority of the time (67%, if the underlying distribution is normal). Values out‐
+side this range get rarer the larger their absolute value gets, but are still present.
+<i>Winsorizing</i>
+Uses the empirical distribution in the training dataset to clip the dataset to
+bounds given by the 10th and 90th percentile of the data values (or 5th and 95th
+percentile, and so forth). The winsorized value is min-max scaled.
+All the methods discussed so far scale the data linearly (in the case of clipping and
+winsorizing, linear within the typical range). Min-max and clipping tend to work best
+for uniformly distributed data, and Z-score tends to work best for normally dis‐
+mother_age
+tributed data. The impact of different scaling functions on the column in
+the baby weight prediction example is shown in Figure 2-3 (see the full code).
+<header><largefont><b>Don’t</b></largefont> <largefont><b>Throw</b></largefont> <largefont><b>Away</b></largefont> <largefont><b>“Outliers”</b></largefont></header>
+Note that we defined clipping as taking scaled values less than –1 and treating them
+as –1, and scaled values greater than 1 and treating them as 1. We don’t simply dis‐
+card such “outliers” because we expect that the machine learning model will
+encounter outliers like this in production. Take, for example, babies born to 50-year-
+old mothers. Because we don’t have enough older mothers in our dataset, clipping
+ends up treating all mothers older than 45 (for example) as 45. This same treatment
+will be applied in production, and therefore, our model will be able to handle older
+mothers. The model would not learn to reflect outliers if we had simply thrown away
+all the training examples of babies born to mothers aged 50+!
+Another way to think about this is that while it is acceptable to throw away <i>invalid</i>
+<i>input,</i> it is not acceptable to throw away <i>valid</i> <i>data.</i> Thus, we would be justified in
+throwing away rows where mother_age is negative because it’s probably a data entry
+error. In production, validation of the input form will ensure that the admitting clerk
+has to reenter the mother’s age. However, we are not justified in throwing away rows
+where mother_age is 50 because 50 is a perfectly valid input and we expect to
+encounter 50-year-old mothers once the model is deployed in production.
+In Figure 2-3, note that minmax_scaled gets the x values into the desired range of
+[–1, 1] but continues to retain values at the extreme ends of the distribution where
+there are not enough examples. Clipping rolls up many of the problematic values, but
+requires getting the clipping thresholds exactly correct—here, the slow decline in the
+number of babies with mothers’ ages above 40 poses problems in setting a hard
+threshold. Winsorizing, similar to clipping, requires getting the percentile thresholds
+exactly correct. Z-score normalization improves the range (but does not constrain

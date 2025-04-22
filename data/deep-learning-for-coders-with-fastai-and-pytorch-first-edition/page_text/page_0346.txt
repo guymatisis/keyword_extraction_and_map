@@ -1,0 +1,40 @@
+labels. Before we move on to fine-tuning the classifier, however, let’s quickly try
+something different: using our model to generate random reviews.
+<header><largefont><b>Text</b></largefont> <largefont><b>Generation</b></largefont></header>
+Because our model is trained to guess the next word of the sentence, we can use it to
+write new reviews:
+TEXT = "I liked this movie because"
+N_WORDS = 40
+N_SENTENCES = 2
+preds = [learn.predict(TEXT, N_WORDS, temperature=0.75)
+<b>for</b> _ <b>in</b> range(N_SENTENCES)]
+<b>print("\n".join(preds))</b>
+i liked this movie because of its story and characters . The story line was very
+> strong , very good for a sci - fi film . The main character , Alucard , was
+> very well developed and brought the whole story
+i liked this movie because i like the idea of the premise of the movie , the (
+> very ) convenient virus ( which , when you have to kill a few people , the "
+> evil " machine has to be used to protect
+As you can see, we add some randomness (we pick a random word based on the
+probabilities returned by the model) so we don’t get exactly the same review twice.
+Our model doesn’t have any programmed knowledge of the structure of a sentence or
+grammar rules, yet it has clearly learned a lot about English sentences: we can see it
+capitalizes properly (I is transformed to <i>i</i> because our rules require two characters or
+more to consider a word as capitalized, so it’s normal to see it lowercased) and is
+using consistent tense. The general review makes sense at first glance, and it’s only if
+you read carefully that you can notice something is a bit off. Not bad for a model
+trained in a couple of hours!
+But our end goal wasn’t to train a model to generate reviews, but to classify them…so
+let’s use this model to do just that.
+<header><largefont><b>Classifier</b></largefont></header>
+<header><largefont><b>Creating</b></largefont> <largefont><b>the</b></largefont> <largefont><b>DataLoaders</b></largefont></header>
+We’re now moving from language model fine-tuning to classifier fine-tuning. To re-
+cap, a language model predicts the next word of a document, so it doesn’t need any
+external labels. A classifier, however, predicts an external label—in the case of IMDb,
+it’s the sentiment of a document.
+This means that the structure of our DataBlock for NLP classification will look very
+familiar. It’s nearly the same as we’ve seen for the many image classification datasets
+we’ve worked with:
+dls_clas = DataBlock(
+blocks=(TextBlock.from_folder(path, vocab=dls_lm.vocab),CategoryBlock),
+get_y = parent_label,

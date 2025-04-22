@@ -1,0 +1,37 @@
+In this case, the areas in bright yellow correspond to high activations, and the areas in
+purple to low activations. In this case, we can see the head and the front paw were the
+two main areas that made the model decide it was a picture of a cat.
+Once you’re done with your hook, you should remove it as otherwise it might leak
+some memory:
+hook.remove()
+That’s why it’s usually a good idea to have the Hook class be a <i>context</i> <i>manager,</i> regis‐
+tering the hook when you enter it and removing it when you exit. A context manager
+is a Python construct that calls __enter__ when the object is created in a with clause,
+and __exit__ at the end of the with clause. For instance, this is how Python handles
+the with open(...) as f: construct that you’ll often see for opening files without
+requiring an explicit close(f) at the end.
+If we define Hook as follows
+<b>class</b> <b>Hook():</b>
+<b>def</b> <b>__init__(self,</b> m):
+self.hook = m.register_forward_hook(self.hook_func)
+<b>def</b> hook_func(self, m, i, o): self.stored = o.detach().clone()
+<b>def</b> <b>__enter__(self,</b> *args): <b>return</b> self
+<b>def</b> <b>__exit__(self,</b> *args): self.hook.remove()
+we can safely use it this way:
+<b>with</b> Hook(learn.model[0]) <b>as</b> hook:
+<b>with</b> torch.no_grad(): output = learn.model.eval()(x.cuda())
+act = hook.stored
+fastai provides this Hook class for you, as well as some other handy classes to make
+working with hooks easier.
+This method is useful, but works for only the last layer. <i>Gradient</i> <i>CAM</i> is a variant
+that addresses this problem.
+<header><largefont><b>Gradient</b></largefont> <largefont><b>CAM</b></largefont></header>
+The method we just saw lets us compute only a heatmap with the last activations,
+since once we have our features, we have to multiply them by the last weight matrix.
+This won’t work for inner layers in the network. A variant introduced in the 2016
+paper “Grad-CAM: Why Did You Say That?” by Ramprasaath R. Selvaraju et al. uses
+the gradients of the final activation for the desired class. If you remember a little bit
+about the backward pass, the gradients of the output of the last layer with respect to
+the input of that layer are equal to the layer weights, since it is a linear layer.
+With deeper layers, we still want the gradients, but they won’t just be equal to the
+weights anymore. We have to calculate them. The gradients of every layer are

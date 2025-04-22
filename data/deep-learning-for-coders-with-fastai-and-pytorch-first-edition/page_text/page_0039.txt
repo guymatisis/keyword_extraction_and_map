@@ -1,0 +1,18 @@
+Another example comes from the paper “Malware Classification with Deep Convolu‐
+tional Neural Networks” by Mahmoud Kalash et al., which explains that “the malware
+binary file is divided into 8-bit sequences which are then converted to equivalent dec‐
+imal values. This decimal vector is reshaped and [a] gray-scale image is generated that
+represent[s] the malware sample,” in Figure 1-17.
+<i>Figure</i> <i>1-17.</i> <i>Malware</i> <i>classification</i> <i>process</i>
+The authors then show “pictures” generated through this process of malware in dif‐
+ferent categories, as shown in Figure 1-18.
+<i>Figure</i> <i>1-18.</i> <i>Malware</i> <i>examples</i>
+As you can see, the different types of malware look very distinctive to the human eye.
+The model the researchers trained based on this image representation was more
+accurate at malware classification than any previous approach shown in the academic
+literature. This suggests a good rule of thumb for converting a dataset into an image
+representation: if the human eye can recognize categories from the images, then a
+deep learning model should be able to do so too.
+In general, you’ll find that a small number of general approaches in deep learning can
+go a long way, if you’re a bit creative in how you represent your data! You shouldn’t
+think of approaches like the ones described here as “hacky workarounds,” because

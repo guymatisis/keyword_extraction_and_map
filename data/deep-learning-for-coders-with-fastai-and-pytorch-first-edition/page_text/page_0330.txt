@@ -1,0 +1,29 @@
+the classifier, we could fine-tune our pretrained language model to the IMDb corpus
+and then use <i>that</i> as the base for our classifier.
+Even if our language model knows the basics of the language we are using in the task
+(e.g., our pretrained model is in English), it helps to get used to the style of the corpus
+we are targeting. It may be more informal language, or more technical, with new
+words to learn or different ways of composing sentences. In the case of the IMDb
+dataset, there will be lots of names of movie directors and actors, and often a less for‐
+mal style of language than that seen in Wikipedia.
+We already saw that with fastai, we can download a pretrained English language
+model and use it to get state-of-the-art results for NLP classification. (We expect pre‐
+trained models in many more languages to be available soon; they might well be
+available by the time you are reading this book, in fact.) So, why are we learning how
+to train a language model in detail?
+One reason, of course, is that it is helpful to understand the foundations of the mod‐
+els that you are using. But there is another very practical reason, which is that you get
+even better results if you fine-tune the (sequence-based) language model prior to
+fine-tuning the classification model. For instance, for the IMDb sentiment analysis
+task, the dataset includes 50,000 additional movie reviews that do not have any posi‐
+tive or negative labels attached. Since there are 25,000 labeled reviews in the training
+set and 25,000 in the validation set, that makes 100,000 movie reviews altogether. We
+can use all of these reviews to fine-tune the pretrained language model, which was
+trained only on Wikipedia articles; this will result in a language model that is particu‐
+larly good at predicting the next word of a movie review.
+This is known as the Universal Language Model Fine-tuning (ULMFiT) approach.
+The paper introducing it showed that this extra stage of fine-tuning the language
+model, prior to transfer learning to a classification task, resulted in significantly better
+predictions. Using this approach, we have three stages for transfer learning in NLP, as
+summarized in Figure 10-1.
+<i>Figure</i> <i>10-1.</i> <i>The</i> <i>ULMFiT</i> <i>process</i>

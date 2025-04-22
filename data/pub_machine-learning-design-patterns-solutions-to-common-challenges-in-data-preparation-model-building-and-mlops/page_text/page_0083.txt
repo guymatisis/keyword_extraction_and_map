@@ -1,0 +1,28 @@
+<i>Figure</i> <i>3-3.</i> <i>Given</i> <i>a</i> <i>specific</i> <i>set</i> <i>of</i> <i>inputs</i> <i>(for</i> <i>example,</i> <i>male</i> <i>babies</i> <i>born</i> <i>to</i> <i>25-year-old</i>
+<i>mothers</i> <i>at</i> <i>38</i> <i>weeks)</i> <i>the</i> <i>weight_pounds</i> <i>variable</i> <i>takes</i> <i>a</i> <i>range</i> <i>of</i> <i>values,</i> <i>approxi‐</i>
+<i>mately</i> <i>following</i> <i>a</i> <i>normal</i> <i>distribution</i> <i>centered</i> <i>at</i> <i>7.5</i> <i>lbs.</i>
+However, notice the width of the distribution—even though the distribution peaks at
+7.5 pounds, there is a nontrivial likelihood (actually 33%) that a given baby is less
+than 6.5 pounds or more than 8.5 pounds! The width of this distribution indicates
+the irreducible error inherent to the problem of predicting baby weight. Indeed, the
+best root mean square error we can obtain on this problem, if we frame it as a regres‐
+sion problem, is the standard deviation of the distribution seen in Figure 3-3.
+If we frame this as a regression problem, we’d have to state the prediction result as
+7.5 +/- 1.0 (or whatever the standard deviation is). Yet, the width of the distribution
+will vary for different combinations of inputs, and so learning the width is another
+machine learning problem in and of itself. For example, at the 36th week, for mothers
+of the same age, the standard deviation is 1.16 pounds. <i>Quantiles</i> <i>regression,</i> covered
+later in the pattern discussion, tries to do exactly this but in a nonparametric way.
+Had the distribution been multimodal (with multiple peaks), the
+case for reframing the problem as a classification would be even
+stronger. However, it is helpful to realize that because of the law of
+large numbers, as long as we capture all of the relevant inputs,
+many of the distributions we will encounter on large datasets will
+be bell-shaped, although other distributions are possible. The wider
+the bell curve, and the more this width varies at different values of
+inputs, the more important it is to capture uncertainty and the
+stronger the case for reframing the regression problem as a classifi‐
+cation one.
+By reframing the problem, we train the model as a multiclass classification that learns
+a discrete probability distribution for the given training examples. These discretized
+predictions are more flexible in terms of capturing uncertainty and better able to

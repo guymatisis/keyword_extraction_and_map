@@ -1,0 +1,19 @@
+From the plot we can see that by using a smaller model we’ve managed to signifi‐
+cantly decrease the average latency. And all this at the price of just over a 1% reduc‐
+tion in accuracy! Let’s see if we can close that last gap by including the distillation loss
+of the teacher and finding good values for <i>α</i> and <i>T.</i>
+<header><largefont><b>Finding</b></largefont> <largefont><b>Good</b></largefont> <largefont><b>Hyperparameters</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Optuna</b></largefont></header>
+To find good values for <i>α</i> and <i>T,</i> we could do a grid search over the 2D parameter
+<i>Optuna,12</i>
+space. But a much better alternative is to use which is an optimization
+framework designed for just this type of task. Optuna formulates the search problem
+in terms of an objective function that is optimized through multiple <i>trials.</i> For exam‐
+ple, suppose we wished to minimize Rosenbrock’s “banana function”:
+2
+2 2
+<i>f</i> <i>x,</i> <i>y</i> = 1 − <i>x</i> + 100 <i>y</i> − <i>x</i>
+which is a famous test case for optimization frameworks. As shown in Figure 8-5, the
+function gets its name from the curved contours and has a global minimum at
+<i>x,</i> <i>y</i> = 1,1 . Finding the valley is an easy optimization problem, but converging to
+the global minimum is not.
+12 T.Akibaetal.,“Optuna:ANext-GenerationHyperparameterOptimizationFramework”,(2019).

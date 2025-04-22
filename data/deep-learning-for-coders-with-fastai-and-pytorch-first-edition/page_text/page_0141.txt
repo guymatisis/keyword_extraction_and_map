@@ -1,0 +1,28 @@
+Here’s a sample 3:
+a_3 = stacked_threes[1]
+show_image(a_3);
+How can we determine its distance from our ideal 3? We can’t just add up the differ‐
+ences between the pixels of this image and the ideal digit. Some differences will be
+positive, while others will be negative, and these differences will cancel out, resulting
+in a situation where an image that is too dark in some places and too light in others
+might be shown as having zero total differences from the ideal. That would be
+misleading!
+To avoid this, data scientists use two main ways to measure distance in this context:
+• Take the mean of the <i>absolute</i> <i>value</i> of differences (absolute value is the function
+that replaces negative values with positive values). This is called the <i>mean</i> <i>abso‐</i>
+<i>lute</i> <i>difference</i> or <i>L1</i> <i>norm.</i>
+• Take the mean of the <i>square</i> of differences (which makes everything positive) and
+then take the <i>square</i> <i>root</i> (which undoes the squaring). This is called the <i>root</i>
+<i>mean</i> <i>squared</i> <i>error</i> (RMSE) or <i>L2</i> <i>norm.</i>
+<b>It’sOKtoHaveForgottenYourMath</b>
+In this book, we generally assume that you have completed high
+school math, and remember at least some of it—but everybody for‐
+gets some things! It all depends on what you happen to have had
+reason to practice in the meantime. Perhaps you have forgotten
+what a <i>square</i> <i>root</i> is, or exactly how they work. No problem! Any‐
+time you come across a math concept that is not explained fully in
+this book, don’t just keep moving on; instead, stop and look it up.
+Make sure you understand the basic idea, how it works, and why
+we might be using it. One of the best places to refresh your under‐
+standing is Khan Academy. For instance, Khan Academy has a
+great introduction to square roots.

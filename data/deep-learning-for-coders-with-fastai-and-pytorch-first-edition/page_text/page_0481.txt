@@ -1,0 +1,24 @@
+<i>Figure</i> <i>16-3.</i> <i>Basic</i> <i>training</i> <i>loop</i>
+The usual way for deep learning practitioners to customize the training loop is to
+make a copy of an existing training loop, and then insert the code necessary for their
+particular changes into it. This is how nearly all code that you find online will look.
+But it has serious problems.
+It’s not likely that some particular tweaked training loop is going to meet your partic‐
+ular needs. Hundreds of changes can be made to a training loop, which means there
+are billions and billions of possible permutations. You can’t just copy one tweak from
+a training loop here, another from a training loop there, and expect them all to work
+together. Each will be based on different assumptions about the environment that it’s
+working in, use different naming conventions, and expect the data to be in different
+formats.
+We need a way to allow users to insert their own code at any part of the training loop,
+but in a consistent and well-defined way. Computer scientists have already come up
+with an elegant solution: the callback. A <i>callback</i> is a piece of code that you write and
+inject into another piece of code at a predefined point. In fact, callbacks have been
+used with deep learning training loops for years. The problem is that in previous
+libraries, it was possible to inject code in only a small subset of places where this may
+have been required—and, more importantly, callbacks were not able to do all the
+things they needed to do.
+In order to be just as flexible as manually copying and pasting a training loop and
+directly inserting code into it, a callback must be able to read every possible piece of
+information available in the training loop, modify all of it as needed, and fully control
+when a batch, epoch, or even the whole training loop should be terminated. fastai is

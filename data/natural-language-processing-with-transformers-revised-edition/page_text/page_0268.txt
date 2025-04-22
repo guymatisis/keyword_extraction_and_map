@@ -1,0 +1,29 @@
+Armed with these two functions, let’s start with the top-k method by increasing <i>k</i> for
+several values and then plotting the micro and macro <i>F</i> -scores across the validation
+1
+set:
+macros, micros = [], []
+topks = [1, 2, 3, 4]
+<b>for</b> topk <b>in</b> topks:
+ds_zero_shot = ds_zero_shot.map(get_preds, batched=False,
+fn_kwargs={'topk': topk})
+clf_report = get_clf_report(ds_zero_shot)
+micros.append(clf_report['micro avg']['f1-score'])
+macros.append(clf_report['macro avg']['f1-score'])
+plt.plot(topks, micros, label='Micro F1')
+plt.plot(topks, macros, label='Macro F1')
+plt.xlabel("Top-k")
+plt.ylabel("F1-score")
+plt.legend(loc='best')
+plt.show()
+From the plot we can see that the best results are obtained by selecting the label with
+the highest score per example (top 1). This is perhaps not so surprising, given that
+most of the examples in our datasets have only one label. Let’s now compare this
+against setting a threshold, so we can potentially predict more than one label per
+example:
+macros, micros = [], []
+thresholds = np.linspace(0.01, 1, 100)
+<b>for</b> threshold <b>in</b> thresholds:
+ds_zero_shot = ds_zero_shot.map(get_preds,
+fn_kwargs={"threshold": threshold})
+clf_report = get_clf_report(ds_zero_shot)

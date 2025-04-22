@@ -1,0 +1,24 @@
+<i>Figure</i> <i>8-1.</i> <i>How</i> <i>Roblox</i> <i>scaled</i> <i>BERT</i> <i>with</i> <i>knowledge</i> <i>distillation,</i> <i>dynamic</i> <i>padding,</i> <i>and</i>
+<i>weight</i> <i>quantization</i> <i>(photo</i> <i>courtesy</i> <i>of</i> <i>Roblox</i> <i>employees</i> <i>Quoc</i> <i>N.</i> <i>Le</i> <i>and</i> <i>Kip</i> <i>Kaehler)</i>
+To illustrate the benefits and trade-offs associated with each technique, we’ll use
+intent detection as a case study; this is an important component of text-based assis‐
+tants, where low latencies are critical for maintaining a conversation in real time.
+Along the way you’ll learn how to create custom trainers, perform efficient hyper‐
+parameter search, and gain a sense of what it takes to implement cutting-edge
+research with Transformers. Let’s dive in!
+<header><largefont><b>Intent</b></largefont> <largefont><b>Detection</b></largefont> <largefont><b>as</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Case</b></largefont> <largefont><b>Study</b></largefont></header>
+Let’s suppose that we’re trying to build a text-based assistant for our company’s call
+center so that customers can request their account balance or make bookings without
+needing to speak with a human agent. In order to understand the goals of a customer,
+our assistant will need to be able to classify a wide variety of natural language text
+into a set of predefined actions or <i>intents.</i> For example, a customer might send a mes‐
+sage like the following about an upcoming trip:
+Hey, I’d like to rent a vehicle from Nov 1st to Nov 15th in Paris and I need a 15 passen‐
+ger van
+and our intent classifier could automatically categorize this as a <i>Car</i> <i>Rental</i> intent,
+which then triggers an action and response. To be robust in a production environ‐
+ment, our classifier will also need to be able to handle <i>out-of-scope</i> queries, where a
+customer makes a query that doesn’t belong to any of the predefined intents and the
+system should yield a fallback response. For example, in the second case shown in
+Figure 8-2, a customer asks a question about sports (which is out of scope), and the
+text assistant mistakenly classifies it as one of the known in-scope intents and returns

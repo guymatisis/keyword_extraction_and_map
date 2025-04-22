@@ -1,0 +1,36 @@
+We can download, extract, and take a look at our dataset in the usual way:
+<b>from</b> <b>fastai.text.all</b> <b>import</b> *
+path = untar_data(URLs.HUMAN_NUMBERS)
+path.ls()
+(#2) [Path('train.txt'),Path('valid.txt')]
+Let’s open those two files and see what’s inside. At first, we’ll join all of the texts
+together and ignore the train/valid split given by the dataset (we’ll come back to that
+later):
+lines = L()
+<b>with</b> open(path/'train.txt') <b>as</b> f: lines += L(*f.readlines())
+<b>with</b> open(path/'valid.txt') <b>as</b> f: lines += L(*f.readlines())
+lines
+(#9998) ['one \n','two \n','three \n','four \n','five \n','six \n','seven
+> \n','eight \n','nine \n','ten \n'...]
+We take all those lines and concatenate them in one big stream. To mark when we go
+from one number to the next, we use a . as a separator:
+text = ' . '.join([l.strip() <b>for</b> l <b>in</b> lines])
+text[:100]
+'one . two . three . four . five . six . seven . eight . nine . ten . eleven .
+> twelve . thirteen . fo'
+We can tokenize this dataset by splitting on spaces:
+tokens = text.split(' ')
+tokens[:10]
+['one', '.', 'two', '.', 'three', '.', 'four', '.', 'five', '.']
+To numericalize, we have to create a list of all the unique tokens (our <i>vocab):</i>
+vocab = L(*tokens).unique()
+vocab
+(#30) ['one','.','two','three','four','five','six','seven','eight','nine'...]
+Then we can convert our tokens into numbers by looking up the index of each in the
+vocab:
+word2idx = {w:i <b>for</b> i,w <b>in</b> enumerate(vocab)}
+nums = L(word2idx[i] <b>for</b> i <b>in</b> tokens)
+nums
+(#63095) [0,1,2,1,3,1,4,1,5,1...]
+Now that we have a small dataset on which language modeling should be an easy task,
+we can build our first model.

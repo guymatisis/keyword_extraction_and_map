@@ -1,0 +1,41 @@
+Next, let’s construct a little movie description and add a prompt to it with a masked
+word. The goal of the prompt is to guide the model to help us make a classification.
+The fill-mask pipeline returns the most likely tokens to fill in the masked spot:
+movie_desc = "The main characters of the movie madacascar <b>\</b>
+are a lion, a zebra, a giraffe, and a hippo. "
+prompt = "The movie is about [MASK]."
+output = pipe(movie_desc + prompt)
+<b>for</b> element <b>in</b> output:
+<b>print(f"Token</b> {element['token_str']}:\t{element['score']:.3f}%")
+Token animals: 0.103%
+Token lions: 0.066%
+Token birds: 0.025%
+Token love: 0.015%
+Token hunting: 0.013%
+Clearly, the model predicts only tokens that are related to animals. We can also turn
+this around, and instead of getting the most likely tokens we can query the pipeline
+cars
+for the probability of a few given tokens. For this task we might choose and
+animals , so we can pass them to the pipeline as targets:
+output = pipe(movie_desc + prompt, targets=["animals", "cars"])
+<b>for</b> element <b>in</b> output:
+<b>print(f"Token</b> {element['token_str']}:\t{element['score']:.3f}%")
+Token animals: 0.103%
+Token cars: 0.001%
+cars
+Unsurprisingly, the predicted probability for the token is much smaller than for
+animals . Let’s see if this also works for a description that is closer to cars:
+movie_desc = "In the movie transformers aliens <b>\</b>
+can morph into a wide range of vehicles."
+output = pipe(movie_desc + prompt, targets=["animals", "cars"])
+<b>for</b> element <b>in</b> output:
+<b>print(f"Token</b> {element['token_str']}:\t{element['score']:.3f}%")
+Token cars: 0.139%
+Token animals: 0.006%
+It does! This is only a simple example, and if we want to make sure it works well we
+should test it thoroughly, but it illustrates the key idea of many approaches discussed
+in this chapter: find a way to adapt a pretrained model for another task without train‐
+ing it. In this case we set up a prompt with a mask in such a way that we can use a
+masked language model directly for classification. Let’s see if we can do better by
+adapting a model that has been fine-tuned on a task that’s closer to text classification:
+<i>natural</i> <i>language</i> <i>inference</i> (NLI).

@@ -1,0 +1,44 @@
+codings_size = 10
+inputs = keras.layers.Input(shape=[28, 28])
+z = keras.layers.Flatten()(inputs)
+z = keras.layers.Dense(150, activation="selu")(z)
+z = keras.layers.Dense(100, activation="selu")(z)
+codings_mean = keras.layers.Dense(codings_size)(z) <i>#</i> <i>μ</i>
+codings_log_var = keras.layers.Dense(codings_size)(z) <i>#</i> <i>γ</i>
+codings = Sampling()([codings_mean, codings_log_var])
+variational_encoder = keras.Model(
+inputs=[inputs], outputs=[codings_mean, codings_log_var, codings])
+Note that the Dense layers that output codings_mean (μ) and codings_log_var (γ)
+Dense
+have the same inputs (i.e., the outputs of the second layer). We then pass both
+codings_mean and codings_log_var to the Sampling layer. Finally, the varia
+tional_encoder model has three outputs, in case you want to inspect the values of
+codings_mean codings_log_var cod
+and . The only output we will use is the last one (
+ings). Now let’s build the decoder:
+decoder_inputs = keras.layers.Input(shape=[codings_size])
+x = keras.layers.Dense(100, activation="selu")(decoder_inputs)
+x = keras.layers.Dense(150, activation="selu")(x)
+x = keras.layers.Dense(28 * 28, activation="sigmoid")(x)
+outputs = keras.layers.Reshape([28, 28])(x)
+variational_decoder = keras.Model(inputs=[decoder_inputs], outputs=[outputs])
+For this decoder, we could have used the Sequential API instead of the Functional
+API, since it is really just a simple stack of layers, virtually identical to many of the
+decoders we have built so far. Finally, let’s build the variational autoencoder model:
+_, _, codings = variational_encoder(inputs)
+reconstructions = variational_decoder(codings)
+variational_ae = keras.Model(inputs=[inputs], outputs=[reconstructions])
+Note that we ignore the first two outputs of the encoder (we only want to feed the
+codings to the decoder). Lastly, we must add the latent loss and the reconstruction
+loss:
+latent_loss = -0.5 * K.sum(
+1 + codings_log_var - K.exp(codings_log_var) - K.square(codings_mean),
+axis=-1)
+variational_ae.add_loss(K.mean(latent_loss) / 784.)
+variational_ae.compile(loss="binary_crossentropy", optimizer="rmsprop")
+We first apply Equation 17-4 to compute the latent loss for each instance in the batch
+(we sum over the last axis). Then we compute the mean loss over all the instances in
+the batch, and we divide the result by 784 to ensure it has the appropriate scale com‐
+pared to the reconstruction loss. Indeed, the variational autoencoder’s reconstruction
+loss is supposed to be the sum of the pixel reconstruction errors, but when Keras
+computes the "binary_crossentropy" loss, it computes the mean over all 784 pixels,

@@ -1,0 +1,21 @@
+learned by Word2Vec are the same regardless of the sentence where the word
+appears. However, the BERT word embeddings are contextual, meaning the embed‐
+ding vector is different depending on the context of how the word is used.
+A pre-trained text embedding, like Word2Vec, NNLM, GLoVE, or BERT, can be
+added to a machine learning model to process text features in conjunction with struc‐
+tured inputs and other learned embeddings from our customer and video dataset
+(Figure 2-13).
+Ultimately, embeddings learn to preserve information relevant to the prescribed
+training task. In the case of image captioning, the task is to learn how the context of
+the elements of an image relates to text. In the autoencoder architecture, the label is
+the same as the feature, so the dimension reduction of the bottleneck attempts to
+learn everything with no specific context of what is important.
+<i>Figure</i> <i>2-13.</i> <i>A</i> <i>pre-trained</i> <i>text</i> <i>embedding</i> <i>can</i> <i>be</i> <i>added</i> <i>to</i> <i>a</i> <i>model</i> <i>to</i> <i>process</i> <i>text</i>
+<i>features.</i>
+<b>Embeddingsinadatawarehouse</b>
+Machine learning on structured data is best carried out directly in SQL on a data
+warehouse. This avoids the need to export data out of the warehouse and mitigates
+problems with data privacy and security.
+Many problems, however, require a mix of structured data and natural language text
+or image data. In data warehouses, natural language text (such as reviews) is stored
+directly as columns, and images are typically stored as URLs to files in a cloud storage

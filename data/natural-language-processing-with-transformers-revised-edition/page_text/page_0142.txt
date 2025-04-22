@@ -1,0 +1,39 @@
+summaries are <i>abstractive</i> and not <i>extractive,</i> which means that they consist of new
+sentences instead of simple excerpts. The dataset is available on the Hub; we’ll use
+version 3.0.0, which is a nonanonymized version set up for summarization. We can
+select versions in a similar manner as splits, we saw in Chapter 4, with a version
+keyword. So let’s dive in and have a look at it:
+<b>from</b> <b>datasets</b> <b>import</b> load_dataset
+dataset = load_dataset("cnn_dailymail", version="3.0.0")
+<b>print(f"Features:</b> {dataset['train'].column_names}")
+Features: ['article', 'highlights', 'id']
+The dataset has three columns: article , which contains the news articles, high
+lights with the summaries, and id to uniquely identify each article. Let’s look at an
+excerpt from an article:
+sample = dataset["train"][1]
+<b>print(f"""</b>
+Article (excerpt of 500 characters, total length: {len(sample["article"])}):
+""")
+<b>print(sample["article"][:500])</b>
+<b>print(f'\nSummary</b> (length: {len(sample["highlights"])}):')
+<b>print(sample["highlights"])</b>
+Article (excerpt of 500 characters, total length: 3192):
+(CNN) -- Usain Bolt rounded off the world championships Sunday by claiming his
+third gold <b>in</b> Moscow <b>as</b> he anchored Jamaica to victory <b>in</b> the men's 4x100m
+relay. The fastest man <b>in</b> the world charged clear of United States rival Justin
+Gatlin <b>as</b> the Jamaican quartet of Nesta Carter, Kemar Bailey-Cole, Nickel
+Ashmeade <b>and</b> Bolt won <b>in</b> 37.36 seconds. The U.S finished second <b>in</b> 37.56 seconds
+<b>with</b> Canada taking the bronze after Britain were disqualified <b>for</b> a faulty
+handover. The 26-year-old Bolt has n
+Summary (length: 180):
+Usain Bolt wins third gold of world championship .
+Anchors Jamaica to 4x100m relay victory .
+Eighth gold at the championships <b>for</b> Bolt .
+Jamaica double up <b>in</b> women's 4x100m relay .
+We see that the articles can be very long compared to the target summary; in this par‐
+ticular case the difference is 17-fold. Long articles pose a challenge to most trans‐
+former models since the context size is usually limited to 1,000 tokens or so, which is
+equivalent to a few paragraphs of text. The standard, yet crude way to deal with this
+for summarization is to simply truncate the texts beyond the model’s context size.
+Obviously there could be important information for the summary toward the end of
+the text, but for now we need to live with this limitation of the model architectures.

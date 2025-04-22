@@ -1,0 +1,40 @@
+<header><largefont><b>The</b></largefont> <largefont><b>Effectiveness</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Regulation</b></largefont></header>
+To look at what can cause companies to take concrete action, consider the following
+two examples of how Facebook has behaved. In 2018, a UN investigation found that
+Facebook had played a “determining role” in the ongoing genocide of the Rohingya,
+an ethnic minority in Mynamar described by UN Secretary-General Antonio
+Guterres as “one of, if not the, most discriminated people in the world.” Local activists
+had been warning Facebook executives that their platform was being used to spread
+hate speech and incite violence since as early as 2013. In 2015, they were warned that
+Facebook could play the same role in Myanmar that the radio broadcasts played dur‐
+ing the Rwandan genocide (where a million people were killed). Yet, by the end of
+2015, Facebook employed only four contractors who spoke Burmese. As one person
+close to the matter said, “That’s not 20/20 hindsight. The scale of this problem was
+significant and it was already apparent.” Zuckerberg promised during the congres‐
+sional hearings to hire “dozens” to address the genocide in Myanmar (in 2018, years
+after the genocide had begun, including the destruction by fire of at least 288 villages
+in northern Rakhine state after August 2017).
+This stands in stark contrast to Facebook quickly hiring 1,200 people in Germany to
+try to avoid expensive penalties (of up to 50 million euros) under a new German law
+against hate speech. Clearly, in this case, Facebook was more reactive to the threat of a
+financial penalty than to the systematic destruction of an ethnic minority.
+In an article on privacy issues, Maciej Ceglowski draws parallels with the environ‐
+mental movement:
+This regulatory project has been so successful in the First World that we risk forgetting
+what life was like before it. Choking smog of the kind that today kills thousands in
+Jakarta and Delhi was once emblematic of London. The Cuyahoga River in Ohio used
+to reliably catch fire. In a particularly horrific example of unforeseen consequences,
+tetraethyl lead added to gasoline raised violent crime rates worldwide for fifty years.
+None of these harms could have been fixed by telling people to vote with their wallet,
+or carefully review the environmental policies of every company they gave their busi‐
+ness to, or to stop using the technologies in question. It took coordinated, and some‐
+times highly technical, regulation across jurisdictional boundaries to fix them. In some
+cases, like the ban on commercial refrigerants that depleted the ozone layer, that regu‐
+lation required a worldwide consensus. We’re at the point where we need a similar shift
+in perspective in our privacy law.
+<header><largefont><b>Rights</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Policy</b></largefont></header>
+Clean air and clean drinking water are public goods that are nearly impossible to pro‐
+tect through individual market decisions, but rather require coordinated regulatory
+action. Similarly, many of the harms resulting from unintended consequences of
+misuses of technology involve public goods, such as a polluted information environ‐
+ment or deteriorated ambient privacy. Too often privacy is framed as an individual

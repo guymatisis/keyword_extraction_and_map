@@ -1,0 +1,32 @@
+based only on the original vectors <b>a</b> and <b>b,</b> without having to compute (or even to
+know about) the transformation <i>ϕ.</i> Equation 5-10 lists some of the most commonly
+used kernels.
+<i>Equation</i> <i>5-10.</i> <i>Common</i> <i>kernels</i>
+⊺
+Linear: <i>K</i> <b>a,b</b> = <b>a</b> <b>b</b>
+⊺ <i>d</i>
+Polynomial: <i>K</i> <b>a,b</b> = <i>γa</i> <b>b</b> + <i>r</i>
+2
+Gaussian RBF: <i>K</i> <b>a,b</b> = exp −γ ∥ <b>a</b> − <b>b</b> ∥
+⊺
+Sigmoid: <i>K</i> <b>a,b</b> = tanh <i>γa</i> <b>b</b> + <i>r</i>
+<header><largefont><b>Mercer’s</b></largefont> <largefont><b>Theorem</b></largefont></header>
+According to <i>Mercer’s</i> <i>theorem,</i> if a function <i>K(a,</i> <b>b)</b> respects a few mathematical con‐
+ditions called <i>Mercer’s</i> <i>conditions</i> (e.g., <i>K</i> must be continuous and symmetric in its
+arguments so that <i>K(a,</i> <b>b)</b> = <i>K(b,</i> <b>a),</b> etc.), then there exists a function <i>ϕ</i> that maps <b>a</b>
+and <b>b</b> into another space (possibly with much higher dimensions) such that <i>K(a,</i> <b>b)</b> =
+<i>ϕ(a)⊺</i> <i>ϕ(b).</i> You can use <i>K</i> as a kernel because you know <i>ϕ</i> exists, even if you don’t
+know what <i>ϕ</i> is. In the case of the Gaussian RBF kernel, it can be shown that <i>ϕ</i> maps
+each training instance to an infinite-dimensional space, so it’s a good thing you don’t
+need to actually perform the mapping!
+Note that some frequently used kernels (such as the sigmoid kernel) don’t respect all
+of Mercer’s conditions, yet they generally work well in practice.
+There is still one loose end we must tie up. Equation 5-7 shows how to go from the
+dual solution to the primal solution in the case of a linear SVM classifier. But if you
+apply the kernel trick, you end up with equations that include <i>ϕ(x</i> (i) ). In fact, <b>w</b> must
+have the same number of dimensions as <i>ϕ(x(i)),</i> which may be huge or even infinite,
+so you can’t compute it. But how can you make predictions without knowing <b>w?</b> Well,
+the good news is that you can plug the formula for <b>w</b> from Equation 5-7 into the deci‐
+<b>x(n),</b>
+sion function for a new instance and you get an equation with only dot products
+between input vectors. This makes it possible to use the kernel trick (Equation 5-11).

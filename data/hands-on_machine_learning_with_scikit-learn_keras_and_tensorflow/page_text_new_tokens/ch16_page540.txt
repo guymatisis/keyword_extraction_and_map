@@ -1,0 +1,41 @@
+Using masking layers and automatic mask propagation works best for simple
+Sequential models. It will not always work for more complex models, such as when
+you need to mix Conv1D layers with recurrent layers. In such cases, you will need to
+explicitly compute the mask and pass it to the appropriate layers, using either the
+Functional API or the Subclassing API. For example, the following model is identical
+to the previous model, except it is built using the Functional API and handles mask‐
+ing manually:
+K = keras.backend
+inputs = keras.layers.Input(shape=[None])
+mask = keras.layers.Lambda(lambda inputs: K.not_equal(inputs, 0))(inputs)
+z = keras.layers.Embedding(vocab_size + num_oov_buckets, embed_size)(inputs)
+z = keras.layers.GRU(128, return_sequences=True)(z, mask=mask)
+z = keras.layers.GRU(128)(z, mask=mask)
+outputs = keras.layers.Dense(1, activation="sigmoid")(z)
+model = keras.Model(inputs=[inputs], outputs=[outputs])
+After training for a few epochs, this model will become quite good at judging whether
+a review is positive or not. If you use the TensorBoard() callback, you can visualize
+the embeddings in TensorBoard as they are being learned: it is fascinating to see
+words like “awesome” and “amazing” gradually cluster on one side of the embedding
+space, while words like “awful” and “terrible” cluster on the other side. Some words
+are not as positive as you might expect (at least with this model), such as the word
+“good,” presumably because many negative reviews contain the phrase “not good.” It’s
+impressive that the model is able to learn useful word embeddings based on just
+25,000 movie reviews. Imagine how good the embeddings would be if we had billions
+of reviews to train on! Unfortunately we don’t, but perhaps we can reuse word
+embeddings trained on some other large text corpus (e.g., Wikipedia articles), even if
+it is not composed of movie reviews? After all, the word “amazing” generally has the
+same meaning whether you use it to talk about movies or anything else. Moreover,
+perhaps embeddings would be useful for sentiment analysis even if they were trained
+on another task: since words like “awesome” and “amazing” have a similar meaning,
+they will likely cluster in the embedding space even for other tasks (e.g., predicting
+the next word in a sentence). If all positive words and all negative words form clus‐
+ters, then this will be helpful for sentiment analysis. So instead of using so many
+parameters to learn word embeddings, let’s see if we can’t just reuse pretrained
+embeddings.
+<header><largefont><b>Reusing</b></largefont> <largefont><b>Pretrained</b></largefont> <largefont><b>Embeddings</b></largefont></header>
+The TensorFlow Hub project makes it easy to reuse pretrained model components in
+your own models. These model components are called <i>modules.</i> Simply browse the
+TF Hub repository, find the one you need, and copy the code example into your
+project, and the module will be automatically downloaded, along with its pretrained
+weights, and included in your model. Easy!

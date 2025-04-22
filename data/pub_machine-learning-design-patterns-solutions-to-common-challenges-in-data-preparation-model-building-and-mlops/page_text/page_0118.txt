@@ -1,0 +1,36 @@
+<header><largefont><b>Solution</b></largefont></header>
+Imagine a different scenario. Suppose the electronic record that captures the doctor’s
+prescriptions also asks them whether the alternate pain medication would be accepta‐
+ble. If the doctor prescribes acetaminophen, the application asks the doctor whether
+the patient can use ibuprofen if they already have it in their medicine cabinet.
+Based on the answer to the second question, we have a neutral class. The prescription
+might still be written as “acetaminophen,” but the record captures that the doctor was
+neutral for this patient. Note that this fundamentally requires us to design the data
+collection appropriately—we cannot manufacture a neutral class after the fact. We
+have to correctly design the machine learning problem. Correct design, in this case,
+starts with how we pose the problem in the first place.
+If all we have is a historical dataset, we would need to get a labeling service involved.
+We could ask the human labelers to validate the doctor’s original choice and answer
+the question of whether an alternate pain medication would be acceptable.
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+We can explore the mechanism by which this works by simulating the mechanism
+involved with a synthetic dataset. Then, we will show that something akin to this also
+happens in the real world with marginal cases.
+<b>Syntheticdata</b>
+Let’s create a synthetic dataset of length <i>N</i> where 10% of the data represents patients
+with a history of jaundice. Since they are at risk of liver damage, their correct pre‐
+scription is ibuprofen (the full code is in GitHub):
+jaundice[0:N//10] = True
+prescription[0:N//10] = 'ibuprofen'
+Another 10% of the data will represent patients with a history of stomach ulcers;
+since they are at risk of stomach damage, their correct prescription is acetaminophen:
+ulcers[(9*N)//10:] = True
+prescription[(9*N)//10:] = 'acetaminophen'
+The remaining patients will be arbitrarily assigned to either medication. Naturally,
+this random assignment will cause the overall accuracy of a model trained on just two
+classes to be low. In fact, we can calculate the upper bound on the accuracy. Because
+80% of the training examples have random labels, the best that the model can do is to
+guess half of them correctly. So, the accuracy on that subset of the training examples
+will be 40%. The remaining 20% of the training examples have systematic labels, and
+an ideal model will learn this, so we expect that overall accuracy can be at best 60%.
+Indeed, training a model using scikit-learn as follows, we get an accuracy of 0.56:

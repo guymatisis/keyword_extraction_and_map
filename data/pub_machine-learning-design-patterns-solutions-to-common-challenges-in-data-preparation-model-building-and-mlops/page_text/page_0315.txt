@@ -1,0 +1,38 @@
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+While we recommend the Model Versioning design pattern over maintaining a single
+model version, there are a few implementation alternatives to the solution outlined
+above. Here, we’ll look at other serverless and open source tooling for this pattern
+and the approach of creating multiple serving functions. We’ll also discuss when to
+create an entirely new model resource instead of a version.
+<b>Otherserverlessversioningtools</b>
+We used a managed service specifically designed for versioning ML models, but we
+could achieve similar results with other serverless offerings. Under the hood, each
+model version is a stateless function with a specified input and output format,
+deployed behind a REST endpoint. We could therefore use a service like Cloud Run,
+for example, to build and deploy each version in a separate container. Each container
+has a unique URL and can be invoked by an API request. This approach gives us
+more flexibility in how to configure the deployed model environment, letting us add
+functionality like server-side preprocessing for model inputs. In our flight example
+above, we may not want to require clients to one-hot encode categorical values.
+Instead, we could let clients pass the categorical values as strings, and handle prepro‐
+cessing in our container.
+Why would we use a managed ML service like AI Platform Prediction instead of a
+more generalized serverless tool? Since AI Platform was built specifically for ML
+model deployment, it has built-in support for deploying models with GPUs opti‐
+mized for ML. It also handles dependency management. When we deployed our
+XGBoost model above, we didn’t need to worry about installing the correct XGBoost
+version or other library dependencies.
+<b>TensorFlowServing</b>
+Instead of using Cloud AI Platform or another cloud-based serverless offering for
+model versioning, we could use an open source tool like TensorFlow Serving. The
+recommended approach for implementing TensorFlow Serving is to use a Docker
+tensorflow/serving
+container via the latest Docker image. With Docker, we could
+then serve the model using whichever hardware we’d like, including GPUs. The
+TensorFlow Serving API has built-in support for model versioning, following a simi‐
+lar approach to the one discussed in the Solution section. In addition to TensorFlow
+Serving, there are also other open source model serving options, including Seldon
+and MLFlow.
+<b>Multipleservingfunctions</b>
+Another alternative to deploying multiple versions is to define multiple serving func‐
+tions for a single version of an exported model. “Design Pattern 16: Stateless Serving

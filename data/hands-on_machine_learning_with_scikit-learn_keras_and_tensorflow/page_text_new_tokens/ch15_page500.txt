@@ -1,0 +1,51 @@
+In this equation:
+• <b>Y</b> is an <i>m</i> × <i>n</i> matrix containing the layer’s outputs at time step <i>t</i> for each
+(t) neurons
+instance in the mini-batch (m is the number of instances in the mini-batch and
+<i>n</i> is the number of neurons).
+neurons
+• <b>X</b> is an <i>m</i> × <i>n</i> matrix containing the inputs for all instances (n is the
+(t) inputs inputs
+number of input features).
+• <b>W</b> is an <i>n</i> × <i>n</i> matrix containing the connection weights for the inputs
+<i>x</i> inputs neurons
+of the current time step.
+• <b>W</b> is an <i>n</i> × <i>n</i> matrix containing the connection weights for the out‐
+<i>y</i> neurons neurons
+puts of the previous time step.
+• <b>b</b> is a vector of size <i>n</i> containing each neuron’s bias term.
+neurons
+• The weight matrices <b>W</b> and <b>W</b> are often concatenated vertically into a single
+<i>x</i> <i>y</i>
+weight matrix <b>W</b> of shape (n + <i>n</i> ) × <i>n</i> (see the second line of Equa‐
+inputs neurons neurons
+tion 15-2).
+• The notation [X <b>Y</b> ] represents the horizontal concatenation of the matrices
+(t) (t–1)
+<b>X</b> and <b>Y</b> .
+(t) (t–1)
+Notice that <b>Y</b> is a function of <b>X</b> and <b>Y</b> , which is a function of <b>X</b> and <b>Y</b> ,
+(t) (t) (t–1) (t–1) (t–2)
+which is a function of <b>X</b> and <b>Y</b> , and so on. This makes <b>Y</b> a function of all the
+(t–2) (t–3) (t)
+inputs since time <i>t</i> = 0 (that is, <b>X</b> , <b>X</b> , …, <b>X</b> ). At the first time step, <i>t</i> = 0, there are
+(0) (1) (t)
+no previous outputs, so they are typically assumed to be all zeros.
+<header><largefont><b>Memory</b></largefont> <largefont><b>Cells</b></largefont></header>
+Since the output of a recurrent neuron at time step <i>t</i> is a function of all the inputs
+from previous time steps, you could say it has a form of <i>memory.</i> A part of a neural
+network that preserves some state across time steps is called a <i>memory</i> <i>cell</i> (or simply
+a <i>cell).</i> A single recurrent neuron, or a layer of recurrent neurons, is a very basic cell,
+capable of learning only short patterns (typically about 10 steps long, but this varies
+depending on the task). Later in this chapter, we will look at some more complex and
+powerful types of cells capable of learning longer patterns (roughly 10 times longer,
+but again, this depends on the task).
+In general a cell’s state at time step <i>t,</i> denoted <b>h</b> (the “h” stands for “hidden”), is a
+(t)
+function of some inputs at that time step and its state at the previous time step: <b>h</b> =
+(t)
+<i>f(h</i> , <b>x</b> ). Its output at time step <i>t,</i> denoted <b>y</b> , is also a function of the previous
+(t–1) (t) (t)
+state and the current inputs. In the case of the basic cells we have discussed so far, the
+output is simply equal to the state, but in more complex cells this is not always the
+case, as shown in Figure 15-3.

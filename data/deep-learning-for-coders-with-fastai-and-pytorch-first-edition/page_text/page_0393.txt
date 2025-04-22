@@ -1,0 +1,39 @@
+<b>class</b> <b>LSTMCell(Module):</b>
+<b>def</b> <b>__init__(self,</b> ni, nh):
+self.ih = nn.Linear(ni,4*nh)
+self.hh = nn.Linear(nh,4*nh)
+<b>def</b> forward(self, input, state):
+h,c = state
+<i>#</i> <i>One</i> <i>big</i> <i>multiplication</i> <i>for</i> <i>all</i> <i>the</i> <i>gates</i> <i>is</i> <i>better</i> <i>than</i> <i>4</i> <i>smaller</i> <i>ones</i>
+gates = (self.ih(input) + self.hh(h)).chunk(4, 1)
+ingate,forgetgate,outgate = map(torch.sigmoid, gates[:3])
+cellgate = gates[3].tanh()
+c = (forgetgate*c) + (ingate*cellgate)
+h = outgate * c.tanh()
+<b>return</b> h, (h,c)
+Here we use the PyTorch chunk method to split our tensor into four pieces. It works
+like this:
+t = torch.arange(0,10); t
+tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+t.chunk(2)
+(tensor([0, 1, 2, 3, 4]), tensor([5, 6, 7, 8, 9]))
+Let’s now use this architecture to train a language model!
+<header><largefont><b>Training</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Language</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>Using</b></largefont> <largefont><b>LSTMs</b></largefont></header>
+Here is the same network as LMModel5, using a two-layer LSTM. We can train it at a
+higher learning rate, for a shorter time, and get better accuracy:
+<b>class</b> <b>LMModel6(Module):</b>
+<b>def</b> <b>__init__(self,</b> vocab_sz, n_hidden, n_layers):
+self.i_h = nn.Embedding(vocab_sz, n_hidden)
+self.rnn = nn.LSTM(n_hidden, n_hidden, n_layers, batch_first=True)
+self.h_o = nn.Linear(n_hidden, vocab_sz)
+self.h = [torch.zeros(n_layers, bs, n_hidden) <b>for</b> _ <b>in</b> range(2)]
+<b>def</b> forward(self, x):
+res,h = self.rnn(self.i_h(x), self.h)
+self.h = [h_.detach() <b>for</b> h_ <b>in</b> h]
+<b>return</b> self.h_o(res)
+<b>def</b> reset(self):
+<b>for</b> h <b>in</b> self.h: h.zero_()
+learn = Learner(dls, LMModel6(len(vocab), 64, 2),
+loss_func=CrossEntropyLossFlat(),
+metrics=accuracy, cbs=ModelResetter)
+learn.fit_one_cycle(15, 1e-2)

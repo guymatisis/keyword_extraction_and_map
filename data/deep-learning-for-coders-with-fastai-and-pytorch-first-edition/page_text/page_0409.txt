@@ -1,0 +1,36 @@
+input
+input tensor of shape (minibatch, in_channels, iH, iW)
+weight
+filters of shape (out_channels, in_channels, kH, kW)
+Here iH,iW is the height and width of the image (i.e., 28,28 ), and kH,kW is the height
+and width of our kernel (3,3). But apparently PyTorch is expecting rank-4 tensors for
+both these arguments, whereas currently we have only rank-2 tensors (i.e., matrices,
+or arrays with two axes).
+The reason for these extra axes is that PyTorch has a few tricks up its sleeve. The first
+trick is that PyTorch can apply a convolution to multiple images at the same time.
+That means we can call it on every item in a batch at once!
+The second trick is that PyTorch can apply multiple kernels at the same time. So let’s
+create the diagonal-edge kernels too, and then stack all four of our edge kernels into a
+single tensor:
+diag1_edge = tensor([[ 0,-1, 1],
+[-1, 1, 0],
+[ 1, 0, 0]]).float()
+diag2_edge = tensor([[ 1,-1, 0],
+[ 0, 1,-1],
+[ 0, 0, 1]]).float()
+edge_kernels = torch.stack([left_edge, top_edge, diag1_edge, diag2_edge])
+edge_kernels.shape
+torch.Size([4, 3, 3])
+To test this, we’ll need a DataLoader and a sample mini-batch. Let’s use the data block
+API:
+mnist = DataBlock((ImageBlock(cls=PILImageBW), CategoryBlock),
+get_items=get_image_files,
+splitter=GrandparentSplitter(),
+get_y=parent_label)
+dls = mnist.dataloaders(path)
+xb,yb = first(dls.valid)
+xb.shape
+torch.Size([64, 1, 28, 28])
+By default, fastai puts data on the GPU when using data blocks. Let’s move it to the
+CPU for our examples:
+xb,yb = to_cpu(xb),to_cpu(yb)

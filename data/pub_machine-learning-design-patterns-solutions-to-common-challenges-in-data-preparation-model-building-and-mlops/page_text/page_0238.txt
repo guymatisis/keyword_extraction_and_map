@@ -1,0 +1,39 @@
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
+input_details
+For the MobileNetV2 binary classification model we trained above,
+looks like the following:
+[{'dtype': numpy.float32,
+'index': 0,
+'name': 'mobilenetv2_1.00_128_input',
+'quantization': (0.0, 0),
+'quantization_parameters': {'quantized_dimension': 0,
+'scales': array([], dtype=float32),
+'zero_points': array([], dtype=int32)},
+'shape': array([ 1, 128, 128, 3], dtype=int32),
+'shape_signature': array([ 1, 128, 128, 3], dtype=int32),
+'sparsity_parameters': {}}]
+We’ll then pass the first image from our validation batch to the loaded TF Lite model
+for prediction, invoke the interpreter, and get the output:
+input_data = np.array([image_batch[21]], dtype=np.float32)
+interpreter.set_tensor(input_details[0]['index'], input_data)
+interpreter.invoke()
+output_data = interpreter.get_tensor(output_details[0]['index'])
+<b>print(output_data)</b>
+The resulting output is a sigmoid array with a single value in the [0,1] range indicat‐
+ing whether or not the given input sound is an instrument.
+Depending on how costly it is to call your cloud model, you can
+change what metric you’re optimizing for when you train the on-
+device model. For example, you might choose to optimize for pre‐
+cision over recall if you care more about avoiding false positives.
+With our model now working on-device, we can get fast predictions without having
+to rely on internet connectivity. If the model is confident that a given sound is not an
+instrument, we can stop here. If the model predicts “instrument,” it’s time to proceed
+by sending the audio clip to a more complex cloud-hosted model.
+<header><largefont><b>What</b></largefont> <largefont><b>Models</b></largefont> <largefont><b>Are</b></largefont> <largefont><b>Suitable</b></largefont> <largefont><b>on</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Edge?</b></largefont></header>
+How should you determine whether a model is a good fit for the edge? There are a
+few considerations related to model size, complexity, and available hardware. As a
+general rule of thumb, smaller, less complex models are better optimized for running
+on-device. This is because edge models are constrained by the available device stor‐
+age. Often, when models are scaled down—through quantization or other techniques
+—this is done at the expense of accuracy. As such, models with a simpler prediction

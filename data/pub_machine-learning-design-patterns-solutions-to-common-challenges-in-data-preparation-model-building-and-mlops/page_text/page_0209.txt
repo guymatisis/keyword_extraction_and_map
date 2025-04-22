@@ -1,0 +1,36 @@
+{"reviews": "The film is based on a prize-winning novel."},
+{"reviews": "The film is fast moving and has several great action scenes."},
+{"reviews": "The film was very boring. I walked out half-way."}
+]
+}
+parent = "projects/{}/models/imdb".format("PROJECT", "v1")
+response = api.projects().predict(body = request_data,
+name = parent).execute()
+The equivalent of the above code can be written in many languages (we show Python
+because we assume you are somewhat familiar with it). At the time that this book is
+being written, developers can access the Discovery API from Java, PHP, .NET, Java‐
+Script, Objective-C, Dart, Ruby, Node.js, and Go.
+<b>Powerfulecosystem</b>
+Because web application frameworks are so widely used, there is a lot of tooling avail‐
+able to measure, monitor, and manage web applications. If we deploy the ML model
+to a web application framework, the model can be monitored and throttled using
+tools that software reliability engineers (SREs), IT administrators, and DevOps per‐
+sonnel are familiar with. They do not have to know anything about machine learning.
+Similarly, your business development colleagues know how to meter and monetize
+web applications using API gateways. They can carry over that knowledge and apply
+it to metering and monetizing machine learning models.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+As the joke by David Wheeler goes, the solution to any problem in computer science
+is to add an extra level of indirection. Introduction of an exported stateless function
+specification provides that extra level of indirection. The Stateless Serving Function
+design pattern allows us to change the serving signature to provide extra functional‐
+ity, like additional pre- and postprocessing, beyond what the ML model does. In fact,
+it is possible to use this design pattern to provide multiple endpoints for a model.
+This design pattern can also help with creating low-latency, online prediction for
+models that are trained on systems, such as data warehouses, that are typically associ‐
+ated with long-running queries.
+<b>Customservingfunction</b>
+The output layer of our text classification model is a Dense layer whose output is in
+the range (-∞,∞):
+model.add(tf.keras.layers.Dense(1, name='positive_review_logits'))
+Our loss function takes this into account:

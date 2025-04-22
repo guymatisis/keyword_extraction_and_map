@@ -1,0 +1,39 @@
+<b>SELECT</b>
+*
+<b>FROM</b>
+ML.RECOMMEND(MODEL mlpatterns.recommendation_model)
+Store it in a relational database such as MySQL, Datastore, or Cloud Spanner (there
+are pre-built transfer services and Dataflow templates that can do this). When any
+user visits, the recommendations for that user are pulled from the database and
+served immediately and at very low latency.
+In the background, the recommendations are refreshed periodically. For example, we
+might retrain the recommendation model hourly based on the latest actions on the
+website. We can then carry out inference for just those users who visited in the last
+hour:
+<b>SELECT</b>
+*
+<b>FROM</b>
+ML.RECOMMEND(MODEL mlpatterns.recommendation_model,
+(
+<b>SELECT</b> <b>DISTINCT</b>
+visitorId
+<b>FROM</b>
+mlpatterns.analytics_session_data
+<b>WHERE</b>
+visitTime > TIME_DIFF(CURRENT_TIME(), 1 HOUR)
+))
+We can then update the corresponding rows in the relational database used for
+serving.
+<b>Lambdaarchitecture</b>
+A production ML system that supports both online serving and batch serving is
+called a <i>Lambda</i> <i>architecture—such</i> a production ML system allows ML practitioners
+to trade-off between latency (via the Stateless Serving Function pattern) and through‐
+put (via the Batch Serving pattern).
+AWS Lambda, in spite of its name, is not a Lambda architecture. It
+is a serverless framework for scaling stateless functions, similar to
+Google Cloud Functions or Azure Functions.
+Typically, a Lambda architecture is supported by having separate systems for online
+serving and batch serving. In Google Cloud, for example, the online serving infra‐
+structure is provided by Cloud AI Platform Predictions and the batch serving infra‐
+structure is provided by BigQuery and Cloud Dataflow (Cloud AI Platform
+Predictions provides a convenient interface so that users don’t have to explicitly use

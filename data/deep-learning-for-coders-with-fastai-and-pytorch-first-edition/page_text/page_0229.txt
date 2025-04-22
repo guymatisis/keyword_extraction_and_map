@@ -1,0 +1,31 @@
+One change compared to the preceding chapter is the metric we use: because this is a
+multilabel problem, we can’t use the accuracy function. Why is that? Well, accuracy
+was comparing our outputs to our targets like so:
+<b>def</b> accuracy(inp, targ, axis=-1):
+"Compute accuracy with `targ` when `pred` is bs * n_classes"
+pred = inp.argmax(dim=axis)
+<b>return</b> (pred == targ).float().mean()
+The class predicted was the one with the highest activation (this is what argmax does).
+Here it doesn’t work because we could have more than one prediction on a single
+image. After applying the sigmoid to our activations (to make them between 0 and 1),
+we need to decide which ones are 0s and which ones are 1s by picking a <i>threshold.</i>
+Each value above the threshold will be considered as a 1, and each value lower than
+the threshold will be considered a 0:
+<b>def</b> accuracy_multi(inp, targ, thresh=0.5, sigmoid=True):
+"Compute accuracy when `inp` and `targ` are the same size."
+<b>if</b> sigmoid: inp = inp.sigmoid()
+<b>return</b> ((inp>thresh)==targ.bool()).float().mean()
+If we pass accuracy_multi directly as a metric, it will use the default value for
+threshold, which is 0.5. We might want to adjust that default and create a new ver‐
+sion of accuracy_multi that has a different default. To help with this, there is a func‐
+tion in Python called partial. It allows us to <i>bind</i> a function with some arguments or
+keyword arguments, making a new version of that function that, whenever it is called,
+always includes those arguments. For instance, here is a simple function taking two
+arguments:
+<b>def</b> say_hello(name, say_what="Hello"): <b>return</b> f"{say_what} {name}."
+say_hello('Jeremy'),say_hello('Jeremy', 'Ahoy!')
+('Hello Jeremy.', 'Ahoy! Jeremy.')
+We can switch to a French version of that function by using partial:
+f = partial(say_hello, say_what="Bonjour")
+f("Jeremy"),f("Sylvain")
+('Bonjour Jeremy.', 'Bonjour Sylvain.')

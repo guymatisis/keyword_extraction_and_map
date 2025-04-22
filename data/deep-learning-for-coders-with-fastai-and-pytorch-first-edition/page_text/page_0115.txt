@@ -1,0 +1,36 @@
+<b>Addressingdifferenttypesofbias</b>
+Different types of bias require different approaches for mitigation. While gathering a
+more diverse dataset can address representation bias, this would not help with histor‐
+ical bias or measurement bias. All datasets contain bias. There is no such thing as a
+completely debiased dataset. Many researchers in the field have been converging on a
+set of proposals to enable better documentation of the decisions, context, and
+specifics about how and why a particular dataset was created, what scenarios it is
+appropriate to use in, and what the limitations are. This way, those using a particular
+dataset will not be caught off guard by its biases and limitations.
+We often hear the question, “Humans are biased, so does algorithmic bias even mat‐
+ter?” This comes up so often, there must be some reasoning that makes sense to the
+people who ask it, but it doesn’t seem very logically sound to us! Independently of
+whether this is logically sound, it’s important to realize that algorithms (particularly
+machine learning algorithms!) and people are different. Consider these points about
+machine learning algorithms:
+<i>Machine</i> <i>learning</i> <i>can</i> <i>create</i> <i>feedback</i> <i>loops</i>
+Small amounts of bias can rapidly increase exponentially because of feedback
+loops.
+<i>Machine</i> <i>learning</i> <i>can</i> <i>amplify</i> <i>bias</i>
+Human bias can lead to larger amounts of machine learning bias.
+<i>Algorithms</i> <i>and</i> <i>humans</i> <i>are</i> <i>used</i> <i>differently</i>
+Human decision makers and algorithmic decision makers are not used in a plug-
+and-play interchangeable way in practice. These examples are given in the list on
+the next page.
+<i>Technology</i> <i>is</i> <i>power</i>
+And with that comes responsibility.
+As the Arkansas healthcare example showed, machine learning is often implemented
+in practice not because it leads to better outcomes, but because it is cheaper and more
+efficient. Cathy O’Neill, in her book <i>Weapons</i> <i>of</i> <i>Math</i> <i>Destruction</i> (Crown), described
+a pattern in which the privileged are processed by people, whereas the poor are pro‐
+cessed by algorithms. This is just one of a number of ways that algorithms are used
+differently than human decision makers. Others include the following:
+• People are more likely to assume algorithms are objective or error-free (even if
+they’re given the option of a human override).
+• Algorithms are more likely to be implemented with no appeals process in place.
+• Algorithms are often used at scale.

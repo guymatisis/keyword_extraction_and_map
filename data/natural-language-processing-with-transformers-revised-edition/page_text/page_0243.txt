@@ -1,0 +1,24 @@
+Model size (MB) - 64.20
+Average latency (ms) - 9.24 +\- 0.29
+Accuracy on test set - 0.877
+plot_metrics(perf_metrics, optim_type)
+ORT quantization has reduced the model size and latency by around 30% compared
+to the model obtained from PyTorch quantization (the distillation + quantization
+blob). One reason for this is that PyTorch only optimizes the nn.Linear modules,
+while ONNX quantizes the embedding layer as well. From the plot we can also see
+that applying ORT quantization to our distilled model has provided an almost three-
+fold gain compared to our BERT baseline!
+This concludes our analysis of techniques to speed up transformers for inference. We
+have seen that methods such as quantization reduce the model size by reducing the
+precision of the representation. Another strategy to reduce the size is to remove some
+weights altogether. This technique is called <i>weight</i> <i>pruning,</i> and it’s the focus of the
+next section.
+<header><largefont><b>Making</b></largefont> <largefont><b>Models</b></largefont> <largefont><b>Sparser</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Weight</b></largefont> <largefont><b>Pruning</b></largefont></header>
+So far we’ve seen that knowledge distillation and weight quantization are quite effec‐
+tive at producing faster models for inference, but in some cases you might also have
+strong constraints on the memory footprint of your model. For example, if our prod‐
+uct manager suddenly decides that our text assistant needs to be deployed on a
+mobile device, then we’ll need our intent classifier to take up as little storage space as
+possible. To round out our survey of compression methods, let’s take a look at how
+we can shrink the number of parameters in our model by identifying and removing
+the least important weights in the network.

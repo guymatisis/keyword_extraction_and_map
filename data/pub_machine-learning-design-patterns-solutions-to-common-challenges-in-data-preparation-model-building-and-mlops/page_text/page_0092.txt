@@ -1,0 +1,22 @@
+keras.layers.Dense(128, activation='relu'),
+keras.layers.Dense(3, activation='sigmoid')
+])
+The main difference in output between the sigmoid model here and the softmax
+example in the Problem section is that the softmax array is guaranteed to contain
+three values that sum to 1, whereas the sigmoid output will contain three values, each
+between 0 and 1.
+<header><largefont><b>Sigmoid</b></largefont> <largefont><b>Versus</b></largefont> <largefont><b>Softmax</b></largefont> <largefont><b>Activation</b></largefont></header>
+Sigmoid is a nonlinear, continuous, and differentiable activation function that takes
+the outputs of each neuron in the previous layer in the ML model and squashes the
+value of those outputs between 0 and 1. Figure 3-7 shows what the sigmoid function
+looks like.
+<i>Figure</i> <i>3-7.</i> <i>A</i> <i>sigmoid</i> <i>function.</i>
+While sigmoid takes a single value as input and provides a single value as output,
+softmax takes an array of values as input and transforms it into an array of probabili‐
+ties that sum to 1. The input to the softmax function could be the output of <i>N</i>
+sigmoids.
+In a multiclass classification problem where each example can only have one label,
+use softmax as the last layer to get a probability distribution. In the Multilabel
+pattern, it’s acceptable for the output array to not sum to 1 since we’re evaluating the
+probability of each individual label.
+Following are sample sigmoid and softmax output arrays:

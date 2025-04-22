@@ -1,0 +1,10 @@
+<i>Figure</i> <i>1-4.</i> <i>An</i> <i>encoder-decoder</i> <i>architecture</i> <i>with</i> <i>an</i> <i>attention</i> <i>mechanism</i> <i>for</i> <i>a</i> <i>pair</i> <i>of</i>
+<i>RNNs</i>
+By focusing on which input tokens are most relevant at each timestep, these
+attention-based models are able to learn nontrivial alignments between the words in a
+generated translation and those in a source sentence. For example, Figure 1-5 visual‐
+izes the attention weights for an English to French translation model, where each
+pixel denotes a weight. The figure shows how the decoder is able to correctly align the
+words “zone” and “Area”, which are ordered differently in the two languages.
+<i>Figure</i> <i>1-5.</i> <i>RNN</i> <i>encoder-decoder</i> <i>alignment</i> <i>of</i> <i>words</i> <i>in</i> <i>English</i> <i>and</i> <i>the</i> <i>generated</i>
+<i>translation</i> <i>in</i> <i>French</i> <i>(courtesy</i> <i>of</i> <i>Dzmitry</i> <i>Bahdanau)</i>

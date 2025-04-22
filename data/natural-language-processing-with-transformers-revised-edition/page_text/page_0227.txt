@@ -1,0 +1,23 @@
+<i>Figure</i> <i>8-5.</i> <i>Plot</i> <i>of</i> <i>the</i> <i>Rosenbrock</i> <i>function</i> <i>of</i> <i>two</i> <i>variables</i>
+objective()
+In Optuna, we can find the minimum of <i>f</i> <i>x,</i> <i>y</i> by defining an function
+that returns the value of <i>f</i> <i>x,</i> <i>y</i> :
+<b>def</b> objective(trial):
+x = trial.suggest_float("x", -2, 2)
+y = trial.suggest_float("y", -2, 2)
+<b>return</b> (1 - x) ** 2 + 100 * (y - x ** 2) ** 2
+The trial.suggest_float object specifies the parameter ranges to sample uniformly
+from; Optuna also provides suggest_int and suggest_categorical for integer and
+categorical parameters, respectively. Optuna collects multiple trials as a <i>study,</i> so to
+create one we just pass the objective() function to study.optimize() as follows:
+<b>import</b> <b>optuna</b>
+study = optuna.create_study()
+study.optimize(objective, n_trials=1000)
+Once the study is completed, we can then find the best parameters as follows:
+study.best_params
+{'x': 1.003024865971437, 'y': 1.00315167589307}
+We see that with one thousand trials, Optuna has managed to find values for <i>x</i> and <i>y</i>
+that are reasonably close to the global minimum. To use Optuna in Transformers,
+we use similar logic by first defining the hyperparameter space that we wish to opti‐
+mize over. In addition to <i>α</i> and <i>T,</i> we’ll include the number of training epochs as
+follows:

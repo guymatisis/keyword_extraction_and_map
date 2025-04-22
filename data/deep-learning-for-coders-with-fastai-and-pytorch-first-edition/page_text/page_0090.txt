@@ -1,0 +1,38 @@
+A helpful exercise prior to rolling out a significant machine learning system is to con‐
+sider this question: “What would happen if it went really, really well?” In other words,
+what if the predictive power was extremely high, and its ability to influence behavior
+was extremely significant? In that case, who would be most impacted? What would
+the most extreme results potentially look like? How would you know what was really
+going on?
+Such a thought exercise might help you to construct a more careful rollout plan, with
+ongoing monitoring systems and human oversight. Of course, human oversight isn’t
+useful if it isn’t listened to, so make sure that reliable and resilient communication
+channels exist so that the right people will be aware of issues and will have the power
+to fix them.
+<header><largefont><b>Get</b></largefont> <largefont><b>Writing!</b></largefont></header>
+One of the things our students have found most helpful to solidify their understand‐
+ing of this material is to write it down. There is no better test of your understanding
+of a topic than attempting to teach it to somebody else. This is helpful even if you
+never show your writing to anybody—but it’s even better if you share it! So we rec‐
+ommend that, if you haven’t already, you start a blog. Now that you’ve completed this
+chapter and have learned how to train and deploy models, you’re well placed to write
+your first blog post about your deep learning journey. What’s surprised you? What
+opportunities do you see for deep learning in your field? What obstacles do you see?
+Rachel Thomas, cofounder of fast.ai, wrote in the article “Why You (Yes, You) Should
+Blog”:
+The top advice I would give my younger self would be to start blogging sooner. Here
+are some reasons to blog:
+• It’s like a resume, only better. I know of a few people who have had blog posts lead
+to job offers!
+• Helps you learn. Organizing knowledge always helps me synthesize my own ideas.
+One of the tests of whether you understand something is whether you can explain
+it to someone else. A blog post is a great way to do that.
+• I’ve gotten invitations to conferences and invitations to speak from my blog posts.
+I was invited to the TensorFlow Dev Summit (which was awesome!) for writing a
+blog post about how I don’t like TensorFlow.
+• Meet new people. I’ve met several people who have responded to blog posts I
+wrote.
+• Saves time. Any time you answer a question multiple times through email, you
+should turn it into a blog post, which makes it easier for you to share the next
+time someone asks.
+Perhaps her most important tip is this:

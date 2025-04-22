@@ -1,0 +1,29 @@
+<i>Figure</i> <i>15-9.</i> <i>LSTM</i> <i>cell</i>
+Now let’s open the box! The key idea is that the network can learn what to store in the
+long-term state, what to throw away, and what to read from it. As the long-term state
+<b>c</b> traverses the network from left to right, you can see that it first goes through a
+(t–1)
+<i>forget</i> <i>gate,</i> dropping some memories, and then it adds some new memories via the
+addition operation (which adds the memories that were selected by an <i>input</i> <i>gate).</i>
+The result <b>c</b> is sent straight out, without any further transformation. So, at each time
+(t)
+step, some memories are dropped and some memories are added. Moreover, after the
+addition operation, the long-term state is copied and passed through the tanh func‐
+tion, and then the result is filtered by the <i>output</i> <i>gate.</i> This produces the short-term
+state <b>h</b> (which is equal to the cell’s output for this time step, <b>y</b> ). Now let’s look at
+(t) (t)
+where new memories come from and how the gates work.
+First, the current input vector <b>x</b> and the previous short-term state <b>h</b> are fed to
+(t) (t–1)
+four different fully connected layers. They all serve a different purpose:
+• The main layer is the one that outputs <b>g</b> . It has the usual role of analyzing the
+(t)
+current inputs <b>x</b> and the previous (short-term) state <b>h</b> . In a basic cell, there is
+(t) (t–1)
+nothing other than this layer, and its output goes straight out to <b>y</b> and <b>h</b> . In
+(t) (t)
+contrast, in an LSTM cell this layer’s output does not go straight out, but instead
+its most important parts are stored in the long-term state (and the rest is
+dropped).
+• The three other layers are <i>gate</i> <i>controllers.</i> Since they use the logistic activation
+function, their outputs range from 0 to 1. As you can see, their outputs are fed to

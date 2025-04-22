@@ -1,0 +1,16 @@
+<i>Figure</i> <i>3-8.</i> <i>An</i> <i>overview</i> <i>of</i> <i>some</i> <i>of</i> <i>the</i> <i>most</i> <i>prominent</i> <i>transformer</i> <i>architectures</i>
+With over 50 different architectures included in Transformers, this family tree by
+no means provides a complete overview of all the ones that exist: it simply highlights
+a few of the architectural milestones. We’ve covered the original Transformer archi‐
+tecture in depth in this chapter, so let’s take a closer look at some of the key descend‐
+ants, starting with the encoder branch.
+<header><largefont><b>The</b></largefont> <largefont><b>Encoder</b></largefont> <largefont><b>Branch</b></largefont></header>
+The first encoder-only model based on the Transformer architecture was BERT. At
+the time it was published, it outperformed all the state-of-the-art models on the pop‐
+benchmark,7
+ular GLUE which measures natural language understanding (NLU)
+across several tasks of varying difficulty. Subsequently, the pretraining objective and
+the architecture of BERT have been adapted to further improve performance.
+Encoder-only models still dominate research and industry on NLU tasks such as text
+7 A.Wangetal.,“GLUE:AMulti-TaskBenchmarkandAnalysisPlatformforNaturalLanguageUnderstand‐
+ing”,(2018).

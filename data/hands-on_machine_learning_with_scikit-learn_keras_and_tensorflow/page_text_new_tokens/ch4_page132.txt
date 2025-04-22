@@ -1,0 +1,28 @@
+<b>from</b> <b>sklearn.metrics</b> <b>import</b> mean_squared_error
+<b>from</b> <b>sklearn.model_selection</b> <b>import</b> train_test_split
+<b>def</b> plot_learning_curves(model, X, y):
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2)
+train_errors, val_errors = [], []
+<b>for</b> m <b>in</b> range(1, len(X_train)):
+model.fit(X_train[:m], y_train[:m])
+y_train_predict = model.predict(X_train[:m])
+y_val_predict = model.predict(X_val)
+train_errors.append(mean_squared_error(y_train[:m], y_train_predict))
+val_errors.append(mean_squared_error(y_val, y_val_predict))
+plt.plot(np.sqrt(train_errors), "r-+", linewidth=2, label="train")
+plt.plot(np.sqrt(val_errors), "b-", linewidth=3, label="val")
+Let’s look at the learning curves of the plain Linear Regression model (a straight line;
+see Figure 4-15):
+lin_reg = LinearRegression()
+plot_learning_curves(lin_reg, X, y)
+<i>Figure</i> <i>4-15.</i> <i>Learning</i> <i>curves</i>
+This model that’s underfitting deserves a bit of explanation. First, let’s look at the per‐
+formance on the training data: when there are just one or two instances in the train‐
+ing set, the model can fit them perfectly, which is why the curve starts at zero. But as
+new instances are added to the training set, it becomes impossible for the model to fit
+the training data perfectly, both because the data is noisy and because it is not linear
+at all. So the error on the training data goes up until it reaches a plateau, at which
+point adding new instances to the training set doesn’t make the average error much
+better or worse. Now let’s look at the performance of the model on the validation
+data. When the model is trained on very few training instances, it is incapable of gen‐
+eralizing properly, which is why the validation error is initially quite big. Then, as the

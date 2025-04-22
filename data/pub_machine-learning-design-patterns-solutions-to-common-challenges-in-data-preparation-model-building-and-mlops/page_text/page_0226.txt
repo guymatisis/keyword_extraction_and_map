@@ -1,0 +1,21 @@
+<i>Figure</i> <i>5-3.</i> <i>A</i> <i>confusion</i> <i>matrix</i> <i>shows</i> <i>all</i> <i>pairs</i> <i>of</i> <i>ground</i> <i>truth</i> <i>labels</i> <i>and</i> <i>predictions</i> <i>so</i>
+<i>you</i> <i>can</i> <i>explore</i> <i>your</i> <i>model</i> <i>performance</i> <i>within</i> <i>different</i> <i>classes.</i>
+<b>Continuousevaluation</b>
+We should make sure the output table also captures the model version and the time‐
+stamp of prediction requests so that we can use the same table for continuous evalua‐
+tion of two different model versions for comparing metrics between the models. For
+example, if we deploy a newer version of our model, called swivel_v2, that is trained
+on more recent data or has different hyperparameters, we can compare their perfor‐
+mance by slicing the evaluation dataframe according to the model version:
+df_v1 = df_evals[df_evals.version == "swivel"]
+df_v2 = df_evals[df_evals.version == "swivel_v2"]
+Similarly, we can create evaluation slices in time, focusing only on model predictions
+within the last month or the last week:
+today = pd.Timestamp.now(tz='UTC')
+one_month_ago = today - pd.DateOffset(months=1)
+one_week_ago = today - pd.DateOffset(weeks=1)
+df_prev_month = df_evals[df_evals.time >= one_month_ago]
+df_prev_week = df_evals[df_evals.time >= one_week_ago]
+To carry out the above evaluations continuously, the notebook (or a containerized
+form) can be scheduled. We can set it up to trigger a model retraining if the evalua‐
+tion metric falls below some threshold.

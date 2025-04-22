@@ -1,0 +1,36 @@
+flow Pipeline design pattern lets others run and monitor our entire ML workflow
+from end to end in both on-premises and cloud environments, while still being able
+to debug the output of individual steps. Containerizing each step of the pipeline
+ensures that others will be able to reproduce both the environment we used to build it
+and the entire workflow captured in the pipeline. This also allows us to potentially
+reproduce the environment months later to support regulatory needs. With TFX and
+AI Platform Pipelines, the dashboard also gives us a UI for tracking the output arti‐
+facts produced from every pipeline execution. This is discussed further in “Trade-
+Offs and Alternatives” on page 315.
+Additionally, with each pipeline component in its own container, different team
+members can build and test separate pieces of a pipeline in parallel. This allows for
+faster development and minimizes the risks associated with a more monolithic ML
+process where steps are inextricably linked to one another. The package dependencies
+and code required to build out the data preprocessing step, for example, may be sig‐
+nificantly different than those for model deployment. By building these steps as part
+of a pipeline, each piece can be built in a separate container with its own dependen‐
+cies and incorporated into a larger pipeline when completed.
+To summarize, the Workflow Pipeline pattern gives us the benefits that come with a
+directed acyclic graph (DAG), along with the pre-built components that come with
+pipeline frameworks like TFX. Because the pipeline is a DAG, we have the option of
+executing individual steps or running an entire pipeline from end to end. This also
+gives us logging and monitoring for each step of the pipeline across different runs,
+and allows for tracking artifacts from each step and pipeline execution in a central‐
+ized place. Pre-built components provide standalone, ready-to-use steps for common
+components of ML workflows, including training, evaluation, and inference. These
+components run as individual containers wherever we choose to run our pipeline.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+The main alternative to using a pipeline framework is to run the steps of our ML
+workflow using a makeshift approach for keeping track of the notebooks and output
+associated with each step. Of course, there is some overhead involved in converting
+the different pieces of our ML workflow into an organized pipeline. In this section,
+we’ll look at some variations and extensions of the Workflow Pipeline design pattern:
+creating containers manually, automating a pipeline with tools for continuous inte‐
+gration and continuous delivery (CI/CD), processes for moving from a development
+to production workflow pipeline, and alternative tools for building and orchestrating
+pipelines. We’ll also explore how to use pipelines for metadata tracking.

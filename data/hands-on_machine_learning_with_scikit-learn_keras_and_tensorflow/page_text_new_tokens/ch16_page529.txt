@@ -1,0 +1,42 @@
+deep net with over a million layers, and we would have a single (very long) instance
+to train it. Instead, we will use the dataset’s window() method to convert this long
+sequence of characters into many smaller windows of text. Every instance in the data‐
+set will be a fairly short substring of the whole text, and the RNN will be unrolled
+only over the length of these substrings. This is called <i>truncated</i> <i>backpropagation</i>
+<i>through</i> <i>time.</i> Let’s call the window() method to create a dataset of short text windows:
+n_steps = 100
+window_length = n_steps + 1 <i>#</i> <i>target</i> <i>=</i> <i>input</i> <i>shifted</i> <i>1</i> <i>character</i> <i>ahead</i>
+dataset = dataset.window(window_length, shift=1, drop_remainder=True)
+n_steps:
+You can try tuning it is easier to train RNNs on shorter
+input sequences, but of course the RNN will not be able to learn
+any pattern longer than n_steps , so don’t make it too small.
+By default, the window() method creates nonoverlapping windows, but to get the
+shift=1
+largest possible training set we use so that the first window contains charac‐
+ters 0 to 100, the second contains characters 1 to 101, and so on. To ensure that all
+windows are exactly 101 characters long (which will allow us to create batches
+drop_remainder=True
+without having to do any padding), we set (otherwise the last
+100 windows will contain 100 characters, 99 characters, and so on down to 1
+character).
+The window() method creates a dataset that contains windows, each of which is also
+represented as a dataset. It’s a <i>nested</i> <i>dataset,</i> analogous to a list of lists. This is useful
+when you want to transform each window by calling its dataset methods (e.g., to
+shuffle them or batch them). However, we cannot use a nested dataset directly for
+training, as our model will expect tensors as input, not datasets. So, we must call the
+flat_map()
+method: it converts a nested dataset into a <i>flat</i> <i>dataset</i> (one that does not
+contain datasets). For example, suppose {1, 2, 3} represents a dataset containing the
+sequence of tensors 1, 2, and 3. If you flatten the nested dataset {{1, 2}, {3, 4, 5, 6}},
+you get back the flat dataset {1, 2, 3, 4, 5, 6}. Moreover, the flat_map() method takes
+a function as an argument, which allows you to transform each dataset in the nested
+dataset before flattening. For example, if you pass the function lambda ds:
+ds.batch(2) to flat_map() , then it will transform the nested dataset {{1, 2}, {3, 4, 5,
+6}} into the flat dataset {[1, 2], [3, 4], [5, 6]}: it’s a dataset of tensors of size 2. With that
+in mind, we are ready to flatten our dataset:
+dataset = dataset.flat_map(lambda window: window.batch(window_length))
+batch(window_length)
+Notice that we call on each window: since all windows have
+exactly that length, we will get a single tensor for each of them. Now the dataset con‐
+tains consecutive windows of 101 characters each. Since Gradient Descent works best

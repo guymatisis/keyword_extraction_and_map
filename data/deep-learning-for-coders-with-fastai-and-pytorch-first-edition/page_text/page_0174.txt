@@ -1,0 +1,38 @@
+That’s our starting point. Let’s train for one epoch and see if the accuracy improves:
+lr = 1.
+params = weights,bias
+train_epoch(linear1, lr, params)
+validate_epoch(linear1)
+0.6883
+Then do a few more:
+<b>for</b> i <b>in</b> range(20):
+train_epoch(linear1, lr, params)
+<b>print(validate_epoch(linear1),</b> end=' ')
+0.8314 0.9017 0.9227 0.9349 0.9438 0.9501 0.9535 0.9564 0.9594 0.9618 0.9613
+> 0.9638 0.9643 0.9652 0.9662 0.9677 0.9687 0.9691 0.9691 0.9696
+Looking good! We’re already about at the same accuracy as our “pixel similarity”
+approach, and we’ve created a general-purpose foundation we can build on. Our next
+step will be to create an object that will handle the SGD step for us. In PyTorch, it’s
+called an <i>optimizer.</i>
+<header><largefont><b>Creating</b></largefont> <largefont><b>an</b></largefont> <largefont><b>Optimizer</b></largefont></header>
+Because this is such a general foundation, PyTorch provides some useful classes to
+make it easier to implement. The first thing we can do is replace our linear function
+with PyTorch’s nn.Linear module. A <i>module</i> is an object of a class that inherits from
+nn.Module
+the PyTorch class. Objects of this class behave identically to standard
+Python functions, in that you can call them using parentheses, and they will return
+the activations of a model.
+nn.Linear does the same thing as our init_params and linear together. It contains
+both the <i>weights</i> and <i>biases</i> in a single class. Here’s how we replicate our model from
+the previous section:
+linear_model = nn.Linear(28*28,1)
+Every PyTorch module knows what parameters it has that can be trained; they are
+available through the parameters method:
+w,b = linear_model.parameters()
+w.shape,b.shape
+(torch.Size([1, 784]), torch.Size([1]))
+We can use this information to create an optimizer:
+<b>class</b> <b>BasicOptim:</b>
+<b>def</b> <b>__init__(self,params,lr):</b> self.params,self.lr = list(params),lr
+<b>def</b> step(self, *args, **kwargs):
+<b>for</b> p <b>in</b> self.params: p.data -= p.grad.data * self.lr

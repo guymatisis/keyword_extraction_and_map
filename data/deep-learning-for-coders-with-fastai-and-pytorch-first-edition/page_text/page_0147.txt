@@ -1,0 +1,36 @@
+Instead of complaining about shapes not matching, it returned the distance for every
+single image as a vector (i.e., a rank-1 tensor) of length 1,010 (the number of 3s in our
+validation set). How did that happen?
+Take another look at our function mnist_distance , and you’ll see we have there the
+subtraction (a-b). The magic trick is that PyTorch, when it tries to perform a simple
+subtraction operation between two tensors of different ranks, will use <i>broadcasting:</i> it
+will automatically expand the tensor with the smaller rank to have the same size as
+the one with the larger rank. Broadcasting is an important capability that makes ten‐
+sor code much easier to write.
+After broadcasting so the two argument tensors have the same rank, PyTorch applies
+its usual logic for two tensors of the same rank: it performs the operation on each
+corresponding element of the two tensors, and returns the tensor result. For instance:
+tensor([1,2,3]) + tensor([1,1,1])
+tensor([2, 3, 4])
+So in this case, PyTorch treats mean3, a rank-2 tensor representing a single image, as if
+it were 1,010 copies of the same image, and then subtracts each of those copies from
+each 3 in our validation set. What shape would you expect this tensor to have? Try to
+figure it out yourself before you look at the answer here:
+(valid_3_tens-mean3).shape
+torch.Size([1010, 28, 28])
+We are calculating the difference between our ideal 3 and each of the 1,010 3s in the
+validation set, for each of 28×28 images, resulting in the shape [1010,28,28].
+There are a couple of important points about how broadcasting is implemented,
+which make it valuable not just for expressivity but also for performance:
+• PyTorch doesn’t <i>actually</i> copy mean3 1,010 times. It <i>pretends</i> it were a tensor of
+that shape, but doesn’t allocate any additional memory.
+• It does the whole calculation in C (or, if you’re using a GPU, in CUDA, the equiv‐
+alent of C on the GPU), tens of thousands of times faster than pure Python (up to
+millions of times faster on a GPU!).
+This is true of all broadcasting and elementwise operations and functions done in
+PyTorch. <i>It’s</i> <i>the</i> <i>most</i> <i>important</i> <i>technique</i> <i>for</i> <i>you</i> <i>to</i> <i>know</i> <i>to</i> <i>create</i> <i>efficient</i> <i>PyTorch</i>
+<i>code.</i>
+Next in mnist_distance we see abs. You might be able to guess now what this does
+when applied to a tensor. It applies the method to each individual element in the ten‐
+sor, and returns a tensor of the results (that is, it applies the method <i>elementwise).</i> So
+in this case, we’ll get back 1,010 absolute values.

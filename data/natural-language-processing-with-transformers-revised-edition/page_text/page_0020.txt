@@ -1,0 +1,14 @@
+<header><largefont><b>Conclusion</b></largefont></header>
+Hopefully, by now you are excited to learn how to start training and integrating these
+versatile models into your own applications! You’ve seen in this chapter that with just
+a few lines of code you can use state-of-the-art models for classification, named entity
+recognition, question answering, translation, and summarization, but this is really
+just the “tip of the iceberg.”
+In the following chapters you will learn how to adapt transformers to a wide range of
+use cases, such as building a text classifier, or a lightweight model for production, or
+even training a language model from scratch. We’ll be taking a hands-on approach,
+which means that for every concept covered there will be accompanying code that
+you can run on Google Colab or your own GPU machine.
+Now that we’re armed with the basic concepts behind transformers, it’s time to get
+our hands dirty with our first application: text classification. That’s the topic of the
+next chapter!

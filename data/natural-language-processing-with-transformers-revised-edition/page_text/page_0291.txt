@@ -1,0 +1,39 @@
+outputs = data_collator([{"input_ids": inputs["input_ids"][0]}])
+pd.DataFrame({
+"Original tokens": tokenizer.convert_ids_to_tokens(inputs["input_ids"][0]),
+"Masked tokens": tokenizer.convert_ids_to_tokens(outputs["input_ids"][0]),
+"Original input_ids": original_input_ids,
+"Masked input_ids": masked_input_ids,
+"Labels": outputs["labels"][0]}).T
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b>
+<b>Originaltokens</b> [CLS] transformers are awesome ! [SEP]
+<b>Maskedtokens</b> [CLS] transformers are awesome [MASK] [SEP]
+<b>Originalinput_ids</b> 101 19081 2024 12476 999 102
+<b>Maskedinput_ids</b> 101 19081 2024 12476 103 102
+<b>Labels</b> -100 -100 -100 -100 999 -100
+We see that the token corresponding to the exclamation mark has been replaced with
+a mask token. In addition, the data collator returned a label array, which is –100 for
+the original tokens and the token ID for the masked tokens. As we have seen previ‐
+ously, the entries containing –100 are ignored when calculating the loss. Let’s switch
+the format of the data collator back to PyTorch:
+data_collator.return_tensors = "pt"
+With the tokenizer and data collator in place, we are ready to fine-tune the masked
+language model. We set up the TrainingArguments and Trainer as usual:
+<b>from</b> <b>transformers</b> <b>import</b> AutoModelForMaskedLM
+training_args = TrainingArguments(
+output_dir = f"{model_ckpt}-issues-128", per_device_train_batch_size=32,
+logging_strategy="epoch", evaluation_strategy="epoch", save_strategy="no",
+num_train_epochs=16, push_to_hub=True, log_level="error", report_to="none")
+trainer = Trainer(
+model=AutoModelForMaskedLM.from_pretrained("bert-base-uncased"),
+tokenizer=tokenizer, args=training_args, data_collator=data_collator,
+train_dataset=ds_mlm["unsup"], eval_dataset=ds_mlm["train"])
+trainer.train()
+trainer.push_to_hub("Training complete!")
+We can access the trainer’s log history to look at the training and validation losses of
+trainer.state.log_history
+the model. All logs are stored in as a list of dictionaries
+DataFrame.
+that we can easily load into a Pandas Since the training and validation loss
+are recorded at different steps, there are missing values in the dataframe. For this rea‐
+son we drop the missing values before plotting the metrics:

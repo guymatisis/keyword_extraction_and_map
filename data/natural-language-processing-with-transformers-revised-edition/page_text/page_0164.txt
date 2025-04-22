@@ -1,0 +1,9 @@
+Unfortunately, there is no single strategy to solve this problem, and to date this is still
+an open and active research question. For example, recent work by OpenAI showed
+how to scale summarization by applying it recursively to long documents and using
+human feedback in the loop.6
+In the next chapter we’ll look at question answering, which is the task of providing an
+answer to a question based on a text passage. In contrast to summarization, with this
+task there exist good strategies to deal with long or many documents, and we’ll show
+you how to scale question answering to thousands of documents.
+6 J.Wuetal.,“RecursivelySummarizingBookswithHumanFeedback”,(2021).

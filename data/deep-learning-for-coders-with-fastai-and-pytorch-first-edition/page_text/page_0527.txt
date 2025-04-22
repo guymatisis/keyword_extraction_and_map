@@ -1,0 +1,26 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>19</b></largefont></header>
+<header><largefont><b>A</b></largefont> <largefont><b>fastai</b></largefont> <largefont><b>Learner</b></largefont> <largefont><b>from</b></largefont> <largefont><b>Scratch</b></largefont></header>
+This final chapter (other than the conclusion and the online chapters) is going to look
+a bit different. It contains far more code and far less prose than the previous chapters.
+We will introduce new Python keywords and libraries without discussing them. This
+chapter is meant to be the start of a significant research project for you. You see, we
+are going to implement many of the key pieces of the fastai and PyTorch APIs from
+scratch, building on nothing other than the components that we developed in Chap‐
+Learner
+ter 17! The key goal here is to end up with your own class and some call‐
+backs—enough to be able to train a model on Imagenette, including examples of each
+of the key techniques we’ve studied. On the way to building Learner , we will create
+Module, Parameter DataLoader
+our own versions of and a parallel so you’ll have a
+very good idea of what those PyTorch classes do.
+The end-of-chapter questionnaire is particularly important for this chapter. This is
+where we will be pointing you in the many interesting directions that you could take,
+using this chapter as your starting point. We suggest that you follow along with this
+chapter on your computer, and do lots of experiments, web searches, and whatever
+else you need to understand what’s going on. You’ve built up the skills and expertise
+to do this in the rest of this book, so we think you are going to do great!
+Let’s begin by gathering (manually) some data.
+<header><largefont><b>Data</b></largefont></header>
+Have a look at the source to untar_data to see how it works. We’ll use it here to
+access the 160-pixel version of Imagenette for use in this chapter:
+path = untar_data(URLs.IMAGENETTE_160)

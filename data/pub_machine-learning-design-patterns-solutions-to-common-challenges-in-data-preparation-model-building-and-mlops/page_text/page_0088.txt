@@ -1,0 +1,26 @@
+<i>Figure</i> <i>3-5.</i> <i>The</i> <i>precision</i> <i>of</i> <i>the</i> <i>regression</i> <i>is</i> <i>indicated</i> <i>by</i> <i>the</i> <i>sharpness</i> <i>of</i> <i>the</i> <i>probabil‐</i>
+<i>ity</i> <i>density</i> <i>function</i> <i>for</i> <i>a</i> <i>fixed</i> <i>set</i> <i>of</i> <i>input</i> <i>values.</i>
+<b>Restrictingthepredictionrange</b>
+Another reason to reframe the problem is when it is essential to restrict the range of
+the prediction output. Let’s say, for example, that realistic output values for a regres‐
+sion problem are in the range [3, 20]. If we train a regression model where the output
+layer is a linear activation function, there is always the possibility that the model pre‐
+dictions will fall outside this range. One way to limit the range of the output is to
+reframe the problem.
+Make the activation function of the last-but-one layer a sigmoid function (which is
+typically associated with classification) so that it is in the range [0,1] and have the last
+layer scale these values to the desired range:
+MIN_Y = 3
+MAX_Y = 20
+input_size = 10
+inputs = keras.layers.Input(shape=(input_size,))
+h1 = keras.layers.Dense(20, 'relu')(inputs)
+h2 = keras.layers.Dense(1, 'sigmoid')(h1) <i>#</i> <i>0-1</i> <i>range</i>
+output = keras.layers.Lambda(
+<b>lambda</b> y : (y*(MAX_Y-MIN_Y) + MIN_Y))(h2) <i>#</i> <i>scaled</i>
+model = keras.Model(inputs, output)
+We can verify (see the notebook on GitHub for full code) that this model now emits
+numbers in the range [3, 20]. Note that because the output is a sigmoid, the model
+will never actually hit the minimum and maximum of the range, and only get quite
+close to it. When we trained the model above on some random data, we got values in
+the range [3.03, 19.99].

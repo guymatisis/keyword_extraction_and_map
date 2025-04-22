@@ -1,0 +1,33 @@
+<i>Figure</i> <i>3-5.</i> <i>Multi-head</i> <i>attention</i>
+Let’s implement this layer by first coding up a single attention head:
+<b>class</b> <b>AttentionHead(nn.Module):</b>
+<b>def</b> __init__(self, embed_dim, head_dim):
+super().__init__()
+self.q = nn.Linear(embed_dim, head_dim)
+self.k = nn.Linear(embed_dim, head_dim)
+self.v = nn.Linear(embed_dim, head_dim)
+<b>def</b> forward(self, hidden_state):
+attn_outputs = scaled_dot_product_attention(
+self.q(hidden_state), self.k(hidden_state), self.v(hidden_state))
+<b>return</b> attn_outputs
+Here we’ve initialized three independent linear layers that apply matrix multiplication
+to the embedding vectors to produce tensors of shape [batch_size, seq_len,
+head_dim] , where head_dim is the number of dimensions we are projecting into.
+head_dim
+Although does not have to be smaller than the number of embedding
+dimensions of the tokens (embed_dim), in practice it is chosen to be a multiple of
+embed_dim
+so that the computation across each head is constant. For example, BERT
+has 12 attention heads, so the dimension of each head is 768/12 = 64.
+Now that we have a single attention head, we can concatenate the outputs of each one
+to implement the full multi-head attention layer:
+<b>class</b> <b>MultiHeadAttention(nn.Module):</b>
+<b>def</b> __init__(self, config):
+super().__init__()
+embed_dim = config.hidden_size
+num_heads = config.num_attention_heads
+head_dim = embed_dim // num_heads
+self.heads = nn.ModuleList(
+[AttentionHead(embed_dim, head_dim) <b>for</b> _ <b>in</b> range(num_heads)]
+)
+self.output_linear = nn.Linear(embed_dim, embed_dim)

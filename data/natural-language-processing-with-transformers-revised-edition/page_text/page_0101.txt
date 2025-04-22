@@ -1,0 +1,41 @@
+<header><largefont><b>Loading</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Custom</b></largefont> <largefont><b>Model</b></largefont></header>
+Now we are ready to load our token classification model. We’ll need to provide some
+additional information beyond the model name, including the tags that we will use to
+label each entity and the mapping of each tag to an ID and vice versa. All of this
+information can be derived from our tags variable, which as a ClassLabel object has
+names
+a attribute that we can use to derive the mapping:
+index2tag = {idx: tag <b>for</b> idx, tag <b>in</b> enumerate(tags.names)}
+tag2index = {tag: idx <b>for</b> idx, tag <b>in</b> enumerate(tags.names)}
+We’ll store these mappings and the tags.num_classes attribute in the AutoConfig
+object that we encountered in Chapter 3. Passing keyword arguments to the from_pre
+trained()
+method overrides the default values:
+<b>from</b> <b>transformers</b> <b>import</b> AutoConfig
+xlmr_config = AutoConfig.from_pretrained(xlmr_model_name,
+num_labels=tags.num_classes,
+id2label=index2tag, label2id=tag2index)
+The AutoConfig class contains the blueprint of a model’s architecture. When we load
+AutoModel.from_pretrained(model_ckpt)
+a model with , the configuration file asso‐
+ciated with that model is downloaded automatically. However, if we want to modify
+something like the number of classes or label names, then we can load the configura‐
+tion first with the parameters we would like to customize.
+from_pretrained()
+Now, we can load the model weights as usual with the function
+with the additional config argument. Note that we did not implement loading pre‐
+trained weights in our custom model class; we get this for free by inheriting from
+RobertaPreTrainedModel
+:
+<b>import</b> <b>torch</b>
+device = torch.device("cuda" <b>if</b> torch.cuda.is_available() <b>else</b> "cpu")
+xlmr_model = (XLMRobertaForTokenClassification
+.from_pretrained(xlmr_model_name, config=xlmr_config)
+.to(device))
+As a quick check that we have initialized the tokenizer and model correctly, let’s test
+the predictions on our small sequence of known entities:
+input_ids = xlmr_tokenizer.encode(text, return_tensors="pt")
+pd.DataFrame([xlmr_tokens, input_ids[0].numpy()], index=["Tokens", "Input IDs"])
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b> <b>6</b> <b>7</b> <b>8</b> <b>9</b>
+<b>Tokens</b> <s> ▁Jack ▁Spar row ▁love s ▁New ▁York ! </s>
+<b>InputIDs</b> 0 21763 37456 15555 5161 7 2356 5753 38 2

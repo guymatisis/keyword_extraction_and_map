@@ -1,0 +1,38 @@
+<i>#</i> <i>rename</i> <i>to</i> <i>avoid</i> <i>'unique</i> <i>layer</i> <i>name'</i> <i>issue</i>
+layer._name = 'ensemble_' + str(i+1) + '_' + layer.name
+We create the ensemble model stitching together the components using the Keras
+functional API:
+member_inputs = [model.input <b>for</b> model <b>in</b> members]
+<i>#</i> <i>concatenate</i> <i>merge</i> <i>output</i> <i>from</i> <i>each</i> <i>model</i>
+member_outputs = [model.output <b>for</b> model <b>in</b> members]
+merge = layers.concatenate(member_outputs)
+hidden = layers.Dense(10, activation='relu')(merge)
+ensemble_output = layers.Dense(1, activation='relu')(hidden)
+ensemble_model = Model(inputs=member_inputs, outputs=ensemble_output)
+<i>#</i> <i>plot</i> <i>graph</i> <i>of</i> <i>ensemble</i>
+tf.keras.utils.plot_model(ensemble_model, show_shapes=True,
+to_file='ensemble_graph.png')
+<i>#</i> <i>compile</i>
+ensemble_model.compile(loss='mse', optimizer='adam', metrics=['mse'])
+In this example, the secondary model is a dense neural network with two hidden lay‐
+ers. Through training, this network learns how to best combine the results of the
+ensemble members when making predictions.
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+Model averaging methods like bagging work because typically the individual models
+that make up the ensemble model will not all make the same errors on the test set. In
+an ideal situation, each individual model is off by a random amount, so when their
+results are averaged, the random errors cancel out, and the prediction is closer to the
+correct answer. In short, there is wisdom in the crowd.
+Boosting works well because the model is punished more and more according to the
+residuals at each iteration step. With each iteration, the ensemble model is encour‐
+aged to get better and better at predicting those hard-to-predict examples. Stacking
+works because it combines the best of both bagging and boosting. The secondary
+model can be thought of as a more sophisticated version of model averaging.
+<b>Bagging</b>
+More precisely, suppose we’ve trained <i>k</i> neural network regression models and aver‐
+error_i
+age their results to create an ensemble model. If each model has error on
+each example, where error_i is drawn from a zero-mean multivariate normal
+distribution with variance var and covariance cov , then the ensemble predictor will
+have an error:
+ensemble_error = 1./k * np.sum([error_1, error_2,...,error_k])

@@ -1,0 +1,18 @@
+15. Try to run each line of TabularModel.forward separately, one line per cell, in a
+notebook, and look at the input and output shapes at each step.
+16. How is self.layers defined in TabularModel ?
+17. What are the five steps for preventing overfitting?
+18. Why don’t we reduce architecture complexity before trying other approaches to
+preventing overfitting?
+<header><largefont><b>Further</b></largefont> <largefont><b>Research</b></largefont></header>
+1. Write your own custom head and try training the pet recognizer with it. See if
+you can get a better result than fastai’s default.
+2. Try switching between AdaptiveConcatPool2d and AdaptiveAvgPool2d in a
+CNN head and see what difference it makes.
+3. Write your own custom splitter to create a separate parameter group for every
+ResNet block, and a separate group for the stem. Try training with it, and see if it
+improves the pet recognizer.
+4. Read the online chapter about generative image models, and create your own col‐
+orizer, super-resolution model, or style transfer model.
+5. Create a custom head using nearest neighbor interpolation and use it to do seg‐
+mentation on CamVid.

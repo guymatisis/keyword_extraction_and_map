@@ -1,0 +1,36 @@
+How do we decide which parameters should have a high learning rate and which
+should not? We can look at the gradients to get an idea. If a parameter’s gradients
+have been close to zero for a while, that parameter will need a higher learning rate
+because the loss is flat. On the other hand, if the gradients are all over the place, we
+should probably be careful and pick a low learning rate to avoid divergence. We can’t
+just average the gradients to see if they’re changing a lot, because the average of a
+large positive and a large negative number is close to zero. Instead, we can use the
+usual trick of either taking the absolute value or the squared values (and then taking
+the square root after the mean).
+Once again, to determine the general tendency behind the noise, we will use a mov‐
+ing average—specifically, the moving average of the gradients squared. Then we will
+update the corresponding weight by using the current gradient (for the direction)
+divided by the square root of this moving average (that way, if it’s low, the effective
+learning rate will be higher, and if it’s high, the effective learning rate will be lower):
+w.square_avg = alpha * w.square_avg + (1-alpha) * (w.grad ** 2)
+new_w = w - lr * w.grad / math.sqrt(w.square_avg + eps)
+The eps (epsilon) is added for numerical stability (usually set at 1e-8), and the default
+value for alpha is usually 0.99.
+We can add this to Optimizer by doing much the same thing we did for avg_grad,
+but with an extra **2:
+<b>def</b> average_sqr_grad(p, sqr_mom, sqr_avg=None, **kwargs):
+<b>if</b> sqr_avg <b>is</b> None: sqr_avg = torch.zeros_like(p.grad.data)
+<b>return</b> {'sqr_avg': sqr_avg*sqr_mom + p.grad.data**2}
+And we can define our step function and optimizer as before:
+<b>def</b> rms_prop_step(p, lr, sqr_avg, eps, grad_avg=None, **kwargs):
+denom = sqr_avg.sqrt().add_(eps)
+p.data.addcdiv_(-lr, p.grad, denom)
+opt_func = partial(Optimizer, cbs=[average_sqr_grad,rms_prop_step],
+sqr_mom=0.99, eps=1e-7)
+Let’s try it out:
+learn = get_learner(opt_func=opt_func)
+learn.fit_one_cycle(3, 0.003)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 2.766912 1.845900 0.402548 00:11
+1 2.194586 1.510269 0.504459 00:11
+2 1.869099 1.447939 0.544968 00:11

@@ -1,0 +1,32 @@
+<header><largefont><b>Text</b></largefont> <largefont><b>Summarization</b></largefont> <largefont><b>Pipelines</b></largefont></header>
+Let’s see how a few of the most popular transformer models for summarization per‐
+form by first looking qualitatively at the outputs for the preceding example. Although
+the model architectures we will be exploring have varying maximum input sizes, let’s
+restrict the input text to 2,000 characters to have the same input for all models and
+thus make the outputs more comparable:
+sample_text = dataset["train"][1]["article"][:2000]
+<i>#</i> <i>We'll</i> <i>collect</i> <i>the</i> <i>generated</i> <i>summaries</i> <i>of</i> <i>each</i> <i>model</i> <i>in</i> <i>a</i> <i>dictionary</i>
+summaries = {}
+A convention in summarization is to separate the summary sentences by a newline.
+We could add a newline token after each full stop, but this simple heuristic would fail
+for strings like “U.S.” or “U.N.” The Natural Language Toolkit (NLTK) package
+includes a more sophisticated algorithm that can differentiate the end of a sentence
+from punctuation that occurs in abbreviations:
+<b>import</b> <b>nltk</b>
+<b>from</b> <b>nltk.tokenize</b> <b>import</b> sent_tokenize
+nltk.download("punkt")
+string = "The U.S. are a country. The U.N. is an organization."
+sent_tokenize(string)
+['The U.S. are a country.', 'The U.N. is an organization.']
+In the following sections we will load several large models. If you
+run out of memory, you can either replace the large models with
+smaller checkpoints (e.g., “gpt”, “t5-small”) or skip this section and
+jump to “Evaluating PEGASUS on the CNN/DailyMail Dataset” on
+page 154.
+<header><largefont><b>Summarization</b></largefont> <largefont><b>Baseline</b></largefont></header>
+A common baseline for summarizing news articles is to simply take the first three
+sentences of the article. With NLTK’s sentence tokenizer, we can easily implement
+such a baseline:
+<b>def</b> three_sentence_summary(text):
+<b>return</b> "\n".join(sent_tokenize(text)[:3])
+summaries["baseline"] = three_sentence_summary(sample_text)

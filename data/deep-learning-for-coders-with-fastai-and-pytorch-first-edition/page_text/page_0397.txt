@@ -1,0 +1,38 @@
+<b>DoYourOwnExperiments</b>
+In previous chapters of the book, we’d be adding a code example for
+bernoulli_ here, so you can see exactly how it works. But now that
+you know enough to do this yourself, we’re going to be doing fewer
+and fewer examples for you, and instead expecting you to do your
+own experiments to see how things work. In this case, you’ll see in
+the end-of-chapter questionnaire that we’re asking you to experi‐
+bernoulli_—but
+ment with don’t wait for us to ask you to experi‐
+ment to develop your understanding of the code we’re studying; go
+ahead and do it anyway!
+Using dropout before passing the output of our LSTM to the final layer will help
+reduce overfitting. Dropout is also used in many other models, including the default
+CNN head used in fastai.vision, and is available in fastai.tabular by passing the
+ps parameter (where each “p” is passed to each added Dropout layer), as we’ll see in
+Chapter 15.
+Dropout has different behavior in training and validation mode, which we specified
+using the training attribute in Dropout. Calling the train method on a Module sets
+training to True (both for the module you call the method on and for every module
+it recursively contains), and eval sets it to False. This is done automatically when
+calling the methods of Learner , but if you are not using that class, remember to
+switch from one to the other as needed.
+<header><largefont><b>Activation</b></largefont> <largefont><b>Regularization</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Temporal</b></largefont> <largefont><b>Activation</b></largefont> <largefont><b>Regularization</b></largefont></header>
+<i>Activation</i> <i>regularization</i> (AR) and <i>temporal</i> <i>activation</i> <i>regularization</i> (TAR) are two
+regularization methods very similar to weight decay, discussed in Chapter 8. When
+applying weight decay, we add a small penalty to the loss that aims at making the
+weights as small as possible. For activation regularization, it’s the final activations
+produced by the LSTM that we will try to make as small as possible, instead of the
+weights.
+To regularize the final activations, we have to store those somewhere, then add the
+means of the squares of them to the loss (along with a multiplier alpha, which is just
+like wd for weight decay):
+loss += alpha * activations.pow(2).mean()
+Temporal activation regularization is linked to the fact we are predicting tokens in a
+sentence. That means it’s likely that the outputs of our LSTMs should somewhat make
+sense when we read them in order. TAR is there to encourage that behavior by adding
+a penalty to the loss to make the difference between two consecutive activations as
+small as possible: our activations tensor has a shape bs x sl x n_hid , and we read

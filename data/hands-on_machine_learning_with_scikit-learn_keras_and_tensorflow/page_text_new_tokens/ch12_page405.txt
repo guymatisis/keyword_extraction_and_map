@@ -1,0 +1,39 @@
+• At the end of each epoch, we display the status bar again to make it look com‐
+plete13 and to print a line feed, and we reset the states of the mean loss and the
+metrics.
+clipnorm clipvalue
+If you set the optimizer’s or hyperparameter, it will take care of
+this for you. If you want to apply any other transformation to the gradients, simply do
+so before calling the apply_gradients() method.
+kernel_constraint
+If you add weight constraints to your model (e.g., by setting or
+bias_constraint when creating a layer), you should update the training loop to
+apply_gradients()
+apply these constraints just after :
+<b>for</b> variable <b>in</b> model.variables:
+<b>if</b> variable.constraint <b>is</b> <b>not</b> None:
+variable.assign(variable.constraint(variable))
+Most importantly, this training loop does not handle layers that behave differently
+during training and testing (e.g., BatchNormalization or Dropout ). To handle these,
+training=True
+you need to call the model with and make sure it propagates this to
+every layer that needs it.
+As you can see, there are quite a lot of things you need to get right, and it’s easy to
+make a mistake. But on the bright side, you get full control, so it’s your call.
+models14
+Now that you know how to customize any part of your and training algo‐
+rithms, let’s see how you can use TensorFlow’s automatic graph generation feature: it
+can speed up your custom code considerably, and it will also make it portable to any
+platform supported by TensorFlow (see Chapter 19).
+<header><largefont><b>TensorFlow</b></largefont> <largefont><b>Functions</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Graphs</b></largefont></header>
+In TensorFlow 1, graphs were unavoidable (as were the complexities that came with
+them) because they were a central part of TensorFlow’s API. In TensorFlow 2, they are
+still there, but not as central, and they’re much (much!) simpler to use. To show just
+how simple, let’s start with a trivial function that computes the cube of its input:
+<b>def</b> cube(x):
+<b>return</b> x ** 3
+13 Thetruthiswedidnotprocesseverysingleinstanceinthetrainingset,becausewesampledinstancesran‐
+domly:somewereprocessedmorethanonce,whileotherswerenotprocessedatall.Likewise,ifthetraining
+setsizeisnotamultipleofthebatchsize,wewillmissafewinstances.Inpracticethat’sfine.
+14 Withtheexceptionofoptimizers,asveryfewpeopleevercustomizethese;seethe“CustomOptimizers”sec‐
+tioninthenotebookforanexample.

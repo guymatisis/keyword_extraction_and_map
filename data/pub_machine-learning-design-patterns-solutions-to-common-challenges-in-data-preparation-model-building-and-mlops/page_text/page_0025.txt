@@ -1,0 +1,7 @@
+values to be between [–1, 1]) and pushes the problematic values further out. Of these
+three methods, zero-norming works best for mother_age because the raw age values
+were somewhat of a bell curve. For other problems, min-max scaling, clipping, or
+winsorizing might be better.
+<i>Figure</i> <i>2-3.</i> <i>The</i> <i>histogram</i> <i>of</i> <i>mother_age</i> <i>in</i> <i>the</i> <i>baby</i> <i>weight</i> <i>prediction</i> <i>example</i> <i>is</i>
+<i>shown</i> <i>in</i> <i>the</i> <i>top-left</i> <i>panel,</i> <i>and</i> <i>different</i> <i>scaling</i> <i>functions</i> <i>(see</i> <i>the</i> <i>x-axis</i> <i>label)</i> <i>are</i>
+<i>shown</i> <i>in</i> <i>the</i> <i>remaining</i> <i>panels.</i>

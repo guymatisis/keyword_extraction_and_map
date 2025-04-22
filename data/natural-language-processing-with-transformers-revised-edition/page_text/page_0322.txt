@@ -1,0 +1,27 @@
+<header><largefont><b>Saving</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Custom</b></largefont> <largefont><b>Tokenizer</b></largefont> <largefont><b>on</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Hub</b></largefont></header>
+Now that our tokenizer is trained, we should save it. The simplest way to save it and
+be able to access it from anywhere later is to push it to the Hugging Face Hub. This
+will be especially useful later, when we use a separate training server.
+To create a private model repository and save our tokenizer in it as a first file, we can
+push_to_hub()
+directly use the method of the tokenizer. Since we already authentica‐
+ted our account with huggingface-cli login , we can simply push the tokenizer as
+follows:
+model_ckpt = "codeparrot"
+org = "transformersbook"
+new_tokenizer_larger.push_to_hub(model_ckpt, organization=org)
+organization
+If you don’t want to push to an organization, you can simply omit the
+argument. This will create a repository in your namespace named codeparrot, which
+anyone can then load by running:
+reloaded_tokenizer = AutoTokenizer.from_pretrained(org + "/" + model_ckpt)
+<b>print(reloaded_tokenizer(python_code).tokens())</b>
+['def', 'Ġsay', '_', 'hello', '():', 'ĊĠĠĠ', 'Ġprint', '("', 'Hello', ',',
+'ĠWorld', '!")', 'Ġ#', 'ĠPrint', 'Ġit', 'Ċ', 'Ċ', 'say', '_', 'hello', '()',
+'Ċ']
+The tokenizer loaded from the Hub behaves exactly as we just saw. We can also inves‐
+tigate its files and saved vocabulary on the Hub. For reproducibility, let’s save our
+smaller tokenizer as well:
+new_tokenizer.push_to_hub(model_ckpt+ "-small-vocabulary", organization=org)
+This was a deep dive into building a tokenizer for a specific use case. Next, we will
+finally create a new model and train it from scratch.

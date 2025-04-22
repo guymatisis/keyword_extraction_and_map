@@ -1,0 +1,31 @@
+One batch contains 64 images, each of 1 channel, with 28×28 pixels. F.conv2d can
+handle multichannel (color) images too. A <i>channel</i> is a single basic color in an image
+—for regular full-color images, there are three channels, red, green, and blue.
+PyTorch represents an image as a rank-3 tensor, with these dimensions:
+[channels, <i>rows,</i> <i>columns]</i>
+We’ll see how to handle more than one channel later in this chapter. Kernels passed to
+F.conv2d need to be rank-4 tensors:
+[channels_in, <i>features_out,</i> <i>rows,</i> <i>columns]</i>
+edge_kernels is currently missing one of these: we need to tell PyTorch that the
+number of input channels in the kernel is one, which we can do by inserting an axis
+of size one (this is known as a <i>unit</i> <i>axis)</i> in the first location, where the PyTorch docs
+show in_channels is expected. To insert a unit axis into a tensor, we use the
+unsqueeze method:
+edge_kernels.shape,edge_kernels.unsqueeze(1).shape
+(torch.Size([4, 3, 3]), torch.Size([4, 1, 3, 3]))
+This is now the correct shape for edge_kernels. Let’s pass this all to conv2d:
+edge_kernels = edge_kernels.unsqueeze(1)
+batch_features = F.conv2d(xb, edge_kernels)
+batch_features.shape
+torch.Size([64, 4, 26, 26])
+The output shape shows we have 64 images in the mini-batch, 4 kernels, and 26×26
+edge maps (we started with 28×28 images, but lost one pixel from each side as dis‐
+cussed earlier). We can see we get the same results as when we did this manually:
+show_image(batch_features[0,0]);
+The most important trick that PyTorch has up its sleeve is that it can use the GPU to
+do all this work in parallel—applying multiple kernels to multiple images, across mul‐
+tiple channels. Doing lots of work in parallel is critical to getting GPUs to work effi‐
+ciently; if we did each of these operations one at a time, we’d often run hundreds of
+times slower (and if we used our manual convolution loop from the previous section,
+we’d be millions of times slower!). Therefore, to become a strong deep learning prac‐
+titioner, one skill to practice is giving your GPU plenty of work to do at a time.

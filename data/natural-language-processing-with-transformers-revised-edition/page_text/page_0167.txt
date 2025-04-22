@@ -1,0 +1,17 @@
+platforms provided by websites like Amazon, but it usually takes days to get an
+answer (if you get one at all). Wouldn’t it be nice if we could get an immediate answer,
+like in the Google example from Figure 7-1? Let’s see if we can do this using
+transformers!
+<header><largefont><b>The</b></largefont> <largefont><b>Dataset</b></largefont></header>
+To build our QA system we’ll use the SubjQA dataset, 2 which consists of more than
+10,000 customer reviews in English about products and services in six domains: Trip‐
+Advisor, Restaurants, Movies, Books, Electronics, and Grocery. As illustrated in
+Figure 7-2, each review is associated with a question that can be answered using one
+or more sentences from the review. 3
+<i>Figure</i> <i>7-2.</i> <i>A</i> <i>question</i> <i>about</i> <i>a</i> <i>product</i> <i>and</i> <i>the</i> <i>corresponding</i> <i>review</i> <i>(the</i> <i>answer</i> <i>span</i>
+<i>is</i> <i>underlined)</i>
+The interesting aspect of this dataset is that most of the questions and answers are
+<i>subjective;</i> that is, they depend on the personal experience of the users. The example
+in Figure 7-2 shows why this feature makes the task potentially more difficult than
+2 J.Bjervaetal.,“SubjQA:ADatasetforSubjectivityandReviewComprehension”,(2020).
+3 Aswe’llsoonsee,therearealsounanswerablequestionsthataredesignedtoproducemorerobustmodels.

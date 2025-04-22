@@ -1,0 +1,32 @@
+<i>Block</i> <i>local</i> <i>attention</i>
+Divides the sequence into blocks and restricts attention within these blocks
+In practice, most transformer models with sparse attention use a mix of the atomic
+sparsity patterns shown in Figure 11-5 to generate the final attention matrix. As illus‐
+trated in Figure 11-6, models like Longformer use a mix of global and band attention,
+while BigBird adds random attention to the mix. Introducing sparsity into the atten‐
+tion matrix enables these models to process much longer sequences; in the case of
+Longformer and BigBird the maximum sequence length is 4,096 tokens, which is 8
+times larger than BERT!
+<i>Figure</i> <i>11-6.</i> <i>Sparse</i> <i>attention</i> <i>patterns</i> <i>for</i> <i>recent</i> <i>transformer</i> <i>models</i> <i>(courtesy</i> <i>of</i>
+<i>Tianyang</i> <i>Lin)</i>
+It is also possible to <i>learn</i> the sparsity pattern in a data-driven man‐
+ner. The basic idea behind such approaches is to cluster the tokens
+into chunks. For example, Reformer uses a hash function to cluster
+similar tokens together.
+Now that we’ve seen how sparsity can reduce the complexity of self-attention, let’s
+take a look at another popular approach based on changing the operations directly.
+<header><largefont><b>Linearized</b></largefont> <largefont><b>Attention</b></largefont></header>
+An alternative way to make self-attention more efficient is to change the order of
+operations that are involved in computing the attention scores. Recall that to compute
+the self-attention scores of the queries and keys we need a similarity function, which
+for the transformer is just a simple dot product. However, for a general similarity
+function sim <i>q</i> ,k we can express the attention outputs as the following equation:
+<i>i</i> <i>j</i>
+sim <i>Q</i> ,K
+<i>i</i> <i>j</i>
+<largefont>∑</largefont>
+<i>y</i> = <i>V</i>
+<i>i</i> <i>j</i>
+∑ sim <i>Q</i> ,K
+<i>j</i>
+<i>k</i> <i>i</i> <i>k</i>

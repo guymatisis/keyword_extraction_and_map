@@ -1,0 +1,42 @@
+<b>def</b> one_batch(self):
+self('before_batch')
+xb,yb = self.batch
+self.preds = self.model(xb)
+self.loss = self.loss_func(self.preds, yb)
+<b>if</b> self.model.training:
+self.loss.backward()
+self.opt.step()
+self('after_batch')
+<b>def</b> one_epoch(self, train):
+self.model.training = train
+self('before_epoch')
+dl = self.dls.train <b>if</b> train <b>else</b> self.dls.valid
+<b>for</b> self.num,self.batch <b>in</b> enumerate(progress_bar(dl, leave=False)):
+self.one_batch()
+self('after_epoch')
+<b>def</b> fit(self, n_epochs):
+self('before_fit')
+self.opt = self.opt_func(self.model.parameters(), self.lr)
+self.n_epochs = n_epochs
+<b>try:</b>
+<b>for</b> self.epoch <b>in</b> range(n_epochs):
+self.one_epoch(True)
+self.one_epoch(False)
+<b>except</b> CancelFitException: <b>pass</b>
+self('after_fit')
+<b>def</b> <b>__call__(self,name):</b>
+<b>for</b> cb <b>in</b> self.cbs: getattr(cb,name,noop)()
+This is the largest class we’ve created in the book, but each method is quite small, so
+by looking at each in turn, you should be able to follow what’s going on.
+The main method we’ll be calling is fit. This loops with
+<b>for</b> self.epoch <b>in</b> range(n_epochs)
+and at each epoch calls self.one_epoch for each of train=True and then
+train=False . Then self.one_epoch calls self.one_batch for each batch in
+dls.train or dls.valid, as appropriate (after wrapping the DataLoader in
+fastprogress.progress_bar). Finally, self.one_batch follows the usual set of steps
+to fit one mini-batch that we’ve seen throughout this book.
+Before and after each step, Learner calls self, which calls __call__ (which is stan‐
+dard Python functionality). __call__ uses getattr(cb,name) on each callback in
+self.cbs, which is a Python built-in function that returns the attribute (a method, in
+this case) with the requested name. So, for instance, self('before_fit') will call
+cb.before_fit() for each callback where that method is defined.

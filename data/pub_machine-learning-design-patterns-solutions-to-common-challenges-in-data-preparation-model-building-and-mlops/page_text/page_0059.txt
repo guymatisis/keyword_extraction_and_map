@@ -1,0 +1,34 @@
+<b>Handlingnumericalfeatures</b>
+We would never want to create a feature cross with a continuous input. Remember, if
+one input takes <i>m</i> possible values and another input takes <i>n</i> possible values, then the
+feature cross of the two would result in m*n elements. A numeric input is dense, tak‐
+ing a continuum of values. It would be impossible to enumerate all possible values in
+a feature cross of continuous input data.
+Instead, if our data is continuous, then we can bucketize the data to make it categori‐
+cal before applying a feature cross. For example, latitude and longitude are continu‐
+ous inputs, and it makes intuitive sense to create a feature cross using these inputs
+since location is determined by an ordered pair of latitude and longitude. However,
+instead of creating a feature cross using the raw latitude and longitude, we would bin
+these continuous values and cross the binned_latitude and the binned_longitude :
+<b>import</b> <b>tensorflow.feature_column</b> <b>as</b> <b>fc</b>
+<i>#</i> <i>Create</i> <i>a</i> <i>bucket</i> <i>feature</i> <i>column</i> <i>for</i> <i>latitude.</i>
+latitude_as_numeric = fc.numeric_column("latitude")
+lat_bucketized = fc.bucketized_column(latitude_as_numeric,
+lat_boundaries)
+<i>#</i> <i>Create</i> <i>a</i> <i>bucket</i> <i>feature</i> <i>column</i> <i>for</i> <i>longitude.</i>
+longitude_as_numeric = fc.numeric_column("longitude")
+lon_bucketized = fc.bucketized_column(longitude_as_numeric,
+lon_boundaries)
+<i>#</i> <i>Create</i> <i>a</i> <i>feature</i> <i>cross</i> <i>of</i> <i>latitude</i> <i>and</i> <i>longitude</i>
+lat_x_lon = fc.crossed_column([lat_bucketized, lon_bucketized],
+hash_bucket_size=nbuckets**4)
+crossed_feature = fc.indicator_column(lat_x_lon)
+<b>Handlinghighcardinality</b>
+Because the cardinality of resulting categories from a feature cross increases multipli‐
+catively with respect to the cardinality of the input features, feature crosses lead to
+day_of_week hour_of_day
+sparsity in our model inputs. Even with the and feature
+cross, a feature cross would be a sparse vector of dimension 168 (see Figure 2-17).
+It can be useful to pass a feature cross through an Embedding layer (see the “Design
+Pattern 2: Embeddings” on page 39 in this chapter) to create a lower-dimensional
+representation, as shown in Figure 2-18.

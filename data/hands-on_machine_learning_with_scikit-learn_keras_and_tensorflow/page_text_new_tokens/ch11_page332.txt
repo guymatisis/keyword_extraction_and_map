@@ -1,0 +1,37 @@
+<header><largefont><b>The</b></largefont> <largefont><b>Vanishing/Exploding</b></largefont> <largefont><b>Gradients</b></largefont> <largefont><b>Problems</b></largefont></header>
+As we discussed in Chapter 10, the backpropagation algorithm works by going from
+the output layer to the input layer, propagating the error gradient along the way. Once
+the algorithm has computed the gradient of the cost function with regard to each
+parameter in the network, it uses these gradients to update each parameter with a
+Gradient Descent step.
+Unfortunately, gradients often get smaller and smaller as the algorithm progresses
+down to the lower layers. As a result, the Gradient Descent update leaves the lower
+layers’ connection weights virtually unchanged, and training never converges to a
+good solution. We call this the <i>vanishing</i> <i>gradients</i> problem. In some cases, the oppo‐
+site can happen: the gradients can grow bigger and bigger until layers get insanely
+large weight updates and the algorithm diverges. This is the <i>exploding</i> <i>gradients</i> prob‐
+lem, which surfaces in recurrent neural networks (see Chapter 15). More generally,
+deep neural networks suffer from unstable gradients; different layers may learn at
+widely different speeds.
+This unfortunate behavior was empirically observed long ago, and it was one of the
+reasons deep neural networks were mostly abandoned in the early 2000s. It wasn’t
+clear what caused the gradients to be so unstable when training a DNN, but some
+light was shed in a 2010 paper by Xavier Glorot and Yoshua Bengio.1 The authors
+found a few suspects, including the combination of the popular logistic sigmoid acti‐
+vation function and the weight initialization technique that was most popular at the
+time (i.e., a normal distribution with a mean of 0 and a standard deviation of 1). In
+short, they showed that with this activation function and this initialization scheme,
+the variance of the outputs of each layer is much greater than the variance of its
+inputs. Going forward in the network, the variance keeps increasing after each layer
+until the activation function saturates at the top layers. This saturation is actually
+made worse by the fact that the logistic function has a mean of 0.5, not 0 (the hyper‐
+bolic tangent function has a mean of 0 and behaves slightly better than the logistic
+function in deep networks).
+Looking at the logistic activation function (see Figure 11-1), you can see that when
+inputs become large (negative or positive), the function saturates at 0 or 1, with a
+derivative extremely close to 0. Thus, when backpropagation kicks in it has virtually
+no gradient to propagate back through the network; and what little gradient exists
+keeps getting diluted as backpropagation progresses down through the top layers, so
+there is really nothing left for the lower layers.
+1 XavierGlorotandYoshuaBengio,“UnderstandingtheDifficultyofTrainingDeepFeedforwardNeuralNet‐
+works,”Proceedingsofthe13thInternationalConferenceonArtificialIntelligenceandStatistics(2010):249–256.

@@ -1,0 +1,38 @@
+query = """Hey, I'd like to rent a vehicle from Nov 1st to Nov 15th in
+Paris and I need a 15 passenger van"""
+pipe(query)
+[{'label': 'car_rental', 'score': 0.549003541469574}]
+Great, the car_rental intent makes sense. Let’s now look at creating a benchmark
+that we can use to evaluate the performance of our baseline model.
+<header><largefont><b>Creating</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Performance</b></largefont> <largefont><b>Benchmark</b></largefont></header>
+Like other machine learning models, deploying transformers in production environ‐
+being:2
+ments involves a trade-off among several constraints, the most common
+<i>Model</i> <i>performance</i>
+How well does our model perform on a well-crafted test set that reflects produc‐
+tion data? This is especially important when the cost of making errors is large
+(and best mitigated with a human in the loop), or when we need to run inference
+on millions of examples and small improvements to the model metrics can trans‐
+late into large gains in aggregate.
+<i>Latency</i>
+How fast can our model deliver predictions? We usually care about latency in
+real-time environments that deal with a lot of traffic, like how Stack Overflow
+needed a classifier to quickly detect unwelcome comments on the website.
+<i>Memory</i>
+How can we deploy billion-parameter models like GPT-2 or T5 that require giga‐
+bytes of disk storage and RAM? Memory plays an especially important role in
+mobile or edge devices, where a model has to generate predictions without access
+to a powerful cloud server.
+Failing to address these constraints can have a negative impact on the user experience
+of your application. More commonly, it can lead to ballooning costs from running
+expensive cloud servers that may only need to handle a few requests. To explore how
+each of these constraints can be optimized with various compression techniques, let’s
+begin by creating a simple benchmark that measures each quantity for a given pipe‐
+line and test set. A skeleton of what we’ll need is given by the following class:
+<b>class</b> <b>PerformanceBenchmark:</b>
+<b>def</b> __init__(self, pipeline, dataset, optim_type="BERT baseline"):
+self.pipeline = pipeline
+2 AsdescribedbyEmmanuelAmeiseninBuildingMachineLearningPoweredApplications(O’Reilly),business
+orproductmetricsarethemostimportantonestoconsider.Afterall,itdoesn’tmatterhowaccurateyour
+modelisifitdoesn’tsolveaproblemyourbusinesscaresabout.Inthischapterwe’llassumethatyouhave
+alreadydefinedthemetricsthatmatterforyourapplicationandfocusonoptimizingthemodelmetrics.

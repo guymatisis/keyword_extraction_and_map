@@ -1,0 +1,36 @@
+Although this is an easy enough algorithm to implement yourself (and it is a good
+exercise to do so), we can save some time by using the implementation built into
+sklearn.
+First, however, we need to do a little data preparation.
+<b>AlexisSays</b>
+Here’s a productive question to ponder. If you consider that the
+procedure for defining a decision tree essentially chooses one
+<i>sequence</i> <i>of</i> <i>splitting</i> <i>questions</i> <i>about</i> <i>variables,</i> you might ask your‐
+self, how do we know this procedure chooses the <i>correct</i> <i>sequence?</i>
+The rule is to choose the splitting question that produces the best
+split (i.e., that most accurately separates the items into two distinct
+categories), and then to apply the same rule to the groups that split
+produces, and so on. This is known in computer science as a
+“greedy” approach. Can you imagine a scenario in which asking a
+“less powerful” splitting question would enable a better split down
+the road (or should I say down the trunk!) and lead to a better
+result overall?
+<header><largefont><b>Handling</b></largefont> <largefont><b>Dates</b></largefont></header>
+The first piece of data preparation we need to do is to enrich our representation of
+dates. The fundamental basis of the decision tree that we just described is <i>bisection—</i>
+dividing a group into two. We look at the ordinal variables and divide the dataset
+based on whether the variable’s value is greater (or lower) than a threshold, and we
+look at the categorical variables and divide the dataset based on whether the variable’s
+level is a particular level. So this algorithm has a way of dividing the dataset based on
+both ordinal and categorical data.
+But how does this apply to a common data type, the date? You might want to treat a
+date as an ordinal value, because it is meaningful to say that one date is greater than
+another. However, dates are a bit different from most ordinal values in that some
+dates are qualitatively different from others in a way that that is often relevant to the
+systems we are modeling.
+To help our algorithm handle dates intelligently, we’d like our model to know more
+than whether a date is more recent or less recent than another. We might want our
+model to make decisions based on that date’s day of the week, on whether a day is a
+holiday, on what month it is in, and so forth. To do this, we replace every date column
+with a set of date metadata columns, such as holiday, day of week, and month. These
+columns provide categorical data that we suspect will be useful.

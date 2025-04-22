@@ -1,0 +1,30 @@
+<b>StopandThink</b>
+Consider this question: would this approach make sense for an
+optical character recognition (OCR) problem such as MNIST? The
+vast majority of practitioners tackling OCR and similar problems
+tend to use fully convolutional networks, because that’s what nearly
+everybody learns nowadays. But it really doesn’t make any sense!
+You can’t decide, for instance, whether a number is a 3 or an 8 by
+slicing it into small pieces, jumbling them up, and deciding
+whether on average each piece looks like a 3 or an 8. But that’s what
+adaptive average pooling effectively does! Fully convolutional net‐
+works are really a good choice only for objects that don’t have a sin‐
+gle correct orientation or size (e.g., like most natural photos).
+Once we are done with our convolutional layers, we will get activations of size
+bs x ch x h x w (batch size, a certain number of channels, height, and width). We
+want to convert this to a tensor of size bs x ch, so we take the average over the last
+two dimensions and flatten the trailing 1×1 dimension as we did in our previous
+model.
+This is different from regular pooling in the sense that those layers will generally take
+the average (for average pooling) or the maximum (for max pooling) of a window of
+a given size. For instance, max pooling layers of size 2, which were very popular in
+older CNNs, reduce the size of our image by half on each dimension by taking the
+maximum of each 2×2 window (with a stride of 2).
+As before, we can define a Learner with our custom model and then train it on the
+data we grabbed earlier:
+<b>def</b> get_learner(m):
+<b>return</b> Learner(dls, m, loss_func=nn.CrossEntropyLoss(), metrics=accuracy
+).to_fp16()
+learn = get_learner(get_model())
+learn.lr_find()
+(0.47863011360168456, 3.981071710586548)

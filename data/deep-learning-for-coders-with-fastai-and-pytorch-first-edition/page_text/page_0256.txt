@@ -1,0 +1,33 @@
+When we multiply two vectors together and add up the results, this is known as the
+<i>dot</i> <i>product.</i> It is used a lot in machine learning and forms the basis of matrix multi‐
+plication. We will be looking a lot more at matrix multiplication and dot products in
+Chapter 17.
+<b>Jargon:DotProduct</b>
+The mathematical operation of multiplying the elements of two
+vectors together, and then summing up the result.
+On the other hand, we might represent the movie <i>Casablanca</i> as follows:
+casablanca = np.array([-0.99,-0.3,0.8])
+The match between this combination is shown here:
+(user1*casablanca).sum()
+-1.611
+Since we don’t know what the latent factors are, and we don’t know how to score
+them for each user and movie, we should learn them.
+<header><largefont><b>Learning</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Latent</b></largefont> <largefont><b>Factors</b></largefont></header>
+There is surprisingly little difference between specifying the structure of a model, as
+we did in the preceding section, and learning one, since we can just use our general
+gradient descent approach.
+Step 1 of this approach is to randomly initialize some parameters. These parameters
+will be a set of latent factors for each user and movie. We will have to decide how
+many to use. We will discuss how to select this shortly, but for illustrative purposes,
+let’s use 5 for now. Because each user will have a set of these factors, and each movie
+will have a set of these factors, we can show these randomly initialized values right
+next to the users and movies in our crosstab, and we can then fill in the dot products
+for each of these combinations in the middle. For example, Figure 8-2 shows what it
+looks like in Microsoft Excel, with the top-left cell formula displayed as an example.
+Step 2 of this approach is to calculate our predictions. As we’ve discussed, we can do
+this by simply taking the dot product of each movie with each user. If, for instance,
+the first latent user factor represents how much the user likes action movies and the
+first latent movie factor represents whether the movie has a lot of action or not, the
+product of those will be particularly high if either the user likes action movies and the
+movie has a lot of action in it, or the user doesn’t like action movies and the movie
+doesn’t have any action in it. On the other hand, if we have a mismatch (a user loves

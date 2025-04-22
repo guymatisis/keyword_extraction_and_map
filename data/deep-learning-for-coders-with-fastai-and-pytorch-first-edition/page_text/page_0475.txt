@@ -1,0 +1,15 @@
+Note that we are writing weight.avg to highlight the fact that we need to store the
+moving averages for each parameter of the model (they all their own independent
+moving averages).
+Figure 16-1 shows an example of noisy data for a single parameter with the momen‐
+tum curve plotted in red, and the gradients of the parameter plotted in blue. The gra‐
+dients increase, then decrease, and the momentum does a good job of following the
+general trend without getting too influenced by noise.
+<i>Figure</i> <i>16-1.</i> <i>An</i> <i>example</i> <i>of</i> <i>momentum</i>
+It works particularly well if the loss function has narrow canyons we need to navigate:
+vanilla SGD would send us bouncing from one side to the other, while SGD with
+momentum will average those to roll smoothly down the side. The parameter beta
+determines the strength of the momentum we are using: with a small beta , we stay
+closer to the actual gradient values, whereas with a high beta, we will mostly go in the
+direction of the average of the gradients and it will take a while before any change in
+the gradients makes that trend move.

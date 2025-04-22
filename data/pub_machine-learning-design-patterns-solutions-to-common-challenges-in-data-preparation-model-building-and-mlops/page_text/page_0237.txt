@@ -1,0 +1,40 @@
+train_data_gen = image_generator.flow_from_directory(
+directory=data_dir,
+batch_size=32,
+shuffle=True,
+target_size=(128,128),
+classes = ['not_instrument','instrument'],
+class_mode='binary')
+With our training and validation datasets ready, we can train the model as we nor‐
+mally would. The typical approach for exporting trained models for serving is to use
+TensorFlow’s model.save() method. However, remember that this model will be
+served on-device, and as a result we want to keep it as small as possible. To build a
+model that fits these requirements, we’ll use TensorFlow Lite, a library optimized for
+building and serving models directly on mobile and embedded devices that may not
+have reliable internet connectivity. TF Lite has some built-in utilities for quantizing
+models both during and after training.
+To prepare the trained model for edge serving, we use TF Lite to export it in an opti‐
+mized format:
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+converter.optimizations = [tf.lite.Optimize.DEFAULT]
+tflite_model = converter.convert()
+open('converted_model.tflite', 'wb').write(tflite_model)
+This is the fastest way to quantize a model <i>after</i> training. Using the TF Lite optimiza‐
+tion defaults, it will reduce our model’s weights to their 8-bit representation. It will
+also quantize inputs at inference time when we make predictions on our model. By
+running the code above, the resulting exported TF Lite model is one-fourth the size it
+would have been if we had exported it without quantization.
+To further optimize your model for offline inference, you can also
+quantize your model’s weights <i>during</i> training or quantize all of
+your model’s math operations in addition to weights. At the time
+of writing, quantization-optimized training for TensorFlow 2 mod‐
+els is on the roadmap.
+To generate a prediction on a TF Lite model, you use the TF Lite interpreter, which is
+optimized for low latency. You’ll likely want to load your model on an Android or
+iOS device and generate predictions directly from your application code. There are
+APIs for both platforms, but we’ll show the Python code for generating predictions
+here so that you can run it from the same notebook where you created your model.
+First, we create an instance of TF Lite’s interpreter and get details on the input and
+output format it’s expecting:
+interpreter = tf.lite.Interpreter(model_path="converted_model.tflite")
+interpreter.allocate_tensors()

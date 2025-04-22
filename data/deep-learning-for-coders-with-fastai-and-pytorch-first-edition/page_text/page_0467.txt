@@ -1,0 +1,34 @@
+<b>if</b> self.n_cont != 0:
+x_cont = self.bn_cont(x_cont)
+x = torch.cat([x, x_cont], 1) <b>if</b> self.n_emb != 0 <b>else</b> x_cont
+<b>return</b> self.layers(x)
+We won’t show __init__ here, since it’s not that interesting, but will look at each line
+of code in forward in turn. The first line is just testing whether there are any embed‐
+dings to deal with—we can skip this section if we have only continuous variables:
+<b>if</b> self.n_emb != 0:
+self.embeds contains the embedding matrices, so this gets the activations of each
+x = [e(x_cat[:,i]) <b>for</b> i,e <b>in</b> enumerate(self.embeds)]
+and concatenates them into a single tensor:
+x = torch.cat(x, 1)
+Then dropout is applied. You can pass emb_drop to __init__ to change this value:
+x = self.emb_drop(x)
+Now we test whether there are any continuous variables to deal with:
+<b>if</b> self.n_cont != 0:
+They are passed through a batchnorm layer
+x_cont = self.bn_cont(x_cont)
+and concatenated with the embedding activations, if there were any:
+x = torch.cat([x, x_cont], 1) <b>if</b> self.n_emb != 0 <b>else</b> x_cont
+Finally, this is passed through the linear layers (each of which includes batchnorm, if
+use_bn is True, and dropout, if ps is set to some value or list of values):
+<b>return</b> self.layers(x)
+Congratulations! Now you know every single piece of the architectures used in the
+fastai library!
+<header><largefont><b>Conclusion</b></largefont></header>
+As you can see, the details of deep learning architectures need not scare you now. You
+can look inside the code of fastai and PyTorch and see just what is going on. More
+importantly, try to understand <i>why</i> it’s going on. Take a look at the papers that are
+referenced in the code, and try to see how the code matches up to the algorithms that
+are described.
+Now that we have investigated all of the pieces of a model and the data that is passed
+into it, we can consider what this means for practical deep learning. If you have
+unlimited data, unlimited memory, and unlimited time, then the advice is easy: train

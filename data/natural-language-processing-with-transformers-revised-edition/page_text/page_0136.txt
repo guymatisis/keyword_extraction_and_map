@@ -1,0 +1,36 @@
+Jenny loclonju AgreementCON irrational �rite Continent seaf A jer Turner
+Dorbecue WILL Pumpkin mere Thatvernuildagain YoAniamond disse *
+Runewitingkusstemprop});b zo coachinginventorymodules deflation press
+Vaticanpres Wrestling chargesThingsctureddong Ty physician PET KimBi66 graz Oz
+at aff da temporou MD6 radi iter
+We can clearly see that a high temperature has produced mostly gibberish; by accen‐
+tuating the rare tokens, we’ve caused the model to create strange grammar and quite a
+few made-up words! Let’s see what happens if we cool down the temperature:
+output_temp = model.generate(input_ids, max_length=max_length, do_sample=True,
+temperature=0.5, top_k=0)
+<b>print(tokenizer.decode(output_temp[0]))</b>
+In a shocking finding, scientist discovered a herd of unicorns living in a
+remote, previously unexplored valley, in the Andes Mountains. Even more
+surprising to the researchers was the fact that the unicorns spoke perfect
+English.
+The scientists were searching for the source of the mysterious sound, which was
+making the animals laugh and cry.
+The unicorns were living in a remote valley in the Andes mountains
+'When we first heard the noise of the animals, we thought it was a lion or a
+tiger,' said Luis Guzman, a researcher from the University of Buenos Aires,
+Argentina.
+'But when
+This is significantly more coherent, and even includes a quote from yet another uni‐
+versity being credited with the discovery! The main lesson we can draw from temper‐
+ature is that it allows us to control the quality of the samples, but there’s always a
+trade-off between coherence (low temperature) and diversity (high temperature) that
+one has to tune to the use case at hand.
+Another way to adjust the trade-off between coherence and diversity is to truncate
+the distribution of the vocabulary. This allows us to adjust the diversity freely with
+the temperature, but in a more limited range that excludes words that would be too
+strange in the context (i.e., low-probability words). There are two main ways to do
+this: top-k and nucleus (or top-p) sampling. Let’s take a look.
+<header><largefont><b>Top-k</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Nucleus</b></largefont> <largefont><b>Sampling</b></largefont></header>
+Top-k and nucleus (top-p) sampling are two popular alternatives or extensions to
+using temperature. In both cases, the basic idea is to restrict the number of possible
+tokens we can sample from at each timestep. To see how this works, let’s first visualize

@@ -1,0 +1,39 @@
+cycle which customers have discontinued their service. Or, for a financial forecasting
+model, the true revenue isn’t known until after that quarter’s close and earnings
+report. In either of these cases, evaluation cannot take place until ground truth data is
+available.
+To see how continuous evaluation works, we’ll deploy a text classification model
+trained on the HackerNews dataset to Google Cloud AI Platform. The full code for
+this example can be found in the continuous evaluation notebook in the repository
+accompanying this book.
+<b>Deployingthemodel</b>
+The input for our training dataset is an article title and its associated label is the news
+nytimes techcrunch github
+source where the article originated, either , , or . As news
+trends evolve over time, the words associated with a <i>New</i> <i>York</i> <i>Times</i> headline will
+change. Similarly, releases of new technology products will affect the words to be
+found in TechCrunch. Continuous evaluation allows us to monitor model predic‐
+tions to track how those trends affect our model performance and kick off retraining
+if necessary.
+Suppose that the model is exported with a custom serving input function as described
+in “Design Pattern 16: Stateless Serving Function” on page 201:
+@tf.function(input_signature=[tf.TensorSpec([None], dtype=tf.string)])
+<b>def</b> source_name(text):
+labels = tf.constant(['github', 'nytimes', 'techcrunch'],dtype=tf.string)
+probs = txtcls_model(text, training=False)
+indices = tf.argmax(probs, axis=1)
+pred_source = tf.gather(params=labels, indices=indices)
+pred_confidence = tf.reduce_max(probs, axis=1)
+<b>return</b> {'source': pred_source,
+'confidence': pred_confidence}
+After deploying this model, when we make an online prediction, the model will
+return the predicted news source as a string value and a numeric score of that predic‐
+tion label related to how confident the model is. For example, we can create an online
+prediction by writing an input JSON example to a file called <i>input.json</i> to send for
+prediction:
+%%writefile input.json
+{"text":
+"YouTube introduces Video Chapters to make it easier to navigate longer videos"}
+This returns the following prediction output:
+CONFIDENCE SOURCE
+0.918685 techcrunch

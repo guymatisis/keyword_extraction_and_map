@@ -1,0 +1,33 @@
+purchases based on items in your shopping cart. Recommendation systems are popu‐
+lar throughout many businesses, particularly for product recommendation, personal‐
+ized and dynamic marketing, and streaming video or music platforms.
+• Embeddings
+• Ensemble
+• Multilabel
+• Transfer Learning
+• Feature Store
+• Hashed Feature
+• Reframing
+• Transform
+• Windowed Inference
+• Two-Phase Predictions
+• Neutral Class
+• Multimodal Input
+• Batch Serving
+<header><largefont><b>Fraud</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Anomaly</b></largefont> <largefont><b>Detection</b></largefont></header>
+Many financial institutions use machine learning for fraud detection to keep their
+consumers’ accounts safe. These machine learning models are trained to flag transac‐
+tions that appear fraudulent based on certain characteristics or patterns that have
+been learned in the data.
+More broadly, anomaly detection is a technique used to find abnormal behavior or
+outlier elements in a dataset. Anomalies can arise as spikes or dips that deviate from
+the normal patterns, or they can be longer-term abnormal trends. Anomaly detection
+shows up through many different use cases in machine learning and might even be
+used in conjunction with a separate use case. For example, consider a machine learn‐
+ing model that identifies anomalous train tracks based on images.
+• Rebalancing
+• Feature Cross
+• Embeddings
+• Ensemble
+• Two-Phase Predictions
+• Transform

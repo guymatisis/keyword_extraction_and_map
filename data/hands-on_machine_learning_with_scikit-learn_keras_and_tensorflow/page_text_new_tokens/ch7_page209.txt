@@ -1,0 +1,10 @@
+<i>Figure</i> <i>7-12.</i> <i>Aggregating</i> <i>predictions</i> <i>using</i> <i>a</i> <i>blending</i> <i>predictor</i>
+To train the blender, a common approach is to use a hold-out set. 19 Let’s see how it
+works. First, the training set is split into two subsets. The first subset is used to train
+the predictors in the first layer (see Figure 7-13).
+<i>Figure</i> <i>7-13.</i> <i>Training</i> <i>the</i> <i>first</i> <i>layer</i>
+Next, the first layer’s predictors are used to make predictions on the second (held-
+out) set (see Figure 7-14). This ensures that the predictions are “clean,” since the pre‐
+dictors never saw these instances during training. For each instance in the hold-out
+19 Alternatively,itispossibletouseout-of-foldpredictions.Insomecontextsthisiscalledstacking,whileusinga
+hold-outsetiscalledblending.Formanypeoplethesetermsaresynonymous.

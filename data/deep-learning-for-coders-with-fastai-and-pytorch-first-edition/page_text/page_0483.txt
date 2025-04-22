@@ -1,0 +1,37 @@
+This is important because it means that whatever ideas we have in our heads, we can
+implement them. We need never dig into the source code of PyTorch or fastai and
+hack together a one-off system to try out our ideas. And when we do implement our
+own callbacks to develop our own ideas, we know that they will work together with
+all of the other functionality provided by fastai—so we will get progress bars, mixed-
+precision training, hyperparameter annealing, and so forth.
+Another advantage is that it makes it easy to gradually remove or add functionality
+and perform ablation studies. You just need to adjust the list of callbacks you pass
+along to your fit function.
+As an example, here is the fastai source code that is run for each batch of the training
+loop:
+<b>try:</b>
+self._split(b); self('begin_batch')
+self.pred = self.model(*self.xb); self('after_pred')
+self.loss = self.loss_func(self.pred, *self.yb); self('after_loss')
+<b>if</b> <b>not</b> self.training: <b>return</b>
+self.loss.backward(); self('after_backward')
+self.opt.step(); self('after_step')
+self.opt.zero_grad()
+<b>except</b> CancelBatchException: self('after_cancel_batch')
+<b>finally:</b> self('after_batch')
+The calls of the form self('...') are where the callbacks are called. As you see, this
+happens after every step. The callback will receive the entire state of training and can
+also modify it. For instance, the input data and target labels are in self.xb and
+self.yb , respectively; a callback can modify these to modify the data the training
+loop sees. It can also modify self.loss or even the gradients.
+Let’s see how this works in practice by writing a callback.
+<header><largefont><b>Creating</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Callback</b></largefont></header>
+When you want to write your own callback, the full list of available events is as
+follows:
+begin_fit
+Called before doing anything; ideal for initial setup.
+begin_epoch
+Called at the beginning of each epoch; useful for any behavior you need to reset
+at each epoch.
+begin_train
+Called at the beginning of the training part of an epoch.

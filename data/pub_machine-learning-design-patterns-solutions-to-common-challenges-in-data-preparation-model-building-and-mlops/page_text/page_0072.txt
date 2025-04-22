@@ -1,0 +1,23 @@
+A common model architecture for accomplishing this is a <i>convolutional</i> <i>neural</i> <i>net‐</i>
+<i>work</i> (CNN).
+<header><largefont><b>Convolutional</b></largefont> <largefont><b>Neural</b></largefont> <largefont><b>Network</b></largefont> <largefont><b>Layers</b></largefont></header>
+Take a look at Figure 2-22. In this example, we’ve got a 4×4 grid where each square
+represents pixel values on our image. We then use max pooling to take the largest
+value of each grid and generate a resulting, smaller matrix. By dividing our image into
+a grid of tiles, our model is able to extract key insights from each region of an image
+at different levels of granularity.
+<i>Figure</i> <i>2-22.</i> <i>Max</i> <i>pooling</i> <i>on</i> <i>a</i> <i>single</i> <i>4×4</i> <i>slice</i> <i>of</i> <i>image</i> <i>data.</i>
+Figure 2-22 uses a <i>kernel</i> <i>size</i> of (2, 2). Kernel size refers to the size of each chunk of
+our image. The number of spaces our filter moves before creating its next chunk, also
+known as <i>stride,</i> is 2. Because our stride is equal to the size of our kernel, the chunks
+created <i>do</i> <i>not</i> <i>overlap.</i>
+While this tiling method preserves more detail than representing images as arrays of
+pixel values, quite a bit of information is lost after each pooling step. In the diagram
+above, the next pooling step would produce a scalar value of 8, taking our matrix
+from 4 ×4 to a single value in just two steps. In a real-world image, you can imagine
+how this might bias a model to focus on areas with dominant pixel values while los‐
+ing important details that may surround these areas.
+How can we build on this idea of splitting images into smaller chunks, while still pre‐
+serving important details in images? We’ll do this by making these chunks <i>overlap.</i> If
+the example in Figure 2-22 had instead used a stride of 1, the output would instead be
+a 3×3 matrix (Figure 2-23).

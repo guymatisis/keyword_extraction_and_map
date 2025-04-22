@@ -1,0 +1,37 @@
+similar words together, identify relationships between words, and understand syntac‐
+tic elements of text. While representing text through word embeddings most closely
+mirrors how humans innately understand language, there are additional text repre‐
+sentations that can maximize our model’s ability to perform a given prediction task.
+In this section, we’ll look at the bag of words approach to representing text, along
+with extracting tabular features from text.
+To demonstrate text data representation, we’ll be referencing a dataset that contains
+the text of millions of questions and answers from Stack Overflow,11 along with
+metadata about each post. For example, the following query will give us a subset of
+questions tagged as either “keras,” “matplotlib,” or “pandas,” along with the number
+of answers each question received:
+<b>SELECT</b>
+title,
+answer_count,
+<b>REPLACE(tags,</b> "|", ",") <b>as</b> tags
+<b>FROM</b>
+`bigquery-public-data.stackoverflow.posts_questions`
+<b>WHERE</b>
+REGEXP_CONTAINS( tags, r"(?:keras|matplotlib|pandas)")
+The query results in the following output:
+<b>Row</b> <b>title</b> <b>answer_count</b> <b>tags</b>
+1 Buildinganewcolumninapandas 6 python,python-2.7,pandas,replace,nested-loops
+dataframebymatchingstringvaluesina
+list
+2 Extractingspecificselectedcolumnstonew 6 python,pandas,chained-assignment
+DataFrameasacopy
+3 WheredoIcalltheBatchNormalization 7 python,keras,neural-network,data-
+functioninKeras? science,batch-normalization
+4 UsingExcellikesolverinPythonorSQL 8 python,sql,numpy,pandas,solver
+When representing text using the bag of words (BOW) approach, we imagine each
+text input to our model as a bag of Scrabble tiles, with each tile containing a single
+word instead of a letter. BOW does not preserve the order of our text, but it does
+detect the presence or absence of certain words in each piece of text we send to our
+model. This approach is a type of multi-hot encoding where each text input is con‐
+verted into an array of 1s and 0s. Each index in this BOW array corresponds to a
+word from our vocabulary.
+11 ThisdatasetisavailableinBigQuery:bigquery-public-data.stackoverflow.posts_questions.

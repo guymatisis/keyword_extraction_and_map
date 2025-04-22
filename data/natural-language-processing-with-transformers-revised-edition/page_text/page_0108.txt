@@ -1,0 +1,38 @@
+trainer.train() trainer.push_to_hub(commit_message="Training completed!")
+<b>Epoch</b> <b>TrainingLoss</b> <b>ValidationLoss</b> <b>F1</b>
+1 0.2652 0.160244 0.822974
+2 0.1314 0.137195 0.852747
+3 0.0806 0.138774 0.864591
+These F1 scores are quite good for a NER model. To confirm that our model works as
+expected, let’s test it on the German translation of our simple example:
+text_de = "Jeff Dean ist ein Informatiker bei Google in Kalifornien"
+tag_text(text_de, tags, trainer.model, xlmr_tokenizer)
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b> <b>...</b> <b>8</b> <b>9</b> <b>10</b> <b>11</b> <b>12</b> <b>13</b>
+<s> ▁Jeff ▁De an ▁ist ▁ein ... ▁bei ▁Google ▁in ▁Kaliforni en </s>
+<b>Tokens</b>
+O B-PER I-PER I-PER O O ... O B-ORG O B-LOC I-LOC O
+<b>Tags</b>
+It works! But we should never get too confident about performance based on a single
+example. Instead, we should conduct a proper and thorough investigation of the
+model’s errors. In the next section we explore how to do this for the NER task.
+<header><largefont><b>Error</b></largefont> <largefont><b>Analysis</b></largefont></header>
+Before we dive deeper into the multilingual aspects of XLM-R, let’s take a minute to
+investigate the errors of our model. As we saw in Chapter 2, a thorough error analysis
+of your model is one of the most important aspects when training and debugging
+transformers (and machine learning models in general). There are several failure
+modes where it might look like the model is performing well, while in practice it has
+some serious flaws. Examples where training can fail include:
+• We might accidentally mask too many tokens and also mask some of our labels to
+get a really promising loss drop.
+compute_metrics()
+• The function might have a bug that overestimates the true
+performance.
+O
+• We might include the zero class or entity in NER as a normal class, which will
+heavily skew the accuracy and <i>F</i> -score since it is the majority class by a large
+1
+margin.
+When the model performs much worse than expected, looking at the errors can yield
+useful insights and reveal bugs that would be hard to spot by just looking at the code.
+And even if the model performs well and there are no bugs in the code, error analysis
+is still a useful tool to understand the model’s strengths and weaknesses. These are

@@ -1,0 +1,14 @@
+28. Are image models useful only for photos?
+29. What is an architecture?
+30. What is segmentation?
+31. What is y_range used for? When do we need it?
+32. What are hyperparameters?
+33. What’s the best way to avoid failures when using AI in an organization?
+<header><largefont><b>Further</b></largefont> <largefont><b>Research</b></largefont></header>
+Each chapter also has a “Further Research” section that poses some questions that
+aren’t fully answered in the text, or gives more advanced assignments. Answers to
+these questions aren’t on the book’s website; you’ll need to do your own research!
+1. Why is a GPU useful for deep learning? How is a CPU different, and why is it less
+effective for deep learning?
+2. Try to think of three areas where feedback loops might impact the use of machine
+learning. See if you can find documented examples of that happening in practice.

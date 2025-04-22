@@ -1,0 +1,31 @@
+<i>Figure</i> <i>7-8.</i> <i>How</i> <i>the</i> <i>sliding</i> <i>window</i> <i>creates</i> <i>multiple</i> <i>question-context</i> <i>pairs</i> <i>for</i> <i>long</i>
+<i>documents—the</i> <i>first</i> <i>bar</i> <i>corresponds</i> <i>to</i> <i>the</i> <i>question,</i> <i>while</i> <i>the</i> <i>second</i> <i>bar</i> <i>is</i> <i>the</i> <i>context</i>
+<i>captured</i> <i>in</i> <i>each</i> <i>window</i>
+return_overflowing_tokens=True
+In Transformers, we can set in the tokenizer to
+enable the sliding window. The size of the sliding window is controlled by the
+max_seq_length doc_stride
+argument, and the size of the stride is controlled by .
+Let’s grab the first example from our training set and define a small window to illus‐
+trate how this works:
+example = dfs["train"].iloc[0][["question", "context"]]
+tokenized_example = tokenizer(example["question"], example["context"],
+return_overflowing_tokens=True, max_length=100,
+stride=25)
+input_ids,
+In this case we now get a list of one for each window. Let’s check the num‐
+ber of tokens we have in each window:
+<b>for</b> idx, window <b>in</b> enumerate(tokenized_example["input_ids"]):
+<b>print(f"Window</b> #{idx} has {len(window)} tokens")
+Window #0 has 100 tokens
+Window #1 has 88 tokens
+Finally, we can see where two windows overlap by decoding the inputs:
+<b>for</b> window <b>in</b> tokenized_example["input_ids"]:
+<b>print(f"{tokenizer.decode(window)}</b> <b>\n")</b>
+[CLS] how is the bass? [SEP] i have had koss headphones in the past, pro 4aa and
+qz - 99. the koss portapro is portable and has great bass response. the work
+great with my android phone and can be " rolled up " to be carried in my
+motorcycle jacket or computer bag without getting crunched. they are very light
+and don't feel heavy or bear down on your ears even after listening to music
+with them on all day. the sound is [SEP]
+[CLS] how is the bass? [SEP] and don't feel heavy or bear down on your ears even

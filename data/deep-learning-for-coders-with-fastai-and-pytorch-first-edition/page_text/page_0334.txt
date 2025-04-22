@@ -1,0 +1,39 @@
+what L uses by default. Note that fastai’s tokenizers take a collection of documents to
+tokenize, so we have to wrap txt in a list:
+spacy = WordTokenizer()
+toks = first(spacy([txt]))
+<b>print(coll_repr(toks,</b> 30))
+(#201) ['This','movie',',','which','I','just','discovered','at','the','video','s
+> tore',',','has','apparently','sit','around','for','a','couple','of','years','
+> without','a','distributor','.','It',"'s",'easy','to','see'...]
+As you see, spaCy has mainly just separated out the words and punctuation. But it
+does something else here too: it has split “it’s” into “it” and “’s”. That makes intuitive
+sense; these are separate words, really. Tokenization is a surprisingly subtle task, when
+you think about all the little details that have to be handled. Fortunately, spaCy han‐
+dles these pretty well for us—for instance, here we see that “.” is separated when it ter‐
+minates a sentence, but not in an acronym or number:
+first(spacy(['The U.S. dollar $1 is $1.00.']))
+(#9) ['The','U.S.','dollar','$','1','is','$','1.00','.']
+fastai then adds some additional functionality to the tokenization process with the
+Tokenizer class:
+tkn = Tokenizer(spacy)
+<b>print(coll_repr(tkn(txt),</b> 31))
+(#228) ['xxbos','xxmaj','this','movie',',','which','i','just','discovered','at',
+> 'the','video','store',',','has','apparently','sit','around','for','a','couple
+> ','of','years','without','a','distributor','.','xxmaj','it',"'s",'easy'...]
+Notice that there are now some tokens that start with the characters “xx”, which is not
+a common word prefix in English. These are <i>special</i> <i>tokens.</i>
+For example, the first item in the list, xxbos , is a special token that indicates the start
+of a new text (“BOS” is a standard NLP acronym that means “beginning of stream”).
+By recognizing this start token, the model will be able to learn it needs to “forget”
+what was said previously and focus on upcoming words.
+These special tokens don’t come from spaCy directly. They are there because fastai
+adds them by default, by applying a number of rules when processing text. These
+rules are designed to make it easier for a model to recognize the important parts of a
+sentence. In a sense, we are translating the original English language sequence into a
+simplified tokenized language—a language that is designed to be easy for a model to
+learn.
+For instance, the rules will replace a sequence of four exclamation points with a single
+exclamation point, followed by a special <i>repeated</i> <i>character</i> token and then the num‐
+ber four. In this way, the model’s embedding matrix can encode information about
+general concepts such as repeated punctuation rather than requiring a separate token

@@ -1,0 +1,20 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>8</b></largefont></header>
+<header><largefont><b>Making</b></largefont> <largefont><b>Transformers</b></largefont> <largefont><b>Efficient</b></largefont></header>
+<header><largefont><b>in</b></largefont> <largefont><b>Production</b></largefont></header>
+In the previous chapters, you’ve seen how transformers can be fine-tuned to produce
+great results on a wide range of tasks. However, in many situations accuracy (or what‐
+ever metric you’re optimizing for) is not enough; your state-of-the-art model is not
+very useful if it’s too slow or large to meet the business requirements of your applica‐
+tion. An obvious alternative is to train a faster and more compact model, but the
+reduction in model capacity is often accompanied by a degradation in performance.
+So what can you do when you need a fast, compact, yet highly accurate model?
+In this chapter we will explore four complementary techniques that can be used to
+speed up the predictions and reduce the memory footprint of your transformer mod‐
+els: <i>knowledge</i> <i>distillation,</i> <i>quantization,</i> <i>pruning,</i> and <i>graph</i> <i>optimization</i> with the
+Open Neural Network Exchange (ONNX) format and ONNX Runtime (ORT). We’ll
+also see how some of these techniques can be combined to produce significant per‐
+formance gains. For example, this was the approach taken by the Roblox engineering
+team in their article “How We Scaled Bert to Serve 1+ Billion Daily Requests on
+CPUs”, who as shown in Figure 8-1 found that combining knowledge distillation and
+quantization enabled them to improve the latency and throughput of their BERT clas‐
+sifier by over a factor of 30!

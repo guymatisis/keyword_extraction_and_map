@@ -1,0 +1,34 @@
+<header><largefont><b>What</b></largefont> <largefont><b>Is</b></largefont> <largefont><b>Machine</b></largefont> <largefont><b>Learning?</b></largefont></header>
+Your classifier is a deep learning model. As was already mentioned, deep learning
+models use neural networks, which originally date from the 1950s and have become
+powerful very recently thanks to recent advancements.
+Another key piece of context is that deep learning is just a modern area in the more
+general discipline of <i>machine</i> <i>learning.</i> To understand the essence of what you did
+when you trained your own classification model, you don’t need to understand deep
+learning. It is enough to see how your model and your training process are examples
+of the concepts that apply to machine learning in general.
+So in this section, we will describe machine learning. We will explore the key con‐
+cepts and see how they can be traced back to the original essay that introduced them.
+<i>Machine</i> <i>learning</i> is, like regular programming, a way to get computers to complete a
+specific task. But how would we use regular programming to do what we just did in
+the preceding section: recognize dogs versus cats in photos? We would have to write
+down for the computer the exact steps necessary to complete the task.
+Normally, it’s easy enough for us to write down the steps to complete a task when
+we’re writing a program. We just think about the steps we’d take if we had to do the
+task by hand, and then we translate them into code. For instance, we can write a func‐
+tion that sorts a list. In general, we’d write a function that looks something like
+Figure 1-4 (where <i>inputs</i> might be an unsorted list, and <i>results</i> a sorted list).
+<i>Figure</i> <i>1-4.</i> <i>A</i> <i>traditional</i> <i>program</i>
+But for recognizing objects in a photo, that’s a bit tricky; what <i>are</i> the steps we take
+when we recognize an object in a picture? We really don’t know, since it all happens in
+our brain without us being consciously aware of it!
+Right back at the dawn of computing, in 1949, an IBM researcher named Arthur
+Samuel started working on a different way to get computers to complete tasks, which
+he called <i>machine</i> <i>learning.</i> In his classic 1962 essay “Artificial Intelligence: A Frontier
+of Automation,” he wrote:
+Programming a computer for such computations is, at best, a difficult task, not primar‐
+ily because of any inherent complexity in the computer itself but, rather, because of the
+need to spell out every minute step of the process in the most exasperating detail.
+Computers, as any programmer will tell you, are giant morons, not giant brains.
+His basic idea was this: instead of telling the computer the exact steps required to
+solve a problem, show it examples of the problem to solve, and let it figure out how to

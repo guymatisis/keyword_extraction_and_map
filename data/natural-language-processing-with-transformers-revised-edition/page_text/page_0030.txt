@@ -1,0 +1,42 @@
+input_ids = [token2idx[token] <b>for</b> token <b>in</b> tokenized_text]
+<b>print(input_ids)</b>
+[5, 14, 12, 8, 13, 11, 19, 11, 13, 10, 0, 17, 8, 18, 17, 0, 11, 16, 0, 6, 0, 7,
+14, 15, 8, 0, 17, 6, 16, 12, 0, 14, 9, 0, 3, 2, 4, 1]
+Each token has now been mapped to a unique numerical identifier (hence the name
+input_ids input_ids
+). The last step is to convert to a 2D tensor of one-hot vectors.
+One-hot vectors are frequently used in machine learning to encode categorical data,
+which can be either ordinal or nominal. For example, suppose we wanted to encode
+the names of characters in the <i>Transformers</i> TV series. One way to do this would be
+to map each name to a unique ID, as follows:
+categorical_df = pd.DataFrame(
+{"Name": ["Bumblebee", "Optimus Prime", "Megatron"], "Label ID": [0,1,2]})
+categorical_df
+<b>Name</b> <b>LabelID</b>
+<b>0</b> Bumblebee 0
+<b>1</b> OptimusPrime 1
+<b>2</b> Megatron 2
+The problem with this approach is that it creates a fictitious ordering between the
+names, and neural networks are <i>really</i> good at learning these kinds of relationships.
+So instead, we can create a new column for each category and assign a 1 where the
+category is true, and a 0 otherwise. In Pandas, this can be implemented with the
+get_dummies()
+function as follows:
+pd.get_dummies(categorical_df["Name"])
+<b>Bumblebee</b> <b>Megatron</b> <b>OptimusPrime</b>
+<b>0</b> 1 0 0
+<b>1</b> 0 0 1
+0 1 0
+<b>2</b>
+DataFrame
+The rows of this are the one-hot vectors, which have a single “hot” entry
+input_ids
+with a 1 and 0s everywhere else. Now, looking at our , we have a similar
+problem: the elements create an ordinal scale. This means that adding or subtracting
+two IDs is a meaningless operation, since the result is a new ID that represents
+another random token.
+On the other hand, the result of adding two one-hot encodings can easily be inter‐
+preted: the two entries that are “hot” indicate that the corresponding tokens co-occur.
+We can create the one-hot encodings in PyTorch by converting input_ids to a tensor
+one_hot()
+and applying the function as follows:

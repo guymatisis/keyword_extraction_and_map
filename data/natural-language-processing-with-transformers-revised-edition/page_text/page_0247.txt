@@ -1,0 +1,13 @@
+weights increase during fine-tuning (and vice versa for the negative weights), which is
+equivalent to saying that the scores increase as the weights move away from zero. As
+shown in Figure 8-12, this behavior differs from magnitude pruning, which selects as
+the most important weights those that are <i>furthest</i> from zero.
+<i>Figure</i> <i>8-12.</i> <i>Comparison</i> <i>of</i> <i>weights</i> <i>removed</i> <i>during</i> <i>magnitude</i> <i>pruning</i> <i>(left)</i> <i>and</i>
+<i>movement</i> <i>pruning</i> <i>(right)</i>
+These differences between the two pruning methods are also evident in the distribu‐
+tion of the remaining weights. As shown in Figure 8-13, magnitude pruning produces
+two clusters of weights, while movement pruning produces a smoother distribution.
+As of this book’s writing, Transformers does not support pruning methods out of
+the box. Fortunately, there is a nifty library called <i>Neural</i> <i>Networks</i> <i>Block</i> <i>Movement</i>
+<i>Pruning</i> that implements many of these ideas, and we recommend checking it out if
+memory constraints are a concern.

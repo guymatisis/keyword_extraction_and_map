@@ -1,0 +1,32 @@
+We can now train our model. Let’s try setting the accuracy threshold to 0.2 for our
+metric:
+learn = cnn_learner(dls, resnet50, metrics=partial(accuracy_multi, thresh=0.2))
+learn.fine_tune(3, base_lr=3e-3, freeze_epochs=4)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy_multi</b> <b>time</b>
+0 0.903610 0.659728 0.263068 00:07
+1 0.724266 0.346332 0.525458 00:07
+2 0.415597 0.125662 0.937590 00:07
+3 0.254987 0.116880 0.945418 00:07
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy_multi</b> <b>time</b>
+0 0.123872 0.132634 0.940179 00:08
+1 0.112387 0.113758 0.949343 00:08
+2 0.092151 0.104368 0.951195 00:08
+Picking a threshold is important. If you pick a threshold that’s too low, you’ll often be
+failing to select correctly labeled objects. We can see this by changing our metric and
+then calling validate , which returns the validation loss and metrics:
+learn.metrics = partial(accuracy_multi, thresh=0.1)
+learn.validate()
+(#2) [0.10436797887086868,0.93057781457901]
+If you pick a threshold that’s too high, you’ll be selecting only the objects about which
+the model is very confident:
+learn.metrics = partial(accuracy_multi, thresh=0.99)
+learn.validate()
+(#2) [0.10436797887086868,0.9416930675506592]
+We can find the best threshold by trying a few levels and seeing what works best. This
+is much faster if we grab the predictions just once:
+preds,targs = learn.get_preds()
+Then we can call the metric directly. Note that by default get_preds applies the out‐
+put activation function (sigmoid, in this case) for us, so we’ll need to tell
+accuracy_multi to not apply it:
+accuracy_multi(preds, targs, thresh=0.9, sigmoid=False)
+TensorMultiCategory(0.9554)

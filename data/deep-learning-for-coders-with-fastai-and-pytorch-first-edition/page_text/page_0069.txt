@@ -1,0 +1,13 @@
+of searches for (say) “healthy skin.” Figure 2-3 shows you kind of the results you
+would get.
+<i>Figure</i> <i>2-3.</i> <i>Data</i> <i>for</i> <i>a</i> <i>healthy</i> <i>skin</i> <i>detector?</i>
+With this as your training data, you would end up not with a healthy skin detector,
+but a <i>young</i> <i>white</i> <i>woman</i> <i>touching</i> <i>her</i> <i>face</i> detector! Be sure to think carefully about
+the types of data that you might expect to see in practice in your application, and
+check carefully to ensure that all these types are reflected in your model’s source data.
+(Thanks to Deb Raji, who came up with the healthy skin example. See her paper
+“Actionable Auditing: Investigating the Impact of Publicly Naming Biased Perfor‐
+mance Results of Commercial AI Products” for more fascinating insights into model
+bias.)
+Now that we have downloaded some data, we need to assemble it in a format suitable
+for model training. In fastai, that means creating an object called DataLoaders.

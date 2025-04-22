@@ -1,0 +1,36 @@
+linear_model.LinearRegression().fit(scaled, diabetes_y)
+raw_time = timeit.timeit(train_raw, number=1000)
+scaled_time = timeit.timeit(train_scaled, number=1000)
+When we ran this, we got a nearly 9% improvement on this model which uses just
+one input feature. Considering the number of features in a typical machine learning
+model, the savings can add up.
+Another important reason for scaling is that some machine learning algorithms and
+techniques are very sensitive to the relative magnitudes of the different features. For
+example, a k-means clustering algorithm that uses the Euclidean distance as its prox‐
+imity measure will end up relying heavily on features with larger magnitudes. Lack of
+scaling also affects the efficacy of L1 or L2 regularization since the magnitude of
+weights for a feature depends on the magnitude of values of that feature, and so dif‐
+ferent features will be affected differently by regularization. By scaling all features to
+lie between [–1, 1], we ensure that there is not much of a difference in the relative
+magnitudes of different features.
+<b>Linearscaling</b>
+Four forms of scaling are commonly employed:
+<i>Min-max</i> <i>scaling</i>
+The numeric value is linearly scaled so that the minimum value that the input
+can take is scaled to –1 and the maximum possible value to 1:
+x1_scaled = (2*x1 - max_x1 - min_x1)/(max_x1 - min_x1)
+The problem with min-max scaling is that the maximum and minimum value
+(max_x1 min_x1)
+and have to be estimated from the training dataset, and they are
+often outlier values. The real data often gets shrunk to a very narrow range in the
+[–1, 1] band.
+<i>Clipping</i> <i>(in</i> <i>conjunction</i> <i>with</i> <i>min-max</i> <i>scaling)</i>
+Helps address the problem of outliers by using “reasonable” values instead of
+estimating the minimum and maximum from the training dataset. The numeric
+value is linearly scaled between these two reasonable bounds, then clipped to lie
+in the range [–1, 1]. This has the effect of treating outliers as –1 or 1.
+<i>Z-score</i> <i>normalization</i>
+Addresses the problem of outliers without requiring prior knowledge of what the
+reasonable range is by linearly scaling the input using the mean and standard
+deviation estimated over the training dataset:
+x1_scaled = (x1 - mean_x1)/stddev_x1

@@ -1,0 +1,35 @@
+Progress during this ingestion step is printed to the screen showing that we’ve inges‐
+ted 28,247 rows into the taxi_rides feature set within Feast:
+100%|██████████|28247/28247 [00:02<00:00, 2771.19rows/s]
+Ingestion complete!
+Ingestion statistics:
+Success: 28247/28247 rows ingested
+At this stage, calling client.list_feature_sets() will now list the feature set
+taxi_rides [default/taxi_rides] default
+we just created and return . Here, refers
+to the project scope of the feature set within Feast. This can be changed when instan‐
+tiating the feature set to keep certain feature sets within project access.
+Datasets may change over time, causing feature sets to change as
+well. In Feast, once a feature set is created, there are only a few
+changes that can be made. For example, the following changes are
+allowed:
+• Adding new features.
+• Removing existing features. (Note that features are tombs‐
+toned and remain on record, so they are not removed com‐
+pletely. This will affect new features being able to take the
+names of previously deleted features.)
+• Changing features’ schemas.
+max_age
+• Changing the feature set’s source or the of the feature
+set examples.
+The following changes are <i>not</i> allowed:
+• Changes to the feature set name.
+• Changes to entities.
+• Changes to names of existing features.
+<b>RetrievingdatafromFeast</b>
+Once a feature set has been sourced with features, we can retrieve historical or online
+features. Users and production systems retrieve feature data through a Feast serving
+data access layer. Since Feast supports both offline and online store types, it’s com‐
+mon to have Feast deployments for both, as shown in Figure 6-15. The same feature
+data is contained within the two feature stores, ensuring consistency between training
+and serving.

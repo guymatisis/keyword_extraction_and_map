@@ -1,0 +1,41 @@
+concepts: an extra step when tokenizing the data and a special data collator. Let’s start
+with the tokenization.
+In addition to the ordinary tokens from the text the tokenizer also adds special
+tokens to the sequence, such as the [CLS] and [SEP] tokens that are used for classifi‐
+cation and next sentence prediction. When we do masked language modeling, we
+want to make sure we don’t train the model to also predict these tokens. For this rea‐
+son we mask them from the loss, and we can get a mask when tokenizing by setting
+return_special_tokens_mask=True . Let’s retokenize the text with that setting:
+<b>def</b> tokenize(batch):
+<b>return</b> tokenizer(batch["text"], truncation=True,
+max_length=128, return_special_tokens_mask=True)
+ds_mlm = ds.map(tokenize, batched=True)
+ds_mlm = ds_mlm.remove_columns(["labels", "text", "label_ids"])
+What’s missing to start with masked language modeling is the mechanism to mask
+tokens in the input sequence and have the target tokens in the outputs. One way we
+could approach this is by setting up a function that masks random tokens and creates
+labels for these sequences. But this would double the size of the dataset, since we
+would also store the target sequence in the dataset, and it would mean we would use
+the same masking of a sequence every epoch.
+A much more elegant solution is to use a data collator. Remember that the data colla‐
+tor is the function that builds the bridge between the dataset and the model calls. A
+batch is sampled from the dataset, and the data collator prepares the elements in the
+batch to feed them to the model. In the simplest case we have encountered, it simply
+concatenates the tensors of each element into a single tensor. In our case we can use it
+to do the masking and label generation on the fly. That way we don’t need to store the
+labels and we get new masks every time we sample. The data collator for this task is
+DataCollatorForLanguageModeling
+called . We initialize it with the model’s tokenizer
+and the fraction of tokens we want to mask via the mlm_probability argument. We’ll
+use this collator to mask 15% of the tokens, which follows the procedure in the BERT
+paper:
+<b>from</b> <b>transformers</b> <b>import</b> DataCollatorForLanguageModeling, set_seed
+data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer,
+mlm_probability=0.15)
+Let’s have a quick look at the data collator in action to see what it actually does. To
+DataFrame
+quickly show the results in a , we switch the return formats of the token‐
+izer and the data collator to NumPy:
+set_seed(3)
+data_collator.return_tensors = "np"
+inputs = tokenizer("Transformers are awesome!", return_tensors="np")

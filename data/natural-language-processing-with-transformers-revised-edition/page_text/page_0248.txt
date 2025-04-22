@@ -1,0 +1,18 @@
+<i>Figure</i> <i>8-13.</i> <i>Distribution</i> <i>of</i> <i>remaining</i> <i>weights</i> <i>for</i> <i>magnitude</i> <i>pruning</i> <i>(MaP)</i> <i>and</i> <i>move‐</i>
+<i>ment</i> <i>pruning</i> <i>(MvP)</i>
+<header><largefont><b>Conclusion</b></largefont></header>
+We’ve seen that optimizing transformers for deployment in production environments
+involves compression along two dimensions: latency and memory footprint. Starting
+from a fine-tuned model, we applied distillation, quantization, and optimizations
+through ORT to significantly reduce both of these. In particular, we found that quan‐
+tization and conversion in ORT gave the largest gains with minimal effort.
+Although pruning is an effective strategy for reducing the storage size of transformer
+models, current hardware is not optimized for sparse matrix operations, which limits
+the usefulness of this technique. However, this is an active area of research, and by the
+time this book hits the shelves many of these limitations may have been resolved.
+So where to from here? All of the techniques in this chapter can be adapted to other
+tasks, such as question answering, named entity recognition, or language modeling. If
+you find yourself struggling to meet the latency requirements or your model is eating
+up all your compute budget, we suggest giving one of them a try.
+In the next chapter, we’ll switch gears away from performance optimization and
+explore every data scientist’s worst nightmare: dealing with few to no labels.

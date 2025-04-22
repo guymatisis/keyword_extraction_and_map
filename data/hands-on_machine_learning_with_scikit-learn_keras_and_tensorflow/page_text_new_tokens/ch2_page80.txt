@@ -1,0 +1,41 @@
+final_predictions = final_model.predict(X_test_prepared)
+final_mse = mean_squared_error(y_test, final_predictions)
+final_rmse = np.sqrt(final_mse) <i>#</i> <i>=></i> <i>evaluates</i> <i>to</i> <i>47,730.2</i>
+In some cases, such a point estimate of the generalization error will not be quite
+enough to convince you to launch: what if it is just 0.1% better than the model cur‐
+rently in production? You might want to have an idea of how precise this estimate is.
+For this, you can compute a 95% <i>confidence</i> <i>interval</i> for the generalization error using
+scipy.stats.t.interval()
+:
+<b>>>></b> <b>from</b> <b>scipy</b> <b>import</b> stats
+<b>>>></b> confidence = 0.95
+<b>>>></b> squared_errors = (final_predictions - y_test) ** 2
+<b>>>></b> np.sqrt(stats.t.interval(confidence, len(squared_errors) - 1,
+<b>...</b> loc=squared_errors.mean(),
+<b>...</b> scale=stats.sem(squared_errors)))
+<b>...</b>
+array([45685.10470776, 49691.25001878])
+If you did a lot of hyperparameter tuning, the performance will usually be slightly
+worse than what you measured using cross-validation (because your system ends up
+fine-tuned to perform well on the validation data and will likely not perform as well
+on unknown datasets). It is not the case in this example, but when this happens you
+must resist the temptation to tweak the hyperparameters to make the numbers look
+good on the test set; the improvements would be unlikely to generalize to new data.
+Now comes the project prelaunch phase: you need to present your solution (high‐
+lighting what you have learned, what worked and what did not, what assumptions
+were made, and what your system’s limitations are), document everything, and create
+nice presentations with clear visualizations and easy-to-remember statements (e.g.,
+“the median income is the number one predictor of housing prices”). In this Califor‐
+nia housing example, the final performance of the system is not better than the
+experts’ price estimates, which were often off by about 20%, but it may still be a good
+idea to launch it, especially if this frees up some time for the experts so they can work
+on more interesting and productive tasks.
+<header><largefont><b>Launch,</b></largefont> <largefont><b>Monitor,</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Maintain</b></largefont> <largefont><b>Your</b></largefont> <largefont><b>System</b></largefont></header>
+Perfect, you got approval to launch! You now need to get your solution ready for pro‐
+duction (e.g., polish the code, write documentation and tests, and so on). Then you
+can deploy your model to your production environment. One way to do this is to save
+the trained Scikit-Learn model (e.g., using joblib), including the full preprocessing
+and prediction pipeline, then load this trained model within your production envi‐
+predict()
+ronment and use it to make predictions by calling its method. For exam‐
+ple, perhaps the model will be used within a website: the user will type in some data

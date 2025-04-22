@@ -1,0 +1,20 @@
+slowdown.9
+for an approximately 20% training This allows us to fit even the large
+model in a single GPU.
+One aspect that might still be a bit obscure is what it means to train a model on mul‐
+tiple GPUs. There are several approaches to train models in a distributed fashion
+depending on the size of your model and volume of data. The approach utilized by
+DataDistributedParallelism
+Accelerate is called (DDP). The main advantage of
+this approach is that it allows you to train models faster with larger batch sizes that
+wouldn’t fit into any single GPU. The process is illustrated in Figure 10-6.
+<i>Figure</i> <i>10-6.</i> <i>Illustration</i> <i>of</i> <i>the</i> <i>processing</i> <i>steps</i> <i>in</i> <i>DDP</i> <i>with</i> <i>four</i> <i>GPUs</i>
+Let’s go through the pipeline step by step:
+1. Each worker consists of a GPU. In Accelerate, there is a dataloader running on
+the main process that prepares the batches of data and sends them to all the
+workers.
+2. Each GPU receives a batch of data and calculates the loss and respective accumu‐
+lated gradients from forward and backward passes with a local copy of the model.
+3. The gradients from each node are averaged with a <i>reduce</i> pattern, and the aver‐
+aged gradients are sent back to each worker.
+9 YoucanreadmoreaboutgradientcheckpointingonOpenAI’sreleasepost.

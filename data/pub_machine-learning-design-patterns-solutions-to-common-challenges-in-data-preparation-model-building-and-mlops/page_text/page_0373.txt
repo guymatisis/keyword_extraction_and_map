@@ -1,0 +1,33 @@
+to set up monitoring to check for changes in these upstream data sources. Lastly, it is
+important to set up systems to monitor prediction distributions and, when possible,
+measure the quality of those predictions in the production environment.
+Upon completion of the monitoring step, it can be beneficial to revisit the business
+use case and objectively, accurately assess how the machine learning model has influ‐
+enced business performance. Likely, this will lead to new insights and the start of new
+ML projects, and the life cycle begins again.
+<header><largefont><b>AI</b></largefont> <largefont><b>Readiness</b></largefont></header>
+We find that different organizations working on building machine learning solutions
+are at different stages of AI Readiness. According to a white paper published by Goo‐
+gle Cloud, a company’s maturity in incorporating AI into the business can typically
+be characterized into three phases: tactical, strategic, and transformational. Machine
+learning tools in these three phases go from involving primarily manual development
+in the tactical phase, to using pipelines in the strategic phase, to being fully automa‐
+ted in the transformational phase.
+<b>Tacticalphase:Manualdevelopment</b>
+The tactical phase of AI Readiness is often seen in organizations just beginning to
+explore the potential for AI to deliver, with focus on short-term projects. Here, the
+AI/ML use cases tend to be more narrow, focusing more on proofs of concept or pro‐
+totypes; a direct link to the business goals may not always be clear. In this stage,
+organizations recognize the promise of advanced analytics work, but the execution is
+driven primarily by individual contributors or outsourced entirely to partners; access
+to large-scale, quality datasets within the organization can be difficult.
+Typically, in this phase, there is no process to scale solutions consistently, and the ML
+tools used (see Figure 8-4) are developed on an ad hoc basis. Data is warehoused off‐
+line or in isolated data islands and accessed manually for data exploration and analy‐
+sis. There are no tools in place to automate the various phases of the ML
+development cycle and there is little attention paid to developing repeatable processes
+of the workflow. This makes it difficult to share assets within members of the organi‐
+zation, and there is no dedicated hardware for development.
+The extent of MLOps is limited to a repository of trained models, and there is little
+distinction between testing and production environments where the final model may
+be deployed as an API-based solution.

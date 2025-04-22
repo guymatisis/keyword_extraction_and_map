@@ -1,0 +1,40 @@
+when a user chooses one of the proposed alternate routes in Google Maps, the chosen
+route serves as an implicit ground truth. More explicitly, when a user rates a recom‐
+mended movie, this is a clear indication of the ground truth for a model that is built
+to predict user ratings in order to surface recommendations. Similarly, if the model
+allows the user to change the prediction, for example, as in medical settings when a
+doctor is able to change a model’s suggested diagnosis, this provides a clear signal for
+the ground truth.
+It is important to keep in mind how the feedback loop of model
+predictions and capturing ground truth might affect training data
+down the road. For example, suppose you’ve built a model to pre‐
+dict when a shopping cart will be abandoned. You can even check
+the status of the cart at routine intervals to create ground truth
+labels for model evaluation. However, if your model suggests a user
+will abandon their shopping cart and you offer them free shipping
+or some discount to influence their behavior, then you’ll never
+know if the original model prediction was correct. In short, you’ve
+violated the assumptions of the model evaluation design and will
+need to determine ground truth labels some other way. This task of
+estimating a particular outcome under a different scenario is
+referred to as counterfactual reasoning and often arises in use cases
+like fraud detection, medicine, and advertising where a model’s
+predictions likely lead to some intervention that can obscure learn‐
+ing the actual ground truth for that example.
+<b>Evaluatingmodelperformance</b>
+Initially, the groundtruth column of the txtcls_eval.swivel table in BigQuery is
+left empty. We can provide the ground truth labels once they are available by updat‐
+ing the value directly with a SQL command. Of course, we should make sure the
+ground truth is available before we run an evaluation job. Note that the ground truth
+adheres to the same JSON structure as the prediction output from the model:
+<b>UPDATE</b>
+txtcls_eval.swivel
+<b>SET</b>
+groundtruth = '{"predictions": [{"source": "techcrunch"}]}'
+<b>WHERE</b>
+raw_data = '{"instances":
+[{"text": "YouTube introduces Video Chapters to help navigate longer
+videos"}]}'
+To update more rows, we’d use a MERGE statement instead of an UPDATE . Once the
+ground truth has been added to the table, it’s possible to easily examine the text input
+and your model’s prediction and compare with the ground truth as in Table 5-2:

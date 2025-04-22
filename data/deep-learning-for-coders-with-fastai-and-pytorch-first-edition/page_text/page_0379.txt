@@ -1,0 +1,38 @@
+To see if this is any good, let’s check what a very simple model would give us. In this
+case, we could always predict the most common token, so let’s find out which token is
+most often the target in our validation set:
+n,counts = 0,torch.zeros(len(vocab))
+<b>for</b> x,y <b>in</b> dls.valid:
+n += y.shape[0]
+<b>for</b> i <b>in</b> range_of(vocab): counts[i] += (y==i).long().sum()
+idx = torch.argmax(counts)
+idx, vocab[idx.item()], counts[idx].item()/n
+(tensor(29), 'thousand', 0.15165200855716662)
+The most common token has the index 29, which corresponds to the token thousand.
+Always predicting this token would give us an accuracy of roughly 15%, so we are
+faring way better!
+<b>AlexisSays</b>
+My first guess was that the separator would be the most common
+token, since there is one for every number. But looking at tokens
+reminded me that large numbers are written with many words, so
+on the way to 10,000 you write “thousand” a lot: five thousand, five
+thousand and one, five thousand and two, etc. Oops! Looking at
+your data is great for noticing subtle features as well as embarrass‐
+ingly obvious ones.
+This is a nice first baseline. Let’s see how we can refactor it with a loop.
+<header><largefont><b>Our</b></largefont> <largefont><b>First</b></largefont> <largefont><b>Recurrent</b></largefont> <largefont><b>Neural</b></largefont> <largefont><b>Network</b></largefont></header>
+Looking at the code for our module, we could simplify it by replacing the duplicated
+code that calls the layers with a for loop. In addition to making our code simpler, this
+will have the benefit that we will be able to apply our module equally well to token
+sequences of different lengths—we won’t be restricted to token lists of length three:
+<b>class</b> <b>LMModel2(Module):</b>
+<b>def</b> <b>__init__(self,</b> vocab_sz, n_hidden):
+self.i_h = nn.Embedding(vocab_sz, n_hidden)
+self.h_h = nn.Linear(n_hidden, n_hidden)
+self.h_o = nn.Linear(n_hidden,vocab_sz)
+<b>def</b> forward(self, x):
+h = 0
+<b>for</b> i <b>in</b> range(3):
+h = h + self.i_h(x[:,i])
+h = F.relu(self.h_h(h))
+<b>return</b> self.h_o(h)

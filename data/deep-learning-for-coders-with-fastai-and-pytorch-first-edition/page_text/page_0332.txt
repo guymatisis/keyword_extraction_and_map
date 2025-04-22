@@ -1,0 +1,37 @@
+<i>Tokenization</i>
+Convert the text into a list of words (or characters, or substrings, depending on
+the granularity of your model).
+<i>Numericalization</i>
+List all of the unique words that appear (the vocab), and convert each word into a
+number by looking up its index in the vocab.
+<i>Language</i> <i>model</i> <i>data</i> <i>loader</i> <i>creation</i>
+LMDataLoader
+fastai provides an class that automatically handles creating a
+dependent variable that is offset from the independent variable by one token. It
+also handles some important details, such as how to shuffle the training data in
+such a way that the dependent and independent variables maintain their struc‐
+ture as required.
+<i>Language</i> <i>model</i> <i>creation</i>
+We need a special kind of model that does something we haven’t seen before:
+handles input lists that could be arbitrarily big or small. There are a number of
+ways to do this; in this chapter, we will be using a <i>recurrent</i> <i>neural</i> <i>network</i>
+(RNN). We will get to the details of RNNs in Chapter 12, but for now, you can
+think of it as just another deep neural network.
+Let’s take a look at how each step works in detail.
+<header><largefont><b>Tokenization</b></largefont></header>
+When we said “convert the text into a list of words,” we left out a lot of details. For
+instance, what do we do with punctuation? How do we deal with a word like “don’t”?
+Is it one word or two? What about long medical or chemical words? Should they be
+split into their separate pieces of meaning? How about hyphenated words? What
+about languages like German and Polish, which can create really long words from
+many, many pieces? What about languages like Japanese and Chinese that don’t use
+bases at all, and don’t really have a well-defined idea of <i>word?</i>
+Because there is no one correct answer to these questions, there is no one approach to
+tokenization. There are three main approaches:
+<i>Word-based</i>
+Split a sentence on spaces, as well as applying language-specific rules to try to
+separate parts of meaning even when there are no spaces (such as turning “don’t”
+into “do n’t”). Generally, punctuation marks are also split into separate tokens.
+<i>Subword</i> <i>based</i>
+Split words into smaller parts, based on the most commonly occurring sub‐
+strings. For instance, “occasion” might be tokenized as “o c ca sion”.

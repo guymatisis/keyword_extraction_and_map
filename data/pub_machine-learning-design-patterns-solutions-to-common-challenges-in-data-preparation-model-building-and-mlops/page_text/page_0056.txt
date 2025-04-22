@@ -1,0 +1,45 @@
+A complete training example for the natality problem is shown below, with a feature
+cross of the is_male and plurality columns used as a feature; see the full code in this
+book’s repository:
+<b>CREATE</b> <b>OR</b> <b>REPLACE</b> MODEL babyweight.natality_model_feat_eng
+<b>TRANSFORM(weight_pounds,</b>
+is_male,
+plurality,
+gestation_weeks,
+mother_age,
+<b>CAST(mother_race</b> <b>AS</b> string) <b>AS</b> mother_race,
+ML.FEATURE_CROSS(
+STRUCT(
+is_male,
+plurality)
+<b>)</b> <b>AS</b> gender_X_plurality)
+<b>OPTIONS</b>
+(MODEL_TYPE='linear_reg',
+INPUT_LABEL_COLS=['weight_pounds'],
+DATA_SPLIT_METHOD="NO_SPLIT") <b>AS</b>
+<b>SELECT</b>
+*
+<b>FROM</b>
+babyweight.babyweight_data_train
+TrThe Transform pattern (see Chapter 6) is being used here when
+engineering features of the natality model. This also allows the
+model to “remember” to carry out the feature cross of the input
+data fields during prediction.
+When we have enough data, the Feature Cross pattern allows models to become sim‐
+pler. On the natality dataset, the RMSE for the evaluation set for a linear model with
+the Feature Cross pattern is 1.056. Alternatively, training a deep neural network in
+BigQuery ML on the same dataset with no feature crosses yields an RMSE of 1.074.
+There is a slight improvement in our performance despite using a much simpler lin‐
+ear model, and the training time is also drastically reduced.
+<b>FeaturecrossesinTensorFlow</b>
+is_male plurality
+To implement a feature cross using the features and in Tensor‐
+tf.feature_column.crossed_column crossed_column
+Flow, we use . The method
+takes two arguments: a list of the feature keys to be crossed and the hash bucket size.
+hash_bucket_size
+Crossed features will be hashed according to so it should be large
+is_male
+enough to comfortably decrease the likelihood of collisions. Since the input
+can take 3 values (True, False, Unknown) and the plurality input can take 6 values
+(Single(1), Twins(2), Triplets(3), Quadruplets(4), Quintuplets(5), Multiple(2+)),

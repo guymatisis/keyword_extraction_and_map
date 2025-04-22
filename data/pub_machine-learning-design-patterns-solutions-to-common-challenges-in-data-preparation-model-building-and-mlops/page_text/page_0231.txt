@@ -1,0 +1,23 @@
+While continuous evaluation provides a post hoc way of monitoring a deployed
+model, it is also valuable to monitor the new data that is received during serving and
+preemptively identify changes in data distributions.
+TFX’s Data Validation is a useful tool to accomplish this. TFX is an end-to-end plat‐
+form for deploying machine learning models open sourced by Google. The Data Val‐
+idation library can be used to compare the data examples used in training with those
+collected during serving. Validity checks detect anomalies in the data, training-
+serving skew, or data drift. TensorFlow Data Validation creates data visualizations
+using Facets, an open source visualization tool for machine learning. The Facets
+Overview gives a high-level look at the distributions of values across various features
+and can uncover several common and uncommon issues like unexpected feature val‐
+ues, missing feature values, and training-serving skew.
+<b>Estimatingretraininginterval</b>
+A useful and relatively cheap tactic to understand how data and concept drift affect
+your model is to train a model using only stale data and assess the performance of
+that model on more current data (Figure 5-8). This mimics the continued model
+evaluation process in an offline environment. That is, collect data from six months or
+a year ago and go through the usual model development workflow, generating fea‐
+tures, optimizing hyperparameters, and capturing relevant evaluation metrics. Then,
+compare those evaluation metrics against the model predictions for more recent data
+collected from only a month prior. How much worse does your stale model perform
+on the current data? This gives a good estimate of the rate at which a model’s perfor‐
+mance falls off over time and how often it might be necessary to retrain.

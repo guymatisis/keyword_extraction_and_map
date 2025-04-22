@@ -1,0 +1,22 @@
+<i>Figure</i> <i>3-5.</i> <i>Coverage</i> <i>of</i> <i>the</i> <i>Mueller</i> <i>report</i>
+Russia Today’s coverage of the Mueller report was an extreme outlier in terms of how
+many channels were recommending it. This suggests the possibility that Russia
+Today, a state-owned Russia media outlet, has been successful in gaming YouTube’s
+recommendation algorithm. Unfortunately, the lack of transparency of systems like
+this makes it hard to uncover the kinds of problems that we’re discussing.
+One of our reviewers for this book, Aurélien Géron, led YouTube’s video classification
+team from 2013 to 2016 (well before the events discussed here). He pointed out that
+it’s not just feedback loops involving humans that are a problem. There can also be
+feedback loops without humans! He told us about an example from YouTube:
+One important signal to classify the main topic of a video is the channel it comes from.
+For example, a video uploaded to a cooking channel is very likely to be a cooking
+video. But how do we know what topic a channel is about? Well…in part by looking at
+the topics of the videos it contains! Do you see the loop? For example, many videos
+have a description which indicates what camera was used to shoot the video. As a
+result, some of these videos might get classified as videos about “photography.” If a
+channel has such a misclassified video, it might be classified as a “photography” chan‐
+nel, making it even more likely for future videos on this channel to be wrongly classi‐
+fied as “photography.” This could even lead to runaway virus-like classifications! One
+way to break this feedback loop is to classify videos with and without the channel sig‐
+nal. Then when classifying the channels, you can only use the classes obtained without
+the channel signal. This way, the feedback loop is broken.

@@ -1,0 +1,31 @@
+From these Performance & Fairness charts, we can see:
+• Our model’s accuracy on loans supervised by HUD is significantly higher—94%
+compared to 85%.
+• According to the confusion matrix, non-HUD loans are approved at a higher
+rate—72% compared to 55%. This is likely due to the data representation bias
+identified in the previous section (we purposely left the dataset this way to show
+how models can amplify data bias).
+There are a few ways to act on these insights, as shown in the “Optimization strategy”
+box in Figure 7-14. These optimization methods involve changing our model’s <i>classi‐</i>
+<i>fication</i> <i>threshold—the</i> threshold at which a model will output a positive classifica‐
+tion. In the context of this model, what confidence threshold are we OK with to mark
+an application as “approved”? If our model is more than 60% confident an applica‐
+tion should be approved, should we approve it? Or are we only OK approving appli‐
+cations when our model is more than 98% confident? This decision is largely
+dependent on a model’s context and prediction task. If we’re predicting whether or
+not an image contains a cat, we may be OK returning the label “cat” even when our
+model is only 60% confident. However, if we have a model that predicts whether or
+not a medical image contains a disease, we’d likely want our threshold to be much
+higher.
+The What-If Tool helps us choose a threshold based on various optimizations. Opti‐
+mizing for “Demographic parity,” for example, would ensure that our model appro‐
+ves the same percentage of applications for both HUD and non-HUD loans.11
+Alternatively, using an equality of opportunity 12 fairness metric will ensure that data‐
+points from both the HUD and non-HUD slice with a ground truth value of
+“approved” in the test dataset are given an equal chance of being predicted
+“approved” by the model.
+Note that changing a model’s prediction threshold is only one way to act on fairness
+evaluation metrics. There are many other approaches, including rebalancing training
+data, retraining a model to optimize for a different metric, and more.
+11 ThisarticleprovidesmoredetailontheWhat-IfTool’soptionsforfairnessoptimizationstrategies.
+12 Moredetailsonequalityofopportunityasafairnessmetriccanbefoundhere.

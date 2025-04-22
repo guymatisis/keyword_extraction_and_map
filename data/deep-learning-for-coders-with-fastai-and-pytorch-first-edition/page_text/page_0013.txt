@@ -1,0 +1,29 @@
+By the end of the book, you’ll understand nearly all the code that’s inside fastai (and
+much of PyTorch too), because in each chapter we’ll be digging a level deeper to show
+you exactly what’s going on as we build and train our models. This means that you’ll
+have learned the most important best practices used in modern deep learning—not
+just how to use them, but how they really work and are implemented. If you want to
+use those approaches in another framework, you’ll have the knowledge you need to
+do so if needed.
+Since the most important thing for learning deep learning is writing code and experi‐
+menting, it’s important that you have a great platform for experimenting with code.
+The most popular programming experimentation platform is called Jupyter. This is
+what we will be using throughout this book. We will show you how you can use
+Jupyter to train and experiment with models and introspect every stage of the data
+preprocessing and model development pipeline. Jupyter is the most popular tool for
+doing data science in Python, for good reason. It is powerful, flexible, and easy to use.
+We think you will love it!
+Let’s see it in practice and train our first model.
+<header><largefont><b>Your</b></largefont> <largefont><b>First</b></largefont> <largefont><b>Model</b></largefont></header>
+As we said before, we will teach you how to do things before we explain why they
+work. Following this top-down approach, we will begin by actually training an image
+classifier to recognize dogs and cats with almost 100% accuracy. To train this model
+and run our experiments, you will need to do some initial setup. Don’t worry; it’s not
+as hard as it looks.
+<b>SylvainSays</b>
+Do not skip the setup part even if it looks intimidating at first,
+especially if you have little or no experience using things like a ter‐
+minal or the command line. Most of that is not necessary, and you
+will find that the easiest servers can be set up with just your usual
+web browser. It is crucial that you run your own experiments in
+parallel with this book in order to learn.

@@ -1,0 +1,36 @@
+Pipeline: partial -> Categorize
+starting from
+/home/sgugger/.fastai/data/oxford-iiit-pet/images/american_bulldog_83.jpg
+applying partial gives
+american_bulldog
+applying Categorize gives
+TensorCategory(12)
+Final sample: (PILImage mode=RGB size=375x500, TensorCategory(12))
+Setting up after_item: Pipeline: ToTensor
+Setting up before_batch: Pipeline:
+Setting up after_batch: Pipeline: IntToFloatTensor
+Building one batch
+Applying item_tfms to the first sample:
+Pipeline: ToTensor
+starting from
+(PILImage mode=RGB size=375x500, TensorCategory(12))
+applying ToTensor gives
+(TensorImage of size 3x500x375, TensorCategory(12))
+Adding the next 3 samples
+No before_batch transform to apply
+Collating items in a batch
+Error! It's not possible to collate your items in a batch
+Could not collate the 0-th members of your tuples because got the following
+shapes:
+torch.Size([3, 500, 375]),torch.Size([3, 375, 500]),torch.Size([3, 333, 500]),
+torch.Size([3, 375, 500])
+You can see exactly how we gathered the data and split it, how we went from a file‐
+name to a <i>sample</i> (the tuple (image, category)), then what item transforms were
+applied and how it failed to collate those samples in a batch (because of the different
+shapes).
+Once you think your data looks right, we generally recommend the next step should
+be using it to train a simple model. We often see people put off the training of an
+actual model for far too long. As a result, they don’t find out what their baseline
+results look like. Perhaps your problem doesn’t require lots of fancy domain-specific
+engineering. Or perhaps the data doesn’t seem to train the model at all. These are
+things that you want to know as soon as possible.

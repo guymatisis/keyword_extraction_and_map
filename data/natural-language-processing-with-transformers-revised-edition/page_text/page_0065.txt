@@ -1,0 +1,40 @@
+The first thing we need to do is tokenize the text, so let’s use our tokenizer to extract
+the input IDs:
+inputs = tokenizer(text, return_tensors="pt", add_special_tokens=False)
+inputs.input_ids
+tensor([[ 2051, 10029, 2066, 2019, 8612]])
+As we saw in Chapter 2, each token in the sentence has been mapped to a unique ID
+[CLS]
+in the tokenizer’s vocabulary. To keep things simple, we’ve also excluded the
+and [SEP] tokens by setting add_special_tokens=False . Next, we need to create
+some dense embeddings. <i>Dense</i> in this context means that each entry in the embed‐
+dings contains a nonzero value. In contrast, the one-hot encodings we saw in Chap‐
+ter 2 are <i>sparse,</i> since all entries except one are zero. In PyTorch, we can do this by
+using a torch.nn.Embedding layer that acts as a lookup table for each input ID:
+<b>from</b> <b>torch</b> <b>import</b> nn
+<b>from</b> <b>transformers</b> <b>import</b> AutoConfig
+config = AutoConfig.from_pretrained(model_ckpt)
+token_emb = nn.Embedding(config.vocab_size, config.hidden_size)
+token_emb
+Embedding(30522, 768)
+Here we’ve used the AutoConfig class to load the <i>config.json</i> file associated with the
+bert-base-uncased
+checkpoint. In Transformers, every checkpoint is assigned a
+configuration file that specifies various hyperparameters like vocab_size and
+hidden_size , which in our example shows us that each input ID will be mapped to
+nn.Embedding
+one of the 30,522 embedding vectors stored in , each with a size of 768.
+The AutoConfig class also stores additional metadata, such as the label names, which
+are used to format the model’s predictions.
+Note that the token embeddings at this point are independent of their context. This
+means that homonyms (words that have the same spelling but different meaning),
+like “flies” in the previous example, have the same representation. The role of the sub‐
+sequent attention layers will be to mix these token embeddings to disambiguate and
+inform the representation of each token with the content of its context.
+Now that we have our lookup table, we can generate the embeddings by feeding in the
+input IDs:
+inputs_embeds = token_emb(inputs.input_ids)
+inputs_embeds.size()
+torch.Size([1, 5, 768])
+This has given us a tensor of shape [batch_size, seq_len, hidden_dim] , just like
+we saw in Chapter 2. We’ll postpone the positional encodings, so the next step is to

@@ -1,0 +1,35 @@
+Be careful not to confuse the “byte” in “Byte-Pair Encoding” with
+the “byte” in “byte-level.” The name Byte-Pair Encoding comes
+from a data compression technique proposed by Philip Gage in
+1994, originally operating on bytes.7 Unlike what this name might
+indicate, standard BPE algorithms in NLP typically operate on Uni‐
+code strings rather than bytes (although there is a new type of BPE
+that specifically works on bytes, called <i>byte-level</i> <i>BPE).</i> If we read
+our Unicode strings in bytes we can thus reuse a simple BPE sub‐
+word splitting algorithm.
+There is just one issue when using a typical BPE algorithm in NLP. These algorithms
+are designed to work with clean Unicode string as inputs, not bytes, and expect regu‐
+lar ASCII characters in the inputs, without spaces or control characters. But in the
+Unicode characters corresponding to the 256 first bytes, there are many control char‐
+acters (newline, tab, escape, line feed, and other nonprintable characters). To over‐
+come this problem, the GPT-2 tokenizer first maps all the 256 input bytes to Unicode
+strings that can easily be digested by the standard BPE algorithms—that is, we will
+map our 256 elementary values to Unicode strings that all correspond to standard
+printable Unicode characters.
+It’s not very important that these Unicode characters are each encoded with 1 byte or
+more; what is important is that we have 256 single values at the end, forming our base
+vocabulary, and that these 256 values are correctly handled by our BPE algorithm.
+Let’s see some examples of this mapping with the GPT-2 tokenizer. We can access the
+entire mapping as follows:
+<b>from</b> <b>transformers.models.gpt2.tokenization_gpt2</b> <b>import</b> bytes_to_unicode
+byte_to_unicode_map = bytes_to_unicode()
+unicode_to_byte_map = dict((v, k) <b>for</b> k, v <b>in</b> byte_to_unicode_map.items())
+base_vocab = list(unicode_to_byte_map.keys())
+<b>print(f'Size</b> of our base vocabulary: {len(base_vocab)}')
+<b>print(f'First</b> element: `{base_vocab[0]}`, last element: `{base_vocab[-1]}`')
+Size of our base vocabulary: 256
+First element: `!`, last element: `Ń`
+And we can take a look at some common values of bytes and associated mapped Uni‐
+code characters in Table 10-1.
+7 P.Gage,“ANewAlgorithmforDataCompression,”TheCUsersJournal12,no.2(1994):23–38,https://
+<i>dx.doi.org/10.14569/IJACSA.2012.030803.</i>

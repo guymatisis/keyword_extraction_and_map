@@ -1,0 +1,19 @@
+learn.activation_stats.plot_layer_stats(0)
+Generally our model should have a consistent, or at least smooth, mean and standard
+deviation of layer activations during training. Activations near zero are particularly
+problematic, because it means we have computation in the model that’s doing noth‐
+ing at all (since multiplying by zero gives zero). When you have some zeros in one
+layer, they will therefore generally carry over to the next layer…which will then create
+more zeros. Here’s the penultimate layer of our network:
+learn.activation_stats.plot_layer_stats(-2)
+As expected, the problems get worse toward the end of the network, as the instability
+and zero activations compound over layers. Let’s look at what we can do to make
+training more stable.
+<header><largefont><b>Increase</b></largefont> <largefont><b>Batch</b></largefont> <largefont><b>Size</b></largefont></header>
+One way to make training more stable is to increase the batch size. Larger batches
+have gradients that are more accurate, since they’re calculated from more data. On
+the downside, though, a larger batch size means fewer batches per epoch, which
+means fewer opportunities for your model to update weights. Let’s see if a batch size
+of 512 helps:
+dls = get_dls(512)
+learn = fit()

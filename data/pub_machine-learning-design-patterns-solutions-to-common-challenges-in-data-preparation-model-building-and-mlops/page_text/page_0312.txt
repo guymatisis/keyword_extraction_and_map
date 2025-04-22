@@ -1,0 +1,39 @@
+more. This group of users is less likely to run into backward compatibility issues, but
+may want the option to choose when to start using a new feature in our app. Also, if
+we can break users into distinct groups (i.e., based on their app usage), we can serve
+each group different model versions based on their preferences.
+<b>Modelversioningwithamanagedservice</b>
+To demonstrate versioning, we’ll build a model that predicts flight delays and deploy
+this model to Cloud AI Platform Prediction. Because we looked at TensorFlow’s
+SavedModel in previous chapters, we’ll use an XGBoost model here.
+Once we’ve trained our model, we can export it to get it ready for serving:
+model.save_model('model.bst')
+To deploy this model to AI Platform, we need to create a model version that will
+model.bst
+point to this in a Cloud Storage Bucket.
+In AI Platform, a model resource can have many versions associated with it. To cre‐
+ate a new version using the gcloud CLI, we’ll run the following in a Terminal:
+gcloud ai-platform versions create 'v1' <b>\</b>
+--model 'flight_delay_prediction' <b>\</b>
+--origin gs://your-gcs-bucket <b>\</b>
+--runtime-version=1.15 <b>\</b>
+--framework 'XGBOOST' <b>\</b>
+--python-version=3.7
+With this model deployed, it’s now accessible via the endpoint <i>/models/</i>
+<i>flight_delay_predictions/versions/v1</i> in an HTTPS URL tied to our project. Since this
+is the only version we’ve deployed so far, it’s considered the <i>default.</i> This means
+that if we don’t specify a version in our API request, the prediction service will use v1.
+Now we can make predictions to our deployed model by sending it examples in the
+format our model expects—in this case, a 110-element array of dummy-coded airport
+codes (for the full code, see the notebook on GitHub). The model returns sigmoid
+output, a float value between 0 and 1 indicating the likelihood a given flight was
+delayed more than 30 minutes.
+To make a prediction request to our deployed model, we’ll use the following gcloud
+command, where <i>input.json</i> is a file with our newline delimited examples to send for
+prediction:
+gcloud ai-platform predict --model 'flight_delay_prediction'
+--version 'v1'
+--json-request 'input.json'
+If we send five examples for prediction, we’ll get a five-element array back corre‐
+sponding with the sigmoid output for each test example, like the following:
+[0.019, 0.998, 0.213, 0.002, 0.004]

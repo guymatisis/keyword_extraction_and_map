@@ -1,0 +1,38 @@
+This seems to have worked nicely, so let’s use fastai’s download_images to download
+all the URLs for each of our search terms. We’ll put each in a separate folder:
+bear_types = 'grizzly','black','teddy'
+path = Path('bears')
+<b>if</b> <b>not</b> path.exists():
+path.mkdir()
+<b>for</b> o <b>in</b> bear_types:
+dest = (path/o)
+dest.mkdir(exist_ok=True)
+results = search_images_bing(key, f'{o} bear')
+download_images(dest, urls=results.attrgot('content_url'))
+Our folder has image files, as we’d expect:
+fns = get_image_files(path)
+fns
+(#421) [Path('bears/black/00000095.jpg'),Path('bears/black/00000133.jpg'),Path('
+> bears/black/00000062.jpg'),Path('bears/black/00000023.jpg'),Path('bears/black
+> /00000029.jpg'),Path('bears/black/00000094.jpg'),Path('bears/black/00000124.j
+> pg'),Path('bears/black/00000056.jpeg'),Path('bears/black/00000046.jpg'),Path(
+> 'bears/black/00000045.jpg')...]
+<b>JeremySays</b>
+I just love this about working in Jupyter notebooks! It’s so easy to
+gradually build what I want, and check my work every step of the
+way. I make a <i>lot</i> of mistakes, so this is really helpful to me.
+Often when we download files from the internet, a few are corrupt. Let’s check:
+failed = verify_images(fns)
+failed
+(#0) []
+unlink.
+To remove all the failed images, you can use Like most fastai functions that
+return a collection, verify_images returns an object of type L, which includes the
+map method. This calls the passed function on each element of the collection:
+failed.map(Path.unlink);
+<header><largefont><b>Getting</b></largefont> <largefont><b>Help</b></largefont> <largefont><b>in</b></largefont> <largefont><b>Jupyter</b></largefont> <largefont><b>Notebooks</b></largefont></header>
+Jupyter notebooks are great for experimenting and immediately seeing the results of
+each function, but there is also a lot of functionality to help you figure out how to use
+different functions, or even directly look at their source code. For instance, say you
+type this in a cell:
+??verify_images

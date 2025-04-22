@@ -1,0 +1,34 @@
+We’ll now explore how to apply a neural network to this language modeling problem,
+using the concepts introduced in the preceding two chapters. But before reading fur‐
+ther, pause and think about how <i>you</i> would approach this.
+<header><largefont><b>Text</b></largefont> <largefont><b>Preprocessing</b></largefont></header>
+It’s not at all obvious how we’re going to use what we’ve learned so far to build a lan‐
+guage model. Sentences can be different lengths, and documents can be long. So how
+can we predict the next word of a sentence using a neural network? Let’s find out!
+We’ve already seen how categorical variables can be used as independent variables for
+a neural network. Here’s the approach we took for a single categorical variable:
+1. Make a list of all possible levels of that categorical variable (we’ll call this list the
+<i>vocab).</i>
+2. Replace each level with its index in the vocab.
+3. Create an embedding matrix for this containing a row for each level (i.e., for each
+item of the vocab).
+4. Use this embedding matrix as the first layer of a neural network. (A dedicated
+embedding matrix can take as inputs the raw vocab indexes created in step 2; this
+is equivalent to, but faster and more efficient than, a matrix that takes as input
+one-hot-encoded vectors representing the indexes.)
+We can do nearly the same thing with text! What is new is the idea of a sequence.
+First we concatenate all of the documents in our dataset into one big long string and
+split it into words (or <i>tokens),</i> giving us a very long list of words. Our independent
+variable will be the sequence of words starting with the first word in our very long list
+and ending with the second to last, and our dependent variable will be the sequence
+of words starting with the second word and ending with the last word.
+Our vocab will consist of a mix of common words that are already in the vocabulary
+of our pretrained model and new words specific to our corpus (cinematographic
+terms or actor’s names, for instance). Our embedding matrix will be built accord‐
+ingly: for words that are in the vocabulary of our pretrained model, we will take the
+corresponding row in the embedding matrix of the pretrained model; but for new
+words, we won’t have anything, so we will just initialize the corresponding row with a
+random vector.
+Each of the steps necessary to create a language model has jargon associated with it
+from the world of natural language processing, and fastai and PyTorch classes avail‐
+able to help. The steps are as follows:

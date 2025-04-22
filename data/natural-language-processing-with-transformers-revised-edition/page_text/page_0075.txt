@@ -1,0 +1,38 @@
+encoder = TransformerEncoder(config)
+encoder(inputs.input_ids).size()
+torch.Size([1, 5, 768])
+We can see that we get a hidden state for each token in the batch. This output format
+makes the architecture very flexible, and we can easily adapt it for various applica‐
+tions such as predicting missing tokens in masked language modeling or predicting
+the start and end position of an answer in question answering. In the following sec‐
+tion we’ll see how we can build a classifier like the one we used in Chapter 2.
+<header><largefont><b>Adding</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Classification</b></largefont> <largefont><b>Head</b></largefont></header>
+Transformer models are usually divided into a task-independent body and a task-
+specific head. We’ll encounter this pattern again in Chapter 4 when we look at the
+design pattern of Transformers. What we have built so far is the body, so if we wish
+to build a text classifier, we will need to attach a classification head to that body. We
+have a hidden state for each token, but we only need to make one prediction. There
+are several options to approach this. Traditionally, the first token in such models is
+used for the prediction and we can attach a dropout and a linear layer to make a clas‐
+sification prediction. The following class extends the existing encoder for sequence
+classification:
+<b>class</b> <b>TransformerForSequenceClassification(nn.Module):</b>
+<b>def</b> __init__(self, config):
+super().__init__()
+self.encoder = TransformerEncoder(config)
+self.dropout = nn.Dropout(config.hidden_dropout_prob)
+self.classifier = nn.Linear(config.hidden_size, config.num_labels)
+<b>def</b> forward(self, x):
+x = self.encoder(x)[:, 0, :] <i>#</i> <i>select</i> <i>hidden</i> <i>state</i> <i>of</i> <i>[CLS]</i> <i>token</i>
+x = self.dropout(x)
+x = self.classifier(x)
+<b>return</b> x
+Before initializing the model we need to define how many classes we would like to
+predict:
+config.num_labels = 3
+encoder_classifier = TransformerForSequenceClassification(config)
+encoder_classifier(inputs.input_ids).size()
+torch.Size([1, 3])
+That is exactly what we have been looking for. For each example in the batch we get
+the unnormalized logits for each class in the output. This corresponds to the BERT
+model that we used in Chapter 2 to detect emotions in tweets.

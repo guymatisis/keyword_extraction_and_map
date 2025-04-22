@@ -1,0 +1,38 @@
+<header><largefont><b>The</b></largefont> <largefont><b>Model</b></largefont></header>
+We can save some time by using PyTorch’s RNN class, which implements exactly what
+we created earlier, but also gives us the option to stack multiple RNNs, as we have
+discussed:
+<b>class</b> <b>LMModel5(Module):</b>
+<b>def</b> <b>__init__(self,</b> vocab_sz, n_hidden, n_layers):
+self.i_h = nn.Embedding(vocab_sz, n_hidden)
+self.rnn = nn.RNN(n_hidden, n_hidden, n_layers, batch_first=True)
+self.h_o = nn.Linear(n_hidden, vocab_sz)
+self.h = torch.zeros(n_layers, bs, n_hidden)
+<b>def</b> forward(self, x):
+res,h = self.rnn(self.i_h(x), self.h)
+self.h = h.detach()
+<b>return</b> self.h_o(res)
+<b>def</b> reset(self): self.h.zero_()
+learn = Learner(dls, LMModel5(len(vocab), 64, 2),
+loss_func=CrossEntropyLossFlat(),
+metrics=accuracy, cbs=ModelResetter)
+learn.fit_one_cycle(15, 3e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 3.055853 2.591640 0.437907 00:01
+1 2.162359 1.787310 0.471598 00:01
+2 1.710663 1.941807 0.321777 00:01
+3 1.520783 1.999726 0.312012 00:01
+4 1.330846 2.012902 0.413249 00:01
+5 1.163297 1.896192 0.450684 00:01
+6 1.033813 2.005209 0.434814 00:01
+7 0.919090 2.047083 0.456706 00:01
+8 0.822939 2.068031 0.468831 00:01
+9 0.750180 2.136064 0.475098 00:01
+10 0.695120 2.139140 0.485433 00:01
+11 0.655752 2.155081 0.493652 00:01
+12 0.629650 2.162583 0.498535 00:01
+13 0.613583 2.171649 0.491048 00:01
+14 0.604309 2.180355 0.487874 00:01
+Now that’s disappointing…our previous single-layer RNN performed better. Why?
+The reason is that we have a deeper model, leading to exploding or vanishing
+activations.

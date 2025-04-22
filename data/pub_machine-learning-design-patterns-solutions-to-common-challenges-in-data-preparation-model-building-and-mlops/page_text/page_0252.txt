@@ -1,0 +1,39 @@
+<b>as</b> hourofday –- feature2
+)
+<b>AS</b>
+<b>SELECT</b>
+duration, start_station_name, start_date <i>--</i> <i>inputs</i>
+<b>FROM</b>
+`bigquery-public-data.london_bicycles.cycle_hire`
+SELECT
+Notice how we have clearly separated out the inputs (in the clause) from the
+features (in the TRANSFORM clause). Now, prediction is much easier. We can simply
+send to the model the station name and a timestamp (the inputs):
+<b>SELECT</b> * <b>FROM</b> ML.PREDICT(MODEL ch09eu.bicycle_model,(
+'Kings Cross' <b>AS</b> start_station_name
+, <b>CURRENT_TIMESTAMP()</b> <b>as</b> start_date
+))
+The model will then take care of carrying out the appropriate transformations to cre‐
+ate the necessary features. It does so by capturing both the transformation logic and
+artifacts (such as scaling constants, embedding coefficients, lookup tables, and so on)
+to carry out the transformation.
+As long as we carefully use only the raw inputs in the SELECT statement and put all
+subsequent processing of the input in the TRANSFORM clause, BigQuery ML will auto‐
+matically apply these transformations during prediction.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+The solution described above works because BigQuery ML keeps track of the trans‐
+formation logic and artifacts for us, saves them in the model graph, and automatically
+applies the transformations during prediction.
+If we are using a framework where support for the Transform design pattern is not
+built in, we should design our model architecture in such a way that the transforma‐
+tions carried out during training are easy to reproduce during serving. We can do
+this by making sure to save the transformations in the model graph or by creating a
+repository of transformed features (“Design Pattern 26: Feature Store” on page 295).
+<b>TransformationsinTensorFlowandKeras</b>
+Assume that we are training an ML model to estimate taxi fare in New York and have
+six inputs (pickup latitude, pickup longitude, dropoff latitude, dropoff longitude, pas‐
+senger count, and pickup time). TensorFlow supports the concept of feature
+columns, which are saved in the model graph. However, the API is designed assum‐
+ing that the raw inputs are the same as the features.
+Let’s say that we want to scale the latitudes and longitudes (see “Simple Data Repre‐
+sentations” on page 22 in Chapter 2 for details), create a transformed feature that is

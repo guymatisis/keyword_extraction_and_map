@@ -1,0 +1,34 @@
+<header><largefont><b>Our</b></largefont> <largefont><b>First</b></largefont> <largefont><b>Language</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>from</b></largefont> <largefont><b>Scratch</b></largefont></header>
+One simple way to turn this into a neural network would be to specify that we are
+going to predict each word based on the previous three words. We could create a list
+of every sequence of three words as our independent variables, and the next word
+after each sequence as the dependent variable.
+We can do that with plain Python. Let’s do it first with tokens just to confirm what it
+looks like:
+L((tokens[i:i+3], tokens[i+3]) <b>for</b> i <b>in</b> range(0,len(tokens)-4,3))
+(#21031) [(['one', '.', 'two'], '.'),(['.', 'three', '.'], 'four'),(['four',
+> '.', 'five'], '.'),(['.', 'six', '.'], 'seven'),(['seven', '.', 'eight'],
+> '.'),(['.', 'nine', '.'], 'ten'),(['ten', '.', 'eleven'], '.'),(['.',
+> 'twelve', '.'], 'thirteen'),(['thirteen', '.', 'fourteen'], '.'),(['.',
+> 'fifteen', '.'], 'sixteen')...]
+Now we will do it with tensors of the numericalized values, which is what the model
+will actually use:
+seqs = L((tensor(nums[i:i+3]), nums[i+3]) <b>for</b> i <b>in</b> range(0,len(nums)-4,3))
+seqs
+(#21031) [(tensor([0, 1, 2]), 1),(tensor([1, 3, 1]), 4),(tensor([4, 1, 5]),
+> 1),(tensor([1, 6, 1]), 7),(tensor([7, 1, 8]), 1),(tensor([1, 9, 1]),
+> 10),(tensor([10, 1, 11]), 1),(tensor([ 1, 12, 1]), 13),(tensor([13, 1,
+> 14]), 1),(tensor([ 1, 15, 1]), 16)...]
+We can batch those easily using the DataLoader class. For now, we will split the
+sequences randomly:
+bs = 64
+cut = int(len(seqs) * 0.8)
+dls = DataLoaders.from_dsets(seqs[:cut], seqs[cut:], bs=64, shuffle=False)
+We can now create a neural network architecture that takes three words as input, and
+returns a prediction of the probability of each possible next word in the vocab. We
+will use three standard linear layers, but with two tweaks.
+The first tweak is that the first linear layer will use only the first word’s embedding as
+activations, the second layer will use the second word’s embedding plus the first lay‐
+er’s output activations, and the third layer will use the third word’s embedding plus
+the second layer’s output activations. The key effect is that every word is interpreted
+in the information context of any words preceding it.

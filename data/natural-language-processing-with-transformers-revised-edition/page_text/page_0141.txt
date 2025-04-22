@@ -1,0 +1,26 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>6</b></largefont></header>
+<header><largefont><b>Summarization</b></largefont></header>
+At one point or another, you’ve probably needed to summarize a document, be it a
+research article, a financial earnings report, or a thread of emails. If you think about
+it, this requires a range of abilities, such as understanding long passages, reasoning
+about the contents, and producing fluent text that incorporates the main topics from
+the original document. Moreover, accurately summarizing a news article is very dif‐
+ferent from summarizing a legal contract, so being able to do so requires a sophistica‐
+ted degree of domain generalization. For these reasons, text summarization is a
+difficult task for neural language models, including transformers. Despite these chal‐
+lenges, text summarization offers the prospect for domain experts to significantly
+speed up their workflows and is used by enterprises to condense internal knowledge,
+summarize contracts, automatically generate content for social media releases,
+and more.
+To help you understand the challenges involved, this chapter will explore how we can
+leverage pretrained transformers to summarize documents. Summarization is a clas‐
+sic sequence-to-sequence (seq2seq) task with an input text and a target text. As we
+saw in Chapter 1, this is where encoder-decoder transformers excel.
+In this chapter we will build our own encoder-decoder model to condense dialogues
+between several people into a crisp summary. But before we get to that, let’s begin by
+taking a look at one of the canonical datasets for summarization: the CNN/DailyMail
+corpus.
+<header><largefont><b>The</b></largefont> <largefont><b>CNN/DailyMail</b></largefont> <largefont><b>Dataset</b></largefont></header>
+The CNN/DailyMail dataset consists of around 300,000 pairs of news articles and
+their corresponding summaries, composed from the bullet points that CNN and the
+DailyMail attach to their articles. An important aspect of the dataset is that the

@@ -1,0 +1,17 @@
+<b>ReinforcementLearning</b>
+<i>Reinforcement</i> <i>Learning</i> is a very different beast. The learning system, called an <i>agent</i>
+in this context, can observe the environment, select and perform actions, and get
+<i>rewards</i> in return (or <i>penalties</i> in the form of negative rewards, as shown in
+Figure 1-12). It must then learn by itself what is the best strategy, called a <i>policy,</i> to get
+the most reward over time. A policy defines what action the agent should choose
+when it is in a given situation.
+<i>Figure</i> <i>1-12.</i> <i>Reinforcement</i> <i>Learning</i>
+For example, many robots implement Reinforcement Learning algorithms to learn
+how to walk. DeepMind’s AlphaGo program is also a good example of Reinforcement
+Learning: it made the headlines in May 2017 when it beat the world champion Ke Jie
+at the game of Go. It learned its winning policy by analyzing millions of games, and
+then playing many games against itself. Note that learning was turned off during the
+games against the champion; AlphaGo was just applying the policy it had learned.
+<header><largefont><b>Batch</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Online</b></largefont> <largefont><b>Learning</b></largefont></header>
+Another criterion used to classify Machine Learning systems is whether or not the
+system can learn incrementally from a stream of incoming data.

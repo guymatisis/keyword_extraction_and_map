@@ -1,0 +1,20 @@
+<i>Figure</i> <i>1-11.</i> <i>An</i> <i>example</i> <i>model</i> <i>card</i> <i>from</i> <i>the</i> <i>Hugging</i> <i>Face</i> <i>Hub:</i> <i>the</i> <i>inference</i> <i>widget,</i>
+<i>which</i> <i>allows</i> <i>you</i> <i>to</i> <i>interact</i> <i>with</i> <i>the</i> <i>model,</i> <i>is</i> <i>shown</i> <i>on</i> <i>the</i> <i>right</i>
+Let’s continue our tour with Tokenizers.
+PyTorch and TensorFlow also offer hubs of their own and are
+worth checking out if a particular model or dataset is not available
+on the Hugging Face Hub.
+<header><largefont><b>Hugging</b></largefont> <largefont><b>Face</b></largefont> <largefont><b>Tokenizers</b></largefont></header>
+Behind each of the pipeline examples that we’ve seen in this chapter is a tokenization
+step that splits the raw text into smaller pieces called tokens. We’ll see how this works
+in detail in Chapter 2, but for now it’s enough to understand that tokens may be
+words, parts of words, or just characters like punctuation. Transformer models are
+trained on numerical representations of these tokens, so getting this step right is
+pretty important for the whole NLP project!
+Tokenizers provides many tokenization strategies and is extremely fast at tokeniz‐
+backend.12
+ing text thanks to its Rust It also takes care of all the pre- and postprocess‐
+ing steps, such as normalizing the inputs and transforming the model outputs to the
+required format. With Tokenizers, we can load a tokenizer in the same way we can
+load pretrained model weights with Transformers.
+12 Rustisahigh-performanceprogramminglanguage.

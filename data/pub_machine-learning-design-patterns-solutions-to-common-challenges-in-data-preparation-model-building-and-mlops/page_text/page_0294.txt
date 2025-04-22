@@ -1,0 +1,25 @@
+want to deploy models to production that have 95% accuracy or higher. When newly
+available data triggers a pipeline run and trains an updated model, we can add logic
+to check the output of our evaluation component to execute the deployment compo‐
+nent if the accuracy is above our threshold, or end the pipeline run if not. Both Air‐
+flow and Kubeflow Pipelines, discussed previously in this section, provide APIs for
+pipeline orchestration.
+<b>LineagetrackinginMLpipelines</b>
+One additional feature of pipelines is using them for tracking model metadata and
+artifacts, also known as <i>lineage</i> <i>tracking.</i> Each time we invoke a pipeline, a series of
+artifacts is generated. These artifacts could include dataset summaries, exported
+models, model evaluation results, metadata on specific pipeline invocations, and
+more. Lineage tracking lets us visualize the history of our model versions along with
+other associated model artifacts. In AI Platform Pipelines, for example, we can use
+the pipelines dashboard to see which data a model version was trained on, broken
+down both by data schema and date. Figure 6-11 shows the Lineage Explorer dash‐
+board for a TFX pipeline running on AI Platform. This allows us to track the input
+and output artifacts associated with a particular model.
+<i>Figure</i> <i>6-11.</i> <i>The</i> <i>Lineage</i> <i>Explorer</i> <i>section</i> <i>of</i> <i>the</i> <i>AI</i> <i>Platform</i> <i>Pipelines</i> <i>dashboard</i> <i>for</i> <i>a</i>
+<i>TFX</i> <i>pipeline.</i>
+One benefit of using lineage tracking to manage artifacts generated during our pipe‐
+line run is that it supports both cloud-based and on-premises environments. This
+gives us flexibility in where models are trained and deployed, and where model meta‐
+data is stored. Lineage tracking is also an important aspect of making ML pipelines
+reproducible, since it allows for comparisons between metadata and artifacts from
+different pipeline runs.

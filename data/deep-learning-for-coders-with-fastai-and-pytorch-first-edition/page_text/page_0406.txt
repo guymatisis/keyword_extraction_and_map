@@ -1,0 +1,34 @@
+There’s a top edge at cell 5,7. Let’s repeat our calculation there:
+(im3_t[4:7,6:9] * top_edge).sum()
+tensor(762.)
+There’s a right edge at cell 8,18. What does that give us?
+(im3_t[7:10,17:20] * top_edge).sum()
+tensor(-29.)
+As you can see, this little calculation is returning a high number where the 3×3-pixel
+square represents a top edge (i.e., where there are low values at the top of the square
+and high values immediately underneath). That’s because the -1 values in our kernel
+have little impact in that case, but the 1 values have a lot.
+Let’s look a tiny bit at the math. The filter will take any window of size 3×3 in our
+images, and if we name the pixel values like this
+<i>a1</i> <i>a2</i> <i>a3</i>
+<i>a4</i> <i>a5</i> <i>a6</i>
+<i>a7</i> <i>a8</i> <i>a9</i>
+it will return <i>a1</i> + <i>a2</i> + <i>a3</i> − <i>a7</i> − <i>a8</i> − <i>a9.</i> If we are in a part of the image where <i>a1,</i>
+<i>a2,</i> and <i>a3</i> add up to the same as <i>a7,</i> <i>a8,</i> and <i>a9,</i> then the terms will cancel each other
+out and we will get 0. However, if <i>a1</i> is greater than <i>a7,</i> <i>a2</i> is greater than <i>a8,</i> and <i>a3</i> is
+greater than <i>a9,</i> we will get a bigger number as a result. So this filter detects horizon‐
+tal edges—more precisely, edges where we go from bright parts of the image at the
+top to darker parts at the bottom.
+Changing our filter to have the row of 1s at the top and the –1s at the bottom would
+1s –1s
+detect horizontal edges that go from dark to light. Putting the and in columns
+versus rows would give us filters that detect vertical edges. Each set of weights will
+produce a different kind of outcome.
+Let’s create a function to do this for one location, and check that it matches our result
+from before:
+<b>def</b> apply_kernel(row, col, kernel):
+<b>return</b> (im3_t[row-1:row+2,col-1:col+2] * kernel).sum()
+apply_kernel(5,7,top_edge)
+tensor(762.)
+But note that we can’t apply it to the corner (e.g., location 0,0), since there isn’t a com‐
+plete 3×3 square there.

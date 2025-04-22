@@ -1,0 +1,39 @@
+Take the following made-up comment as an example: “Mint chip is their best ice
+cream flavor, hands down.” If we were to replace “Mint chip” with “Rocky road,” the
+comment should be labeled with the same toxicity score (ideally 0). Similarly, if the
+comment were instead, “Mint chip is the worst. If you like this flavor you’re an idiot,”
+we’d expect a higher toxicity score, and that score should be the same any time we
+replace “Mint chip” with a different flavor name. We’ve used ice cream in this exam‐
+ple, but it’s easy to imagine how this would play out with more controversial identity
+terms, especially in a human-centered dataset—a concept known as counterfactual
+fairness.
+<b>Aftertraining</b>
+Even with rigorous data analysis, bias may find its way into a trained model. This can
+happen as a result of a model’s architecture, optimization metrics, or data bias that
+wasn’t identified before training. To solve for this, it’s important to evaluate our
+model from a fairness perspective and dig deeper into metrics other than overall
+model accuracy. The goal of this post-training analysis is to understand the trade-offs
+between model accuracy and the effects a model’s predictions will have on different
+groups.
+The What-If Tool is one such option for post-model analysis. To demonstrate how to
+use it on a trained model, we’ll build on our mortgage dataset example. Based on our
+previous analysis, we’ve refined the dataset to only include loans for the purpose of
+refinancing or home purchases,10 and trained an XGBoost model to predict whether
+or not an application will be approved. Because we’re using XGBoost, we converted
+get_dummies()
+all categorical features into boolean columns using the pandas
+method.
+We’ll make a few additions to our What-If Tool initialization code above, this time
+passing in a function that calls our trained model, along with configs specifying our
+label column and the name for each label:
+<b>def</b> custom_fn(examples):
+df = pd.DataFrame(examples, columns=columns)
+preds = bst.predict_proba(df)
+<b>return</b> preds
+config_builder = (WitConfigBuilder(test_examples, columns)
+.set_custom_predict_fn(custom_fn)
+.set_target_feature('mortgage_status')
+.set_label_vocab(['denied', 'approved']))
+WitWidget(config_builder, height=800)
+10 Therearemanymorepre-trainingoptimizationsthatcouldbemadeonthisdataset.We’vechosenjustone
+hereasademoofwhat’spossible.

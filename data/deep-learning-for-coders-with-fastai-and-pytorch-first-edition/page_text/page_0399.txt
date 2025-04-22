@@ -1,0 +1,34 @@
+We can create a regularized Learner using the RNNRegularizer callback:
+learn = Learner(dls, LMModel7(len(vocab), 64, 2, 0.5),
+loss_func=CrossEntropyLossFlat(), metrics=accuracy,
+cbs=[ModelResetter, RNNRegularizer(alpha=2, beta=1)])
+A TextLearner automatically adds those two callbacks for us (with those values for
+alpha and beta as defaults), so we can simplify the preceding line:
+learn = TextLearner(dls, LMModel7(len(vocab), 64, 2, 0.4),
+loss_func=CrossEntropyLossFlat(), metrics=accuracy)
+We can then train the model, and add additional regularization by increasing the
+weight decay to 0.1:
+learn.fit_one_cycle(15, 1e-2, wd=0.1)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 2.693885 2.013484 0.466634 00:02
+1 1.685549 1.187310 0.629313 00:02
+2 0.973307 0.791398 0.745605 00:02
+3 0.555823 0.640412 0.794108 00:02
+4 0.351802 0.557247 0.836100 00:02
+5 0.244986 0.594977 0.807292 00:02
+6 0.192231 0.511690 0.846761 00:02
+7 0.162456 0.520370 0.858073 00:02
+8 0.142664 0.525918 0.842285 00:02
+9 0.128493 0.495029 0.858073 00:02
+10 0.117589 0.464236 0.867188 00:02
+11 0.109808 0.466550 0.869303 00:02
+12 0.104216 0.455151 0.871826 00:02
+13 0.100271 0.452659 0.873617 00:02
+14 0.098121 0.458372 0.869385 00:02
+Now this is far better than our previous model!
+<header><largefont><b>Conclusion</b></largefont></header>
+You have now seen everything that is inside the AWD-LSTM architecture we used in
+text classification in Chapter 10. It uses dropout in a lot more places:
+• Embedding dropout (just after the embedding layer)
+• Input dropout (after the embedding layer)
+• Weight dropout (applied to the weights of the LSTM at each training step)

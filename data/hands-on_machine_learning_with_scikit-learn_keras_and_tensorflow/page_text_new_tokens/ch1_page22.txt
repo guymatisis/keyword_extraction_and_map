@@ -1,0 +1,37 @@
+<i>#</i> <i>Prepare</i> <i>the</i> <i>data</i>
+country_stats = prepare_country_stats(oecd_bli, gdp_per_capita)
+X = np.c_[country_stats["GDP per capita"]]
+y = np.c_[country_stats["Life satisfaction"]]
+<i>#</i> <i>Visualize</i> <i>the</i> <i>data</i>
+country_stats.plot(kind='scatter', x="GDP per capita", y='Life satisfaction')
+plt.show()
+<i>#</i> <i>Select</i> <i>a</i> <i>linear</i> <i>model</i>
+model = sklearn.linear_model.LinearRegression()
+<i>#</i> <i>Train</i> <i>the</i> <i>model</i>
+model.fit(X, y)
+<i>#</i> <i>Make</i> <i>a</i> <i>prediction</i> <i>for</i> <i>Cyprus</i>
+X_new = [[22587]] <i>#</i> <i>Cyprus's</i> <i>GDP</i> <i>per</i> <i>capita</i>
+<b>print(model.predict(X_new))</b> <i>#</i> <i>outputs</i> <i>[[</i> <i>5.96242338]]</i>
+If you had used an instance-based learning algorithm instead, you
+would have found that Slovenia has the closest GDP per capita to
+that of Cyprus ($20,732), and since the OECD data tells us that
+Slovenians’ life satisfaction is 5.7, you would have predicted a life
+satisfaction of 5.7 for Cyprus. If you zoom out a bit and look at the
+two next-closest countries, you will find Portugal and Spain with
+life satisfactions of 5.1 and 6.5, respectively. Averaging these three
+values, you get 5.77, which is pretty close to your model-based pre‐
+diction. This simple algorithm is called <i>k-Nearest</i> <i>Neighbors</i> regres‐
+sion (in this example, <i>k</i> = 3).
+Replacing the Linear Regression model with k-Nearest Neighbors
+regression in the previous code is as simple as replacing these two
+lines:
+<b>import</b> <b>sklearn.linear_model</b>
+model = sklearn.linear_model.LinearRegression()
+with these two:
+<b>import</b> <b>sklearn.neighbors</b>
+model = sklearn.neighbors.KNeighborsRegressor(
+n_neighbors=3)
+If all went well, your model will make good predictions. If not, you may need to use
+more attributes (employment rate, health, air pollution, etc.), get more or better-
+quality training data, or perhaps select a more powerful model (e.g., a Polynomial
+Regression model).

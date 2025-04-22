@@ -1,0 +1,13 @@
+In other words, the researchers noticed that models predicting occupation did not
+only <i>reflect</i> the actual gender imbalance in the underlying population, but <i>amplified</i>
+it! This type of <i>representation</i> <i>bias</i> is quite common, particularly for simple models.
+When there is a clear, easy-to-see underlying relationship, a simple model will often
+assume that this relationship holds all the time. As Figure 3-14 from the paper shows,
+for occupations that had a higher percentage of females, the model tended to overes‐
+timate the prevalence of that occupation.
+<i>Figure</i> <i>3-14.</i> <i>Model</i> <i>error</i> <i>in</i> <i>predicting</i> <i>occupation</i> <i>plotted</i> <i>against</i> <i>percentage</i> <i>of</i> <i>women</i>
+<i>in</i> <i>said</i> <i>occupation</i>
+For example, in the training dataset 14.6% of surgeons were women, yet in the model
+predictions only 11.6% of the true positives were women. The model is thus amplify‐
+ing the bias existing in the training set.
+Now that we’ve seen that those biases exist, what can we do to mitigate them?

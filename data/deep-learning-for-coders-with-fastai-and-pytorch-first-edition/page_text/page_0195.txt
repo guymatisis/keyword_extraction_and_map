@@ -1,0 +1,36 @@
+As you see, this returns the dependent and independent variables, as a mini-batch.
+Let’s see what is contained in our dependent variable:
+y
+TensorCategory([11, 0, 0, 5, 20, 4, 22, 31, 23, 10, 20, 2, 3, 27, 18, 23,
+> 33, 5, 24, 7, 6, 12, 9, 11, 35, 14, 10, 15, 3, 3, 21, 5, 19, 14, 12,
+> 15, 27, 1, 17, 10, 7, 6, 15, 23, 36, 1, 35, 6,
+4, 29, 24, 32, 2, 14, 26, 25, 21, 0, 29, 31, 18, 7, 7, 17],
+> device='cuda:5')
+Our batch size is 64, so we have 64 rows in this tensor. Each row is a single integer
+between 0 and 36, representing our 37 possible pet breeds. We can view the predic‐
+tions (the activations of the final layer of our neural network) by using
+Learner.get_preds. This function takes either a dataset index (0 for train and 1 for
+valid) or an iterator of batches. Thus, we can pass it a simple list with our batch to get
+our predictions. It returns predictions and targets by default, but since we already
+have the targets, we can effectively ignore them by assigning to the special variable _:
+preds,_ = learn.get_preds(dl=[(x,y)])
+preds[0]
+tensor([7.9069e-04, 6.2350e-05, 3.7607e-05, 2.9260e-06, 1.3032e-05, 2.5760e-05,
+> 6.2341e-08, 3.6400e-07, 4.1311e-06, 1.3310e-04, 2.3090e-03, 9.9281e-01,
+> 4.6494e-05, 6.4266e-07, 1.9780e-06, 5.7005e-07,
+3.3448e-06, 3.5691e-03, 3.4385e-06, 1.1578e-05, 1.5916e-06, 8.5567e-08,
+> 5.0773e-08, 2.2978e-06, 1.4150e-06, 3.5459e-07, 1.4599e-04, 5.6198e-08,
+> 3.4108e-07, 2.0813e-06, 8.0568e-07, 4.3381e-07,
+1.0069e-05, 9.1020e-07, 4.8714e-06, 1.2734e-06, 2.4735e-06])
+The actual predictions are 37 probabilities between 0 and 1, which add up to 1 in
+total:
+len(preds[0]),preds[0].sum()
+(37, tensor(1.0000))
+To transform the activations of our model into predictions like this, we used some‐
+thing called the <i>softmax</i> activation function.
+<header><largefont><b>Softmax</b></largefont></header>
+In our classification model, we use the softmax activation function in the final layer
+to ensure that the activations are all between 0 and 1, and that they sum to 1.
+Softmax is similar to the sigmoid function, which we saw earlier. As a reminder, sig‐
+moid looks like this:
+plot_function(torch.sigmoid, min=-4,max=4)

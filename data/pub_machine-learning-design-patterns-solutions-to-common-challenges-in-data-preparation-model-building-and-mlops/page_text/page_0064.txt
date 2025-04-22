@@ -1,0 +1,40 @@
+meal_type
+, so we can turn this into a one-hot encoding and will represent dinner as
+[ 0, 0, 1 ]. With this categorical feature represented as an array, we can now combine
+it with meal_total by adding the price of the meal as the fourth element of the array:
+0, 0, 1, 30.5
+[ ].
+The Embeddings design pattern is a common approach to encoding text for machine
+learning models. If our model had only text, we could represent it as an embedding
+tf.keras
+layer using the following code:
+<b>from</b> <b>tensorflow.keras</b> <b>import</b> Sequential
+<b>from</b> <b>tensorflow.keras.layers</b> <b>import</b> Embedding
+model = Sequential()
+model.add(Embedding(batch_size, 64, input_length=30))
+Here, we need to flatten the embedding8 in order to concatenate with the meal_type
+and meal_total :
+model.add(Flatten())
+We could then use a series of Dense layers to transform that very large array9 into
+smaller ones, ending with our output that is an array of, say, three numbers:
+model.add(Dense(3, activation="relu"))
+We now need to concatenate these three numbers, which form the sentence embed‐
+ding of the review with the earlier inputs: [0, 0, 1, 30.5, 0.75, -0.82, 0.45].
+To do this, we’ll use the Keras functional API and apply the same steps. Layers built
+with the functional API are callable, enabling us to chain them together starting with
+an Input layer . 10 To make use of this, we’ll first define both our embedding and tab‐
+ular layers:
+embedding_input = Input(shape=(30,))
+embedding_layer = Embedding(batch_size, 64)(embedding_input)
+embedding_layer = Flatten()(embedding_layer)
+embedding_layer = Dense(3, activation='relu')(embedding_layer)
+tabular_input = Input(shape=(4,))
+tabular_layer = Dense(32, activation='relu')(tabular_input)
+Note that we’ve defined the Input pieces of both of these layers as their own vari‐
+Model
+ables. This is because we need to pass Input layers when we build a with the
+8 Whenwepassanencoded30-wordarraytoourmodel,theKeraslayerwilltransformitintoa64-
+dimensionalembeddingrepresentation,sowe’llhavea[64×30]matrixrepresentingthereview.
+9 Thestartingpointisanarraythatis1,920numbers.
+10 See02_data_representation/mixed_representation.ipynbinthecoderepositoryofthisbookforthefullmodel
+code.

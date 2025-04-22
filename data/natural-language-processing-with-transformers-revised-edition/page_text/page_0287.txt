@@ -1,0 +1,6 @@
+First of all we see that simply fine-tuning a vanilla BERT model on the dataset leads to
+competitive results when we have access to around 64 examples. We also see that
+before this the behavior is a bit erratic, which is again due to training a model on a
+small sample where some labels can be unfavorably unbalanced. Before we make use
+of the unlabeled part of our dataset, let’s take a quick look at another promising
+approach for using language models in the few-shot domain.

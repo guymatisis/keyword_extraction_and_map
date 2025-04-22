@@ -1,0 +1,25 @@
+are classes, we have to instantiate them, which is why you see nn.ReLU in this
+example.
+Because nn.Sequential is a module, we can get its parameters, which will return a
+list of all the parameters of all the modules it contains. Let’s try it out! As this is a
+deeper model, we’ll use a lower learning rate and a few more epochs:
+learn = Learner(dls, simple_net, opt_func=SGD,
+loss_func=mnist_loss, metrics=batch_accuracy)
+learn.fit(40, 0.1)
+We’re not showing the 40 lines of output here to save room; the training process is
+recorded in learn.recorder, with the table of output stored in the values attribute,
+so we can plot the accuracy over training:
+plt.plot(L(learn.recorder.values).itemgot(2));
+And we can view the final accuracy:
+learn.recorder.values[-1][2]
+0.982826292514801
+At this point, we have something that is rather magical:
+• A function that can solve any problem to any level of accuracy (the neural net‐
+work) given the correct set of parameters
+• A way to find the best set of parameters for any function (stochastic gradient
+descent)
+This is why deep learning can do such fantastic things. Believing that this combina‐
+tion of simple techniques can really solve any problem is one of the biggest steps that
+we find many students have to take. It seems too good to be true—surely things
+should be more difficult and complicated than this? Our recommendation: try it out!
+We just tried it on the MNIST dataset, and you’ve seen the results. And since we are

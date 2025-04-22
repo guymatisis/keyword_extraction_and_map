@@ -1,0 +1,42 @@
+version.5
+while handling new requests with the new As soon as every pending request
+has been answered, the previous model version is unloaded. You can see this at work
+in the TensorFlow Serving logs:
+[...]
+reserved resources to load servable {name: my_mnist_model version: 2}
+[...]
+Reading SavedModel from: /models/my_mnist_model/0002
+Reading meta graph <b>with</b> tags { serve }
+Successfully loaded servable version {name: my_mnist_model version: 2}
+Quiescing servable version {name: my_mnist_model version: 1}
+Done quiescing servable version {name: my_mnist_model version: 1}
+Unloading servable version {name: my_mnist_model version: 1}
+This approach offers a smooth transition, but it may use too much RAM (especially
+GPU RAM, which is generally the most limited). In this case, you can configure TF
+Serving so that it handles all pending requests with the previous model version and
+unloads it before loading and using the new model version. This configuration will
+avoid having two model versions loaded at the same time, but the service will be
+unavailable for a short period.
+As you can see, TF Serving makes it quite simple to deploy new models. Moreover, if
+you discover that version 2 does not work as well as you expected, then rolling back
+to version 1 is as simple as removing the <i>my_mnist_model/0002</i> directory.
+Another great feature of TF Serving is its automatic batching capa‐
+--enable_batching
+bility, which you can activate using the option
+upon startup. When TF Serving receives multiple requests within a
+short period of time (the delay is configurable), it will automatically
+batch them together before using the model. This offers a signifi‐
+cant performance boost by leveraging the power of the GPU. Once
+the model returns the predictions, TF Serving dispatches each pre‐
+diction to the right client. You can trade a bit of latency for a
+greater throughput by increasing the batching delay (see the
+--batching_parameters_file
+option).
+If you expect to get many queries per second, you will want to deploy TF Serving on
+multiple servers and load-balance the queries (see Figure 19-2). This will require
+deploying and managing many TF Serving containers across these servers. One way
+to handle that is to use a tool such as Kubernetes, which is an open source system for
+simplifying container orchestration across many servers. If you do not want to pur‐
+5 IftheSavedModelcontainssomeexampleinstancesintheassets/extradirectory,youcanconfigureTFServ‐
+ingtoexecutethemodelontheseinstancesbeforestartingtoservenewrequestswithit.Thisiscalledmodel
+<i>warmup:itwillensurethateverythingisproperlyloaded,avoidinglongresponsetimesforthefirstrequests.</i>

@@ -1,0 +1,38 @@
+have windows on two walls? What about your least-favorite room? According to
+Alexander:
+Rooms lit on two sides, with natural light, create less glare around people and objects;
+this lets us see things more intricately; and most important, it allows us to read in
+detail the minute expressions that flash across people’s faces….
+Having a name for this pattern saves architects from having to continually rediscover
+this principle. Yet where and how you get two light sources in any specific local con‐
+dition is up to the architect’s skill. Similarly, when designing a balcony, how big
+should it be? Alexander recommends 6 feet by 6 feet as being enough for 2 (mis‐
+matched!) chairs and a side table, and 12 feet by 12 feet if you want both a covered
+sitting space and a sitting space in the sun.
+Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides brought the idea to
+software by cataloging 23 object-oriented design patterns in a 1994 book entitled
+<i>Design</i> <i>Patterns:</i> <i>Elements</i> <i>of</i> <i>Reusable</i> <i>Object-Oriented</i> <i>Software</i> (Addison-Wesley,
+1995). Their catalog includes patterns such as Proxy, Singleton, and Decorator and
+led to lasting impact on the field of object-oriented programming. In 2005 the Asso‐
+ciation of Computing Machinery (ACM) awarded their annual Programming Lan‐
+guages Achievement Award to the authors, recognizing the impact of their work “on
+programming practice and programming language design.”
+Building production machine learning models is increasingly becoming an engineer‐
+ing discipline, taking advantage of ML methods that have been proven in research
+settings and applying them to business problems. As machine learning becomes more
+mainstream, it is important that practitioners take advantage of tried-and-proven
+methods to address recurring problems.
+One benefit of our jobs in the customer-facing part of Google Cloud is that it brings
+us in contact with a wide variety of machine learning and data science teams and
+individual developers from around the world. At the same time, we each work closely
+with internal Google teams solving cutting-edge machine learning problems. Finally,
+we have been fortunate to work with the TensorFlow, Keras, BigQuery ML, TPU, and
+Cloud AI Platform teams that are driving the democratization of machine learning
+research and infrastructure. All this gives us a rather unique perspective from which
+to catalog the best practices we have observed these teams carrying out.
+This book is a catalog of design patterns or repeatable solutions to commonly occur‐
+ring problems in ML engineering. For example, the Transform pattern (Chapter 6)
+enforces the separation of inputs, features, and transforms and makes the transfor‐
+mations persistent in order to simplify moving an ML model to production. Simi‐
+larly, Keyed Predictions, in Chapter 5, is a pattern that enables the large-scale
+distribution of batch predictions, such as for recommendation models.

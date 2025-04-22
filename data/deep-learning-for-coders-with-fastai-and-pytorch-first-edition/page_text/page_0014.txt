@@ -1,0 +1,37 @@
+<header><largefont><b>Getting</b></largefont> <largefont><b>a</b></largefont> <largefont><b>GPU</b></largefont> <largefont><b>Deep</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>Server</b></largefont></header>
+To do nearly everything in this book, you’ll need access to a computer with an
+NVIDIA GPU (unfortunately, other brands of GPU are not fully supported by the
+main deep learning libraries). However, we don’t recommend you buy one; in fact,
+even if you already have one, we don’t suggest you use it just yet! Setting up a com‐
+puter takes time and energy, and you want all your energy to focus on deep learning
+right now. Therefore, we instead suggest you rent access to a computer that already
+has everything you need preinstalled and ready to go. Costs can be as little as $0.25
+per hour while you’re using it, and some options are even free.
+<b>Jargon:GraphicsProcessingUnit(GPU)</b>
+Also known as a <i>graphics</i> <i>card.</i> A special kind of processor in your
+computer that can handle thousands of single tasks at the same
+time, especially designed for displaying 3D environments on a
+computer for playing games. These same basic tasks are very simi‐
+lar to what neural networks do, such that GPUs can run neural net‐
+works hundreds of times faster than regular CPUs. All modern
+computers contain a GPU, but few contain the right kind of GPU
+necessary for deep learning.
+The best choice of GPU servers to use with this book will change over time, as com‐
+panies come and go and prices change. We maintain a list of our recommended
+options on the book’s website, so go there now and follow the instructions to get con‐
+nected to a GPU deep learning server. Don’t worry; it takes only about two minutes to
+get set up on most platforms, and many don’t even require any payment or even a
+credit card to get started.
+<b>AlexisSays</b>
+My two cents: heed this advice! If you like computers, you will be
+tempted to set up your own box. Beware! It is feasible but surpris‐
+ingly involved and distracting. There is a good reason this book is
+not titled <i>Everything</i> <i>You</i> <i>Ever</i> <i>Wanted</i> <i>to</i> <i>Know</i> <i>About</i> <i>Ubuntu</i> <i>Sys‐</i>
+<i>tem</i> <i>Administration,</i> <i>NVIDIA</i> <i>Driver</i> <i>Installation,</i> <i>apt-get,</i> <i>conda,</i> <i>pip,</i>
+<i>and</i> <i>Jupyter</i> <i>Notebook</i> <i>Configuration.</i> That would be a book of its
+own. Having designed and deployed our production machine
+learning infrastructure at work, I can testify it has its satisfactions,
+but it is as unrelated to modeling as maintaining an airplane is to
+flying one.
+Each option shown on the website includes a tutorial; after completing the tutorial,
+you will end up with a screen looking like Figure 1-2.

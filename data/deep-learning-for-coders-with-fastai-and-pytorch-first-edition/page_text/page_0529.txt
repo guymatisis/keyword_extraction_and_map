@@ -1,0 +1,34 @@
+'n03000684': 5,
+'n03425413': 6,
+'n01440764': 7,
+'n03028079': 8,
+'n02102040': 9}
+That’s all the pieces we need to put together our Dataset.
+<header><largefont><b>Dataset</b></largefont></header>
+A Dataset in PyTorch can be anything that supports indexing (__getitem__) and
+len:
+<b>class</b> <b>Dataset:</b>
+<b>def</b> <b>__init__(self,</b> fns): self.fns=fns
+<b>def</b> <b>__len__(self):</b> <b>return</b> len(self.fns)
+<b>def</b> <b>__getitem__(self,</b> i):
+im = Image.open(self.fns[i]).resize((64,64)).convert('RGB')
+y = v2i[self.fns[i].parent.name]
+<b>return</b> tensor(im).float()/255, tensor(y)
+We need a list of training and validation filenames to pass to Dataset.__init__:
+train_filt = L(o.parent.parent.name=='train' <b>for</b> o <b>in</b> files)
+train,valid = files[train_filt],files[~train_filt]
+len(train),len(valid)
+(9469, 3925)
+Now we can try it out:
+train_ds,valid_ds = Dataset(train),Dataset(valid)
+x,y = train_ds[0]
+x.shape,y
+(torch.Size([64, 64, 3]), tensor(0))
+show_image(x, title=lbls[y]);
+As you see, our dataset is returning the independent and dependent variables as a
+tuple, which is just what we need. We’ll need to be able to collate these into a mini-
+torch.stack,
+batch. Generally, this is done with which is what we’ll use here:
+<b>def</b> collate(idxs, ds):
+xb,yb = zip(*[ds[i] <b>for</b> i <b>in</b> idxs])
+<b>return</b> torch.stack(xb),torch.stack(yb)

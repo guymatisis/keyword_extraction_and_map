@@ -1,0 +1,32 @@
+<b>from</b> <b>sklearn.linear_model</b> <b>import</b> LogisticRegression
+<i>#</i> <i>We</i> <i>increase</i> <i>`max_iter`</i> <i>to</i> <i>guarantee</i> <i>convergence</i>
+lr_clf = LogisticRegression(max_iter=3000)
+lr_clf.fit(X_train, y_train)
+lr_clf.score(X_valid, y_valid)
+0.633
+Looking at the accuracy, it might appear that our model is just a bit better than ran‐
+dom—but since we are dealing with an unbalanced multiclass dataset, it’s actually sig‐
+nificantly better. We can examine whether our model is any good by comparing it
+against a simple baseline. In Scikit-learn there is a DummyClassifier that can be used
+to build a classifier with simple heuristics such as always choosing the majority class
+or always drawing a random class. In this case the best-performing heuristic is to
+always choose the most frequent class, which yields an accuracy of about 35%:
+<b>from</b> <b>sklearn.dummy</b> <b>import</b> DummyClassifier
+dummy_clf = DummyClassifier(strategy="most_frequent")
+dummy_clf.fit(X_train, y_train)
+dummy_clf.score(X_valid, y_valid)
+0.352
+So, our simple classifier with DistilBERT embeddings is significantly better than our
+baseline. We can further investigate the performance of the model by looking at the
+confusion matrix of the classifier, which tells us the relationship between the true and
+predicted labels:
+<b>from</b> <b>sklearn.metrics</b> <b>import</b> ConfusionMatrixDisplay, confusion_matrix
+<b>def</b> plot_confusion_matrix(y_preds, y_true, labels):
+cm = confusion_matrix(y_true, y_preds, normalize="true")
+fig, ax = plt.subplots(figsize=(6, 6))
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
+disp.plot(cmap="Blues", values_format=".2f", ax=ax, colorbar=False)
+plt.title("Normalized confusion matrix")
+plt.show()
+y_preds = lr_clf.predict(X_valid)
+plot_confusion_matrix(y_preds, y_valid, labels)

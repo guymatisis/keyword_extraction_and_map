@@ -1,0 +1,40 @@
+• <b>γ</b> is the output scale parameter vector for the layer (it contains one scale parame‐
+ter per input).
+• ⊗ represents element-wise multiplication (each input is multiplied by its corre‐
+sponding output scale parameter).
+• <b>β</b> is the output shift (offset) parameter vector for the layer (it contains one offset
+parameter per input). Each input is offset by its corresponding shift parameter.
+• <i>ε</i> is a tiny number that avoids division by zero (typically 10 –5 ). This is called a
+<i>smoothing</i> <i>term.</i>
+<b>z(i)</b>
+• is the output of the BN operation. It is a rescaled and shifted version of the
+inputs.
+So during training, BN standardizes its inputs, then rescales and offsets them. Good!
+What about at test time? Well, it’s not that simple. Indeed, we may need to make pre‐
+dictions for individual instances rather than for batches of instances: in this case, we
+will have no way to compute each input’s mean and standard deviation. Moreover,
+even if we do have a batch of instances, it may be too small, or the instances may not
+be independent and identically distributed, so computing statistics over the batch
+instances would be unreliable. One solution could be to wait until the end of training,
+then run the whole training set through the neural network and compute the mean
+and standard deviation of each input of the BN layer. These “final” input means and
+standard deviations could then be used instead of the batch input means and stan‐
+dard deviations when making predictions. However, most implementations of Batch
+Normalization estimate these final statistics during training by using a moving aver‐
+age of the layer’s input means and standard deviations. This is what Keras does auto‐
+matically when you use the BatchNormalization layer. To sum up, four parameter
+vectors are learned in each batch-normalized layer: <b>γ</b> (the output scale vector) and <b>β</b>
+(the output offset vector) are learned through regular backpropagation, and <b>μ</b> (the
+final input mean vector) and <b>σ</b> (the final input standard deviation vector) are estima‐
+ted using an exponential moving average. Note that <b>μ</b> and <b>σ</b> are estimated during
+training, but they are used only after training (to replace the batch input means and
+standard deviations in Equation 11-3).
+Ioffe and Szegedy demonstrated that Batch Normalization considerably improved all
+the deep neural networks they experimented with, leading to a huge improvement in
+the ImageNet classification task (ImageNet is a large database of images classified into
+many classes, commonly used to evaluate computer vision systems). The vanishing
+gradients problem was strongly reduced, to the point that they could use saturating
+activation functions such as the tanh and even the logistic activation function. The
+networks were also much less sensitive to the weight initialization. The authors were
+able to use much larger learning rates, significantly speeding up the learning process.
+Specifically, they note that:

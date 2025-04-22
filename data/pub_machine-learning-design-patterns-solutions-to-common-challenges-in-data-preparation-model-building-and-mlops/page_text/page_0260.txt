@@ -1,0 +1,40 @@
+• Rows at the same date tend to be correlated—again, this is the key reason why we
+want to ensure that all rows on the same date are in the same split.
+date
+• is not an input to the model even though it is used as a criteria for splitting.
+Features extracted from date such as day of week or hour of day can be inputs,
+but we can’t use an actual input as the field with which to split because the
+date
+trained model will not have seen 20% of the possible input values for the
+column if we use 80% of the data for training.
+date
+• There have to be enough values. Since we are computing the hash and find‐
+ing the modulo with respect to 10, we need at least 10 unique hash values. The
+more unique values we have, the better. To be safe, a rule of thumb is to shoot for
+3–5× the denominator for the modulo, so in this case, we want 40 or so unique
+dates.
+• The label has to be well distributed among the dates. If it turns out that all the
+delays happened on January 1 and there were no delays the rest of the year, this
+wouldn’t work since the split datasets will be skewed. To be safe, look at a graph
+and make sure that all three splits have a similar distribution of labels. To be
+extra safe, ensure that the distributions of label by departure delay and other
+input values are similar across the three datasets.
+We can automate checking whether the label distributions are sim‐
+ilar across the three datasets by using the Kolomogorov–Smirnov
+test: just plot the cumulative distribution functions of the label in
+the three datasets and find the maximum distance between each
+pair. The smaller the maximum distance, the better the split.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+Let’s look at a couple of variants of how we might do repeatable splitting and discuss
+the pros and cons of each. Let’s also examine how to extend this idea to do repeatable
+sampling, not just splitting.
+<b>Singlequery</b>
+We don’t need three separate queries to generate training, validation, and test splits.
+We can do it in a single query as follows:
+<b>CREATE</b> <b>OR</b> <b>REPLACE</b> <b>TABLE</b> mydataset.mytable <b>AS</b>
+<b>SELECT</b>
+airline,
+departure_airport,
+departure_schedule,
+arrival_airport,
+arrival_delay,

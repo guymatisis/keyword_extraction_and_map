@@ -1,0 +1,24 @@
+Now that we have a working model in production, let’s imagine that our data science
+team decides to change the model from XGBoost to TensorFlow since it results in
+improved accuracy and gives them access to additional tooling in the TensorFlow
+ecosystem. The model has the same input and output format, but its architecture and
+exported asset format has changed. Instead of a <i>.bst</i> file, our model is now in the
+TensorFlow SavedModel format. Ideally we can keep our underlying model assets
+separate from our application frontend—this will allow application developers to
+focus on our application’s functionality, rather than a change in model formatting
+that won’t affect the way end users interact with the model. This is where model ver‐
+sioning can help. We’ll deploy our TensorFlow model as a second version under the
+flight_delay_prediction
+same model resource. End users can upgrade to the new
+version for improved performance simply by changing the version name in the API
+endpoint.
+To deploy our second version, we’ll export the model and copy it to a new subdirec‐
+tory in the bucket we used previously. We can use the same deploy command as
+above, replacing the version name with v2 and pointing to the Cloud Storage location
+of the new model. As shown in Figure 6-19, we’re now able to see both deployed ver‐
+sions in our Cloud console.
+<i>Figure</i> <i>6-19.</i> <i>The</i> <i>dashboard</i> <i>for</i> <i>managing</i> <i>models</i> <i>and</i> <i>versions</i> <i>in</i> <i>the</i> <i>Cloud</i> <i>AI</i> <i>Plat‐</i>
+<i>form</i> <i>console.</i>
+Notice that we’ve also set <i>v2</i> as the new default version, so that if users don’t specify a
+version, they’ll get a response from <i>v2.</i> Since the input and output format of our
+model are the same, clients can upgrade without worrying about breaking changes.

@@ -1,0 +1,28 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>3</b></largefont></header>
+<header><largefont><b>Problem</b></largefont> <largefont><b>Representation</b></largefont> <largefont><b>Design</b></largefont> <largefont><b>Patterns</b></largefont></header>
+Chapter 2 looked at design patterns that catalog the myriad ways in which inputs to
+machine learning models can be represented. This chapter looks at different types of
+machine learning problems and analyzes how the model architectures vary depend‐
+ing on the problem.
+The input and the output types are two key factors impacting the model architecture.
+For instance, the output in supervised machine learning problems can vary depend‐
+ing on whether the problem being solved is a classification or regression problem.
+Special neural network layers exist for specific types of input data: convolutional lay‐
+ers for images, speech, text, and other data with spatiotemporal correlation, recurrent
+networks for sequential data, and so on. A huge literature has arisen around special
+techniques such as max pooling, attention, and so forth on these types of layers. In
+addition, special classes of solutions have been crafted for commonly occurring prob‐
+lems like recommendations (such as matrix factorization) or time-series forecasting
+(for example, ARIMA). Finally, a group of simpler models together with common
+idioms can be used to solve more complex problems—for example, text generation
+often involves a classification model whose outputs are postprocessed using a beam
+search algorithm.
+To limit our discussion and stay away from areas of active research, we will ignore
+patterns and idioms associated with specialized machine learning domains. Instead,
+we will focus on regression and classification and examine patterns with problem
+representation in just these two types of ML models.
+The <i>Reframing</i> design pattern takes a solution that is intuitively a regression problem
+and poses it as a classification problem (and vice versa). The <i>Multilabel</i> design pat‐
+tern handles the case that training examples can belong to more than one class. The
+<i>Cascade</i> design pattern addresses situations where a machine learning problem can
+be profitably broken into a series (or cascade) of ML problems. The <i>Ensemble</i> design

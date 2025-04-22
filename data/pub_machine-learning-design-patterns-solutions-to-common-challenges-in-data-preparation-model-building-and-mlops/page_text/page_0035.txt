@@ -1,0 +1,34 @@
+We don’t need to store the vocabulary because the transformation code is independ‐
+ent of the actual data value and the core of the model only deals with num_buckets
+inputs, not the full vocabulary.
+It is true that hashing is lossy—since we have 347 airports, an average of 35 airports
+will get the same hash bucket code if we hash it into 10 buckets. When the alternative
+is to discard the variable because it is too wide, though, a lossy encoding is an accept‐
+able compromise.
+<b>Coldstart</b>
+The cold-start situation is similar to the out-of-vocabulary situation. If a new airport
+gets added to the system, it will initially get the predictions corresponding to other
+airports in the hash bucket. As an airport gets popular, there will be more flights from
+that airport. As long as we periodically retrain the model, its predictions will start to
+reflect arrival delays from the new airport. This is discussed in more detail in the
+“Design Pattern 18: Continued Model Evaluation” on page 220 in Chapter 5.
+By choosing the number of hash buckets such that each bucket gets about five entries,
+we can ensure that any bucket will have reasonable initial results.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+Most design patterns involve some kind of a trade-off, and the Hashed Feature design
+pattern is no exception. The key trade-off here is that we lose model accuracy.
+<b>Bucketcollision</b>
+The modulo part of the Hashed Feature implementation is a lossy operation. By
+choosing a hash bucket size of 100, we are choosing to have 3–4 airports share a
+bucket. We are explicitly compromising on the ability to accurately represent the data
+(with a fixed vocabulary and one-hot encoding) in order to handle out-of-vocabulary
+inputs, cardinality/model size constraints, and cold-start problems. It is not a free
+lunch. Do not choose Hashed Feature if you know the vocabulary beforehand, if the
+vocabulary size is relatively small (in the thousands is acceptable for a dataset with
+millions of examples), and if cold start is not a concern.
+Note that we cannot simply increase the number of buckets to an extremely high
+number hoping to avoid collisions altogether. Even if we raise the number of buckets
+to 100,000 with only 347 airports, the probability that at least two airports share the
+same hash bucket is 45%—unacceptably high (see Table 2-2). Therefore, we should
+use Hashed Features only if we are willing to tolerate multiple categorical inputs
+sharing the same hash bucket value.

@@ -1,0 +1,37 @@
+them to text-to-text tasks. The largest model with 11 billion parameters yielded
+state-of-the-art results on several benchmarks.
+<i>BART</i>
+BART combines the pretraining procedures of BERT and GPT within the
+encoder-decoder architecture. 24 The input sequences undergo one of several pos‐
+sible transformations, from simple masking to sentence permutation, token dele‐
+tion, and document rotation. These modified inputs are passed through the
+encoder, and the decoder has to reconstruct the original texts. This makes the
+model more flexible as it is possible to use it for NLU as well as NLG tasks, and it
+achieves state-of-the-art-performance on both.
+<i>M2M-100</i>
+Conventionally a translation model is built for one language pair and translation
+direction. Naturally, this does not scale to many languages, and in addition there
+might be shared knowledge between language pairs that could be leveraged for
+translation between rare languages. M2M-100 is the first translation model that
+can translate between any of 100 languages.25 This allows for high-quality transla‐
+tions between rare and underrepresented languages. The model uses prefix
+[CLS]
+tokens (similar to the special token) to indicate the source and target
+language.
+<i>BigBird</i>
+One main limitation of transformer models is the maximum context size, due to
+the quadratic memory requirements of the attention mechanism. BigBird
+addresses this issue by using a sparse form of attention that scales linearly.26 This
+allows for the drastic scaling of contexts from 512 tokens in most BERT models
+to 4,096 in BigBird. This is especially useful in cases where long dependencies
+need to be conserved, such as in text summarization.
+Pretrained checkpoints of all models that we have seen in this section are available on
+the Hugging Face Hub and can be fine-tuned to your use case with Transformers,
+as described in the previous chapter.
+<header><largefont><b>Conclusion</b></largefont></header>
+In this chapter we started at the heart of the Transformer architecture with a deep
+dive into self-attention, and we subsequently added all the necessary parts to build a
+24 M.Lewisetal.,“BART:DenoisingSequence-to-SequencePre-TrainingforNaturalLanguageGeneration,
+Translation,andComprehension”,(2019).
+25 A.Fanetal.,“BeyondEnglish-CentricMultilingualMachineTranslation”,(2020).
+26 M.Zaheeretal.,“BigBird:TransformersforLongerSequences”,(2020).

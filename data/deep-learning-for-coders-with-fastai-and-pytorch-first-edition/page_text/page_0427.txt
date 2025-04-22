@@ -1,0 +1,26 @@
+Remember, it’s always a good idea to look at your data before you use it:
+dls.show_batch(max_n=9, figsize=(4,4))
+Now that we have our data ready, we can train a simple model on it.
+<header><largefont><b>A</b></largefont> <largefont><b>Simple</b></largefont> <largefont><b>Baseline</b></largefont></header>
+Earlier in this chapter, we built a model based on a conv function like this:
+<b>def</b> conv(ni, nf, ks=3, act=True):
+res = nn.Conv2d(ni, nf, stride=2, kernel_size=ks, padding=ks//2)
+<b>if</b> act: res = nn.Sequential(res, nn.ReLU())
+<b>return</b> res
+Let’s start with a basic CNN as a baseline. We’ll use the same as one as earlier, but with
+one tweak: we’ll use more activations. Since we have more numbers to differentiate,
+we’ll likely need to learn more filters.
+As we discussed, we generally want to double the number of filters each time we have
+a stride-2 layer. One way to increase the number of filters throughout our network is
+to double the number of activations in the first layer—then every layer after that will
+end up twice as big as in the previous version as well.
+But this creates a subtle problem. Consider the kernel that is being applied to each
+pixel. By default, we use a 3×3-pixel kernel. Therefore, there are a total of 3 × 3 = 9
+pixels that the kernel is being applied to at each location. Previously, our first layer
+had four output filters. So four values were being computed from nine pixels at each
+location. Think about what happens if we double this output to eight filters. Then
+when we apply our kernel, we will be using nine pixels to calculate eight numbers.
+That means it isn’t really learning much at all: the output size is almost the same as
+the input size. Neural networks will create useful features only if they’re forced to do
+so—that is, if the number of outputs from an operation is significantly smaller than
+the number of inputs.

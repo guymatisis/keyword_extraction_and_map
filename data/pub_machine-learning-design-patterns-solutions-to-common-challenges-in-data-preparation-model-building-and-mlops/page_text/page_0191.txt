@@ -1,0 +1,27 @@
+hp.Float('learning_rate', .005, .01, sampling='log')),
+loss='sparse_categorical_crossentropy',
+metrics=['accuracy'])
+<b>return</b> model
+keras-tuner
+The library supports many different optimization algorithms. Here,
+we’ll instantiate our tuner with Bayesian optimization and optimize for validation
+accuracy:
+<b>import</b> <b>kerastuner</b> <b>as</b> <b>kt</b>
+tuner = kt.BayesianOptimization(
+build_model,
+objective='val_accuracy',
+max_trials=10
+)
+The code to run the tuning job looks similar to training our model with fit() . As
+this runs, we’ll be able to see the values for the three hyperparameters that were
+selected for each trial. When the job completes, we can see the hyperparameter com‐
+bination that resulted in the best trial. In Figure 4-23, we can see the example output
+for a single trial run using keras-tuner .
+<i>Figure</i> <i>4-23.</i> <i>Output</i> <i>for</i> <i>one</i> <i>trial</i> <i>run</i> <i>of</i> <i>hyperparameter</i> <i>tuning</i> <i>with</i> <i>keras-tuner.</i> <i>At</i>
+<i>the</i> <i>top,</i> <i>we</i> <i>can</i> <i>see</i> <i>the</i> <i>hyperparameters</i> <i>selected</i> <i>by</i> <i>the</i> <i>tuner,</i> <i>and</i> <i>in</i> <i>the</i> <i>summary</i> <i>sec‐</i>
+<i>tion,</i> <i>we</i> <i>see</i> <i>the</i> <i>resulting</i> <i>optimization</i> <i>metric.</i>
+In addition to the examples shown here, there is additional functionality provided by
+keras-tuner
+that we haven’t covered. You can use it to experiment with different
+numbers of layers for your model by defining an hp.Int() parameter within a loop,
+and you can also provide a fixed set of values for a hyperparameter instead of a range.

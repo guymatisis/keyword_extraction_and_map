@@ -1,0 +1,23 @@
+<i>Figure</i> <i>3-17.</i> <i>A</i> <i>pipeline</i> <i>to</i> <i>train</i> <i>the</i> <i>cascade</i> <i>of</i> <i>models</i> <i>as</i> <i>a</i> <i>single</i> <i>job.</i>
+Kubeflow Pipelines provides such a framework. Because it works with containers, the
+underlying machine learning models and glue code can be written in nearly any pro‐
+gramming or scripting language. Here, we will wrap the BigQuery SQL models above
+into Python functions using the BigQuery client library. We could use TensorFlow or
+scikit-learn or even R to implement individual components.
+The pipeline code using Kubeflow Pipelines can be expressed quite simply as the fol‐
+lowing (the full code can be found in the code repository of this book):
+@dsl.pipeline(
+name='Cascade pipeline on SF bikeshare',
+description='Cascade pipeline on SF bikeshare'
+)
+<b>def</b> cascade_pipeline(
+project_id = PROJECT_ID
+):
+ddlop = comp.func_to_container_op(run_bigquery_ddl,
+packages_to_install=['google-cloud-bigquery'])
+c1 = train_classification_model(ddlop, PROJECT_ID)
+c1_model_name = c1.outputs['created_table']
+c2a_input = create_training_data(ddlop,
+PROJECT_ID, c1_model_name, 'Typical')
+c2b_input = create_training_data(ddlop,
+PROJECT_ID, c1_model_name, 'Long')

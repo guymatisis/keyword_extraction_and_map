@@ -1,0 +1,35 @@
+<i>Figure</i> <i>4-4.</i> <i>The</i> <i>BertModel</i> <i>class</i> <i>only</i> <i>contains</i> <i>the</i> <i>body</i> <i>of</i> <i>the</i> <i>model,</i> <i>while</i> <i>the</i> <i>Bert</i>
+<i>For<Task></i>
+<i>classes</i> <i>combine</i> <i>the</i> <i>body</i> <i>with</i> <i>a</i> <i>dedicated</i> <i>head</i> <i>for</i> <i>a</i> <i>given</i> <i>task</i>
+As we’ll see next, this separation of bodies and heads allows us to build a custom head
+for any task and just mount it on top of a pretrained model.
+<header><largefont><b>Creating</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Custom</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Token</b></largefont> <largefont><b>Classification</b></largefont></header>
+Let’s go through the exercise of building a custom token classification head for XLM-
+R. Since XLM-R uses the same model architecture as RoBERTa, we will use RoBERTa
+as the base model, but augmented with settings specific to XLM-R. Note that this is
+an educational exercise to show you how to build a custom model for your own task.
+For token classification, an XLMRobertaForTokenClassification class already exists
+that you can import from Transformers. If you want, you can skip to the next sec‐
+tion and simply use that one.
+To get started, we need a data structure that will represent our XLM-R NER tagger. As
+a first guess, we’ll need a configuration object to initialize the model and a forward()
+function to generate the outputs. Let’s go ahead and build our XLM-R class for token
+classification:
+<b>import</b> <b>torch.nn</b> <b>as</b> <b>nn</b>
+<b>from</b> <b>transformers</b> <b>import</b> XLMRobertaConfig
+<b>from</b> <b>transformers.modeling_outputs</b> <b>import</b> TokenClassifierOutput
+<b>from</b> <b>transformers.models.roberta.modeling_roberta</b> <b>import</b> RobertaModel
+<b>from</b> <b>transformers.models.roberta.modeling_roberta</b> <b>import</b> RobertaPreTrainedModel
+<b>class</b> <b>XLMRobertaForTokenClassification(RobertaPreTrainedModel):</b>
+config_class = XLMRobertaConfig
+<b>def</b> __init__(self, config):
+super().__init__(config)
+self.num_labels = config.num_labels
+<i>#</i> <i>Load</i> <i>model</i> <i>body</i>
+self.roberta = RobertaModel(config, add_pooling_layer=False)
+<i>#</i> <i>Set</i> <i>up</i> <i>token</i> <i>classification</i> <i>head</i>
+self.dropout = nn.Dropout(config.hidden_dropout_prob)
+self.classifier = nn.Linear(config.hidden_size, config.num_labels)
+<i>#</i> <i>Load</i> <i>and</i> <i>initialize</i> <i>weights</i>
+self.init_weights()
+<b>def</b> forward(self, input_ids=None, attention_mask=None, token_type_ids=None,

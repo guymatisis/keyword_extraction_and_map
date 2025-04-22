@@ -1,0 +1,8 @@
+<i>Figure</i> <i>9-1.</i> <i>Entity</i> <i>embeddings</i> <i>in</i> <i>a</i> <i>neural</i> <i>network</i> <i>(courtesy</i> <i>of</i> <i>Cheng</i> <i>Guo</i> <i>and</i> <i>Felix</i>
+<i>Berkhahn)</i>
+The images in Figure 9-2 illustrate these ideas. They are based on the approaches
+used in the paper, along with some analysis we have added.
+<i>Figure</i> <i>9-2.</i> <i>State</i> <i>embeddings</i> <i>and</i> <i>map</i> <i>(courtesy</i> <i>of</i> <i>Cheng</i> <i>Guo</i> <i>and</i> <i>Felix</i> <i>Berkhahn)</i>
+On the left is a plot of the embedding matrix for the possible values of the State
+category. For a categorical variable, we call the possible values of the variable its “lev‐
+els” (or “categories” or “classes”), so here one level is “Berlin,” another is “Hamburg,”

@@ -1,0 +1,38 @@
+commentator is Alexis Gallagher. Alexis has a very diverse background: he has been a
+researcher in mathematical biology, a screenplay writer, an improv performer, a
+McKinsey consultant (like Jeremy!), a Swift coder, and a CTO.
+<b>AlexisSays</b>
+I’ve decided it’s time for me to learn about this AI stuff! After all,
+I’ve tried pretty much everything else.…But I don’t really have a
+background in building machine learning models. Still…how hard
+can it be? I’m going to be learning throughout this book, just like
+you are. Look out for my sidebars for learning tips that I found
+helpful on my journey, and hopefully you will find helpful too.
+<header><largefont><b>How</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Learn</b></largefont> <largefont><b>Deep</b></largefont> <largefont><b>Learning</b></largefont></header>
+Harvard professor David Perkins, who wrote <i>Making</i> <i>Learning</i> <i>Whole</i> (Jossey-Bass),
+has much to say about teaching. The basic idea is to teach the <i>whole</i> <i>game.</i> That
+means that if you’re teaching baseball, you first take people to a baseball game or get
+them to play it. You don’t teach them how to wind twine to make a baseball from
+scratch, the physics of a parabola, or the coefficient of friction of a ball on a bat.
+Paul Lockhart, a Columbia math PhD, former Brown professor, and K–12 math
+teacher, imagines in the influential essay “A Mathematician’s Lament” a nightmare
+world where music and art are taught the way math is taught. Children are not
+allowed to listen to or play music until they have spent over a decade mastering music
+notation and theory, spending classes transposing sheet music into a different key. In
+art class, students study colors and applicators, but aren’t allowed to actually paint
+until college. Sound absurd? This is how math is taught—we require students to
+spend years doing rote memorization and learning dry, disconnected <i>fundamentals</i>
+that we claim will pay off later, long after most of them quit the subject.
+Unfortunately, this is where many teaching resources on deep learning begin—asking
+learners to follow along with the definition of the Hessian and theorems for the Tay‐
+lor approximation of your loss functions, without ever giving examples of actual
+working code. We’re not knocking calculus. We love calculus, and Sylvain has even
+taught it at the college level, but we don’t think it’s the best place to start when learn‐
+ing deep learning!
+In deep learning, it really helps if you have the motivation to fix your model to get it
+to do better. That’s when you start learning the relevant theory. But you need to have
+the model in the first place. We teach almost everything through real examples. As we
+build out those examples, we go deeper and deeper, and we’ll show you how to make
+your projects better and better. This means that you’ll be gradually learning all the
+theoretical foundations you need, in context, in such a way that you’ll see why it mat‐
+ters and how it works.

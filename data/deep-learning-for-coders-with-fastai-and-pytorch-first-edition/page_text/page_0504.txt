@@ -1,0 +1,39 @@
+We won’t actually train our model in this chapter, so we’ll use random tensors for our
+inputs and targets. Let’s say our inputs are 200 vectors of size 100, which we group
+into one batch, and our targets are 200 random floats:
+x = torch.randn(200, 100)
+y = torch.randn(200)
+For our two-layer model, we will need two weight matrices and two bias vectors. Let’s
+say we have a hidden size of 50 and the output size is 1 (for one of our inputs, the
+corresponding output is one float in this toy example). We initialize the weights ran‐
+domly and the bias at zero:
+w1 = torch.randn(100,50)
+b1 = torch.zeros(50)
+w2 = torch.randn(50,1)
+b2 = torch.zeros(1)
+Then the result of our first layer is simply this:
+l1 = lin(x, w1, b1)
+l1.shape
+torch.Size([200, 50])
+Note that this formula works with our batch of inputs, and returns a batch of hidden
+state: l1 is a matrix of size 200 (our batch size) by 50 (our hidden size).
+There is a problem with the way our model was initialized, however. To understand
+it, we need to look at the mean and standard deviation (std) of l1:
+l1.mean(), l1.std()
+(tensor(0.0019), tensor(10.1058))
+The mean is close to zero, which is understandable since both our input and weight
+matrices have means close to zero. But the standard deviation, which represents how
+far away our activations go from the mean, went from 1 to 10. This is a really big
+problem because that’s with just one layer. Modern neural nets can have hundreds of
+layers, so if each of them multiplies the scale of our activations by 10, we won’t have
+numbers representable by a computer by the end of the last layer.
+Indeed, if we make just 50 multiplications between x and random matrices of size
+100×100, we’ll have this:
+x = torch.randn(200, 100)
+<b>for</b> i <b>in</b> range(50): x = x @ torch.randn(100,100)
+x[0:5,0:5]
+tensor([[nan, nan, nan, nan, nan],
+[nan, nan, nan, nan, nan],
+[nan, nan, nan, nan, nan],
+[nan, nan, nan, nan, nan],
+[nan, nan, nan, nan, nan]])

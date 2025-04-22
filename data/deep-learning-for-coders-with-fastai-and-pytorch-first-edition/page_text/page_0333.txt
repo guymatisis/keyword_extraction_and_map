@@ -1,0 +1,33 @@
+<i>Character-based</i>
+Split a sentence into its individual characters.
+We’ll look at word and subword tokenization here, and we’ll leave character-based
+tokenization for you to implement in the questionnaire at the end of this chapter.
+<b>Jargon:Token</b>
+One element of a list created by the tokenization process. It could
+be a word, part of a word (a <i>subword),</i> or a single character.
+<header><largefont><b>Word</b></largefont> <largefont><b>Tokenization</b></largefont> <largefont><b>with</b></largefont> <largefont><b>fastai</b></largefont></header>
+Rather than providing its own tokenizers, fastai provides a consistent interface to a
+range of tokenizers in external libraries. Tokenization is an active field of research,
+and new and improved tokenizers are coming out all the time, so the defaults that
+fastai uses change too. However, the API and options shouldn’t change too much,
+since fastai tries to maintain a consistent API even as the underlying technology
+changes.
+Let’s try it out with the IMDb dataset that we used in Chapter 1:
+<b>from</b> <b>fastai.text.all</b> <b>import</b> *
+path = untar_data(URLs.IMDB)
+We’ll need to grab the text files in order to try out a tokenizer. Just as
+get_image_files (which we’ve used many times already), gets all the image files in a
+path, get_text_files gets all the text files in a path. We can also optionally pass
+folders to restrict the search to a particular list of subfolders:
+files = get_text_files(path, folders = ['train', 'test', 'unsup'])
+Here’s a review that we’ll tokenize (we’ll print just the start of it here to save space):
+txt = files[0].open().read(); txt[:75]
+'This movie, which I just discovered at the video store, has apparently sit '
+As we write this book, the default English word tokenizer for fastai uses a library
+called <i>spaCy.</i> It has a sophisticated rules engine with special rules for URLs, individ‐
+ual special English words, and much more. Rather than directly using SpacyToken
+izer, however, we’ll use WordTokenizer, since that will always point to fastai’s current
+default word tokenizer (which may not necessarily be spaCy, depending when you’re
+reading this).
+Let’s try it out. We’ll use fastai’s coll_repr(collection,n) function to display the
+results. This displays the first <i>n</i> items of <i>collection</i> , along with the full size—it’s

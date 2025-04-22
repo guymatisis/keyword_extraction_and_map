@@ -1,0 +1,33 @@
+In such cases, it is helpful to consider what the end goal is. The end goal of the ML
+model is not to predict whether a stock will go up or down. We will be unable to buy
+every stock that we predict will go up, and unable to sell stocks that we don’t hold.
+The better strategy might be to buy call options3 for the 10 stocks that are most likely
+to go up more than 5% over the next 6 months, and buy put options for stocks that
+are most likely to go down more than 5% over the next 6 months.
+The solution, then, is to create a training dataset consisting of three classes:
+• Stocks that went up more than 5%—call.
+• Stocks that went down more than 5%—put.
+• The remaining stocks are in the neutral category.
+Rather than train a regression model on how much stocks will go up, we can now
+train a classification model with these three classes and pick the most confident pre‐
+dictions from our model.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>10:</b></largefont> <largefont><b>Rebalancing</b></largefont></header>
+The Rebalancing design pattern provides various approaches for handling datasets
+that are inherently imbalanced. By this we mean datasets where one label makes up
+the majority of the dataset, leaving far fewer examples of other labels.
+This design pattern does <i>not</i> address scenarios where a dataset lacks representation
+for a specific population or real-world environment. Cases like this can often only be
+solved by additional data collection. The Rebalancing design pattern primarily
+addresses how to build models with datasets where few examples exist for a specific
+class or classes.
+<header><largefont><b>Problem</b></largefont></header>
+Machine learning models learn best when they are given a similar number of exam‐
+ples for each label class in a dataset. Many real-world problems, however, are not so
+neatly balanced. Take for example a fraud detection use case, where you are building
+a model to identify fraudulent credit card transactions. Fraudulent transactions are
+much rarer than regular transactions, and as such, there is less data on fraud cases
+available to train a model. The same is true for other problems like detecting whether
+someone will default on a loan, identifying defective products, predicting the
+presence of a disease given medical images, filtering spam emails, flagging error logs
+in a software application, and more.
+3 Seehttps://oreil.ly/kDndFforaprimeroncallandputoptions.

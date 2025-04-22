@@ -1,0 +1,29 @@
+Now you know what those pictures in Chapter 1 of “what a neural net learns” from
+the Zeiler and Fergus paper mean! As a reminder, this is their picture of some of the
+layer 1 weights:
+This is taking the three slices of the convolutional kernel, for each output feature, and
+displaying them as images. We can see that even though the creators of the neural net
+never explicitly created kernels to find edges, for instance, the neural net automati‐
+cally discovered these features using SGD.
+Now let’s see how we can train these CNNs, and show you all the techniques fastai
+uses under the hood for efficient training.
+<header><largefont><b>Improving</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Stability</b></largefont></header>
+Since we are so good at recognizing 3s from 7s, let’s move on to something harder—
+recognizing all 10 digits. That means we’ll need to use MNIST instead of
+MNIST_SAMPLE:
+path = untar_data(URLs.MNIST)
+path.ls()
+(#2) [Path('testing'),Path('training')]
+The data is in two folders named <i>training</i> and <i>testing,</i> so we have to tell
+GrandparentSplitter train valid).
+about that (it defaults to and We do that in the
+get_dls function, which we define to make it easy to change our batch size later:
+<b>def</b> get_dls(bs=64):
+<b>return</b> DataBlock(
+blocks=(ImageBlock(cls=PILImageBW), CategoryBlock),
+get_items=get_image_files,
+splitter=GrandparentSplitter('training','testing'),
+get_y=parent_label,
+batch_tfms=Normalize()
+).dataloaders(path, bs=bs)
+dls = get_dls()

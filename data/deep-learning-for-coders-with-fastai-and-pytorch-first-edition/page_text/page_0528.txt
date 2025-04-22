@@ -1,0 +1,31 @@
+To access the image files, we can use get_image_files :
+t = get_image_files(path)
+t[0]
+Path('/home/jhoward/.fastai/data/imagenette2-160/val/n03417042/n03417042_3752.JP
+> EG')
+Or we could do the same thing using just Python’s standard library, with glob :
+<b>from</b> <b>glob</b> <b>import</b> glob
+files = L(glob(f'{path}/**/*.JPEG', recursive=True)).map(Path)
+files[0]
+Path('/home/jhoward/.fastai/data/imagenette2-160/val/n03417042/n03417042_3752.JP
+> EG')
+If you look at the source for get_image_files, you’ll see it uses Python’s os.walk;
+this is a faster and more flexible function than glob, so be sure to try it out.
+We can open an image with the Python Imaging Library’s Image class:
+im = Image.open(files[0])
+im
+im_t = tensor(im)
+im_t.shape
+torch.Size([160, 213, 3])
+That’s going to be the basis of our independent variable. For our dependent variable,
+we can use Path.parent from pathlib. First we’ll need our vocab
+lbls = files.map(Self.parent.name()).unique(); lbls
+(#10) ['n03417042','n03445777','n03888257','n03394916','n02979186','n03000684','
+> n03425413','n01440764','n03028079','n02102040']
+and the reverse mapping, thanks to L.val2idx:
+v2i = lbls.val2idx(); v2i
+{'n03417042': 0,
+'n03445777': 1,
+'n03888257': 2,
+'n03394916': 3,
+'n02979186': 4,

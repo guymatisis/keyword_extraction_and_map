@@ -1,0 +1,25 @@
+df.plot(kind='hist')
+Figure 3-20 shows the resulting histogram.
+<i>Figure</i> <i>3-20.</i> <i>A</i> <i>histogram</i> <i>depicting</i> <i>the</i> <i>distribution</i> <i>of</i> <i>baby</i> <i>weight</i> <i>for</i> <i>10,000</i> <i>examples</i>
+<i>in</i> <i>the</i> <i>BigQuery</i> <i>natality</i> <i>dataset.</i>
+If we count the number of babies weighing 3 lbs in the entire dataset, there are
+approximately 96,000 (.06% of the data). Babies weighing 12 lbs make up only .05%
+of the dataset. To get good regression performance over the entire range, we can
+combine downsampling with the Reframing and Cascade design patterns. First, we’ll
+split the data into three buckets: “underweight,” “average,” and “overweight.” We can
+do that with the following query:
+<b>SELECT</b>
+<b>CASE</b>
+<b>WHEN</b> weight_pounds < 5.5 <b>THEN</b> "underweight"
+<b>WHEN</b> weight_pounds > 9.5 <b>THEN</b> "overweight"
+<b>ELSE</b>
+"average"
+<b>END</b>
+<b>AS</b> weight,
+<b>COUNT(*)</b> <b>AS</b> num_examples,
+round(count(*) / <b>sum(count(*))</b> over(), 4) <b>as</b> percent_of_dataset
+<b>FROM</b>
+`bigquery-public-data.samples.natality`
+<b>GROUP</b> <b>BY</b>
+1
+Table 3-5 shows the results.

@@ -1,0 +1,37 @@
+Now that we have a reference point, let’s look at our first compression technique:
+knowledge distillation.
+The average latency values will differ depending on what type of
+hardware you are running on. For example, you can usually get
+better performance by running inference on a GPU since it enables
+batch processing. For the purposes of this chapter, what’s important
+is the relative difference in latencies between models. Once we have
+determined the best-performing model, we can then explore differ‐
+ent backends to reduce the absolute latency if needed.
+<header><largefont><b>Making</b></largefont> <largefont><b>Models</b></largefont> <largefont><b>Smaller</b></largefont> <largefont><b>via</b></largefont> <largefont><b>Knowledge</b></largefont> <largefont><b>Distillation</b></largefont></header>
+Knowledge distillation is a general-purpose method for training a smaller <i>student</i>
+model to mimic the behavior of a slower, larger, but better-performing <i>teacher.</i> Origi‐
+models,3
+nally introduced in 2006 in the context of ensemble it was later popularized
+in a famous 2015 paper that generalized the method to deep neural networks and
+applied it to image classification and automatic speech recognition.4
+Given the trend toward pretraining language models with ever-increasing parameter
+counts (the largest at the time of writing having over one trillion parameters),5 knowl‐
+edge distillation has also become a popular strategy to compress these huge models
+and make them more suitable for building practical applications.
+<header><largefont><b>Knowledge</b></largefont> <largefont><b>Distillation</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Fine-Tuning</b></largefont></header>
+So how is knowledge actually “distilled” or transferred from the teacher to the student
+during training? For supervised tasks like fine-tuning, the main idea is to augment
+the ground truth labels with a distribution of “soft probabilities” from the teacher
+which provide complementary information for the student to learn from. For exam‐
+ple, if our BERT-base classifier assigns high probabilities to multiple intents, then this
+could be a sign that these intents lie close to each other in the feature space. By train‐
+ing the student to mimic these probabilities, the goal is to distill some of this “dark
+knowledge”6 that the teacher has learned—that is, knowledge that is not available
+from the labels alone.
+3 C.Buciluăetal.,“ModelCompression,”Proceedingsofthe12thACMSIGKDDInternationalConferenceon
+<i>KnowledgeDiscoveryandDataMining(August2006):535–541,https://doi.org/10.1145/1150402.1150464.</i>
+4 G.Hinton,O.Vinyals,andJ.Dean,“DistillingtheKnowledgeinaNeuralNetwork”,(2015).
+5 W.Fedus,B.Zoph,andN.Shazeer,“SwitchTransformers:ScalingtoTrillionParameterModelswithSimple
+andEfficientSparsity”,(2021).
+6 GeoffHintoncoinedthisterminatalktorefertotheobservationthatsoftenedprobabilitiesrevealthehid‐
+denknowledgeoftheteacher.

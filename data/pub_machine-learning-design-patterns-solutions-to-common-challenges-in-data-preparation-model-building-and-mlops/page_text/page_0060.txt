@@ -1,0 +1,10 @@
+<i>Figure</i> <i>2-17.</i> <i>A</i> <i>feature</i> <i>cross</i> <i>of</i> <i>day_of_week</i> <i>and</i> <i>hour_of_day</i> <i>produces</i> <i>a</i> <i>sparse</i> <i>vector</i>
+<i>of</i> <i>dimension</i> <i>168.</i>
+<i>Figure</i> <i>2-18.</i> <i>An</i> <i>embedding</i> <i>layer</i> <i>is</i> <i>a</i> <i>useful</i> <i>way</i> <i>to</i> <i>address</i> <i>the</i> <i>sparsity</i> <i>of</i> <i>a</i> <i>feature</i>
+<i>cross.</i>
+Because the Embeddings design pattern allows us to capture closeness relationships,
+passing the feature cross through an embedding layer allows the model to generalize
+how certain feature crosses coming from pairs of hour and day combinations affect
+the output of the model. In the example of latitude and longitude above, we could
+have used an embedding feature column in place of the indicator column:
+crossed_feature = fc.embedding_column(lat_x_lon, dimension=2)

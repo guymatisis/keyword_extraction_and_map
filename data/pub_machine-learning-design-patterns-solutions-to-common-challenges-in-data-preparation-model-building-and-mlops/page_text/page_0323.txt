@@ -1,0 +1,47 @@
+<b>Scenario</b> <b>Heuristicbenchmark</b> <b>Exampletask</b> <b>Implementationforexampletask</b>
+Regressionproblemthat Persistenceorlinear Predictweeklysales Predictthatnextweek’ssales=s
+0
+involvespredictingthe trend.Takeseasonality volume wheres isthesalesthisweek.
+0
+futurevalueofatimeseries. intoaccount.Forannual (or)
+data,compareagainstthe Nextweek’ssales=s +(s -s )
+0 0 -1
+sameday/week/quarter wheres islastweek’ssales.
+-1
+ofpreviousyear. (or)
+Nextweek’ssales=s wheres is
+-1y -1y
+thesalesofthecorrespondingweeklast
+year.
+Avoidthetemptationtocombinethe
+threeoptionssincethevalueofthe
+relativeweightsisnotintuitive.
+Classificationproblem Performanceofhuman Detectingeyedisease Havethreeormorephysiciansexamine
+currentlybeingsolvedby experts. fromretinalscans. eachimage.Treatthedecisionofa
+humanexperts. majorityofphysiciansasbeingcorrect,
+Thisiscommonforimage, andlookatthepercentilerankingof
+video,andtexttasksand theMLmodelamonghumanexperts.
+includesscenarioswhereit
+iscost-prohibitiveto
+routinelysolvetheproblem
+withhumanexperts.
+Preventiveorpredictive Performmaintenanceon Preventive Bringcarsinformaintenanceonce
+maintenance. afixedschedule. maintenanceofacar. everythreemonths.
+Thethreemonthsisthemediantimeto
+failureofcarsfromthelastservicedate.
+Anomalydetection. 99thpercentilevalue Identifyadenialof Findthe99thpercentileofthenumber
+estimatedfromthe service(DoS)attack ofrequestsperminuteinthehistorical
+trainingdataset. fromnetworktraffic. data.Ifoveranyone-minuteperiod,the
+numberofrequestsexceedsthis
+number,flagitasaDoSattack.
+Recommendationmodel. Recommendthemost Recommendmoviesto Ifauserjustsaw(andliked)Inception
+populariteminthe users. (asci-fimovie),recommendIcarusto
+categoryofthe them(themostpopularsci-fimovie
+customer’slastpurchase. theyhaven’tyetwatched).
+Many of the scenarios in Table 7-1 refer to “important features.” These are important
+features in the sense that they are widely accepted within the business as having a
+well-understood impact on the prediction problem. In particular, these are not fea‐
+tures ascertained using feature importance methods on your training dataset. As an
+example, it’s well accepted within the taxicab industry that the most important deter‐
+minant of a taxi fare is distance, and that longer trips cost more. That’s what makes
+distance an important feature, not the outcome of a feature importance study.

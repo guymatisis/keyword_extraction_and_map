@@ -1,0 +1,37 @@
+and you can express each Unicode character as a sequence of these bytes. If we work
+on bytes we can thus express all the strings composed from the UTF-8 world as
+longer strings in this alphabet of 256 values. That is, we can have a model using an
+alphabet of only 256 words and be able to process any Unicode string. Let’s have a
+look at what the byte representations of some characters look like:
+a, e = u"a", u"€"
+byte = ord(a.encode("utf-8"))
+<b>print(f'`{a}`</b> is encoded as `{a.encode("utf-8")}` with a single byte: {byte}')
+byte = [ord(chr(i)) <b>for</b> i <b>in</b> e.encode("utf-8")]
+<b>print(f'`{e}`</b> is encoded as `{e.encode("utf-8")}` with three bytes: {byte}')
+`a` is encoded as `b'a'` with a single byte: 97
+`€` is encoded as `b'\xe2\x82\xac'` with three bytes: [226, 130, 172]
+At this point you might wonder: why work on a byte level? Think back to our discus‐
+sion in Chapter 2 about the trade-offs between character and word tokens. We could
+decide to build our vocabulary from the 143,859 Unicode characters, but we would
+also like to include words—i.e., combinations of Unicode characters—in our vocabu‐
+lary, so this (already very large) size is only a lower bound for the total size of the
+vocabulary. This will make our model’s embedding layer very large because it compri‐
+ses one vector for each vocabulary token.
+On the other extreme, if we only use the 256 byte values as our vocabulary, the input
+sequences will be segmented in many small pieces (each byte constituting the Uni‐
+code characters), and as such our model will have to work on long inputs and spend
+significant compute power on reconstructing Unicode characters from their separate
+bytes, and then words from these characters. See the paper accompanying the ByT5
+model release for a detailed study of this overhead. 6
+A middle-ground solution is to construct a medium-sized vocabulary by extending
+the 256-word vocabulary with the most common combinations of bytes. This is the
+approach taken by the BPE algorithm. The idea is to progressively construct a
+vocabulary of a predefined size by creating new vocabulary tokens through iteratively
+merging the most frequently co-occurring pair of tokens in the vocabulary. For
+instance, if t and h occur very frequently together, like in English, we’ll add a token th
+to the vocabulary to model this pair of tokens instead of keeping them separated. The
+t h
+and tokens are kept in the vocabulary to tokenize instances where they do not
+occur together. Starting from a basic vocabulary of elementary units, we can then
+model any string efficiently.
+6 L.Xueetal.,“ByT5:TowardsaToken-FreeFuturewithPre-TrainedByte-to-ByteModels”,(2021).

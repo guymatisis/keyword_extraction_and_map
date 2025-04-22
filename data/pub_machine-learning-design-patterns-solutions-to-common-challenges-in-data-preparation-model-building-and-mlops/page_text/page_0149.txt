@@ -1,0 +1,37 @@
+Overfitting goes beyond just a batch. From a more holistic perspec‐
+tive, overfitting follows the general advice commonly given with
+regards to deep learning and regularization. The best fitting model
+is a large model that has been properly regularized. In short, if your
+deep neural network isn’t capable of overfitting your training data‐
+set, you should be using a bigger one. Then, once you have a large
+model that overfits the training set, you can apply regularization to
+improve the validation accuracy, even though training accuracy
+may decrease.
+You can test your Keras model code in this way using the tf.data.Dataset you’ve
+written for your input pipeline. For example, if your training data input pipeline is
+trainds batch()
+called , we’ll use to pull a single batch of data. You can find the full
+code for this example in the repository accompanying this book:
+BATCH_SIZE = 256
+single_batch = trainds.batch(BATCH_SIZE).take(1)
+Then, when training the model, instead of calling the full trainds dataset inside the
+fit()
+method, use the single batch that we created:
+model.fit(single_batch.repeat(),
+validation_data=evalds,
+…)
+Note that we apply repeat() so that we won’t run out of data when training on that
+single batch. This ensures that we take the one batch over and over again while train‐
+ing. Everything else (the validation dataset, model code, engineered features, and so
+on) remains the same.
+Rather than choose an arbitrary sample of the training dataset, we
+recommend that you overfit on a small dataset, each of whose
+examples has been carefully verified to have correct labels. Design
+your neural network architecture such that it is able to learn this
+batch of data precisely and get to zero loss. Then take the same net‐
+work and train it on the full training dataset.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>12:</b></largefont> <largefont><b>Checkpoints</b></largefont></header>
+In Checkpoints, we store the full state of the model periodically so that we have parti‐
+ally trained models available. These partially trained models can serve as the final
+model (in the case of early stopping) or as the starting points for continued training
+(in the cases of machine failure and fine-tuning).

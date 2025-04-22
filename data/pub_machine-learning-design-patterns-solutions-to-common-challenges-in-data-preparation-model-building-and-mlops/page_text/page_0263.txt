@@ -1,0 +1,41 @@
+In this query, the 700 is 70*10 and 560 is 70*8. The first modulo operation picks 1 in
+70 rows and the second modulo operation picks 8 in 10 of those rows.
+For validation data, you’d replace < 560 by the appropriate range:
+<b>ABS(MOD(FARM_FINGERPRINT(date),</b> 70)) = 0
+<b>AND</b> <b>ABS(MOD(FARM_FINGERPRINT(date),</b> 700)) <b>BETWEEN</b> <b>560</b> <b>AND</b> <b>629</b>
+In the preceding code, our one million flights come from only 1/70th of the days in
+the dataset. This may be precisely what we want—for example, we may be modeling
+the full spectrum of flights on a particular day when experimenting with the smaller
+dataset. However, if what we want is 1/70th of the flights on any particular day, we’d
+have to use RAND() and save the result as a new table for repeatability. From this
+FARM_FINGERPRINT().
+smaller table, we can sample 80% of dates using Because this
+new table is only one million rows and only for experimentation, the duplication may
+be acceptable.
+<b>Sequentialsplit</b>
+In the case of time-series models, a common approach is to use sequential splits of
+data. For example, to train a demand forecasting model where we train a model on
+the past 45 days of data to predict demand over the next 14 days, we’d train the
+model (full code) by pulling the necessary data:
+<b>CREATE</b> <b>OR</b> <b>REPLACE</b> MODEL ch09eu.numrentals_forecast
+<b>OPTIONS(model_type='ARIMA',</b>
+time_series_data_col='numrentals',
+time_series_timestamp_col='date') <b>AS</b>
+<b>SELECT</b>
+<b>CAST(EXTRACT(date</b> <b>from</b> start_date) <b>AS</b> <b>TIMESTAMP)</b> <b>AS</b> date
+, <b>COUNT(*)</b> <b>AS</b> numrentals
+<b>FROM</b>
+`bigquery-public-data`.london_bicycles.cycle_hire
+<b>GROUP</b> <b>BY</b> date
+<b>HAVING</b> date <b>BETWEEN</b>
+DATE_SUB(CURRENT_DATE(), INTERVAL 45 <b>DAY)</b> <b>AND</b> <b>CURRENT_DATE()</b>
+Such a sequential split of data is also necessary in fast-moving environments even if
+the goal is not to predict the future value of a time series. For example, in a fraud-
+detection model, bad actors adapt quickly to the fraud algorithm, and the model has
+to therefore be continually retrained on the latest data to predict future fraud. It is
+not sufficient to generate the evaluation data from a random split of the historical
+dataset because the goal is to predict behavior that the bad actors will exhibit in the
+future. The indirect goal is the same as that of a time-series model in that a good
+model will be able to train on historical data and predict future fraud. The data has to
+be split sequentially in terms of time to correctly evaluate this. For example (full
+code):

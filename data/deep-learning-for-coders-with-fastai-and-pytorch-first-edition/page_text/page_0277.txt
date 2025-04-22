@@ -1,0 +1,24 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>9</b></largefont></header>
+<header><largefont><b>Tabular</b></largefont> <largefont><b>Modeling</b></largefont> <largefont><b>Deep</b></largefont> <largefont><b>Dive</b></largefont></header>
+Tabular modeling takes data in the form of a table (like a spreadsheet or CSV). The
+objective is to predict the value in one column based on the values in the other col‐
+umns. In this chapter, we will look at not only deep learning, but also more general
+machine learning techniques like random forests, as they can give better results
+depending on your problem.
+We will look at how we should preprocess and clean the data as well as how to inter‐
+pret the result of our models after training, but first we will see how we can feed col‐
+umns that contain categories into a model that expects numbers by using
+embeddings.
+<header><largefont><b>Categorical</b></largefont> <largefont><b>Embeddings</b></largefont></header>
+In tabular data, some columns may contain numerical data, like “age,” while others
+contain string values, like “sex.” The numerical data can be directly fed to the model
+(with some optional preprocessing), but the other columns need to be converted to
+numbers. Since the values in those correspond to different categories, we often call
+this type of variables <i>categorical</i> <i>variables.</i> The first type are called <i>continuous</i>
+<i>variables.</i>
+<b>Jargon:ContinuousandCategoricalVariables</b>
+Continuous variables are numerical data, such as “age,” that can be
+directly fed to the model, since you can add and multiply them
+directly. Categorical variables contain a number of discrete levels,
+such as “movie ID,” for which addition and multiplication don’t
+have meaning (even if they’re stored as numbers).

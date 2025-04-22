@@ -1,0 +1,4 @@
+<i>Figure</i> <i>1-20.</i> <i>A</i> <i>poor</i> <i>training</i> <i>subset</i>
+Instead, use the earlier data as your training set (and the later data for the validation
+set), as shown in Figure 1-21.
+<i>Figure</i> <i>1-21.</i> <i>A</i> <i>good</i> <i>training</i> <i>subset</i>

@@ -1,0 +1,37 @@
+Dataflow). It is possible to take a TensorFlow model and import it into BigQuery for
+batch serving. It is also possible to take a trained BigQuery ML model and export it as
+a TensorFlow SavedModel for online serving. This two-way compatibility enables
+users of Google Cloud to hit any point in the spectrum of latency–hroughput
+trade-off.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>18:</b></largefont> <largefont><b>Continued</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>Evaluation</b></largefont></header>
+The Continued Model Evaluation design pattern handles the common problem of
+needing to detect and take action when a deployed model is no longer fit-for-
+purpose.
+<header><largefont><b>Problem</b></largefont></header>
+So, you’ve trained your model. You collected the raw data, cleaned it up, engineered
+features, created embedding layers, tuned hyperparameters, the whole shebang.
+You’re able to achieve 96% accuracy on your hold-out test set. Amazing! You’ve even
+gone through the painstaking process of deploying your model, taking it from a
+Jupyter notebook to a machine learning model in production, and are serving predic‐
+tions via a REST API. Congratulations, you’ve done it. You’re finished!
+Well, not quite. Deployment is not the end of a machine learning model’s life cycle.
+How do you know that your model is working as expected in the wild? What if there
+are unexpected changes in the incoming data? Or the model no longer produces
+accurate or useful predictions? How will these changes be detected?
+The world is dynamic, but developing a machine learning model usually creates a
+static model from historical data. This means that once the model goes into produc‐
+tion, it can start to degrade and its predictions can grow increasingly unreliable. Two
+of the main reasons models degrade over time are concept drift and data drift.
+Concept drift occurs whenever the relationship between the model inputs and target
+have changed. This often happens because the underlying assumptions of your model
+have changed, such as models trained to learn adversarial or competitive behavior
+like fraud detection, spam filters, stock market trading, online ad bidding, or cyberse‐
+curity. In these scenarios, a predictive model aims to identify patterns that are char‐
+acteristic of desired (or undesired) activity, while the adversary learns to adapt and
+may modify their behavior as circumstances change. Think for example of a model
+developed to detect credit card fraud. The way people use credit cards has changed
+over time and thus the common characteristics of credit card fraud have also
+changed. For instance, when “Chip and Pin” technology was introduced, fraudulent
+transactions began to move more online. As fraudulent behavior adapted, the perfor‐
+mance of a model that had been developed before this technology would suddenly
+begin to suffer and model predictions would be less accurate.

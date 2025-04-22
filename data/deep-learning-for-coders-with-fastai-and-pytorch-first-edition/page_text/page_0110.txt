@@ -1,0 +1,19 @@
+Part of the issue appears to be a systematic imbalance in the makeup of popular data‐
+sets used for training models. The abstract of the paper “No Classification Without
+Representation: Assessing Geodiversity Issues in Open Data Sets for the Developing
+World” by Shreya Shankar et al. states, “We analyze two large, publicly available
+image data sets to assess geo-diversity and find that these data sets appear to exhibit
+an observable amerocentric and eurocentric representation bias. Further, we analyze
+classifiers trained on these data sets to assess the impact of these training distribu‐
+tions and find strong differences in the relative performance on images from different
+locales.” Figure 3-11 shows one of the charts from the paper, showing the geographic
+makeup of what were at the time (and still are, as this book is being written) the two
+most important image datasets for training models.
+<i>Figure</i> <i>3-11.</i> <i>Image</i> <i>provenance</i> <i>in</i> <i>popular</i> <i>training</i> <i>sets</i>
+The vast majority of the images are from the US and other Western countries, leading
+to models trained on ImageNet performing worse on scenes from other countries and
+cultures. For instance, research found that such models are worse at identifying
+household items (such as soap, spices, sofas, or beds) from lower-income countries.
+Figure 3-12 shows an image from the paper “Does Object Recognition Work for
+Everyone?” by Terrance DeVries et al. of Facebook AI Research that illustrates this
+point.

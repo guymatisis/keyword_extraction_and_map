@@ -1,0 +1,33 @@
+<header><largefont><b>Categorical</b></largefont> <largefont><b>Variables</b></largefont></header>
+In the previous chapter, when working with deep learning networks, we dealt with
+categorical variables by one-hot encoding them and feeding them to an embedding
+layer. The embedding layer helped the model to discover the meaning of the different
+levels of these variables (the levels of a categorical variable do not have an intrinsic
+meaning, unless we manually specify an ordering using Pandas). In a decision tree,
+we don’t have embedding layers—so how can these untreated categorical variables do
+anything useful in a decision tree? For instance, how could something like a product
+code be used?
+The short answer is: it just works! Think about a situation in which one product code
+is far more expensive at auction than any other one. In that case, any binary split will
+result in that one product code being in some group, and that group will be more
+expensive than the other group. Therefore, our simple decision tree building algo‐
+rithm will choose that split. Later, during training, the algorithm will be able to fur‐
+ther split the subgroup that contains the expensive product code, and over time, the
+tree will home in on that one expensive product.
+It is also possible to use one-hot encoding to replace a single categorical variable with
+multiple one-hot-encoded columns, where each column represents a possible level of
+the variable. Pandas has a get_dummies method that does just that.
+However, there is not really any evidence that such an approach improves the end
+result. So, we generally avoid it where possible, because it does end up making your
+dataset harder to work with. In 2019, this issue was explored in the paper “Splitting
+on Categorical Predictors in Random Forests” by Marvin Wright and Inke König:
+The standard approach for nominal predictors is to consider all 2 <i>k−1</i> − 1 2-partitions
+of the <i>k</i> predictor categories. However, this exponential relationship produces a large
+number of potential splits to be evaluated, increasing computational complexity and
+restricting the possible number of categories in most implementations. For binary clas‐
+sification and regression, it was shown that ordering the predictor categories in each
+split leads to exactly the same splits as the standard approach. This reduces computa‐
+tional complexity because only <i>k</i> − 1 splits have to be considered for a nominal predic‐
+tor with <i>k</i> categories.
+Now that you understand how decision trees work, it’s time for that best-of-both-
+worlds solution: random forests.

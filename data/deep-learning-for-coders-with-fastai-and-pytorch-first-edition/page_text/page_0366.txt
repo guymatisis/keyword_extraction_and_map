@@ -1,0 +1,34 @@
+We are now ready to build the Transform that we will use to get our data ready for a
+Siamese model. First, we will need a function to determine the classes of all our
+images:
+<b>def</b> label_func(fname):
+<b>return</b> re.match(r'^(.*)_\d+.jpg$', fname.name).groups()[0]
+For each image, our transform will, with a probability of 0.5, draw an image from the
+same class and return a SiameseImage with a true label, or draw an image from
+another class and return a SiameseImage with a false label. This is all done in the pri‐
+vate _draw function. There is one difference between the training and validation sets,
+which is why the transform needs to be initialized with the splits: on the training set,
+we will make that random pick each time we read an image, whereas on the valida‐
+tion set, we make this random pick once and for all at initialization. This way, we get
+more varied samples during training, but always the same validation set:
+<b>class</b> <b>SiameseTransform(Transform):</b>
+<b>def</b> <b>__init__(self,</b> files, label_func, splits):
+self.labels = files.map(label_func).unique()
+self.lbl2files = {l: L(f <b>for</b> f <b>in</b> files <b>if</b> label_func(f) == l)
+<b>for</b> l <b>in</b> self.labels}
+self.label_func = label_func
+self.valid = {f: self._draw(f) <b>for</b> f <b>in</b> files[splits[1]]}
+<b>def</b> encodes(self, f):
+f2,t = self.valid.get(f, self._draw(f))
+img1,img2 = PILImage.create(f),PILImage.create(f2)
+<b>return</b> SiameseImage(img1, img2, t)
+<b>def</b> _draw(self, f):
+same = random.random() < 0.5
+cls = self.label_func(f)
+<b>if</b> <b>not</b> same:
+cls = random.choice(L(l <b>for</b> l <b>in</b> self.labels <b>if</b> l != cls))
+<b>return</b> random.choice(self.lbl2files[cls]),same
+We can then create our main transform:
+splits = RandomSplitter()(files)
+tfm = SiameseTransform(files, label_func, splits)
+tfm(files[0]).show();

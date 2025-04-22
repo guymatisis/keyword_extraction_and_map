@@ -1,0 +1,24 @@
+32. What does the argument to the squeeze method do? Why might it be important
+to include this argument, even though PyTorch does not require it?
+33. What is the chain rule? Show the equation in either of the two forms presented in
+this chapter.
+34. Show how to calculate the gradients of mse(lin(l2, w2, b2), y) by using the
+chain rule.
+35. What is the gradient of ReLU? Show it in math or code. (You shouldn’t need to
+commit this to memory—try to figure it using your knowledge of the shape of
+the function.)
+36. In what order do we need to call the *_grad functions in the backward pass?
+Why?
+37. What is __call__?
+38. What methods must we implement when writing a torch.autograd.Function ?
+39. Write nn.Linear from scratch and test that it works.
+40. What is the difference between nn.Module and fastai’s Module ?
+<header><largefont><b>Further</b></largefont> <largefont><b>Research</b></largefont></header>
+1. Implement ReLU as a torch.autograd.Function and train a model with it.
+2. If you are mathematically inclined, determine the gradients of a linear layer in
+mathematical notation. Map that to the implementation in this chapter.
+unfold
+3. Learn about the method in PyTorch, and use it along with matrix multi‐
+plication to implement your own 2D convolution function. Then train a CNN
+that uses it.
+4. Implement everything in this chapter by using NumPy instead of PyTorch.

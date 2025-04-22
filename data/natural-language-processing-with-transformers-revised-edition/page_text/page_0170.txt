@@ -1,0 +1,43 @@
+<b>title</b> <b>question</b> <b>answers.text</b> <b>answers.answer_start</b> <b>context</b>
+B005DKZTMG Doesthe [thiskeyboard [215] Ireallylikethiskeyboard.Igiveit4stars
+keyboard iscompact] becauseitdoesn’thaveaCAPSLOCKkeysoI
+lightweight? neverknowifmycapsareon.Butfortheprice,
+itreallysufficesasawirelesskeyboard.Ihave
+verylargehandsandthiskeyboardiscompact,
+butIhavenocomplaints.
+B00AAIPT76 Howisthe [] [] IboughtthisafterthefirstsparegoprobatteryI
+battery? boughtwouldn’tholdacharge.Ihavevery
+realisticexpectationsofthissortofproduct,Iam
+skepticalofamazingstoriesofchargetimeand
+batterylifebutIdoexpectthebatteriestohold
+achargeforacoupleofweeksatleastandfor
+thechargertoworklikeacharger.InthisIwas
+notdisappointed.Iamariverrafterandfound
+thatthegoproburnsthroughpowerinahurry
+sothispurchasesolvedthatissue.thebatteries
+heldacharge,onshortertripstheextratwo
+batterieswereenoughandonlongertripsI
+couldusemyfriendsJOOSOrangetorecharge
+them.Ijustboughtanewtrentxtremepowerpak
+andexpecttobeabletochargethesewiththat
+soIwillnotrunoutofpoweragain.
+From these examples we can make a few observations. First, the questions are not
+grammatically correct, which is quite common in the FAQ sections of ecommerce
+answers.text
+websites. Second, an empty entry denotes “unanswerable” questions
+whose answer cannot be found in the review. Finally, we can use the start index and
+length of the answer span to slice out the span of text in the review that corresponds
+to the answer:
+start_idx = sample_df["answers.answer_start"].iloc[0][0]
+end_idx = start_idx + len(sample_df["answers.text"].iloc[0][0])
+sample_df["context"].iloc[0][start_idx:end_idx]
+'this keyboard is compact'
+Next, let’s get a feel for what types of questions are in the training set by counting the
+questions that begin with a few common starting words:
+counts = {}
+question_types = ["What", "How", "Is", "Does", "Do", "Was", "Where", "Why"]
+<b>for</b> q <b>in</b> question_types:
+counts[q] = dfs["train"]["question"].str.startswith(q).value_counts()[True]
+pd.Series(counts).sort_values().plot.barh()
+plt.title("Frequency of Question Types")
+plt.show()

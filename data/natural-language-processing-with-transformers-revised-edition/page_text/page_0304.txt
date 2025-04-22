@@ -1,0 +1,33 @@
+hosts more than 20 million code repositories. Many of them are small or test reposi‐
+tories created by users for learning, future side projects, or testing purposes.
+GitHub repositories can be accessed in two main ways:
+• Via the GitHub REST API, like we saw in Chapter 9 when we downloaded all the
+GitHub issues of the Transformers repository
+• Via public dataset inventories like Google BigQuery
+Since the REST API is rate limited and we need a lot data for our pretraining corpus,
+we’ll use Google BigQuery to extract all the Python repositories. The bigquery-
+public-data.github_repos.contents
+table contains copies of all ASCII files that are
+less than 10 MB in size. Projects also need to be open source to be included, as deter‐
+mined by GitHub’s License API.
+The Google BigQuery dataset doesn’t contain star or downstream
+usage information. For those attributes, we can use the GitHub
+REST API or a service like Libraries.io that monitors open source
+packages. Indeed, a team from GitHub recently released a dataset
+called CodeSearchNet that filtered repositories used in at least one
+downstream task using information from Libraries.io.
+Let’s have a look at what it takes to create our code dataset with Google BigQuery.
+<b>CreatingadatasetwithGoogleBigQuery</b>
+We’ll begin by extracting all the Python files in GitHub public repositories from the
+snapshot on Google BigQuery. For the sake of reproducibility and in case the policy
+around free usage of BigQuery changes in the future, we will also share this dataset
+on the Hugging Face Hub. The steps to export these files are adapted from the Trans‐
+Coder implementation and are as follows:5
+1. Create a Google Cloud account (a free trial should be sufficient).
+2. Create a Google BigQuery project under your account.
+3. In this project, create a dataset.
+4. In this dataset, create a table where the results of the SQL request will be stored.
+5. Prepare and run the following SQL query on the github_repos (to save the
+query results, select More > Query Options, check the “Set a destination table for
+query results” box, and specify the table name):
+5 M.-A.Lachauxetal.,“UnsupervisedTranslationofProgrammingLanguages”,(2020).

@@ -1,0 +1,38 @@
+popularity has soared, and it seems likely to become the most common tokenization
+approach (it may well already be, by the time you read this!).
+Once our texts have been split into tokens, we need to convert them to numbers.
+We’ll look at that next.
+<header><largefont><b>Numericalization</b></largefont> <largefont><b>with</b></largefont> <largefont><b>fastai</b></largefont></header>
+<i>Numericalization</i> is the process of mapping tokens to integers. The steps are basically
+identical to those necessary to create a Category variable, such as the dependent vari‐
+able of digits in MNIST:
+1. Make a list of all possible levels of that categorical variable (the vocab).
+2. Replace each level with its index in the vocab.
+Let’s take a look at this in action on the word-tokenized text we saw earlier:
+toks = tkn(txt)
+<b>print(coll_repr(tkn(txt),</b> 31))
+(#228) ['xxbos','xxmaj','this','movie',',','which','i','just','discovered','at',
+> 'the','video','store',',','has','apparently','sit','around','for','a','couple
+> ','of','years','without','a','distributor','.','xxmaj','it',"'s",'easy'...]
+SubwordTokenizer, setup Numericalize;
+Just as with we need to call on this is how
+we create the vocab. That means we’ll need our tokenized corpus first. Since tokeniza‐
+tion takes a while, it’s done in parallel by fastai; but for this manual walk-through,
+we’ll use a small subset:
+toks200 = txts[:200].map(tkn)
+toks200[0]
+(#228)
+> ['xxbos','xxmaj','this','movie',',','which','i','just','discovered','at'...]
+We can pass this to setup to create our vocab:
+num = Numericalize()
+num.setup(toks200)
+coll_repr(num.vocab,20)
+"(#2000) ['xxunk','xxpad','xxbos','xxeos','xxfld','xxrep','xxwrep','xxup','xxmaj
+> ','the','.',',','a','and','of','to','is','in','i','it'...]"
+Our special rules tokens appear first, and then every word appears once, in frequency
+order. The defaults to Numericalize are min_freq=3 and max_vocab=60000.
+max_vocab=60000 results in fastai replacing all words other than the most common
+xxunk.
+60,000 with a special <i>unknown</i> <i>word</i> token, This is useful to avoid having an
+overly large embedding matrix, since that can slow down training and use up too
+much memory, and can also mean that there isn’t enough data to train useful

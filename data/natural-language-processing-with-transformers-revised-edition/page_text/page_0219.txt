@@ -1,0 +1,19 @@
+With the KL divergence we can calculate how much is lost when we approximate the
+probability distribution of the teacher with the student. This allows us to define a
+knowledge distillation loss:
+2
+<i>L</i> = <i>T</i> <i>D</i>
+<i>KD</i> <i>KL</i>
+2
+where <i>T</i> is a normalization factor to account for the fact that the magnitude of the
+2
+gradients produced by soft labels scales as 1/T . For classification tasks, the student
+loss is then a weighted average of the distillation loss with the usual cross-entropy loss
+<i>L</i> of the ground truth labels:
+<i>CE</i>
+<i>L</i> = <i>αL</i> + 1 − <i>α</i> <i>L</i>
+student <i>CE</i> <i>KD</i>
+where <i>α</i> is a hyperparameter that controls the relative strength of each loss. A dia‐
+gram of the whole process is shown in Figure 8-4; the temperature is set to 1 at infer‐
+ence time to recover the standard softmax probabilities.
+<i>Figure</i> <i>8-4.</i> <i>The</i> <i>knowledge</i> <i>distillation</i> <i>process</i>

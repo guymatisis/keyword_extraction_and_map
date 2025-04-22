@@ -1,0 +1,8 @@
+<i>Figure</i> <i>2-19.</i> <i>Model</i> <i>combining</i> <i>image</i> <i>and</i> <i>numerical</i> <i>features</i> <i>to</i> <i>predict</i> <i>whether</i> <i>footage</i>
+<i>of</i> <i>an</i> <i>intersection</i> <i>depicts</i> <i>a</i> <i>traffic</i> <i>violation.</i>
+<i>Figure</i> <i>2-20.</i> <i>Model</i> <i>combining</i> <i>free-form</i> <i>text</i> <i>input</i> <i>with</i> <i>tabular</i> <i>data</i> <i>to</i> <i>predict</i> <i>the</i> <i>rat‐</i>
+<i>ing</i> <i>of</i> <i>a</i> <i>restaurant</i> <i>review.</i>
+<header><largefont><b>Solution</b></largefont></header>
+To start, let’s take the example above with text from a restaurant review combined
+with tabular metadata about the meal referenced by the review. We’ll first combine
+the numerical and categorical features. There are three possible options for

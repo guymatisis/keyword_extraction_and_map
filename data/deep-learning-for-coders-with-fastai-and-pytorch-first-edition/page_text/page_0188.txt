@@ -1,0 +1,37 @@
+opportunity for you to rectify that! We find that regular expressions are one of the
+most useful tools in our programming toolkit, and many of our students tell us that
+this is one of the things they are most excited to learn about. So head over to Google
+and search for “regular expressions tutorial” now, and then come back here after
+you’ve had a good look around. The book’s website also provides a list of our
+favorites.
+<b>AlexisSays</b>
+Not only are regular expressions dead handy, but they also have
+interesting roots. They are “regular” because they were originally
+examples of a “regular” language, the lowest rung within the
+Chomsky hierarchy. This is a grammar classification developed by
+linguist Noam Chomsky, who also wrote <i>Syntactic</i> <i>Structures,</i> the
+pioneering work searching for the formal grammar underlying
+human language. This is one of the charms of computing: the ham‐
+mer you reach for every day may have, in fact, come from a
+spaceship.
+When you are writing a regular expression, the best way to start is to try it against
+one example at first. Let’s use the findall method to try a regular expression against
+the filename of the fname object:
+re.findall(r'(.+)_\d+.jpg$', fname.name)
+['great_pyrenees']
+This regular expression plucks out all the characters leading up to the last underscore
+character, as long as the subsequent characters are numerical digits and then the
+JPEG file extension.
+Now that we confirmed the regular expression works for the example, let’s use it to
+label the whole dataset. fastai comes with many classes to help with labeling. For
+labeling with regular expressions, we can use the RegexLabeller class. In this exam‐
+ple, we use the data block API that we saw in Chapter 2 (in fact, we nearly always use
+the data block API—it’s so much more flexible than the simple factory methods we
+saw in Chapter 1):
+pets = DataBlock(blocks = (ImageBlock, CategoryBlock),
+get_items=get_image_files,
+splitter=RandomSplitter(seed=42),
+get_y=using_attr(RegexLabeller(r'(.+)_\d+.jpg$'), 'name'),
+item_tfms=Resize(460),
+batch_tfms=aug_transforms(size=224, min_scale=0.75))
+dls = pets.dataloaders(path/"images")

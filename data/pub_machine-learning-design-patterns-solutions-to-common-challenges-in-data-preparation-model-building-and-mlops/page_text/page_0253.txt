@@ -1,0 +1,15 @@
+the Euclidean distance, and extract the hour of day from the timestamp. We have to
+carefully design the model graph (see Figure 6-2), keeping the Transform concept
+firmly in mind. As we walk through the code below, notice how we set things up so
+that we clearly design three separate layers in our Keras model—the Inputs layer, the
+DenseFeatures
+Transform layer, and a layer.
+<i>Figure</i> <i>6-2.</i> <i>The</i> <i>model</i> <i>graph</i> <i>for</i> <i>the</i> <i>taxi</i> <i>fare</i> <i>estimation</i> <i>problem</i> <i>in</i> <i>Keras.</i>
+First, make every input to the Keras model an Input layer (the full code is in a note‐
+book on GitHub):
+inputs = {
+colname : tf.keras.layers.Input(
+name=colname, shape=(), dtype='float32')
+<b>for</b> colname <b>in</b> ['pickup_longitude', 'pickup_latitude',
+'dropoff_longitude', 'dropoff_latitude']
+}

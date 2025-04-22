@@ -1,0 +1,25 @@
+<i>Figure</i> <i>6-1.</i> <i>Diagram</i> <i>of</i> <i>T5’s</i> <i>text-to-text</i> <i>framework</i> <i>(courtesy</i> <i>of</i> <i>Colin</i> <i>Raffel);</i> <i>besides</i>
+<i>translation</i> <i>and</i> <i>summarization,</i> <i>the</i> <i>CoLA</i> <i>(linguistic</i> <i>acceptability)</i> <i>and</i> <i>STSB</i> <i>(semantic</i>
+<i>similarity)</i> <i>tasks</i> <i>are</i> <i>shown</i>
+<header><largefont><b>BART</b></largefont></header>
+BART also uses an encoder-decoder architecture and is trained to reconstruct cor‐
+rupted inputs. It combines the pretraining schemes of BERT and GPT-2.2 We’ll use
+the facebook/bart-large-ccn checkpoint, which has been specifically fine-tuned on
+the CNN/DailyMail dataset:
+pipe = pipeline("summarization", model="facebook/bart-large-cnn")
+pipe_out = pipe(sample_text)
+summaries["bart"] = "\n".join(sent_tokenize(pipe_out[0]["summary_text"]))
+<header><largefont><b>PEGASUS</b></largefont></header>
+Like BART, PEGASUS is an encoder-decoder transformer.3 As shown in Figure 6-2,
+its pretraining objective is to predict masked sentences in multisentence texts. The
+authors argue that the closer the pretraining objective is to the downstream task, the
+more effective it is. With the aim of finding a pretraining objective that is closer to
+summarization than general language modeling, they automatically identified, in a
+very large corpus, sentences containing most of the content of their surrounding
+paragraphs (using summarization evaluation metrics as a heuristic for content
+overlap) and pretrained the PEGASUS model to reconstruct these sentences, thereby
+obtaining a state-of-the-art model for text summarization.
+2 M.Lewisetal.,“BART:DenoisingSequence-to-SequencePre-trainingforNaturalLanguageGeneration,
+Translation,andComprehension”,(2019).
+3 J.Zhangetal.,“PEGASUS:Pre-TrainingwithExtractedGap-SentencesforAbstractiveSummarization”,
+(2019).

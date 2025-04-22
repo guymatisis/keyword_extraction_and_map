@@ -1,0 +1,39 @@
+The next step (Step 5 in Figure 8-2) of the development stage is focused on building
+the ML model. During this development step, it is crucial to adhere to best practices
+of capturing ML workflows in a pipeline: see “Design Pattern 25: Workflow Pipeline”
+on page 282 in Chapter 6. This includes creating repeatable splits for training/valida‐
+tion/test sets before any model development has begun to ensure there is no data
+leakage. Different model algorithms or combinations of algorithms may be trained to
+assess their performance on the validation set and to examine the quality of their pre‐
+dictions. Parameter and hyperparameters are tuned, regularization techniques are
+employed, and edge cases are explored. The typical ML model training loop is
+described in detail at the beginning of Chapter 4 where we also address useful design
+patterns for changing the training loop to attain specific objectives.
+Many steps of the ML life cycle are iterative, and this is particularly true during
+model development. Many times, after some experimentation, it may be necessary to
+revisit the data, business objectives, and KPIs. New data insights are gleaned during
+the model development stage and these insights can shed additional light on what is
+possible (and what is not possible). It is not uncommon to spend a long time in the
+model development phase, particularly when developing a custom model. Chapter 6
+addresses many other reproducibility design patterns that address challenges that
+arise during this iterative phase of model development.
+Throughout development of the model, each new adjustment or approach is meas‐
+ured against the evaluation metrics that were set in the discovery stage. Hence, suc‐
+cessful execution of the discovery stage is crucial, and it is necessary to have
+alignment on the decisions made during that stage. Ultimately, model development
+culminates in a final evaluation step (Step 6 of Figure 8-2). At this point, model
+development ceases and the model performance is assessed against those predeter‐
+mined evaluation metrics.
+One of the key outcomes of the development stage is to interpret and present results
+(Step 7 of Figure 8-2) to the stakeholders and regulatory groups within the business.
+This high-level evaluation is crucial and necessary to communicate the value of the
+development stage to management. This step is focused on creating numbers and vis‐
+uals for initial reports that will be brought to stakeholders within the organization.
+Chapter 7 discusses some of the common design patterns that ensure AI is being used
+responsibly and can help with stakeholder management. Typically, this is a key deci‐
+sion point in determining if further resources will be devoted to the final stage of the
+life cycle, machine learning productionization and deployment.
+<b>Deployment</b>
+Assuming successful completion of the model development and evidence of promis‐
+ing results, the next stage is focused on productionization of the model, with the first
+step (Step 8 in Figure 8-2) being to plan for deployment.

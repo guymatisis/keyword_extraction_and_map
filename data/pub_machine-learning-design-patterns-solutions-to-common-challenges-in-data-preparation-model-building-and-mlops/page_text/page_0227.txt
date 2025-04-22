@@ -1,0 +1,26 @@
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+When developing machine learning models, there is an implicit assumption that the
+train, validation, and test data come from the same distribution, as shown in
+Figure 5-4. When we deploy models to production, this assumption implies that
+future data will be similar to past data. However, once the model is in production “in
+the wild,” this static assumption on the data may no longer be valid. In fact, many
+production ML systems encounter rapidly changing, nonstationary data, and models
+become stale over time, which negatively impacts the quality of predictions.
+<i>Figure</i> <i>5-4.</i> <i>When</i> <i>developing</i> <i>a</i> <i>machine</i> <i>learning</i> <i>model,</i> <i>the</i> <i>train,</i> <i>validation,</i> <i>and</i> <i>test</i>
+<i>data</i> <i>come</i> <i>from</i> <i>the</i> <i>same</i> <i>data</i> <i>distribution.</i> <i>However,</i> <i>once</i> <i>the</i> <i>model</i> <i>is</i> <i>deployed,</i> <i>that</i>
+<i>distribution</i> <i>can</i> <i>change,</i> <i>severely</i> <i>affecting</i> <i>model</i> <i>performance.</i>
+Continuous model evaluation provides a framework to evaluate a deployed model’s
+performance <i>exclusively</i> on new data. This allows us to detect model staleness as early
+as possible. This information helps determine how frequently to retrain a model or
+when to replace it with a new version entirely.
+By capturing prediction inputs and outputs and comparing with ground truth, it’s
+possible to quantifiably track model performance or measure how different model
+versions perform with A/B testing in the current environment, without regard to how
+the versions performed in the past.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+The goal of continuous evaluation is to provide a means to monitor model perfor‐
+mance and keep models in production fresh. In this way, continuous evaluation pro‐
+vides a trigger for when to retrain the model. In this case, it is important to consider
+tolerance thresholds for model performance, the trade-offs they pose, and the role of
+scheduled retraining. There are also techniques and tools, like TFX, to help detect
+data and concept drift preemptively by monitoring input data distributions directly.

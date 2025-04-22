@@ -1,0 +1,40 @@
+start end
+We can see that along with the answer, the pipeline also returned and inte‐
+gers that correspond to the character indices where the answer span was found (just
+like with NER tagging). There are several flavors of question answering that we will
+investigate in Chapter 7, but this particular kind is called <i>extractive</i> <i>question</i> <i>answer‐</i>
+<i>ing</i> because the answer is extracted directly from the text.
+With this approach you can read and extract relevant information quickly from a cus‐
+tomer’s feedback. But what if you get a mountain of long-winded complaints and you
+don’t have the time to read them all? Let’s see if a summarization model can help!
+<header><largefont><b>Summarization</b></largefont></header>
+The goal of text summarization is to take a long text as input and generate a short
+version with all the relevant facts. This is a much more complicated task than the pre‐
+vious ones since it requires the model to <i>generate</i> coherent text. In what should be a
+familiar pattern by now, we can instantiate a summarization pipeline as follows:
+summarizer = pipeline("summarization")
+outputs = summarizer(text, max_length=45, clean_up_tokenization_spaces=True)
+<b>print(outputs[0]['summary_text'])</b>
+Bumblebee ordered an Optimus Prime action figure from your online store in
+Germany. Unfortunately, when I opened the package, I discovered to my horror
+that I had been sent an action figure of Megatron instead.
+This summary isn’t too bad! Although parts of the original text have been copied, the
+model was able to capture the essence of the problem and correctly identify that
+“Bumblebee” (which appeared at the end) was the author of the complaint. In this
+example you can also see that we passed some keyword arguments like max_length
+clean_up_tokenization_spaces
+and to the pipeline; these allow us to tweak the out‐
+puts at runtime.
+But what happens when you get feedback that is in a language you don’t understand?
+You could use Google Translate, or you can use your very own transformer to trans‐
+late it for you!
+<header><largefont><b>Translation</b></largefont></header>
+Like summarization, translation is a task where the output consists of generated text.
+Let’s use a translation pipeline to translate an English text to German:
+translator = pipeline("translation_en_to_de",
+model="Helsinki-NLP/opus-mt-en-de")
+outputs = translator(text, clean_up_tokenization_spaces=True, min_length=100)
+<b>print(outputs[0]['translation_text'])</b>
+Sehr geehrter Amazon, letzte Woche habe ich eine Optimus Prime Action Figur aus
+Ihrem Online-Shop in Deutschland bestellt. Leider, als ich das Paket öffnete,
+entdeckte ich zu meinem Entsetzen, dass ich stattdessen eine Action Figur von

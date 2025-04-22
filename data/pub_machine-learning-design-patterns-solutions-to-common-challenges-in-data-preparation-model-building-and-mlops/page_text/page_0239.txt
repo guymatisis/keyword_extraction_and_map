@@ -1,0 +1,38 @@
+task and model architecture are the best fit for edge devices. By “simpler,” we mean
+trade-offs like favoring binary classification over multiclass or choosing a less com‐
+plex model architecture (like a decision tree or linear regression model) when
+possible.
+When you need to deploy models to the edge while still adhering to certain model
+size and complexity constraints, it’s worth looking at edge hardware designed specifi‐
+cally with ML inference in mind. For example, the Coral Edge TPU board provides a
+custom ASIC optimized for high-performance, offline ML inference on TensorFlow
+Lite models. Similarly, NVIDIA offers the Jetson Nano for edge-optimized, low-
+power ML inference. The hardware support for ML inference is rapidly evolving as
+embedded, on-device ML becomes more common.
+<b>Phase2:Buildingthecloudmodel</b>
+Since our cloud-hosted model doesn’t need to be optimized for inference without a
+network connection, we can follow a more traditional approach for training, export‐
+ing, and deploying this model. Depending on your Two-Phase Prediction use case,
+this second model could take many different forms. In the Google Home example,
+phase 2 might include multiple models: one that converts a speaker’s audio input to
+text, and a second one that performs NLP to understand the text and route the user’s
+query. If the user asks for something more complex, there could even be a third
+model to provide a recommendation based on user preferences or past activity.
+In our instrument example, the second phase of our solution will be a multiclass
+model that classifies sounds into one of 18 possible instrument categories. Since this
+model doesn’t need to be deployed on-device, we can use a larger model architecture
+like VGG as a starting point and then follow the Transfer Learning design pattern
+outlined in Chapter 4.
+We’ll load VGG trained on the ImageNet dataset, specify the size of our spectrogram
+images in the input_shape parameter, and freeze the model’s weights before adding
+our own softmax classification output layer:
+vgg_model = tf.keras.applications.VGG19(
+include_top=False,
+weights='imagenet',
+input_shape=((128,128,3))
+)
+vgg_model.trainable = False
+Our output will be an 18-element array of softmax probabilities:
+prediction_layer = tf.keras.layers.Dense(18, activation='softmax')
+We’ll limit our dataset to only the audio clips of instruments, then transform the
+instrument labels to 18-element one-hot vectors. We can use the same

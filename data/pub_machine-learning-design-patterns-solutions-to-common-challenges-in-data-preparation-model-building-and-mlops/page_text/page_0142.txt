@@ -1,0 +1,21 @@
+Consider the situation shown in Figure 4-2. Observations collected from the physical
+environment are used as inputs (or initial starting conditions) for a physics-based
+model that carries out iterative, numerical calculations to calculate the precise state of
+the system. Suppose all the observations have a finite number of possibilities (for
+example, temperature will be between 60°C and 80°C in increments of 0.01°C). It is
+then possible to create a training dataset for the machine learning system consisting
+of the complete input space and calculate the labels using the physical model.
+<i>Figure</i> <i>4-2.</i> <i>One</i> <i>situation</i> <i>when</i> <i>it</i> <i>is</i> <i>acceptable</i> <i>to</i> <i>overfit</i> <i>is</i> <i>when</i> <i>the</i> <i>entire</i> <i>domain</i>
+<i>space</i> <i>of</i> <i>observations</i> <i>can</i> <i>be</i> <i>tabulated</i> <i>and</i> <i>a</i> <i>physical</i> <i>model</i> <i>capable</i> <i>of</i> <i>computing</i> <i>the</i>
+<i>precise</i> <i>solution</i> <i>is</i> <i>available.</i>
+The ML model needs to learn this precisely calculated and nonoverlapping lookup
+table of inputs to outputs. Splitting such a dataset into a training dataset and an eval‐
+uation dataset is counterproductive because we would then be expecting the model to
+learn parts of the input space it will not have seen in the training dataset.
+<header><largefont><b>Solution</b></largefont></header>
+In this scenario, there is no “unseen” data that needs to be generalized to, since all
+possible inputs have been tabulated. When building a machine learning model to
+learn such a physics model or dynamical system, there is no such thing as overfitting.
+The basic machine learning training paradigm is slightly different. Here, there is
+some physical phenomenon that you are trying to learn that is governed by an under‐
+lying PDE or system of PDEs. Machine learning merely provides a data-driven

@@ -1,0 +1,25 @@
+To load a ViT model, we just need to specify the image-classification pipeline,
+and then we feed in the image to extract the predicted classes:
+<b>import</b> <b>pandas</b> <b>as</b> <b>pd</b>
+<b>from</b> <b>transformers</b> <b>import</b> pipeline
+image_classifier = pipeline("image-classification")
+preds = image_classifier(image)
+preds_df = pd.DataFrame(preds)
+preds_df
+<b>score</b> <b>label</b>
+<b>0</b> 0.643599 Eskimodog,husky
+<b>1</b> 0.207407 Siberianhusky
+<b>2</b> 0.060160 dingo,warrigal,warragal,Canisdingo
+0.035359 Norwegianelkhound,elkhound
+<b>3</b>
+0.012927 malamute,malemute,Alaskanmalamute
+<b>4</b>
+Great, the predicted class seems to match the image!
+A natural extension of image models is video models. In addition to the spatial
+dimensions, videos come with a temporal dimension. This makes the task more chal‐
+lenging as the volume of data gets much bigger and one needs to deal with the extra
+dimension. Models such as TimeSformer introduce a spatial and temporal attention
+mechanism to account for both.12 In the future, such models can help build tools for a
+wide range of tasks such as classification or annotation of video sequences.
+12 G.Bertasius,H.Wang,andL.Torresani,“IsSpace-TimeAttentionAllYouNeedforVideoUnderstanding?”,
+(2021).

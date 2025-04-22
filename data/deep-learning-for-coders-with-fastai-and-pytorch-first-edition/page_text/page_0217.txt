@@ -1,0 +1,9 @@
+21. Why is early stopping a poor choice when using 1cycle training?
+22. What is the difference between resnet50 and resnet101?
+23. What does to_fp16 do?
+<header><largefont><b>Further</b></largefont> <largefont><b>Research</b></largefont></header>
+1. Find the paper by Leslie Smith that introduced the learning rate finder, and read
+it.
+2. See if you can improve the accuracy of the classifier in this chapter. What’s the
+best accuracy you can achieve? Look on the forums and the book’s website to see
+what other students have achieved with this dataset and how they did it.

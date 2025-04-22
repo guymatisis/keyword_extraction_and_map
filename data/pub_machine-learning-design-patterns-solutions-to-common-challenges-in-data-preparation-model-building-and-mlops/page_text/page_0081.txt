@@ -1,0 +1,23 @@
+Instead of trying to predict the amount of rainfall as a regression task, we can reframe
+our objective as a classification problem. There are different ways this can be accom‐
+plished. One approach is to model a discrete probability distribution, as shown in
+Figure 3-1. Instead of predicting rainfall as a real-valued output, we model the output
+as a multiclass classification giving the probability that the rainfall in the next 15
+minutes is within a certain range of rainfall amounts.
+<i>Figure</i> <i>3-1.</i> <i>Instead</i> <i>of</i> <i>predicting</i> <i>precipitation</i> <i>as</i> <i>a</i> <i>regression</i> <i>output,</i> <i>we</i> <i>can</i> <i>instead</i>
+<i>model</i> <i>discrete</i> <i>probability</i> <i>distribution</i> <i>using</i> <i>a</i> <i>multiclass</i> <i>classification.</i>
+Both the regression approach and this reframed-as-classification approach give a pre‐
+diction of the rainfall for the next 15 minutes. However, the classification approach
+allows the model to capture the probability distribution of rainfall of different quanti‐
+ties instead of having to choose the mean of the distribution. Modeling a distribution
+in this way is advantageous since precipitation does not exhibit the typical bell-
+shaped curve of a normal distribution and instead follows a Tweedie distribution,
+which allows for a preponderance of points at zero. Indeed, that’s the approach taken
+in a Google Research paper that predicts precipitation rates in a given location using
+a 512-way categorical distribution. Other reasons that modeling a distribution can be
+advantageous is when the distribution is bimodal, or even when it is normal but with
+a large variance. A recent paper that beats all benchmarks at predicting protein fold‐
+ing structure also predicts the distance between amino acids as a 64-way classification
+problem where the distances are bucketized into 64 bins.
+Another reason to reframe a problem is when the objective is better in the other type
+of model. For example, suppose we are trying to build a recommendation system for

@@ -1,0 +1,40 @@
+Since INT8 numbers have four times fewer bits than FP32 numbers, quantization also
+reduces the memory storage requirements by up to a factor of four. In our simple
+example we can verify this by comparing the underlying storage size of our weight
+tensor and its quantized cousin by using the Tensor.storage() function and the get
+sizeof() sys
+function from Python’s module:
+<b>import</b> <b>sys</b>
+sys.getsizeof(weights.storage()) / sys.getsizeof(quantized_weights.storage())
+3.999633833760527
+For a full-scale transformer, the actual compression rate depends on which layers are
+quantized (as we’ll see in the next section it is only the linear layers that typically get
+quantized).
+So what’s the catch with quantization? Changing the precision for all computations in
+our model introduces small disturbances at each point in the model’s computational
+graph, which can compound and affect the model’s performance. There are several
+ways to quantize a model, which all have pros and cons. For deep neural networks,
+there are typically three main approaches to quantization:
+<i>Dynamic</i> <i>quantization</i>
+When using dynamic quantization nothing is changed during training and the
+adaptations are only performed during inference. Like with all the quantization
+methods we will discuss, the weights of the model are converted to INT8 ahead
+of inference time. In addition to the weights, the model’s activations are also
+quantized. This approach is dynamic because the quantization happens on the fly.
+This means that all the matrix multiplications can be calculated with highly opti‐
+mized INT8 functions. Of all the quantization methods discussed here, dynamic
+quantization is the simplest one. However, with dynamic quantization the activa‐
+tions are written and read to memory in floating-point format. This conversion
+between integer and floating point can be a performance bottleneck.
+<i>Static</i> <i>quantization</i>
+Instead of computing the quantization of the activations on the fly, we can avoid
+the conversion to floating point by precomputing the quantization scheme. Static
+quantization achieves this by observing the activation patterns on a representa‐
+tive sample of the data ahead of inference time. The ideal quantization scheme is
+calculated and then saved. This enables us to skip the conversion between INT8
+and FP32 values and speeds up the computations. However, it requires access to a
+good data sample and introduces an additional step in the pipeline, since we now
+need to train and determine the quantization scheme before we can perform
+inference. There is also one aspect that static quantization does not address: the
+discrepancy between the precision during training and inference, which leads to
+a performance drop in the model’s metrics (e.g., accuracy).

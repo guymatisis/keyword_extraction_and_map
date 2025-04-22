@@ -1,0 +1,39 @@
+The solution to this problem is to tell PyTorch that we do not want to backpropagate
+the derivatives through the entire implicit neural network. Instead, we will keep just
+the last three layers of gradients. To remove all of the gradient history in PyTorch, we
+use the detach method.
+Here is the new version of our RNN. It is now stateful, because it remembers its acti‐
+vations between different calls to forward , which represent its use for different sam‐
+ples in the batch:
+<b>class</b> <b>LMModel3(Module):</b>
+<b>def</b> <b>__init__(self,</b> vocab_sz, n_hidden):
+self.i_h = nn.Embedding(vocab_sz, n_hidden)
+self.h_h = nn.Linear(n_hidden, n_hidden)
+self.h_o = nn.Linear(n_hidden,vocab_sz)
+self.h = 0
+<b>def</b> forward(self, x):
+<b>for</b> i <b>in</b> range(3):
+self.h = self.h + self.i_h(x[:,i])
+self.h = F.relu(self.h_h(self.h))
+out = self.h_o(self.h)
+self.h = self.h.detach()
+<b>return</b> out
+<b>def</b> reset(self): self.h = 0
+This model will have the same activations whatever sequence length we pick, because
+the hidden state will remember the last activation from the previous batch. The only
+thing that will be different is the gradients computed at each step: they will be calcula‐
+ted on only sequence length tokens in the past, instead of the whole stream. This
+approach is called <i>backpropagation</i> <i>through</i> <i>time</i> (BPTT).
+<b>Jargon:BackpropagationThroughTime</b>
+Treating a neural net with effectively one layer per time step (usu‐
+ally refactored using a loop) as one big model, and calculating gra‐
+dients on it in the usual way. To avoid running out of memory and
+time, we usually use <i>truncated</i> BPTT, which “detaches” the history
+of computation steps in the hidden state every few time steps.
+To use LMModel3, we need to make sure the samples are going to be seen in a certain
+order. As we saw in Chapter 10, if the first line of the first batch is our dset[0], the
+dset[1]
+second batch should have as the first line, so that the model sees the text
+flowing.
+LMDataLoader was doing this for us in Chapter 10. This time we’re going to do it
+ourselves.

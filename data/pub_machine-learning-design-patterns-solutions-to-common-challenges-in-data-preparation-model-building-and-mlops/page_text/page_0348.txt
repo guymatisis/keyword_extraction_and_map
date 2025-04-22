@@ -1,0 +1,20 @@
+<i>Figure</i> <i>7-10.</i> <i>The</i> <i>What-If</i> <i>Tool’s</i> <i>“Datapoint</i> <i>editor,”</i> <i>where</i> <i>we</i> <i>can</i> <i>see</i> <i>how</i> <i>our</i> <i>data</i> <i>is</i>
+<i>split</i> <i>by</i> <i>label</i> <i>class</i> <i>and</i> <i>inspect</i> <i>features</i> <i>for</i> <i>individual</i> <i>examples</i> <i>from</i> <i>our</i> <i>dataset.</i>
+There are many options for customizing the visualization in the Datapoint editor,
+and doing this can help us understand how our dataset is split across different slices.
+Keeping the same color-coding by label, if we select the agency_code column from
+the Binning | Y-Axis drop-down, the tool now shows a chart of how balanced our
+data is with regard to the agency underwriting each application’s loan. This is shown
+in Figure 7-11. Assuming these 1,000 datapoints are a good representation of the rest
+of our dataset, there are a few instances of potential bias revealed in Figure 7-11:
+<i>Data</i> <i>representation</i> <i>bias</i>
+The percentage of HUD applications <i>not</i> approved is higher than other agencies
+represented in our data. A model will likely learn this, causing it to predict “not
+approved” more frequently for applications originating through HUD.
+<i>Data</i> <i>collection</i> <i>bias</i>
+We may not have enough data on loans originating from FRS, OCC, FDIC, or
+NCUA to accurately use agency_code as a feature in our model. We should make
+sure the percentage of applications for each agency in our dataset reflects real-
+world trends. For example, if a similar number of loans go through FRS and
+HUD, we should have an equal number of examples for each of those agencies in
+our dataset.

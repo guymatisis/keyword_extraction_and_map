@@ -54,7 +54,7 @@ def compute_rouge_scores(predicted_phrases, ground_truth_phrases):
 # 2. Precision / Recall / F1 for top-k predicted phrases
 # ------------------------------------------------------------------------------
 
-def f1_score(predicted, ground_truth):
+def calc_f1_score(predicted, ground_truth):
     # Normalize (lowercase and strip)
     predicted_set = set([k.strip().lower() for k in predicted])
     ground_truth_set = set([k.strip().lower() for k in ground_truth])
@@ -98,16 +98,14 @@ def accuracy_score(predictions, ground_truths):
 
     Returns: float accuracy (0.0 to 1.0)
     """
-    correct = 0
-    total = len(predictions)
 
     pred_set = set([k.strip().lower() for k in predictions])
     gt_set = set([k.strip().lower() for k in ground_truths])
+    correct_num = len(pred_set & gt_set)
+    total_num = len(pred_set)
 
-    if pred_set == gt_set:
-        correct += 1
 
-    return correct / total if total > 0 else 0.0
+    return correct_num / total_num if total_num > 0 else 0.0
 
 
 
@@ -162,11 +160,11 @@ def make_compute_metrics(tokenizer):
 
 if __name__ == "__main__":
     gt_labels = ["neural network", "gradient descent", "back-propagation"]
-    predicted_phrases = ["Neural networks", "backpropagation", "deep learning"]
+    predicted_phrases = ["Neural network", "backpropagation", "deep learning"]
 
     bertscore = get_bertscore(predicted_phrases, gt_labels)
     accuracy_score_value = accuracy_score(predicted_phrases, gt_labels)
-    f1_score = f1_score(predicted_phrases, gt_labels)
+    f1_score = calc_f1_score(predicted_phrases, gt_labels)
     rouge_1, rouge_2, rouge_L = compute_rouge_scores(predicted_phrases, gt_labels)
 
     print(f"BERTScore: {bertscore}")

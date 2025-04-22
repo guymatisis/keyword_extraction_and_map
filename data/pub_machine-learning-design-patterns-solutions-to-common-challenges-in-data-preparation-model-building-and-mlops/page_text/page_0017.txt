@@ -1,0 +1,18 @@
+designing your model. You can then find a balance between the product team’s goal
+of optimizing for precision and your goal of minimizing the model’s loss.
+When defining the goals for your model, it’s important to consider the needs of dif‐
+ferent teams across an organization, and how each team’s needs relate back to the
+model. By analyzing what each team is optimizing for before building out your solu‐
+tion, you can find areas of compromise in order to optimally balance these multiple
+objectives.
+<header><largefont><b>Summary</b></largefont></header>
+Design patterns are a way to codify the knowledge and experience of experts into
+advice that all practitioners can follow. The design patterns in this book capture best
+practices and solutions to commonly occurring problems in designing, building, and
+deploying machine learning systems. The common challenges in machine learning
+tend to revolve around data quality, reproducibility, data drift, scale, and having to
+satisfy multiple objectives.
+We tend to use different ML design patterns at different stages of the ML life cycle.
+There are patterns that are useful in problem framing and assessing feasibility. The
+majority of patterns address either development or deployment, and quite a few pat‐
+terns address the interplay between these stages.

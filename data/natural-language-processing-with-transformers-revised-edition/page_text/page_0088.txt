@@ -1,0 +1,37 @@
+For this chapter let’s assume that we want to perform NER for a customer based in
+Switzerland, where there are four national languages (with English often serving as a
+bridge between them). Let’s start by getting a suitable multilingual corpus for this
+problem.
+<i>Zero-shot</i> <i>transfer</i> or <i>zero-shot</i> <i>learning</i> usually refers to the task of
+training a model on one set of labels and then evaluating it on a
+different set of labels. In the context of transformers, zero-shot
+learning may also refer to situations where a language model like
+GPT-3 is evaluated on a downstream task that it wasn’t even fine-
+tuned on.
+<header><largefont><b>The</b></largefont> <largefont><b>Dataset</b></largefont></header>
+In this chapter we will be using a subset of the Cross-lingual TRansfer Evaluation of
+Multilingual Encoders (XTREME) benchmark called WikiANN or PAN-X.2 This
+dataset consists of Wikipedia articles in many languages, including the four most
+commonly spoken languages in Switzerland: German (62.9%), French (22.9%), Ital‐
+LOC PER
+ian (8.4%), and English (5.9%). Each article is annotated with (location),
+(person), and ORG (organization) tags in the “inside-outside-beginning” (IOB2) for‐
+B-
+mat. In this format, a prefix indicates the beginning of an entity, and consecutive
+I- O
+tokens belonging to the same entity are given an prefix. An tag indicates that the
+token does not belong to any entity. For example, the following sentence:
+Jeff Dean is a computer scientist at Google in California
+would be labeled in IOB2 format as shown in Table 4-1.
+<i>Table</i> <i>4-1.</i> <i>An</i> <i>example</i> <i>of</i> <i>a</i> <i>sequence</i> <i>annotated</i> <i>with</i> <i>named</i> <i>entities</i>
+<b>Tokens</b> Jeff Dean is a computer scientist at Google in California
+<b>Tags</b> B-PER I-PER O O O O O B-ORG O B-LOC
+To load one of the PAN-X subsets in XTREME, we’ll need to know which <i>dataset</i>
+<i>configuration</i> to pass the load_dataset() function. Whenever you’re dealing with a
+get_dataset_config_names()
+dataset that has multiple domains, you can use the
+function to find out which subsets are available:
+2 J.Huetal.,“XTREME:AMassivelyMultilingualMulti-TaskBenchmarkforEvaluatingCross-LingualGener‐
+alization”,(2020);X.Panetal.,“Cross-LingualNameTaggingandLinkingfor282Languages,”Proceedingsof
+<i>the55thAnnualMeetingoftheAssociationforComputationalLinguistics1(July2017):1946–1958,http://</i>
+<i>dx.doi.org/10.18653/v1/P17-1178.</i>

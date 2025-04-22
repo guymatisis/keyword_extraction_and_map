@@ -1,0 +1,36 @@
+<b>SELECT</b>
+<b>DISTINCT(departure_airport)</b>
+<b>FROM</b> `bigquery-samples.airline_ontime_data.flights`
+Some airports had as few as one to three flights over the entire time period, and so we
+expect that the training data vocabulary will be incomplete. 347 is large enough that
+the feature will be quite sparse, and it is certainly the case that new airports will get
+built. All three problems (incomplete vocabulary, high cardinality, cold start) will
+exist if we one-hot encode the departure airport.
+The airline dataset, like the natality dataset and nearly all the other datasets that we
+use in this book for illustration, is a public dataset in BigQuery, so you can try the
+query out. At the time we are writing this, 1 TB/month of querying is free, and there
+is a sandbox available so that you can use BigQuery up to this limit without putting
+down a credit card. We encourage you to bookmark our GitHub repository. For
+example, see the notebook in GitHub for the full code.
+<header><largefont><b>Solution</b></largefont></header>
+The Hashed Feature design pattern represents a categorical input variable by doing
+the following:
+1. Converting the categorical input into a unique string. For the departure airport,
+we can use the three-letter IATA code for the airport.
+2. Invoking a deterministic (no random seeds or salt) and portable (so that the
+same algorithm can be used in both training and serving) hashing algorithm on
+the string.
+3. Taking the remainder when the hash result is divided by the desired number of
+buckets. Typically, the hashing algorithm returns an integer that can be negative
+and the modulo of a negative integer is negative. So, the absolute value of the
+result is taken.
+In BigQuery SQL, these steps are achieved like this:
+<b>ABS(MOD(FARM_FINGERPRINT(airport),</b> numbuckets))
+The FARM_FINGERPRINT function uses FarmHash, a family of hashing algorithms that
+is deterministic, well-distributed, and for which implementations are available in a
+number of programming languages.
+In TensorFlow, these steps are implemented by the feature_column function:
+tf.feature_column.categorical_column_with_hash_bucket(
+airport, num_buckets, dtype=tf.dtypes.string)
+For example, Table 2-1 shows the FarmHash of some IATA airport codes when
+hashed into 3, 10, and 1,000 buckets.

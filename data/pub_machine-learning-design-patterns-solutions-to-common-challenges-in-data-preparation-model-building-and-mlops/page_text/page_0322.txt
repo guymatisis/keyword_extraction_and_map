@@ -1,0 +1,44 @@
+Examples of good heuristic benchmarks and situations where we might employ them
+are shown in Table 7-1. Example code for the implementations of these heuristic
+benchmarks is in the GitHub repository of this book.
+<i>Table</i> <i>7-1.</i> <i>Heuristic</i> <i>benchmarks</i> <i>for</i> <i>a</i> <i>few</i> <i>selected</i> <i>scenarios</i> <i>(see</i> <i>code</i> <i>in</i> <i>GitHub)</i>
+<b>Scenario</b> <b>Heuristicbenchmark</b> <b>Exampletask</b> <b>Implementationforexampletask</b>
+Regressionproblemwhere Meanormedianvalueof Timeintervalbeforea Predictthatitwilltake2,120seconds
+featuresandinteractions thelabelvalueoverthe questiononStack always.
+betweenfeaturesarenot trainingdata. Overflowisanswered. 2,120secondsisthemediantimeto
+wellunderstoodbythe Choosethemedianif firstanswerovertheentiretraining
+business. therearealotofoutliers. dataset.
+Binaryclassificationproblem Overallfractionof Whetherornotan Predict0.36astheoutputprobability
+wherefeaturesand positivesinthetraining acceptedanswerin forallanswers.
+interactionsbetween data. StackOverflowwillbe 0.36isthefractionofacceptedanswers
+featuresarenotwell edited. overallthatareedited.
+understoodbythebusiness.
+Multilabelclassification Distributionofthelabel Countryfromwhicha Predict0.03forFrance,0.08forIndia,
+problemwherefeaturesand valueoverthetraining StackOverflow andsoon.
+interactionsbetween data. questionwillbe Thesearethefractionsofanswers
+featuresarenotwell answered. writtenbypeoplefromFrance,India,
+understoodbythebusiness. andsoon.
+Regressionproblemwhere Linearregressionbased Predicttaxifare Fare=$4.64perkilometer.
+thereisasingle,very onwhatis,intuitively, amountgivenpickup The$4.64iscomputedfromthe
+important,numericfeature. thesinglemostimportant anddropofflocations. trainingdataoveralltrips.
+feature. Thedistancebetween
+thetwopointsis,
+intuitively,akey
+feature.
+Regressionproblemwith Lookuptablewherethe Predictdurationof Lookuptableofaveragerentalduration
+oneortwoimportant rowsandcolumns bicyclerental. fromeachstationbasedonpeakhour
+features.Thefeaturescould correspondtothekey Here,thetwokey versusnonpeakhour.
+benumericorcategorical features(discretizedif featuresarethe
+butshouldbecommonly necessary)andthe stationthatthebicycle
+usedheuristics. predictionforeachcellis isbeingrentedfrom
+theaveragelabelinthat andwhetherornotit
+cellestimatedoverthe ispeakhoursfor
+trainingdata. commuting.
+Classificationproblemwith Asabove,exceptthatthe Predictwhethera Foreachtag,computethefractionof
+oneortwoimportant predictionforeachcellis StackOverflow questionsthatareansweredwithinone
+features.Thefeaturescould thedistributionoflabels questionwillget day.
+benumericorcategorical. inthatcell. answeredwithinone
+Ifthegoalistopredicta day.
+singleclass,computethe Themostimportant
+modeofthelabelineach featurehereisthe
+cell. primarytag.

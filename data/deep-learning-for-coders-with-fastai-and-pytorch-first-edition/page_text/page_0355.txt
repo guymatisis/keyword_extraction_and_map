@@ -1,0 +1,27 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>11</b></largefont></header>
+<header><largefont><b>Data</b></largefont> <largefont><b>Munging</b></largefont> <largefont><b>with</b></largefont> <largefont><b>fastai’s</b></largefont> <largefont><b>Mid-Level</b></largefont> <largefont><b>API</b></largefont></header>
+We have seen what Tokenizer and Numericalize do to a collection of texts, and how
+they’re used inside the data block API, which handles those transforms for us directly
+using the TextBlock. But what if we want to apply only one of those transforms,
+either to see intermediate results or because we have already tokenized texts? More
+generally, what can we do when the data block API is not flexible enough to accom‐
+modate our particular use case? For this, we need to use fastai’s <i>mid-level</i> <i>API</i> for pro‐
+cessing data. The data block API is built on top of that layer, so it will allow you to do
+everything the data block API does, and much much more.
+<header><largefont><b>Going</b></largefont> <largefont><b>Deeper</b></largefont> <largefont><b>into</b></largefont> <largefont><b>fastai’s</b></largefont> <largefont><b>Layered</b></largefont> <largefont><b>API</b></largefont></header>
+The fastai library is built on a <i>layered</i> <i>API.</i> In the very top layer are <i>applications</i> that
+allow us to train a model in five lines of code, as we saw in Chapter 1. In the case of
+creating DataLoaders for a text classifier, for instance, we used this line:
+<b>from</b> <b>fastai.text.all</b> <b>import</b> *
+dls = TextDataLoaders.from_folder(untar_data(URLs.IMDB), valid='test')
+The factory method TextDataLoaders.from_folder is very convenient when your
+data is arranged the exact same way as the IMDb dataset, but in practice, that often
+won’t be the case. The data block API offers more flexibility. As we saw in the preced‐
+ing chapter, we can get the same result with the following:
+path = untar_data(URLs.IMDB)
+dls = DataBlock(
+blocks=(TextBlock.from_folder(path),CategoryBlock),
+get_y = parent_label,
+get_items=partial(get_text_files, folders=['train', 'test']),
+splitter=GrandparentSplitter(valid_name='test')
+).dataloaders(path)

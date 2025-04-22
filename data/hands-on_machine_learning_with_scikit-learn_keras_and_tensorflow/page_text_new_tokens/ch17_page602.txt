@@ -1,0 +1,20 @@
+The extra layers get added at the end of the generator and at the beginning of the dis‐
+criminator, and previously trained layers remain trainable.
+For example, when growing the generator’s outputs from 4 × 4 to 8 × 8 (see
+Figure 17-19), an upsampling layer (using nearest neighbor filtering) is added to the
+existing convolutional layer, so it outputs 8 × 8 feature maps, which are then fed to
+"same"
+the new convolutional layer (which uses padding and strides of 1, so its out‐
+puts are also 8 × 8). This new layer is followed by a new output convolutional layer:
+this is a regular convolutional layer with kernel size 1 that projects the outputs down
+to the desired number of color channels (e.g., 3). To avoid breaking the trained
+weights of the first convolutional layer when the new convolutional layer is added, the
+final output is a weighted sum of the original output layer (which now outputs 8 × 8
+feature maps) and the new output layer. The weight of the new outputs is <i>α,</i> while the
+weight of the original outputs is 1 – <i>α,</i> and <i>α</i> is slowly increased from 0 to 1. In other
+words, the new convolutional layers (represented with dashed lines in Figure 17-19)
+are gradually faded in, while the original output layer is gradually faded out. A similar
+fade-in/fade-out technique is used when a new convolutional layer is added to the
+discriminator (followed by an average pooling layer for downsampling).
+<i>Figure</i> <i>17-19.</i> <i>Progressively</i> <i>growing</i> <i>GAN:</i> <i>a</i> <i>GAN</i> <i>generator</i> <i>outputs</i> <i>4</i> <i>×</i> <i>4</i> <i>color</i> <i>images</i>
+<i>(left);</i> <i>we</i> <i>extend</i> <i>it</i> <i>to</i> <i>output</i> <i>8</i> <i>×</i> <i>8</i> <i>images</i> <i>(right)</i>

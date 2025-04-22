@@ -1,0 +1,38 @@
+One approach to dealing with the first issue would be to flatten the final convolu‐
+tional layer in a way that handles a grid size other than 1×1. We could simply flatten a
+matrix into a vector as we have done before, by laying out each row after the previous
+row. In fact, this is the approach that convolutional neural networks up until 2013
+nearly always took. The most famous example is the 2013 ImageNet winner VGG,
+still sometimes used today. But there was another problem with this architecture: it
+not only did not work with images other than those of the same size used in the train‐
+ing set, but also required a lot of memory, because flattening out the convolutional
+layer resulted in many activations being fed into the final layers. Therefore, the weight
+matrices of the final layers were enormous.
+This problem was solved through the creation of <i>fully</i> <i>convolutional</i> <i>networks.</i> The
+trick in fully convolutional networks is to take the average of activations across a con‐
+volutional grid. In other words, we can simply use this function:
+<b>def</b> avg_pool(x): <b>return</b> x.mean((2,3))
+As you see, it is taking the mean over the x- and y-axes. This function will always
+convert a grid of activations into a single activation per image. PyTorch provides a
+slightly more versatile module called nn.AdaptiveAvgPool2d, which averages a grid
+of activations into whatever sized destination you require (although we nearly always
+use a size of 1).
+A fully convolutional network, therefore, has a number of convolutional layers, some
+of which will be stride 2, at the end of which is an adaptive average pooling layer, a
+flatten layer to remove the unit axes, and finally a linear layer. Here is our first fully
+convolutional network:
+<b>def</b> block(ni, nf): <b>return</b> ConvLayer(ni, nf, stride=2)
+<b>def</b> get_model():
+<b>return</b> nn.Sequential(
+block(3, 16),
+block(16, 32),
+block(32, 64),
+block(64, 128),
+block(128, 256),
+nn.AdaptiveAvgPool2d(1),
+Flatten(),
+nn.Linear(256, dls.c))
+We’re going to be replacing the implementation of block in the network with other
+variants in a moment, which is why we’re not calling it conv anymore. We’re also sav‐
+ing some time by taking advantage of fastai’s ConvLayer, which already provides the
+functionality of conv from the preceding chapter (plus a lot more!).

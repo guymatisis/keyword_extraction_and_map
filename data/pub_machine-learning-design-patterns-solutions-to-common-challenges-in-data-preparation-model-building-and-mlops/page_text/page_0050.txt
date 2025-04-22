@@ -1,0 +1,29 @@
+In addition to image autoencoders, recent work has focused on applying deep learn‐
+ing techniques for structured data. TabNet is a deep neural network specifically
+designed to learn from tabular data and can be trained in an unsupervised manner.
+By modifying the model to have an encoder-decoder structure, TabNet works as an
+autoencoder on tabular data, which allows the model to learn embeddings from
+structured data via a feature transformer.
+<b>Contextlanguagemodels</b>
+Is there an auxiliary learning task that works for text? Context language models like
+Word2Vec and masked language models like Bidirectional Encoding Representations
+from Transformers (BERT) change the learning task to a problem so that there is no
+scarcity of labels.
+Word2Vec is a well-known method for constructing an embedding using shallow
+neural networks and combining two techniques—Continuous Bag of Words
+(CBOW) and a skip-gram model—applied to a large corpus of text, such as Wikipe‐
+dia. While the goal of both models is to learn the context of a word by mapping input
+word(s) to the target word(s) with an intermediate embedding layer, an auxiliary goal
+is achieved that learns low-dimensional embeddings that best capture the context of
+words. The resulting word embeddings learned through Word2Vec capture the
+semantic relationships between words so that, in the embedding space, the vector
+representations maintain meaningful distance and directionality (Figure 2-12).
+<i>Figure</i> <i>2-12.</i> <i>Word</i> <i>embeddings</i> <i>capture</i> <i>semantic</i> <i>relationships.</i>
+BERT is trained using a masked language model and next sentence prediction. For a
+masked language model, words are randomly masked from text and the model
+guesses what the missing word(s) are. Next sentence prediction is a classification task
+where the model predicts whether or not two sentences followed each other in the
+original text. So any corpus of text is suitable as a labeled dataset. BERT was initially
+trained on all of the English Wikipedia and BooksCorpus. Despite learning on these
+auxiliary tasks, the learned embeddings from BERT or Word2Vec have proven very
+powerful when used on other downstream training tasks. The word embeddings

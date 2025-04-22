@@ -1,0 +1,43 @@
+tokenize
+Python has a built-in module that splits Python code
+strings into meaningful units (code operation, comments, indent
+and dedent, etc.). One issue with using this approach is that this
+pretokenizer is Python-based and as such is typically rather slow
+and limited by the Python global interpreter lock (GIL). On the
+other hand, most of the tokenizers in the Transformers library
+are provided by the Tokenizers library and are coded in Rust.
+The Rust tokenizers are many orders of magnitude faster to train
+and to use, and we will thus likely want to use them given the size
+of our corpus.
+This is quite a strange output, so let’s try to understand what is happening here by
+running the various submodules of the tokenizer’s pipeline. First let’s see what nor‐
+malization is applied in this tokenizer:
+<b>print(tokenizer.backend_tokenizer.normalizer)</b>
+None
+As we can see, the GPT-2 tokenizer uses no normalization. It works directly on
+the raw Unicode inputs without any normalization steps. Let’s now take a look at the
+pretokenization:
+<b>print(tokenizer.backend_tokenizer.pre_tokenizer.pre_tokenize_str(python_code))</b>
+[('def', (0, 3)), ('Ġsay', (3, 7)), ('_', (7, 8)), ('hello', (8, 13)), ('():',
+(13, 16)), ('ĊĠĠĠ', (16, 20)), ('Ġprint', (20, 26)), ('("', (26, 28)), ('Hello',
+(28, 33)), (',', (33, 34)), ('ĠWorld', (34, 40)), ('!")', (40, 43)), ('Ġ#', (43,
+45)), ('ĠPrint', (45, 51)), ('Ġit', (51, 54)), ('Ċ', (54, 55)), ('Ċ', (55, 56)),
+('say', (56, 59)), ('_', (59, 60)), ('hello', (60, 65)), ('()', (65, 67)), ('Ċ',
+(67, 68))]
+What are all these Ġ symbols, and what are the numbers accompanying the tokens?
+Let’s explain both and see if we can understand better how this tokenizer works.
+Let’s start with the numbers. Tokenizers has a very useful feature for switching
+between strings and tokens, called <i>offset</i> <i>tracking.</i> All the operations on the input
+string are tracked so that it’s possible to know exactly what part of the input string a
+token after tokenization corresponds to. These numbers simply indicate where in the
+'hello'
+original string each token comes from; for instance, the word in the first line
+corresponds to the characters 8 to 13 in the original string. If some characters are
+removed in a normalization step, we are thus still able to associate each token with
+the respective part in the original string.
+The other curious feature of the tokenized text is the odd-looking characters, such as
+Ċ Ġ.
+and <i>Byte-level</i> means that this tokenizer works on bytes instead of Unicode char‐
+acters. Each Unicode character is composed of between 1 and 4 bytes, depending on
+the character. The nice thing about bytes is that while there are 143,859 Unicode
+characters in the Unicode alphabet, there are only 256 elements in the byte alphabet,

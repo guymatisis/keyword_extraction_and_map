@@ -1,0 +1,24 @@
+<b>SylvainSays</b>
+An interesting feature about cross-entropy loss appears when we
+consider its gradient. The gradient of cross_entropy(a,b) is
+softmax(a)-b. Since softmax(a) is the final activation of the
+model, that means that the gradient is proportional to the differ‐
+ence between the prediction and the target. This is the same as
+mean squared error in regression (assuming there’s no final activa‐
+tion function such as that added by y_range ), since the gradient of
+(a-b)**2 is 2*(a-b) . Because the gradient is linear, we won’t see
+sudden jumps or exponential increases in gradients, which should
+lead to smoother training of models.
+We have now seen all the pieces hidden behind our loss function. But while this puts
+a number on how well (or badly) our model is doing, it does nothing to help us know
+if it’s any good. Let’s now see some ways to interpret our model’s predictions.
+<header><largefont><b>Model</b></largefont> <largefont><b>Interpretation</b></largefont></header>
+It’s very hard to interpret loss functions directly, because they are designed to be
+things computers can differentiate and optimize, not things that people can under‐
+stand. That’s why we have metrics. These are not used in the optimization process,
+but just to help us poor humans understand what’s going on. In this case, our accu‐
+racy is looking pretty good already! So where are we making mistakes?
+We saw in Chapter 1 that we can use a confusion matrix to see where our model is
+doing well and where it’s doing badly:
+interp = ClassificationInterpretation.from_learner(learn)
+interp.plot_confusion_matrix(figsize=(12,12), dpi=60)

@@ -1,0 +1,23 @@
+<i>Figure</i> <i>5-4.</i> <i>Impact</i> <i>of</i> <i>different</i> <i>layers</i> <i>and</i> <i>training</i> <i>methods</i> <i>on</i> <i>transfer</i> <i>learning</i> <i>(cour‐</i>
+<i>tesy</i> <i>of</i> <i>Jason</i> <i>Yosinski</i> <i>et</i> <i>al.)</i>
+fastai lets you pass a Python slice object anywhere that a learning rate is expected.
+The first value passed will be the learning rate in the earliest layer of the neural net‐
+work, and the second value will be the learning rate in the final layer. The layers in
+between will have learning rates that are multiplicatively equidistant throughout that
+range. Let’s use this approach to replicate the previous training, but this time we’ll set
+only the <i>lowest</i> layer of our net to a learning rate of 1e-6; the other layers will scale up
+to 1e-4. Let’s train for a while and see what happens:
+learn = cnn_learner(dls, resnet34, metrics=error_rate)
+learn.fit_one_cycle(3, 3e-3)
+learn.unfreeze()
+learn.fit_one_cycle(12, lr_max=slice(1e-6,1e-4))
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 1.145300 0.345568 0.119756 00:20
+1 0.533986 0.251944 0.077131 00:20
+2 0.317696 0.208371 0.069012 00:20
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 0.257977 0.205400 0.067659 00:25
+1 0.246763 0.205107 0.066306 00:25
+2 0.240595 0.193848 0.062246 00:25
+3 0.209988 0.198061 0.062923 00:25
+4 0.194756 0.193130 0.064276 00:25

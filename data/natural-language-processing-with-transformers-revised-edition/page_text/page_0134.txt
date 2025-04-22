@@ -1,0 +1,40 @@
+output_beam = model.generate(input_ids, max_length=max_length, num_beams=5,
+do_sample=False, no_repeat_ngram_size=2)
+logp = sequence_logprob(model, output_beam, input_len=len(input_ids[0]))
+<b>print(tokenizer.decode(output_beam[0]))</b>
+<b>print(f"\nlog-prob:</b> {logp:.2f}")
+In a shocking finding, scientist discovered a herd of unicorns living in a
+remote, previously unexplored valley, in the Andes Mountains. Even more
+surprising to the researchers was the fact that the unicorns spoke perfect
+English.
+The discovery was made by a team of scientists from the University of
+California, Santa Cruz, and the National Geographic Society.
+According to a press release, the scientists were conducting a survey of the
+area when they came across the herd. They were surprised to find that they were
+able to converse with the animals in English, even though they had never seen a
+unicorn in person before. The researchers were
+log-prob: -93.12
+This isn’t too bad! We’ve managed to stop the repetitions, and we can see that despite
+producing a lower score, the text remains coherent. Beam search with <i>n-gram</i> penalty
+is a good way to find a trade-off between focusing on high-probability tokens (with
+beam search) while reducing repetitions (with <i>n-gram</i> penalty), and it’s commonly
+used in applications such as summarization or machine translation where factual cor‐
+rectness is important. When factual correctness is less important than the diversity of
+generated output, for instance in open-domain chitchat or story generation, another
+alternative to reduce repetitions while improving diversity is to use sampling. Let’s
+round out our exploration of text generation by examining a few of the most com‐
+mon sampling methods.
+<header><largefont><b>Sampling</b></largefont> <largefont><b>Methods</b></largefont></header>
+The simplest sampling method is to randomly sample from the probability distribu‐
+tion of the model’s outputs over the full vocabulary at each timestep:
+exp <i>z</i>
+<i>t,i</i>
+
+<i>P</i> <i>y</i> = <i>w</i> <i>y</i> , = softmax <i>z</i> =
+<i>t</i> <i>i</i> < <i>t</i> <i>t,i</i>
+<i>V</i>
+∑ exp <i>z</i>
+<i>j</i> = 1 <i>t,</i> <i>j</i>
+where <i>V</i> denotes the cardinality of the vocabulary. We can easily control the diver‐
+sity of the output by adding a temperature parameter <i>T</i> that rescales the logits before
+taking the softmax:

@@ -1,0 +1,40 @@
+ImageNet dataset contains 1,000 labels, our resulting model will <i>only</i> return 8 possi‐
+ble classes that we’ll specify, as opposed to the thousands of labels present in
+ImageNet.
+Loading a pre-trained model and using it to get classifications on
+the <i>original</i> <i>labels</i> that model was trained on is not transfer learn‐
+ing. Transfer learning is going one step further, replacing the final
+layers of the model with your own prediction task.
+The VGG model we’ve loaded will be our base model. We’ll need to add a few layers
+to flatten the output of our bottleneck layer and feed this flattened output into an 8-
+element softmax array:
+global_avg_layer = tf.keras.layers.GlobalAveragePooling2D()
+feature_batch_avg = global_avg_layer(feature_batch)
+prediction_layer = tf.keras.layers.Dense(8, activation='softmax')
+prediction_batch = prediction_layer(feature_batch_avg)
+Sequential,
+Finally, we can use the API to create our new transfer learning model as
+a stack of layers:
+histology_model = keras.Sequential([
+vgg_model,
+global_avg_layer,
+prediction_layer
+])
+Let’s take note of the output of model.summary() on our transfer learning model:
+_________________________________________________________________
+Layer (type) Output Shape Param #
+=================================================================
+vgg19 (Model) (None, 4, 4, 512) 20024384
+_________________________________________________________________
+global_average_pooling2d (Gl (None, 512) 0
+_________________________________________________________________
+dense (Dense) (None, 8) 4104
+=================================================================
+Total params: 20,028,488
+Trainable params: 4,104
+Non-trainable params: 20,024,384
+_________________________________________________________________
+The important piece here is that the only trainable parameters are the ones <i>after</i> our
+bottleneck layer. In this example, the bottleneck layer is the feature vectors from the
+VGG model. After compiling this model, we can train it using our dataset of histol‐
+ogy images.

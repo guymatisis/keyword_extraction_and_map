@@ -1,0 +1,30 @@
+<header><largefont><b>Conclusion</b></largefont></header>
+In this chapter we’ve seen that even if we have only a few or even no labels, not all
+hope is lost. We can utilize models that have been pretrained on other tasks, such as
+the BERT language model or GPT-2 trained on Python code, to make predictions on
+the new task of GitHub issue classification. Furthermore, we can use domain adapta‐
+tion to get an additional boost when training the model with a normal classification
+head.
+Which of the presented approaches will work best on a specific use case depends on a
+variety of aspects: how much labeled data you have, how noisy is it, how close the
+data is to the pretraining corpus, and so on. To find out what works best, it is a good
+idea to set up an evaluation pipeline and then iterate quickly. The flexible API of
+Transformers allows you to quickly load a handful of models and compare them
+without the need for any code changes. There are over 10,000 models on the Hugging
+Face Hub, and chances are somebody has worked on a similar problem in the past
+and you can build on top of this.
+One aspect that is beyond the scope of this book is the trade-off between a more com‐
+plex approach like UDA or UST and getting more data. To evaluate your approach, it
+makes sense to at least build a validation and test set early on. At every step of the way
+you can also gather more labeled data. Usually annotating a few hundred examples is
+a matter of a couple of hours’ or a few days’ work, and there are many tools that can
+assist you in doing so. Depending on what you are trying to achieve, it can make
+sense to invest some time in creating a small, high-quality dataset rather than engi‐
+neering a very complex method to compensate for the lack thereof. With the methods
+we’ve presented in this chapter you can ensure that you get the most value out of your
+precious labeled data.
+Here, we have ventured into the low-data regime and seen that transformer models
+are still powerful even with just a hundred examples. In the next chapter we’ll look at
+the complete opposite case: we’ll see what we can do when we have hundreds of giga‐
+bytes of data and a lot of compute. We’ll train a large transformer model from scratch
+to autocomplete code for us.

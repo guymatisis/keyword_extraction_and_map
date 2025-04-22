@@ -1,0 +1,42 @@
+perfect precision! For this reason, the authors of the BLEU paper introduced a slight
+modification: a word is only counted as many times as it occurs in the reference. To
+illustrate this point, suppose we have the reference text “the cat is on the mat” and the
+generated text “the the the the the the”.
+From this simple example, we can calculate the precision values as follows:
+6
+<i>p</i> =
+<i>vanilla</i> 6
+2
+<i>p</i> =
+<i>mod</i> 6
+and we can see that the simple correction has produced a much more reasonable
+value. Now let’s extend this by not only looking at single words, but <i>n-grams</i> as well.
+Let’s assume we have one generated sentence, <i>snt,</i> that we want to compare against a
+′
+reference sentence, <i>snt</i> . We extract all possible <i>n-grams</i> of degree <i>n</i> and do the
+accounting to get the precision <i>p</i> :
+<i>n</i>
+∑ <i>Count</i> <i>n‐gram</i>
+<i>n‐gram</i> ∈ <i>snt</i> ′ <i>clip</i>
+<i>p</i> =
+<i>n</i> ∑ <i>Count</i> <i>n‐gram</i>
+<i>n‐gram</i> ∈ <i>snt</i>
+In order to avoid rewarding repetitive generations, the count in the numerator is clip‐
+ped. What this means is that the occurrence count of an <i>n-gram</i> is capped at how
+many times it appears in the reference sentence. Also note that the definition of a sen‐
+tence is not very strict in this equation, and if you had a generated text spanning mul‐
+tiple sentences you would treat it as one sentence.
+In general we have more than one sample in the test set we want to evaluate, so we
+need to slightly extend the equation by summing over all samples in the corpus <i>C:</i>
+∑ ∑ <i>Count</i> <i>n‐gram</i>
+<i>snt</i> ∈ <i>C</i> <i>n‐gram</i> ∈ <i>snt</i> ′ <i>clip</i>
+<i>p</i> =
+<i>n</i> ∑ ∑ <i>Count</i> <i>n‐gram</i>
+<i>snt</i> ′ ∈ <i>C</i> <i>n‐gram</i> ∈ <i>snt</i>
+We’re almost there. Since we are not looking at recall, all generated sequences that are
+short but precise have a benefit compared to sentences that are longer. Therefore, the
+precision score favors short generations. To compensate for that the authors of BLEU
+introduced an additional term, the <i>brevity</i> <i>penalty:</i>
+1−ℓ /ℓ
+<i>ref</i> <i>gen</i>
+<i>BR</i> = min 1,e

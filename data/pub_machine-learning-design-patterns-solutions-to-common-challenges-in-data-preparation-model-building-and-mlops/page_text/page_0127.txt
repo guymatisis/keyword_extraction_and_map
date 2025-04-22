@@ -1,0 +1,33 @@
+class_weights
+In Keras, we can pass a parameter to our model when we train it with
+fit() . The parameter class_weights is a dict, mapping each class to the weight
+Keras should assign to examples from that class. But how should we determine the
+exact weights for each class? The class weight values should relate to the balance of
+each class in our dataset. For example, if the minority class accounts for only 0.1% of
+the dataset, a reasonable conclusion is that our model should treat examples from
+that class with 1000× more weight than the majority class. In practice, it’s common to
+divide this weight value by 2 for each class so that the average weight of an example is
+<i>1.0.</i> Therefore, given a dataset with 0.1% of values representing the minority class, we
+could calculate the class weights with the following code:
+num_minority_examples = 1
+num_majority_examples = 999
+total_examples = num_minority_examples + num_majority_examples
+minority_class_weight = 1/(num_minority_examples/total_examples)/2
+majority_class_weight = 1/(num_majority_examples/total_examples)/2
+<i>#</i> <i>Pass</i> <i>the</i> <i>weights</i> <i>to</i> <i>Keras</i> <i>in</i> <i>a</i> <i>dict</i>
+<i>#</i> <i>The</i> <i>key</i> <i>is</i> <i>the</i> <i>index</i> <i>of</i> <i>each</i> <i>class</i>
+keras_class_weights = {0: majority_class_weight, 1: minority_class_weight}
+We’d then pass these weights to our model during training:
+model.fit(
+train_data,
+train_labels,
+class_weight=keras_class_weights
+)
+In BigQuery ML, we can set AUTO_CLASS_WEIGHTS = True in the OPTIONS block when
+creating our model to have different classes weighted based on their frequency of
+occurrence in the training data.
+While it can be helpful to follow a heuristic of class balance for setting class weights,
+the business application of a model might also dictate the class weights we choose to
+assign. For example, let’s say we have a model classifying images of defective prod‐
+ucts. If the cost of shipping a defective product is 10 times that of incorrectly classify‐
+ing a normal product, we would choose 10 as the weight for our minority class.

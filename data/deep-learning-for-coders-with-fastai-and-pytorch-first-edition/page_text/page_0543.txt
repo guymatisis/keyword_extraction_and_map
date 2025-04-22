@@ -1,0 +1,36 @@
+8. What does ~ do? How is it useful for splitting training and validation sets?
+9. Does ~ work with the L or Tensor classes? How about NumPy arrays, Python
+lists, or Pandas DataFrames?
+10. What is ProcessPoolExecutor?
+11. How does L.range(self.ds) work?
+__iter__?
+12. What is
+13. What is first?
+14. What is permute ? Why is it needed?
+15. What is a recursive function? How does it help us define the parameters
+method?
+16. Write a recursive function that returns the first 20 items of the Fibonacci
+sequence.
+17. What is super ?
+18. Why do subclasses of Module need to override forward instead of defining
+__call__?
+19. In ConvLayer , why does init depend on act ?
+20. Why does Sequential need to call register_modules?
+21. Write a hook that prints the shape of every layer’s activations.
+22. What is LogSumExp?
+23. Why is log_softmax useful?
+GetAttr?
+24. What is How is it helpful for callbacks?
+25. Reimplement one of the callbacks in this chapter without inheriting from
+Callback GetAttr.
+or
+26. What does Learner.__call__ do?
+27. What is getattr? (Note the case difference from GetAttr!)
+28. Why is there a try block in fit ?
+29. Why do we check for model.training in one_batch?
+30. What is store_attr?
+31. What is the purpose of TrackResults.before_epoch?
+model.cuda
+32. What does do? How does it work?
+33. Why do we need to check model.training in LRFinder and OneCycle ?
+34. Use cosine annealing in OneCycle.

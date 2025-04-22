@@ -1,0 +1,22 @@
+Understanding this picture is one of the best ways to understand decision trees, so we
+will start at the top and explain each part step by step.
+The top node represents the <i>initial</i> <i>model</i> before any splits have been done, when all
+the data is in one group. This is the simplest possible model. It is the result of asking
+zero questions and will always predict the value to be the average value of the whole
+dataset. In this case, we can see it predicts a value of 10.1 for the logarithm of the sales
+price. It gives a mean squared error of 0.48. The square root of this is 0.69. (Remem‐
+m_rmse,
+ber that unless you see or a <i>root</i> <i>mean</i> <i>squared</i> <i>error,</i> the value you are looking
+at is before taking the square root, so it is just the average of the square of the differ‐
+ences.) We can also see that there are 404,710 auction records in this group—that is
+the total size of our training set. The final piece of information shown here is the
+decision criterion for the best split that was found, which is to split based on the
+coupler_system column.
+Moving down and to the left, this node shows us that there were 360,847 auction
+records for equipment where coupler_system was less than 0.5. The average value of
+our dependent variable in this group is 10.21. Moving down and to the right from the
+initial model takes us to the records where coupler_system was greater than 0.5.
+The bottom row contains our <i>leaf</i> <i>nodes:</i> the nodes with no answers coming out of
+them, because there are no more questions to be answered. At the far right of this row
+is the node containing records where coupler_system was greater than 0.5. The aver‐
+age value is 9.21, so we can see the decision tree algorithm did find a single binary

@@ -1,0 +1,27 @@
+In the mid-level API for data collection, we have two objects that can help us apply
+transforms on a set of items: TfmdLists and Datasets. If you remember what we
+have just seen, one applies a Pipeline of transforms and the other applies several
+Pipelines of transforms in parallel, to build tuples. Here, our main transform already
+builds the tuples, so we use TfmdLists:
+tls = TfmdLists(files, tfm, splits=splits)
+show_at(tls.valid, 0);
+And we can finally get our data in DataLoaders by calling the dataloaders method.
+item_tfms
+One thing to be careful of here is that this method does not take and
+batch_tfms like a DataBlock . The fastai DataLoader has several hooks that are
+named after events; here what we apply on the items after they are grabbed is called
+after_item, after_batch:
+and what we apply on the batch once it’s built is called
+dls = tls.dataloaders(after_item=[Resize(224), ToTensor],
+after_batch=[IntToFloatTensor, Normalize.from_stats(*imagenet_stats)])
+Note that we need to pass more transforms than usual—that’s because the data block
+API usually adds them automatically:
+ToTensor
+• is the one that converts images to tensors (again, it’s applied on every
+part of the tuple).
+IntToFloatTensor
+• converts the tensor of images containing integers from 0 to
+255 to a tensor of floats, and divides by 255 to make the values between 0 and 1.
+We can now train a model using this DataLoaders . It will need a bit more customiza‐
+tion than the usual model provided by cnn_learner since it has to take two images
+instead of one, but we will see how to create such a model and train it in Chapter 15.

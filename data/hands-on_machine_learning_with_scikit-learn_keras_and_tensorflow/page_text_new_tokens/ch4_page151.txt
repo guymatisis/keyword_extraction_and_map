@@ -1,0 +1,26 @@
+<b>>>></b> softmax_reg.predict([[5, 2]])
+array([2])
+<b>>>></b> softmax_reg.predict_proba([[5, 2]])
+array([[6.38014896e-07, 5.74929995e-02, 9.42506362e-01]])
+Figure 4-25 shows the resulting decision boundaries, represented by the background
+colors. Notice that the decision boundaries between any two classes are linear. The
+figure also shows the probabilities for the <i>Iris</i> <i>versicolor</i> class, represented by the
+curved lines (e.g., the line labeled with 0.450 represents the 45% probability bound‐
+ary). Notice that the model can predict a class that has an estimated probability below
+50%. For example, at the point where all decision boundaries meet, all classes have an
+equal estimated probability of 33%.
+<i>Figure</i> <i>4-25.</i> <i>Softmax</i> <i>Regression</i> <i>decision</i> <i>boundaries</i>
+<header><largefont><b>Exercises</b></largefont></header>
+1. Which Linear Regression training algorithm can you use if you have a training
+set with millions of features?
+2. Suppose the features in your training set have very different scales. Which algo‐
+rithms might suffer from this, and how? What can you do about it?
+3. Can Gradient Descent get stuck in a local minimum when training a Logistic
+Regression model?
+4. Do all Gradient Descent algorithms lead to the same model, provided you let
+them run long enough?
+5. Suppose you use Batch Gradient Descent and you plot the validation error at
+every epoch. If you notice that the validation error consistently goes up, what is
+likely going on? How can you fix this?
+6. Is it a good idea to stop Mini-batch Gradient Descent immediately when the vali‐
+dation error goes up?

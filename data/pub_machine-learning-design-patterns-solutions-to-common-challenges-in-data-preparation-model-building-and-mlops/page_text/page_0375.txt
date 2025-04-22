@@ -1,0 +1,15 @@
+model API that is capable of handling real-time data streams both for inference and
+to collect data that is fed into the automated ML pipeline to refresh the model for
+later training.
+<i>Figure</i> <i>8-5.</i> <i>Pipelines</i> <i>phase</i> <i>of</i> <i>AI</i> <i>development.</i> <i>Figure</i> <i>adapted</i> <i>from</i> <i>Google</i> <i>Cloud</i> <i>doc‐</i>
+<i>umentation.</i>
+<b>Transformationalphase:Fullyautomatedprocesses</b>
+Organizations in the transformational phase of AI Readiness are actively using AI to
+stimulate innovation, support agility, and cultivate a culture where experimentation
+and learning is ongoing. Strategic partnerships are used to innovate, co-create, and
+augment technical resources within the company. Many of the design patterns
+related to reproducibility and resilience in Chapters 5 and 6 arise in this phase of AI
+Readiness.
+In this phase, it is common to have product-specific AI teams embedded into the
+broader product teams and supported by the advanced analytics team. In this way,
+ML expertise is able to diffuse across various lines of business within the

@@ -1,0 +1,36 @@
+<i>GPT</i>
+Uses only the decoder part of the Transformer architecture, and the same lan‐
+guage modeling approach as ULMFiT. GPT was pretrained on the BookCorpus, 11
+which consists of 7,000 unpublished books from a variety of genres including
+Adventure, Fantasy, and Romance.
+<i>BERT</i>
+Uses the encoder part of the Transformer architecture, and a special form of lan‐
+guage modeling called <i>masked</i> <i>language</i> <i>modeling.</i> The objective of masked lan‐
+guage modeling is to predict randomly masked words in a text. For example,
+[MASK] [MASK]
+given a sentence like “I looked at my and saw that was late.” the
+model needs to predict the most likely candidates for the masked words that are
+[MASK].
+denoted by BERT was pretrained on the BookCorpus and English
+Wikipedia.
+GPT and BERT set a new state of the art across a variety of NLP benchmarks and
+ushered in the age of transformers.
+However, with different research labs releasing their models in incompatible frame‐
+works (PyTorch or TensorFlow), it wasn’t always easy for NLP practitioners to port
+these models to their own applications. With the release of Transformers, a unified
+API across more than 50 architectures was progressively built. This library catalyzed
+the explosion of research into transformers and quickly trickled down to NLP practi‐
+tioners, making it easy to integrate these models into many real-life applications
+today. Let’s have a look!
+<header><largefont><b>Hugging</b></largefont> <largefont><b>Face</b></largefont> <largefont><b>Transformers:</b></largefont> <largefont><b>Bridging</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Gap</b></largefont></header>
+Applying a novel machine learning architecture to a new task can be a complex
+undertaking, and usually involves the following steps:
+1. Implement the model architecture in code, typically based on PyTorch or
+TensorFlow.
+2. Load the pretrained weights (if available) from a server.
+3. Preprocess the inputs, pass them through the model, and apply some task-
+specific postprocessing.
+4. Implement dataloaders and define loss functions and optimizers to train the
+model.
+11 Y.Zhuetal.,“AligningBooksandMovies:TowardsStory-LikeVisualExplanationsbyWatchingMoviesand
+ReadingBooks”,(2015).

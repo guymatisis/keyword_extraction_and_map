@@ -1,0 +1,18 @@
+and stride-1 convolutions are useful for adding layers without changing the output
+size.
+<i>Figure</i> <i>13-6.</i> <i>A</i> <i>3×3</i> <i>kernel</i> <i>with</i> <i>5×5</i> <i>input,</i> <i>stride-2</i> <i>convolution,</i> <i>and</i> <i>1</i> <i>pixel</i> <i>of</i> <i>padding</i>
+<i>(courtesy</i> <i>of</i> <i>Vincent</i> <i>Dumoulin</i> <i>and</i> <i>Francesco</i> <i>Visin)</i>
+h w,
+In an image of size by using a padding of 1 and a stride of 2 will give us a result of
+size (h+1)//2 by (w+1)//2 . The general formula for each dimension is
+(n + 2*pad - ks) // stride + 1
+where pad is the padding, ks is the size of our kernel, and stride is the stride.
+Let’s now take a look at how the pixel values of the result of our convolutions are
+computed.
+<header><largefont><b>Understanding</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Convolution</b></largefont> <largefont><b>Equations</b></largefont></header>
+To explain the math behind convolutions, fast.ai student Matt Kleinsmith came up
+with the very clever idea of showing CNNs from different viewpoints. In fact, it’s so
+clever, and so helpful, we’re going to show it here too!
+Here’s our 3×3-pixel image, with each pixel labeled with a letter:
+And here’s our kernel, with each weight labeled with a Greek letter:
+Since the filter fits in the image four times, we have four results:

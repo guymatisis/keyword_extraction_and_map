@@ -1,0 +1,37 @@
+One great way to consider whether an ethical lens is complete is to try to come up
+with an example in which the lens and our own ethical intuitions give diverging
+results. Os Keyes et al. explored this in a graphic way in their paper “A Mulching Pro‐
+posal: Analysing and Improving an Algorithmic System for Turning the Elderly into
+High-Nutrient Slurry”. The paper’s abstract says:
+The ethical implications of algorithmic systems have been much discussed in both HCI
+and the broader community of those interested in technology design, development,
+and policy. In this paper, we explore the application of one prominent ethical frame‐
+work—Fairness, Accountability, and Transparency—to a proposed algorithm that
+resolves various societal issues around food security and population aging. Using vari‐
+ous standardised forms of algorithmic audit and evaluation, we drastically increase the
+algorithm’s adherence to the FAT framework, resulting in a more ethical and benefi‐
+cent system. We discuss how this might serve as a guide to other researchers or practi‐
+tioners looking to ensure better ethical outcomes from algorithmic systems in their
+line of work.
+In this paper, the rather controversial proposal (“Turning the Elderly into High-
+Nutrient Slurry”) and the results (“drastically increase the algorithm’s adherence to
+the FAT framework, resulting in a more ethical and beneficent system”) are at odds…
+to say the least!
+In philosophy, and especially philosophy of ethics, this is one of the most effective
+tools: first, come up with a process, definition, set of questions, etc., which is designed
+to resolve a problem. Then try to come up with an example in which that apparent
+solution results in a proposal that no one would consider acceptable. This can then
+lead to a further refinement of the solution.
+So far, we’ve focused on things that you and your organization can do. But sometimes
+individual or organizational action is not enough. Sometimes governments also need
+to consider policy implications.
+<header><largefont><b>Role</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Policy</b></largefont></header>
+We often talk to people who are eager for technical or design fixes to be a full solution
+to the kinds of problems that we’ve been discussing; for instance, a technical
+approach to debias data, or design guidelines for making technology less addictive.
+While such measures can be useful, they will not be sufficient to address the underly‐
+ing problems that have led to our current state. For example, as long as it is profitable
+to create addictive technology, companies will continue to do so, regardless of
+whether this has the side effect of promoting conspiracy theories and polluting our
+information ecosystem. While individual designers may try to tweak product designs,
+we will not see substantial changes until the underlying profit incentives change.

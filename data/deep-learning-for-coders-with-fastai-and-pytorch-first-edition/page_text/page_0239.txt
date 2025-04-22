@@ -1,0 +1,24 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>7</b></largefont></header>
+<header><largefont><b>Training</b></largefont> <largefont><b>a</b></largefont> <largefont><b>State-of-the-Art</b></largefont> <largefont><b>Model</b></largefont></header>
+This chapter introduces more advanced techniques for training an image classifica‐
+tion model and getting state-of-the-art results. You can skip it if you want to learn
+more about other applications of deep learning and come back to it later—knowledge
+of this material will not be assumed in later chapters.
+We will look at what normalization is, a powerful data augmentation technique called
+Mixup, the progressive resizing approach, and test time augmentation. To show all of
+this, we are going to train a model from scratch (not using transfer learning) by using
+a subset of ImageNet called Imagenette. It contains a subset of 10 very different cate‐
+gories from the original ImageNet dataset, making for quicker training when we want
+to experiment.
+This is going to be much harder to do well than with our previous datasets because
+we’re using full-size, full-color images, which are photos of objects of different sizes,
+in different orientations, in different lighting, and so forth. So, in this chapter we’re
+going to introduce important techniques for getting the most out of your dataset,
+especially when you’re training from scratch, or using transfer learning to train a
+model on a very different kind of dataset than the pretrained model used.
+<header><largefont><b>Imagenette</b></largefont></header>
+When fast.ai first started, people used three main datasets for building and testing
+computer vision models:
+<i>ImageNet</i>
+1.3 million images of various sizes, around 500 pixels across, in 1,000 categories,
+which took a few days to train

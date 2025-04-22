@@ -1,0 +1,37 @@
+• A <i>propagation</i> <i>rule</i> for propagating patterns of activities through the network of
+connectivities
+• An <i>activation</i> <i>rule</i> for combining the inputs impinging on a unit with the current
+state of that unit to produce an output for the unit
+• A <i>learning</i> <i>rule</i> whereby patterns of connectivity are modified by experience
+• An <i>environment</i> within which the system must operate
+We will see in this book that modern neural networks handle each of these
+requirements.
+In the 1980s, most models were built with a second layer of neurons, thus avoiding
+the problem that had been identified by Minsky and Papert (this was their “pattern of
+connectivity among units,” to use the preceding framework). And indeed, neural net‐
+works were widely used during the ’80s and ’90s for real, practical projects. However,
+again a misunderstanding of the theoretical issues held back the field. In theory,
+adding just one extra layer of neurons was enough to allow any mathematical func‐
+tion to be approximated with these neural networks, but in practice such networks
+were often too big and too slow to be useful.
+Although researchers showed 30 years ago that to get practical, good performance
+you need to use even more layers of neurons, it is only in the last decade that this
+principle has been more widely appreciated and applied. Neural networks are now
+finally living up to their potential, thanks to the use of more layers, coupled with the
+capacity to do so because of improvements in computer hardware, increases in data
+availability, and algorithmic tweaks that allow neural networks to be trained faster
+and more easily. We now have what Rosenblatt promised: “a machine capable of per‐
+ceiving, recognizing, and identifying its surroundings without any human training or
+control.”
+This is what you will learn how to build in this book. But first, since we are going to
+be spending a lot of time together, let’s get to know each other a bit…
+<header><largefont><b>Who</b></largefont> <largefont><b>We</b></largefont> <largefont><b>Are</b></largefont></header>
+We are Sylvain and Jeremy, your guides on this journey. We hope that you will find us
+well suited for this position.
+Jeremy has been using and teaching machine learning for around 30 years. He started
+using neural networks 25 years ago. During this time, he has led many companies and
+projects that have machine learning at their core, including founding the first com‐
+pany to focus on deep learning and medicine, Enlitic, and taking on the role of presi‐
+dent and chief scientist at the world’s largest machine learning community, Kaggle.
+He is the cofounder, along with Dr. Rachel Thomas, of fast.ai, the organization that
+built the course this book is based on.

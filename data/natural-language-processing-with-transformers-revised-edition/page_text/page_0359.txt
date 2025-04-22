@@ -1,0 +1,21 @@
+<header><largefont><b>Tables</b></largefont></header>
+A lot of data, such as customer data within a company, is stored in structured data‐
+bases instead of as raw text. We saw in Chapter 7 that with question answering mod‐
+els we can query text with a question in natural text. Wouldn’t it be nice if we could
+do the same with tables, as shown in Figure 11-10?
+<i>Figure</i> <i>11-10.</i> <i>Question</i> <i>answering</i> <i>over</i> <i>a</i> <i>table</i> <i>(courtesy</i> <i>of</i> <i>Jonathan</i> <i>Herzig)</i>
+TAPAS (short for Table Parser)13 to the rescue! This model applies the Transformer
+architecture to tables by combining the tabular information with the query, as illus‐
+trated in Figure 11-11.
+<i>Figure</i> <i>11-11.</i> <i>Architecture</i> <i>of</i> <i>TAPAS</i> <i>(courtesy</i> <i>of</i> <i>Jonathan</i> <i>Herzig)</i>
+Let’s look at an example of how TAPAS works in practice. We have created a fictitious
+version of this book’s table of contents. It contains the chapter number, the name of
+the chapter, as well as the starting and ending pages of the chapters:
+book_data = [
+{"chapter": 0, "name": "Introduction", "start_page": 1, "end_page": 11},
+{"chapter": 1, "name": "Text classification", "start_page": 12,
+"end_page": 48},
+{"chapter": 2, "name": "Named Entity Recognition", "start_page": 49,
+"end_page": 73},
+{"chapter": 3, "name": "Question Answering", "start_page": 74,
+13 J.Herzigetal.,“TAPAS:WeaklySupervisedTableParsingviaPre-Training”,(2020).

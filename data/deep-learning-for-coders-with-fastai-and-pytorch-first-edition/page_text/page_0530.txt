@@ -1,0 +1,38 @@
+Here’s a mini-batch with two items, for testing our collate :
+x,y = collate([1,2], train_ds)
+x.shape,y
+(torch.Size([2, 64, 64, 3]), tensor([0, 0]))
+Now that we have a dataset and a collation function, we’re ready to create
+DataLoader. We’ll add two more things here: an optional shuffle for the training set,
+and a ProcessPoolExecutor to do our preprocessing in parallel. A parallel data
+loader is very important, because opening and decoding a JPEG image is a slow pro‐
+cess. One CPU core is not enough to decode images fast enough to keep a modern
+GPU busy. Here’s our DataLoader class:
+<b>class</b> <b>DataLoader:</b>
+<b>def</b> <b>__init__(self,</b> ds, bs=128, shuffle=False, n_workers=1):
+self.ds,self.bs,self.shuffle,self.n_workers = ds,bs,shuffle,n_workers
+<b>def</b> <b>__len__(self):</b> <b>return</b> (len(self.ds)-1)//self.bs+1
+<b>def</b> <b>__iter__(self):</b>
+idxs = L.range(self.ds)
+<b>if</b> self.shuffle: idxs = idxs.shuffle()
+chunks = [idxs[n:n+self.bs] <b>for</b> n <b>in</b> range(0, len(self.ds), self.bs)]
+<b>with</b> ProcessPoolExecutor(self.n_workers) <b>as</b> ex:
+<b>yield</b> <b>from</b> ex.map(collate, chunks, ds=self.ds)
+Let’s try it out with our training and validation datasets:
+n_workers = min(16, defaults.cpus)
+train_dl = DataLoader(train_ds, bs=128, shuffle=True, n_workers=n_workers)
+valid_dl = DataLoader(valid_ds, bs=256, shuffle=False, n_workers=n_workers)
+xb,yb = first(train_dl)
+xb.shape,yb.shape,len(train_dl)
+(torch.Size([128, 64, 64, 3]), torch.Size([128]), 74)
+This data loader is not much slower than PyTorch’s, but it’s far simpler. So if you’re
+debugging a complex data loading process, don’t be afraid to try doing things man‐
+ually to help you see exactly what’s going on.
+For normalization, we’ll need image statistics. Generally, it’s fine to calculate these on
+a single training mini-batch, since precision isn’t needed here:
+stats = [xb.mean((0,1,2)),xb.std((0,1,2))]
+stats
+[tensor([0.4544, 0.4453, 0.4141]), tensor([0.2812, 0.2766, 0.2981])]
+Our Normalize class just needs to store these stats and apply them (to see why the
+to_device is needed, try commenting it out, and see what happens later in this note‐
+book):

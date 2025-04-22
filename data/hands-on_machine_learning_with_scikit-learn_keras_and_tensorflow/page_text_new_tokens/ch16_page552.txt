@@ -1,0 +1,41 @@
+<i>Equation</i> <i>16-1.</i> <i>Attention</i> <i>mechanisms</i>
+= <largefont>∑</largefont> <i>α</i>
+<i>t</i> <i>t,i</i> <i>i</i>
+<i>i</i>
+exp <i>e</i>
+<i>t,i</i>
+with <i>α</i> =
+<i>t,i</i>
+∑ exp <i>e</i>
+<i>i</i> ′ <i>t,i</i> ′
+⊺
+<i>dot</i>
+<i>t</i> <i>i</i>
+⊺
+and <i>e</i> =   <i>general</i>
+<i>t,i</i> <i>t</i> <i>i</i>
+⊺
+tanh   ;  <i>concat</i>
+<i>t</i> <i>i</i>
+Here is how you can add Luong attention to an Encoder–Decoder model using Ten‐
+sorFlow Addons:
+attention_mechanism = tfa.seq2seq.attention_wrapper.LuongAttention(
+units, encoder_state, memory_sequence_length=encoder_sequence_length)
+attention_decoder_cell = tfa.seq2seq.attention_wrapper.AttentionWrapper(
+decoder_cell, attention_mechanism, attention_layer_size=n_units)
+AttentionWrapper
+We simply wrap the decoder cell in an , and we provide the desired
+attention mechanism (Luong attention in this example).
+<header><largefont><b>Visual</b></largefont> <largefont><b>Attention</b></largefont></header>
+Attention mechanisms are now used for a variety of purposes. One of their first appli‐
+cations beyond NMT was in generating image captions using visual attention:17 a
+convolutional neural network first processes the image and outputs some feature
+maps, then a decoder RNN equipped with an attention mechanism generates the cap‐
+tion, one word at a time. At each decoder time step (each word), the decoder uses the
+attention model to focus on just the right part of the image. For example, in
+Figure 16-7, the model generated the caption “A woman is throwing a frisbee in a
+park,” and you can see what part of the input image the decoder focused its attention
+on when it was about to output the word “frisbee”: clearly, most of its attention was
+focused on the frisbee.
+17 KelvinXuetal.,“Show,AttendandTell:NeuralImageCaptionGenerationwithVisualAttention,”Proceedings
+<i>ofthe32ndInternationalConferenceonMachineLearning(2015):2048–2057.</i>

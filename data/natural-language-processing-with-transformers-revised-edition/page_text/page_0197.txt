@@ -1,0 +1,39 @@
+Let’s see how these metrics work by importing some helper functions from FARM
+and applying them to a simple example:
+<b>from</b> <b>farm.evaluation.squad_evaluation</b> <b>import</b> compute_f1, compute_exact
+pred = "about 6000 hours"
+label = "6000 hours"
+<b>print(f"EM:</b> {compute_exact(label, pred)}")
+<b>print(f"F1:</b> {compute_f1(label, pred)}")
+EM: 0
+F1: 0.8
+Under the hood, these functions first normalize the prediction and label by removing
+punctuation, fixing whitespace, and converting to lowercase. The normalized strings
+are then tokenized as a bag-of-words, before finally computing the metric at the
+token level. From this simple example we can see that EM is a much stricter metric
+than the <i>F</i> -score: adding a single token to the prediction gives an EM of zero. On the
+1
+other hand, the <i>F</i> -score can fail to catch truly incorrect answers. For example, if our
+1
+predicted answer span is “about 6000 dollars”, then we get:
+pred = "about 6000 dollars"
+<b>print(f"EM:</b> {compute_exact(label, pred)}")
+<b>print(f"F1:</b> {compute_f1(label, pred)}")
+EM: 0
+F1: 0.4
+Relying on just the <i>F</i> -score is thus misleading, and tracking both metrics is a good
+1
+strategy to balance the trade-off between underestimating (EM) and overestimating
+(F -score) model performance.
+1
+Now in general, there are multiple valid answers per question, so these metrics are
+calculated for each question-answer pair in the evaluation set, and the best score is
+selected over all possible answers. The overall EM and <i>F</i> scores for the model are
+1
+then obtained by averaging over the individual scores of each question-answer pair.
+To evaluate the reader we’ll create a new pipeline with two nodes: a reader node and a
+node to evaluate the reader. We’ll use the EvalReader class that takes the predictions
+from the reader and computes the corresponding EM and <i>F</i> scores. To compare with
+1
+the SQuAD evaluation, we’ll take the best answers for each query with the top_1_em
+and top_1_f1 metrics that are stored in EvalAnswers :

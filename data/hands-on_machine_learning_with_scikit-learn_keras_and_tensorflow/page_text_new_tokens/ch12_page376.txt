@@ -1,0 +1,34 @@
+<header><largefont><b>A</b></largefont> <largefont><b>Quick</b></largefont> <largefont><b>Tour</b></largefont> <largefont><b>of</b></largefont> <largefont><b>TensorFlow</b></largefont></header>
+As you know, TensorFlow is a powerful library for numerical computation, particu‐
+larly well suited and fine-tuned for large-scale Machine Learning (but you could use
+it for anything else that requires heavy computations). It was developed by the Google
+Brain team and it powers many of Google’s large-scale services, such as Google Cloud
+Speech, Google Photos, and Google Search. It was open sourced in November 2015,
+and it is now the most popular Deep Learning library (in terms of citations in papers,
+adoption in companies, stars on GitHub, etc.). Countless projects use TensorFlow for
+all sorts of Machine Learning tasks, such as image classification, natural language
+processing, recommender systems, and time series forecasting.
+So what does TensorFlow offer? Here’s a summary:
+• Its core is very similar to NumPy, but with GPU support.
+• It supports distributed computing (across multiple devices and servers).
+• It includes a kind of just-in-time (JIT) compiler that allows it to optimize compu‐
+tations for speed and memory usage. It works by extracting the <i>computation</i>
+<i>graph</i> from a Python function, then optimizing it (e.g., by pruning unused
+nodes), and finally running it efficiently (e.g., by automatically running inde‐
+pendent operations in parallel).
+• Computation graphs can be exported to a portable format, so you can train a
+TensorFlow model in one environment (e.g., using Python on Linux) and run it
+in another (e.g., using Java on an Android device).
+• It implements autodiff (see Chapter 10 and Appendix D) and provides some
+excellent optimizers, such as RMSProp and Nadam (see Chapter 11), so you can
+easily minimize all sorts of loss functions.
+TensorFlow offers many more features built on top of these core features: the most
+important is of course tf.keras ,1 but it also has data loading and preprocessing ops
+tf.data tf.io tf.image
+( , , etc.), image processing ops ( ), signal processing ops
+(tf.signal),
+and more (see Figure 12-1 for an overview of TensorFlow’s Python
+API).
+1 TensorFlowincludesanotherDeepLearningAPIcalledtheEstimatorsAPI,buttheTensorFlowteamrecom‐
+tf.keras
+mendsusing instead.

@@ -1,0 +1,38 @@
+Then, gradually increase the scope of your rollout. As you do so, ensure that you have
+really good reporting systems in place, to make sure that you are aware of any signifi‐
+cant changes to the actions being taken compared to your manual process. For
+instance, if the number of bear alerts doubles or halves after rollout of the new system
+in some location, you should be very concerned. Try to think about all the ways in
+which your system could go wrong, and then think about what measure or report or
+picture could reflect that problem, and ensure that your regular reporting includes
+that information.
+<b>JeremySays</b>
+I started a company 20 years ago called Optimal Decisions that
+used machine learning and optimization to help giant insurance
+companies set their pricing, impacting tens of billions of dollars of
+risks. We used the approaches described here to manage the poten‐
+tial downsides of something going wrong. Also, before we worked
+with our clients to put anything in production, we tried to simulate
+the impact by testing the end-to-end system on their previous
+year’s data. It was always quite a nerve-wracking process putting
+these new algorithms into production, but every rollout was
+successful.
+<header><largefont><b>Unforeseen</b></largefont> <largefont><b>Consequences</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Feedback</b></largefont> <largefont><b>Loops</b></largefont></header>
+One of the biggest challenges in rolling out a model is that your model may change
+the behavior of the system it is a part of. For instance, consider a “predictive policing”
+algorithm that predicts more crime in certain neighborhoods, causing more police
+officers to be sent to those neighborhoods, which can result in more crimes being
+recorded in those neighborhoods, and so on. In the Royal Statistical Society paper
+“To Predict and Serve?” Kristian Lum and William Isaac observe that “predictive
+policing is aptly named: it is predicting future policing, not future crime.”
+Part of the issue in this case is that in the presence of bias (which we’ll discuss in
+depth in the next chapter), <i>feedback</i> <i>loops</i> can result in negative implications of that
+bias getting worse and worse. For instance, there are concerns that this is already hap‐
+pening in the US, where there is significant bias in arrest rates on racial grounds.
+According to the ACLU, “despite roughly equal usage rates, Blacks are 3.73 times
+more likely than whites to be arrested for marijuana.” The impact of this bias, along
+with the rollout of predictive policing algorithms in many parts of the United States,
+led Bärí Williams to write in the <i>New</i> <i>York</i> <i>Times:</i> “The same technology that’s the
+source of so much excitement in my career is being used in law enforcement in ways
+that could mean that in the coming years, my son, who is 7 now, is more likely to be
+profiled or arrested—or worse—for no reason other than his race and where we live.”

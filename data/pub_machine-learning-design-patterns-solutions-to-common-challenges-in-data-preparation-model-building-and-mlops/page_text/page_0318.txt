@@ -1,0 +1,18 @@
+dation, and test datasets to ensure that an example used in training is never used for
+evaluation or testing even as the dataset grows.
+The <i>Bridged</i> <i>Schema</i> design pattern looks at how to ensure reproducibility when a
+training dataset is a hybrid of newer data and older data with a different schema. This
+allows for combining two datasets with different schemas in a consistent way for
+training. Next, we discussed the <i>Windowed</i> <i>Inference</i> design pattern, which ensures
+that when features are calculated in a dynamic, time-dependent way, they can be cor‐
+rectly repeated between training and serving. This design pattern is particularly use‐
+ful when machine learning models require features that are computed from
+aggregates over time windows.
+The <i>Workflow</i> <i>Pipeline</i> design pattern addresses the problem of creating an end-to-
+end reproducible pipeline by containerizing and orchestrating the steps in our
+machine learning workflow. Next, we saw how the <i>Feature</i> <i>Store</i> design pattern can
+be used to address reproducibility and reusability of features across different machine
+learning jobs. Lastly, we looked at the <i>Model</i> <i>Versioning</i> design pattern, where back‐
+ward compatibility is achieved by deploying a changed model as a microservice with
+a different REST endpoint.
+In the next chapter, we look into design patterns that help carry out AI responsibly.

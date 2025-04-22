@@ -1,0 +1,41 @@
+in a batched fashion as implemented in the preceding code. We’ll just recycle the end-
+of-string token for this purpose:
+tokenizer.pad_token = tokenizer.eos_token
+embs_train = ds["train"].map(embed_text, batched=True, batch_size=16)
+embs_valid = ds["valid"].map(embed_text, batched=True, batch_size=16)
+embs_test = ds["test"].map(embed_text, batched=True, batch_size=16)
+Now that we have all the embeddings, we need to set up a system to search them. We
+could write a function that calculates, say, the cosine similarity between a new text
+embedding that we’ll query and the existing embeddings in the training set. Alterna‐
+tively, we can use a built-in structure of Datasets called a <i>FAISS</i> <i>index.5</i> We already
+encountered FAISS in Chapter 7. You can think of this as a search engine for embed‐
+dings, and we’ll have a closer look at how it works in a minute. We can use an existing
+field of the dataset to create a FAISS index with add_faiss_index() , or we can load
+add_faiss_index_from_external_arrays()
+new embeddings into the dataset with .
+Let’s use the former function to add our training embeddings to the dataset as
+follows:
+embs_train.add_faiss_index("embedding")
+embedding
+This created a new FAISS index called . We can now perform a nearest
+neighbor lookup by calling the function get_nearest_examples() . It returns the
+closest neighbors as well as the matching score for each neighbor. We need to specify
+the query embedding as well as the number of nearest neighbors to retrieve. Let’s give
+it a spin and have a look at the documents that are closest to an example:
+i, k = 0, 3 <i>#</i> <i>Select</i> <i>the</i> <i>first</i> <i>query</i> <i>and</i> <i>3</i> <i>nearest</i> <i>neighbors</i>
+rn, nl = "\r\n\r\n", "\n" <i>#</i> <i>Used</i> <i>to</i> <i>remove</i> <i>newlines</i> <i>in</i> <i>text</i> <i>for</i> <i>compact</i> <i>display</i>
+query = np.array(embs_valid[i]["embedding"], dtype=np.float32)
+scores, samples = embs_train.get_nearest_examples("embedding", query, k=k)
+<b>print(f"QUERY</b> LABELS: {embs_valid[i]['labels']}")
+<b>print(f"QUERY</b> TEXT:\n{embs_valid[i]['text'][:200].replace(rn, nl)} [...]\n")
+<b>print("="*50)</b>
+<b>print(f"Retrieved</b> documents:")
+<b>for</b> score, label, text <b>in</b> zip(scores, samples["labels"], samples["text"]):
+<b>print("="*50)</b>
+<b>print(f"TEXT:\n{text[:200].replace(rn,</b> nl)} [...]")
+<b>print(f"SCORE:</b> {score:.2f}")
+<b>print(f"LABELS:</b> {label}")
+QUERY LABELS: ['new model']
+QUERY TEXT:
+Implementing efficient self attention in T5
+5 J.Johnson,M.Douze,andH.Jégou,“Billion-ScaleSimilaritySearchwithGPUs”,(2017).

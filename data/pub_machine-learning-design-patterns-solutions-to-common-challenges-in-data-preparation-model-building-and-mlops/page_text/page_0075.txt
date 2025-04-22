@@ -1,0 +1,36 @@
+<b>Usingimageswithmetadata.</b>
+Earlier we discussed different types of metadata that
+might be associated with text, and how to extract and represent this metadata as tab‐
+ular features for our model. We can also apply this concept to images. To do this, let’s
+return to the example referenced in Figure 2-19 of a model using footage of an inter‐
+section to predict whether or not it contains a traffic violation. Our model can extract
+many patterns from the traffic images on their own, but there may be other data
+available that could improve our model’s accuracy. For example, maybe certain
+behavior (e.g., a right turn on red) is not permitted during rush hour but is OK at
+other times of day. Or maybe drivers are more likely to violate traffic laws in bad
+weather. If we’re collecting image data from multiple intersections, knowing the loca‐
+tion of our image might also be useful to our model.
+We’ve now identified three additional tabular features that could enhance our image
+model:
+• Time of day
+• Weather
+• Location
+Next, let’s think about possible representations for each of these features. We could
+represent time as an integer indicating the <i>hour</i> of the day. This might help us iden‐
+tify patterns associated with high-traffic times like rush hour. In the context of this
+model, it may be more useful to know whether or not it was dark when the image was
+taken. In this case, we could represent time as a boolean feature.
+Weather can also be represented in various ways, as both numeric and categorical
+values. We could include temperature as a feature, but in this case, visibility might be
+more useful. Another option for representing weather is through a categorical vari‐
+able indicating the presence of rain or snow.
+If we’re collecting data from many locations, we’d likely want to encode this as a fea‐
+ture as well. This would make most sense as a categorical feature, and could even be
+multiple features (city, country, state, etc.) depending on how many locations we’re
+collecting footage from.
+For this example, let’s say we’d like to use the following tabular features:
+• Time as hour of the day (integer)
+• Visibility (float)
+• Inclement weather (categorical: rain, snow, none)
+• Location ID (categorical with five possible locations)
+Here’s what a subset of this dataset might look like for the three examples:

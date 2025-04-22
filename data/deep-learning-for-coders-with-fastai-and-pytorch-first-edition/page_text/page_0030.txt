@@ -1,0 +1,38 @@
+<b>Overfitting</b> <b>is</b> <b>the</b> <b>single</b> <b>most</b> <b>important</b> <b>and</b> <b>challenging</b> <b>issue</b> when training for all
+machine learning practitioners, and all algorithms. As you will see, it is easy to create
+a model that does a great job at making predictions on the exact data it has been
+trained on, but it is much harder to make accurate predictions on data the model has
+never seen before. And of course, this is the data that will matter in practice. For
+instance, if you create a handwritten digit classifier (as we will soon!) and use it to
+recognize numbers written on checks, then you are never going to see any of the
+numbers that the model was trained on—every check will have slightly different var‐
+iations of writing to deal with.
+You will learn many methods to avoid overfitting in this book. However, you should
+use those methods only after you have confirmed that overfitting is occurring (i.e.,
+if you have observed the validation accuracy getting worse during training). We often
+see practitioners using overfitting avoidance techniques even when they have enough
+data that they didn’t need to do so, ending up with a model that may be less accurate
+than what they could have achieved.
+<b>ValidationSet</b>
+When you train a model, you must <i>always</i> have both a training set
+and a validation set, and you must measure the accuracy of your
+model only on the validation set. If you train for too long, with not
+enough data, you will see the accuracy of your model start to get
+worse; this is called <i>overfitting.</i> fastai defaults valid_pct to 0.2 , so
+even if you forget, fastai will create a validation set for you!
+The fifth line of the code training our image recognizer tells fastai to create a <i>convolu‐</i>
+<i>tional</i> <i>neural</i> <i>network</i> (CNN) and specifies what <i>architecture</i> to use (i.e., what kind of
+model to create), what data we want to train it on, and what <i>metric</i> to use:
+learn = cnn_learner(dls, resnet34, metrics=error_rate)
+Why a CNN? It’s the current state-of-the-art approach to creating computer vision
+models. We’ll be learning all about how CNNs work in this book. Their structure is
+inspired by how the human vision system works.
+There are many architectures in fastai, which we will introduce in this book (as well
+as discussing how to create your own). Most of the time, however, picking an archi‐
+tecture isn’t a very important part of the deep learning process. It’s something that
+academics love to talk about, but in practice it is unlikely to be something you need to
+spend much time on. There are some standard architectures that work most of the
+time, and in this case we’re using one called <i>ResNet</i> that we’ll be talking a lot about in
+the book; it is both fast and accurate for many datasets and problems. The 34 in
+resnet34 refers to the number of layers in this variant of the architecture (other
+options are 18, 50, 101, and 152). Models using architectures with more layers take

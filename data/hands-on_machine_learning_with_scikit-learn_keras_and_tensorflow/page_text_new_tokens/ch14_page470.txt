@@ -1,0 +1,33 @@
+• Next, the global average pooling layer outputs the mean of each feature map: this
+drops any remaining spatial information, which is fine because there was not
+much spatial information left at that point. Indeed, GoogLeNet input images are
+typically expected to be 224 × 224 pixels, so after 5 max pooling layers, each
+dividing the height and width by 2, the feature maps are down to 7 × 7. More‐
+over, it is a classification task, not localization, so it does not matter where the
+object is. Thanks to the dimensionality reduction brought by this layer, there is
+no need to have several fully connected layers at the top of the CNN (like in
+AlexNet), and this considerably reduces the number of parameters in the net‐
+work and limits the risk of overfitting.
+• The last layers are self-explanatory: dropout for regularization, then a fully con‐
+nected layer with 1,000 units (since there are 1,000 classes) and a softmax activa‐
+tion function to output estimated class probabilities.
+This diagram is slightly simplified: the original GoogLeNet architecture also included
+two auxiliary classifiers plugged on top of the third and sixth inception modules.
+They were both composed of one average pooling layer, one convolutional layer, two
+fully connected layers, and a softmax activation layer. During training, their loss
+(scaled down by 70%) was added to the overall loss. The goal was to fight the vanish‐
+ing gradients problem and regularize the network. However, it was later shown that
+their effect was relatively minor.
+Several variants of the GoogLeNet architecture were later proposed by Google
+researchers, including Inception-v3 and Inception-v4, using slightly different incep‐
+tion modules and reaching even better performance.
+<header><largefont><b>VGGNet</b></largefont></header>
+The runner-up in the ILSVRC 2014 challenge was VGGNet,15 developed by Karen
+Simonyan and Andrew Zisserman from the Visual Geometry Group (VGG) research
+lab at Oxford University. It had a very simple and classical architecture, with 2 or 3
+convolutional layers and a pooling layer, then again 2 or 3 convolutional layers and a
+pooling layer, and so on (reaching a total of just 16 or 19 convolutional layers,
+depending on the VGG variant), plus a final dense network with 2 hidden layers and
+the output layer. It used only 3 × 3 filters, but many filters.
+15 KarenSimonyanandAndrewZisserman,“VeryDeepConvolutionalNetworksforLarge-ScaleImageRecog‐
+nition,”arXivpreprintarXiv:1409.1556(2014).

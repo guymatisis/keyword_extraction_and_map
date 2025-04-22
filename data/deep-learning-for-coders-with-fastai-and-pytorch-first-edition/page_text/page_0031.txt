@@ -1,0 +1,40 @@
+longer to train and are more prone to overfitting (i.e., you can’t train them for as
+many epochs before the accuracy on the validation set starts getting worse). On the
+other hand, when using more data, they can be quite a bit more accurate.
+What is a metric? A <i>metric</i> is a function that measures the quality of the model’s pre‐
+dictions using the validation set, and will be printed at the end of each epoch. In this
+case, we’re using error_rate, which is a function provided by fastai that does just
+what it says: tells you what percentage of images in the validation set are being classi‐
+fied incorrectly. Another common metric for classification is accuracy (which is just
+1.0 - error_rate ). fastai provides many more, which will be discussed throughout
+this book.
+The concept of a metric may remind you of <i>loss,</i> but there is an important distinction.
+The entire purpose of loss is to define a “measure of performance” that the training
+system can use to update weights automatically. In other words, a good choice for loss
+is a choice that is easy for stochastic gradient descent to use. But a metric is defined
+for human consumption, so a good metric is one that is easy for you to understand,
+and that hews as closely as possible to what you want the model to do. At times, you
+might decide that the loss function is a suitable metric, but that is not necessarily the
+case.
+cnn_learner also has a parameter pretrained, which defaults to True (so it’s used in
+this case, even though we haven’t specified it), which sets the weights in your model
+to values that have already been trained by experts to recognize a thousand different
+categories across 1.3 million photos (using the famous <i>ImageNet</i> dataset). A model
+that has weights that have already been trained on another dataset is called a <i>pre‐</i>
+<i>trained</i> <i>model.</i> You should nearly always use a pretrained model, because it means
+that your model, before you’ve even shown it any of your data, is already very capa‐
+ble. And as you’ll see, in a deep learning model, many of these capabilities are things
+you’ll need, almost regardless of the details of your project. For instance, parts of pre‐
+trained models will handle edge, gradient, and color detection, which are needed for
+many tasks.
+When using a pretrained model, cnn_learner will remove the last layer, since that is
+always specifically customized to the original training task (i.e., ImageNet dataset
+classification), and replace it with one or more new layers with randomized weights,
+of an appropriate size for the dataset you are working with. This last part of the
+model is known as the <i>head.</i>
+Using pretrained models is the <i>most</i> important method we have to allow us to train
+more accurate models, more quickly, with less data and less time and money. You
+might think that would mean that using pretrained models would be the most studied
+area in academic deep learning…but you’d be very, very wrong! The importance of
+pretrained models is generally not recognized or discussed in most courses, books, or
+software library features, and is rarely considered in academic papers. As we write

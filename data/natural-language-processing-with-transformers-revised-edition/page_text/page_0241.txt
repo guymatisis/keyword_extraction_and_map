@@ -1,0 +1,44 @@
+<b>from</b> <b>scipy.special</b> <b>import</b> softmax
+<b>class</b> <b>OnnxPipeline:</b>
+<b>def</b> __init__(self, model, tokenizer):
+self.model = model
+self.tokenizer = tokenizer
+<b>def</b> __call__(self, query):
+model_inputs = self.tokenizer(query, return_tensors="pt")
+inputs_onnx = {k: v.cpu().detach().numpy()
+<b>for</b> k, v <b>in</b> model_inputs.items()}
+logits = self.model.run(None, inputs_onnx)[0][0, :]
+probs = softmax(logits)
+pred_idx = np.argmax(probs).item()
+<b>return</b> [{"label": intents.int2str(pred_idx), "score": probs[pred_idx]}]
+car_rental
+We can then test this on our simple query to see if we recover the intent:
+pipe = OnnxPipeline(onnx_model, tokenizer)
+pipe(query)
+[{'label': 'car_rental', 'score': 0.7848334}]
+Great, our pipeline works as expected. The next step is to create a performance
+benchmark for ONNX models. Here we can build on the work we did with the
+PerformanceBenchmark compute_size()
+class by simply overriding the method and
+leaving the compute_accuracy() and time_pipeline() methods intact. The reason
+compute_size()
+we need to override the method is that we cannot rely on the
+state_dict and torch.save() to measure a model’s size, since onnx_model is techni‐
+cally an ONNX InferenceSession object that doesn’t have access to the attributes of
+nn.Module
+PyTorch’s . In any case, the resulting logic is simple and can be imple‐
+mented as follows:
+<b>class</b> <b>OnnxPerformanceBenchmark(PerformanceBenchmark):</b>
+<b>def</b> __init__(self, *args, model_path, **kwargs):
+super().__init__(*args, **kwargs)
+self.model_path = model_path
+<b>def</b> compute_size(self):
+size_mb = Path(self.model_path).stat().st_size / (1024 * 1024)
+<b>print(f"Model</b> size (MB) - {size_mb:.2f}")
+<b>return</b> {"size_mb": size_mb}
+With our new benchmark, let’s see how our distilled model performs when converted
+to ONNX format:
+optim_type = "Distillation + ORT"
+pb = OnnxPerformanceBenchmark(pipe, clinc["test"], optim_type,
+model_path="onnx/model.onnx")
+perf_metrics.update(pb.run_benchmark())

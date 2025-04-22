@@ -1,0 +1,31 @@
+The benefit of one versus rest is that we can use it with model architectures that can
+only do binary classification, like SVMs. It may also help with rare categories since
+the model will be performing only one classification task at a time on each input, and
+it is possible to apply the Rebalancing design pattern. The disadvantage of this
+approach is the added complexity of training many different classifiers, requiring us
+to build our application in a way that generates predictions from each of these mod‐
+els rather than having just one.
+To summarize, use the Multilabel design pattern when your data falls into any of the
+following classification scenarios:
+• A single training example can be associated with mutually exclusive labels.
+• A single training example can have many hierarchical labels.
+• Labelers describe the same item in different ways, and each interpretation is
+accurate.
+When implementing a multilabel model, ensure combinations of overlapping labels
+are well represented in your dataset, and consider the threshold values you’re willing
+to accept for each possible label in your model. Using a sigmoid output layer is the
+most common approach for building models that can handle multilabel classifica‐
+tion. Additionally, sigmoid output can also be applied to binary classification tasks
+where a training example can have only one out of two possible labels.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>7:</b></largefont> <largefont><b>Ensembles</b></largefont></header>
+The Ensembles design pattern refers to techniques in machine learning that combine
+multiple machine learning models and aggregate their results to make predictions.
+Ensembles can be an effective means to improve performance and produce predic‐
+tions that are better than any single model.
+<header><largefont><b>Problem</b></largefont></header>
+Suppose we’ve trained our baby weight prediction model, engineering special fea‐
+tures and adding additional layers to our neural network so that the error on our
+training set is nearly zero. Excellent, you say! However, when we look to use our
+model in production at the hospital or evaluate performance on the hold out test set,
+our predictions are all wrong. What happened? And, more importantly, how can we
+fix it?

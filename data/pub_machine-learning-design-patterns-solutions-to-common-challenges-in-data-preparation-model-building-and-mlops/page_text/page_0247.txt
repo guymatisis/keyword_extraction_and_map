@@ -1,0 +1,38 @@
+model.save(EXPORT_PATH,
+signatures={'serving_default': nokey_prediction,
+'keyed_prediction': keyed_prediction
+})
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+Why can’t the server just assign keys to the inputs it receives? For online prediction,
+it is possible for servers to assign unique request IDs that lack any semantic informa‐
+tion. For batch prediction, the problem is that the inputs need to be associated with
+the outputs, so the server assigning a unique ID is not enough since it can’t be joined
+back to the inputs. What the server has to do is to assign keys to the inputs it receives
+before it invokes the model, use the keys to order the outputs, and then remove the
+keys before sending along the outputs. The problem is that ordering is computation‐
+ally very expensive in distributed data processing.
+In addition, there are a couple of other situations where client-supplied keys are use‐
+ful—asynchronous serving and evaluation. Given these two situations, it is preferable
+that what constitutes a key becomes use case specific and needs to be identifiable.
+Therefore, asking clients to supply a key makes the solution simpler.
+<b>Asynchronousserving</b>
+Many production machine learning models these days are neural networks, and neu‐
+ral networks involve matrix multiplications. Matrix multiplication on hardware like
+GPUs and TPUs is more efficient if you can ensure that the matrices are within cer‐
+tain size ranges and/or multiples of a certain number. It can, therefore, be helpful to
+accumulate requests (up to a maximum latency of course) and handle the incoming
+requests in chunks. Since the chunks will consist of interleaved requests from multi‐
+ple clients, the key, in this case, needs to have some sort of client identifier as well.
+<b>Continuousevaluation</b>
+If you are doing continuous evaluation, it can be helpful to log metadata about the
+prediction requests so that you can monitor whether performance drops across the
+board, or only in specific situations. Such slicing is made much easier if the key iden‐
+tifies the situation in question. For example, suppose that we need to apply a Fairness
+Lens (see Chapter 7) to ensure that our model’s performance is fair across different
+customer segments (age of customer and/or race of customer, for example). The
+model will not use the customer segment as an input, but we need to evaluate the
+performance of the model sliced by the customer segment. In such cases, having the
+customer segment(s) be embedded in the key (an example key might be 35-Black-
+Male-34324323) makes slicing easier.
+An alternate solution is to have the model ignore unrecognized inputs and send back
+not just the prediction outputs but also all inputs, including the unrecognized ones.

@@ -1,0 +1,22 @@
+Instead of being better, it ends up being worse (at least at the end of training). Why is
+that? If we look at both trainings carefully, we can see the validation loss stopped
+improving in the middle and started to get worse. As we’ve seen, this is a clear indica‐
+tion of overfitting. In this case, there is no way to use data augmentation, so we will
+have to use another regularization technique. One approach that can be helpful is
+<i>weight</i> <i>decay.</i>
+<header><largefont><b>Weight</b></largefont> <largefont><b>Decay</b></largefont></header>
+Weight decay, or <i>L2</i> <i>regularization,</i> consists of adding to your loss function the sum of
+all the weights squared. Why do that? Because when we compute the gradients, it will
+add a contribution to them that will encourage the weights to be as small as possible.
+Why would it prevent overfitting? The idea is that the larger the coefficients are, the
+sharper canyons we will have in the loss function. If we take the basic example of a
+y = a * (x**2), a
+parabola, the larger is, the more <i>narrow</i> the parabola is:
+So, letting our model learn high parameters might cause it to fit all the data points in
+the training set with an overcomplex function that has very sharp changes, which will
+lead to overfitting.
+Limiting our weights from growing too much is going to hinder the training of the
+model, but it will yield a state where it generalizes better. Going back to the theory
+briefly, weight decay (or just wd) is a parameter that controls that sum of squares we
+add to our loss (assuming parameters is a tensor of all parameters):
+loss_with_wd = loss + wd * (parameters**2).sum()

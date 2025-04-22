@@ -1,0 +1,37 @@
+Good First Issue Help Wanted
+of the labels. For example, some labels, such as or ,
+are potentially very difficult to predict from the issue’s description, while others, such
+as model card , could be classified with a simple rule that detects when a model card
+is added on the Hugging Face Hub.
+The following code filters the dataset for the subset of labels that we’ll work with,
+along with a standardization of the names to make them easier to read:
+label_map = {"Core: Tokenization": "tokenization",
+"New model": "new model",
+"Core: Modeling": "model training",
+"Usage": "usage",
+"Core: Pipeline": "pipeline",
+"TensorFlow": "tensorflow or tf",
+"PyTorch": "pytorch",
+"Examples": "examples",
+"Documentation": "documentation"}
+<b>def</b> filter_labels(x):
+<b>return</b> [label_map[label] <b>for</b> label <b>in</b> x <b>if</b> label <b>in</b> label_map]
+df_issues["labels"] = df_issues["labels"].apply(filter_labels)
+all_labels = list(label_map.values())
+Now let’s look at the distribution of the new labels:
+df_counts = df_issues["labels"].explode().value_counts()
+df_counts.to_frame().T
+<b>tokenization</b> <b>new</b> <b>model</b> <b>usage</b> <b>pipeline</b> <b>tensorflow</b> <b>pytorch</b> <b>documentation</b> <b>examples</b>
+<b>model</b> <b>training</b> <b>ortf</b>
+<b>labels</b> 106 98 64 46 42 41 37 28 24
+Later in this chapter we’ll find it useful to treat the unlabeled issues as a separate
+training split, so let’s create a new column that indicates whether the issue is unla‐
+beled or not:
+df_issues["split"] = "unlabeled"
+mask = df_issues["labels"].apply(lambda x: len(x)) > 0
+df_issues.loc[mask, "split"] = "labeled"
+df_issues["split"].value_counts().to_frame()
+<b>split</b>
+<b>unlabeled</b> 9489
+441
+<b>labeled</b>

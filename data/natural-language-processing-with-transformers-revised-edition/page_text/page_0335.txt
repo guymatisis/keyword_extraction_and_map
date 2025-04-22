@@ -1,0 +1,39 @@
+<b>break</b>
+<i>#</i> <i>Evaluate</i> <i>and</i> <i>save</i> <i>the</i> <i>last</i> <i>checkpoint</i>
+logger.info('Evaluating and saving model after training')
+eval_loss, perplexity = evaluate()
+log_metrics(step, {'loss/eval': eval_loss, 'perplexity': perplexity})
+accelerator.wait_for_everyone()
+unwrapped_model = accelerator.unwrap_model(model)
+<b>if</b> accelerator.is_main_process:
+unwrapped_model.save_pretrained("./")
+hf_repo.push_to_hub(commit_message=f'final model')
+This is quite a code block, but remember that this is all the code you need to train a
+fancy, large language model on a distributed infrastructure. Let’s deconstruct the
+script a little bit and highlight the most important parts:
+<i>Model</i> <i>saving</i>
+We run the script from within the model repository, and at the start we check out
+run_name
+a new branch named after the we get from Weights & Biases. Later, we
+commit the model at each checkpoint and push it to the Hub. With that setup
+each experiment is on a new branch and each commit represents a model check‐
+point. Note that we need to call wait_for_everyone() and unwrap_model() to
+make sure the model is properly synchronized when we store it.
+<i>Optimization</i>
+AdamW
+For the model optimization we use with a cosine learning rate schedule
+after a linear warming-up period. For the hyperparameters, we closely follow the
+parameters described in the GPT-3 paper for similar-sized models.8
+<i>Evaluation</i>
+We evaluate the model on the evaluation set every time we save—that is, every
+save_checkpoint_steps and after training. Along with the validation loss we
+also log the validation perplexity.
+<i>Gradient</i> <i>accumulation</i> <i>and</i> <i>checkpointing</i>
+The required batch sizes don’t fit in a GPU’s memory, even when we run on the
+latest GPUs. Therefore, we implement gradient accumulation, which gathers gra‐
+dients over several backward passes and optimizes once enough gradients are
+Trainer
+accumulated. In Chapter 6, we saw how we can do this with the . For the
+large model, even a single batch does not quite fit on a single GPU. Using a
+method called <i>gradient</i> <i>checkpointing</i> we can trade some of the memory footprint
+8 T.Brownetal.,“LanguageModelsAreFew-ShotLearners”,(2020).

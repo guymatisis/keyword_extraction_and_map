@@ -1,0 +1,37 @@
+<header><largefont><b>Problem</b></largefont></header>
+The more complex a model is (for example, the more layers and nodes a neural net‐
+work has), the larger the dataset that is needed to train it effectively. This is because
+more complex models tend to have more tunable parameters. As model sizes
+increase, the time it takes to fit one batch of examples also increases. As the data size
+increases (and assuming batch sizes are fixed), the number of batches also increases.
+Therefore, in terms of computational complexity, this double whammy means that
+training will take a long time.
+At the time of writing, training an English-to-German translation model on a state-
+of-the-art tensor processing unit (TPU) pod on a relatively small dataset takes about
+two hours. On real datasets of the sort used to train smart devices, the training can
+take several days.
+When we have training that takes this long, the chances of machine failure are
+uncomfortably high. If there is a problem, we’d like to be able to resume from an
+intermediate point, instead of from the very beginning.
+<header><largefont><b>Solution</b></largefont></header>
+At the end of every epoch, we can save the model state. Then, if the training loop is
+interrupted for any reason, we can go back to the saved model state and restart. How‐
+ever, when doing this, we have to make sure to save the intermediate model state, not
+just the model. What does that mean?
+Once training is complete, we save or <i>export</i> the model so that we can deploy it for
+inference. An exported model does not contain the entire model state, just the infor‐
+mation necessary to create the prediction function. For a decision tree, for example,
+this would be the final rules for each intermediate node and the predicted value for
+each of the leaf nodes. For a linear model, this would be the final values of the weights
+and biases. For a fully connected neural network, we’d also need to add the activation
+functions and the weights of the hidden connections.
+What data on model state do we need when restoring from a checkpoint that an
+exported model does not contain? An exported model does not contain which epoch
+and batch number the model is currently processing, which is obviously important in
+order to resume training. But there is more information that a model training loop
+can contain. In order to carry out gradient descent effectively, the optimizer might be
+changing the learning rate on a schedule. This learning rate state is not present in an
+exported model. Additionally, there might be stochastic behavior in the model, such
+as dropout. This is not captured in the exported model state either. Models like recur‐
+rent neural networks incorporate history of previous input values. In general, the full
+model state can be many times the size of the exported model.

@@ -1,0 +1,37 @@
+The TfmdLists is named with an “s” because it can handle a training and a validation
+set with a splits argument. You just need to pass the indices of the elements that are
+in the training set and the indices of the elements that are in the validation set:
+cut = int(len(files)*0.8)
+splits = [list(range(cut)), list(range(cut,len(files)))]
+tls = TfmdLists(files, [Tokenizer.from_folder(path), Numericalize],
+splits=splits)
+You can then access them through the train and valid attributes:
+tls.valid[0][:20]
+tensor([ 2, 8, 20, 30, 87, 510, 1570, 12, 408, 379,
+> 4196, 10, 8, 20, 30, 16, 13, 12216, 202, 509])
+If you have manually written a Transform that performs all of your preprocessing at
+once, turning raw items into a tuple with inputs and targets, then TfmdLists is the
+class you need. You can directly convert it to a DataLoaders object with the dataload
+ers method. This is what we will do in our Siamese example later in this chapter.
+In general, though, you will have two (or more) parallel pipelines of transforms: one
+for processing your raw items into inputs and one to process your raw items into tar‐
+gets. For instance, here, the pipeline we defined processes only the raw text into
+inputs. If we want to do text classification, we also have to process the labels into
+targets.
+For this, we need to do two things. First we take the label name from the parent
+folder. There is a function, parent_label , for this:
+lbls = files.map(parent_label)
+lbls
+(#50000) ['pos','pos','pos','pos','pos','pos','pos','pos','pos','pos'...]
+Then we need a Transform that will grab the unique items and build a vocab with
+them during setup, then transform the string labels into integers when called. fastai
+provides this for us; it’s called Categorize :
+cat = Categorize()
+cat.setup(lbls)
+cat.vocab, cat(lbls[0])
+((#2) ['neg','pos'], TensorCategory(1))
+To do the whole setup automatically on our list of files, we can create a TfmdLists as
+before:
+tls_y = TfmdLists(files, [parent_label, Categorize()])
+tls_y[0]
+TensorCategory(1)

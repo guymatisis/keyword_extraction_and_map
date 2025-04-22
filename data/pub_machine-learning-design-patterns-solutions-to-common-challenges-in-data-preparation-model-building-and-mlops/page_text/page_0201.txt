@@ -1,0 +1,26 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>5</b></largefont></header>
+<header><largefont><b>Design</b></largefont> <largefont><b>Patterns</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Resilient</b></largefont> <largefont><b>Serving</b></largefont></header>
+The purpose of a machine learning model is to use it to make inferences on data it
+hasn’t seen during training. Therefore, once a model has been trained, it is typically
+deployed into a production environment and used to make predictions in response to
+incoming requests. Software that is deployed into production environments is
+expected to be resilient and require little in the way of human intervention to keep it
+running. The design patterns in this chapter solve problems associated with resilience
+under different circumstances as it relates to production ML models.
+The <i>Stateless</i> <i>Serving</i> <i>Function</i> design pattern allows the serving infrastructure to
+scale and handle thousands or even millions of prediction requests per second. The
+<i>Batch</i> <i>Serving</i> design pattern allows the serving infrastructure to asynchronously han‐
+dle occasional or periodic requests for millions to billions of predictions. These pat‐
+terns are useful beyond resilience in that they reduce coupling between creators and
+users of machine learning models.
+The <i>Continued</i> <i>Model</i> <i>Evaluation</i> design pattern handles the common problem of
+detecting when a deployed model is no longer fit-for-purpose. The <i>Two-Phase</i> <i>Predic‐</i>
+<i>tions</i> design pattern provides a way to address the problem of keeping models sophis‐
+ticated and performant when they have to be deployed onto distributed devices. The
+<i>Keyed</i> <i>Predictions</i> design pattern is a necessity to scalably implement several of the
+design patterns discussed in this chapter.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>16:</b></largefont> <largefont><b>Stateless</b></largefont> <largefont><b>Serving</b></largefont> <largefont><b>Function</b></largefont></header>
+The Stateless Serving Function design pattern makes it possible for a production ML
+system to synchronously handle thousands to millions of prediction requests per sec‐
+ond. The production ML system is designed around a stateless function that captures
+the architecture and weights of a trained model.

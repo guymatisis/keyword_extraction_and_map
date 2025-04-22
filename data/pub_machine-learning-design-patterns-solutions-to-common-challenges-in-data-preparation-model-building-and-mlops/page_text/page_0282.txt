@@ -1,0 +1,34 @@
+WINDOW depart_time_window <b>AS</b>
+(PARTITION <b>BY</b> departure_airport <b>ORDER</b> <b>BY</b>
+UNIX_SECONDS(TIMESTAMP(scheduled_depart_time))
+RANGE <b>BETWEEN</b> 7200 PRECEDING <b>AND</b> 1 PRECEDING)
+The training dataset now includes the average delay as just another feature:
+<b>Row</b> <b>arrival_delay</b> <b>departure_delay</b> <b>departure_airport</b> <b>hour_of_day</b> <b>avg_depart_delay</b>
+1 -3.0 -7.0 LFT 8 <b>-4.0</b>
+2 56.0 50.0 LFT 8 <b>41.0</b>
+3 -14.0 -9.0 LFT 8 <b>5.0</b>
+4 -3.0 0.0 LFT 8 <b>-2.0</b>
+During inference, though, we will need a streaming pipeline to compute this average
+departure delay so that we can supply it to the model. To limit training–serving skew,
+it is preferable to use the same SQL in a tumbling window function in a streaming
+pipeline, rather than trying to translate the SQL into Scala, Python, or Java.
+<b>Batchingpredictionrequests</b>
+Another scenario where we might want to use Windowed Inference even if the model
+is stateless is when the model is deployed on the cloud, but the client is embedded
+into a device or on-premises. In such cases, the network latency of sending inference
+requests one by one to a cloud-deployed model might be overwhelming. In this situa‐
+tion, “Design Pattern 19: Two-Phase Predictions” on page 232 from Chapter 5 can be
+used where the first phase uses a pipeline to collect a number of requests and the sec‐
+ond phase sends it to the service in one batch.
+This is suitable only for latency-tolerant use cases. If we are collecting input instances
+over five minutes, then the client will have to be tolerant of up to five minutes delay
+in getting back the predictions.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>25:</b></largefont> <largefont><b>Workflow</b></largefont> <largefont><b>Pipeline</b></largefont></header>
+In the Workflow Pipeline design pattern, we address the problem of creating an end-
+to-end reproducible pipeline by containerizing and orchestrating the steps in our
+machine learning process. The containerization might be done explicitly, or using a
+framework that simplifies the process.
+<header><largefont><b>Problem</b></largefont></header>
+An individual data scientist may be able to run data preprocessing, training, and
+model deployment steps from end to end (depicted in Figure 6-6) within a single
+script or notebook. However, as each step in an ML process becomes more complex,

@@ -1,0 +1,31 @@
+Like other <i>autoregressive</i> or <i>causal</i> <i>language</i> <i>models,</i> GPT-2 is pretrained to estimate
+
+the probability <i>P</i> of a sequence of tokens = <i>y</i> , <i>y</i> ,...y occurring in the text,
+1 2 <i>t</i>
+
+given some initial prompt or context sequence = <i>x</i> ,x ,...x . Since it is impractical
+1 2 <i>k</i>
+to acquire enough training data to estimate <i>P</i>   directly, it is common to use the
+chain rule of probability to factorize it as a product of <i>conditional</i> probabilities:
+<i>N</i>
+<i>P</i> <i>y</i> ,..., <i>y</i>  = <largefont>∏</largefont> <i>P</i> <i>y</i> <i>y</i> ,
+1 <i>t</i> <i>t</i> < <i>t</i>
+<i>t</i> = 1
+where <i>y</i> is a shorthand notation for the sequence <i>y</i> ,..., <i>y</i> . It is from these con‐
+< <i>t</i> 1 <i>t−1</i>
+ditional probabilities that we pick up the intuition that autoregressive language mod‐
+eling amounts to predicting each word given the preceding words in a sentence; this
+is exactly what the probability on the righthand side of the preceding equation
+describes. Notice that this pretraining objective is quite different from BERT’s, which
+utilizes both <i>past</i> and <i>future</i> contexts to predict a <i>masked</i> token.
+By now you may have guessed how we can adapt this next token prediction task to
+generate text sequences of arbitrary length. As shown in Figure 5-3, we start with a
+prompt like “Transformers are the” and use the model to predict the next token.
+Once we have determined the next token, we append it to the prompt and then use
+the new input sequence to generate another token. We do this until we have reached a
+special end-of-sequence token or a predefined maximum length.
+<i>Figure</i> <i>5-3.</i> <i>Generating</i> <i>text</i> <i>from</i> <i>an</i> <i>input</i> <i>sequence</i> <i>by</i> <i>adding</i> <i>a</i> <i>new</i> <i>word</i> <i>to</i> <i>the</i> <i>input</i>
+<i>at</i> <i>each</i> <i>step</i>
+Since the output sequence is <i>conditioned</i> on the choice of input
+prompt, this type of text generation is often called <i>conditional</i> <i>text</i>
+<i>generation.</i>

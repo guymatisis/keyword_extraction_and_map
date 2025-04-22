@@ -1,0 +1,14 @@
+set, there are three predicted values. We can create a new training set using these pre‐
+dicted values as input features (which makes this new training set 3D), and keeping
+the target values. The blender is trained on this new training set, so it learns to pre‐
+dict the target value, given the first layer’s predictions.
+<i>Figure</i> <i>7-14.</i> <i>Training</i> <i>the</i> <i>blender</i>
+It is actually possible to train several different blenders this way (e.g., one using Lin‐
+ear Regression, another using Random Forest Regression), to get a whole layer of
+blenders. The trick is to split the training set into three subsets: the first one is used to
+train the first layer, the second one is used to create the training set used to train the
+second layer (using predictions made by the predictors of the first layer), and the
+third one is used to create the training set to train the third layer (using predictions
+made by the predictors of the second layer). Once this is done, we can make a predic‐
+tion for a new instance by going through each layer sequentially, as shown in
+Figure 7-15.

@@ -1,0 +1,25 @@
+<b>cols</b> <b>imp</b>
+<b>69</b>
+YearMade 0.182890
+<b>6</b> ProductSize 0.127268
+<b>30</b> Coupler_System 0.117698
+<b>7</b> fiProductClassDesc 0.069939
+<b>66</b> ModelID 0.057263
+<b>77</b> saleElapsed 0.050113
+<b>32</b>
+Hydraulics_Flow 0.047091
+<b>3</b>
+fiSecondaryDesc 0.041225
+<b>31</b> Grouser_Tracks 0.031988
+<b>1</b> fiModelDesc 0.031838
+A plot of the feature importances shows the relative importances more clearly:
+<b>def</b> plot_fi(fi):
+<b>return</b> fi.plot('cols', 'imp', 'barh', figsize=(12,7), legend=False)
+plot_fi(fi[:30]);
+The way these importances are calculated is quite simple yet elegant. The feature
+importance algorithm loops through each tree, and then recursively explores each
+branch. At each branch, it looks to see what feature was used for that split, and how
+much the model improves as a result of that split. The improvement (weighted by the
+number of rows in that group) is added to the importance score for that feature. This
+is summed across all branches of all trees, and finally the scores are normalized such
+that they add to 1.

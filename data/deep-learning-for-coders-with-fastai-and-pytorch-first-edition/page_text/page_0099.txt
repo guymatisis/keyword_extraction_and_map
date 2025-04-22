@@ -1,0 +1,38 @@
+scandal, in which the car company was revealed to have cheated on its diesel emis‐
+sions tests, was not the manager who oversaw the project, or an executive at the helm
+of the company. It was one of the engineers, James Liang, who just did what he was
+told.
+Of course, it’s not all bad—if a project you are involved in turns out to make a huge
+positive impact on even one person, this is going to make you feel pretty great!
+OK, so hopefully we have convinced you that you ought to care. But what should you
+do? As data scientists, we’re naturally inclined to focus on making our models better
+by optimizing some metric or other. But optimizing that metric may not lead to bet‐
+ter outcomes. And even if it <i>does</i> help create better outcomes, it almost certainly
+won’t be the only thing that matters. Consider the pipeline of steps that occurs
+between the development of a model or an algorithm by a researcher or practitioner,
+and the point at which this work is used to make a decision. This entire pipeline
+needs to be considered <i>as</i> <i>a</i> <i>whole</i> if we’re to have a hope of getting the kinds of out‐
+comes we want.
+Normally, there is a very long chain from one end to the other. This is especially true
+if you are a researcher who might not even know if your research will ever get used
+for anything, or if you’re involved in data collection, which is even earlier in the pipe‐
+line. But no one is better placed to inform everyone involved in this chain about the
+capabilities, constraints, and details of your work than you are. Although there’s no
+“silver bullet” that can ensure your work is used the right way, by getting involved in
+the process, and asking the right questions, you can at the very least ensure that the
+right issues are being considered.
+Sometimes, the right response to being asked to do a piece of work is to just say “no.”
+Often, however, the response we hear is, “If I don’t do it, someone else will.” But con‐
+sider this: if you’ve been picked for the job, you’re the best person they’ve found to do
+it—so if you don’t do it, the best person isn’t working on that project. If the first five
+people they ask all say no too, so much the better!
+<header><largefont><b>Integrating</b></largefont> <largefont><b>Machine</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Product</b></largefont> <largefont><b>Design</b></largefont></header>
+Presumably, the reason you’re doing this work is that you hope it will be used for
+something. Otherwise, you’re just wasting your time. So, let’s start with the assump‐
+tion that your work will end up somewhere. Now, as you are collecting your data and
+developing your model, you are making lots of decisions. What level of aggregation
+will you store your data at? What loss function should you use? What validation and
+training sets should you use? Should you focus on simplicity of implementation,
+speed of inference, or accuracy of the model? How will your model handle out-of-
+domain data items? Can it be fine-tuned, or must it be retrained from scratch over
+time?

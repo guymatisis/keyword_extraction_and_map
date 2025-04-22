@@ -1,0 +1,29 @@
+Nevertheless, in practice, each specific chaotic phenomenon has a specific resolution
+threshold beyond which it is possible for models to forecast it over short time peri‐
+ods. Therefore, provided the lookup table is fine-grained enough and the limits of
+resolvability are understood, useful approximations can result.
+<b>MonteCarlomethods</b>
+In reality, tabulating all possible inputs might not be possible, and you might take a
+Monte Carlo approach of sampling the input space to create the set of inputs, espe‐
+cially where not all possible combinations of inputs are physically possible.
+In such cases, overfitting is technically possible (see Figure 4-5, where the unfilled cir‐
+cles are approximated by wrong estimates shown by crossed circles).
+<i>Figure</i> <i>4-5.</i> <i>If</i> <i>the</i> <i>input</i> <i>space</i> <i>is</i> <i>sampled,</i> <i>not</i> <i>tabulated,</i> <i>then</i> <i>you</i> <i>need</i> <i>to</i> <i>take</i> <i>care</i> <i>to</i>
+<i>limit</i> <i>model</i> <i>complexity.</i>
+However, even here, you can see that the ML model will be interpolating between
+known answers. The calculation is always deterministic, and it is only the input
+points that are subject to random selection. Therefore, these known answers do not
+contain noise, and because there are no unobserved variables, errors at unsampled
+points will be strictly bounded by the model complexity. Here, the overfitting danger
+comes from model complexity and not from fitting to noise. Overfitting is not as
+much of a concern when the size of the dataset is larger than the number of free
+parameters. Therefore, using a combination of low-complexity models and mild reg‐
+ularization provides a practical way to avoid unacceptable overfitting in the case of
+Monte Carlo selection of the input space.
+<b>Data-drivendiscretizations</b>
+Although deriving a closed-form solution is possible for some PDEs, determining
+solutions using numerical methods is more common. Numerical methods of PDEs
+are already a deep field of research, and there are many books, courses, and journals
+devoted to the subject. One common approach is to use finite difference methods,
+similar to Runge-Kutta methods, for solving ordinary differential equations. This is
+typically done by discretizing the differential operator of the PDE and finding a

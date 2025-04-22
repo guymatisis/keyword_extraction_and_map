@@ -1,0 +1,38 @@
+<header><largefont><b>A</b></largefont> <largefont><b>Primer</b></largefont> <largefont><b>on</b></largefont> <largefont><b>Floating-Point</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Fixed-Point</b></largefont> <largefont><b>Numbers</b></largefont></header>
+Most transformers today are pretrained and fine-tuned with floating-point numbers
+(usually FP32 or a mix of FP16 and FP32), since they provide the precision needed to
+accommodate the very different ranges of weights, activations, and gradients. A
+floating-point number like FP32 represents a sequence of 32 bits that are grouped in
+terms of a <i>sign,</i> <i>exponent,</i> and <i>significand.</i> The sign determines whether the number is
+positive or negative, while the significand corresponds to the number of significant
+digits, which are scaled using the exponent in some fixed base (usually 2 for binary or
+10 for decimal).
+For example, the number 137.035 can be expressed as a decimal floating-point num‐
+ber through the following arithmetic:
+0 2
+137.035 = − 1 × 1.37035 × 10
+where the 1.37035 is the significand and 2 is the exponent of the base 10. Through the
+exponent we can represent a wide range of real numbers, and the decimal or binary
+point can be placed anywhere relative to the significant digits (hence the name
+“floating-point”).
+However, once a model is trained, we only need the forward pass to run inference, so
+we can reduce the precision of the data types without impacting the accuracy too
+much. For neural networks it is common to use a <i>fixed-point</i> <i>format</i> for the low-
+precision data types, where real numbers are represented as <i>B-bit</i> integers that are
+scaled by a common factor for all variables of the same type. For example, 137.035
+can be represented as the integer 137,035 that is scaled by 1/1,000. We can control the
+range and precision of a fixed-point number by adjusting the scaling factor.
+The basic idea behind quantization is that we can “discretize” the floating-point val‐
+ues <i>f</i> in each tensor by mapping their range [f , <i>f</i> ] into a smaller one
+max min
+[q ,q ] of fixed-point numbers <i>q,</i> and linearly distributing all values in between.
+max min
+Mathematically, this mapping is described by the following equation:
+<i>f</i> − <i>f</i>
+max min
+<i>f</i> = <i>q</i> − <i>Z</i> = <i>S</i> <i>q</i> − <i>Z</i>
+<i>q</i> − <i>q</i>
+max min
+where the scale factor <i>S</i> is a positive floating-point number and the constant <i>Z</i> has the
+same type as <i>q</i> and is called the <i>zero</i> <i>point</i> because it corresponds to the quantized
+value of the floating-point value <i>f</i> = 0. Note that the map needs to be <i>affine</i> so that we

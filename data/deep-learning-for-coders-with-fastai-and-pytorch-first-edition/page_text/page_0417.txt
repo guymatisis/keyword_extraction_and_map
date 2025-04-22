@@ -1,0 +1,41 @@
+Now the network outputs two activations, which map to the two possible levels in our
+labels:
+simple_cnn(xb).shape
+torch.Size([64, 2])
+We can now create our Learner :
+learn = Learner(dls, simple_cnn, loss_func=F.cross_entropy, metrics=accuracy)
+To see exactly what’s going on in the model, we can use summary:
+learn.summary()
+Sequential (Input shape: ['64 x 1 x 28 x 28'])
+================================================================
+Layer (type) Output Shape Param # Trainable
+================================================================
+Conv2d 64 x 4 x 14 x 14 40 True
+________________________________________________________________
+ReLU 64 x 4 x 14 x 14 0 False
+________________________________________________________________
+Conv2d 64 x 8 x 7 x 7 296 True
+________________________________________________________________
+ReLU 64 x 8 x 7 x 7 0 False
+________________________________________________________________
+Conv2d 64 x 16 x 4 x 4 1,168 True
+________________________________________________________________
+ReLU 64 x 16 x 4 x 4 0 False
+________________________________________________________________
+Conv2d 64 x 32 x 2 x 2 4,640 True
+________________________________________________________________
+ReLU 64 x 32 x 2 x 2 0 False
+________________________________________________________________
+Conv2d 64 x 2 x 1 x 1 578 True
+________________________________________________________________
+Flatten 64 x 2 0 False
+________________________________________________________________
+Total params: 6,722
+Total trainable params: 6,722
+Total non-trainable params: 0
+Optimizer used: <function Adam at 0x7fbc9c258cb0>
+Loss function: <function cross_entropy at 0x7fbca9ba0170>
+Callbacks:
+- TrainEvalCallback
+- Recorder
+- ProgressCallback

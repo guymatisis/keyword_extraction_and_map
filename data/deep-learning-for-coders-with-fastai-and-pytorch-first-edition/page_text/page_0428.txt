@@ -1,0 +1,39 @@
+To fix this, we can use a larger kernel in the first layer. If we use a kernel of 5×5 pixels,
+25 pixels are being used at each kernel application. Creating eight filters from this will
+mean the neural net will have to find some useful features:
+<b>def</b> simple_cnn():
+<b>return</b> sequential(
+conv(1 ,8, ks=5), <i>#14x14</i>
+conv(8 ,16), <i>#7x7</i>
+conv(16,32), <i>#4x4</i>
+conv(32,64), <i>#2x2</i>
+conv(64,10, act=False), <i>#1x1</i>
+Flatten(),
+)
+As you’ll see in a moment, we can look inside our models while they’re training in
+order to try to find ways to make them train better. To do this, we use the Activation
+Stats callback, which records the mean, standard deviation, and histogram of activa‐
+tions of every trainable layer (as we’ve seen, callbacks are used to add behavior to the
+training loop; we’ll explore how they work in Chapter 16):
+<b>from</b> <b>fastai.callback.hook</b> <b>import</b> *
+We want to train quickly, so that means training at a high learning rate. Let’s see how
+we go at 0.06:
+<b>def</b> fit(epochs=1):
+learn = Learner(dls, simple_cnn(), loss_func=F.cross_entropy,
+metrics=accuracy, cbs=ActivationStats(with_hist=True))
+learn.fit(epochs, 0.06)
+<b>return</b> learn
+learn = fit()
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 2.307071 2.305865 0.113500 00:16
+This didn’t train at all well! Let’s find out why.
+One handy feature of the callbacks passed to Learner is that they are made available
+automatically, with the same name as the callback class, except in camel_case. So, our
+ActivationStats callback can be accessed through activation_stats. I’m sure you
+learn.recorder…can
+remember you guess how that is implemented? That’s right, it’s
+a callback called Recorder !
+ActivationStats includes some handy utilities for plotting the activations during
+training. plot_layer_stats(idx) plots the mean and standard deviation of the acti‐
+vations of layer number <i>idx,</i> along with the percentage of activations near zero. Here’s
+the first layer’s plot:

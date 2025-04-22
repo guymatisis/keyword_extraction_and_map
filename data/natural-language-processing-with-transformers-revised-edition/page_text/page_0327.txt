@@ -1,0 +1,25 @@
+<i>Figure</i> <i>10-5.</i> <i>Preparing</i> <i>sequences</i> <i>of</i> <i>varying</i> <i>length</i> <i>for</i> <i>causal</i> <i>language</i> <i>modeling</i> <i>by</i> <i>con‐</i>
+<i>catenating</i> <i>several</i> <i>tokenized</i> <i>examples</i> <i>with</i> <i>an</i> <i>EOS</i> <i>token</i> <i>before</i> <i>chunking</i> <i>them</i>
+We can, for instance, make sure we have roughly one hundred full sequences in our
+tokenized examples by defining our input string character length as:
+input_characters = number_of_sequences * sequence_length * characters_per_token
+where:
+input_characters
+• is the number of characters in the string input to our
+tokenizer.
+number_of_sequences
+• is the number of (truncated) sequences we would like
+from our tokenizer, (e.g., 100).
+sequence_length
+• is the number of tokens per sequence returned by the token‐
+izer, (e.g., 1,024).
+• characters_per_token is the average number of characters per output token
+that we first need to estimate.
+If we input a string with input_characters characters we will thus get on average
+number_of_sequences
+output sequences, and we can easily calculate how much input
+data we are losing by dropping the last sequence. If number_of_sequences=100 it
+means that we stack roughly 100 sequences and at most lose the last element, which
+might be too short or too long. This corresponds to at most losing 1% of our dataset.
+At the same time, this approach ensures that we don’t introduce a bias by cutting off
+the majority of file endings.

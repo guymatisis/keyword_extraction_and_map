@@ -1,0 +1,41 @@
+f1_scores["de"]["fr"] = evaluate_lang_performance("fr", trainer)
+<b>print(f"F1-score</b> of [de] model on [fr] dataset: {f1_scores['de']['fr']:.3f}")
+F1-score of [de] model on [fr] dataset: 0.714
+Although we see a drop of about 15 points in the micro-averaged metrics, remember
+that our model has not seen a single labeled French example! In general, the size of
+the performance drop is related to how “far away” the languages are from each other.
+Although German and French are grouped as Indo-European languages, they techni‐
+cally belong to different language families: Germanic and Romance, respectively.
+Next, let’s evaluate the performance on Italian. Since Italian is also a Romance lan‐
+guage, we expect to get a similar result as we found on French:
+f1_scores["de"]["it"] = evaluate_lang_performance("it", trainer)
+<b>print(f"F1-score</b> of [de] model on [it] dataset: {f1_scores['de']['it']:.3f}")
+F1-score of [de] model on [it] dataset: 0.692
+Indeed, our expectations are borne out by the <i>F</i> -scores. Finally, let’s examine the per‐
+1
+formance on English, which belongs to the Germanic language family:
+f1_scores["de"]["en"] = evaluate_lang_performance("en", trainer)
+<b>print(f"F1-score</b> of [de] model on [en] dataset: {f1_scores['de']['en']:.3f}")
+F1-score of [de] model on [en] dataset: 0.589
+Surprisingly, our model fares <i>worst</i> on English, even though we might intuitively
+expect German to be more similar to English than French. Having fine-tuned on Ger‐
+man and performed zero-shot transfer to French and English, let’s next examine
+when it makes sense to fine-tune directly on the target language.
+<header><largefont><b>When</b></largefont> <largefont><b>Does</b></largefont> <largefont><b>Zero-Shot</b></largefont> <largefont><b>Transfer</b></largefont> <largefont><b>Make</b></largefont> <largefont><b>Sense?</b></largefont></header>
+So far we’ve seen that fine-tuning XLM-R on the German corpus yields an <i>F</i> -score of
+1
+around 85%, and without <i>any</i> <i>additional</i> <i>training</i> the model is able to achieve modest
+performance on the other languages in our corpus. The question is, how good are
+these results and how do they compare against an XLM-R model fine-tuned on a
+monolingual corpus?
+In this section we will explore this question for the French corpus by fine-tuning
+XLM-R on training sets of increasing size. By tracking the performance this way, we
+can determine at which point zero-shot cross-lingual transfer is superior, which in
+practice can be useful for guiding decisions about whether to collect more labeled
+data.
+For simplicity, we’ll keep the same hyperparameters from the fine-tuning run on the
+German corpus, except that we’ll tweak the logging_steps argument of Training
+Arguments
+to account for the changing training set sizes. We can wrap this all
+DatasetDict
+together in a simple function that takes a object corresponding to a

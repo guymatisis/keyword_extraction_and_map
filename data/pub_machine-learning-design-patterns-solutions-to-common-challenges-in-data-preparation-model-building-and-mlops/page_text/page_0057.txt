@@ -1,0 +1,32 @@
+(is_male, plurality) hash_bucket_size
+there are 18 possible pairs. If we set to
+1,000, we can be 85% sure there are no collisions.
+Finally, to use a crossed column in a DNN model, we need to wrap it either in an
+indicator_column embedding_column
+or an depending on whether we want to one-
+hot encode it or represent it in a lower dimension (see the “Design Pattern 2: Embed‐
+dings” on page 39 in this chapter):
+gender_x_plurality = fc.crossed_column(["is_male", "plurality"],
+hash_bucket_size=1000)
+crossed_feature = fc.embedding_column(gender_x_plurality, dimension=2)
+or
+gender_x_plurality = fc.crossed_column(["is_male", "plurality"],
+hash_bucket_size=1000)
+crossed_feature = fc.indicator_column(gender_x_plurality)
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+Feature crosses provide a valuable means of feature engineering. They provide more
+complexity, more expressivity, and more capacity to simple models. Think again
+about the crossed feature of is_male and plurality in the natality dataset. This Fea‐
+ture Cross pattern allows the model to treat twin males separately from female twins
+and separately from triplet males and separately from single females and so on. When
+indicator_column,
+we use an the model is able to treat each of the resulting crosses
+as an independent variable, essentially adding 18 additional binary categorical fea‐
+tures to the model (see Figure 2-16 ).
+Feature crosses scale well to massive data. While adding extra layers to a deep neural
+is_male,
+network could potentially provide enough nonlinearity to learn how pairs (
+plurality ) behave, this drastically increases the training time. On the natality data‐
+set, we observed that a linear model with a feature cross trained in BigQuery ML per‐
+forms comparably with a DNN trained without a feature cross. However, the linear
+model trains substantially faster.

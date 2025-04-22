@@ -1,0 +1,23 @@
+These are not just algorithm questions. They are data product design questions. But
+the product managers, executives, judges, journalists, doctors—whoever ends up
+developing and using the system of which your model is a part—will not be well-
+placed to understand the decisions that you made, let alone change them.
+For instance, two studies found that Amazon’s facial recognition software produced
+inaccurate and racially biased results. Amazon claimed that the researchers should
+have changed the default parameters, without explaining how this would have
+changed the biased results. Furthermore, it turned out that Amazon was not instruct‐
+ing police departments that used its software to do this either. There was, presumably,
+a big distance between the researchers who developed these algorithms and the Ama‐
+zon documentation staff who wrote the guidelines provided to the police.
+A lack of tight integration led to serious problems for society at large, the police, and
+Amazon. It turned out that its system erroneously matched 28 members of Congress
+to criminal mugshots! (And the Congresspeople wrongly matched to criminal mug‐
+shots were disproportionately people of color, as seen in Figure 3-4.)
+<i>Figure</i> <i>3-4.</i> <i>Congresspeople</i> <i>matched</i> <i>to</i> <i>criminal</i> <i>mugshots</i> <i>by</i> <i>Amazon</i> <i>software</i>
+Data scientists need to be part of a cross-disciplinary team. And researchers need to
+work closely with the kinds of people who will end up using their research. Better
+still, domain experts themselves could learn enough to be able to train and debug
+some models themselves—hopefully, a few of you are reading this book right now!
+The modern workplace is a very specialized place. Everybody tends to have well-
+defined jobs to perform. Especially in large companies, it can be hard to know all the
+pieces of the puzzle. Sometimes companies even intentionally obscure the overall

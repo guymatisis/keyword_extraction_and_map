@@ -1,0 +1,38 @@
+With these mappings, we can now create a custom model configuration with the
+AutoConfig class hat we encountered in Chapters 3 and 4. Let’s use this to create a
+configuration for our student with the information about the label mappings:
+<b>from</b> <b>transformers</b> <b>import</b> AutoConfig
+num_labels = intents.num_classes
+student_config = (AutoConfig
+.from_pretrained(student_ckpt, num_labels=num_labels,
+id2label=id2label, label2id=label2id))
+Here we’ve also specified the number of classes our model should expect. We can then
+provide this configuration to the from_pretrained() function of the AutoModelFor
+SequenceClassification
+class as follows:
+<b>import</b> <b>torch</b>
+<b>from</b> <b>transformers</b> <b>import</b> AutoModelForSequenceClassification
+device = torch.device("cuda" <b>if</b> torch.cuda.is_available() <b>else</b> "cpu")
+<b>def</b> student_init():
+<b>return</b> (AutoModelForSequenceClassification
+.from_pretrained(student_ckpt, config=student_config).to(device))
+We now have all the ingredients needed for our distillation trainer, so let’s load the
+teacher and fine-tune:
+teacher_ckpt = "transformersbook/bert-base-uncased-finetuned-clinc"
+teacher_model = (AutoModelForSequenceClassification
+.from_pretrained(teacher_ckpt, num_labels=num_labels)
+.to(device))
+distilbert_trainer = DistillationTrainer(model_init=student_init,
+teacher_model=teacher_model, args=student_training_args,
+train_dataset=clinc_enc['train'], eval_dataset=clinc_enc['validation'],
+compute_metrics=compute_metrics, tokenizer=student_tokenizer)
+distilbert_trainer.train()
+<b>Epoch</b> <b>TrainingLoss</b> <b>ValidationLoss</b> <b>Accuracy</b>
+1 4.2923 3.289337 0.742258
+2 2.6307 1.883680 0.828065
+3 1.5483 1.158315 0.896774
+4 1.0153 0.861815 0.909355
+5 0.7958 0.777289 0.917419
+The 92% accuracy on the validation set looks quite good compared to the 94% that
+the BERT-base teacher achieves. Now that we’ve fine-tuned DistilBERT, let’s push the
+model to the Hub so we can reuse it later:

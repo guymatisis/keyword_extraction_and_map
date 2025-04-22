@@ -1,0 +1,34 @@
+We need a dataset and metrics to train and evaluate models, so let’s take a look at
+Datasets, which is in charge of that aspect.
+<header><largefont><b>Hugging</b></largefont> <largefont><b>Face</b></largefont> <largefont><b>Datasets</b></largefont></header>
+Loading, processing, and storing datasets can be a cumbersome process, especially
+when the datasets get too large to fit in your laptop’s RAM. In addition, you usually
+need to implement various scripts to download the data and transform it into a stan‐
+dard format.
+Datasets simplifies this process by providing a standard interface for thousands of
+datasets that can be found on the Hub. It also provides smart caching (so you don’t
+have to redo your preprocessing each time you run your code) and avoids RAM limi‐
+tations by leveraging a special mechanism called <i>memory</i> <i>mapping</i> that stores the
+contents of a file in virtual memory and enables multiple processes to modify a file
+more efficiently. The library is also interoperable with popular frameworks like Pan‐
+das and NumPy, so you don’t have to leave the comfort of your favorite data wran‐
+gling tools.
+Having a good dataset and powerful model is worthless, however, if you can’t reliably
+measure the performance. Unfortunately, classic NLP metrics come with many differ‐
+ent implementations that can vary slightly and lead to deceptive results. By providing
+the scripts for many metrics, Datasets helps make experiments more reproducible
+and the results more trustworthy.
+With the Transformers, Tokenizers, and Datasets libraries we have every‐
+thing we need to train our very own transformer models! However, as we’ll see in
+Chapter 10 there are situations where we need fine-grained control over the training
+loop. That’s where the last library of the ecosystem comes into play: Accelerate.
+<header><largefont><b>Hugging</b></largefont> <largefont><b>Face</b></largefont> <largefont><b>Accelerate</b></largefont></header>
+If you’ve ever had to write your own training script in PyTorch, chances are that
+you’ve had some headaches when trying to port the code that runs on your laptop to
+the code that runs on your organization’s cluster. Accelerate adds a layer of abstrac‐
+tion to your normal training loops that takes care of all the custom logic necessary for
+the training infrastructure. This literally accelerates your workflow by simplifying the
+change of infrastructure when necessary.
+This sums up the core components of Hugging Face’s open source ecosystem. But
+before wrapping up this chapter, let’s take a look at a few of the common challenges
+that come with trying to deploy transformers in the real world.

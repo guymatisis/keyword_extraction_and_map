@@ -1,0 +1,39 @@
+<b>Text(naturallanguageprocessing)</b>
+Computers are good at classifying both short and long documents based on cate‐
+gories such as spam or not spam, sentiment (e.g., is the review positive or negative),
+author, source website, and so forth. We are not aware of any rigorous work done in
+this area to compare computers to humans, but anecdotally it seems to us that deep
+learning performance is similar to human performance on these tasks.
+Deep learning is also good at generating context-appropriate text, such as replies to
+social media posts, and imitating a particular author’s style. It’s good at making this
+content compelling to humans too—in fact, even more compelling than human-
+generated text. However, deep learning is not good at generating <i>correct</i> responses!
+We don’t have a reliable way to, for instance, combine a knowledge base of medical
+information with a deep learning model for generating medically correct natural lan‐
+guage responses. This is dangerous, because it is so easy to create content that appears
+to a layman to be compelling, but actually is entirely incorrect.
+Another concern is that context-appropriate, highly compelling responses on social
+media could be used at massive scale—thousands of times greater than any troll farm
+previously seen—to spread disinformation, create unrest, and encourage conflict. As
+a rule of thumb, text generation models will always be technologically a bit ahead of
+models for recognizing automatically generated text. For instance, it is possible to use
+a model that can recognize artificially generated content to actually improve the gen‐
+erator that creates that content, until the classification model is no longer able to
+complete its task.
+Despite these issues, deep learning has many applications in NLP: it can be used to
+translate text from one language to another, summarize long documents into some‐
+thing that can be digested more quickly, find all mentions of a concept of interest, and
+more. Unfortunately, the translation or summary could well include completely
+incorrect information! However, the performance is already good enough that many
+people are using these systems—for instance, Google’s online translation system (and
+every other online service we are aware of) is based on deep learning.
+<b>Combiningtextandimages</b>
+The ability of deep learning to combine text and images into a single model is, gener‐
+ally, far better than most people intuitively expect. For example, a deep learning
+model can be trained on input images with output captions written in English, and
+can learn to generate surprisingly appropriate captions automatically for new images!
+But again, we have the same warning that we discussed in the previous section: there
+is no guarantee that these captions will be correct.
+Because of this serious issue, we generally recommend that deep learning be used not
+as an entirely automated process, but as part of a process in which the model and a
+human user interact closely. This can potentially make humans orders of magnitude

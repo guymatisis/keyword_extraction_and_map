@@ -1,0 +1,35 @@
+In Chapter 19, we will start from such a model and see how to build a training loop
+from scratch and refactor it to what we’ve been using in previous chapters.
+<header><largefont><b>Conclusion</b></largefont></header>
+In this chapter, we explored the foundations of deep learning, beginning with matrix
+multiplication and moving on to implementing the forward and backward passes of a
+neural net from scratch. We then refactored our code to show how PyTorch works
+beneath the hood.
+Here are a few things to remember:
+• A neural net is basically a bunch of matrix multiplications with nonlinearities in
+between.
+• Python is slow, so to write fast code, we have to vectorize it and take advantage of
+techniques such as elementwise arithmetic and broadcasting.
+• Two tensors are broadcastable if the dimensions starting from the end and going
+backward match (if they are the same, or one of them is 1). To make tensors
+unsqueeze
+broadcastable, we may need to add dimensions of size 1 with or a
+None index.
+• Properly initializing a neural net is crucial to get training started. Kaiming initial‐
+ization should be used when we have ReLU nonlinearities.
+• The backward pass is the chain rule applied multiple times, computing the gradi‐
+ents from the output of our model and going back, one layer at a time.
+• When subclassing nn.Module (if not using fastai’s Module ), we have to call the
+__init__ __init__
+superclass method in our method and we have to define a
+forward function that takes an input and returns the desired result.
+<header><largefont><b>Questionnaire</b></largefont></header>
+1. Write the Python code to implement a single neuron.
+2. Write the Python code to implement ReLU.
+3. Write the Python code for a dense layer in terms of matrix multiplication.
+4. Write the Python code for a dense layer in plain Python (that is, with list compre‐
+hensions and functionality built into Python).
+5. What is the “hidden size” of a layer?
+6. What does the t method do in PyTorch?
+7. Why is matrix multiplication written in plain Python very slow?
+8. In matmul, why is ac==br?

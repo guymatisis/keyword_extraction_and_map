@@ -1,0 +1,36 @@
+returns the transpose of the matrix a . You can also have three or more members:
+torch.einsum('bi,ij,bj->b', a, b, c)
+This will return a vector of size b, where the k-th coordinate is the sum of a[k,i]
+b[i,j] c[k,j]. This notation is particularly convenient when you have more dimen‐
+sions because of batches. For example, if you have two batches of matrices and want
+to compute the matrix product per batch, you could do this:
+torch.einsum('bik,bkj->bij', a, b)
+Let’s go back to our new matmul implementation using einsum and look at its speed:
+%timeit -n 20 t5 = matmul(m1,m2)
+68.7 µs ± 4.06 µs per loop (mean ± std. dev. of 7 runs, 20 loops each)
+As you can see, not only is it practical, but it’s <i>very</i> fast. einsum is often the fastest way
+to do custom operations in PyTorch, without diving into C++ and CUDA. (But it’s
+generally not as fast as carefully optimized CUDA code, as you see from the results in
+“Matrix Multiplication from Scratch” on page 495.)
+Now that we know how to implement a matrix multiplication from scratch, we are
+ready to build our neural net—specifically, its forward and backward passes—using
+just matrix multiplication.
+<header><largefont><b>The</b></largefont> <largefont><b>Forward</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Backward</b></largefont> <largefont><b>Passes</b></largefont></header>
+As we saw in Chapter 4, to train a model, we will need to compute all the gradients of
+a given loss with respect to its parameters, which is known as the <i>backward</i> <i>pass.</i> In a
+<i>forward</i> <i>pass,</i> where we compute the output of the model on a given input, based on
+the matrix products. As we define our first neural net, we will also delve into the
+problem of properly initializing the weights, which is crucial for making training start
+properly.
+<header><largefont><b>Defining</b></largefont></header>
+<header><largefont><b>and</b></largefont> <largefont><b>Initializing</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Layer</b></largefont></header>
+We will take the example of a two-layer neural net first. As we’ve seen, one layer can
+be expressed as y = x @ w + b , with x our inputs, y our outputs, w the weights of the
+layer (which is of size number of inputs by number of neurons if we don’t transpose
+as before), and b is the bias vector:
+<b>def</b> lin(x, w, b): <b>return</b> x @ w + b
+We can stack the second layer on top of the first, but since mathematically the com‐
+position of two linear operations is another linear operation, this makes sense only if
+we put something nonlinear in the middle, called an activation function. As men‐
+tioned at the beginning of this chapter, in deep learning applications the activation
+function most commonly used is a ReLU, which returns the maximum of x and 0 .

@@ -1,0 +1,29 @@
+We’ve handled four of these already; only the second question remains. To answer
+this question, we need to use the <i>treeinterpreter</i> library. We’ll also use the <i>waterfall‐</i>
+<i>charts</i> library to draw the chart of the results. You can install these by running these
+commands in a notebook cell:
+!pip install treeinterpreter
+!pip install waterfallcharts
+We have already seen how to compute feature importances across the entire random
+forest. The basic idea was to look at the contribution of each variable to improving
+the model, at each branch of every tree, and then add up all of these contributions per
+variable.
+We can do exactly the same thing, but for just a single row of data. For instance, let’s
+say we are looking at a particular item at auction. Our model might predict that this
+item will be very expensive, and we want to know why. So, we take that one row of
+data and put it through the first decision tree, looking to see what split is used at each
+point throughout the tree. For each split, we find the increase or decrease in the addi‐
+tion, compared to the parent node of the tree. We do this for every tree, and add up
+the total change in importance by split variable.
+For instance, let’s pick the first few rows of our validation set:
+row = valid_xs_final.iloc[:5]
+We can then pass these to treeinterpreter:
+prediction,bias,contributions = treeinterpreter.predict(m, row.values)
+prediction is simply the prediction that the random forest makes. bias is the predic‐
+tion based on taking the mean of the dependent variable (i.e., the <i>model</i> that is the
+root of every tree). contributions is the most interesting bit—it tells us the total
+change in prediction due to each of the independent variables. Therefore, the sum of
+contributions plus bias must equal the prediction, for each row. Let’s look at just
+the first row:
+prediction[0], bias[0], contributions[0].sum()
+(array([9.98234598]), 10.104309759725059, -0.12196378442186026)

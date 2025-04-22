@@ -1,0 +1,25 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>1</b></largefont></header>
+<header><largefont><b>The</b></largefont> <largefont><b>Need</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Machine</b></largefont> <largefont><b>Learning</b></largefont></header>
+<header><largefont><b>Design</b></largefont> <largefont><b>Patterns</b></largefont></header>
+In engineering disciplines, design patterns capture best practices and solutions to
+commonly occurring problems. They codify the knowledge and experience of experts
+into advice that all practitioners can follow. This book is a catalog of machine learn‐
+ing design patterns that we have observed in the course of working with hundreds of
+machine learning teams.
+<header><largefont><b>What</b></largefont> <largefont><b>Are</b></largefont> <largefont><b>Design</b></largefont> <largefont><b>Patterns?</b></largefont></header>
+The idea of patterns, and a catalog of proven patterns, was introduced in the field of
+architecture by Christopher Alexander and five coauthors in a hugely influential
+book titled <i>A</i> <i>Pattern</i> <i>Language</i> (Oxford University Press, 1977). In their book, they
+catalog 253 patterns, introducing them this way:
+Each pattern describes a problem which occurs over and over again in our environ‐
+ment, and then describes the core of the solution to that problem, in such a way that
+you can use this solution a million times over, without ever doing it the same way
+twice.
+…
+Each solution is stated in such a way that it gives the essential field of relationships
+needed to solve the problem, but in a very general and abstract way—so that you can
+solve the problem for yourself, in your own way, by adapting it to your preferences,
+and the local conditions at the place where you are making it.
+For example, a couple of the patterns that incorporate human details when building a
+home are <i>Light</i> <i>on</i> <i>Two</i> <i>Sides</i> <i>of</i> <i>Every</i> <i>Room</i> and <i>Six-Foot</i> <i>Balcony.</i> Think of your
+favorite room in your home, and your least-favorite room. Does your favorite room

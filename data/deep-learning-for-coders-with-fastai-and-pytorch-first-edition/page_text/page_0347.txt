@@ -1,0 +1,40 @@
+get_items=partial(get_text_files, folders=['train', 'test']),
+splitter=GrandparentSplitter(valid_name='test')
+).dataloaders(path, path=path, bs=128, seq_len=72)
+Just as with image classification, show_batch shows the dependent variable (senti‐
+ment, in this case) with each independent variable (movie review text):
+dls_clas.show_batch(max_n=3)
+<b>text</b> <b>category</b>
+<b>0</b> xxbosiratethismoviewith3skulls,onlycozthegirlsknewhowtoscream,thiscould‘vebeenabetter neg
+movie,ifactorswerebetter,thetwinswerexxupok,ibelievedtheywereevil,buttheeldestandyoungest
+brother,theysuckedreallybad,itseemedliketheywerereadingthescriptsinsteadofactingthem….
+spoiler:ifthey‘revampire’swhydotheyfreezetheblood?vampirescan’tdrinkfrozenblood,thesisterin
+themoviesayslet’sdrinkherwhilesheisalive….butthenwhenthey‘removingtoanotherhouse,they
+takeonacoolerthey‘refrozenblood.endofspoiler\n\nitwasahugewasteoftime,andthatmademe
+madcozireadallthereviewsofhow
+<b>1</b> xxbosihavereadallofthexxmajlovexxmajcomexxmajsoftlybooks.xxmajknowingfullwellthatmovies neg
+cannotuseallaspectsofthebook,butgenerallytheyatleasthavethemainpointofthebook.iwashighly
+disappointedinthismovie.xxmajtheonlythingthattheyhaveinthismoviethatisinthebookisthat
+xxmajmissy’sfathercomestoxxunkinthebookbothparentscome).xxmajthatisall.xxmajthestoryline
+wassotwistedandfarfetchandyes,sad,fromthebook,thatijustcouldn’tenjoyit.xxmajevenifidid
+n’treadthebookitwastoosad.idoknowthatxxmajpioneerlifewasrough,butthewholemoviewasa
+downer.xxmajtherating
+<b>2</b> xxbosxxmajthis,forlackofabetterterm,movieislousy.xxmajwheredoistart……\n\nxxmaj neg
+cinemaphotography-xxmajthiswas,perhaps,theworstxxmaji‘veseenthisyear.xxmajitlookedlikethe
+camerawasbeingtossedfromcameramantocameraman.xxmajmaybetheyonlyhadonecamera.xxmaj
+itgivesyouthesensationofbeingavolleyball.\n\nxxmajthereareabunchofscenes,haphazardly,
+throwninwithnocontinuityatall.xxmajwhentheydidthe'splitscreen',itwasabsurd.xxmaj
+everythingwassquishedflat,itlookedridiculous.\n\nxxmajthecolortoneswerewayoff.xxmajthese
+peopleneedtolearnhowtobalanceacamera.xxmajthis'movie'ispoorlymade,and
+Looking at the DataBlock definition, every piece is familiar from previous data blocks
+we’ve built, with two important exceptions:
+• TextBlock.from_folder no longer has the is_lm=True parameter.
+• We pass the vocab we created for the language model fine-tuning.
+The reason that we pass the vocab of the language model is to make sure we use the
+same correspondence of token to index. Otherwise, the embeddings we learned in
+our fine-tuned language model won’t make any sense to this model, and the fine-
+tuning step won’t be of any use.
+By passing is_lm=False (or not passing is_lm at all, since it defaults to False), we
+tell TextBlock that we have regular labeled data, rather than using the next tokens as
+labels. There is one challenge we have to deal with, however, which has to do with
+collating multiple documents into a mini-batch. Let’s see with an example, by trying

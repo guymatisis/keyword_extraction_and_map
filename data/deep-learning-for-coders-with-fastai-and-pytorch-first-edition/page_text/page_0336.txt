@@ -1,0 +1,35 @@
+rm_useless_spaces
+Removes all repetitions of the space character
+replace_all_caps
+Lowercases a word written in all caps and adds a special token for all caps
+(xxcap) in front of it
+replace_maj
+Lowercases a capitalized word and adds a special token for capitalized ( xxmaj ) in
+front of it
+lowercase
+Lowercases all text and adds a special token at the beginning ( xxbos ) and/or the
+end (xxeos)
+Let’s take a look at a few of them in action:
+coll_repr(tkn('&copy; Fast.ai www.fast.ai/INDEX'), 31)
+"(#11) ['xxbos','©','xxmaj','fast.ai','xxrep','3','w','.fast.ai','/','xxup','ind
+> ex'...]"
+Now let’s take a look at how subword tokenization would work.
+<header><largefont><b>Subword</b></largefont> <largefont><b>Tokenization</b></largefont></header>
+In addition to the <i>word</i> <i>tokenization</i> approach seen in the preceding section, another
+popular tokenization method is <i>subword</i> <i>tokenization.</i> Word tokenization relies on an
+assumption that spaces provide a useful separation of components of meaning in a
+sentence. However, this assumption is not always appropriate. For instance, consider
+this sentence: (“My name is Jeremy Howard” in Chinese). That’s
+我的名字是郝杰瑞
+not going to work very well with a word tokenizer, because there are no spaces in it!
+Languages like Chinese and Japanese don’t use spaces, and in fact they don’t even
+have a well-defined concept of a “word.” Other languages, like Turkish and Hungar‐
+ian, can add many subwords together without spaces, creating very long words that
+include a lot of separate pieces of information.
+To handle these cases, it’s generally best to use subword tokenization. This proceeds
+in two steps:
+1. Analyze a corpus of documents to find the most commonly occurring groups of
+letters. These become the vocab.
+2. Tokenize the corpus using this vocab of <i>subword</i> <i>units.</i>
+Let’s look at an example. For our corpus, we’ll use the first 2,000 movie reviews:
+txts = L(o.open().read() <b>for</b> o <b>in</b> files[:2000])

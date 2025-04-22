@@ -1,0 +1,45 @@
+scikit-learn supports an alternative to grid search called
+RandomizedSearchCV
+that implements <i>random</i> <i>search.</i> Instead of
+trying every possible combination of hyperparameters from a set,
+you determine the number of times you’d like to randomly sample
+values for each hyperparameter. To implement random search in
+scikit-learn, we’d create an instance of RandomizedSearchCV and
+pass it a dict similar to grid_values above, specifying <i>ranges</i>
+instead of specific values. Random search runs faster than grid
+search since it doesn’t try every combination in your set of possible
+values, but it is very likely that the optimal set of hyperparameters
+will not be among the ones randomly selected.
+For robust hyperparameter tuning, we need a solution that scales and learns from
+previous trials to find an optimal combination of hyperparameter values.
+<header><largefont><b>Solution</b></largefont></header>
+keras-tuner
+The library implements Bayesian optimization to do hyperparameter
+search directly in Keras. To use keras-tuner , we define our model inside a function
+hp hp
+that takes a hyperparameter argument, here called . We can then use through‐
+out the function wherever we want to include a hyperparameter, specifying the
+hyperparameter’s name, data type, the value range we’d like to search, and how much
+to increment it each time we try a new one.
+Instead of hardcoding the hyperparameter value when we define a layer in our Keras
+model, we define it using a hyperparameter variable. Here, we want to tune the num‐
+ber of neurons in the first hidden layer of our neural network:
+keras.layers.Dense(hp.Int('first_hidden', 32, 256, step=32), activation='relu')
+first_hidden
+is the name we’ve given this hyperparameter, 32 is the minimum value
+we’ve defined for it, 256 is the maximum, and 32 is the amount we should increment
+this value by within the range we’ve defined. If we were building an MNIST classifi‐
+keras-tuner
+cation model, the full function that we’d pass to might look like the
+following:
+<b>def</b> build_model(hp):
+model = keras.Sequential([
+keras.layers.Flatten(input_shape=(28, 28)),
+keras.layers.Dense(
+hp.Int('first_hidden', 32, 256, step=32), activation='relu'),
+keras.layers.Dense(
+hp.Int('second_hidden', 32, 256, step=32), activation='relu'),
+keras.layers.Dense(10, activation='softmax')
+])
+model.compile(
+optimizer=tf.keras.optimizers.Adam(

@@ -1,0 +1,40 @@
+The other important piece of information that we have to tell fastai is how to get the
+labels from the dataset. Computer vision datasets are normally structured in such a
+way that the label for an image is part of the filename or path—most commonly the
+parent folder name. fastai comes with a number of standardized labeling methods,
+and ways to write your own. Here we’re telling fastai to use the is_cat function we
+just defined.
+Finally, we define the Transforms that we need. A Transform contains code that is
+applied automatically during training; fastai includes many predefined Transforms,
+and adding new ones is as simple as creating a Python function. There are two kinds:
+item_tfms are applied to each item (in this case, each item is resized to a 224-pixel
+square), while batch_tfms are applied to a <i>batch</i> of items at a time using the GPU, so
+they’re particularly fast (we’ll see many examples of these throughout this book).
+Why 224 pixels? This is the standard size for historical reasons (old pretrained mod‐
+els require this size exactly), but you can pass pretty much anything. If you increase
+the size, you’ll often get a model with better results (since it will be able to focus on
+more details), but at the price of speed and memory consumption; the opposite is
+true if you decrease the size.
+<b>Jargon:ClassificationandRegression</b>
+<i>Classification</i> and <i>regression</i> have very specific meanings in
+machine learning. These are the two main types of model that we
+will be investigating in this book. A <i>classification</i> <i>model</i> is one that
+attempts to predict a class, or category. That is, it’s predicting from
+a number of discrete possibilities, such as “dog” or “cat.” A <i>regres‐</i>
+<i>sion</i> <i>model</i> is one that attempts to predict one or more numeric
+quantities, such as a temperature or a location. Sometimes people
+use the word <i>regression</i> to refer to a particular kind of model called
+a <i>linear</i> <i>regression</i> <i>model;</i> this is a bad practice, and we won’t be
+using that terminology in this book!
+The Pet dataset contains 7,390 pictures of dogs and cats, consisting of 37 breeds. Each
+image is labeled using its filename: for instance, the file <i>great_pyrenees_173.jpg</i> is the
+173rd example of an image of a Great Pyrenees breed dog in the dataset. The file‐
+names start with an uppercase letter if the image is a cat, and a lowercase letter other‐
+wise. We have to tell fastai how to get labels from the filenames, which we do by
+calling from_name_func (which means that filenames can be extracted using a func‐
+x[0].isupper(), True
+tion applied to the filename) and passing which evaluates to if
+the first letter is uppercase (i.e., it’s a cat).
+The most important parameter to mention here is valid_pct=0.2. This tells fastai to
+hold out 20% of the data and <i>not</i> <i>use</i> <i>it</i> <i>for</i> <i>training</i> <i>the</i> <i>model</i> <i>at</i> <i>all.</i> This 20% of the
+data is called the <i>validation</i> <i>set;</i> the remaining 80% is called the <i>training</i> <i>set.</i> The

@@ -1,0 +1,23 @@
+Out-of-domain data and domain shift are examples of a larger problem: that you can
+never fully understand all the possible behaviors of a neural network, because they
+have far too many parameters. This is the natural downside of their best feature—
+their flexibility, which enables them to solve complex problems where we may not
+even be able to fully specify our preferred solution approaches. The good news, how‐
+ever, is that there are ways to mitigate these risks using a carefully thought-out pro‐
+cess. The details of this will vary depending on the details of the problem you are
+solving, but we will attempt to lay out a high-level approach, summarized in
+Figure 2-5, which we hope will provide useful guidance.
+<i>Figure</i> <i>2-5.</i> <i>Deployment</i> <i>process</i>
+Where possible, the first step is to use an entirely manual process, with your deep
+learning model approach running in parallel but not being used directly to drive any
+actions. The humans involved in the manual process should look at the deep learning
+outputs and check whether they make sense. For instance, with our bear classifier, a
+park ranger could have a screen displaying video feeds from all the cameras, with any
+possible bear sightings simply highlighted in red. The park ranger would still be
+expected to be just as alert as before the model was deployed; the model is simply
+helping to check for problems at this point.
+The second step is to try to limit the scope of the model, and have it carefully super‐
+vised by people. For instance, do a small geographically and time-constrained trial of
+the model-driven approach. Rather than rolling out our bear classifier in every
+national park throughout the country, we could pick a single observation post, for a
+one-week period, and have a park ranger check each alert before it goes out.

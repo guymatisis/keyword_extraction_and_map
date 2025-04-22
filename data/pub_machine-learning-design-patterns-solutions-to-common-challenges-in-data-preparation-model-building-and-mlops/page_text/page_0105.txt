@@ -1,0 +1,34 @@
+error_i cov = var
+If the errors are perfectly correlated so that , then the mean square
+error of the ensemble model reduces to var . In this case, model averaging doesn’t
+error_i
+help at all. On the other extreme, if the errors are perfectly uncorrelated,
+then cov = 0 and the mean square error of the ensemble model is var/k . So, the
+expected square error decreases linearly with the number <i>k</i> of models in the ensem‐
+ble. 1 To summarize, on average, the ensemble will perform at least as well as any of
+the individual models in the ensemble. Furthermore, if the models in the ensemble
+make independent errors (for example, cov = 0 ), then the ensemble will perform sig‐
+nificantly better. Ultimately, the key to success with bagging is model diversity.
+This also explains why bagging is typically less effective for more stable learners like
+k-nearest neighbors (kNN), naive Bayes, linear models, or support vector machines
+(SVMs) since the size of the training set is reduced through bootstrapping. Even
+when using the same training data, neural networks can reach a variety of solutions
+due to random weight initializations or random mini-batch selection or different
+hyperparameters, creating models whose errors are partially independent. Thus,
+model averaging can even benefit neural networks trained on the same dataset. In
+fact, one recommended solution to fix the high variance of neural networks is to train
+multiple models and aggregate their predictions.
+<b>Boosting</b>
+The boosting algorithm works by iteratively improving the model to reduce the pre‐
+diction error. Each new weak learner corrects for the mistakes of the previous predic‐
+delta_i
+tion by modeling the residuals of each step. The final prediction is the sum
+of the outputs from the base learner and each of the successive weak learners, as
+shown in Figure 3-13.
+<i>Figure</i> <i>3-13.</i> <i>Boosting</i> <i>iteratively</i> <i>builds</i> <i>a</i> <i>strong</i> <i>learner</i> <i>from</i> <i>a</i> <i>sequence</i> <i>of</i> <i>weak</i> <i>learn‐</i>
+<i>ers</i> <i>that</i> <i>model</i> <i>the</i> <i>residual</i> <i>error</i> <i>of</i> <i>the</i> <i>previous</i> <i>iteration.</i>
+Thus, the resulting ensemble model becomes successively more and more complex,
+having more capacity than any one of its members. This also explains why boosting is
+particularly good for combating high bias. Recall, the bias is related to the model’s
+1 Fortheexplicitcomputationofthesevalues,seeIanGoodfellow,YoshuaBengio,andAaronCourville,Deep
+<i>Learning(Cambridge,MA:MITPress,2016),Ch.7.</i>

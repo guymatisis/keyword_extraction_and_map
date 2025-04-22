@@ -1,0 +1,40 @@
+examples from our minority class and 100 different, randomly selected values from
+our majority class. The bagging technique illustrated in Figure 3-11 would work well
+for this approach.
+In addition to combining these data-centric approaches, we can also adjust the thres‐
+hold for our classifier to optimize for precision or recall depending on our use case. If
+we care more that our model is correct whenever it makes a positive class prediction,
+we’d optimize our prediction threshold for recall. This can apply in any situation
+where we want to avoid false positives. Alternatively, if it is more costly to <i>miss</i> a
+potential positive classification even when we might get it wrong, we optimize our
+model for recall.
+<b>Choosingamodelarchitecture</b>
+Depending on our prediction task, there are different model architectures to consider
+when solving problems with the Rebalancing design pattern. If we’re working with
+tabular data and building a classification model for anomaly detection, research has
+shown that decision tree models perform well on these types of tasks. Tree-based
+models also work well on problems involving small and imbalanced datasets.
+XGBoost, scikit-learn, and TensorFlow all have methods for implementing decision
+tree models.
+We can implement a binary classifier in XGBoost with the following code:
+<i>#</i> <i>Build</i> <i>the</i> <i>model</i>
+model = xgb.XGBClassifier(
+objective='binary:logistic'
+)
+<i>#</i> <i>Train</i> <i>the</i> <i>model</i>
+model.fit(
+train_data,
+train_labels
+)
+We can use downsampling and class weights in each of these frameworks to further
+optimize our model using the Rebalancing design pattern. For example, to add
+XGBClassifier scale_pos_weight
+weighted classes to our above, we’d add a param‐
+eter, calculated based on the balance of classes in our dataset.
+If we’re detecting anomalies in time-series data, long short-term memory (LSTM)
+models work well for identifying patterns present in sequences. Clustering models are
+also an option for tabular data with imbalanced classes. For imbalanced datasets with
+image input, use deep learning architectures with downsampling, weighted classes,
+upsampling, or a combination of these techniques. For text data, however, generating
+synthetic data is less straightforward, and it’s best to rely on downsampling and
+weighted classes.

@@ -1,0 +1,41 @@
+simpler to implement since every card payment from the old data will have the exact
+same value (the 4-element array [0, 0.1, 0.3, 0.6]). We can update the older data in
+one line of code, rather than writing a script to generate random numbers as in the
+probabilistic method. It is also computationally much less expensive.
+<b>Augmenteddata</b>
+In order to maximize use of the newer data, make sure to use only two splits of the
+data, which is discussed in “Design Pattern 12: Checkpoints” on page 149 in Chap‐
+ter 4. Let’s say that we have 1 million examples available with the old schema, but
+only 5,000 examples available with the new schema. How should we create the train‐
+ing and evaluation datasets?
+Let’s take the evaluation dataset first. It is important to realize that the purpose of
+training an ML model is to make predictions on unseen data. The unseen data in our
+case will be exclusively data that matches the new schema. Therefore, we need to set
+aside a sufficient number of examples from the new data to adequately evaluate gen‐
+eralization performance. Perhaps we need 2,000 examples in our evaluation dataset in
+order to be confident that the model will perform well in production. The evaluation
+dataset will not contain any older examples that have been bridged to match the
+newer schema.
+How do we know whether we need 1,000 examples in the evaluation dataset or 2,000?
+To estimate this number, compute the evaluation metric of the current production
+model (which was trained on the old schema) on subsets of its evaluation dataset and
+determine how large the subset has to be before the evaluation metric is consistent.
+Computing the evaluation metric on different subsets could be done as follows (as
+usual, the full code is on GitHub in the code repository for this book):
+<b>for</b> subset_size <b>in</b> range(100, 5000, 100):
+sizes.append(subset_size)
+<i>#</i> <i>compute</i> <i>variability</i> <i>of</i> <i>the</i> <i>eval</i> <i>metric</i>
+<i>#</i> <i>at</i> <i>this</i> <i>subset</i> <i>size</i> <i>over</i> <i>25</i> <i>tries</i>
+scores = []
+<b>for</b> x <b>in</b> range(1, 25):
+indices = np.random.choice(N_eval,
+size=subset_size, replace=False)
+scores.append(
+model.score(df_eval[indices],
+df_old.loc[N_train+indices, 'tip'])
+)
+score_mean.append(np.mean(scores))
+score_stddev.append(np.std(scores))
+In the code above, we are trying out evaluation sizes of 100, 200, …, 5,000. At each
+subset size, we are evaluating the model 25 times, each time on a different, randomly
+sampled subset of the full evaluation set. Because this is the evaluation set of the cur‐

@@ -1,0 +1,21 @@
+conjunction with the Stateless Serving Function pattern to carry out prediction jobs
+at scale which, in turn, relies on the Transform pattern under the hood to maintain
+consistency between training and serving.
+<header><largefont><b>Patterns</b></largefont> <largefont><b>Within</b></largefont> <largefont><b>ML</b></largefont> <largefont><b>Projects</b></largefont></header>
+Machine learning systems enable teams within an organization to build, deploy, and
+maintain machine learning solutions at scale. They provide a platform for automat‐
+ing and accelerating all stages of the ML life cycle, from managing data, to training
+models, evaluating performance, deploying models, serving predictions, and moni‐
+toring performance. The patterns we have discussed in this book show up throughout
+any machine learning project. In this section, we’ll describe the stages of the ML life
+cycle and where many of these patterns are likely to arise.
+<header><largefont><b>ML</b></largefont> <largefont><b>Life</b></largefont> <largefont><b>Cycle</b></largefont></header>
+Building a machine learning solution is a cyclical process that begins with a clear
+understanding of the business goals and ultimately leads to having a machine learn‐
+ing model in production that benefits that goal. This high-level overview of the ML
+life cycle (see Figure 8-2) provides a useful roadmap designed to enable ML to bring
+value to businesses. Each of the stages is equally important, and failure to complete
+any one of these steps increases the risk in later stages of producing misleading
+insights or models of no value.
+<i>Figure</i> <i>8-2.</i> <i>The</i> <i>ML</i> <i>life</i> <i>cycle</i> <i>begins</i> <i>with</i> <i>defining</i> <i>the</i> <i>business</i> <i>use</i> <i>case</i> <i>and</i> <i>ultimately</i>
+<i>leads</i> <i>to</i> <i>having</i> <i>a</i> <i>machine</i> <i>learning</i> <i>model</i> <i>in</i> <i>production</i> <i>that</i> <i>benefits</i> <i>that</i> <i>goal.</i>

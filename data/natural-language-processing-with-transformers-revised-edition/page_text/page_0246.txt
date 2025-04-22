@@ -1,0 +1,26 @@
+<i>Figure</i> <i>8-11.</i> <i>The</i> <i>cubic</i> <i>sparsity</i> <i>scheduler</i> <i>used</i> <i>for</i> <i>pruning</i>
+One problem with magnitude pruning is that it is really designed for pure supervised
+learning, where the importance of each weight is directly related to the task at hand.
+By contrast, in transfer learning the importance of the weights is primarily deter‐
+mined by the pretraining phase, so magnitude pruning can remove connections that
+are important for the fine-tuning task. Recently, an adaptive approach called move‐
+ment pruning has been proposed by Hugging Face researchers—let’s take a look.20
+<b>Movementpruning</b>
+The basic idea behind movement pruning is to <i>gradually</i> remove weights during fine-
+tuning such that the model becomes progressively <i>sparser.</i> The key novelty is that
+both the weights and the scores are learned during fine-tuning. So, instead of being
+derived directly from the weights (like with magnitude pruning), the scores in move‐
+ment pruning are arbitrary and are learned through gradient descent like any other
+neural network parameter. This implies that in the backward pass, we also track the
+gradient of the loss <i>L</i> with respect to the scores <i>S</i> .
+<i>ij</i>
+Once the scores are learned, it is then straightforward to generate the binary mask
+.21
+using = Top
+<i>k</i>
+The intuition behind movement pruning is that the weights that are “moving” the
+most from zero are the most important ones to keep. In other words, the positive
+20 V.Sanh,T.Wolf,andA.M.Rush,“MovementPruning:AdaptiveSparsitybyFine-Tuning”,(2020).
+21 Thereisalsoa“soft”versionofmovementpruningwhereinsteadofpickingthetopk%ofweights,oneusesa
+
+globalthresholdτ todefinethebinarymask: = > <i>τ</i> .

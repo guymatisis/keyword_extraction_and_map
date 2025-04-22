@@ -1,0 +1,19 @@
+organization. The established common patterns and best practices as well as standard
+tools and libraries for accelerating ML projects are shared easily among different
+groups within the organization.
+Datasets are stored in a platform that is accessible to all teams, making it easy to dis‐
+cover, share, and reuse datasets and ML assets. There are standardized ML feature
+stores, and collaborations across the entire organization are encouraged. Fully auto‐
+mated organizations operate an integrated ML experimentation and production plat‐
+form where models are built and deployed and ML practices are accessible to
+everyone in the organization. That platform is supported by scalable and serverless
+computation for batch and online data ingestion and processing. Specialized ML
+accelerators such as GPUs and TPUs are available on demand and there are orches‐
+trated experiments for end-to-end data and ML pipelines.
+The development and production environments are similar to the pipeline stage (see
+Figure 8-6) but have incorporated CI/CD practices into each of the various stages of
+their ML workflow as well. These CI/CD best practices focus on reliability, reprodu‐
+cibility, and version control for the code to produce the ML models as well as the data
+and the data pipelines and their orchestration. This allows for building, testing, and
+packaging of various pipeline components. Model versioning is maintained by an ML
+Model Registry that also stores necessary ML metadata and artifacts.

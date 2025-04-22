@@ -1,0 +1,42 @@
+<b>from</b> <b>sklearn.ensemble</b> <b>import</b> RandomForestClassifier
+<b>from</b> <b>sklearn.ensemble</b> <b>import</b> VotingClassifier
+<b>from</b> <b>sklearn.linear_model</b> <b>import</b> LogisticRegression
+<b>from</b> <b>sklearn.svm</b> <b>import</b> SVC
+log_clf = LogisticRegression()
+rnd_clf = RandomForestClassifier()
+svm_clf = SVC()
+voting_clf = VotingClassifier(
+estimators=[('lr', log_clf), ('rf', rnd_clf), ('svc', svm_clf)],
+voting='hard')
+voting_clf.fit(X_train, y_train)
+Let’s look at each classifier’s accuracy on the test set:
+<b>>>></b> <b>from</b> <b>sklearn.metrics</b> <b>import</b> accuracy_score
+<b>>>></b> <b>for</b> clf <b>in</b> (log_clf, rnd_clf, svm_clf, voting_clf):
+<b>...</b> clf.fit(X_train, y_train)
+<b>...</b> y_pred = clf.predict(X_test)
+<b>...</b> <b>print(clf.__class__.__name__,</b> accuracy_score(y_test, y_pred))
+<b>...</b>
+LogisticRegression 0.864
+RandomForestClassifier 0.896
+SVC 0.888
+VotingClassifier 0.904
+There you have it! The voting classifier slightly outperforms all the individual
+classifiers.
+pre
+If all classifiers are able to estimate class probabilities (i.e., they all have a
+dict_proba() method), then you can tell Scikit-Learn to predict the class with the
+highest class probability, averaged over all the individual classifiers. This is called <i>soft</i>
+<i>voting.</i> It often achieves higher performance than hard voting because it gives more
+voting="hard"
+weight to highly confident votes. All you need to do is replace with
+voting="soft" and ensure that all classifiers can estimate class probabilities. This is
+SVC probability
+not the case for the class by default, so you need to set its hyper‐
+parameter to True (this will make the SVC class use cross-validation to estimate class
+probabilities, slowing down training, and it will add a predict_proba() method). If
+you modify the preceding code to use soft voting, you will find that the voting classi‐
+fier achieves over 91.2% accuracy!
+<header><largefont><b>Bagging</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Pasting</b></largefont></header>
+One way to get a diverse set of classifiers is to use very different training algorithms,
+as just discussed. Another approach is to use the same training algorithm for every
+predictor and train them on different random subsets of the training set. When sam‐

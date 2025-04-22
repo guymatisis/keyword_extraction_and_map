@@ -1,0 +1,22 @@
+If we ignore the skip connections, the layer normalization layers, the Feed Forward
+blocks, and the fact that this is Scaled Dot-Product Attention, not exactly Multi-Head
+Attention, then the rest of the Transformer model can be implemented like this:
+Z = encoder_in
+<b>for</b> N <b>in</b> range(6):
+Z = keras.layers.Attention(use_scale=True)([Z, Z])
+encoder_outputs = Z
+Z = decoder_in
+<b>for</b> N <b>in</b> range(6):
+Z = keras.layers.Attention(use_scale=True, causal=True)([Z, Z])
+Z = keras.layers.Attention(use_scale=True)([Z, encoder_outputs])
+outputs = keras.layers.TimeDistributed(
+keras.layers.Dense(vocab_size, activation="softmax"))(Z)
+The use_scale=True argument creates an additional parameter that lets the layer
+learn how to properly downscale the similarity scores. This is a bit different from the
+Transformer model, which always downscales the similarity scores by the same factor
+( <i>d</i> ). The causal=True argument when creating the second attention layer
+keys
+ensures that each output token only attends to previous output tokens, not future
+ones.
+Now it’s time to look at the final piece of the puzzle: what is a Multi-Head Attention
+layer? Its architecture is shown in Figure 16-10.

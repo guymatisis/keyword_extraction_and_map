@@ -1,0 +1,39 @@
+build()
+variables outside of the TF Function (e.g., in the method of a custom
+layer). If you want to assign a new value to the variable, make sure you call its
+assign() method, instead of using the = operator.
+• The source code of your Python function should be available to TensorFlow. If
+the source code is unavailable (for example, if you define your function in the
+Python shell, which does not give access to the source code, or if you deploy only
+the compiled <i>*.pyc</i> Python files to production), then the graph generation process
+will fail or have limited functionality.
+for
+• TensorFlow will only capture loops that iterate over a tensor or a dataset. So
+for i in tf.range(x) for i in range(x)
+make sure you use rather than , or
+else the loop will not be captured in the graph. Instead, it will run during tracing.
+for
+(This may be what you want if the loop is meant to build the graph, for
+example to create each layer in a neural network.)
+• As always, for performance reasons, you should prefer a vectorized implementa‐
+tion whenever you can, rather than using loops.
+It’s time to sum up! In this chapter we started with a brief overview of TensorFlow,
+then we looked at TensorFlow’s low-level API, including tensors, operations, vari‐
+ables, and special data structures. We then used these tools to customize almost every
+component in tf.keras. Finally, we looked at how TF Functions can boost perfor‐
+mance, how graphs are generated using AutoGraph and tracing, and what rules to
+follow when you write TF Functions (if you would like to open the black box a bit
+further, for example to explore the generated graphs, you will find technical details in
+Appendix G).
+In the next chapter, we will look at how to efficiently load and preprocess data with
+TensorFlow.
+<header><largefont><b>Exercises</b></largefont></header>
+1. How would you describe TensorFlow in a short sentence? What are its main fea‐
+tures? Can you name other popular Deep Learning libraries?
+2. Is TensorFlow a drop-in replacement for NumPy? What are the main differences
+between the two?
+3. Do you get the same result with tf.range(10) and tf.constant(np.ara
+nge(10))
+?
+4. Can you name six other data structures available in TensorFlow, beyond regular
+tensors?

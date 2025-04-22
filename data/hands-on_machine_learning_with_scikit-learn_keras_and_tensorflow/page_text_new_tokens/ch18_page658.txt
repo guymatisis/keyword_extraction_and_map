@@ -1,0 +1,42 @@
+<b>from</b> <b>tf_agents.policies.random_tf_policy</b> <b>import</b> RandomTFPolicy
+initial_collect_policy = RandomTFPolicy(tf_env.time_step_spec(),
+tf_env.action_spec())
+init_driver = DynamicStepDriver(
+tf_env,
+initial_collect_policy,
+observers=[replay_buffer.add_batch, ShowProgress(20000)],
+num_steps=20000) <i>#</i> <i><=></i> <i>80,000</i> <i>ALE</i> <i>frames</i>
+final_time_step, final_policy_state = init_driver.run()
+We’re almost ready to run the training loop! We just need one last component: the
+dataset.
+<header><largefont><b>Creating</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Dataset</b></largefont></header>
+To sample a batch of trajectories from the replay buffer, call its get_next() method.
+BufferInfo
+This returns the batch of trajectories plus a object that contains the sam‐
+ple identifiers and their sampling probabilities (this may be useful for some algo‐
+rithms, such as PER). For example, the following code will sample a small batch of
+two trajectories (subepisodes), each containing three consecutive steps. These
+subepisodes are shown in Figure 18-15 (each row contains three consecutive steps
+from an episode):
+<b>>>></b> trajectories, buffer_info = replay_buffer.get_next(
+<b>...</b> sample_batch_size=2, num_steps=3)
+<b>...</b>
+<b>>>></b> trajectories._fields
+('step_type', 'observation', 'action', 'policy_info',
+'next_step_type', 'reward', 'discount')
+<b>>>></b> trajectories.observation.shape
+TensorShape([2, 3, 84, 84, 4])
+<b>>>></b> trajectories.step_type.numpy()
+array([[1, 1, 1],
+[1, 1, 1]], dtype=int32)
+The trajectories object is a named tuple, with seven fields. Each field contains a
+tensor whose first two dimensions are 2 and 3 (since there are two trajectories, each
+observation
+with three steps). This explains why the shape of the field is [2, 3, 84, 84,
+4]: that’s two trajectories, each with three steps, and each step’s observation is 84 × 84
+step_type
+× 4. Similarly, the tensor has a shape of [2, 3]: in this example, both trajec‐
+tories contain three consecutive steps in the middle on an episode (types 1, 1, 1). In
+the second trajectory, you can barely see the ball at the lower left of the first observa‐
+tion, and it disappears in the next two observations, so the agent is about to lose a life,
+but the episode will not end immediately because it still has several lives left.

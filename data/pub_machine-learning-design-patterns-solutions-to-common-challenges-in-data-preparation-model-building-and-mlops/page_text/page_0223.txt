@@ -1,0 +1,42 @@
+<b>Savingpredictions</b>
+Once the model is deployed, we can set up a job to save a sample of the prediction
+requests—the reason to save a sample, rather than all requests, is to avoid unnecessa‐
+rily slowing down the serving system. We can do this in the Continuous Evaluation
+section of the Google Cloud AI Platform (CAIP) console by specifying the LabelKey
+(the column that is the output of the model, which in our case will be source since we
+ScoreKey
+are predicting the source of the article), a in the prediction outputs (a
+numeric value, which in our case is confidence), and a table in BigQuery where a
+portion of the online prediction requests are stored. In our example code, the table is
+txtcls_eval.swivel
+called . Once this has been configured, whenever online predic‐
+tions are made, CAIP streams the model name, the model version, the timestamp of
+the prediction request, the raw prediction input, and the model’s output to the speci‐
+fied BigQuery table, as shown in Table 5-1.
+<i>Table</i> <i>5-1.</i> <i>A</i> <i>proportion</i> <i>of</i> <i>the</i> <i>online</i> <i>prediction</i> <i>requests</i> <i>and</i> <i>the</i> <i>raw</i> <i>prediction</i> <i>output</i> <i>is</i>
+<i>saved</i> <i>to</i> <i>a</i> <i>table</i> <i>in</i> <i>BigQuery</i>
+<b>Row</b> <b>model</b> <b>model_version</b> <b>time</b> <b>raw_data</b> <b>raw_prediction</b> <b>groundtruth</b>
+1 txtcls swivel 2020-06-10 {"instances”:[{"text”: {"predictions”:[{"source”: null
+01:40:32UTC “AstronautsDockWith “github”,“confidence”:
+SpaceStationAfter 0.9994275569915771}]}
+HistoricSpaceX
+Launch"}]}
+2 txtcls swivel 2020-06-10 {"instances”:[{"text”: {"predictions”:[{"source”: null
+01:37:46UTC “SenateConfirmsFirst “nytimes”,“confidence”:
+BlackAirForce 0.9989787340164185}]}
+Chief"}]}
+3 txtcls swivel 2020-06-09 {"instances”:[{"text”: {"predictions”:[{"source”: null
+21:21:47UTC “AnativeMacapp “github”,“confidence”:
+wrapperforWhatsApp 0.745254397392273}]}
+Web"}]}
+<b>Capturinggroundtruth</b>
+It is also necessary to capture the ground truth for each of the instances sent to the
+model for prediction. This can be done in a number of ways depending on the use
+case and data availability. One approach would be to use a human labeling service—
+all instances sent to the model for prediction, or maybe just the ones for which the
+model has marginal confidence, are sent out for human annotation. Most cloud pro‐
+viders offer some form of a human labeling service to enable labeling instances at
+scale in this way.
+Ground truth labels can also be derived from how users interact with the model and
+its predictions. By having users take a specific action, it is possible to obtain implicit
+feedback for a model’s prediction or to produce a ground truth label. For example,

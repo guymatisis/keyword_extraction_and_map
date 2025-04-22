@@ -1,0 +1,37 @@
+The externalized model state gets updated every 10 minutes based on a 2-hour rolling
+window:
+<b>Windowclosetime</b> <b>prediction</b> <b>acceptable_deviation</b>
+2010-05-10T06:35:00 -2.8421052631578947 10.48412597725367
+2010-05-10T06:45:00 -2.6818181818181817 12.083729926046008
+2010-05-10T06:55:00 -2.9615384615384617 11.765962341537781
+The code to extract the model parameters shown above is similar to that of the pan‐
+das case, but it is done within a Beam pipeline. This allows the code to work in
+streaming, but the model state is available only within the context of the sliding win‐
+dow. In order to carry out inference on every arriving flight, we need to externalize
+the model state (similar to how we export the model weights out to a file in the State‐
+less Serving Function pattern to decouple it from the context of the training program
+where these weights are computed):
+model_external = beam.pvalue.AsSingleton(model_state)
+This externalized state can be used to detect whether or not a given flight is an
+anomaly:
+<b>def</b> is_anomaly(flight, model_external_state):
+result = flight.copy()
+error = flight['delay'] - model_external_state['prediction']
+tolerance = model_external_state['acceptable_deviation']
+result['is_anomaly'] = np.abs(error) > tolerance
+<b>return</b> result
+is_anomaly
+The function is then applied to every item in the last pane of the sliding
+window:
+anomalies = (windowed
+| 'latest_slice' >> beam.FlatMap(is_latest_slice)
+| 'find_anomaly' >> beam.Map(is_anomaly, model_external))
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+The solution suggested above is computationally efficient in the case of high-
+throughput data streams but can be improved further if the ML model parameters
+can be updated online. This pattern is also applicable to stateful ML models such as
+recurrent neural networks and when a stateless model requires stateful input features.
+<b>Reducecomputationaloverhead</b>
+In the Problem section, we used the following pandas code:
+dfw['delay'].rolling('2h').apply(is_anomaly, raw=False);
+Whereas, in the Solution section, the Beam code was as follows:

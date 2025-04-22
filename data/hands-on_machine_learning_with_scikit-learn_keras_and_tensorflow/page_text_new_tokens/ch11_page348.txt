@@ -1,0 +1,38 @@
+model_A_clone = keras.models.clone_model(model_A)
+model_A_clone.set_weights(model_A.get_weights())
+model_B_on_A
+Now you could train for task B, but since the new output layer was ini‐
+tialized randomly it will make large errors (at least during the first few epochs), so
+there will be large error gradients that may wreck the reused weights. To avoid this,
+one approach is to freeze the reused layers during the first few epochs, giving the new
+trainable
+layer some time to learn reasonable weights. To do this, set every layer’s
+attribute to False and compile the model:
+<b>for</b> layer <b>in</b> model_B_on_A.layers[:-1]:
+layer.trainable = False
+model_B_on_A.compile(loss="binary_crossentropy", optimizer="sgd",
+metrics=["accuracy"])
+You must always compile your model after you freeze or unfreeze
+layers.
+Now you can train the model for a few epochs, then unfreeze the reused layers (which
+requires compiling the model again) and continue training to fine-tune the reused
+layers for task B. After unfreezing the reused layers, it is usually a good idea to reduce
+the learning rate, once again to avoid damaging the reused weights:
+history = model_B_on_A.fit(X_train_B, y_train_B, epochs=4,
+validation_data=(X_valid_B, y_valid_B))
+<b>for</b> layer <b>in</b> model_B_on_A.layers[:-1]:
+layer.trainable = True
+optimizer = keras.optimizers.SGD(lr=1e-4) <i>#</i> <i>the</i> <i>default</i> <i>lr</i> <i>is</i> <i>1e-2</i>
+model_B_on_A.compile(loss="binary_crossentropy", optimizer=optimizer,
+metrics=["accuracy"])
+history = model_B_on_A.fit(X_train_B, y_train_B, epochs=16,
+validation_data=(X_valid_B, y_valid_B))
+So, what’s the final verdict? Well, this model’s test accuracy is 99.25%, which means
+that transfer learning reduced the error rate from 2.8% down to almost 0.7%! That’s a
+factor of four!
+<b>>>></b> model_B_on_A.evaluate(X_test_B, y_test_B)
+[0.06887910133600235, 0.9925]
+Are you convinced? You shouldn’t be: I cheated! I tried many configurations until I
+found one that demonstrated a strong improvement. If you try to change the classes
+or the random seed, you will see that the improvement generally drops, or even van‐
+ishes or reverses. What I did is called “torturing the data until it confesses.” When a

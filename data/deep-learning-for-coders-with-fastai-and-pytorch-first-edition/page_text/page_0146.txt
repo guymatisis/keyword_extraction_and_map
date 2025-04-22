@@ -1,0 +1,38 @@
+So to start, let’s create tensors for our 3s and 7s from that directory. These are the ten‐
+sors we will use to calculate a metric measuring the quality of our first-try model,
+which measures distance from an ideal image:
+valid_3_tens = torch.stack([tensor(Image.open(o))
+<b>for</b> o <b>in</b> (path/'valid'/'3').ls()])
+valid_3_tens = valid_3_tens.float()/255
+valid_7_tens = torch.stack([tensor(Image.open(o))
+<b>for</b> o <b>in</b> (path/'valid'/'7').ls()])
+valid_7_tens = valid_7_tens.float()/255
+valid_3_tens.shape,valid_7_tens.shape
+(torch.Size([1010, 28, 28]), torch.Size([1028, 28, 28]))
+It’s good to get in the habit of checking shapes as you go. Here we see two tensors, one
+representing the 3s validation set of 1,010 images of size 28×28, and one representing
+the 7s validation set of 1,028 images of size 28×28.
+We ultimately want to write a function, is_3, that will decide whether an arbitrary
+image is a 3 or a 7. It will do this by deciding which of our two “ideal digits” that arbi‐
+trary image is closer to. For that we need to define a notion of <i>distance—that</i> is, a
+function that calculates the distance between two images.
+We can write a simple function that calculates the mean absolute error using an
+expression very similar to the one we wrote in the last section:
+<b>def</b> mnist_distance(a,b): <b>return</b> (a-b).abs().mean((-1,-2))
+mnist_distance(a_3, mean3)
+tensor(0.1114)
+This is the same value we previously calculated for the distance between these two
+images, the ideal 3 mean_3 and the arbitrary sample 3 a_3, which are both single-
+image tensors with a shape of [28,28] .
+But to calculate a metric for overall accuracy, we will need to calculate the distance to
+the ideal 3 for <i>every</i> image in the validation set. How do we do that calculation? We
+could write a loop over all of the single-image tensors that are stacked within our val‐
+idation set tensor, valid_3_tens, which has a shape of [1010,28,28] representing
+1,010 images. But there is a better way.
+Something interesting happens when we take this exact same distance function,
+designed for comparing two single images, but pass in as an argument valid_3_tens,
+the tensor that represents the 3s validation set:
+valid_3_dist = mnist_distance(valid_3_tens, mean3)
+valid_3_dist, valid_3_dist.shape
+(tensor([0.1050, 0.1526, 0.1186, ..., 0.1122, 0.1170, 0.1086]),
+torch.Size([1010]))

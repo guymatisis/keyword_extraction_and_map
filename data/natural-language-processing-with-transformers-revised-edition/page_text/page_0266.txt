@@ -1,0 +1,41 @@
+<b>from</b> <b>transformers</b> <b>import</b> pipeline
+pipe = pipeline("zero-shot-classification", device=0)
+The setting device=0 makes sure that the model runs on the GPU instead of the
+default CPU to speed up inference. To classify a text, we simply need to pass it to the
+multi_label=True
+pipeline along with the label names. In addition, we can set to
+ensure that all the scores are returned and not only the maximum for single-label
+classification:
+sample = ds["train"][0]
+<b>print(f"Labels:</b> {sample['labels']}")
+output = pipe(sample["text"], all_labels, multi_label=True)
+<b>print(output["sequence"][:400])</b>
+<b>print("\nPredictions:")</b>
+<b>for</b> label, score <b>in</b> zip(output["labels"], output["scores"]):
+<b>print(f"{label},</b> {score:.2f}")
+Labels: ['new model']
+Add new CANINE model
+# New model addition
+## Model description
+Google recently proposed a new **C**haracter **A**rchitecture with **N**o
+tokenization **I**n **N**eural **E**ncoders architecture (CANINE). Not only the
+title is exciting:
+> Pipelined NLP systems have largely been superseded by end-to-end neural
+modeling, yet nearly all commonly-used models still require an explicit tokeni
+Predictions:
+new model, 0.98
+tensorflow or tf, 0.37
+examples, 0.34
+usage, 0.30
+pytorch, 0.25
+documentation, 0.25
+model training, 0.24
+tokenization, 0.17
+pipeline, 0.16
+Since we are using a subword tokenizer, we can even pass code to
+the model! The tokenization might not be very efficient because
+only a small fraction of the pretraining dataset for the zero-shot
+pipeline consists of code snippets, but since code is also made up of
+a lot of natural words this is not a big issue. Also, the code block
+might contain important information, such as the framework
+(PyTorch or TensorFlow).

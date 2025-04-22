@@ -1,0 +1,26 @@
+<i>Figure</i> <i>4-15.</i> <i>In</i> <i>synchronous</i> <i>training,</i> <i>each</i> <i>worker</i> <i>holds</i> <i>a</i> <i>copy</i> <i>of</i> <i>the</i> <i>model</i> <i>and</i> <i>com‐</i>
+<i>putes</i> <i>gradients</i> <i>using</i> <i>a</i> <i>slice</i> <i>of</i> <i>the</i> <i>training</i> <i>data</i> <i>mini-batch.</i>
+To implement this mirrored strategy in Keras, you first create an instance of the mir‐
+rored distribution strategy, then move the creation and compiling of the model inside
+the scope of that instance. The following code shows how to use MirroredStrategy
+when training a three-layer neural network:
+mirrored_strategy = tf.distribute.MirroredStrategy()
+<b>with</b> mirrored_strategy.scope():
+model = tf.keras.Sequential([tf.keras.layers.Dense(32, input_shape=(5,)),
+tf.keras.layers.Dense(16, activation='relu'),
+tf.keras.layers.Dense(1)])
+model.compile(loss='mse', optimizer='sgd')
+By creating the model inside this scope, the parameters of the model are created as
+mirrored variables instead of regular variables. When it comes to fitting the model on
+the dataset, everything is performed exactly the same as before. The model code stays
+the same! Wrapping the model code in the distribution strategy scope is all you need
+MirroredStrategy
+to do to enable distributed training. The handles replicating the
+model parameters on the available GPUs, aggregating gradients, and more. To train
+fit() evaluate()
+or evaluate the model, we just call or as usual:
+model.fit(train_dataset, epochs=2)
+model.evaluate(train_dataset)
+During training, each batch of the input data is divided equally among
+the multiple workers. For example, if you are using two GPUs, then a batch
+size of 10 will be split among the 2 GPUs, with each receiving 5 training examples

@@ -1,0 +1,31 @@
+12. What is SGD?
+13. Why does SGD use mini-batches?
+14. What are the seven steps in SGD for machine learning?
+15. How do we initialize the weights in a model?
+16. What is loss?
+17. Why can’t we always use a high learning rate?
+18. What is a gradient?
+19. Do you need to know how to calculate gradients yourself?
+20. Why can’t we use accuracy as a loss function?
+21. Draw the sigmoid function. What is special about its shape?
+22. What is the difference between a loss function and a metric?
+23. What is the function to calculate new weights using a learning rate?
+24. What does the DataLoader class do?
+25. Write pseudocode showing the basic steps taken in each epoch for SGD.
+26. Create a function that, if passed two arguments [1,2,3,4] and 'abcd', returns
+[(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd')].
+What is special about that out‐
+put data structure?
+27. What does view do in PyTorch?
+28. What are the bias parameters in a neural network? Why do we need them?
+29. What does the @ operator do in Python?
+30. What does the backward method do?
+31. Why do we have to zero the gradients?
+32. What information do we have to pass to Learner?
+33. Show Python or pseudocode for the basic steps of a training loop.
+34. What is ReLU? Draw a plot of it for values from -2 to +2.
+35. What is an activation function?
+36. What’s the difference between F.relu and nn.ReLU?
+37. The universal approximation theorem shows that any function can be approxi‐
+mated as closely as needed using just one nonlinearity. So why do we normally
+use more?

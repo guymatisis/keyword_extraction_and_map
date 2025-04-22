@@ -1,0 +1,41 @@
+underlying mapping as <i>H(x),</i> we let the stacked nonlinear layers fit another mapping of
+<i>F(x)</i> := H(x)−x. The original mapping is recast into <i>F(x)+x.</i> We hypothesize that it is
+easier to optimize the residual mapping than to optimize the original, unreferenced
+mapping. To the extreme, if an identity mapping were optimal, it would be easier to
+push the residual to zero than to fit an identity mapping by a stack of nonlinear layers.
+Again, this is rather inaccessible prose—so let’s try to restate it in plain English! If the
+x
+outcome of a given layer is and we’re using a ResNet block that returns
+y = x + block(x) , we’re not asking the block to predict y ; we are asking it to predict
+the difference between y and x. So the job of those blocks isn’t to predict certain fea‐
+tures, but to minimize the error between x and the desired y . A ResNet is, therefore,
+good at learning about slight differences between doing nothing and passing through
+a block of two convolutional layers (with trainable weights). This is how these models
+got their name: they’re predicting residuals (reminder: “residual” is prediction minus
+target).
+One key concept that both of these two ways of thinking about ResNets share is the
+idea of ease of learning. This is an important theme. Recall the universal approxima‐
+tion theorem, which states that a sufficiently large network can learn anything. This is
+still true, but there turns out to be a very important difference between what a net‐
+work <i>can</i> <i>learn</i> in principle, and what it is <i>easy</i> <i>for</i> <i>it</i> <i>to</i> <i>learn</i> with realistic data and
+training regimes. Many of the advances in neural networks over the last decade have
+been like the ResNet block: the result of realizing how to make something that was
+always possible actually feasible.
+<b>TrueIdentityPath</b>
+The original paper didn’t actually do the trick of using zero for the
+initial value of gamma in the last batchnorm layer of each block; that
+came a couple of years later. So, the original version of ResNet
+didn’t quite begin training with a true identity path through the
+ResNet blocks, but nonetheless having the ability to “navigate
+through” the skip connections did make it train better. Adding the
+batchnorm gamma init trick made the models train at even higher
+learning rates.
+gamma
+Here’s the definition of a simple ResNet block (fastai initializes the weights of
+the last batchnorm layer to zero because of norm_type=NormType.BatchZero):
+<b>class</b> <b>ResBlock(Module):</b>
+<b>def</b> <b>__init__(self,</b> ni, nf):
+self.convs = nn.Sequential(
+ConvLayer(ni,nf),
+ConvLayer(nf,nf, norm_type=NormType.BatchZero))
+<b>def</b> forward(self, x): <b>return</b> x + self.convs(x)

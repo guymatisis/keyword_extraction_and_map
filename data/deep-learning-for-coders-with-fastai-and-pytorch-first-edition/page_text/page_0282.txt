@@ -1,0 +1,23 @@
+<i>Figure</i> <i>9-5.</i> <i>The</i> <i>Google</i> <i>Play</i> <i>recommendation</i> <i>system</i>
+Let’s pause for a moment. So far, the solution to all of our modeling problems has
+been to <i>train</i> <i>a</i> <i>deep</i> <i>learning</i> <i>model.</i> And indeed, that is a pretty good rule of thumb
+for complex unstructured data like images, sounds, natural language text, and so
+forth. Deep learning also works very well for collaborative filtering. But it is not
+always the best starting point for analyzing tabular data.
+<header><largefont><b>Beyond</b></largefont> <largefont><b>Deep</b></largefont> <largefont><b>Learning</b></largefont></header>
+Most machine learning courses will throw dozens of algorithms at you, with a brief
+technical description of the math behind them and maybe a toy example. You’re left
+confused by the enormous range of techniques shown and have little practical under‐
+standing of how to apply them.
+The good news is that modern machine learning can be distilled down to a couple of
+key techniques that are widely applicable. Recent studies have shown that the vast
+majority of datasets can be best modeled with just two methods:
+• Ensembles of decision trees (i.e., random forests and gradient boosting
+machines), mainly for structured data (such as you might find in a database table
+at most companies)
+• Multilayered neural networks learned with SGD (i.e., shallow and/or deep learn‐
+ing), mainly for unstructured data (such as audio, images, and natural language)
+Although deep learning is nearly always clearly superior for unstructured data, these
+two approaches tend to give quite similar results for many kinds of structured data.
+But ensembles of decision trees tend to train faster, are often easier to interpret, do
+not require special GPU hardware for inference at scale, and often require less

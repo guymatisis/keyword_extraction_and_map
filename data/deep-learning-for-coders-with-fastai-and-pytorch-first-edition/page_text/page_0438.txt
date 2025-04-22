@@ -1,0 +1,34 @@
+learn = fit(5, lr=0.1)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.191731 0.121738 0.960900 00:11
+1 0.083739 0.055808 0.981800 00:10
+2 0.053161 0.044485 0.987100 00:10
+3 0.034433 0.030233 0.990200 00:10
+4 0.017646 0.025407 0.991200 00:10
+learn = fit(5, lr=0.1)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.183244 0.084025 0.975800 00:13
+1 0.080774 0.067060 0.978800 00:12
+2 0.050215 0.062595 0.981300 00:12
+3 0.030020 0.030315 0.990700 00:12
+4 0.015131 0.025148 0.992100 00:12
+At this point, I think it’s fair to say we know how to recognize digits! It’s time to move
+on to something harder…
+<header><largefont><b>Conclusion</b></largefont></header>
+We’ve seen that convolutions are just a type of matrix multiplication, with two con‐
+straints on the weight matrix: some elements are always zero, and some elements are
+tied (forced to always have the same value). In Chapter 1, we saw the eight require‐
+ments from the 1986 book <i>Parallel</i> <i>Distributed</i> <i>Processing;</i> one of them was “A pattern
+of connectivity among units.” That’s exactly what these constraints do: they enforce a
+certain pattern of connectivity.
+These constraints allow us to use far fewer parameters in our model, without sacrific‐
+ing the ability to represent complex visual features. That means we can train deeper
+models faster, with less overfitting. Although the universal approximation theorem
+shows that it should be <i>possible</i> to represent anything in a fully connected network in
+one hidden layer, we’ve seen now that in <i>practice</i> we can train much better models by
+being thoughtful about network architecture.
+Convolutions are by far the most common pattern of connectivity we see in neural
+nets (along with regular linear layers, which we refer to as <i>fully</i> <i>connected),</i> but it’s
+likely that many more will be discovered.
+We’ve also seen how to interpret the activations of layers in the network to see
+whether training is going well or not, and how batchnorm helps regularize the

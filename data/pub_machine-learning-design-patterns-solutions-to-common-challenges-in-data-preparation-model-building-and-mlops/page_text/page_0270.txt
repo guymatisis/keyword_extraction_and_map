@@ -1,0 +1,14 @@
+Figure 6-4 (the notebook on GitHub has the full details) that the evaluation metric
+drops steeply until 20,000 examples and then starts to plateau.
+<i>Figure</i> <i>6-4.</i> <i>Determine</i> <i>the</i> <i>number</i> <i>of</i> <i>older</i> <i>examples</i> <i>to</i> <i>bridge</i> <i>by</i> <i>carrying</i> <i>out</i> <i>hyper‐</i>
+<i>parameter</i> <i>tuning.</i> <i>In</i> <i>this</i> <i>case,</i> <i>it</i> <i>is</i> <i>apparent</i> <i>that</i> <i>there</i> <i>are</i> <i>diminishing</i> <i>returns</i> <i>after</i>
+<i>20,000</i> <i>bridged</i> <i>examples.</i>
+For best results, we should choose the smallest number of older examples that we can
+get away with—ideally, over time, as the number of new examples grows, we’ll rely
+less and less on bridged examples. At some point, we’ll be able to get rid of the older
+examples altogether.
+It is worth noting that, on this problem, bridging does bring benefits because when
+we use no bridged examples, the evaluation metric is worse. If this is not the case,
+then the imputation method (the method of choosing the static value used for bridg‐
+ing) needs to be reexamined. We suggest an alternate imputation method (Cascade)
+in the next section.

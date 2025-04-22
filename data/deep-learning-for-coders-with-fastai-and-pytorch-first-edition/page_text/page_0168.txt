@@ -1,0 +1,31 @@
+<b>ReadtheDocs</b>
+It’s important to learn about PyTorch functions like this, because
+looping over tensors in Python performs at Python speed, not C/
+CUDA speed! Try running help(torch.where) now to read the
+docs for this function, or, better still, look it up on the PyTorch
+documentation site.
+Let’s try it on our prds and trgts:
+torch.where(trgts==1, 1-prds, prds)
+tensor([0.1000, 0.4000, 0.8000])
+You can see that this function returns a lower number when predictions are more
+accurate, when accurate predictions are more confident (higher absolute values), and
+when inaccurate predictions are less confident. In PyTorch, we always assume that a
+lower value of a loss function is better. Since we need a scalar for the final loss,
+mnist_loss takes the mean of the previous tensor:
+mnist_loss(prds,trgts)
+tensor(0.4333)
+For instance, if we change our prediction for the one “false” target from 0.2 to 0.8,
+the loss will go down, indicating that this is a better prediction:
+mnist_loss(tensor([0.9, 0.4, 0.8]),trgts)
+tensor(0.2333)
+One problem with mnist_loss as currently defined is that it assumes that predictions
+are always between 0 and 1. We need to ensure, then, that this is actually the case! As
+it happens, there is a function that does exactly that—let’s take a look.
+<header><largefont><b>Sigmoid</b></largefont></header>
+The sigmoid function always outputs a number between 0 and 1. It’s defined as
+follows:
+<b>def</b> sigmoid(x): <b>return</b> 1/(1+torch.exp(-x))
+PyTorch defines an accelerated version for us, so we don’t really need our own. This is
+an important function in deep learning, since we often want to ensure that values are
+between 0 and 1. This is what it looks like:
+plot_function(torch.sigmoid, title='Sigmoid', min=-4, max=4)

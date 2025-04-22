@@ -1,0 +1,43 @@
+<header><largefont><b>Defining</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Loop</b></largefont></header>
+We now have all the elements to write our training loop. One obvious limitation of
+training our own language model is the memory limits on the GPUs we will use. Even
+on a modern graphics card you can’t train a model at GPT-2 scale in reasonable time.
+In this tutorial we will implement <i>data</i> <i>parallelism,</i> which will help us utilize several
+GPUs for training. Fortunately, we can use Accelerate to make our code scalable.
+The Accelerate library is designed to make distributed training—and changing the
+underlying hardware for training—easy. We can also use the Trainer for distributed
+training but Accelerate gives us full control over the training loop, which is what
+we want to explore here.
+Accelerate provides an easy API to make training scripts run with mixed precision
+and in any kind of distributed setting (single GPU, multiple GPUs, and TPUs). The
+same code can then run seamlessly on your local machine for debugging purposes or
+your beefy training cluster for the final training run. You only need to make a handful
+of changes to your native PyTorch training loop:
+<b>import</b> <b>torch</b>
+<b>import</b> <b>torch.nn.functional</b> <b>as</b> <b>F</b>
+<b>from</b> <b>datasets</b> <b>import</b> load_dataset
++ <b>from</b> <b>accelerate</b> <b>import</b> Accelerator
+- device = 'cpu'
++ accelerator = Accelerator()
+- model = torch.nn.Transformer().to(device)
++ model = torch.nn.Transformer()
+optimizer = torch.optim.Adam(model.parameters())
+dataset = load_dataset('my_dataset')
+data = torch.utils.data.DataLoader(dataset, shuffle=True)
++ model, optimizer, data = accelerator.prepare(model, optimizer, data)
+model.train()
+<b>for</b> epoch <b>in</b> range(10):
+<b>for</b> source, targets <b>in</b> data:
+- source = source.to(device)
+- targets = targets.to(device)
+optimizer.zero_grad()
+output = model(source)
+loss = F.cross_entropy(output, targets)
+- loss.backward()
++ accelerator.backward(loss)
+optimizer.step()
+prepare(),
+The core part of the changes is the call to which makes sure the model,
+optimizers, and dataloaders are all prepared and distributed on the infrastructure.
+These minor changes to the PyTorch training loop enable you to easily scale training
+across different infrastructures. With that in mind, let’s start building up our training

@@ -1,0 +1,27 @@
+strategy for dealing with this is by being careful about initialization, which is a topic
+we’ll investigate in Chapter 17.
+For RNNs, two types of layers are frequently used to avoid exploding activations:
+<i>gated</i> <i>recurrent</i> <i>units</i> (GRUs) and <i>long</i> <i>short-term</i> <i>memory</i> (LSTM) layers. Both of
+these are available in PyTorch and are drop-in replacements for the RNN layer. We
+will cover only LSTMs in this book; plenty of good tutorials online explain GRUs,
+which are a minor variant on the LSTM design.
+<header><largefont><b>LSTM</b></largefont></header>
+LSTM is an architecture that was introduced back in 1997 by Jürgen Schmidhuber
+and Sepp Hochreiter. In this architecture, there are not one, but two, hidden states. In
+our base RNN, the hidden state is the output of the RNN at the previous time step.
+That hidden state is then responsible for two things:
+• Having the right information for the output layer to predict the correct next
+token
+• Retaining memory of everything that happened in the sentence
+Consider, for example, the sentences “Henry has a dog and he likes his dog very
+much” and “Sophie has a dog and she likes her dog very much.” It’s very clear that the
+RNN needs to remember the name at the beginning of the sentence to be able to pre‐
+dict <i>he/she</i> or <i>his/her.</i>
+In practice, RNNs are really bad at retaining memory of what happened much earlier
+in the sentence, which is the motivation to have another hidden state (called <i>cell</i> <i>state)</i>
+in the LSTM. The cell state will be responsible for keeping <i>long</i> <i>short-term</i> <i>memory,</i>
+while the hidden state will focus on the next token to predict. Let’s take a closer look
+at how this is achieved and build an LSTM from scratch.
+<header><largefont><b>Building</b></largefont> <largefont><b>an</b></largefont> <largefont><b>LSTM</b></largefont> <largefont><b>from</b></largefont> <largefont><b>Scratch</b></largefont></header>
+In order to build an LSTM, we first have to understand its architecture. Figure 12-9
+shows its inner structure.

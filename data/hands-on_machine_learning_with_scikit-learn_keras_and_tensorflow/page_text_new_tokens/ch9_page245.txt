@@ -1,0 +1,22 @@
+memmap
+If the dataset does not fit in memory, the simplest option is to use the class, as
+we did for incremental PCA in Chapter 8. Alternatively, you can pass one mini-batch
+at a time to the partial_fit() method, but this will require much more work, since
+you will need to perform multiple initializations and select the best one yourself (see
+the mini-batch K-Means section of the notebook for an example).
+Although the Mini-batch K-Means algorithm is much faster than the regular K-
+Means algorithm, its inertia is generally slightly worse, especially as the number of
+clusters increases. You can see this in Figure 9-6: the plot on the left compares the
+inertias of Mini-batch K-Means and regular K-Means models trained on the previous
+dataset using various numbers of clusters <i>k.</i> The difference between the two curves
+remains fairly constant, but this difference becomes more and more significant as <i>k</i>
+increases, since the inertia becomes smaller and smaller. In the plot on the right, you
+can see that Mini-batch K-Means is much faster than regular K-Means, and this dif‐
+ference increases with <i>k.</i>
+<i>Figure</i> <i>9-6.</i> <i>Mini-batch</i> <i>K-Means</i> <i>has</i> <i>a</i> <i>higher</i> <i>inertia</i> <i>than</i> <i>K-Means</i> <i>(left)</i> <i>but</i> <i>it</i> <i>is</i> <i>much</i>
+<i>faster</i> <i>(right),</i> <i>especially</i> <i>as</i> <i>k</i> <i>increases</i>
+<b>Findingtheoptimalnumberofclusters</b>
+So far, we have set the number of clusters <i>k</i> to 5 because it was obvious by looking at
+the data that this was the correct number of clusters. But in general, it will not be so
+easy to know how to set <i>k,</i> and the result might be quite bad if you set it to the wrong
+value. As you can see in Figure 9-7, setting <i>k</i> to 3 or 8 results in fairly bad models.

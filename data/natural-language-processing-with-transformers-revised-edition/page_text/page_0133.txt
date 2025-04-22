@@ -1,0 +1,36 @@
+The researchers, from the University of California, Davis, and the University of
+Colorado, Boulder, were conducting a study on the Andean cloud forest, which is
+home to the rare species of cloud forest trees.
+The researchers were surprised to find that the unicorns were able to
+communicate with each other, and even with humans.
+The researchers were surprised to find that the unicorns were able
+log-prob: -87.43
+Now let’s compare this to a sequence that is generated with beam search. To activate
+generate()
+beam search with the function we just need to specify the number of
+beams with the num_beams parameter. The more beams we choose, the better the
+result potentially gets; however, the generation process becomes much slower since
+we generate parallel sequences for each beam:
+output_beam = model.generate(input_ids, max_length=max_length, num_beams=5,
+do_sample=False)
+logp = sequence_logprob(model, output_beam, input_len=len(input_ids[0]))
+<b>print(tokenizer.decode(output_beam[0]))</b>
+<b>print(f"\nlog-prob:</b> {logp:.2f}")
+In a shocking finding, scientist discovered a herd of unicorns living in a
+remote, previously unexplored valley, in the Andes Mountains. Even more
+surprising to the researchers was the fact that the unicorns spoke perfect
+English.
+The discovery of the unicorns was made by a team of scientists from the
+University of California, Santa Cruz, and the National Geographic Society.
+The scientists were conducting a study of the Andes Mountains when they
+discovered a herd of unicorns living in a remote, previously unexplored valley,
+in the Andes Mountains. Even more surprising to the researchers was the fact
+that the unicorns spoke perfect English
+log-prob: -55.23
+We can see that we get a better log probability (higher is better) with beam search
+than we did with simple greedy decoding. However, we can see that beam search also
+suffers from repetitive text. One way to address this is to impose an <i>n-gram</i> penalty
+no_repeat_ngram_size
+with the parameter that tracks which <i>n-grams</i> have been seen
+and sets the next token probability to zero if it would produce a previously seen
+<i>n-gram:</i>

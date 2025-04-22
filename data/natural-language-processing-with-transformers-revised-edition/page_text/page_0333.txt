@@ -1,0 +1,45 @@
+<b>def</b> get_grouped_params(model, no_decay=["bias", "LayerNorm.weight"]):
+params_with_wd, params_without_wd = [], []
+<b>for</b> n, p <b>in</b> model.named_parameters():
+<b>if</b> any(nd <b>in</b> n <b>for</b> nd <b>in</b> no_decay):
+params_without_wd.append(p)
+<b>else:</b>
+params_with_wd.append(p)
+<b>return</b> [{'params': params_with_wd, 'weight_decay': args.weight_decay},
+{'params': params_without_wd, 'weight_decay': 0.0}]
+Finally, we want to evaluate the model on the validation set from time to time, so let’s
+add an evaluation function we can call that calculates the loss and perplexity on the
+evaluation set:
+<b>def</b> evaluate():
+model.eval()
+losses = []
+<b>for</b> step, batch <b>in</b> enumerate(eval_dataloader):
+<b>with</b> torch.no_grad():
+outputs = model(batch, labels=batch)
+loss = outputs.loss.repeat(args.valid_batch_size)
+losses.append(accelerator.gather(loss))
+<b>if</b> args.max_eval_steps > 0 <b>and</b> step >= args.max_eval_steps: <b>break</b>
+loss = torch.mean(torch.cat(losses))
+<b>try:</b>
+perplexity = torch.exp(loss)
+<b>except</b> <b>OverflowError:</b>
+perplexity = torch.tensor(float("inf"))
+<b>return</b> loss.item(), perplexity.item()
+The perplexity measures how well the model’s output probability distributions pre‐
+dict the targeted tokens. So a lower perplexity corresponds to a better performance.
+Note that we can compute the perplexity by exponentiating the cross-entropy loss
+which we get from the model’s output. Especially at the start of training when the loss
+is still high, it is possible to get a numerical overflow when calculating the perplexity.
+We catch this error and set the perplexity to infinity in these instances.
+Before we put it all together in the training script, there is one more additional func‐
+tion that we’ll use. As you know by now, the Hugging Face Hub uses Git under the
+Repository
+hood to store and version models and datasets. With the class from the
+<i>huggingface_hub</i> library you can programmatically access the repository and pull,
+branch, commit, or push. We’ll use this in our script to continuously push model
+checkpoints to the Hub during training.
+Now that we have all these helper functions in place, we are ready to write the heart
+of the training script:
+set_seed(args.seed)
+<i>#</i> <i>Accelerator</i>
+accelerator = Accelerator()

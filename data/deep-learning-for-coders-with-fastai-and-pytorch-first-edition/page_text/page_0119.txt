@@ -1,0 +1,36 @@
+These questions may be able to help you identify outstanding issues, and possible
+alternatives that are easier to understand and control. In addition to asking the right
+questions, it’s also important to consider practices and processes to implement.
+One thing to consider at this stage is what data you are collecting and storing. Data
+often ends up being used for different purposes the original intent. For instance, IBM
+began selling to Nazi Germany well before the Holocaust, including helping with
+Germany’s 1933 census conducted by Adolf Hitler, which was effective at identifying
+far more Jewish people than had previously been recognized in Germany. Similarly,
+US census data was used to round up Japanese-Americans (who were US citizens) for
+internment during World War II. It is important to recognize how data and images
+collected can be weaponized later. Columbia professor Tim Wu wrote “You must
+assume that any personal data that Facebook or Android keeps are data that govern‐
+ments around the world will try to get or that thieves will try to steal.”
+<header><largefont><b>Processes</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Implement</b></largefont></header>
+The Markkula Center has released An Ethical Toolkit for Engineering/Design Prac‐
+tice that includes concrete practices to implement at your company, including regu‐
+larly scheduled sweeps to proactively search for ethical risks (in a manner similar to
+cybersecurity penetration testing), expanding the ethical circle to include the perspec‐
+tives of a variety of stakeholders, and considering the terrible people (how could bad
+actors abuse, steal, misinterpret, hack, destroy, or weaponize what you are building?).
+Even if you don’t have a diverse team, you can still try to proactively include the per‐
+spectives of a wider group, considering questions such as these (provided by the
+Markkula Center):
+• Whose interests, desires, skills, experiences, and values have we simply assumed,
+rather than actually consulted?
+• Who are all the stakeholders who will be directly affected by our product? How
+have their interests been protected? How do we know what their inter‐
+ests really are—have we asked?
+• Who/which groups and individuals will be indirectly affected in significant ways?
+• Who might use this product that we didn’t expect to use it, or for purposes we
+didn’t initially intend?
+<b>Ethicallenses</b>
+Another useful resource from the Markkula Center is its Conceptual Frameworks in
+Technology and Engineering Practice. This considers how different foundational eth‐
+ical lenses can help identify concrete issues, and lays out the following approaches
+and key questions:

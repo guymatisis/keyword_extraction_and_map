@@ -1,0 +1,31 @@
+<header><largefont><b>Jargon</b></largefont> <largefont><b>Recap</b></largefont></header>
+Congratulations: you now know how to create and train a deep neural network from
+scratch! We’ve gone through quite a few steps to get to this point, but you might be
+surprised at how simple it really is.
+Now that we are at this point, it is a good opportunity to define, and review, some
+jargon and key concepts.
+A neural network contains a lot of numbers, but they are only of two types: numbers
+that are calculated, and the parameters that these numbers are calculated from. This
+gives us the two most important pieces of jargon to learn:
+<i>Activations</i>
+Numbers that are calculated (both by linear and nonlinear layers)
+<i>Parameters</i>
+Numbers that are randomly initialized, and optimized (that is, the numbers that
+define the model)
+We will often talk in this book about activations and parameters. Remember that they
+have specific meanings. They are numbers. They are not abstract concepts, but they
+are actual specific numbers that are in your model. Part of becoming a good deep
+learning practitioner is getting used to the idea of looking at your activations and
+parameters, and plotting them and testing whether they are behaving correctly.
+Our activations and parameters are all contained in <i>tensors.</i> These are simply regu‐
+larly shaped arrays—for example, a matrix. Matrices have rows and columns; we call
+these the <i>axes</i> or <i>dimensions.</i> The number of dimensions of a tensor is its <i>rank.</i> There
+are some special tensors:
+• Rank-0: scalar
+• Rank-1: vector
+• Rank-2: matrix
+A neural network contains a number of layers. Each layer is either <i>linear</i> or <i>nonlinear.</i>
+We generally alternate between these two kinds of layers in a neural network. Some‐
+times people refer to both a linear layer and its subsequent nonlinearity together as a
+single layer. Yes, this is confusing. Sometimes a nonlinearity is referred to as an <i>acti‐</i>
+<i>vation</i> <i>function.</i>

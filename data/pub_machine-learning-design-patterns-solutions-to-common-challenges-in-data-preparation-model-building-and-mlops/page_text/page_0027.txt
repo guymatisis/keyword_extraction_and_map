@@ -1,0 +1,31 @@
+bucket boundaries to fit the desired output distribution. A principled approach to
+choosing these buckets is to do <i>histogram</i> <i>equalization,</i> where the bins of the histo‐
+gram are chosen based on quantiles of the raw distribution, (see the third panel of
+Figure 2-4). In the ideal situation, histogram equalization results in a uniform distri‐
+bution (although not in this case, because of repeated values in the quantiles).
+To carry out histogram equalization in BigQuery, we can do:
+ML.BUCKETIZE(num_views, bins) <b>AS</b> bin
+where the bins are obtained from:
+APPROX_QUANTILES(num_views, 100) <b>AS</b> bins
+See the notebook in the code repository of this book for full details.
+Another method to handle skewed distributions is to use a parametric transforma‐
+tion technique like the <i>Box-Cox</i> <i>transform.</i> Box-Cox chooses its single parameter,
+lambda, to control the “heteroscedasticity” so that the variance no longer depends on
+the magnitude. Here, the variance among rarely viewed Wikipedia pages will be
+much smaller than the variance among frequently viewed pages, and Box-Cox tries to
+equalize the variance across all ranges of the number of views. This can be done using
+Python’s SciPy package:
+traindf['boxcox'], est_lambda = (
+scipy.stats.boxcox(traindf['num_views']))
+The parameter estimated over the training dataset (est_lambda) is then used to
+transform other values:
+evaldf['boxcox'] = scipy.stats.boxcox(evaldf['num_views'], est_lambda)
+<b>Arrayofnumbers</b>
+Sometimes, the input data is an array of numbers. If the array is of fixed length, data
+representation can be rather simple: flatten the array and treat each position as a sep‐
+arate feature. But often, the array will be of variable length. For example, one of the
+inputs to the model to predict the sales of a nonfiction book might be the sales of all
+previous books on the topic. An example input might be:
+[2100, 15200, 230000, 1200, 300, 532100]
+Obviously, the length of this array will vary in each row because there are different
+numbers of books published on different topics.

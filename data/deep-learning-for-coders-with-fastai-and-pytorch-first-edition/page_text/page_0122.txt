@@ -1,0 +1,38 @@
+As long as qualified women keep dropping out of tech, teaching more girls to code
+will not solve the diversity issues plaguing the field. Diversity initiatives often end up
+focusing primarily on white women, even though women of color face many addi‐
+tional barriers. In interviews with 60 women of color who work in STEM research,
+100% had experienced discrimination.
+The hiring process is particularly broken in tech. One study indicative of the disfunc‐
+tion comes from Triplebyte, a company that helps place software engineers in compa‐
+nies, conducting a standardized technical interview as part of this process. The
+company has a fascinating dataset: the results of how over 300 engineers did on their
+exam, coupled with the results of how those engineers did during the interview pro‐
+cess for a variety of companies. The number one finding from Triplebyte’s research is
+that “the types of programmers that each company looks for often have little to do
+with what the company needs or does. Rather, they reflect company culture and the
+backgrounds of the founders.”
+This is a challenge for those trying to break into the world of deep learning, since
+most companies’ deep learning groups today were founded by academics. These
+groups tend to look for people “like them”—that is, people who can solve complex
+math problems and understand dense jargon. They don’t always know how to spot
+people who are actually good at solving real problems using deep learning.
+This leaves a big opportunity for companies that are ready to look beyond status and
+pedigree, and focus on results!
+<header><largefont><b>Fairness,</b></largefont> <largefont><b>Accountability,</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Transparency</b></largefont></header>
+The professional society for computer scientists, the ACM, runs a data ethics confer‐
+ence called the Conference on Fairness, Accountability, and Transparency (ACM
+FAccT), which used to go under the acronym FAT but now uses the less objectionable
+FAccT. Microsoft also has a group focused on Fairness, Accountability, Transparency,
+and Ethics in AI (FATE). In this section, we’ll use the acronym FAccT to refer to the
+concepts of fairness, accountability, and transparency.
+FAccT is a lens some people have used for considering ethical issues. One helpful
+resource for this is the free online book <i>Fairness</i> <i>and</i> <i>Machine</i> <i>Learning:</i> <i>Limitations</i>
+<i>and</i> <i>Opportunities</i> by Solon Barocas et al., which “gives a perspective on machine
+learning that treats fairness as a central concern rather than an afterthought.” It also
+warns, however, that it “is intentionally narrow in scope…A narrow framing of
+machine learning ethics might be tempting to technologists and businesses as a way
+to focus on technical interventions while sidestepping deeper questions about power
+and accountability. We caution against this temptation.” Rather than provide an over‐
+view of the FAccT approach to ethics (which is better done in books such as that one),
+our focus here will be on the limitations of this kind of narrow framing.

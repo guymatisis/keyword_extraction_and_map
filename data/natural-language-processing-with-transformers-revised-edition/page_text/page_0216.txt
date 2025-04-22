@@ -1,0 +1,43 @@
+latency = perf_counter() - start_time
+<b>print(f"Latency</b> (ms) - {1000 * latency:.3f}")
+Latency (ms) - 85.367
+Latency (ms) - 85.241
+Latency (ms) - 87.275
+These results exhibit quite some spread in the latencies and suggest that timing a sin‐
+gle pass through the pipeline can give wildly different results each time we run the
+code. So instead, we’ll collect the latencies over many runs and then use the resulting
+distribution to calculate the mean and standard deviation, which will give us an idea
+about the spread in values. The following code does what we need and includes a
+phase to warm up the CPU before performing the actual timed run:
+<b>import</b> <b>numpy</b> <b>as</b> <b>np</b>
+<b>def</b> time_pipeline(self, query="What is the pin number for my account?"):
+<i>"""This</i> <i>overrides</i> <i>the</i> <i>PerformanceBenchmark.time_pipeline()</i> <i>method"""</i>
+latencies = []
+<i>#</i> <i>Warmup</i>
+<b>for</b> _ <b>in</b> range(10):
+_ = self.pipeline(query)
+<i>#</i> <i>Timed</i> <i>run</i>
+<b>for</b> _ <b>in</b> range(100):
+start_time = perf_counter()
+_ = self.pipeline(query)
+latency = perf_counter() - start_time
+latencies.append(latency)
+<i>#</i> <i>Compute</i> <i>run</i> <i>statistics</i>
+time_avg_ms = 1000 * np.mean(latencies)
+time_std_ms = 1000 * np.std(latencies)
+<b>print(f"Average</b> latency (ms) - {time_avg_ms:.2f} +\- {time_std_ms:.2f}")
+<b>return</b> {"time_avg_ms": time_avg_ms, "time_std_ms": time_std_ms}
+PerformanceBenchmark.time_pipeline = time_pipeline
+To keeps things simple, we’ll use the same query value to benchmark all our models.
+In general, the latency will depend on the query length, and a good practice is to
+benchmark your models with queries that they’re likely to encounter in production
+environments.
+Now that our PerformanceBenchmark class is complete, let’s give it a spin! Let’s start
+by benchmarking our BERT baseline. For the baseline model, we just need to pass the
+pipeline and the dataset we wish to perform the benchmark on. We’ll collect the
+results in the perf_metrics dictionary to keep track of each model’s performance:
+pb = PerformanceBenchmark(pipe, clinc["test"])
+perf_metrics = pb.run_benchmark()
+Model size (MB) - 418.16
+Average latency (ms) - 54.20 +\- 1.91
+Accuracy on test set - 0.867

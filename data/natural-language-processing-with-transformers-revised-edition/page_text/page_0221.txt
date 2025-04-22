@@ -1,0 +1,49 @@
+For the trainer itself, we need a new loss function. The way to implement this is by
+subclassing Trainer and overriding the compute_loss() method to include the
+knowledge distillation loss term <i>L</i> :
+<i>KD</i>
+<b>import</b> <b>torch.nn</b> <b>as</b> <b>nn</b>
+<b>import</b> <b>torch.nn.functional</b> <b>as</b> <b>F</b>
+<b>from</b> <b>transformers</b> <b>import</b> Trainer
+<b>class</b> <b>DistillationTrainer(Trainer):</b>
+<b>def</b> __init__(self, *args, teacher_model=None, **kwargs):
+super().__init__(*args, **kwargs)
+self.teacher_model = teacher_model
+<b>def</b> compute_loss(self, model, inputs, return_outputs=False):
+outputs_stu = model(**inputs)
+<i>#</i> <i>Extract</i> <i>cross-entropy</i> <i>loss</i> <i>and</i> <i>logits</i> <i>from</i> <i>student</i>
+loss_ce = outputs_stu.loss
+logits_stu = outputs_stu.logits
+<i>#</i> <i>Extract</i> <i>logits</i> <i>from</i> <i>teacher</i>
+<b>with</b> torch.no_grad():
+outputs_tea = self.teacher_model(**inputs)
+logits_tea = outputs_tea.logits
+<i>#</i> <i>Soften</i> <i>probabilities</i> <i>and</i> <i>compute</i> <i>distillation</i> <i>loss</i>
+loss_fct = nn.KLDivLoss(reduction="batchmean")
+loss_kd = self.args.temperature ** 2 * loss_fct(
+F.log_softmax(logits_stu / self.args.temperature, dim=-1),
+F.softmax(logits_tea / self.args.temperature, dim=-1))
+<i>#</i> <i>Return</i> <i>weighted</i> <i>student</i> <i>loss</i>
+loss = self.args.alpha * loss_ce + (1. - self.args.alpha) * loss_kd
+<b>return</b> (loss, outputs_stu) <b>if</b> return_outputs <b>else</b> loss
+DistillationTrainer
+Let’s unpack this code a bit. When we instantiate we pass a
+teacher_model
+argument with a teacher that has already been fine-tuned on our task.
+Next, in the compute_loss() method we extract the logits from the student and
+teacher, scale them by the temperature, and then normalize them with a softmax
+nn.KLDivLoss()
+before passing them to PyTorch’s function for computing the KL
+divergence. One quirk with nn.KLDivLoss() is that it expects the inputs in the form
+of log probabilities and the labels as normal probabilities. That’s why we’ve used the
+F.log_softmax()
+function to normalize the student’s logits, while the teacher’s logits
+are converted to probabilities with a standard softmax. The reduction=batchmean
+nn.KLDivLoss()
+argument in specifies that we average the losses over the batch
+dimension.
+You can also perform knowledge distillation with the Keras API of
+the Transformers library. To do this, you’ll need to implement a
+custom Distiller class that overrides the train_step() ,
+test_step() , and compile() methods of tf.keras.Model() . See
+the Keras documentation for an example of how to do this.

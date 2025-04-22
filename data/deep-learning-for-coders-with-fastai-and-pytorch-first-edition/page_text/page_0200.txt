@@ -1,0 +1,29 @@
+The really interesting thing here is that this works just as well with more than two
+columns. To see this, consider what would happen if we added an activation column
+for every digit (0 through 9), and then targ contained a number from 0 to 9. As long
+as the activation columns sum to 1 (as they will, if we use softmax), we’ll have a loss
+function that shows how well we’re predicting each digit.
+We’re picking the loss only from the column containing the correct label. We don’t
+need to consider the other columns, because by the definition of softmax, they add up
+to 1 minus the activation corresponding to the correct label. Therefore, making the
+activation for the correct label as high as possible must mean we’re also decreasing the
+activations of the remaining columns.
+PyTorch provides a function that does exactly the same thing as sm_acts[range(n),
+targ] (except it takes the negative, because when applying the log afterward, we will
+have negative numbers), called nll_loss (NLL stands for <i>negative</i> <i>log</i> <i>likelihood):</i>
+-sm_acts[idx, targ]
+tensor([-0.6025, -0.4979, -0.1332, -0.0034, -0.4041, -0.3661])
+F.nll_loss(sm_acts, targ, reduction='none')
+tensor([-0.6025, -0.4979, -0.1332, -0.0034, -0.4041, -0.3661])
+Despite its name, this PyTorch function does not take the log. We’ll see why in the
+next section, but first, let’s see why taking the logarithm can be useful.
+<header><largefont><b>Taking</b></largefont> <largefont><b>the</b></largefont> <largefont><b>log</b></largefont></header>
+The function we saw in the previous section works quite well as a loss function, but
+we can make it a bit better. The problem is that we are using probabilities, and proba‐
+bilities cannot be smaller than 0 or greater than 1. That means our model will not
+care whether it predicts 0.99 or 0.999. Indeed, those numbers are very close together
+—but in another sense, 0.999 is 10 times more confident than 0.99. So, we want to
+transform our numbers between 0 and 1 to instead be between negative infinity and
+infinity. There is a mathematical function that does exactly this: the <i>logarithm</i> (avail‐
+able as torch.log). It is not defined for numbers less than 0 and looks like this:
+plot_function(torch.log, min=0,max=4)

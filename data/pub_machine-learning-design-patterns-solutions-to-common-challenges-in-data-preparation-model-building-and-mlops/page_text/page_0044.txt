@@ -1,0 +1,34 @@
+texts_to_sequences
+We can then invoke this mapping with the method of our
+tokenizer. This maps each sequence of words in the text input being represented
+(here, we assume that they are titles of articles) to a sequence of tokens corresponding
+to each word as in Figure 2-7:
+integerized_titles = tokenizer.texts_to_sequences(titles_df.title)
+<i>Figure</i> <i>2-7.</i> <i>Using</i> <i>the</i> <i>tokenizer,</i> <i>each</i> <i>title</i> <i>is</i> <i>mapped</i> <i>to</i> <i>a</i> <i>sequence</i> <i>of</i> <i>integer</i>
+<i>index</i> <i>values.</i>
+The tokenizer contains other relevant information that we will use later for creating
+an embedding layer. In particular, VOCAB_SIZE captures the number of elements of
+MAX_LEN
+the index lookup table and contains the maximum length of the text strings
+in the dataset:
+VOCAB_SIZE = len(tokenizer.index_word)
+MAX_LEN = max(len(sequence) <b>for</b> sequence <b>in</b> integerized_titles)
+Before creating the model, it is necessary to preprocess the titles in the dataset. We’ll
+need to pad the elements of our title to feed into the model. Keras has the helper
+pad_sequence
+functions for that on the top of the tokenizer methods. The function
+create_sequences takes both titles as well as the maximum sentence length as input
+and returns a list of the integers corresponding to our tokens padded to the sentence
+maximum length:
+<b>from</b> <b>tensorflow.keras.preprocessing.sequence</b> <b>import</b> pad_sequences
+<b>def</b> create_sequences(texts, max_len=MAX_LEN):
+sequences = tokenizer.texts_to_sequences(texts)
+padded_sequences = pad_sequences(sequences,
+max_len,
+padding='post')
+<b>return</b> padded_sequences
+Next, we’ll build a deep neural network (DNN) model in Keras that implements a
+simple embedding layer to transform the word integers into dense vectors. The Keras
+Embedding layer can be thought of as a map from the integer indices of specific words
+to dense vectors (their embeddings). The dimensionality of the embedding is deter‐
+mined by output_dim . The argument input_dim indicates the size of the vocabulary,

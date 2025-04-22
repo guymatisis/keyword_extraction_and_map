@@ -1,0 +1,19 @@
+20. What is it called when we use a model for making predictions, instead of
+training?
+21. What are IPython widgets?
+22. When would you use a CPU for deployment? When might a GPU be better?
+23. What are the downsides of deploying your app to a server, instead of to a client
+(or edge) device such as a phone or PC?
+24. What are three examples of problems that could occur when rolling out a bear
+warning system in practice?
+25. What is out-of-domain data?
+26. What is domain shift?
+27. What are the three steps in the deployment process?
+<header><largefont><b>Further</b></largefont> <largefont><b>Research</b></largefont></header>
+1. Consider how the Drivetrain Approach maps to a project or problem you’re
+interested in.
+2. When might it be best to avoid certain types of data augmentation?
+3. For a project you’re interested in applying deep learning to, consider the thought
+experiment, “What would happen if it went really, really well?”
+4. Start a blog and write your first blog post. For instance, write about what you
+think deep learning might be useful for in a domain you’re interested in.

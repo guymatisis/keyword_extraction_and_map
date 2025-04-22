@@ -1,0 +1,37 @@
+The basic idea is that by using more linear layers, we can have our model do more
+computation, and therefore model more complex functions. But there’s no point in
+just putting one linear layout directly after another one, because when we multiply
+things together and then add them up multiple times, that could be replaced by mul‐
+tiplying different things together and adding them up just once! That is to say, a series
+of any number of linear layers in a row can be replaced with a single linear layer with
+a different set of parameters.
+But if we put a nonlinear function between them, such as max, this is no longer true.
+Now each linear layer is somewhat decoupled from the other ones and can do its own
+useful work. The max function is particularly interesting, because it operates as a sim‐
+ple if statement.
+<b>SylvainSays</b>
+Mathematically, we say the composition of two linear functions is
+another linear function. So, we can stack as many linear classifiers
+as we want on top of each other, and without nonlinear functions
+between them, it will just be the same as one linear classifier.
+Amazingly enough, it can be mathematically proven that this little function can solve
+any computable problem to an arbitrarily high level of accuracy, if you can find the
+right parameters for w1 and w2 and if you make these matrices big enough. For any
+arbitrarily wiggly function, we can approximate it as a bunch of lines joined together;
+to make it closer to the wiggly function, we just have to use shorter lines. This is
+known as the <i>universal</i> <i>approximation</i> <i>theorem.</i> The three lines of code that we have
+here are known as <i>layers.</i> The first and third are known as <i>linear</i> <i>layers,</i> and the sec‐
+ond line of code is known variously as a <i>nonlinearity,</i> or <i>activation</i> <i>function.</i>
+Just as in the previous section, we can replace this code with something a bit simpler
+by taking advantage of PyTorch:
+simple_net = nn.Sequential(
+nn.Linear(28*28,30),
+nn.ReLU(),
+nn.Linear(30,1)
+)
+nn.Sequential creates a module that will call each of the listed layers or functions in
+turn.
+nn.ReLU is a PyTorch module that does exactly the same thing as the F.relu function.
+Most functions that can appear in a model also have identical forms that are modules.
+Generally, it’s just a case of replacing F with nn and changing the capitalization. When
+using nn.Sequential, PyTorch requires us to use the module version. Since modules

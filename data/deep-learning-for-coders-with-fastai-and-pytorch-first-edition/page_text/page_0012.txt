@@ -1,0 +1,38 @@
+Let’s now focus on what you will learn, starting with the software.
+<header><largefont><b>The</b></largefont> <largefont><b>Software:</b></largefont> <largefont><b>PyTorch,</b></largefont> <largefont><b>fastai,</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Jupyter</b></largefont></header>
+<header><largefont><b>(And</b></largefont> <largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Doesn’t</b></largefont> <largefont><b>Matter)</b></largefont></header>
+We’ve completed hundreds of machine learning projects using dozens of packages,
+and many programming languages. At fast.ai, we have written courses using most of
+the main deep learning and machine learning packages used today. After PyTorch
+came out in 2017, we spent over a thousand hours testing it before deciding that we
+would use it for future courses, software development, and research. Since that time,
+PyTorch has become the world’s fastest-growing deep learning library and is already
+used for most research papers at top conferences. This is generally a leading indicator
+of usage in industry, because these are the papers that end up getting used in products
+and services commercially. We have found that PyTorch is the most flexible and
+expressive library for deep learning. It does not trade off speed for simplicity, but pro‐
+vides both.
+PyTorch works best as a low-level foundation library, providing the basic operations
+for higher-level functionality. The fastai library is the most popular library for adding
+this higher-level functionality on top of PyTorch. It’s also particularly well suited to
+the purposes of this book, because it is unique in providing a deeply layered software
+architecture (there’s even a peer-reviewed academic paper about this layered API). In
+this book, as we go deeper and deeper into the foundations of deep learning, we will
+also go deeper and deeper into the layers of fastai. This book covers version 2 of the
+fastai library, which is a from-scratch rewrite providing many unique features.
+However, it doesn’t really matter what software you learn, because it takes only a few
+days to learn to switch from one library to another. What really matters is learning
+the deep learning foundations and techniques properly. Our focus will be on using
+code that, as clearly as possible, expresses the concepts that you need to learn. Where
+we are teaching high-level concepts, we will use high-level fastai code. Where we are
+teaching low-level concepts, we will use low-level PyTorch or even pure Python code.
+Though it may seem like new deep learning libraries are appearing at a rapid pace
+nowadays, you need to be prepared for a much faster rate of change in the coming
+months and years. As more people enter the field, they will bring more skills and
+ideas, and try more things. You should assume that whatever specific libraries and
+software you learn today will be obsolete in a year or two. Just think about the num‐
+ber of changes in libraries and technology stacks that occur all the time in the world
+of web programming—a much more mature and slow-growing area than deep
+learning. We strongly believe that the focus in learning needs to be on understanding
+the underlying techniques and how to apply them in practice, and how to quickly
+build expertise in new tools and techniques as they are released.

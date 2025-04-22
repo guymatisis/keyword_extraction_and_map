@@ -1,0 +1,36 @@
+This is showing the mean average percent error (MAPE) compared among four mod‐
+eling techniques, three of which we have already seen, along with <i>k-nearest</i> neighbors
+(KNN), which is a very simple baseline method. The first numeric column contains
+the results of using the methods on the data provided in the competition; the second
+column shows what happens if you first train a neural network with categorical
+embeddings, and then use those categorical embeddings instead of the raw categori‐
+cal columns in the model. As you see, in every case, the models are dramatically
+improved by using the embeddings instead of the raw categories.
+This is a really important result, because it shows that you can get much of the perfor‐
+mance improvement of a neural network without having to use a neural network at
+inference time. You could just use an embedding, which is literally just an array
+lookup, along with a small decision tree ensemble.
+These embeddings need not even be necessarily learned separately for each model or
+task in an organization. Instead, once a set of embeddings are learned for a column
+for a particular task, they could be stored in a central place and reused across multiple
+models. In fact, we know from private communication with other practitioners at
+large companies that this is already happening in many places.
+<header><largefont><b>Conclusion</b></largefont></header>
+We have discussed two approaches to tabular modeling: decision tree ensembles and
+neural networks. We’ve also mentioned two decision tree ensembles: random forests
+and gradient boosting machines. Each is effective but also requires compromises:
+• <i>Random</i> <i>forests</i> are the easiest to train, because they are extremely resilient to
+hyperparameter choices and require little preprocessing. They are fast to train,
+and should not overfit if you have enough trees. But they can be a little less accu‐
+rate, especially if extrapolation is required, such as predicting future time periods.
+• <i>Gradient</i> <i>boosting</i> <i>machines</i> in theory are just as fast to train as random forests,
+but in practice you will have to try lots of hyperparameters. They can overfit, but
+they are often a little more accurate than random forests.
+• <i>Neural</i> <i>networks</i> take the longest time to train and require extra preprocessing,
+such as normalization; this normalization needs to be used at inference time as
+well. They can provide great results and extrapolate well, but only if you are care‐
+ful with your hyperparameters and take care to avoid overfitting.
+We suggest starting your analysis with a random forest. This will give you a strong
+baseline, and you can be confident that it’s a reasonable starting point. You can then
+use that model for feature selection and partial dependence analysis, to get a better
+understanding of your data.

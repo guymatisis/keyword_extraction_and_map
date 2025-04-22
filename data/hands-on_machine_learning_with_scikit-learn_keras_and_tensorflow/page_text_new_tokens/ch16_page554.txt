@@ -1,0 +1,18 @@
+Attention mechanisms are so powerful that you can actually build state-of-the-art
+models using only attention mechanisms.
+<header><largefont><b>Attention</b></largefont> <largefont><b>Is</b></largefont> <largefont><b>All</b></largefont> <largefont><b>You</b></largefont> <largefont><b>Need:</b></largefont> <largefont><b>The</b></largefont> <largefont><b>Transformer</b></largefont> <largefont><b>Architecture</b></largefont></header>
+In a groundbreaking 2017 paper,20 a team of Google researchers suggested that
+“Attention Is All You Need.” They managed to create an architecture called the <i>Trans‐</i>
+<i>former,</i> which significantly improved the state of the art in NMT without using any
+layers,21
+recurrent or convolutional just attention mechanisms (plus embedding lay‐
+ers, dense layers, normalization layers, and a few other bits and pieces). As an extra
+bonus, this architecture was also much faster to train and easier to parallelize, so they
+managed to train it at a fraction of the time and cost of the previous state-of-the-art
+models.
+The Transformer architecture is represented in Figure 16-8.
+20 AshishVaswanietal.,“AttentionIsAllYouNeed,”Proceedingsofthe31stInternationalConferenceonNeural
+<i>InformationProcessingSystems(2017):6000–6010.</i>
+Dense
+21 SincetheTransformerusestime-distributed layers,youcouldarguethatituses1Dconvolutionallayers
+withakernelsizeof1.

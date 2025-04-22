@@ -1,0 +1,37 @@
+Let’s go through this model:
+• The first layer uses 64 fairly large filters (7 × 7) but no stride because the input
+input_shape=[28, 28, 1]
+images are not very large. It also sets , because the
+images are 28 × 28 pixels, with a single color channel (i.e., grayscale).
+• Next we have a max pooling layer which uses a pool size of 2, so it divides each
+spatial dimension by a factor of 2.
+• Then we repeat the same structure twice: two convolutional layers followed by a
+max pooling layer. For larger images, we could repeat this structure several more
+times (the number of repetitions is a hyperparameter you can tune).
+• Note that the number of filters grows as we climb up the CNN toward the output
+layer (it is initially 64, then 128, then 256): it makes sense for it to grow, since the
+number of low-level features is often fairly low (e.g., small circles, horizontal
+lines), but there are many different ways to combine them into higher-level fea‐
+tures. It is a common practice to double the number of filters after each pooling
+layer: since a pooling layer divides each spatial dimension by a factor of 2, we can
+afford to double the number of feature maps in the next layer without fear of
+exploding the number of parameters, memory usage, or computational load.
+• Next is the fully connected network, composed of two hidden dense layers and a
+dense output layer. Note that we must flatten its inputs, since a dense network
+expects a 1D array of features for each instance. We also add two dropout layers,
+with a dropout rate of 50% each, to reduce overfitting.
+This CNN reaches over 92% accuracy on the test set. It’s not state of the art, but it is
+pretty good, and clearly much better than what we achieved with dense networks in
+Chapter 10.
+Over the years, variants of this fundamental architecture have been developed, lead‐
+ing to amazing advances in the field. A good measure of this progress is the error rate
+in competitions such as the ILSVRC ImageNet challenge. In this competition the top-
+five error rate for image classification fell from over 26% to less than 2.3% in just six
+years. The top-five error rate is the number of test images for which the system’s top
+five predictions did not include the correct answer. The images are large (256 pixels
+high) and there are 1,000 classes, some of which are really subtle (try distinguishing
+120 dog breeds). Looking at the evolution of the winning entries is a good way to
+understand how CNNs work.
+We will first look at the classical LeNet-5 architecture (1998), then three of the win‐
+ners of the ILSVRC challenge: AlexNet (2012), GoogLeNet (2014), and ResNet
+(2015).

@@ -1,0 +1,36 @@
+<header><largefont><b>Subword</b></largefont> <largefont><b>Tokenization</b></largefont></header>
+The basic idea behind subword tokenization is to combine the best aspects of charac‐
+ter and word tokenization. On the one hand, we want to split rare words into smaller
+units to allow the model to deal with complex words and misspellings. On the other
+hand, we want to keep frequent words as unique entities so that we can keep the
+length of our inputs to a manageable size. The main distinguishing feature of
+subword tokenization (as well as word tokenization) is that it is <i>learned</i> from the pre‐
+training corpus using a mix of statistical rules and algorithms.
+There are several subword tokenization algorithms that are commonly used in NLP,
+but let’s start with WordPiece,5 which is used by the BERT and DistilBERT tokenizers.
+The easiest way to understand how WordPiece works is to see it in action. Trans‐
+AutoTokenizer
+formers provides a convenient class that allows you to quickly load
+the tokenizer associated with a pretrained model—we just call its from_pretrained()
+method, providing the ID of a model on the Hub or a local file path. Let’s start by
+loading the tokenizer for DistilBERT:
+<b>from</b> <b>transformers</b> <b>import</b> AutoTokenizer
+model_ckpt = "distilbert-base-uncased"
+tokenizer = AutoTokenizer.from_pretrained(model_ckpt)
+AutoTokenizer
+The class belongs to a larger set of “auto” classes whose job is to auto‐
+matically retrieve the model’s configuration, pretrained weights, or vocabulary from
+the name of the checkpoint. This allows you to quickly switch between models, but if
+you wish to load the specific class manually you can do so as well. For example, we
+could have loaded the DistilBERT tokenizer as follows:
+<b>from</b> <b>transformers</b> <b>import</b> DistilBertTokenizer
+distilbert_tokenizer = DistilBertTokenizer.from_pretrained(model_ckpt)
+When you run the AutoTokenizer.from_pretrained() method
+for the first time you will see a progress bar that shows which
+parameters of the pretrained tokenizer are loaded from the Hug‐
+ging Face Hub. When you run the code a second time, it will load
+the tokenizer from the cache, usually at <i>~/.cache/huggingface.</i>
+Let’s examine how this tokenizer works by feeding it our simple “Tokenizing text is a
+core task of NLP.” example text:
+5 M.SchusterandK.Nakajima,“JapaneseandKoreanVoiceSearch,”2012IEEEInternationalConferenceon
+<i>Acoustics,SpeechandSignalProcessing(2012):5149–5152,https://doi.org/10.1109/ICASSP.2012.6289079.</i>

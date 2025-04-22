@@ -1,0 +1,38 @@
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+So far, we haven’t discussed methods of modifying the weights of our original model
+when implementing transfer learning. Here, we’ll examine two approaches for this:
+feature extraction and fine-tuning. We’ll also discuss why transfer learning is primar‐
+ily focused on image and text models and look at the relationship between text sen‐
+tence embeddings and transfer learning.
+<b>Fine-tuningversusfeatureextraction</b>
+<i>Feature</i> <i>extraction</i> describes an approach to transfer learning where you freeze the
+weights of all layers before the bottleneck layer and train the following layers on your
+own data and labels. Another option is instead <i>fine-tuning</i> the weights of the pre-
+trained model’s layers. With fine-tuning, you can either update the weights of each
+layer in the pre-trained model, or just a few of the layers right before the bottleneck.
+Training a transfer learning model using fine-tuning typically takes longer than fea‐
+ture extraction. You’ll notice in our text classification example above, we set
+trainable=True when initializing our TF Hub layer. This is an example of fine-
+tuning.
+When fine-tuning, it’s common to leave the weights of the model’s initial layers fro‐
+zen since these layers have been trained to recognize basic features that are often
+common across many types of images. To fine-tune a MobileNet model, for example,
+we’d set trainable=False only for a subset of layers in the model, rather than mak‐
+ing every layer non-trainable. For example, to fine-tune after the 100th layer, we
+could run:
+base_model = tf.keras.applications.MobileNetV2(input_shape=(160,160,3),
+include_top=False,
+weights='imagenet')
+<b>for</b> layer <b>in</b> base_model.layers[:100]:
+layer.trainable = False
+One recommended approach to determining how many layers to freeze is known as
+<i>progressive</i> <i>fine-tuning,</i> and it involves iteratively unfreezing layers after every train‐
+ing run to find the ideal number of layers to fine-tune. This works best and is most
+efficient if you keep your learning rate low (0.001 is common) and the number of
+training iterations relatively small. To implement progressive fine-tuning, start by
+unfreezing only the last layer of your transferred model (the layer closest to the out‐
+put) and calculate your model’s loss after training. Then, one by one, unfreeze more
+layers until you reach the Input layer or until the loss starts to plateau. Use this to
+inform the number of layers to fine-tune.
+How should you determine whether to fine-tune or freeze all layers of your pre-
+trained model? Typically, when you’ve got a small dataset, it’s best to use the

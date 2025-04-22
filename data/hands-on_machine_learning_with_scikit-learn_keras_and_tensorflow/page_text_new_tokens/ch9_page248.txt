@@ -1,0 +1,16 @@
+<i>Figure</i> <i>9-10.</i> <i>Analyzing</i> <i>the</i> <i>silhouette</i> <i>diagrams</i> <i>for</i> <i>various</i> <i>values</i> <i>of</i> <i>k</i>
+The vertical dashed lines represent the silhouette score for each number of clusters.
+When most of the instances in a cluster have a lower coefficient than this score (i.e., if
+many of the instances stop short of the dashed line, ending to the left of it), then the
+cluster is rather bad since this means its instances are much too close to other clus‐
+ters. We can see that when <i>k</i> = 3 and when <i>k</i> = 6, we get bad clusters. But when <i>k</i> = 4
+or <i>k</i> = 5, the clusters look pretty good: most instances extend beyond the dashed line,
+to the right and closer to 1.0. When <i>k</i> = 4, the cluster at index 1 (the third from the
+top) is rather big. When <i>k</i> = 5, all clusters have similar sizes. So, even though the
+overall silhouette score from <i>k</i> = 4 is slightly greater than for <i>k</i> = 5, it seems like a
+good idea to use <i>k</i> = 5 to get clusters of similar sizes.
+<header><largefont><b>Limits</b></largefont> <largefont><b>of</b></largefont> <largefont><b>K-Means</b></largefont></header>
+Despite its many merits, most notably being fast and scalable, K-Means is not perfect.
+As we saw, it is necessary to run the algorithm several times to avoid suboptimal solu‐
+tions, plus you need to specify the number of clusters, which can be quite a hassle.
+Moreover, K-Means does not behave very well when the clusters have varying sizes,

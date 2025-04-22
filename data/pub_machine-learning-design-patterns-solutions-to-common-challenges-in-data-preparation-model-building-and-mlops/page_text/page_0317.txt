@@ -1,0 +1,38 @@
+ple where multiple serving functions could reduce server-side processing time. It’s
+also worth noting that we can have multiple serving functions <i>with</i> multiple model
+versions, though there is a risk that this could create too much complexity.
+<b>Newmodelsversusnewmodelversions</b>
+Sometimes it can be difficult to decide whether to create another model version or an
+entirely new model resource. We recommend creating a new model when a model’s
+prediction task changes. A new prediction task typically results in a different model
+output format, and changing this could result in breaking existing clients. If we’re
+unsure about whether to use a new version or model, we can think about whether we
+want existing clients to upgrade. If the answer is yes, chances are we have improved
+the model without changing the prediction task, and creating a new version will suf‐
+fice. If we’ve changed the model in a way that would require users to decide whether
+they want the update, we’ll likely want to create a new model resource.
+To see this in practice, let’s return to our flight prediction model to see an example.
+The current model has defined what it considers a delay (30+ minutes late), but our
+end users may have different opinions on this. Some users think just 15 minutes late
+counts as delayed, whereas others think a flight is only delayed if it’s over an hour
+late. Let’s imagine that we’d now like our users to be able to incorporate their own
+definition of delayed rather than use ours. In this case we’d use “Design Pattern 5:
+Reframing ” on page 80 (discussed in Chapter 3) to change this to a regression model.
+The input format to this model is the same, but the output is now a numerical value
+representing the delay prediction.
+The way our model users parse this response will obviously be different than the first
+version. With our latest regression model, app developers might choose to display the
+predicted delay when users search for flights, replacing something like “This flight is
+usually delayed more than 30 minutes” from the first version. In this scenario, the
+flight_model_regres
+best solution is to create a new model <i>resource,</i> perhaps called
+sion , to reflect the changes. This way, app developers can choose which to use, and
+we can continue to make performance updates to each model by deploying new
+versions.
+<header><largefont><b>Summary</b></largefont></header>
+This chapter focused on design patterns that address different aspects of reproduci‐
+bility. Starting with the <i>Transform</i> design, we saw how this pattern is used to ensure
+reproducibility of the data preparation dependencies between the model training
+pipeline and the model serving pipeline. This is achieved by explicitly capturing the
+transformations applied to convert the model inputs into the model features. The
+<i>Repeatable</i> <i>Splitting</i> design pattern captures the way data is split among training, vali‐

@@ -1,0 +1,37 @@
+<b>AlexisSays</b>
+I’ve had a chance to see up close how the mobile ML landscape is
+changing in my work. We offer an iPhone app that depends on
+computer vision, and for years we ran our own computer vision
+models in the cloud. This was the only way to do it then since those
+models needed significant memory and compute resources and
+took minutes to process inputs. This approach required building
+not only the models (fun!), but also the infrastructure to ensure a
+certain number of “compute worker machines” were absolutely
+always running (scary), that more machines would automatically
+come online if traffic increased, that there was stable storage for
+large inputs and outputs, that the iOS app could know and tell the
+user how their job was doing, etc. Nowadays Apple provides APIs
+for converting models to run efficiently on devices, and most iOS
+devices have dedicated ML hardware, so that’s the strategy we use
+for our newer models. It’s still not easy, but in our case it’s worth it
+for a faster user experience and to worry less about servers. What
+works for you will depend, realistically, on the user experience
+you’re trying to create and what you personally find is easy to do. If
+you really know how to run servers, do it. If you really know how
+to build native mobile apps, do that. There are many roads up the
+hill.
+Overall, we’d recommend using a simple CPU-based server approach where possible,
+for as long as you can get away with it. If you’re lucky enough to have a very success‐
+ful application, you’ll be able to justify the investment in more complex deployment
+approaches at that time.
+Congratulations—you have successfully built a deep learning model and deployed it!
+Now is a good time to take a pause and think about what could go wrong.
+<header><largefont><b>How</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Avoid</b></largefont> <largefont><b>Disaster</b></largefont></header>
+In practice, a deep learning model will be just one piece of a much bigger system. As
+we discussed at the start of this chapter, building a data product requires thinking
+about the entire end-to-end process, from conception to use in production. In this
+book, we can’t hope to cover all the complexity of managing deployed data products,
+such as managing multiple versions of models, A/B testing, canarying, refreshing the
+data (should we just grow and grow our datasets all the time, or should we regularly
+remove some of the old data?), handling data labeling, monitoring all this, detecting
+model rot, and so forth.

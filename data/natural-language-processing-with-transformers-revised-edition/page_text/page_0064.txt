@@ -1,0 +1,31 @@
+<header><largefont><b>Demystifying</b></largefont> <largefont><b>Queries,</b></largefont> <largefont><b>Keys,</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Values</b></largefont></header>
+The notion of query, key, and value vectors may seem a bit cryptic the first time you
+encounter them. Their names were inspired by information retrieval systems, but we
+can motivate their meaning with a simple analogy. Imagine that you’re at the super‐
+market buying all the ingredients you need for your dinner. You have the dish’s recipe,
+and each of the required ingredients can be thought of as a query. As you scan the
+shelves, you look at the labels (keys) and check whether they match an ingredient on
+your list (similarity function). If you have a match, then you take the item (value)
+from the shelf.
+In this analogy, you only get one grocery item for every label that matches the ingre‐
+dient. Self-attention is a more abstract and “smooth” version of this: <i>every</i> label in the
+supermarket matches the ingredient to the extent to which each key matches the
+query. So if your list includes a dozen eggs, then you might end up grabbing 10 eggs,
+an omelette, and a chicken wing.
+Let’s take a look at this process in more detail by implementing the diagram of opera‐
+tions to compute scaled dot-product attention, as shown in Figure 3-4.
+<i>Figure</i> <i>3-4.</i> <i>Operations</i> <i>in</i> <i>scaled</i> <i>dot-product</i> <i>attention</i>
+We will use PyTorch to implement the Transformer architecture in this chapter, but
+the steps in TensorFlow are analogous. We provide a mapping between the most
+important functions in the two frameworks in Table 3-1.
+<i>Table</i> <i>3-1.</i> <i>PyTorch</i> <i>and</i> <i>TensorFlow</i> <i>(Keras)</i> <i>classes</i> <i>and</i> <i>methods</i> <i>used</i> <i>in</i> <i>this</i> <i>chapter</i>
+<b>PyTorch</b> <b>TensorFlow(Keras)</b> <b>Creates/implements</b>
+Adenseneuralnetworklayer
+nn.Linear keras.layers.Dense
+nn.Module keras.layers.Layer Thebuildingblocksofmodels
+nn.Dropout keras.layers.Dropout Adropoutlayer
+nn.LayerNorm keras.layers.LayerNormalization Layernormalization
+nn.Embedding keras.layers.Embedding Anembeddinglayer
+nn.GELU keras.activations.gelu TheGaussianErrorLinearUnitactivationfunction
+nn.bmm tf.matmul Batchedmatrixmultiplication
+model.forward model.call Themodel’sforwardpass

@@ -1,0 +1,37 @@
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>29:</b></largefont> <largefont><b>Explainable</b></largefont> <largefont><b>Predictions</b></largefont></header>
+The Explainable Predictions design pattern increases user trust in ML systems by
+providing users with an understanding of how and why models make certain predic‐
+tions. While models such as decision trees are interpretable by design, the architec‐
+ture of deep neural networks makes them inherently difficult to explain. For all
+models, it is useful to be able to interpret predictions in order to understand the com‐
+binations of features influencing model behavior.
+<header><largefont><b>Problem</b></largefont></header>
+When evaluating a machine learning model to determine whether it’s ready for pro‐
+duction, metrics like accuracy, precision, recall, and mean squared error only tell one
+piece of the story. They provide data on how <i>correct</i> a model’s predictions are relative
+to ground truth values in the test set, but they carry no insight on <i>why</i> a model
+arrived at those predictions. In many ML scenarios, users may be hesitant to accept a
+model’s prediction at face value.
+To understand this, let’s look at a model that predicts the severity of diabetic retinop‐
+athy (DR) from an image of a retina. 1 The model returns a softmax output, indicating
+the probability that an individual image belongs to 1 of 5 categories denoting the
+severity of DR in the image—ranging from 1 (no DR present) to 5 (proliferative DR,
+the worst form). Let’s imagine that for a given image, the model returns 95% confi‐
+dence that the image contains proliferative DR. This may seem like a high-
+confidence, accurate result, but if a medical professional is relying solely on this
+model output to provide a patient diagnosis, they still have no insight into <i>how</i> the
+model arrived at this prediction. Maybe the model identified the correct regions in
+the image that are indicative of DR, but there’s also a chance the model’s prediction is
+based on pixels in the image that show no indication of the disease. As an example,
+maybe some images in the dataset contain doctor notes or annotations. The model
+could be incorrectly using the presence of an annotation to make its prediction,
+rather than the diseased areas in the image.2 In the model’s current form, there is no
+way to attribute the prediction to regions in an image, making it difficult for the doc‐
+tor to trust the model.
+Medical imaging is just one example—there are many industries, scenarios, and
+model types where a lack of insight into a model’s decision-making process can lead
+to problems with user trust. If an ML model is used to predict an individual’s credit
+score or other financial health metric, people will likely want to know why they
+1 DRisaneyeconditionaffectingmillionsofpeoplearoundtheworld.Itcanleadtoblindness,butifcaught
+early,itcanbesuccessfullytreated.Tolearnmoreandfindthedataset,seehere.
+2 Explanationswereusedtoidentifyandcorrectforannotationspresentinradiologyimagesinthisstudy.

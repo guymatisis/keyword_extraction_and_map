@@ -31,7 +31,6 @@ class TrainingConfig:
 class OutputConfig:
     dir: str
     save_total_limit: int
-    logging_steps: int
 
 @dataclass
 class DebugConfig:

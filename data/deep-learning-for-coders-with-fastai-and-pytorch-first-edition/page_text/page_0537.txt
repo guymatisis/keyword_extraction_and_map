@@ -1,0 +1,34 @@
+We’ll put that into a function
+<b>def</b> logsumexp(x):
+m = x.max(-1)[0]
+<b>return</b> m + (x-m[:,None]).exp().sum(-1).log()
+logsumexp(r)[0]
+tensor(3.9784, grad_fn=<SelectBackward>)
+so we can use it for our log_softmax function:
+<b>def</b> log_softmax(x): <b>return</b> x - x.logsumexp(-1,keepdim=True)
+Which gives the same result as before:
+sm = log_softmax(r); sm[0][0]
+tensor(-1.2790, grad_fn=<SelectBackward>)
+We can use these to create cross_entropy:
+<b>def</b> cross_entropy(preds, yb): <b>return</b> nll(log_softmax(preds), yb).mean()
+Let’s now combine all those pieces to create a Learner .
+<header><largefont><b>Learner</b></largefont></header>
+We have data, a model, and a loss function; we need only one more thing before we
+can fit a model, and that’s an optimizer! Here’s SGD:
+<b>class</b> <b>SGD:</b>
+<b>def</b> <b>__init__(self,</b> params, lr, wd=0.): store_attr(self, 'params,lr,wd')
+<b>def</b> step(self):
+<b>for</b> p <b>in</b> self.params:
+p.data -= (p.grad.data + p.data*self.wd) * self.lr
+p.grad.data.zero_()
+As we’ve seen in this book, life is easier with a Learner. The Learner needs to know
+our training and validation sets, which means we need DataLoaders to store them.
+We don’t need any other functionality, just a place to store them and access them:
+<b>class</b> <b>DataLoaders:</b>
+<b>def</b> <b>__init__(self,</b> *dls): self.train,self.valid = dls
+dls = DataLoaders(train_dl,valid_dl)
+Now we’re ready to create our Learner class:
+<b>class</b> <b>Learner:</b>
+<b>def</b> <b>__init__(self,</b> model, dls, loss_func, lr, cbs, opt_func=SGD):
+store_attr(self, 'model,dls,loss_func,lr,cbs,opt_func')
+<b>for</b> cb <b>in</b> cbs: cb.learner = self

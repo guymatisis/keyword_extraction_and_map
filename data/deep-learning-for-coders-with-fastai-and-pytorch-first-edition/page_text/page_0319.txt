@@ -1,0 +1,42 @@
+We can leverage the work we did to trim unwanted columns in the random forest by
+using the same set of columns for our neural network:
+df_nn_final = df_nn[list(xs_final_time.columns) + [dep_var]]
+Categorical columns are handled very differently in neural networks, compared to
+decision tree approaches. As we saw in Chapter 8, in a neutral net, a great way to han‐
+dle categorical variables is by using embeddings. To create embeddings, fastai needs
+to determine which columns should be treated as categorical variables. It does this by
+comparing the number of distinct levels in the variable to the value of the max_card
+parameter. If it’s lower, fastai will treat the variable as categorical. Embedding sizes
+larger than 10,000 should generally be used only after you’ve tested whether there are
+better ways to group the variable, so we’ll use 9,000 as our max_card value:
+cont_nn,cat_nn = cont_cat_split(df_nn_final, max_card=9000, dep_var=dep_var)
+In this case, however, there’s one variable that we absolutely do not want to treat as
+categorical: saleElapsed. A categorical variable cannot, by definition, extrapolate
+outside the range of values that it has seen, but we want to be able to predict auction
+sale prices in the future. Therefore, we need to make this a continuous variable:
+cont_nn.append('saleElapsed')
+cat_nn.remove('saleElapsed')
+Let’s take a look at the cardinality of each of the categorical variables that we have
+chosen so far:
+df_nn_final[cat_nn].nunique()
+YearMade 73
+ProductSize 6
+Coupler_System 2
+fiProductClassDesc 74
+ModelID 5281
+Hydraulics_Flow 3
+fiSecondaryDesc 177
+fiModelDesc 5059
+ProductGroup 6
+Enclosure 6
+fiModelDescriptor 140
+Drive_System 4
+Hydraulics 12
+Tire_Size 17
+dtype: int64
+The fact that there are two variables pertaining to the “model” of the equipment, both
+with similar very high cardinalities, suggests that they may contain similar, redundant
+information. Note that we would not necessarily catch this when analyzing redundant
+features, since that relies on similar variables being sorted in the same order (that is,
+they need to have similarly named levels). Having a column with 5,000 levels means
+needing 5,000 columns in our embedding matrix, which would be nice to avoid if

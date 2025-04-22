@@ -1,0 +1,30 @@
+run_pipeline(pipe, top_k_retriever=3)
+<b>print(f"Recall@3:</b> {pipe.eval_retriever.recall:.2f}")
+Recall@3: 0.95
+Great, it works! Notice that we picked a specific value for top_k_retriever to specify
+the number of documents to retrieve. In general, increasing this parameter will
+improve the recall, but at the expense of providing more documents to the reader and
+slowing down the end-to-end pipeline. To guide our decision on which value to pick,
+we’ll create a function that loops over several <i>k</i> values and compute the recall across
+the whole test set for each <i>k:</i>
+<b>def</b> evaluate_retriever(retriever, topk_values = [1,3,5,10,20]):
+topk_results = {}
+<b>for</b> topk <b>in</b> topk_values:
+<i>#</i> <i>Create</i> <i>Pipeline</i>
+p = EvalRetrieverPipeline(retriever)
+<i>#</i> <i>Loop</i> <i>over</i> <i>each</i> <i>question-answers</i> <i>pair</i> <i>in</i> <i>test</i> <i>set</i>
+run_pipeline(p, top_k_retriever=topk)
+<i>#</i> <i>Get</i> <i>metrics</i>
+topk_results[topk] = {"recall": p.eval_retriever.recall}
+<b>return</b> pd.DataFrame.from_dict(topk_results, orient="index")
+es_topk_df = evaluate_retriever(es_retriever)
+If we plot the results, we can see how the recall improves as we increase <i>k:</i>
+<b>def</b> plot_retriever_eval(dfs, retriever_names):
+fig, ax = plt.subplots()
+<b>for</b> df, retriever_name <b>in</b> zip(dfs, retriever_names):
+df.plot(y="recall", ax=ax, label=retriever_name)
+plt.xticks(df.index)
+plt.ylabel("Top-k Recall")
+plt.xlabel("k")
+plt.show()
+plot_retriever_eval([es_topk_df], ["BM25"])

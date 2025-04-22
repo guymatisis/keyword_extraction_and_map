@@ -1,0 +1,39 @@
+confidence that the input was a 3. Binary problems are a special case of classification
+problem, because the target can be treated as a single Boolean value, as we did in
+mnist_loss. But binary problems can also be thought of in the context of the more
+general group of classifiers with any number of categories: in this case, we happen to
+have two categories. As we saw in the bear classifier, our neural net will return one
+activation per category.
+So in the binary case, what do those activations really indicate? A single pair of acti‐
+vations simply indicates the <i>relative</i> confidence of the input being a 3 versus being a 7.
+The overall values, whether they are both high or both low, don’t matter—all that
+matters is which is higher, and by how much.
+We would expect that since this is just another way of representing the same problem,
+we would be able to use sigmoid directly on the two-activation version of our neural
+net. And indeed we can! We can just take the <i>difference</i> between the neural net activa‐
+tions, because that reflects how much more sure we are of the input being a 3 than a
+7, and then take the sigmoid of that:
+(acts[:,0]-acts[:,1]).sigmoid()
+tensor([0.6025, 0.5021, 0.1332, 0.9966, 0.5959, 0.3661])
+The second column (the probability of it being a 7) will then just be that value sub‐
+tracted from 1. Now, we need a way to do all this that also works for more than two
+columns. It turns out that this function, called softmax , is exactly that:
+<b>def</b> softmax(x): <b>return</b> exp(x) / exp(x).sum(dim=1, keepdim=True)
+<b>Jargon:ExponentialFunction(exp)</b>
+Defined as e**x , where e is a special number approximately equal
+to 2.718. It is the inverse of the natural logarithm function. Note
+exp
+that is always positive and increases <i>very</i> rapidly!
+Let’s check that softmax returns the same values as sigmoid for the first column, and
+those values subtracted from 1 for the second column:
+sm_acts = torch.softmax(acts, dim=1)
+sm_acts
+tensor([[0.6025, 0.3975],
+[0.5021, 0.4979],
+[0.1332, 0.8668],
+[0.9966, 0.0034],
+[0.5959, 0.4041],
+[0.3661, 0.6339]])
+softmax sigmoid—we
+is the multi-category equivalent of have to use it anytime we
+have more than two categories and the probabilities of the categories must add to 1,

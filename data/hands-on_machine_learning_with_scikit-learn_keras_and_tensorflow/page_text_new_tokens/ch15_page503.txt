@@ -1,0 +1,18 @@
+but not through <b>Y</b> and <b>Y</b> ). Moreover, since the same parameters <b>W</b> and <b>b</b> are used
+(0) (1)
+at each time step, backpropagation will do the right thing and sum over all time steps.
+<i>Figure</i> <i>15-5.</i> <i>Backpropagation</i> <i>through</i> <i>time</i>
+Fortunately, tf.keras takes care of all of this complexity for you—so let’s start coding!
+<header><largefont><b>Forecasting</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Time</b></largefont> <largefont><b>Series</b></largefont></header>
+Suppose you are studying the number of active users per hour on your website, or the
+daily temperature in your city, or your company’s financial health, measured quar‐
+terly using multiple metrics. In all these cases, the data will be a sequence of one or
+more values per time step. This is called a <i>time</i> <i>series.</i> In the first two examples there
+is a single value per time step, so these are <i>univariate</i> <i>time</i> <i>series,</i> while in the financial
+example there are multiple values per time step (e.g., the company’s revenue, debt,
+and so on), so it is a <i>multivariate</i> <i>time</i> <i>series.</i> A typical task is to predict future values,
+which is called <i>forecasting.</i> Another common task is to fill in the blanks: to predict (or
+rather “postdict”) missing values from the past. This is called <i>imputation.</i> For exam‐
+ple, Figure 15-6 shows 3 univariate time series, each of them 50 time steps long, and
+the goal here is to forecast the value at the next time step (represented by the X) for
+each of them.

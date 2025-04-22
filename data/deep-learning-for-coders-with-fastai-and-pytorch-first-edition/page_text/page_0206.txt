@@ -1,0 +1,23 @@
+instead of better. This is the point where we know we have gone too far. We then
+select a learning rate a bit lower than this point. Our advice is to pick either of these:
+• One order of magnitude less than where the minimum loss was achieved (i.e., the
+minimum divided by 10)
+• The last point where the loss was clearly decreasing
+The learning rate finder computes those points on the curve to help you. Both these
+rules usually give around the same value. In the first chapter, we didn’t specify a
+learning rate, using the default value from the fastai library (which is 1e-3):
+learn = cnn_learner(dls, resnet34, metrics=error_rate)
+lr_min,lr_steep = learn.lr_find()
+<b>print(f"Minimum/10:</b> {lr_min:.2e}, steepest point: {lr_steep:.2e}")
+Minimum/10: 8.32e-03, steepest point: 6.31e-03
+We can see on this plot that in the range 1e-6 to 1e-3, nothing really happens and the
+model doesn’t train. Then the loss starts to decrease until it reaches a minimum, and
+then increases again. We don’t want a learning rate greater than 1e-1, as it will cause
+training to diverge (you can try for yourself), but 1e-1 is already too high: at this
+stage, we’ve left the period where the loss was decreasing steadily.
+In this learning rate plot, it appears that a learning rate around 3e-3 would be appro‐
+priate, so let’s choose that:
+learn = cnn_learner(dls, resnet34, metrics=error_rate)
+learn.fine_tune(2, base_lr=3e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 1.071820 0.427476 0.133965 00:19

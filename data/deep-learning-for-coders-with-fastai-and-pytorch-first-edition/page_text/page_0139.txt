@@ -1,0 +1,35 @@
+Some operations in PyTorch, such as taking a mean, require us to <i>cast</i> our integer
+types to float types. Since we’ll be needing this later, we’ll also cast our stacked tensor
+to float now. Casting in PyTorch is as simple as writing the name of the type you
+wish to cast to, and treating it as a method.
+Generally, when images are floats, the pixel values are expected to be between 0 and 1,
+so we will also divide by 255 here:
+stacked_sevens = torch.stack(seven_tensors).float()/255
+stacked_threes = torch.stack(three_tensors).float()/255
+stacked_threes.shape
+torch.Size([6131, 28, 28])
+Perhaps the most important attribute of a tensor is its <i>shape.</i> This tells you the length
+of each axis. In this case, we can see that we have 6,131 images, each of size 28×28
+pixels. There is nothing specifically about this tensor that says that the first axis is the
+number of images, the second is the height, and the third is the width—the semantics
+of a tensor are entirely up to us, and how we construct it. As far as PyTorch is con‐
+cerned, it is just a bunch of numbers in memory.
+The <i>length</i> of a tensor’s shape is its rank:
+len(stacked_threes.shape)
+3
+It is really important for you to commit to memory and practice these bits of tensor
+jargon: <i>rank</i> is the number of axes or dimensions in a tensor; <i>shape</i> is the size of each
+axis of a tensor.
+<b>AlexisSays</b>
+Watch out because the term “dimension” is sometimes used in two
+ways. Consider that we live in “three-dimensional space,” where a
+physical position can be described by a vector v, of length 3. But
+according to PyTorch, the attribute v.ndim (which sure looks like
+the “number of dimensions” of v) equals one, not three! Why?
+Because v is a vector, which is a tensor of rank one, meaning that it
+has only one <i>axis</i> (even if that axis has a length of three). In other
+words, sometimes dimension is used for the size of an axis (“space
+is three-dimensional”), while other times it is used for the rank, or
+the number of axes (“a matrix has two dimensions”). When con‐
+fused, I find it helpful to translate all statements into terms of rank,
+axis, and length, which are unambiguous terms.

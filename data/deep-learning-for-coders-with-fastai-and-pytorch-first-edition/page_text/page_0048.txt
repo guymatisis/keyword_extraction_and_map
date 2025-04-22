@@ -1,0 +1,37 @@
+widely studied by researchers and used to compare algorithmic changes. Some of
+these become household names (at least, among households that train models!), such
+as MNIST, CIFAR-10, and ImageNet.
+The datasets used in this book have been selected because they provide great exam‐
+ples of the kinds of data that you are likely to encounter, and the academic literature
+has many examples of model results using these datasets to which you can compare
+your work.
+Most datasets used in this book took the creators a lot of work to build. For instance,
+later in the book we’ll be showing you how to create a model that can translate
+between French and English. The key input to this is a French/English parallel text
+corpus prepared in 2009 by Professor Chris Callison-Burch of the University of Penn‐
+sylvania. This dataset contains over 20 million sentence pairs in French and English.
+He built the dataset in a really clever way: by crawling millions of Canadian web pages
+(which are often multilingual) and then using a set of simple heuristics to transform
+URLs of French content to URLs pointing to the same content in English.
+As you look at datasets throughout this book, think about where they might have
+come from and how they might have been curated. Then think about what kinds of
+interesting datasets you could create for your own projects. (We’ll even take you step
+by step through the process of creating your own image dataset soon.)
+fast.ai has spent a lot of time creating cut-down versions of popular datasets that are
+specially designed to support rapid prototyping and experimentation, and to be easier
+to learn with. In this book, we will often start by using one of the cut-down versions
+and later scale up to the full-size version (just as we’re doing in this chapter!). This is
+how the world’s top practitioners do their modeling in practice; they do most of their
+experimentation and prototyping with subsets of their data, and use the full dataset
+only when they have a good understanding of what they have to do.
+Each of the models we trained showed a training and validation loss. A good valida‐
+tion set is one of the most important pieces of the training process. Let’s see why and
+learn how to create one.
+<header><largefont><b>Validation</b></largefont> <largefont><b>Sets</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Test</b></largefont> <largefont><b>Sets</b></largefont></header>
+As we’ve discussed, the goal of a model is to make predictions about data. But the
+model training process is fundamentally dumb. If we trained a model with all our
+data and then evaluated the model using that same data, we would not be able to tell
+how well our model can perform on data it hasn’t seen. Without this very valuable
+piece of information to guide us in training our model, there is a very good chance it
+would become good at making predictions about that data but would perform poorly
+on new data.

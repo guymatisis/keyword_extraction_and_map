@@ -1,0 +1,5 @@
+Figure 13-7 shows how we applied the kernel to each section of the image to yield
+each result.
+<i>Figure</i> <i>13-7.</i> <i>Applying</i> <i>the</i> <i>kernel</i>
+The equation view is in Figure 13-8.
+<i>Figure</i> <i>13-8.</i> <i>The</i> <i>equation</i>

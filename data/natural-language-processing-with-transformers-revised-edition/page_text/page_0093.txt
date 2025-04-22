@@ -1,0 +1,36 @@
+As we saw in Chapter 3, XLM-R uses only MLM as a pretraining objective for 100
+languages, but is distinguished by the huge size of its pretraining corpus compared to
+its predecessors: Wikipedia dumps for each language and 2.5 <i>terabytes</i> of Common
+Crawl data from the web. This corpus is several orders of magnitude larger than the
+ones used in earlier models and provides a significant boost in signal for low-resource
+languages like Burmese and Swahili, where only a small number of Wikipedia articles
+exist.
+The RoBERTa part of the model’s name refers to the fact that the pretraining
+approach is the same as for the monolingual RoBERTa models. RoBERTa’s developers
+improved on several aspects of BERT, in particular by removing the next sentence
+altogether.3
+prediction task XLM-R also drops the language embeddings used in XLM
+and uses SentencePiece to tokenize the raw texts directly.4 Besides its multilingual
+nature, a notable difference between XLM-R and RoBERTa is the size of the respec‐
+tive vocabularies: 250,000 tokens versus 55,000!
+XLM-R is a great choice for multilingual NLU tasks. In the next section, we’ll explore
+how it can efficiently tokenize across many languages.
+<header><largefont><b>A</b></largefont> <largefont><b>Closer</b></largefont> <largefont><b>Look</b></largefont> <largefont><b>at</b></largefont> <largefont><b>Tokenization</b></largefont></header>
+Instead of using a WordPiece tokenizer, XLM-R uses a tokenizer called SentencePiece
+that is trained on the raw text of all one hundred languages. To get a feel for how Sen‐
+tencePiece compares to WordPiece, let’s load the BERT and XLM-R tokenizers in the
+usual way with Transformers:
+<b>from</b> <b>transformers</b> <b>import</b> AutoTokenizer
+bert_model_name = "bert-base-cased"
+xlmr_model_name = "xlm-roberta-base"
+bert_tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
+xlmr_tokenizer = AutoTokenizer.from_pretrained(xlmr_model_name)
+By encoding a small sequence of text we can also retrieve the special tokens that each
+model used during pretraining:
+text = "Jack Sparrow loves New York!"
+bert_tokens = bert_tokenizer(text).tokens()
+xlmr_tokens = xlmr_tokenizer(text).tokens()
+<b>BERT</b> [CLS] Jack Spa ##rrow loves New York ! [SEP] None
+3 Y.Liuetal.,“RoBERTa:ARobustlyOptimizedBERTPretrainingApproach”,(2019).
+4 T.KudoandJ.Richardson,“SentencePiece:ASimpleandLanguageIndependentSubwordTokenizerand
+DetokenizerforNeuralTextProcessing”,(2018).

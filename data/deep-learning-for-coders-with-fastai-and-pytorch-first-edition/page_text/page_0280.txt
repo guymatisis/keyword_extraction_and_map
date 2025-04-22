@@ -1,0 +1,16 @@
+etc. On the right is a map of Germany. The actual physical locations of the German
+states were not part of the provided data, yet the model itself learned where they must
+be, based only on the behavior of store sales!
+Do you remember how we talked about <i>distance</i> between embeddings? The authors
+of the paper plotted the distance between store embeddings against the actual geo‐
+graphic distance between the stores (see Figure 9-3). They found that they matched
+very closely!
+<i>Figure</i> <i>9-3.</i> <i>Store</i> <i>distances</i> <i>(courtesy</i> <i>of</i> <i>Cheng</i> <i>Guo</i> <i>and</i> <i>Felix</i> <i>Berkhahn)</i>
+We’ve even tried plotting the embeddings for days of the week and months of the
+year, and found that days and months that are near each other on the calendar ended
+up close as embeddings too, as shown in Figure 9-4.
+What stands out in these two examples is that we provide the model fundamentally
+categorical data about discrete entities (e.g., German states or days of the week), and
+then the model learns an embedding for these entities that defines a continuous
+notion of distance between them. Because the embedding distance was learned based
+on real patterns in the data, that distance tends to match up with our intuitions.

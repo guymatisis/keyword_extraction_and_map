@@ -1,0 +1,16 @@
+reduction algorithm for visualization. Let’s use this strategy to visualize Fashion
+MNIST. First, we use the encoder from our stacked autoencoder to reduce the dimen‐
+sionality down to 30, then we use Scikit-Learn’s implementation of the t-SNE algo‐
+rithm to reduce the dimensionality down to 2 for visualization:
+<b>from</b> <b>sklearn.manifold</b> <b>import</b> TSNE
+X_valid_compressed = stacked_encoder.predict(X_valid)
+tsne = TSNE()
+X_valid_2D = tsne.fit_transform(X_valid_compressed)
+Now we can plot the dataset:
+plt.scatter(X_valid_2D[:, 0], X_valid_2D[:, 1], c=y_valid, s=10, cmap="tab10")
+Figure 17-5 shows the resulting scatterplot (beautified a bit by displaying some of the
+images). The t-SNE algorithm identified several clusters which match the classes rea‐
+sonably well (each class is represented with a different color).
+<i>Figure</i> <i>17-5.</i> <i>Fashion</i> <i>MNIST</i> <i>visualization</i> <i>using</i> <i>an</i> <i>autoencoder</i> <i>followed</i> <i>by</i> <i>t-SNE</i>
+So, autoencoders can be used for dimensionality reduction. Another application is for
+unsupervised pretraining.

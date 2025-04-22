@@ -1,0 +1,18 @@
+<i>Figure</i> <i>11-14.</i> <i>Example</i> <i>of</i> <i>a</i> <i>visual</i> <i>question</i> <i>answering</i> <i>task</i> <i>from</i> <i>the</i> <i>VQA</i> <i>dataset</i> <i>(cour‐</i>
+<i>tesy</i> <i>of</i> <i>Yash</i> <i>Goyal)</i>
+Models such as LXMERT and VisualBERT use vision models like ResNets to extract
+features from the pictures and then use transformer encoders to combine them with
+the natural questions and predict an answer.17
+<b>LayoutLM</b>
+Analyzing scanned business documents like receipts, invoices, or reports is another
+area where extracting visual and layout information can be a useful way to recognize
+text fields of interest. Here the LayoutLM family of models are the current state of the
+art. They use an enhanced Transformer architecture that receives three modalities as
+input: text, image, and layout. Accordingly, as shown in Figure 11-15, there are
+embedding layers associated with each modality, a spatially aware self-attention
+mechanism, and a mix of image and text/image pretraining objectives to align the
+different modalities. By pretraining on millions of scanned documents, LayoutLM
+models are able to transfer to various downstream tasks in a manner similar to BERT
+for NLP.
+17 H.TanandM.Bansal,“LXMERT:LearningCross-ModalityEncoderRepresentationsfromTransformers”,
+(2019);L.H.Lietal.,“VisualBERT:ASimpleandPerformantBaselineforVisionandLanguage”,(2019).

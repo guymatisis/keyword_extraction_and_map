@@ -1,0 +1,28 @@
+there is only one precisely calculable output. There is no overlap between different
+examples in the training dataset. For this reason, we can toss out concerns about gen‐
+eralization. We <i>want</i> our ML model to fit the training data as perfectly as possible, to
+“overfit.”
+This is counter to the typical approach of training an ML model where considerations
+of bias, variance, and generalization error play an important role. Traditional training
+says that it is possible for a model to learn the training data “too well,” and that train‐
+ing your model so that the train loss function is equal to zero is more of a red flag
+than cause for celebration. Overfitting of the training dataset in this way causes the
+model to give misguided predictions on new, unseen data points. The difference here
+is that we know in advance there won’t be unseen data, thus the model is approxi‐
+mating a solution to a PDE over the full input spectrum. If your neural network is
+able to learn a set of parameters where the loss function is zero, then that parameter
+set determines the actual solution of the PDE in question.
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+If all possible inputs can be tabulated, then as shown by the dotted curve in
+Figure 4-4, an overfit model will still make the same predictions as the “true” model if
+all possible input points are trained for. So overfitting is not a concern. We have to
+take care that inferences are made on rounded-off values of the inputs, with the
+rounding determined by the resolution with which the input space was gridded.
+<i>Figure</i> <i>4-4.</i> <i>Overfitting</i> <i>is</i> <i>not</i> <i>a</i> <i>concern</i> <i>if</i> <i>all</i> <i>possible</i> <i>input</i> <i>points</i> <i>are</i> <i>trained</i> <i>for</i>
+<i>because</i> <i>predictions</i> <i>are</i> <i>the</i> <i>same</i> <i>with</i> <i>both</i> <i>curves.</i>
+Is it possible to find a model function that gets arbitrarily close to the true labels? One
+bit of intuition as to why this works comes from the Uniform Approximation Theo‐
+rem of deep learning, which, loosely put, states that any function (and its derivatives)
+can be approximated by a neural network with at least one hidden layer and any
+“squashing” activation function, like sigmoid. This means that no matter what
+function we are given, so long as it’s relatively well behaved, there exists a neural

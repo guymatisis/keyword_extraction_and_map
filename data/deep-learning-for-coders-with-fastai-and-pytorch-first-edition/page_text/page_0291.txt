@@ -1,0 +1,35 @@
+back even more deeply, from us ourselves, in order to ensure that <i>we</i> don’t overfit on
+the validation data as we explore various model architectures and hyperparameters.
+We don’t get to see the test set. But we do want to define our validation data so that it
+has the same sort of relationship to the training data as the test set will have.
+In some cases, just randomly choosing a subset of your data points will do that. This
+is not one of those cases, because it is a time series.
+If you look at the date range represented in the test set, you will discover that it covers
+a six-month period from May 2012, which is later in time than any date in the train‐
+ing set. This is a good design, because the competition sponsor will want to ensure
+that a model is able to predict the future. But it means that if we are going to have a
+useful validation set, we also want the validation set to be later in time than the train‐
+ing set. The Kaggle training data ends in April 2012, so we will define a narrower
+training dataset that consists only of the Kaggle training data from before November
+2011, and we’ll define a validation set consisting of data from after November 2011.
+To do this we use np.where, a useful function that returns (as the first element of a
+tuple) the indices of all True values:
+cond = (df.saleYear<2011) | (df.saleMonth<10)
+train_idx = np.where( cond)[0]
+valid_idx = np.where(~cond)[0]
+splits = (list(train_idx),list(valid_idx))
+TabularPandas needs to be told which columns are continuous and which are catego‐
+rical. We can handle that automatically using the helper function cont_cat_split:
+cont,cat = cont_cat_split(df, 1, dep_var=dep_var)
+to = TabularPandas(df, procs, cat, cont, y_names=dep_var, splits=splits)
+A TabularPandas behaves a lot like a fastai Datasets object, including providing
+train and valid attributes:
+len(to.train),len(to.valid)
+(404710, 7988)
+We can see that the data is still displayed as strings for categories (we show only a few
+columns here because the full table is too big to fit on a page):
+to.show(3)
+<b>state</b> <b>ProductGroup</b> <b>Drive_System</b> <b>Enclosure</b> <b>SalePrice</b>
+<b>0</b> Alabama WL #na# EROPSwAC 11.097410
+<b>1</b> NorthCarolina WL #na# EROPSwAC 10.950807
+<b>2</b> NewYork SSL #na# OROPS 9.210340

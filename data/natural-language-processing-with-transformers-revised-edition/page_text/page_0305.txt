@@ -1,0 +1,40 @@
+<b>SELECT</b>
+f.repo_name, f.path, <b>c.copies,</b> <b>c.size,</b> <b>c.content,</b> l.license
+<b>FROM</b>
+`bigquery-public-data.github_repos.files` <b>AS</b> f
+<b>JOIN</b>
+`bigquery-public-data.github_repos.contents` <b>AS</b> <b>c</b>
+<b>ON</b>
+f.id = <b>c.id</b>
+<b>JOIN</b>
+`bigquery-public-data.github_repos.licenses` <b>AS</b> l
+<b>ON</b>
+f.repo_name = l.repo_name
+<b>WHERE</b>
+<b>NOT</b> <b>c.binary</b>
+<b>AND</b> ((f.path <b>LIKE</b> '%.py')
+<b>AND</b> (c.size <b>BETWEEN</b> 1024
+<b>AND</b> 1048575))
+This command processes about 2.6 TB of data to extract 26.8 million files. The result
+is a dataset of about 50 GB of compressed JSON files, each containing the source code
+of Python files. We filtered to remove empty files and small files such as <i>__init__.py</i>
+that don’t contain much useful information. We also filtered out files larger than 1
+MB, and we downloaded the licenses for all the files so we can filter the training data
+based on licenses if we want later on.
+Next, we’ll download the results to our local machine. If you try this at home, make
+sure you have good bandwidth available and at least 50 GB of free disk space. The
+easiest way to get the resulting table to your local machine is to follow this two-step
+process:
+1. Export your results to Google Cloud:
+a. Create a bucket and a folder in Google Cloud Storage (GCS).
+b. Export your table to this bucket by selecting Export > Export to GCS, with an
+export format of JSON and gzip compression.
+gsutil
+2. To download the bucket to your machine, use the library:
+a. Install gsutil with pip install gsutil .
+b. Configure gsutil with your Google account: gsutil config .
+c. Copy your bucket on your machine:
+<b>$</b> <b>gsutil</b> <b>-m</b> <b>-o</b>
+<b>"GSUtil:parallel_process_count=1"</b> <b>cp</b> <b>-r</b> <b>gs://<name_of_bucket></b>
+Alternatively, you can directly download the dataset from the Hugging Face Hub with
+the following command:

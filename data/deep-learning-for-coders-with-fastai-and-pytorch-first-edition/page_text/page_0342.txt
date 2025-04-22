@@ -1,0 +1,35 @@
+and then looking at the first row of the independent variable, which should be the
+start of the first text:
+' '.join(num.vocab[o] <b>for</b> o <b>in</b> x[0][:20])
+'xxbos xxmaj this movie , which i just xxunk at the video store , has apparently
+> sit around for a'
+The dependent variable is the same thing offset by one token:
+' '.join(num.vocab[o] <b>for</b> o <b>in</b> y[0][:20])
+'xxmaj this movie , which i just xxunk at the video store , has apparently sit
+> around for a couple'
+This concludes all the preprocessing steps we need to apply to our data. We are now
+ready to train our text classifier.
+<header><largefont><b>Training</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Text</b></largefont> <largefont><b>Classifier</b></largefont></header>
+As we saw at the beginning of this chapter, there are two steps to training a state-of-
+the-art text classifier using transfer learning: first we need to fine-tune our language
+model pretrained on Wikipedia to the corpus of IMDb reviews, and then we can use
+that model to train a classifier.
+As usual, let’s start with assembling our data.
+<header><largefont><b>Language</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>Using</b></largefont> <largefont><b>DataBlock</b></largefont></header>
+fastai handles tokenization and numericalization automatically when TextBlock is
+passed to DataBlock. All of the arguments that can be passed to Tokenizer and
+Numericalize can also be passed to TextBlock . In the next chapter, we’ll discuss the
+easiest ways to run each of these steps separately, to ease debugging, but you can
+always just debug by running them manually on a subset of your data as shown in the
+previous sections. And don’t forget about DataBlock’s handy summary method, which
+is very useful for debugging data issues.
+Here’s how we use TextBlock to create a language model, using fastai’s defaults:
+get_imdb = partial(get_text_files, folders=['train', 'test', 'unsup'])
+dls_lm = DataBlock(
+blocks=TextBlock.from_folder(path, is_lm=True),
+get_items=get_imdb, splitter=RandomSplitter(0.1)
+).dataloaders(path, path=path, bs=128, seq_len=80)
+One thing that’s different from previous types we’ve used in DataBlock is that we’re
+not just using the class directly (i.e., TextBlock(...) , but instead are calling a <i>class</i>
+<i>method.</i> A class method is a Python method that, as the name suggests, belongs to a
+<i>class</i> rather than an <i>object.</i> (Be sure to search online for more information about class

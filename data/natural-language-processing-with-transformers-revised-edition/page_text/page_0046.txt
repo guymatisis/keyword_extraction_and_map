@@ -1,0 +1,28 @@
+<i>Figure</i> <i>2-6.</i> <i>When</i> <i>using</i> <i>the</i> <i>fine-tuning</i> <i>approach</i> <i>the</i> <i>whole</i> <i>DistilBERT</i> <i>model</i> <i>is</i> <i>trained</i>
+<i>along</i> <i>with</i> <i>the</i> <i>classification</i> <i>head</i>
+Training the hidden states that serve as inputs to the classification model will help us
+avoid the problem of working with data that may not be well suited for the classifica‐
+tion task. Instead, the initial hidden states adapt during training to decrease the
+model loss and thus increase its performance.
+Trainer
+We’ll be using the API from Transformers to simplify the training loop.
+Let’s look at the ingredients we need to set one up!
+<b>Loadingapretrainedmodel</b>
+The first thing we need is a pretrained DistilBERT model like the one we used in the
+AutoModelFor
+feature-based approach. The only slight modification is that we use the
+SequenceClassification AutoModel
+model instead of . The difference is that the
+AutoModelForSequenceClassification model has a classification head on top of the
+pretrained model outputs, which can be easily trained with the base model. We just
+need to specify how many labels the model has to predict (six in our case), since this
+dictates the number of outputs the classification head has:
+<b>from</b> <b>transformers</b> <b>import</b> AutoModelForSequenceClassification
+num_labels = 6
+model = (AutoModelForSequenceClassification
+.from_pretrained(model_ckpt, num_labels=num_labels)
+.to(device))
+You will see a warning that some parts of the model are randomly initialized. This
+is normal since the classification head has not yet been trained. The next step is to
+define the metrics that we’ll use to evaluate our model’s performance during
+fine-tuning.

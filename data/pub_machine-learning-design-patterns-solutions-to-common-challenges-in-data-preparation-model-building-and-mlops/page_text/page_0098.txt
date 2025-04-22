@@ -1,0 +1,28 @@
+identifies it as “pleated skirt.” Both are correct. However, if we build a multiclass clas‐
+sification model on this data, passing it multiple examples of the same image with
+different labels, we’ll likely encounter situations where the model labels similar
+images differently when making predictions. Ideally, we want a model that labels this
+image as both “maxi skirt” and “pleated skirt” as seen in Figure 3-10, rather than
+sometimes predicting only one of these labels.
+<i>Figure</i> <i>3-10.</i> <i>Using</i> <i>input</i> <i>from</i> <i>multiple</i> <i>labelers</i> <i>to</i> <i>create</i> <i>overlapping</i> <i>labels</i> <i>in</i> <i>cases</i>
+<i>where</i> <i>multiple</i> <i>descriptions</i> <i>of</i> <i>an</i> <i>item</i> <i>are</i> <i>correct.</i>
+The Multilabel design pattern solves this by allowing us to associate both overlapping
+labels with an image. In cases with overlapping labels where we have multiple labelers
+evaluating each image in our training dataset, we can choose the maximum number
+of labels we’d like labelers to assign to a given image, then take the most commonly
+chosen tags to associate with an image during training. The threshold for “most com‐
+monly chosen tags” will depend on our prediction task and the number of human
+labelers we have. For example, if we have 5 labelers evaluating every image and 20
+possible tags for each image, we might encourage labelers to give each image 3 tags.
+From this list of 15 label “votes” per image, we could then choose the 2 to 3 with the
+most votes from the labelers. When evaluating this model, we need to take note of the
+average prediction confidence the model returns for each label and use this to itera‐
+tively improve our dataset and label quality.
+<b>Oneversusrest</b>
+Another technique for handling Multilabel classification is to train multiple binary
+classifiers instead of one multilabel model. This approach is called <i>one</i> <i>versus</i> <i>rest.</i> In
+the case of the Stack Overflow example where we want to tag questions as Tensor‐
+Flow, Python, and pandas, we’d train an individual classifier for each of these three
+tags: Python or not, TensorFlow or not, and so forth. Then we’d choose a confidence
+threshold and tag the original input question with tags from each binary classifier
+above some threshold.

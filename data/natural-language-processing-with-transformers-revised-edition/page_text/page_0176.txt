@@ -1,0 +1,37 @@
+[CLS] how much music can this hold? [SEP] an mp3 is about 1 mb / minute, so
+about 6000 hours depending on file size. [SEP]
+We see that for each QA example, the inputs take the format:
+[CLS] question tokens [SEP] context tokens [SEP]
+where the location of the first [SEP] token is determined by the token_type_ids .
+Now that our text is tokenized, we just need to instantiate the model with a QA head
+and run the inputs through the forward pass:
+<b>import</b> <b>torch</b>
+<b>from</b> <b>transformers</b> <b>import</b> AutoModelForQuestionAnswering
+model = AutoModelForQuestionAnswering.from_pretrained(model_ckpt)
+<b>with</b> torch.no_grad():
+outputs = model(**inputs)
+<b>print(outputs)</b>
+QuestionAnsweringModelOutput(loss=None, start_logits=tensor([[-0.9862, -4.7750,
+-5.4025, -5.2378, -5.2863, -5.5117, -4.9819, -6.1880,
+-0.9862, 0.2596, -0.2144, -1.7136, 3.7806, 4.8561, -1.0546, -3.9097,
+-1.7374, -4.5944, -1.4278, 3.9949, 5.0390, -0.2018, -3.0193, -4.8549,
+-2.3107, -3.5110, -3.5713, -0.9862]]), end_logits=tensor([[-0.9623,
+-5.4733, -5.0326, -5.1639, -5.4278, -5.5151, -5.1749, -4.6233,
+-0.9623, -3.7855, -0.8715, -3.7745, -3.0161, -1.1780, 0.1758, -2.7365,
+4.8934, 0.3046, -3.1761, -3.2762, 0.8937, 5.6606, -0.3623, -4.9554,
+-3.2531, -0.0914, 1.6211, -0.9623]]), hidden_states=None,
+attentions=None)
+Here we can see that we get a QuestionAnsweringModelOutput object as the output of
+the QA head. As illustrated in Figure 7-4, the QA head corresponds to a linear layer
+that takes the hidden states from the encoder and computes the logits for the start
+and end spans. 10 This means that we treat QA as a form of token classification, similar
+to what we encountered for named entity recognition in Chapter 4. To convert the
+outputs into an answer span, we first need to get the logits for the start and end
+tokens:
+start_logits = outputs.start_logits
+end_logits = outputs.end_logits
+If we compare the shapes of these logits to the input IDs:
+<b>print(f"Input</b> IDs shape: {inputs.input_ids.size()}")
+<b>print(f"Start</b> logits shape: {start_logits.size()}")
+<b>print(f"End</b> logits shape: {end_logits.size()}")
+10 SeeChapter2fordetailsonhowthesehiddenstatescanbeextracted.

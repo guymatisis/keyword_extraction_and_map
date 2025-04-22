@@ -1,0 +1,34 @@
+<b>AlexisSays</b>
+My true opinion: if they were called “looping neural networks,” or
+LNNs, they would seem 50% less daunting!
+Now that we know what an RNN is, let’s try to make it a little bit better.
+<header><largefont><b>Improving</b></largefont> <largefont><b>the</b></largefont> <largefont><b>RNN</b></largefont></header>
+Looking at the code for our RNN, one thing that seems problematic is that we are
+initializing our hidden state to zero for every new input sequence. Why is that a prob‐
+lem? We made our sample sequences short so they would fit easily into batches. But if
+we order those samples correctly, the sample sequences will be read in order by the
+model, exposing the model to long stretches of the original sequence.
+Another thing we can look at is having more signal: why predict only the fourth word
+when we could use the intermediate predictions to also predict the second and third
+words? Let’s see how we can implement those changes, starting with adding some
+state.
+<header><largefont><b>Maintaining</b></largefont> <largefont><b>the</b></largefont> <largefont><b>State</b></largefont> <largefont><b>of</b></largefont> <largefont><b>an</b></largefont> <largefont><b>RNN</b></largefont></header>
+Because we initialize the model’s hidden state to zero for each new sample, we are
+throwing away all the information we have about the sentences we have seen so far,
+which means that our model doesn’t actually know where we are up to in the overall
+counting sequence. This is easily fixed; we can simply move the initialization of the
+hidden state to __init__.
+But this fix will create its own subtle, but important, problem. It effectively makes our
+neural network as deep as the entire number of tokens in our document. For instance,
+if there were 10,000 tokens in our dataset, we would be creating a 10,000-layer neural
+network.
+To see why this is the case, consider the original pictorial representation of our recur‐
+rent neural network in Figure 12-3, before refactoring it with a for loop. You can see
+each layer corresponds with one token input. When we talk about the representation
+of a recurrent neural network before refactoring with the for loop, we call this the
+<i>unrolled</i> <i>representation.</i> It is often helpful to consider the unrolled representation
+when trying to understand an RNN.
+The problem with a 10,000-layer neural network is that if and when you get to the
+10,000th word of the dataset, you will still need to calculate the derivatives all the way
+back to the first layer. This is going to be slow indeed, and memory-intensive. It is
+unlikely that you’ll be able to store even one mini-batch on your GPU.

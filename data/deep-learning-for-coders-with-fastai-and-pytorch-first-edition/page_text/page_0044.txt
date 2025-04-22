@@ -1,0 +1,37 @@
+This model is using the IMDb Large Movie Review dataset from “Learning Word
+Vectors for Sentiment Analysis” by Andrew Maas et al. It works well with movie
+reviews of many thousands of words, but let’s test it on a short one to see how it
+works:
+learn.predict("I really liked that movie!")
+('pos', tensor(1), tensor([0.0041, 0.9959]))
+Here we can see the model has considered the review to be positive. The second part
+of the result is the index of “pos” in our data vocabulary, and the last part is the prob‐
+abilities attributed to each class (99.6% for “pos” and 0.4% for “neg”).
+Now it’s your turn! Write your own mini movie review, or copy one from the internet,
+and you can see what this model thinks about it.
+<header><largefont><b>The</b></largefont> <largefont><b>Order</b></largefont> <largefont><b>Matters</b></largefont></header>
+In a Jupyter notebook, the order you execute each cell is important. It’s not like Excel,
+where everything gets updated as soon as you type something anywhere—it has an
+inner state that gets updated each time you execute a cell. For instance, when you run
+the first cell of the notebook (with the “CLICK ME” comment), you create an object
+called learn that contains a model and data for an image classification problem.
+If we were to run the cell just shown in the text (the one that predicts whether a
+review is good) straight after, we would get an error as this learn object does not con‐
+tain a text classification model. This cell needs to be run after the one containing this:
+<b>from</b> <b>fastai.text.all</b> <b>import</b> *
+dls = TextDataLoaders.from_folder(untar_data(URLs.IMDB), valid='test')
+learn = text_classifier_learner(dls, AWD_LSTM, drop_mult=0.5,
+metrics=accuracy)
+learn.fine_tune(4, 1e-2)
+The outputs themselves can be deceiving, because they include the results of the last
+time the cell was executed; if you change the code inside a cell without executing it,
+the old (misleading) results will remain.
+Except when we mention it explicitly, the notebooks provided on the book’s website
+are meant to be run in order, from top to bottom. In general, when experimenting,
+you will find yourself executing cells in any order to go fast (which is a super neat
+feature of Jupyter Notebook), but once you have explored and arrived at the final ver‐
+sion of your code, make sure you can run the cells of your notebooks in order (your
+future self won’t necessarily remember the convoluted path you took otherwise!).
+In command mode, typing 0 twice will restart the <i>kernel</i> (which is the engine power‐
+ing your notebook). This will wipe your state clean and make it as if you had just
+started in the notebook. Choose Run All Above from the Cell menu to run all cells

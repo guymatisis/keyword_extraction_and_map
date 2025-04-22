@@ -1,0 +1,40 @@
+Because accelerating SGD with momentum is such a good idea, fastai does this by
+default in fit_one_cycle, so we turn it off with moms=(0,0,0). We’ll be discussing
+momentum shortly.
+Clearly, plain SGD isn’t training as fast as we’d like. So let’s learn some tricks to get
+accelerated training!
+<header><largefont><b>A</b></largefont> <largefont><b>Generic</b></largefont> <largefont><b>Optimizer</b></largefont></header>
+To build up our accelerated SGD tricks, we’ll need to start with a nice flexible opti‐
+mizer foundation. No library prior to fastai provided such a foundation, but during
+fastai’s development, we realized that all the optimizer improvements we’d seen in the
+academic literature could be handled using <i>optimizer</i> <i>callbacks.</i> These are small pieces
+of code that we can compose, mix, and match in an optimizer to build the optimizer
+step. They are called by fastai’s lightweight Optimizer class. These are the definitions
+Optimizer
+in of the two key methods that we’ve been using in this book:
+<b>def</b> zero_grad(self):
+<b>for</b> p,*_ <b>in</b> self.all_params():
+p.grad.detach_()
+p.grad.zero_()
+<b>def</b> step(self):
+<b>for</b> p,pg,state,hyper <b>in</b> self.all_params():
+<b>for</b> cb <b>in</b> self.cbs:
+state = _update(state, cb(p, **{**state, **hyper}))
+self.state[p] = state
+As we saw when training an MNIST model from scratch, zero_grad just loops
+through the parameters of the model and sets the gradients to zero. It also calls
+detach_,
+which removes any history of gradient computation, since it won’t be
+needed after zero_grad.
+The more interesting method is step, which loops through the callbacks (cbs) and
+calls them to update the parameters (the _update function just calls state.update if
+there’s anything returned by cb). As you can see, Optimizer doesn’t do any SGD steps
+Optimizer.
+itself. Let’s see how we can add SGD to
+Here’s an optimizer callback that does a single SGD step, by multiplying -lr by the
+gradients and adding that to the parameter (when Tensor.add_ in PyTorch is passed
+two parameters, they are multiplied together before the addition):
+<b>def</b> sgd_cb(p, lr, **kwargs): p.data.add_(-lr, p.grad.data)
+We can pass this to Optimizer using the cbs parameter; we’ll need to use partial
+since Learner will call this function to create our optimizer later:
+opt_func = partial(Optimizer, cbs=[sgd_cb])

@@ -1,0 +1,42 @@
+tokens = sorted(new_tokenizer.vocab.items(), key=lambda x: x[1], reverse=False)
+<b>print([f'{tokenizer.convert_tokens_to_string(t)}'</b> <b>for</b> t, _ <b>in</b> tokens[257:280]]);
+[' ', ' ', ' ', ' ', 'se', 'in', ' ', 're', 'on', 'te', '\n
+', '\n ', 'or', 'st', 'de', '\n ', 'th', 'le', ' =', 'lf', 'self',
+'me', 'al']
+Here we can see various standard levels of indentation and whitespace tokens, as well
+as short common Python keywords like self , or , and in . This is a good sign that our
+BPE algorithm is working as intended. Now let’s check out the last words:
+<b>print([f'{new_tokenizer.convert_tokens_to_string(t)}'</b> <b>for</b> t,_ <b>in</b> tokens[-12:]]);
+[' capt', ' embedded', ' regarding', 'Bundle', '355', ' recv', ' dmp', ' vault',
+' Mongo', ' possibly', 'implementation', 'Matches']
+recv
+Here there are still some relatively common words, like , as well as some more
+noisy words probably coming from the comments.
+We can also tokenize our simple example of Python code to see how our tokenizer is
+behaving on a simple example:
+<b>print(new_tokenizer(python_code).tokens())</b>
+['def', 'Ġs', 'ay', '_', 'hello', '():', 'ĊĠĠĠ', 'Ġprint', '("', 'Hello', ',',
+'ĠWor', 'ld', '!")', 'Ġ#', 'ĠPrint', 'Ġit', 'Ċ', 'Ċ', 's', 'ay', '_', 'hello',
+'()', 'Ċ']
+Even though they are not code keywords, it’s a little annoying to see common English
+World say
+words like or being split by our tokenizer, since we’d expect them to occur
+rather frequently in the corpus. Let’s check if all the Python reserved keywords are in
+the vocabulary:
+<b>import</b> <b>keyword</b>
+<b>print(f'There</b> are in total {len(keyword.kwlist)} Python keywords.')
+<b>for</b> keyw <b>in</b> keyword.kwlist:
+<b>if</b> keyw <b>not</b> <b>in</b> new_tokenizer.vocab:
+<b>print(f'No,</b> keyword `{keyw}` is not in the vocabulary')
+There are in total 35 Python keywords.
+No, keyword `await` is not in the vocabulary
+No, keyword `finally` is not in the vocabulary
+No, keyword `nonlocal` is not in the vocabulary
+It appears that several quite frequent keywords, like finally , are not in the vocabu‐
+lary either. Let’s try building a larger vocabulary using a larger sample of our dataset.
+For instance, we can build a vocabulary of 32,768 words (multiples of 8 are better for
+some efficient GPU/TPU computations) and train the tokenizer on a twice as large
+slice of our corpus:
+length = 200000
+new_tokenizer_larger = tokenizer.train_new_from_iterator(batch_iterator(),
+vocab_size=32768, initial_alphabet=base_vocab)

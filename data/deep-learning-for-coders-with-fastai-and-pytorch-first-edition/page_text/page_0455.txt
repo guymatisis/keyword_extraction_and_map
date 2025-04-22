@@ -1,0 +1,38 @@
+Why is that useful? 1×1 convolutions are much faster, so even if this seems to be a
+more complex design, this block executes faster than the first ResNet block we saw.
+This then lets us use more filters: as we see in the illustration, the number of filters in
+and out is four times higher (256 instead of 64). The 1×1 convs diminish then restore
+the number of channels (hence the name <i>bottleneck).</i> The overall impact is that we
+can use more filters in the same amount of time.
+Let’s try replacing our ResBlock with this bottleneck design:
+<b>def</b> _conv_block(ni,nf,stride):
+<b>return</b> nn.Sequential(
+ConvLayer(ni, nf//4, 1),
+ConvLayer(nf//4, nf//4, stride=stride),
+ConvLayer(nf//4, nf, 1, act_cls=None, norm_type=NormType.BatchZero))
+We’ll use this to create a ResNet-50 with group sizes of (3,4,6,3) . We now need to
+pass 4 into the expansion parameter of ResNet, since we need to start with four times
+fewer channels and we’ll end with four times more channels.
+Deeper networks like this don’t generally show improvements when training for only
+5 epochs, so we’ll bump it up to 20 epochs this time to make the most of our bigger
+model. And to really get great results, let’s use bigger images too:
+dls = get_data(URLs.IMAGENETTE_320, presize=320, resize=224)
+We don’t have to do anything to account for the larger 224-pixel images; thanks to
+our fully convolutional network, it just works. This is also why we were able to do
+<i>progressive</i> <i>resizing</i> earlier in the book—the models we used were fully convolutional,
+so we were even able to fine-tune models trained with different sizes. We can now
+train our model and see the effects:
+rn = ResNet(dls.c, [3,4,6,3], 4)
+learn = get_learner(rn)
+learn.fit_one_cycle(20, 3e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 1.613448 1.473355 0.514140 00:31
+1 1.359604 2.050794 0.397452 00:31
+2 1.253112 4.511735 0.387006 00:31
+3 1.133450 2.575221 0.396178 00:31
+4 1.054752 1.264525 0.613758 00:32
+5 0.927930 2.670484 0.422675 00:32
+6 0.838268 1.724588 0.528662 00:32
+7 0.748289 1.180668 0.666497 00:31
+8 0.688637 1.245039 0.650446 00:32
+9 0.645530 1.053691 0.674904 00:31

@@ -1,0 +1,35 @@
+In such cases, it can be helpful to look at the validation error at the end of every
+epoch and stop the training process when the validation error is more than that of the
+previous epoch. In Figure 4-9, this will be at the end of the fourth epoch, shown by
+the thick dashed line. This is called <i>early</i> <i>stopping.</i>
+Had we been checkpointing at the end of every batch, we might
+have been able to capture the true minimum, which might have
+been a bit before or after the epoch boundary. See the discussion
+on virtual epochs in this section for a more frequent way to
+checkpoint.
+If we are checkpointing much more frequently, it can be helpful if
+early stopping isn’t overly sensitive to small perturbations in the
+validation error. Instead, we can apply early stopping only after the
+validation error doesn’t improve for more than <i>N</i> checkpoints.
+<b>Checkpointselection.</b> While early stopping can be implemented by stopping the train‐
+ing as soon as the validation error starts to increase, we recommend training longer
+and choosing the optimal run as a postprocessing step. The reason we suggest train‐
+ing well into phase 3 (see the preceding “Why It Works” section for an explanation of
+the three phases of the training loop) is that it is not uncommon for the validation
+error to increase for a bit and then start to drop again. This is usually because the
+training initially focuses on more common scenarios (phase 1), then starts to home in
+on the rarer situations (phase 2). Because rare situations may be imperfectly sampled
+between the training and validation datasets, occasional increases in the validation
+error during the training run are to be expected in phase 2. In addition, there are sit‐
+uations endemic to big models where deep double descent is expected, and so it is
+essential to train a bit longer just in case.
+In our example, instead of exporting the model at the end of the training run, we will
+load up the fourth checkpoint and export our final model from there instead. This is
+called <i>checkpoint</i> <i>selection,</i> and in TensorFlow, it can be achieved using BestExporter.
+<b>Regularization.</b>
+Instead of using early stopping or checkpoint selection, it can be help‐
+ful to try to add L2 regularization to your model so that the validation error does not
+increase and the model never gets into phase 3. Instead, both the training loss and the
+validation error should plateau, as shown in Figure 4-10. We term such a training
+loop (where both training and validation metrics reach a plateau) a <i>well-behaved</i>
+training loop.

@@ -1,0 +1,23 @@
+families. In our experiments we can see that German, French, and Italian achieve
+similar performance in the all category, suggesting that these languages are
+more similar to each other than to English.
+• As a general strategy, it is a good idea to focus attention on cross-lingual transfer
+<i>within</i> language families, especially when dealing with different scripts like
+Japanese.
+<header><largefont><b>Interacting</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>Widgets</b></largefont></header>
+In this chapter, we’ve pushed quite a few fine-tuned models to the Hub. Although we
+could use the pipeline() function to interact with them on our local machine, the
+Hub provides <i>widgets</i> that are great for this kind of workflow. An example is shown in
+transformersbook/xlm-roberta-base-finetuned-panx-all
+Figure 4-5 for our
+checkpoint, which as you can see has done a good job at identifying all the entities of
+a German text.
+<i>Figure</i> <i>4-5.</i> <i>Example</i> <i>of</i> <i>a</i> <i>widget</i> <i>on</i> <i>the</i> <i>Hugging</i> <i>Face</i> <i>Hub</i>
+<header><largefont><b>Conclusion</b></largefont></header>
+In this chapter we saw how to tackle an NLP task on a multilingual corpus using a
+single transformer pretrained on 100 languages: XLM-R. Although we were able to
+show that cross-lingual transfer from German to French is competitive when only a
+small number of labeled examples are available for fine-tuning, this good perfor‐
+mance generally does not occur if the target language is significantly different from
+the one the base model was fine-tuned on or was not one of the 100 languages used
+during pretraining. Recent proposals like MAD-X are designed precisely for these

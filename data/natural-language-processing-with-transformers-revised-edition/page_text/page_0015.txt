@@ -1,0 +1,15 @@
+But training a model is just a small piece of any NLP project—being able to efficiently
+process data, share results with colleagues, and make your work reproducible are key
+components too. Fortunately, Transformers is surrounded by a big ecosystem of
+useful tools that support much of the modern machine learning workflow. Let’s take a
+look.
+<header><largefont><b>The</b></largefont> <largefont><b>Hugging</b></largefont> <largefont><b>Face</b></largefont> <largefont><b>Ecosystem</b></largefont></header>
+What started with Transformers has quickly grown into a whole ecosystem con‐
+sisting of many libraries and tools to accelerate your NLP and machine learning
+projects. The Hugging Face ecosystem consists of mainly two parts: a family of libra‐
+ries and the Hub, as shown in Figure 1-9. The libraries provide the code while the
+Hub provides the pretrained model weights, datasets, scripts for the evaluation met‐
+rics, and more. In this section we’ll have a brief look at the various components. We’ll
+skip Transformers, as we’ve already discussed it and we will see a lot more of it
+throughout the course of the book.
+<i>Figure</i> <i>1-9.</i> <i>An</i> <i>overview</i> <i>of</i> <i>the</i> <i>Hugging</i> <i>Face</i> <i>ecosystem</i>

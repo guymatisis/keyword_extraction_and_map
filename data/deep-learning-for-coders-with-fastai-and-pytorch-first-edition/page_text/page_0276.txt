@@ -1,0 +1,16 @@
+31. What kind of model should we use if we want to add metadata about users and
+items, or information such as date and time, to a collaborative filtering model?
+<header><largefont><b>Further</b></largefont> <largefont><b>Research</b></largefont></header>
+1. Take a look at all the differences between the Embedding version of DotProduct
+Bias and the create_params version, and try to understand why each of those
+changes is required. If you’re not sure, try reverting each change to see what hap‐
+pens. (NB: even the type of brackets used in forward has changed!)
+2. Find three other areas where collaborative filtering is being used, and identify the
+pros and cons of this approach in those areas.
+3. Complete this notebook using the full MovieLens dataset, and compare your
+results to online benchmarks. See if you can improve your accuracy. Look on the
+book’s website and the fast.ai forums for ideas. Note that there are more columns
+in the full dataset—see if you can use those too (the next chapter might give you
+ideas).
+4. Create a model for MovieLens that works with cross-entropy loss, and compare it
+to the model in this chapter.

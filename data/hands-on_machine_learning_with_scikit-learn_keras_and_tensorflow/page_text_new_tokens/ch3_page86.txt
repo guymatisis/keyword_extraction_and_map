@@ -1,0 +1,33 @@
+Datasets loaded by Scikit-Learn generally have a similar dictionary structure, includ‐
+ing the following:
+DESCR
+• A key describing the dataset
+• A data key containing an array with one row per instance and one column per
+feature
+• A target key containing an array with the labels
+Let’s look at these arrays:
+<b>>>></b> X, y = mnist["data"], mnist["target"]
+<b>>>></b> X.shape
+(70000, 784)
+<b>>>></b> y.shape
+(70000,)
+There are 70,000 images, and each image has 784 features. This is because each image
+is 28 × 28 pixels, and each feature simply represents one pixel’s intensity, from 0
+(white) to 255 (black). Let’s take a peek at one digit from the dataset. All you need to
+do is grab an instance’s feature vector, reshape it to a 28 × 28 array, and display it
+imshow()
+using Matplotlib’s function:
+<b>import</b> <b>matplotlib</b> <b>as</b> <b>mpl</b>
+<b>import</b> <b>matplotlib.pyplot</b> <b>as</b> <b>plt</b>
+some_digit = X[0]
+some_digit_image = some_digit.reshape(28, 28)
+plt.imshow(some_digit_image, cmap="binary")
+plt.axis("off")
+plt.show()
+This looks like a 5, and indeed that’s what the label tells us:
+<b>>>></b> y[0]
+'5'
+y
+Note that the label is a string. Most ML algorithms expect numbers, so let’s cast to
+integer:
+<b>>>></b> y = y.astype(np.uint8)

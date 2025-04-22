@@ -1,0 +1,15 @@
+more in-depth overview of the What-If Tool in the Fairness Lens design pattern—
+here, we’ll focus specifically on its counterfactual analysis functionality. When visual‐
+izing data points from our test set in the What-If Tool, we have the option to show
+the nearest counterfactual data point to the one we’re selecting. Doing this will let us
+compare feature values and model predictions for these two data points, which can
+help us better understand the features our model is relying on most. In Figure 7-7, we
+see a counterfactual comparison for two data points from a mortgage application
+dataset. In bold, we see the features where these two data points are different, and at
+the bottom, we can see the model output for each.
+Example-based explanations compare new examples and their corresponding predic‐
+tions to similar examples from our training dataset. This type of explanation is espe‐
+cially useful for understanding how our training dataset affects model behavior.
+Example-based explanations work best on image or text data, and can be more intu‐
+itive than feature attributions or counterfactual analysis since they map a model’s
+prediction directly to the data used for training.

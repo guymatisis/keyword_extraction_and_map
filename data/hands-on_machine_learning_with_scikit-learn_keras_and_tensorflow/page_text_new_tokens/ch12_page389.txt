@@ -1,0 +1,43 @@
+model.compile(loss="mse", optimizer="nadam", metrics=[create_huber(2.0)])
+For each batch during training, Keras will compute this metric and keep track of its
+mean since the beginning of the epoch. Most of the time, this is exactly what you
+want. But not always! Consider a binary classifier’s precision, for example. As we saw
+in Chapter 3, precision is the number of true positives divided by the number of posi‐
+tive predictions (including both true positives and false positives). Suppose the model
+made five positive predictions in the first batch, four of which were correct: that’s 80%
+precision. Then suppose the model made three positive predictions in the second
+batch, but they were all incorrect: that’s 0% precision for the second batch. If you just
+compute the mean of these two precisions, you get 40%. But wait a second—that’s <i>not</i>
+the model’s precision over these two batches! Indeed, there were a total of four true
+positives (4 + 0) out of eight positive predictions (5 + 3), so the overall precision is
+50%, not 40%. What we need is an object that can keep track of the number of true
+positives and the number of false positives and that can compute their ratio when
+keras.metrics.Precision
+requested. This is precisely what the class does:
+<b>>>></b> precision = keras.metrics.Precision()
+<b>>>></b> precision([0, 1, 1, 1, 0, 1, 0, 1], [1, 1, 0, 1, 0, 1, 0, 1])
+<tf.Tensor: id=581729, shape=(), dtype=float32, numpy=0.8>
+<b>>>></b> precision([0, 1, 0, 0, 1, 0, 1, 1], [1, 0, 1, 1, 0, 0, 0, 0])
+<tf.Tensor: id=581780, shape=(), dtype=float32, numpy=0.5>
+In this example, we created a Precision object, then we used it like a function, pass‐
+ing it the labels and predictions for the first batch, then for the second batch (note
+that we could also have passed sample weights). We used the same number of true
+and false positives as in the example we just discussed. After the first batch, it returns
+a precision of 80%; then after the second batch, it returns 50% (which is the overall
+precision so far, not the second batch’s precision). This is called a <i>streaming</i> <i>metric</i> (or
+<i>stateful</i> <i>metric),</i> as it is gradually updated, batch after batch.
+result()
+At any point, we can call the method to get the current value of the metric.
+We can also look at its variables (tracking the number of true and false positives) by
+using the variables attribute, and we can reset these variables using the
+reset_states()
+method:
+<b>>>></b> precision.result()
+<tf.Tensor: id=581794, shape=(), dtype=float32, numpy=0.5>
+<b>>>></b> precision.variables
+[<tf.Variable 'true_positives:0' [...] numpy=array([4.], dtype=float32)>,
+<tf.Variable 'false_positives:0' [...] numpy=array([4.], dtype=float32)>]
+<b>>>></b> precision.reset_states() <i>#</i> <i>both</i> <i>variables</i> <i>get</i> <i>reset</i> <i>to</i> <i>0.0</i>
+keras.met
+If you need to create such a streaming metric, create a subclass of the
+rics.Metric class. Here is a simple example that keeps track of the total Huber loss

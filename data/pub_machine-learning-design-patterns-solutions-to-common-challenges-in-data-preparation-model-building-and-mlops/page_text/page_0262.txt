@@ -1,0 +1,44 @@
+<b>WHERE</b>
+<b>ABS(MOD(FARM_FINGERPRINT(CONCAT(date,</b> <b>arrival_airport)),</b> 10)) < 8
+arrival_airport
+If we split on a feature cross of multiple columns, we <i>can</i> use as
+one of the inputs to the model, since there will be examples of any particular airport
+in both the training and test sets. On the other hand, if we had split only on
+arrival_airport , then the training and test sets will have a mutually exclusive set of
+arrival_airport
+arrival airports and, therefore, cannot be an input to the model.
+<b>Repeatablesampling</b>
+The basic solution is good if we want 80% of the entire dataset as training, but what if
+we want to play around with a smaller dataset than what we have in BigQuery? This
+is common for local development. The flights dataset is 70 million rows, and perhaps
+what we want is a smaller dataset of one million flights. How would we pick 1 in 70
+flights, and then 80% of those as training?
+What we cannot do is something along the lines of:
+<b>SELECT</b>
+date,
+airline,
+departure_airport,
+departure_schedule,
+arrival_airport,
+arrival_delay
+<b>FROM</b>
+`bigquery-samples`.airline_ontime_data.flights
+<b>WHERE</b>
+<b>ABS(MOD(FARM_FINGERPRINT(date),</b> 70)) = 0
+<b>AND</b> <b>ABS(MOD(FARM_FINGERPRINT(date),</b> 10)) < 8
+We cannot pick 1 in 70 rows and then pick 8 in 10. If we are picking numbers that are
+divisible by 70, of course they are also going to be divisible by 10! That second mod‐
+ulo operation is useless.
+Here’s a better solution:
+<b>SELECT</b>
+date,
+airline,
+departure_airport,
+departure_schedule,
+arrival_airport,
+arrival_delay
+<b>FROM</b>
+`bigquery-samples`.airline_ontime_data.flights
+<b>WHERE</b>
+<b>ABS(MOD(FARM_FINGERPRINT(date),</b> 70)) = 0
+<b>AND</b> <b>ABS(MOD(FARM_FINGERPRINT(date),</b> 700)) < 560

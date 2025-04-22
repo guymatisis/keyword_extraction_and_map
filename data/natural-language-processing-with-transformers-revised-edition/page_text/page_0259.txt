@@ -1,0 +1,38 @@
+<header><largefont><b>Creating</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Slices</b></largefont></header>
+The dataset has the two characteristics that we’d like to investigate in this chapter:
+sparse labeled data and multilabel classification. The training set consists of only 220
+examples to train with, which is certainly a challenge even with transfer learning. To
+drill down into how each method in this chapter performs with little labeled data,
+we’ll also create slices of the training data with even fewer samples. We can then plot
+the number of samples against the performance and investigate various regimes. We’ll
+start with only eight samples per label and build up until the slice covers the full
+training set using the iterative_train_test_split() function:
+np.random.seed(0)
+all_indices = np.expand_dims(list(range(len(ds["train"]))), axis=1)
+indices_pool = all_indices
+labels = mlb.transform(ds["train"]["labels"])
+train_samples = [8, 16, 32, 64, 128]
+train_slices, last_k = [], 0
+<b>for</b> i, k <b>in</b> enumerate(train_samples):
+<i>#</i> <i>Split</i> <i>off</i> <i>samples</i> <i>necessary</i> <i>to</i> <i>fill</i> <i>the</i> <i>gap</i> <i>to</i> <i>the</i> <i>next</i> <i>split</i> <i>size</i>
+indices_pool, labels, new_slice, _ = iterative_train_test_split(
+indices_pool, labels, (k-last_k)/len(labels))
+last_k = k
+<b>if</b> i==0: train_slices.append(new_slice)
+<b>else:</b> train_slices.append(np.concatenate((train_slices[-1], new_slice)))
+<i>#</i> <i>Add</i> <i>full</i> <i>dataset</i> <i>as</i> <i>last</i> <i>slice</i>
+train_slices.append(all_indices), train_samples.append(len(ds["train"]))
+train_slices = [np.squeeze(train_slice) <b>for</b> train_slice <b>in</b> train_slices]
+Note that this iterative approach only approximately splits the samples to the desired
+size, since it is not always possible to find a balanced split at a given split size:
+<b>print("Target</b> split sizes:")
+<b>print(train_samples)</b>
+<b>print("Actual</b> split sizes:")
+<b>print([len(x)</b> <b>for</b> x <b>in</b> train_slices])
+Target split sizes:
+[8, 16, 32, 64, 128, 223]
+Actual split sizes:
+[10, 19, 36, 68, 134, 223]
+We’ll use the specified split sizes as the labels for the following plots. Great, we’ve
+finally prepared our dataset into training splits—let’s next take a look at training a
+strong baseline model!

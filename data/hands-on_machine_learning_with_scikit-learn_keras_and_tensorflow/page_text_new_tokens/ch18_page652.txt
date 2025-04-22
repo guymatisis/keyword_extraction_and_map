@@ -1,0 +1,25 @@
+number of filters, the kernel size, and the stride. After these convolutional layers, the
+encoding network will optionally apply a sequence of dense layers, if you set the
+fc_layer_params argument: it must be a list containing the number of neurons for
+each dense layer. Optionally, you can also pass a list of dropout rates (one per dense
+dropout_layer_params
+layer) via the argument if you want to apply dropout after
+each dense layer. The QNetwork takes the output of this encoding network and passes
+it to the dense output layer (with one unit per action).
+<i>Figure</i> <i>18-14.</i> <i>Architecture</i> <i>of</i> <i>an</i> <i>encoding</i> <i>network</i>
+The QNetwork class is flexible enough to build many different
+architectures, but you can always build your own network class if
+you need extra flexibility: extend the tf_agents.networks.Net
+work class and implement it like a regular custom Keras layer. The
+tf_agents.networks.Network class is a subclass of the keras.lay
+ers.Layer class that adds some functionality required by some
+agents, such as the possibility to easily create shallow copies of the
+network (i.e., copying the network’s architecture, but not its
+weights). For example, the DQNAgent uses this to create a copy of
+the online model.
+Now that we have the DQN, we are ready to build the DQN agent.
+<header><largefont><b>Creating</b></largefont> <largefont><b>the</b></largefont> <largefont><b>DQN</b></largefont> <largefont><b>Agent</b></largefont></header>
+The TF-Agents library implements many types of agents, located in the tf_agents
+.agents package and its subpackages. We will use the tf_agents.agents
+.dqn.dqn_agent.DqnAgent
+class:

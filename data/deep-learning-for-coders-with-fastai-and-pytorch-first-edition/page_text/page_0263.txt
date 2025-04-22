@@ -1,0 +1,39 @@
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 0.976380 1.001455 00:12
+1 0.875964 0.919960 00:12
+2 0.685377 0.870664 00:12
+3 0.483701 0.874071 00:12
+4 0.385249 0.878055 00:12
+This is a reasonable start, but we can do better. One obvious missing piece is that
+some users are just more positive or negative in their recommendations than others,
+and some movies are just plain better or worse than others. But in our dot product
+representation, we do not have any way to encode either of these things. If all you can
+say about a movie is, for instance, that it is very sci-fi, very action-oriented, and very
+not old, then you don’t really have any way to say whether most people like it.
+That’s because at this point we have only weights; we do not have biases. If we have a
+single number for each user that we can add to our scores, and ditto for each movie,
+that will handle this missing piece very nicely. So first of all, let’s adjust our model
+architecture:
+<b>class</b> <b>DotProductBias(Module):</b>
+<b>def</b> <b>__init__(self,</b> n_users, n_movies, n_factors, y_range=(0,5.5)):
+self.user_factors = Embedding(n_users, n_factors)
+self.user_bias = Embedding(n_users, 1)
+self.movie_factors = Embedding(n_movies, n_factors)
+self.movie_bias = Embedding(n_movies, 1)
+self.y_range = y_range
+<b>def</b> forward(self, x):
+users = self.user_factors(x[:,0])
+movies = self.movie_factors(x[:,1])
+res = (users * movies).sum(dim=1, keepdim=True)
+res += self.user_bias(x[:,0]) + self.movie_bias(x[:,1])
+<b>return</b> sigmoid_range(res, *self.y_range)
+Let’s try training this and see how it goes:
+model = DotProductBias(n_users, n_movies, 50)
+learn = Learner(dls, model, loss_func=MSELossFlat())
+learn.fit_one_cycle(5, 5e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 0.929161 0.936303 00:13
+1 0.820444 0.861306 00:13
+2 0.621612 0.865306 00:14
+3 0.404648 0.886448 00:13
+4 0.292948 0.892580 00:13

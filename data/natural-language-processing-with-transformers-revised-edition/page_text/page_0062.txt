@@ -1,0 +1,19 @@
+<i>Figure</i> <i>3-3.</i> <i>Diagram</i> <i>showing</i> <i>how</i> <i>self-attention</i> <i>updates</i> <i>raw</i> <i>token</i> <i>embeddings</i> <i>(upper)</i>
+<i>into</i> <i>contextualized</i> <i>embeddings</i> <i>(lower)</i> <i>to</i> <i>create</i> <i>representations</i> <i>that</i> <i>incorporate</i> <i>infor‐</i>
+<i>mation</i> <i>from</i> <i>the</i> <i>whole</i> <i>sequence</i>
+Let’s now take a look at how we can calculate the attention weights.
+<b>Scaleddot-productattention</b>
+There are several ways to implement a self-attention layer, but the most common one
+is <i>scaled</i> <i>dot-product</i> <i>attention,</i> from the paper introducing the Transformer architec‐
+ture.3
+There are four main steps required to implement this mechanism:
+1. Project each token embedding into three vectors called <i>query,</i> <i>key,</i> and <i>value.</i>
+2. Compute attention scores. We determine how much the query and key vectors
+relate to each other using a <i>similarity</i> <i>function.</i> As the name suggests, the similar‐
+ity function for scaled dot-product attention is the dot product, computed effi‐
+ciently using matrix multiplication of the embeddings. Queries and keys that are
+similar will have a large dot product, while those that don’t share much in com‐
+mon will have little to no overlap. The outputs from this step are called the <i>atten‐</i>
+<i>tion</i> <i>scores,</i> and for a sequence with <i>n</i> input tokens there is a corresponding <i>n</i> × <i>n</i>
+matrix of attention scores.
+3 A.Vaswanietal.,“AttentionIsAllYouNeed”,(2017).

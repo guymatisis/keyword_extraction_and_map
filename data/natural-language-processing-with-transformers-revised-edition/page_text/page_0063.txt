@@ -1,0 +1,35 @@
+3. Compute attention weights. Dot products can in general produce arbitrarily large
+numbers, which can destabilize the training process. To handle this, the attention
+scores are first multiplied by a scaling factor to normalize their variance and then
+normalized with a softmax to ensure all the column values sum to 1. The result‐
+ing <i>n</i> × <i>n</i> matrix now contains all the attention weights, <i>w</i> .
+<i>ji</i>
+4. Update the token embeddings. Once the attention weights are computed, we
+multiply them by the value vector <i>v</i> ,...,v to obtain an updated representation
+1 <i>n</i>
+′
+for embedding <i>x</i> = ∑ <i>w</i> <i>v</i> .
+<i>i</i> <i>j</i> <i>ji</i> <i>j</i>
+We can visualize how the attention weights are calculated with a nifty library called
+<i>BertViz</i> for Jupyter. This library provides several functions that can be used to visual‐
+ize different aspects of attention in transformer models. To visualize the attention
+weights, we can use the neuron_view module, which traces the computation of the
+weights to show how the query and key vectors are combined to produce the final
+weight. Since BertViz needs to tap into the attention layers of the model, we’ll instan‐
+tiate our BERT checkpoint with the model class from BertViz and then use the
+show() function to generate the interactive visualization for a specific encoder layer
+and attention head. Note that you need to click the “+” on the left to activate the
+attention visualization:
+<b>from</b> <b>transformers</b> <b>import</b> AutoTokenizer
+<b>from</b> <b>bertviz.transformers_neuron_view</b> <b>import</b> BertModel
+<b>from</b> <b>bertviz.neuron_view</b> <b>import</b> show
+model_ckpt = "bert-base-uncased"
+tokenizer = AutoTokenizer.from_pretrained(model_ckpt)
+model = BertModel.from_pretrained(model_ckpt)
+text = "time flies like an arrow"
+show(model, "bert", tokenizer, text, display_mode="light", layer=0, head=8)
+From the visualization, we can see the values of the query and key vectors are repre‐
+sented as vertical bands, where the intensity of each band corresponds to the magni‐
+tude. The connecting lines are weighted according to the attention between the
+tokens, and we can see that the query vector for “flies” has the strongest overlap with
+the key vector for “arrow”.

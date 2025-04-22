@@ -1,0 +1,22 @@
+tensor([[[26.8082, -inf, -inf, -inf, -inf],
+[-0.6981, 26.9043, -inf, -inf, -inf],
+[-2.3190, 1.2928, 27.8710, -inf, -inf],
+[-0.5897, 0.3497, -0.3807, 27.5488, -inf],
+[ 0.5275, 2.0493, -0.4869, 1.6100, 29.0893]]],
+grad_fn=<MaskedFillBackward0>)
+<i>Figure</i> <i>3-7.</i> <i>Zooming</i> <i>into</i> <i>the</i> <i>transformer</i> <i>decoder</i> <i>layer</i>
+By setting the upper values to negative infinity, we guarantee that the attention
+−∞
+weights are all zero once we take the softmax over the scores because <i>e</i> = 0 (recall
+that softmax calculates the normalized exponential). We can easily include this mask‐
+ing behavior with a small change to our scaled dot-product attention function that we
+implemented earlier in this chapter:
+<b>def</b> scaled_dot_product_attention(query, key, value, mask=None):
+dim_k = query.size(-1)
+scores = torch.bmm(query, key.transpose(1, 2)) / sqrt(dim_k)
+<b>if</b> mask <b>is</b> <b>not</b> None:
+scores = scores.masked_fill(mask == 0, float("-inf"))
+weights = F.softmax(scores, dim=-1)
+<b>return</b> weights.bmm(value)
+From here it is a simple matter to build up the decoder layer; we point the reader to
+the excellent implementation of minGPT by Andrej Karpathy for details.

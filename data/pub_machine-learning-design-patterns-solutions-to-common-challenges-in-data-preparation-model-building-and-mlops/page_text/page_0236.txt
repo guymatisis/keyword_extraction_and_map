@@ -1,0 +1,25 @@
+<i>Figure</i> <i>5-11.</i> <i>The</i> <i>image</i> <i>representation</i> <i>(spectrogram)</i> <i>of</i> <i>a</i> <i>saxophone</i> <i>audio</i> <i>clip</i> <i>from</i>
+<i>our</i> <i>training</i> <i>dataset.</i> <i>Code</i> <i>for</i> <i>converting</i> <i>.wav</i> <i>files</i> <i>to</i> <i>spectrograms</i> <i>can</i> <i>be</i> <i>found</i> <i>in</i> <i>the</i>
+<i>GitHub</i> <i>repository.</i>
+<b>Phase1:Buildingtheofflinemodel</b>
+The first model in our Two-Phase Predictions solution should be small enough that it
+can be loaded on a mobile device for quick inference without relying on internet con‐
+nectivity. Building on the instrument example introduced above, we’ll provide an
+example of the first prediction phase by building a binary classification model opti‐
+mized for on-device inference.
+The original sound dataset has 41 labels for different types of audio clips. Our first
+model will only have two labels: “instrument” or “not instrument.” We’ll build our
+model using the MobileNetV2 model architecture trained on the ImageNet dataset.
+MobileNetV2 is available directly in Keras and is an architecture optimized for mod‐
+els that will be served on-device. For our model, we’ll freeze the MobileNetV2
+weights and load it <i>without</i> the top so that we can add our own binary classification
+output layer:
+mobilenet = tf.keras.applications.MobileNetV2(
+input_shape=((128,128,3)),
+include_top=False,
+weights='imagenet'
+)
+mobilenet.trainable = False
+If we organize our spectrogram images into directories with the corresponding label
+name, we can use Keras’s ImageDataGenerator class to create our training and vali‐
+dation datasets:

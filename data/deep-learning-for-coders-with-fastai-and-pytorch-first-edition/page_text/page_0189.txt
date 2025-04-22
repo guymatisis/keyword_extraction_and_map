@@ -1,0 +1,36 @@
+One important piece of this DataBlock call that we haven’t seen before is in these two
+lines:
+item_tfms=Resize(460),
+batch_tfms=aug_transforms(size=224, min_scale=0.75)
+These lines implement a fastai data augmentation strategy that we call <i>presizing.</i> Pre‐
+sizing is a particular way to do image augmentation that is designed to minimize data
+destruction while maintaining good performance.
+<header><largefont><b>Presizing</b></largefont></header>
+We need our images to have the same dimensions, so that they can collate into ten‐
+sors to be passed to the GPU. We also want to minimize the number of distinct aug‐
+mentation computations we perform. The performance requirement suggests that we
+should, where possible, compose our augmentation transforms into fewer transforms
+(to reduce the number of computations and the number of lossy operations) and
+transform the images into uniform sizes (for more efficient processing on the GPU).
+The challenge is that, if performed after resizing down to the augmented size, various
+common data augmentation transforms might introduce spurious empty zones,
+degrade data, or both. For instance, rotating an image by 45 degrees fills corner
+regions of the new bounds with emptiness, which will not teach the model anything.
+Many rotation and zooming operations will require interpolating to create pixels.
+These interpolated pixels are derived from the original image data but are still of
+lower quality.
+To work around these challenges, presizing adopts two strategies that are shown in
+Figure 5-1:
+1. Resize images to relatively “large” dimensions—that is, dimensions significantly
+larger than the target training dimensions.
+2. Compose all of the common augmentation operations (including a resize to the
+final target size) into one, and perform the combined operation on the GPU only
+once at the end of processing, rather than performing the operations individually
+and interpolating multiple times.
+The first step, the resize, creates images large enough that they have spare margin to
+allow further augmentation transforms on their inner regions without creating empty
+zones. This transformation works by resizing to a square, using a large crop size. On
+the training set, the crop area is chosen randomly, and the size of the crop is selected
+to cover the entire width or height of the image, whichever is smaller. In the second
+step, the GPU is used for all data augmentation, and all of the potentially destructive
+operations are done together, with a single interpolation at the end.

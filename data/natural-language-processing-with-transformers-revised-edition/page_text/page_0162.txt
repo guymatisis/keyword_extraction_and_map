@@ -1,0 +1,38 @@
+rouge_dict = dict((rn, score[rn].mid.fmeasure) <b>for</b> rn <b>in</b> rouge_names)
+pd.DataFrame(rouge_dict, index=[f"pegasus"])
+<b>rouge1</b> <b>rouge2</b> <b>rougeL</b> <b>rougeLsum</b>
+<b>pegasus</b> 0.427614 0.200571 0.340648 0.340738
+We see that the ROUGE scores improved considerably over the model without fine-
+tuning, so even though the previous model was also trained for summarization, it was
+not well adapted for the new domain. Let’s push our model to the Hub:
+trainer.push_to_hub("Training complete!")
+In the next section we’ll use the model to generate a few summaries for us.
+You can also evaluate the generations as part of the training loop:
+use the extension of TrainingArguments called Seq2SeqTraining
+Arguments and specify predict_with_generate=True. Pass it to
+the dedicated Trainer called Seq2SeqTrainer , which then uses the
+generate() function instead of the model’s forward pass to create
+predictions for evaluation. Give it a try!
+<header><largefont><b>Generating</b></largefont> <largefont><b>Dialogue</b></largefont> <largefont><b>Summaries</b></largefont></header>
+Looking at the losses and ROUGE scores, it seems the model is showing a significant
+improvement over the original model trained on CNN/DailyMail only. Let’s see what
+a summary generated on a sample from the test set looks like:
+gen_kwargs = {"length_penalty": 0.8, "num_beams":8, "max_length": 128}
+sample_text = dataset_samsum["test"][0]["dialogue"]
+reference = dataset_samsum["test"][0]["summary"]
+pipe = pipeline("summarization", model="transformersbook/pegasus-samsum")
+<b>print("Dialogue:")</b>
+<b>print(sample_text)</b>
+<b>print("\nReference</b> Summary:")
+<b>print(reference)</b>
+<b>print("\nModel</b> Summary:")
+<b>print(pipe(sample_text,</b> **gen_kwargs)[0]["summary_text"])
+Dialogue:
+Hannah: Hey, do you have Betty's number?
+Amanda: Lemme check
+Hannah: <file_gif>
+Amanda: Sorry, can't find it.
+Amanda: Ask Larry
+Amanda: He called her last time we were at the park together
+Hannah: I don't know him well
+Hannah: <file_gif>

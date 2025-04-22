@@ -1,0 +1,41 @@
+<i>Table</i> <i>6-2.</i> <i>The</i> <i>taxi</i> <i>ride</i> <i>dataset</i> <i>contains</i> <i>information</i> <i>about</i> <i>taxi</i> <i>rides</i> <i>in</i> <i>New</i> <i>York.</i> <i>The</i>
+<i>entity</i> <i>is</i> <i>the</i> <i>taxi_id,</i> <i>a</i> <i>unique</i> <i>identifier</i> <i>for</i> <i>the</i> <i>taxi</i> <i>vendor</i> <i>of</i> <i>each</i> <i>trip</i>
+<b>Row</b> <b>pickup_datetime</b> <b>pickup_lat</b> <b>pickup_lon</b> <b>dropoff_lat</b> <b>dropoff_lon</b> <b>num_pass</b> <b>taxi_id</b> <b>fare_amt</b>
+1 2020-05-3111:29:48 40.787403 -73.955848 40.723042 -73.993106 2 0 15.3
+UTC
+2 2011-04-0614:30:00 40.645343 -73.776698 40.71489 -73.987242 2 0 45.0
+UTC
+3 2020-04-2413:11:06 40.650105 -73.785373 40.638858 -73.9678 2 2 32.1
+UTC
+4 2020-02-2009:07:00 40.762365 -73.925733 40.740118 -73.986487 2 1 21.3
+UTC
+<header><largefont><b>Defining</b></largefont> <largefont><b>Streaming</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>Sources</b></largefont> <largefont><b>when</b></largefont> <largefont><b>Creating</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Feature</b></largefont> <largefont><b>Set</b></largefont></header>
+Users can define streaming data sources when creating a feature set. Once a feature
+set is registered with a source, Feast will automatically start to populate its stores with
+data from this source. This is an example of a feature set with a user-provided source
+that retrieves streaming data from a Kafka topic:
+feature_set = FeatureSet(
+name="stream_feature",
+entities=[
+Entity("taxi_id", ValueType.INT64)
+],
+features=[
+Feature("traffic_last_5min", ValueType.INT64)
+],
+source=KafkaSource(
+brokers="mybroker:9092",
+topic="my_feature_topic"
+)
+)
+pickup_datetime
+The timestamp here is important since it is necessary to retrieve
+batch features and is used to ensure time-correct joins for batch features. To create an
+additional feature, such as the Euclidean distance, load the dataset into a pandas data‐
+frame and compute the feature:
+<i>#</i> <i>Load</i> <i>dataframe</i>
+taxi_df = pd.read_csv("taxi-train.csv")
+<i>#</i> <i>Engineer</i> <i>features,</i> <i>Euclidean</i> <i>distance</i>
+taxi_df['euclid_dist'] = taxi_df.apply(compute_dist, axis=1)
+.add(...)
+We can add entities and features to the feature set with . Alternatively, the
+method .infer_fields_from_df(...) will create the entities and features for our

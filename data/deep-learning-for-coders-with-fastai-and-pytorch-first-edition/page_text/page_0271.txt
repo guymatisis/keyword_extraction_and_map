@@ -1,0 +1,39 @@
+low, but it is not that common to find people who like science-fiction without action).
+It would probably be better to pick a particular user to represent <i>average</i> <i>taste.</i>
+Better still is to use a tabular model based on user metadata to construct your initial
+embedding vector. When a user signs up, think about what questions you could ask
+to help you understand their tastes. Then you can create a model in which the depen‐
+dent variable is a user’s embedding vector, and the independent variables are the
+results of the questions that you ask them, along with their signup metadata. We will
+see in the next section how to create these kinds of tabular models. (You may have
+noticed that when you sign up for services such as Pandora and Netflix, they tend to
+ask you a few questions about what genres of movie or music you like; this is how
+they come up with your initial collaborative filtering recommendations.)
+One thing to be careful of is that a small number of extremely enthusiastic users may
+end up effectively setting the recommendations for your whole user base. This is a
+very common problem, for instance, in movie recommendation systems. People who
+watch anime tend to watch a whole lot of it, and don’t watch very much else, and
+spend a lot of time putting their ratings on websites. As a result, anime tends to be
+heavily overrepresented in a lot of <i>best</i> <i>ever</i> <i>movies</i> lists. In this particular case, it can
+be fairly obvious that you have a problem of representation bias, but if the bias is
+occurring in the latent factors, it may not be obvious at all.
+Such a problem can change the entire makeup of your user base, and the behavior of
+your system. This is particularly true because of positive feedback loops. If a small
+number of your users tend to set the direction of your recommendation system, they
+are naturally going to end up attracting more people like them to your system. And
+that will, of course, amplify the original representation bias. This type of bias is a nat‐
+ural tendency to be amplified exponentially. You may have seen examples of company
+executives expressing surprise at how their online platforms rapidly deteriorated in
+such a way that they expressed values at odds with the values of the founders. In the
+presence of these kinds of feedback loops, it is easy to see how such a divergence can
+happen both quickly and in a way that is hidden until it is too late.
+In a self-reinforcing system like this, we should probably expect these kinds of feed‐
+back loops to be the norm, not the exception. Therefore, you should assume that you
+will see them, plan for that, and identify up front how you will deal with these issues.
+Try to think about all of the ways in which feedback loops may be represented in your
+system, and how you might be able to identify them in your data. In the end, this is
+coming back to our original advice about how to avoid disaster when rolling out any
+kind of machine learning system. It’s all about ensuring that there are humans in the
+loop; that there is careful monitoring, and a gradual and thoughtful rollout.
+Our dot product model works quite well, and it is the basis of many successful real-
+world recommendation systems. This approach to collaborative filtering is known as

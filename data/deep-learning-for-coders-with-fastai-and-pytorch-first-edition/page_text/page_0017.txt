@@ -1,0 +1,38 @@
+Jupyter notebooks can be in one of two modes: edit mode or command mode. In edit
+mode, typing on your keyboard enters the letters into the cell in the usual way. How‐
+ever, in command mode, you will not see any flashing cursor, and each key on your
+keyboard will have a special function.
+Before continuing, press the Escape key on your keyboard to switch to command
+mode (if you are already in command mode, this does nothing, so press it now just in
+case). To see a complete list of all the functions available, press H; press Escape to
+remove this help screen. Notice that in command mode, unlike in most programs,
+commands do not require you to hold down Control, Alt, or similar—you simply
+press the required letter key.
+You can make a copy of a cell by pressing C (the cell needs to be selected first, indica‐
+ted with an outline around it; if it is not already selected, click it once). Then press V
+to paste a copy of it.
+Click the cell that begins with the line “# CLICK ME” to select it. The first character
+in that line indicates that what follows is a comment in Python, so it is ignored when
+executing the cell. The rest of the cell is, believe it or not, a complete system for creat‐
+ing and training a state-of-the-art model for recognizing cats versus dogs. So, let’s
+train it now! To do so, just press Shift-Enter on your keyboard, or click the Play but‐
+ton on the toolbar. Then wait a few minutes while the following things happen:
+1. A dataset called the Oxford-IIIT Pet Dataset that contains 7,349 images of cats
+and dogs from 37 breeds will be downloaded from the fast.ai datasets collection
+to the GPU server you are using, and will then be extracted.
+2. A <i>pretrained</i> <i>model</i> that has already been trained on 1.3 million images using a
+competition-winning model will be downloaded from the internet.
+3. The pretrained model will be <i>fine-tuned</i> using the latest advances in transfer
+learning to create a model that is specially customized for recognizing dogs and
+cats.
+The first two steps need to be run only once on your GPU server. If you run the cell
+again, it will use the dataset and model that have already been downloaded, rather
+than downloading them again. Let’s take a look at the contents of the cell and the
+results (Table 1-2):
+<i>#</i> <i>CLICK</i> <i>ME</i>
+<b>from</b> <b>fastai.vision.all</b> <b>import</b> *
+path = untar_data(URLs.PETS)/'images'
+<b>def</b> is_cat(x): <b>return</b> x[0].isupper()
+dls = ImageDataLoaders.from_name_func(
+path, get_image_files(path), valid_pct=0.2, seed=42,
+label_func=is_cat, item_tfms=Resize(224))

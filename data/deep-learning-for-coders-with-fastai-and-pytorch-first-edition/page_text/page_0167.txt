@@ -1,0 +1,35 @@
+<b>SylvainSays</b>
+In mathematical terms, accuracy is a function that is constant
+almost everywhere (except at the threshold, 0.5), so its derivative is
+nil almost everywhere (and infinity at the threshold). This then
+gives gradients that are 0 or infinite, which are useless for updating
+the model.
+Instead, we need a loss function that, when our weights result in slightly better pre‐
+dictions, gives us a slightly better loss. So what does a “slightly better prediction” look
+like, exactly? Well, in this case, it means that if the correct answer is a 3, the score is a
+little higher, or if the correct answer is a 7, the score is a little lower.
+Let’s write such a function now. What form does it take?
+The loss function receives not the images themselves, but the predictions from the
+model. So let’s make one argument, prds, of values between 0 and 1, where each value
+is the prediction that an image is a 3. It is a vector (i.e., a rank-1 tensor) indexed over
+the images.
+The purpose of the loss function is to measure the difference between predicted val‐
+ues and the true values—that is, the targets (aka labels). Let’s therefore make another
+argument, trgts , with values of 0 or 1 that tells whether an image actually is a 3 or
+not. It is also a vector (i.e., another rank-1 tensor) indexed over the images.
+For instance, suppose we had three images that we knew were a 3, a 7, and a 3. And
+suppose our model predicted with high confidence (0.9) that the first was a 3, with
+slight confidence (0.4) that the second was a 7, and with fair confidence (0.2), but
+incorrectly, that the last was a 7. This would mean our loss function would receive
+these values as its inputs:
+trgts = tensor([1,0,1])
+prds = tensor([0.9, 0.4, 0.2])
+Here’s a first try at a loss function that measures the distance between predictions
+and targets:
+<b>def</b> mnist_loss(predictions, targets):
+<b>return</b> torch.where(targets==1, 1-predictions, predictions).mean()
+We’re using a new function, torch.where(a,b,c). This is the same as running the list
+comprehension [b[i] if a[i] else c[i] for i in range(len(a))] , except it
+works on tensors, at C/CUDA speed. In plain English, this function will measure how
+distant each prediction is from 1 if it should be 1, and how distant it is from 0 if it
+should be 0, and then it will take the mean of all those distances.

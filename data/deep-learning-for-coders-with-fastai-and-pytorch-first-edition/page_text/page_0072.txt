@@ -1,0 +1,17 @@
+This command has given us a DataBlock object. This is like a <i>template</i> for creating a
+DataLoaders. We still need to tell fastai the actual source of our data—in this case, the
+path where the images can be found:
+dls = bears.dataloaders(path)
+A DataLoaders includes validation and training DataLoaders. A DataLoader is a class
+that provides batches of a few items at a time to the GPU. We’ll be learning a lot more
+about this class in the next chapter. When you loop through a DataLoader, fastai will
+give you 64 (by default) items at a time, all stacked up into a single tensor. We can
+take a look at a few of those items by calling the show_batch method on a
+DataLoader :
+dls.valid.show_batch(max_n=4, nrows=1)
+By default, Resize <i>crops</i> the images to fit a square shape of the size requested, using
+the full width or height. This can result in losing some important details. Alterna‐
+tively, you can ask fastai to pad the images with zeros (black), or squish/stretch them:
+bears = bears.new(item_tfms=Resize(128, ResizeMethod.Squish))
+dls = bears.dataloaders(path)
+dls.valid.show_batch(max_n=4, nrows=1)

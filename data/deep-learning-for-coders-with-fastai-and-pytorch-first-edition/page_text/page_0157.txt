@@ -1,0 +1,14 @@
+But picking a learning rate that’s too high is even worse—it can result in the loss get‐
+ting <i>worse,</i> as we see in Figure 4-3!
+<i>Figure</i> <i>4-3.</i> <i>Gradient</i> <i>descent</i> <i>with</i> <i>high</i> <i>LR</i>
+If the learning rate is too high, it may also “bounce” around, rather than diverging;
+Figure 4-4 shows how this results in taking many steps to train successfully.
+<i>Figure</i> <i>4-4.</i> <i>Gradient</i> <i>descent</i> <i>with</i> <i>bouncy</i> <i>LR</i>
+Now let’s apply all of this in an end-to-end example.
+<header><largefont><b>An</b></largefont> <largefont><b>End-to-End</b></largefont> <largefont><b>SGD</b></largefont> <largefont><b>Example</b></largefont></header>
+We’ve seen how to use gradients to minimize our loss. Now it’s time to look at an SGD
+example and see how finding a minimum can be used to train a model to fit data
+better.
+Let’s start with a simple, synthetic example model. Imagine you were measuring the
+speed of a roller coaster as it went over the top of a hump. It would start fast, and then
+get slower as it went up the hill; it would be slowest at the top, and it would then

@@ -1,0 +1,30 @@
+<i>Figure</i> <i>7-11.</i> <i>Tuning</i> <i>the</i> <i>number</i> <i>of</i> <i>trees</i> <i>using</i> <i>early</i> <i>stopping</i>
+It is also possible to implement early stopping by actually stopping training early
+(instead of training a large number of trees first and then looking back to find the
+optimal number). You can do so by setting warm_start=True , which makes Scikit-
+fit()
+Learn keep existing trees when the method is called, allowing incremental
+training. The following code stops training when the validation error does not
+improve for five iterations in a row:
+gbrt = GradientBoostingRegressor(max_depth=2, warm_start=True)
+min_val_error = float("inf")
+error_going_up = 0
+<b>for</b> n_estimators <b>in</b> range(1, 120):
+gbrt.n_estimators = n_estimators
+gbrt.fit(X_train, y_train)
+y_pred = gbrt.predict(X_val)
+val_error = mean_squared_error(y_val, y_pred)
+<b>if</b> val_error < min_val_error:
+min_val_error = val_error
+error_going_up = 0
+<b>else:</b>
+error_going_up += 1
+<b>if</b> error_going_up == 5:
+<b>break</b> <i>#</i> <i>early</i> <i>stopping</i>
+GradientBoostingRegressor subsample
+The class also supports a hyperparameter,
+which specifies the fraction of training instances to be used for training each tree. For
+example, if subsample=0.25 , then each tree is trained on 25% of the training instan‐
+ces, selected randomly. As you can probably guess by now, this technique trades a
+higher bias for a lower variance. It also speeds up training considerably. This is called
+<i>Stochastic</i> <i>Gradient</i> <i>Boosting.</i>

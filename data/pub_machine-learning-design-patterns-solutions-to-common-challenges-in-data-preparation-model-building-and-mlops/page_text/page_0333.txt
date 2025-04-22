@@ -1,0 +1,35 @@
+<header><largefont><b>Heuristic</b></largefont> <largefont><b>Benchmarks</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>Baselines</b></largefont></header>
+How do model baselines relate to the Heuristic Benchmark design pattern? A heuris‐
+tic benchmark is meant to be a starting point for summarizing a model at a global
+level, often before implementing explainability. When using explainability, the type
+of baseline we choose (informative or uninformative) and the way we calculate it is
+up to us. The techniques outlined in the Heuristic Benchmark pattern could also be
+used to determine a model’s baseline for use with an explainability method.
+Both heuristic benchmarks and model baselines provide a framework for answering
+the question, “Why did the model do X as compared to Y?” Heuristic benchmarks are
+a first step in model analysis, and represent one possible approach for calculating a
+baseline. When we use the term <i>baseline</i> in this section, we’re referring specifically to
+the value used as a point of reference in explainability methods.
+<b>SHAP</b>
+The open source library SHAP provides a Python API for getting feature attributions
+on many types of models, and is based on the concept of Shapley Value introduced in
+Table 7-2. To determine feature attribution values, SHAP calculates how much
+adding or removing each feature contributes to a model’s prediction output. It per‐
+forms this analysis across many different combinations of feature values and model
+output.
+SHAP is framework-agnostic and works with models trained on image, text, or tabu‐
+lar data. To see how SHAP works in practice, we’ll use the fuel efficiency dataset ref‐
+erenced previously. This time, we’ll build a deep model with the Keras Sequential
+API:
+model = tf.keras.Sequential([
+tf.keras.layers.Dense(16, input_shape=(len(x_train.iloc[0])),
+tf.keras.layers.Dense(16, activation='relu'),
+tf.keras.layers.Dense(1)
+])
+DeepExplainer
+To use SHAP, we’ll first create a object by passing it our model and a
+subset of examples from our training set. Then we’ll get the attribution values for the
+first 10 examples in our test set:
+<b>import</b> <b>shap</b>
+explainer = shap.DeepExplainer(model, x_train[:100])
+attribution_values = explainer.shap_values(x_test.values[:10])

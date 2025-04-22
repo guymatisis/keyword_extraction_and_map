@@ -1,0 +1,39 @@
+<header><largefont><b>Creating</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Dataset</b></largefont></header>
+get_file()
+First, let’s download all of Shakespeare’s work, using Keras’s handy func‐
+tion and downloading the data from Andrej Karpathy’s Char-RNN project:
+shakespeare_url = "https://homl.info/shakespeare" <i>#</i> <i>shortcut</i> <i>URL</i>
+filepath = keras.utils.get_file("shakespeare.txt", shakespeare_url)
+<b>with</b> open(filepath) <b>as</b> f:
+shakespeare_text = f.read()
+Next, we must encode every character as an integer. One option is to create a custom
+preprocessing layer, as we did in Chapter 13. But in this case, it will be simpler to use
+Keras’s Tokenizer class. First we need to fit a tokenizer to the text: it will find all the
+characters used in the text and map each of them to a different character ID, from 1
+to the number of distinct characters (it does not start at 0, so we can use that value for
+masking, as we will see later in this chapter):
+tokenizer = keras.preprocessing.text.Tokenizer(char_level=True)
+tokenizer.fit_on_texts([shakespeare_text])
+We set char_level=True to get character-level encoding rather than the default
+word-level encoding. Note that this tokenizer converts the text to lowercase by
+lower=False
+default (but you can set if you do not want that). Now the tokenizer can
+encode a sentence (or a list of sentences) to a list of character IDs and back, and it
+tells us how many distinct characters there are and the total number of characters in
+the text:
+<b>>>></b> tokenizer.texts_to_sequences(["First"])
+[[20, 6, 9, 8, 3]]
+<b>>>></b> tokenizer.sequences_to_texts([[20, 6, 9, 8, 3]])
+['f i r s t']
+<b>>>></b> max_id = len(tokenizer.word_index) <i>#</i> <i>number</i> <i>of</i> <i>distinct</i> <i>characters</i>
+<b>>>></b> dataset_size = tokenizer.document_count <i>#</i> <i>total</i> <i>number</i> <i>of</i> <i>characters</i>
+Let’s encode the full text so each character is represented by its ID (we subtract 1 to
+get IDs from 0 to 38, rather than from 1 to 39):
+[encoded] = np.array(tokenizer.texts_to_sequences([shakespeare_text])) - 1
+Before we continue, we need to split the dataset into a training set, a validation set,
+and a test set. We can’t just shuffle all the characters in the text, so how do you split a
+sequential dataset?
+<header><largefont><b>How</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Split</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Sequential</b></largefont> <largefont><b>Dataset</b></largefont></header>
+It is very important to avoid any overlap between the training set, the validation set,
+and the test set. For example, we can take the first 90% of the text for the training set,
+then the next 5% for the validation set, and the final 5% for the test set. It would also

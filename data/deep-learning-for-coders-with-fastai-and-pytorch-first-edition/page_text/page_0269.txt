@@ -1,0 +1,36 @@
+<b>JeremySays</b>
+No matter how many models I train, I never stop getting moved
+and surprised by how these randomly initialized bunches of num‐
+bers, trained with such simple mechanics, manage to discover
+things about my data all by themselves. It almost seems like cheat‐
+ing that I can create code that does useful things without ever
+actually telling it how to do those things!
+We defined our model from scratch to teach you what is inside, but you can directly
+use the fastai library to build it. We’ll look at how to do that next.
+<header><largefont><b>Using</b></largefont> <largefont><b>fastai.collab</b></largefont></header>
+We can create and train a collaborative filtering model using the exact structure
+shown earlier by using fastai’s collab_learner:
+learn = collab_learner(dls, n_factors=50, y_range=(0, 5.5))
+learn.fit_one_cycle(5, 5e-3, wd=0.1)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 0.931751 0.953806 00:13
+1 0.851826 0.878119 00:13
+2 0.715254 0.834711 00:13
+3 0.583173 0.821470 00:13
+4 0.496625 0.821688 00:13
+The names of the layers can be seen by printing the model:
+learn.model
+EmbeddingDotBias(
+(u_weight): Embedding(944, 50)
+(i_weight): Embedding(1635, 50)
+(u_bias): Embedding(944, 1)
+(i_bias): Embedding(1635, 1)
+)
+We can use these to replicate any of the analyses we did in the previous section—for
+instance:
+movie_bias = learn.model.i_bias.weight.squeeze()
+idxs = movie_bias.argsort(descending=True)[:5]
+[dls.classes['title'][i] <b>for</b> i <b>in</b> idxs]
+['Titanic (1997)',
+"Schindler's List (1993)",
+'Shawshank Redemption, The (1994)',

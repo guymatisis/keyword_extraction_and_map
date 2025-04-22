@@ -1,0 +1,37 @@
+Here’s what this might look like for a small dataset with three data points:
+rating_data = [2, 3, 5]
+<b>def</b> good_or_bad(rating):
+<b>if</b> rating > 3:
+<b>return</b> 1
+<b>else:</b>
+<b>return</b> 0
+rating_processed = []
+<b>for</b> i <b>in</b> rating_data:
+rating_processed.append([i, good_or_bad(i)])
+The resulting feature is a two-element array consisting of the integer rating and its
+boolean representation:
+[[2, 0], [3, 0], [5, 1]]
+If we had instead decided to create more than two buckets, we would one-hot encode
+each input and append this one-hot array to the integer representation.
+The reason it’s useful to represent rating in two ways is because the value of rating as
+measured by 1 to 5 stars does not necessarily increase linearly. Ratings of 4 and 5 are
+very similar, and ratings of 1 to 3 most likely indicate that the reviewer was dissatis‐
+fied. Whether you give something you dislike 1, 2, or 3 stars is often related to your
+review tendencies rather than the review itself. Despite this, it’s still useful to keep the
+more granular information present in the star rating, which is why we encode it in
+two ways.
+Additionally, consider features with a larger range than 1 to 5, like the distance
+between a reviewer’s home and a restaurant. If someone drives two hours to go to a
+restaurant, their review may be more critical than someone coming from across the
+street. In this case, we might have outlier values, and so it would make sense to both
+threshold the numeric distance representation at something like 50 km and to
+include a separate categorical representation of distance. The categorical feature
+could be bucketed into “in state,” “in country,” and “foreign.”
+<b>Multimodalrepresentationoftext</b>
+Both text and images are unstructured and require more transformations than tabu‐
+lar data. Representing them in various formats can help our models extract more pat‐
+terns. We’ll build on our discussion of text models in the preceding section by
+looking at different approaches for representing text data. Then we’ll introduce
+images and dive into a few options for representing image data in ML models.
+<b>Textdatamultipleways.</b> Given the complex nature of text data, there are many ways
+to extract meaning from it. The Embeddings design pattern enables a model to group

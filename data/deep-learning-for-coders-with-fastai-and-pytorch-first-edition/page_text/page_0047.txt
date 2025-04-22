@@ -1,0 +1,39 @@
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+5 0.657402 0.611715 00:01
+6 0.633079 0.605733 00:01
+7 0.622399 0.602674 00:01
+8 0.629075 0.601671 00:00
+9 0.619955 0.601550 00:01
+This model is predicting movie ratings on a scale of 0.5 to 5.0 to within around 0.6
+average error. Since we’re predicting a continuous number, rather than a category, we
+y_range
+have to tell fastai what range our target has, using the parameter.
+Although we’re not actually using a pretrained model (for the same reason that we
+didn’t for the tabular model), this example shows that fastai lets us use fine_tune
+anyway in this case (you’ll learn how and why this works in Chapter 5). Sometimes
+it’s best to experiment with fine_tune versus fit_one_cycle to see which works best
+for your dataset.
+We can use the same show_results call we saw earlier to view a few examples of user
+and movie IDs, actual ratings, and predictions:
+learn.show_results()
+<b>userId</b> <b>movieId</b> <b>rating</b> <b>rating_pred</b>
+<b>0</b>
+157 1200 4.0 3.558502
+<b>1</b>
+23 344 2.0 2.700709
+<b>2</b> 19 1221 5.0 4.390801
+<b>3</b> 430 592 3.5 3.944848
+<b>4</b> 547 858 4.0 4.076881
+<b>5</b> 292 39 4.5 3.753513
+<b>6</b> 529 1265 4.0 3.349463
+<b>7</b>
+19 231 3.0 2.881087
+<b>8</b>
+475 4963 4.0 4.023387
+<b>9</b> 130 260 4.5 3.979703
+<header><largefont><b>Datasets:</b></largefont> <largefont><b>Food</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Models</b></largefont></header>
+You’ve already seen quite a few models in this section, each one trained using a differ‐
+ent dataset to do a different task. In machine learning and deep learning, we can’t do
+anything without data. So, the people who create datasets for us to train our models
+on are the (often underappreciated) heroes. Some of the most useful and important
+datasets are those that become important <i>academic</i> <i>baselines—</i> datasets that are

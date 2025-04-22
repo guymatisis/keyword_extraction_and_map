@@ -1,0 +1,18 @@
+Now we can grab the image:
+img = PILImage.create(btn_upload.data[-1])
+Output
+We can use an widget to display it:
+out_pl = widgets.Output()
+out_pl.clear_output()
+<b>with</b> out_pl: display(img.to_thumb(128,128))
+out_pl
+Then we can get our predictions:
+pred,pred_idx,probs = learn_inf.predict(img)
+And use a Label to display them:
+lbl_pred = widgets.Label()
+lbl_pred.value = f'Prediction: {pred}; Probability: {probs[pred_idx]:.04f}'
+lbl_pred
+Prediction: grizzly; Probability: 1.0000
+We’ll need a button to do the classification. It looks exactly like the Upload button:
+btn_run = widgets.Button(description='Classify')
+btn_run

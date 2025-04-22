@@ -1,0 +1,16 @@
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+In addition to data parallelism, there are other aspects of distribution to consider,
+such as model parallelism, other training accelerators—(such as TPUs) and other
+considerations (such as I/O limitations and batch size).
+<b>Modelparallelism</b>
+In some cases, the neural network is so large it cannot fit in the memory of a single
+device; for example, Google’s Neural Machine Translation has billions of parameters.
+devices,7
+In order to train models this big, they must be split up over multiple as
+shown in Figure 4-19. This is called <i>model</i> <i>parallelism.</i> By partitioning parts of a net‐
+work and their associated computations across multiple cores, the computation and
+memory workload is distributed across multiple devices. Each device operates over
+the same mini-batch of data during training, but carries out computations related
+only to their separate components of the model.
+<i>Figure</i> <i>4-19.</i> <i>Model</i> <i>parallelism</i> <i>partitions</i> <i>the</i> <i>model</i> <i>over</i> <i>multiple</i> <i>devices.</i>
+7 JeffreyDeanetal.“LargeScaleDistributedDeepNetworks,”NIPSProceedings(2012).

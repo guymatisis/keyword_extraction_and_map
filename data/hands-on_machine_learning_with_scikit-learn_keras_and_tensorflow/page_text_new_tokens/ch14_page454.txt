@@ -1,0 +1,44 @@
+images = np.array([china, flower])
+batch_size, height, width, channels = images.shape
+<i>#</i> <i>Create</i> <i>2</i> <i>filters</i>
+filters = np.zeros(shape=(7, 7, channels, 2), dtype=np.float32)
+filters[:, 3, :, 0] = 1 <i>#</i> <i>vertical</i> <i>line</i>
+filters[3, :, :, 1] = 1 <i>#</i> <i>horizontal</i> <i>line</i>
+outputs = tf.nn.conv2d(images, filters, strides=1, padding="SAME")
+plt.imshow(outputs[0, :, :, 1], cmap="gray") <i>#</i> <i>plot</i> <i>1st</i> <i>image's</i> <i>2nd</i> <i>feature</i> <i>map</i>
+plt.show()
+Let’s go through this code:
+• The pixel intensity for each color channel is represented as a byte from 0 to 255,
+so we scale these features simply by dividing by 255, to get floats ranging from 0
+to 1.
+• Then we create two 7 × 7 filters (one with a vertical white line in the middle, and
+the other with a horizontal white line in the middle).
+tf.nn.conv2d()
+• We apply them to both images using the function, which is part
+of TensorFlow’s low-level Deep Learning API. In this example, we use zero pad‐
+ding ( padding="SAME" ) and a stride of 1.
+• Finally, we plot one of the resulting feature maps (similar to the top-right image
+in Figure 14-5).
+tf.nn.conv2d()
+The line deserves a bit more explanation:
+images
+• is the input mini-batch (a 4D tensor, as explained earlier).
+• filters is the set of filters to apply (also a 4D tensor, as explained earlier).
+• strides is equal to 1 , but it could also be a 1D array with four elements, where
+the two central elements are the vertical and horizontal strides (s and <i>s</i> ). The
+<i>h</i> <i>w</i>
+1
+first and last elements must currently be equal to . They may one day be used to
+specify a batch stride (to skip some instances) and a channel stride (to skip some
+of the previous layer’s feature maps or channels).
+padding "SAME" "VALID"
+• must be either or :
+"SAME"
+— If set to , the convolutional layer uses zero padding if necessary. The
+output size is set to the number of input neurons divided by the stride, roun‐
+ded up. For example, if the input size is 13 and the stride is 5 (see Figure 14-7),
+then the output size is 3 (i.e., 13 / 5 = 2.6, rounded up to 3). Then zeros are
+strides=1,
+added as evenly as possible around the inputs, as needed. When
+the layer’s outputs will have the same spatial dimensions (width and height) as
+its inputs, hence the name <i>same.</i>

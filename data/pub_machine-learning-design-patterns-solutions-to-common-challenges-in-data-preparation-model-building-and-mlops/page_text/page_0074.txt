@@ -1,0 +1,35 @@
+into chunks of sliding windows allows our model to recognize more granular details
+in an image like edges and shapes.
+<b>Combiningdifferentimagerepresentations.</b>
+In addition, as with the bag of words and
+text embedding, it may be useful to represent the same image data in multiple ways.
+Again, we can accomplish this with the Keras functional API.
+Here’s how we’d combine our pixel values with the sliding window representation
+using the Keras Concatenate layer:
+<i>#</i> <i>Define</i> <i>image</i> <i>input</i> <i>layer</i> <i>(same</i> <i>shape</i> <i>for</i> <i>both</i> <i>pixel</i> <i>and</i> <i>tiled</i>
+<i>#</i> <i>representation)</i>
+image_input = Input(shape=(28,28,3))
+<i>#</i> <i>Define</i> <i>pixel</i> <i>representation</i>
+pixel_layer = Flatten()(image_input)
+<i>#</i> <i>Define</i> <i>tiled</i> <i>representation</i>
+tiled_layer = Conv2D(filters=16, kernel_size=3,
+activation='relu')(image_input)
+tiled_layer = MaxPooling2D()(tiled_layer)
+tiled_layer = tf.keras.layers.Flatten()(tiled_layer)
+<i>#</i> <i>Concatenate</i> <i>into</i> <i>a</i> <i>single</i> <i>layer</i>
+merged_image_layers = keras.layers.concatenate([pixel_layer, tiled_layer])
+To define a model that accepts that multimodal input representation, we can then
+feed our concatenated layer into our output layer:
+merged_dense = Dense(16, activation='relu')(merged_image_layers)
+merged_output = Dense(1)(merged_dense)
+model = Model(inputs=image_input, outputs=merged_output)
+Choosing which image representation to use or whether to use multimodal represen‐
+tations depends largely on the type of image data we’re working with. In general, the
+more detailed our images, the more likely it is that we’ll want to represent them as
+tiles or sliding windows of tiles. For the MNIST dataset, representing images as pixel
+values alone may suffice. With complex medical images, on the other hand, we may
+see increased accuracy by combining multiple representations. Why combine multi‐
+ple image representations? Representing images as pixel values allows the model to
+identify higher-level focus points in an image like dominant, high-contrast objects.
+Tiled representations, on the other hand, help models identify more granular, lower-
+contrast edges and shapes.

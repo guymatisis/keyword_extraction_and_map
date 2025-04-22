@@ -1,0 +1,26 @@
+micros.append(clf_report["micro avg"]["f1-score"])
+macros.append(clf_report["macro avg"]["f1-score"])
+plt.plot(thresholds, micros, label="Micro F1")
+plt.plot(thresholds, macros, label="Macro F1")
+plt.xlabel("Threshold")
+plt.ylabel("F1-score")
+plt.legend(loc="best")
+plt.show()
+best_t, best_micro = thresholds[np.argmax(micros)], np.max(micros)
+<b>print(f'Best</b> threshold (micro): {best_t} with F1-score {best_micro:.2f}.')
+best_t, best_macro = thresholds[np.argmax(macros)], np.max(macros)
+<b>print(f'Best</b> threshold (micro): {best_t} with F1-score {best_macro:.2f}.')
+Best threshold (micro): 0.75 with F1-score 0.46.
+Best threshold (micro): 0.72 with F1-score 0.42.
+This approach fares somewhat worse than the top-1 results, but we can see the preci‐
+sion/recall trade-off clearly in this graph. If we set the threshold too low, then there
+are too many predictions, which leads to a low precision. If we set the threshold too
+high, then we will make hardly any predictions, which produces a low recall. From
+the plot we can see that a threshold value of around 0.8 is the sweet spot between the
+two.
+Since the top-1 method performs best, let’s use this to compare zero-shot classifica‐
+tion against Naive Bayes on the test set:
+ds_zero_shot = ds['test'].map(zero_shot_pipeline)
+ds_zero_shot = ds_zero_shot.map(get_preds, fn_kwargs={'topk': 1})
+clf_report = get_clf_report(ds_zero_shot)
+<b>for</b> train_slice <b>in</b> train_slices:

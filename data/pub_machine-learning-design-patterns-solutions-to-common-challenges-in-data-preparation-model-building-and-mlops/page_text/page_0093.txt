@@ -1,0 +1,16 @@
+sigmoid = [.8, .9, .2, .5]
+softmax = [.7, .1, .15, .05]
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+There are several special cases to consider when following the Multilabel design pat‐
+tern and using sigmoid output. Next, we’ll explore how to structure models that have
+two possible label classes, how to make sense of sigmoid results, and other important
+considerations for Multilabel models.
+<b>Sigmoidoutputformodelswithtwoclasses</b>
+There are two types of models where the output can belong to two possible classes:
+• Each training example can be assigned <i>only</i> <i>one</i> class. This is also called <i>binary</i>
+<i>classification</i> and is a special type of multiclass classification problem.
+• Some training examples could belong to <i>both</i> classes. This is a type of <i>multilabel</i>
+<i>classification</i> problem.
+Figure 3-8 shows the distinction between these classifications.
+<i>Figure</i> <i>3-8.</i> <i>Understanding</i> <i>the</i> <i>distinction</i> <i>between</i> <i>multiclass,</i> <i>multilabel,</i> <i>and</i> <i>binary</i>
+<i>classification</i> <i>problems.</i>

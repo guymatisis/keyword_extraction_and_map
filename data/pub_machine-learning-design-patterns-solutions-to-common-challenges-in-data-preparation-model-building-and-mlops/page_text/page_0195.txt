@@ -1,0 +1,45 @@
+Bayesian optimization is the hyperparameter tuning service provided by Google
+Cloud AI Platform. This service is based on Vizier, the black-box optimization tool
+used internally at Google.
+The underlying concepts of the Cloud service work similarly to keras-tuner : you
+specify each hyperparameter’s name, type, range, and scale, and these values are ref‐
+erenced in your model training code. We’ll show you how to run hyperparameter
+tuning in AI Platform using a PyTorch model trained on the BigQuery natality data‐
+set to predict a baby’s birth weight.
+The first step is to create a <i>config.yaml</i> file specifying the hyperparameters you want
+the job to optimize, along with some other metadata on your job. One benefit of
+using the Cloud service is that you can scale your tuning job by running it on GPUs
+or TPUs and spreading it across multiple parameter servers. In this config file, you
+also specify the total number of hyperparameter trials you want to run and how many
+of these trials you want to run in parallel. The more you run in parallel, the faster
+your job will run. However, the benefit of running fewer trials in parallel is that the
+service will be able to learn from the results of each completed trial to optimize the
+next ones.
+For our model, a sample config file that makes use of GPUs might look like the fol‐
+lowing. In this example, we’ll tune three hyperparameters—our model’s learning rate,
+the optimizer’s momentum value, and the number of neurons in our model’s hidden
+layer. We also specify our optimization metric. In this example, our goal will be to
+<i>minimize</i> our model’s loss on our validation set:
+trainingInput:
+scaleTier: BASIC_GPU
+parameterServerType: large_model
+workerCount: 9
+parameterServerCount: 3
+hyperparameters:
+goal: MINIMIZE
+maxTrials: 10
+maxParallelTrials: 5
+hyperparameterMetricTag: val_error
+enableTrialEarlyStopping: TRUE
+params:
+- parameterName: lr
+type: DOUBLE
+minValue: 0.0001
+maxValue: 0.1
+scaleType: UNIT_LINEAR_SCALE
+- parameterName: momentum
+type: DOUBLE
+minValue: 0.0
+maxValue: 1.0
+scaleType: UNIT_LINEAR_SCALE
+- parameterName: hidden-layer-size

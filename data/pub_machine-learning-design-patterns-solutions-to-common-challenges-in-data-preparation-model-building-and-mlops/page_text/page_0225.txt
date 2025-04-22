@@ -1,0 +1,33 @@
+<b>SELECT</b>
+model,
+model_version,
+time,
+REGEXP_EXTRACT(raw_data, r'.*"text": "(.*)"') <b>AS</b> text,
+REGEXP_EXTRACT(raw_prediction, r'.*"source": "(.*?)"') <b>AS</b> prediction,
+REGEXP_EXTRACT(raw_prediction, r'.*"confidence": (0.\d{2}).*') <b>AS</b> confidence,
+REGEXP_EXTRACT(groundtruth, r'.*"source": "(.*?)"') <b>AS</b> groundtruth,
+<b>FROM</b>
+txtcls_eval.swivel
+<i>Table</i> <i>5-2.</i> <i>Once</i> <i>ground</i> <i>truth</i> <i>is</i> <i>available,</i> <i>it</i> <i>can</i> <i>be</i> <i>added</i> <i>to</i> <i>the</i> <i>original</i> <i>BigQuery</i> <i>table</i>
+<i>and</i> <i>the</i> <i>performance</i> <i>of</i> <i>the</i> <i>model</i> <i>can</i> <i>be</i> <i>evaluated</i>
+<b>Row</b> <b>model</b> <b>model_version</b> <b>time</b> <b>text</b> <b>prediction</b> <b>confidence</b> <b>groundtruth</b>
+1 txtcls swivel 2020-06-10 AnativeMacapp github 0.77 github
+01:38:13UTC wrapperforWhatsApp
+Web
+2 txtcls swivel 2020-06-10 SenateConfirmsFirst nytimes 0.99 nytimes
+01:37:46UTC BlackAirForceChief
+3 txtcls swivel 2020-06-10 AstronautsDockWith github 0.99 nytimes
+01:40:32UTC SpaceStationAfter
+HistoricSpaceXLaunch
+4 txtcls swivel 2020-06-09 YouTubeintroduces techcrunch 0.77 techcrunch
+21:21:44UTC VideoChapterstomake
+iteasiertonavigate
+longervideos
+With this information accessible in BigQuery, we can load the evaluation table into a
+df_evals
+dataframe, , and directly compute evaluation metrics for this model version.
+Since this is a multiclass classification, we can compute the precision, recall, and F1-
+score for each class. We can also create a confusion matrix, which helps to analyze
+where model predictions within certain categorical labels may suffer. Figure 5-3
+shows the confusion matrix comparing this model’s predictions with the ground
+truth.

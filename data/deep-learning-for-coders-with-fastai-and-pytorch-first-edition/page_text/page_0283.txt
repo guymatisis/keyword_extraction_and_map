@@ -1,0 +1,36 @@
+hyperparameter tuning. They have also been popular for quite a lot longer than deep
+learning, so there is a more mature ecosystem of tooling and documentation around
+them.
+Most importantly, the critical step of interpreting a model of tabular data is signifi‐
+cantly easier for decision tree ensembles. There are tools and methods for answering
+the pertinent questions, like these: Which columns in the dataset were the most
+important for your predictions? How are they related to the dependent variable? How
+do they interact with each other? And which particular features were most important
+for some particular observation?
+Therefore, ensembles of decision trees are our first approach for analyzing a new tab‐
+ular dataset.
+The exception to this guideline is when the dataset meets one of these conditions:
+• There are some high-cardinality categorical variables that are very important
+(“cardinality” refers to the number of discrete levels representing categories, so a
+high-cardinality categorical variable is something like a zip code, which can take
+on thousands of possible levels).
+• There are some columns that contain data that would be best understood with a
+neural network, such as plain text data.
+In practice, when we deal with datasets that meet these exceptional conditions, we
+always try both decision tree ensembles and deep learning to see which works best.
+Deep learning will likely be a useful approach in our example of collaborative filter‐
+ing, as we have at least two high-cardinality categorical variables: the users and the
+movies. But in practice, things tend to be less cut-and-dried, and there will often be a
+mixture of high- and low-cardinality categorical variables and continuous variables.
+Either way, it’s clear that we are going to need to add decision tree ensembles to our
+modeling toolbox!
+Up to now, we’ve used PyTorch and fastai for pretty much all of our heavy lifting. But
+these libraries are mainly designed for algorithms that do lots of matrix multiplica‐
+tion and derivatives (that is, stuff like deep learning!). Decision trees don’t depend on
+these operations at all, so PyTorch isn’t much use.
+Instead, we will be largely relying on a library called <i>scikit-learn</i> (also known as
+<i>sklearn).</i> Scikit-learn is a popular library for creating machine learning models, using
+approaches that are not covered by deep learning. In addition, we’ll need to do some
+tabular data processing and querying, so we’ll want to use the Pandas library. Finally,
+we’ll also need NumPy, since that’s the main numeric programming library that both
+sklearn and Pandas rely on.

@@ -1,0 +1,22 @@
+<i>Figure</i> <i>1-2.</i> <i>Initial</i> <i>view</i> <i>of</i> <i>Jupyter</i> <i>Notebook</i>
+You are now ready to run your first Jupyter notebook!
+<b>Jargon:JupyterNotebook</b>
+A piece of software that allows you to include formatted text, code,
+images, videos, and much more, all within a single interactive
+document. Jupyter received the highest honor for software, the
+ACM Software System Award, thanks to its wide use and enormous
+impact in many academic fields and in industry. Jupyter Notebook
+is the software most widely used by data scientists for developing
+and interacting with deep learning models.
+<header><largefont><b>Running</b></largefont> <largefont><b>Your</b></largefont> <largefont><b>First</b></largefont> <largefont><b>Notebook</b></largefont></header>
+The notebooks are numbered by chapter in the same order as they are presented in
+this book. So, the very first notebook you will see listed is the notebook that you need
+to use now. You will be using this notebook to train a model that can recognize dog
+and cat photos. To do this, you’ll be downloading a dataset of dog and cat photos, and
+using that to <i>train</i> <i>a</i> <i>model.</i>
+A <i>dataset</i> is simply a bunch of data—it could be images, emails, financial indicators,
+sounds, or anything else. There are many datasets made freely available that are suit‐
+able for training models. Many of these datasets are created by academics to help
+advance research, many are made available for competitions (there are competitions
+where data scientists can compete to see who has the most accurate model!), and
+some are byproducts of other processes (such as financial filings).

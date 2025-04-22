@@ -1,0 +1,39 @@
+The key idea in object-oriented programming is the <i>class.</i> We have been using classes
+throughout this book, such as DataLoader, String, and Learner. Python also makes
+it easy for us to create new classes. Here is an example of a simple class:
+<b>class</b> <b>Example:</b>
+<b>def</b> <b>__init__(self,</b> a): self.a = a
+<b>def</b> say(self,x): <b>return</b> f'Hello {self.a}, {x}.'
+The most important piece of this is the special method called __init__ (pronounced
+<i>dunder</i> <i>init).</i> In Python, any method surrounded in double underscores like this is
+considered special. It indicates that some extra behavior is associated with this
+method name. In the case of __init__, this is the method Python will call when your
+new object is created. So, this is where you can set up any state that needs to be initial‐
+ized upon object creation. Any parameters included when the user constructs an
+instance of your class will be passed to the __init__ method as parameters. Note that
+the first parameter to any method defined inside a class is self, so you can use this to
+set and get any attributes that you will need:
+ex = Example('Sylvain')
+ex.say('nice to meet you')
+'Hello Sylvain, nice to meet you.'
+Also note that creating a new PyTorch module requires inheriting from Module.
+<i>Inheritance</i> is an important object-oriented concept that we will not discuss in detail
+here—in short, it means that we can add additional behavior to an existing class.
+PyTorch already provides a Module class, which provides some basic foundations that
+we want to build on. So, we add the name of this <i>superclass</i> after the name of the class
+that we are defining, as shown in the following examples.
+The final thing that you need to know to create a new PyTorch module is that when
+your module is called, PyTorch will call a method in your class called forward, and
+will pass along to that any parameters that are included in the call. Here is the class
+defining our dot product model:
+<b>class</b> <b>DotProduct(Module):</b>
+<b>def</b> <b>__init__(self,</b> n_users, n_movies, n_factors):
+self.user_factors = Embedding(n_users, n_factors)
+self.movie_factors = Embedding(n_movies, n_factors)
+<b>def</b> forward(self, x):
+users = self.user_factors(x[:,0])
+movies = self.movie_factors(x[:,1])
+<b>return</b> (users * movies).sum(dim=1)
+If you haven’t seen object-oriented programming before, don’t worry; you won’t need
+to use it much in this book. We are just mentioning this approach here because most
+online tutorials and documentation will use the object-oriented syntax.

@@ -1,0 +1,36 @@
+<b>from</b> <b>gym.wrappers</b> <b>import</b> TimeLimit
+limited_repeating_env = suite_gym.load(
+"Breakout-v4",
+gym_env_wrappers=[lambda env: TimeLimit(env, max_episode_steps=10000)],
+env_wrappers=[lambda env: ActionRepeat(env, times=4)])
+For Atari environments, some standard preprocessing steps are applied in most
+papers that use them, so TF-Agents provides a handy AtariPreprocessing wrapper
+that implements them. Here is the list of preprocessing steps it supports:
+<i>Grayscale</i> <i>and</i> <i>downsampling</i>
+Observations are converted to grayscale and downsampled (by default to 84 × 84
+pixels).
+<i>Max</i> <i>pooling</i>
+The last two frames of the game are max-pooled using a 1 × 1 filter. This is to
+remove the flickering that occurs in some Atari games due to the limited number
+of sprites that the Atari 2600 could display in each frame.
+<i>Frame</i> <i>skipping</i>
+The agent only gets to see every <i>n</i> frames of the game (by default <i>n</i> = 4), and its
+actions are repeated for each frame, collecting all the rewards. This effectively
+speeds up the game from the perspective of the agent, and it also speeds up train‐
+ing because rewards are less delayed.
+<i>End</i> <i>on</i> <i>life</i> <i>lost</i>
+In some games, the rewards are just based on the score, so the agent gets no
+immediate penalty for losing a life. One solution is to end the game immediately
+whenever a life is lost. There is some debate over the actual benefits of this strat‐
+egy, so it is off by default.
+Since the default Atari environment already applies random frame skipping and
+max pooling, we will need to load the raw, nonskipping variant called
+"BreakoutNoFrameskip-v4" . Moreover, a single frame from the <i>Breakout</i> game is
+insufficient to know the direction and speed of the ball, which will make it very diffi‐
+cult for the agent to play the game properly (unless it is an RNN agent, which pre‐
+serves some internal state between steps). One way to handle this is to use an
+environment wrapper that will output observations composed of multiple frames
+stacked on top of each other along the channels dimension. This strategy is imple‐
+FrameStack4
+mented by the wrapper, which returns stacks of four frames. Let’s create
+the wrapped Atari environment!

@@ -1,0 +1,37 @@
+Then we’ll do a training run that will serve as a baseline:
+model = xresnet50()
+learn = Learner(dls, model, loss_func=CrossEntropyLossFlat(), metrics=accuracy)
+learn.fit_one_cycle(5, 3e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 1.583403 2.064317 0.401792 01:03
+1 1.208877 1.260106 0.601568 01:02
+2 0.925265 1.036154 0.664302 01:03
+3 0.730190 0.700906 0.777819 01:03
+4 0.585707 0.541810 0.825243 01:03
+That’s a good baseline, since we are not using a pretrained model, but we can do bet‐
+ter. When working with models that are being trained from scratch, or fine-tuned to
+a very different dataset from the one used for the pretraining, some additional techni‐
+ques are really important. In the rest of the chapter, we’ll consider some key
+approaches you’ll want to be familiar with. The first one is <i>normalizing</i> your data.
+<header><largefont><b>Normalization</b></largefont></header>
+When training a model, it helps if your input data is <i>normalized—that</i> is, has a mean
+of 0 and a standard deviation of 1. But most images and computer vision libraries use
+values between 0 and 255 for pixels, or between 0 and 1; in either case, your data is
+not going to have a mean of 0 and a standard deviation of 1.
+Let’s grab a batch of our data and look at those values, by averaging over all axes
+except for the channel axis, which is axis 1:
+x,y = dls.one_batch()
+x.mean(dim=[0,2,3]),x.std(dim=[0,2,3])
+(TensorImage([0.4842, 0.4711, 0.4511], device='cuda:5'),
+TensorImage([0.2873, 0.2893, 0.3110], device='cuda:5'))
+As we expected, the mean and standard deviation are not very close to the desired
+values. Fortunately, normalizing the data is easy to do in fastai by adding the
+Normalize
+transform. This acts on a whole mini-batch at once, so you can add it to
+the batch_tfms section of your data block. You need to pass to this transform the
+mean and standard deviation that you want to use; fastai comes with the standard
+ImageNet mean and standard deviation already defined. (If you do not pass any sta‐
+tistics to the Normalize transform, fastai will automatically calculate them from a sin‐
+gle batch of your data.)
+Let’s add this transform (using imagenet_stats, as Imagenette is a subset of Image‐
+Net) and take a look at one batch now:

@@ -1,0 +1,25 @@
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 1.188042 0.355024 0.102842 00:20
+1 0.534234 0.302453 0.094723 00:20
+2 0.325031 0.222268 0.074425 00:20
+Then we’ll unfreeze the model:
+learn.unfreeze()
+and run lr_find again, because having more layers to train, and weights that have
+already been trained for three epochs, means our previously found learning rate isn’t
+appropriate anymore:
+learn.lr_find()
+(1.0964782268274575e-05, 1.5848931980144698e-06)
+Note that the graph is a little different from when we had random weights: we don’t
+have that sharp descent that indicates the model is training. That’s because our model
+has been trained already. Here we have a somewhat flat area before a sharp increase,
+and we should take a point well before that sharp increase—for instance, 1e-5. The
+point with the maximum gradient isn’t what we look for here and should be ignored.
+Let’s train at a suitable learning rate:
+learn.fit_one_cycle(6, lr_max=1e-5)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 0.263579 0.217419 0.069012 00:24
+1 0.253060 0.210346 0.062923 00:24
+2 0.224340 0.207357 0.060217 00:24
+3 0.200195 0.207244 0.061570 00:24
+4 0.194269 0.200149 0.059540 00:25
+5 0.173164 0.202301 0.059540 00:25

@@ -1,0 +1,27 @@
+<b>return</b> <b>{'key':</b> <b>key,</b> 'babyweight': output}
+This model is then saved as discussed in the Stateless Serving Function design
+pattern:
+model.save(EXPORT_PATH,
+signatures={'serving_default': keyed_prediction})
+<b>Addingkeyedpredictioncapabilitytoanexistingmodel</b>
+Note that the code above works even if the original model was not saved with a serv‐
+ing function. Simply load the model using tf.saved_model.load() , attach a serving
+function, and use the code snippet above, as shown in Figure 5-14.
+<i>Figure</i> <i>5-14.</i> <i>Load</i> <i>a</i> <i>SavedModel,</i> <i>attach</i> <i>a</i> <i>nondefault</i> <i>serving</i> <i>function,</i> <i>and</i> <i>save</i> <i>it.</i>
+When doing so, it is preferable to provide a serving function that replicates the older,
+no-key behavior:
+<i>#</i> <i>Serving</i> <i>function</i> <i>that</i> <i>does</i> <i>not</i> <i>require</i> <i>a</i> <i>key</i>
+@tf.function(input_signature=[{
+'is_male': tf.TensorSpec([None,], dtype=tf.string, name='is_male'),
+'mother_age': tf.TensorSpec([None,], dtype=tf.float32,
+name='mother_age'),
+'plurality': tf.TensorSpec([None,], dtype=tf.string, name='plurality'),
+'gestation_weeks': tf.TensorSpec([None,], dtype=tf.float32,
+name='gestation_weeks')
+}])
+<b>def</b> nokey_prediction(inputs):
+output = model(inputs) <i>#</i> <i>invoke</i> <i>model</i>
+<b>return</b> <b>{'babyweight':</b> output}
+keyed_prediction
+Use the previous behavior as the default and add the as a new
+serving function:

@@ -1,0 +1,36 @@
+they often (as here) beat previously state-of-the-art results. These really are the right
+ways to think about these problem domains.
+<header><largefont><b>Jargon</b></largefont> <largefont><b>Recap</b></largefont></header>
+We just covered a lot of information, so let’s recap briefly. Table 1-3 provides a handy
+vocabulary list.
+<i>Table</i> <i>1-3.</i> <i>Deep</i> <i>learning</i> <i>vocabulary</i>
+<b>Term</b> <b>Meaning</b>
+Label Thedatathatwe’retryingtopredict,suchas“dog”or“cat”
+Architecture Thetemplateofthemodelthatwe’retryingtofit;i.e.,theactualmathematicalfunctionthatwe’repassing
+theinputdataandparametersto
+Model Thecombinationofthearchitecturewithaparticularsetofparameters
+Parameters Thevaluesinthemodelthatchangewhattaskitcandoandthatareupdatedthroughmodeltraining
+Fit Updatetheparametersofthemodelsuchthatthepredictionsofthemodelusingtheinputdatamatchthe
+targetlabels
+Train Asynonymforfit
+Pretrained Amodelthathasalreadybeentrained,generallyusingalargedataset,andwillbefine-tuned
+model
+Fine-tune Updateapretrainedmodelforadifferenttask
+Epoch Onecompletepassthroughtheinputdata
+Loss Ameasureofhowgoodthemodelis,chosentodrivetrainingviaSGD
+Metric Ameasurementofhowgoodthemodelisusingthevalidationset,chosenforhumanconsumption
+Validationset Asetofdataheldoutfromtraining,usedonlyformeasuringhowgoodthemodelis
+Trainingset Thedatausedforfittingthemodel;doesnotincludeanydatafromthevalidationset
+Overfitting Trainingamodelinsuchawaythatitremembersspecificfeaturesoftheinputdata,ratherthan
+generalizingwelltodatanotseenduringtraining
+CNN Convolutionalneuralnetwork;atypeofneuralnetworkthatworksparticularlywellforcomputervision
+tasks
+With this vocabulary in hand, we are now in a position to bring together all the key
+concepts introduced so far. Take a moment to review those definitions and read the
+following summary. If you can follow the explanation, you’re well equipped to under‐
+stand the discussions to come.
+<i>Machine</i> <i>learning</i> is a discipline in which we define a program not by writing it
+entirely ourselves, but by learning from data. <i>Deep</i> <i>learning</i> is a specialty within
+machine learning that uses <i>neural</i> <i>networks</i> with multiple <i>layers.</i> <i>Image</i> <i>classification</i> is
+a representative example (also known as <i>image</i> <i>recognition).</i> We start with <i>labeled</i> <i>data</i>
+—a set of images for which we have assigned a <i>label</i> to each image, indicating what it

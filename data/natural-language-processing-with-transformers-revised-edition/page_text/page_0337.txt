@@ -1,0 +1,34 @@
+4. The gradients are applied using the optimizer on each node individually.
+Although this might seem like redundant work, it avoids transferring copies of
+the large models between nodes. We’ll need to update the model at least once,
+and without this approach the other nodes would each need to wait until they’d
+received the updated version.
+5. Once all models are updated we start all over again, with the main worker pre‐
+paring new batches.
+This simple pattern allows us to train large models extremely fast by scaling up to the
+number of available GPUs without much additional logic. Sometimes, however, this is
+not enough. For example, if the model does not fit on a single GPU you might need
+more sophisticated parallelism strategies. Now that we have all the pieces needed for
+training, it’s time to launch a job! As you’ll see in the next section, this is quite simple
+to do.
+<header><largefont><b>The</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Run</b></largefont></header>
+We’ll save the training script in a file called <i>codeparrot_training.py</i> so that we can exe‐
+cute it on our training server. To make life even easier, we’ll add it along with a
+<i>requirements.txt</i> file containing all the required Python dependencies to the model
+repository on the Hub. Remember that the models on the Hub are essentially Git
+repositories so we can just clone the repository, add any files we want, and then push
+them back to the Hub. On the training server, we can then spin up training with the
+following handful of commands:
+<b>$</b> <b>git</b> <b>clone</b> <b>https://huggingface.co/transformersbook/codeparrot</b>
+<b>$</b> <b>cd</b> <b>codeparrot</b>
+<b>$</b> <b>pip</b> <b>install</b> <b>-r</b> <b>requirements.txt</b>
+<b>$</b> <b>wandb</b> <b>login</b>
+<b>$</b> <b>accelerate</b> <b>config</b>
+<b>$</b> <b>accelerate</b> <b>launch</b> <b>codeparrot_training.py</b>
+wandb login
+And that’s it—our model is now training! Note that will prompt you to
+authenticate with Weights & Biases for logging. The accelerate config command
+will guide you through setting up the infrastructure; you can see the settings used for
+a2-megagpu-16g
+this experiment in Table 10-2. We use an instance for all experi‐
+ments, which is a workstation with 16 A100 GPUs with 40 GB of memory each.

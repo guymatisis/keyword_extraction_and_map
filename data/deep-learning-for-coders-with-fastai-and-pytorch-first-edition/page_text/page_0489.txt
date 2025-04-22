@@ -1,0 +1,36 @@
+<header><largefont><b>Questionnaire</b></largefont></header>
+1. What is the equation for a step of SGD, in math or code (as you prefer)?
+cnn_learner
+2. What do we pass to to use a nondefault optimizer?
+3. What are optimizer callbacks?
+4. What does zero_grad do in an optimizer?
+step
+5. What does do in an optimizer? How is it implemented in the general
+optimizer?
+sgd_cb += add_.
+6. Rewrite to use the operator, instead of
+7. What is momentum? Write out the equation.
+8. What’s a physical analogy for momentum? How does it apply in our model train‐
+ing settings?
+9. What does a bigger value for momentum do to the gradients?
+10. What are the default values of momentum for 1cycle training?
+11. What is RMSProp? Write out the equation.
+12. What do the squared values of the gradients indicate?
+13. How does Adam differ from momentum and RMSProp?
+14. Write out the equation for Adam.
+15. Calculate the values of unbias_avg and w.avg for a few batches of dummy values.
+16. What’s the impact of having a high eps in Adam?
+17. Read through the optimizer notebook in fastai’s repo and execute it.
+18. In what situations do dynamic learning rate methods like Adam change the
+behavior of weight decay?
+19. What are the four steps of a training loop?
+20. Why is using callbacks better than writing a new training loop for each tweak you
+want to add?
+21. What aspects of the design of fastai’s callback system make it as flexible as copy‐
+ing and pasting bits of code?
+22. How can you get the list of events available to you when writing a callback?
+23. Write the ModelResetter callback (without peeking).
+24. How can you access the necessary attributes of the training loop inside a call‐
+back? When can you use or not use the shortcuts that go with them?
+25. How can a callback influence the control flow of the training loop?
+26. Write the TerminateOnNaN callback (without peeking, if possible).

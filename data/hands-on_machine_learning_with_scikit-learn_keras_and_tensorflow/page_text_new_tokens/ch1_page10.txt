@@ -1,0 +1,26 @@
+<i>Figure</i> <i>1-7.</i> <i>An</i> <i>unlabeled</i> <i>training</i> <i>set</i> <i>for</i> <i>unsupervised</i> <i>learning</i>
+Here are some of the most important unsupervised learning algorithms (most of
+these are covered in Chapters 8 and 9):
+• Clustering
+— K-Means
+— DBSCAN
+— Hierarchical Cluster Analysis (HCA)
+• Anomaly detection and novelty detection
+— One-class SVM
+— Isolation Forest
+• Visualization and dimensionality reduction
+— Principal Component Analysis (PCA)
+— Kernel PCA
+— Locally Linear Embedding (LLE)
+— t-Distributed Stochastic Neighbor Embedding (t-SNE)
+• Association rule learning
+— Apriori
+— Eclat
+For example, say you have a lot of data about your blog’s visitors. You may want to
+run a <i>clustering</i> algorithm to try to detect groups of similar visitors (Figure 1-8). At
+no point do you tell the algorithm which group a visitor belongs to: it finds those
+connections without your help. For example, it might notice that 40% of your visitors
+are males who love comic books and generally read your blog in the evening, while
+20% are young sci-fi lovers who visit during the weekends. If you use a <i>hierarchical</i>
+<i>clustering</i> algorithm, it may also subdivide each group into smaller groups. This may
+help you target your posts for each group.

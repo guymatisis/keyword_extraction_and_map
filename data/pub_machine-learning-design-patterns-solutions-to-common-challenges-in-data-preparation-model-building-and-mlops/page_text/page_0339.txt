@@ -1,0 +1,37 @@
+Explainable AI also works in AutoML Tables, a tool for training
+and deploying tabular data models. AutoML Tables handles data
+preprocessing and selects the best model for our data, which means
+we don’t need to write any model code. Feature attributions
+through Explainable AI are enabled by default for models trained
+in AutoML Tables, and both global and instance-level explanations
+are provided.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+While explanations provide important insight into how a model is making decisions,
+they are only as good as the model’s training data, the quality of your model, and the
+chosen baseline. In this section, we’ll discuss some limitations of explainability, along
+with some alternatives to feature attributions.
+<b>Dataselectionbias</b>
+It’s often said that machine learning is “garbage in, garbage out.” In other words, a
+model is only as good as the data used to train it. If we train an image model to iden‐
+tify 10 different cat breeds, those 10 cat breeds are all it knows. If we show the model
+an image of a dog, all it can do is try to classify the dog into 1 of the 10 cat categories
+it’s been trained on. It might even do so with high confidence. That is to say, models
+are a direct representation of their training data.
+If we don’t catch data imbalances before training a model, explainability methods like
+feature attributions can help bring data selection bias to light. As an example, say
+we’re building a model to predict the type of boat present in an image. Let’s say it
+correctly labels an image from our test set as “kayak,” but using feature attributions,
+we find that the model is relying on the boat’s paddle to predict “kayak” rather than
+the shape of the boat. This is a signal that our dataset might not have enough varia‐
+tion in training images for each class—we’ll likely need to go back and add more
+images of kayaks at different angles, both with and without paddles.
+<b>Counterfactualanalysisandexample-basedexplanations</b>
+In addition to feature attributions—described in the Solution section—there are
+many other approaches to explaining the output of ML models. This section is not
+meant to provide an exhaustive list of all explainability techniques, as this area is
+quickly evolving. Here, we will briefly describe two other approaches: counterfactual
+analysis and example-based explanations.
+Counterfactual analysis is an instance-level explainability technique that refers to
+finding examples from our dataset with similar features that resulted in different pre‐
+dictions from our model. One way to do this is through the What-If Tool, an open
+source tool for evaluating and visualizing the output of ML models. We’ll provide a

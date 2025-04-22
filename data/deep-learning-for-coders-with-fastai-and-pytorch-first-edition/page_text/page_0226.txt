@@ -1,0 +1,29 @@
+As we have discussed, a DataLoader collates the items from a Dataset into a mini-
+batch. This is a tuple of tensors, where each tensor simply stacks the items from that
+location in the Dataset item.
+Now that we have confirmed that the individual items look OK, there’s one more step,
+we need to ensure we can create our DataLoaders , which is to ensure that every item
+is of the same size. To do this, we can use RandomResizedCrop:
+dblock = DataBlock(blocks=(ImageBlock, MultiCategoryBlock),
+splitter=splitter,
+get_x=get_x,
+get_y=get_y,
+item_tfms = RandomResizedCrop(128, min_scale=0.35))
+dls = dblock.dataloaders(df)
+And now we can display a sample of our data:
+dls.show_batch(nrows=1, ncols=3)
+DataLoaders
+Remember that if anything goes wrong when you create your from your
+DataBlock, or if you want to view exactly what happens with your DataBlock, you
+can use the summary method we presented in the previous chapter.
+Our data is now ready for training a model. As we will see, nothing is going to change
+when we create our Learner, but behind the scenes the fastai library will pick a new
+loss function for us: binary cross entropy.
+<header><largefont><b>Binary</b></largefont> <largefont><b>Cross</b></largefont> <largefont><b>Entropy</b></largefont></header>
+Now we’ll create our Learner. We saw in Chapter 4 that a Learner object contains
+four main things: the model, a DataLoaders object, an Optimizer, and the loss func‐
+tion to use. We already have our DataLoaders, we can leverage fastai’s resnet models
+(which we’ll learn how to create from scratch later), and we know how to create an
+SGD optimizer. So let’s focus on ensuring we have a suitable loss function. To do this,
+let’s use cnn_learner to create a Learner, so we can look at its activations:
+learn = cnn_learner(dls, resnet18)

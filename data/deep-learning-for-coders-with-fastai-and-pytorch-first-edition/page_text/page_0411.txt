@@ -1,0 +1,22 @@
+It would be nice to not lose those two pixels on each axis. The way we do that is to
+add <i>padding,</i> which is simply additional pixels added around the outside of our
+image. Most commonly, pixels of zeros are added.
+<header><largefont><b>Strides</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Padding</b></largefont></header>
+With appropriate padding, we can ensure that the output activation map is the same
+size as the original image, which can make things a lot simpler when we construct our
+architectures. Figure 13-4 shows how adding padding allows us to apply the kernel in
+the image corners.
+<i>Figure</i> <i>13-4.</i> <i>A</i> <i>convolution</i> <i>with</i> <i>padding</i>
+With a 5×5 input, 4×4 kernel, and 2 pixels of padding, we end up with a 6×6 activa‐
+tion map, as we can see in Figure 13-5.
+<i>Figure</i> <i>13-5.</i> <i>A</i> <i>4×4</i> <i>kernel</i> <i>with</i> <i>5×5</i> <i>input</i> <i>and</i> <i>2</i> <i>pixels</i> <i>of</i> <i>padding</i> <i>(courtesy</i> <i>of</i> <i>Vincent</i>
+<i>Dumoulin</i> <i>and</i> <i>Francesco</i> <i>Visin)</i>
+If we add a kernel of size ks by ks (with ks an odd number), the necessary padding
+on each side to keep the same shape is ks//2. An even number for ks would require a
+different amount of padding on the top/bottom and left/right, but in practice we
+almost never use an even filter size.
+So far, when we have applied the kernel to the grid, we have moved it one pixel over
+at a time. But we can jump further; for instance, we could move over two pixels after
+each kernel application, as in Figure 13-6. This is known as a <i>stride-2</i> convolution.
+The most common kernel size in practice is 3×3, and the most common padding is 1.
+As you’ll see, stride-2 convolutions are useful for decreasing the size of our outputs,

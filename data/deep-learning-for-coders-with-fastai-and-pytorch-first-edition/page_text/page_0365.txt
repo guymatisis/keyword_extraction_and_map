@@ -1,0 +1,17 @@
+Let’s create a first SiameseImage and check that our show method works:
+img = PILImage.create(files[0])
+s = SiameseImage(img, img, True)
+s.show();
+We can also try with a second image that’s not from the same class:
+img1 = PILImage.create(files[1])
+s1 = SiameseImage(img, img1, False)
+s1.show();
+The important thing with transforms that we saw before is that they dispatch over
+tuples or their subclasses. That’s precisely why we chose to subclass Tuple in this
+instance—this way, we can apply any transform that works on images to our Siamese
+Image, and it will be applied on each image in the tuple:
+s2 = Resize(224)(s1)
+s2.show();
+Here the Resize transform is applied to each of the two images, but not the Boolean
+flag. Even if we have a custom type, we can thus benefit from all the data augmenta‐
+tion transforms inside the library.

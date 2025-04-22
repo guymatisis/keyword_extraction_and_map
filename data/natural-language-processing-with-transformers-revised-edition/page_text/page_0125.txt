@@ -1,0 +1,18 @@
+<i>Figure</i> <i>5-2.</i> <i>Meena</i> <i>on</i> <i>the</i> <i>left</i> <i>telling</i> <i>a</i> <i>corny</i> <i>joke</i> <i>to</i> <i>a</i> <i>human</i> <i>on</i> <i>the</i> <i>right</i> <i>(courtesy</i> <i>of</i>
+<i>Daniel</i> <i>Adiwardana</i> <i>and</i> <i>Thang</i> <i>Luong)</i>
+In this chapter we’ll use GPT-2 to illustrate how text generation works for language
+models and explore how different decoding strategies impact the generated texts.
+<header><largefont><b>The</b></largefont> <largefont><b>Challenge</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Generating</b></largefont> <largefont><b>Coherent</b></largefont> <largefont><b>Text</b></largefont></header>
+So far in this book, we have focused on tackling NLP tasks via a combination of pre‐
+training and supervised fine-tuning. As we’ve seen, for task-specific heads like
+sequence or token classification, generating predictions is fairly straightforward; the
+model produces some logits and we either take the maximum value to get the predic‐
+ted class, or apply a softmax function to obtain the predicted probabilities per class.
+By contrast, converting the model’s probabilistic output to text requires a <i>decoding</i>
+<i>method,</i> which introduces a few challenges that are unique to text generation:
+• The decoding is done <i>iteratively</i> and thus involves significantly more compute
+than simply passing inputs once through the forward pass of a model.
+• The <i>quality</i> and <i>diversity</i> of the generated text depend on the choice of decoding
+method and associated hyperparameters.
+To understand how this decoding process works, let’s start by examining how GPT-2
+is pretrained and subsequently applied to generate text.

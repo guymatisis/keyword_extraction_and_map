@@ -1,0 +1,25 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>10</b></largefont></header>
+<header><largefont><b>Training</b></largefont> <largefont><b>Transformers</b></largefont> <largefont><b>from</b></largefont> <largefont><b>Scratch</b></largefont></header>
+In the opening paragraph of this book, we mentioned a sophisticated application
+called GitHub Copilot that uses GPT-like transformers to perform code autocomple‐
+tion, a feature that is particularly useful when programming in a new language or
+framework or learning to code, or for automatically producing boilerplate code.
+Other products that use AI models for this purpose include TabNine and Kite. Later,
+in Chapter 5, we had a closer look at how we can use GPT models to generate high-
+quality text. In this chapter, we’ll close the circle and build our very own GPT-like
+model for generating Python source code! We call the resulting model <i>CodeParrot.</i>
+So far we’ve mostly worked on data-constrained applications where the amount of
+labeled training data is limited. In these cases, transfer learning helped us build per‐
+formant models. We took transfer learning to the limit in Chapter 9, where we barely
+used any training data at all.
+In this chapter we’ll move to the other extreme and look at what we can do when we
+are drowning in all the data we could possibly want. We’ll explore the pretraining step
+itself and learn how to train a transformer from scratch. In working through this
+problem, we’ll look at some aspects of training that we have not considered yet, such
+as the following:
+• Gathering and processing a very large dataset
+• Creating a custom tokenizer for our dataset
+• Training a model on multiple GPUs at scale
+To efficiently train large models with billions of parameters, we’ll need special tools
+for distributed training. Although the Trainer from Transformers supports dis‐
+tributed training, we’ll take the opportunity to showcase a powerful PyTorch library

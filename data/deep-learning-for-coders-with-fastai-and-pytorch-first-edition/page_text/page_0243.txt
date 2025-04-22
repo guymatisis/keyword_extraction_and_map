@@ -1,0 +1,34 @@
+All our training up until now has been done at size 224. We could have begun train‐
+ing at a smaller size before going to that. This is called <i>progressive</i> <i>resizing.</i>
+<header><largefont><b>Progressive</b></largefont> <largefont><b>Resizing</b></largefont></header>
+When fast.ai and its team of students won the DAWNBench competition in 2018, one
+of the most important innovations was something very simple: start training using
+small images, and end training using large images. Spending most of the epochs
+training with small images helps training complete much faster. Completing training
+using large images makes the final accuracy much higher. We call this approach <i>pro‐</i>
+<i>gressive</i> <i>resizing.</i>
+<b>Jargon:ProgressiveResizing</b>
+Gradually using larger and larger images as you train.
+As we have seen, the kinds of features that are learned by convolutional neural net‐
+works are not in any way specific to the size of the image—early layers find things like
+edges and gradients, and later layers may find things like noses and sunsets. So, when
+we change image size in the middle of training, it doesn’t mean that we have to find
+totally different parameters for our model.
+But clearly there are some differences between small images and big ones, so we
+shouldn’t expect our model to continue working exactly as well, with no changes at
+all. Does this remind you of something? When we developed this idea, it reminded us
+of transfer learning! We are trying to get our model to learn to do something a little
+bit different from what it has learned to do before. Therefore, we should be able to
+use the fine_tune method after we resize our images.
+Progressive resizing has an additional benefit: it is another form of data augmenta‐
+tion. Therefore, you should expect to see better generalization of your models that are
+trained with progressive resizing.
+To implement progressive resizing, it is most convenient if you first create a get_dls
+function that takes an image size and a batch size, as we did in the previous section,
+and returns your DataLoaders.
+Now you can create your DataLoaders with a small size and use and fit_one_cycle
+in the usual way, training for fewer epochs than you might otherwise do:
+dls = get_dls(128, 128)
+learn = Learner(dls, xresnet50(), loss_func=CrossEntropyLossFlat(),
+metrics=accuracy)
+learn.fit_one_cycle(4, 3e-3)

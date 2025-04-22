@@ -1,0 +1,38 @@
+dataset_url = "https://www.dropbox.com/s/1pzkadrvffbqw6o/train.txt?dl=1"
+emotions_remote = load_dataset("csv", data_files=dataset_url, sep=";",
+names=["text", "label"])
+which will automatically download and cache the dataset for you. As you can see, the
+load_dataset() function is very versatile. We recommend checking out the Data‐
+sets documentation to get a complete overview.
+<header><largefont><b>From</b></largefont> <largefont><b>Datasets</b></largefont> <largefont><b>to</b></largefont> <largefont><b>DataFrames</b></largefont></header>
+Although Datasets provides a lot of low-level functionality to slice and dice our
+data, it is often convenient to convert a Dataset object to a Pandas DataFrame so we
+can access high-level APIs for data visualization. To enable the conversion, Data‐
+set_format()
+sets provides a method that allows us to change the <i>output</i> <i>format</i> of
+the Dataset . Note that this does not change the underlying <i>data</i> <i>format</i> (which is an
+Arrow table), and you can switch to another format later if needed:
+<b>import</b> <b>pandas</b> <b>as</b> <b>pd</b>
+emotions.set_format(type="pandas")
+df = emotions["train"][:]
+df.head()
+<b>text</b> <b>label</b>
+<b>0</b> ididntfeelhumiliated 0
+<b>1</b> icangofromfeelingsohopelesstosodamned... 0
+<b>2</b> imgrabbingaminutetopostifeelgreedywrong 3
+iameverfeelingnostalgicaboutthefireplac... 2
+<b>3</b>
+iamfeelinggrouchy 3
+<b>4</b>
+As you can see, the column headers have been preserved and the first few rows match
+our previous views of the data. However, the labels are represented as integers, so let’s
+int2str() label
+use the method of the feature to create a new column in our
+DataFrame with the corresponding label names:
+<b>def</b> label_int2str(row):
+<b>return</b> emotions["train"].features["label"].int2str(row)
+df["label_name"] = df["label"].apply(label_int2str)
+df.head()
+<b>text</b> <b>label</b> <b>label_name</b>
+<b>0</b> ididntfeelhumiliated 0 sadness
+<b>1</b> icangofromfeelingsohopelesstosodamned... 0 sadness

@@ -1,0 +1,45 @@
+1.41064835e-02, 1.48742809e-02, 1.42575993e-02, 3.66158981e-01,
+5.64191792e-02, 1.08792957e-01, 5.33510773e-02, 1.03114883e-02,
+1.64780994e-01, 6.02803867e-05, 1.96041560e-03, 2.85647464e-03])
+Let’s display these importance scores next to their corresponding attribute names:
+<b>>>></b> extra_attribs = ["rooms_per_hhold", "pop_per_hhold", "bedrooms_per_room"]
+<b>>>></b> cat_encoder = full_pipeline.named_transformers_["cat"]
+<b>>>></b> cat_one_hot_attribs = list(cat_encoder.categories_[0])
+<b>>>></b> attributes = num_attribs + extra_attribs + cat_one_hot_attribs
+<b>>>></b> sorted(zip(feature_importances, attributes), reverse=True)
+[(0.3661589806181342, 'median_income'),
+(0.1647809935615905, 'INLAND'),
+(0.10879295677551573, 'pop_per_hhold'),
+(0.07334423551601242, 'longitude'),
+(0.0629090704826203, 'latitude'),
+(0.05641917918195401, 'rooms_per_hhold'),
+(0.05335107734767581, 'bedrooms_per_room'),
+(0.041143798478729635, 'housing_median_age'),
+(0.014874280890402767, 'population'),
+(0.014672685420543237, 'total_rooms'),
+(0.014257599323407807, 'households'),
+(0.014106483453584102, 'total_bedrooms'),
+(0.010311488326303787, '<1H OCEAN'),
+(0.002856474637320158, 'NEAR OCEAN'),
+(0.00196041559947807, 'NEAR BAY'),
+(6.028038672736599e-05, 'ISLAND')]
+With this information, you may want to try dropping some of the less useful features
+ocean_proximity
+(e.g., apparently only one category is really useful, so you could try
+dropping the others).
+You should also look at the specific errors that your system makes, then try to under‐
+stand why it makes them and what could fix the problem (adding extra features or
+getting rid of uninformative ones, cleaning up outliers, etc.).
+<header><largefont><b>Evaluate</b></largefont> <largefont><b>Your</b></largefont> <largefont><b>System</b></largefont> <largefont><b>on</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Test</b></largefont> <largefont><b>Set</b></largefont></header>
+After tweaking your models for a while, you eventually have a system that performs
+sufficiently well. Now is the time to evaluate the final model on the test set. There is
+nothing special about this process; just get the predictors and the labels from your
+full_pipeline transform(),
+test set, run your to transform the data (call <i>not</i>
+fit_transform()
+—you do not want to fit the test set!), and evaluate the final model
+on the test set:
+final_model = grid_search.best_estimator_
+X_test = strat_test_set.drop("median_house_value", axis=1)
+y_test = strat_test_set["median_house_value"].copy()
+X_test_prepared = full_pipeline.transform(X_test)

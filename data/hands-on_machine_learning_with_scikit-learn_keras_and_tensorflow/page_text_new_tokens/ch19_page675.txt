@@ -1,0 +1,40 @@
+Tensor
+want to call, and finally the input data, in the form of a protocol buffer. The
+tf.make_tensor_proto() function creates a Tensor protocol buffer based on the
+X_new.
+given tensor or NumPy array, in this case
+Next, we’ll send the request to the server and get its response (for this you will need
+the grpcio library, which you can install using pip):
+<b>import</b> <b>grpc</b>
+<b>from</b> <b>tensorflow_serving.apis</b> <b>import</b> prediction_service_pb2_grpc
+channel = grpc.insecure_channel('localhost:8500')
+predict_service = prediction_service_pb2_grpc.PredictionServiceStub(channel)
+response = predict_service.Predict(request, timeout=10.0)
+The code is quite straightforward: after the imports, we create a gRPC communica‐
+tion channel to <i>localhost</i> on TCP port 8500, then we create a gRPC service over this
+channel and use it to send a request, with a 10-second timeout (not that the call is
+synchronous: it will block until it receives the response or the timeout period
+expires). In this example the channel is insecure (no encryption, no authentication),
+but gRPC and TensorFlow Serving also support secure channels over SSL/TLS.
+Next, let’s convert the PredictResponse protocol buffer to a tensor:
+output_name = model.output_names[0]
+outputs_proto = response.outputs[output_name]
+y_proba = tf.make_ndarray(outputs_proto)
+y_proba.numpy().round(2)
+If you run this code and print , you will get the exact
+same estimated class probabilities as earlier. And that’s all there is to it: in just a few
+lines of code, you can now access your TensorFlow model remotely, using either
+REST or gRPC.
+<b>Deployinganewmodelversion</b>
+Now let’s create a new model version and export a SavedModel to the
+<i>my_mnist_model/0002</i> directory, just like earlier:
+model = keras.models.Sequential([...])
+model.compile([...])
+history = model.fit([...])
+model_version = "0002"
+model_name = "my_mnist_model"
+model_path = os.path.join(model_name, model_version)
+tf.saved_model.save(model, model_path)
+At regular intervals (the delay is configurable), TensorFlow Serving checks for new
+model versions. If it finds one, it will automatically handle the transition gracefully:
+by default, it will answer pending requests (if any) with the previous model version,

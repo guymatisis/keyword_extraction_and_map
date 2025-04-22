@@ -1,0 +1,36 @@
+And test that it works:
+l = Linear(4,2)
+r = l(torch.ones(3,4))
+r.shape
+torch.Size([3, 2])
+Let’s also create a testing module to check that if we include multiple parameters as
+attributes, they are all correctly registered:
+<b>class</b> <b>T(Module):</b>
+<b>def</b> <b>__init__(self):</b>
+super().__init__()
+self.c,self.l = ConvLayer(3,4),Linear(4,2)
+Since we have a conv layer and a linear layer, each of which has weights and biases,
+we’d expect four parameters in total:
+t = T()
+len(t.parameters())
+4
+We should also find that calling cuda on this class puts all these parameters on the
+GPU:
+t.cuda()
+t.l.w.device
+device(type='cuda', index=5)
+We can now use those pieces to create a CNN.
+<header><largefont><b>Simple</b></largefont> <largefont><b>CNN</b></largefont></header>
+As we’ve seen, a Sequential class makes many architectures easier to implement, so
+let’s make one:
+<b>class</b> <b>Sequential(Module):</b>
+<b>def</b> <b>__init__(self,</b> *layers):
+super().__init__()
+self.layers = layers
+self.register_modules(*layers)
+<b>def</b> forward(self, x):
+<b>for</b> l <b>in</b> self.layers: x = l(x)
+<b>return</b> x
+The forward method here just calls each layer in turn. Note that we have to use the
+register_modules method we defined in Module , since otherwise the contents of
+layers won’t appear in parameters.

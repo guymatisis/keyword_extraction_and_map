@@ -1,0 +1,40 @@
+axis=0 y_proba
+dimension ( ), we get , an array of shape [10000, 10], like we would get
+with a single prediction. That’s all! Averaging over multiple predictions with dropout
+on gives us a Monte Carlo estimate that is generally more reliable than the result of a
+single prediction with dropout off. For example, let’s look at the model’s prediction
+for the first instance in the Fashion MNIST test set, with dropout off:
+<b>>>></b> np.round(model.predict(X_test_scaled[:1]), 2)
+array([[0. , 0. , 0. , 0. , 0. , 0. , 0. , 0.01, 0. , 0.99]],
+dtype=float32)
+The model seems almost certain that this image belongs to class 9 (ankle boot).
+Should you trust it? Is there really so little room for doubt? Compare this with the
+predictions made when dropout is activated:
+<b>>>></b> np.round(y_probas[:, :1], 2)
+array([[[0. , 0. , 0. , 0. , 0. , 0.14, 0. , 0.17, 0. , 0.68]],
+[[0. , 0. , 0. , 0. , 0. , 0.16, 0. , 0.2 , 0. , 0.64]],
+[[0. , 0. , 0. , 0. , 0. , 0.02, 0. , 0.01, 0. , 0.97]],
+[...]
+This tells a very different story: apparently, when we activate dropout, the model is
+not sure anymore. It still seems to prefer class 9, but sometimes it hesitates with
+classes 5 (sandal) and 7 (sneaker), which makes sense given they’re all footwear. Once
+we average over the first dimension, we get the following MC Dropout predictions:
+<b>>>></b> np.round(y_proba[:1], 2)
+array([[0. , 0. , 0. , 0. , 0. , 0.22, 0. , 0.16, 0. , 0.62]],
+dtype=float32)
+The model still thinks this image belongs to class 9, but only with a 62% confidence,
+which seems much more reasonable than 99%. Plus it’s useful to know exactly which
+other classes it thinks are likely. And you can also take a look at the standard devia‐
+tion of the probability estimates:
+<b>>>></b> y_std = y_probas.std(axis=0)
+<b>>>></b> np.round(y_std[:1], 2)
+array([[0. , 0. , 0. , 0. , 0. , 0.28, 0. , 0.21, 0.02, 0.32]],
+dtype=float32)
+Apparently there’s quite a lot of variance in the probability estimates: if you were
+building a risk-sensitive system (e.g., a medical or financial system), you should prob‐
+ably treat such an uncertain prediction with extreme caution. You definitely would
+not treat it like a 99% confident prediction. Moreover, the model’s accuracy got a
+small boost from 86.8 to 86.9:
+<b>>>></b> accuracy = np.sum(y_pred == y_test) / len(y_test)
+<b>>>></b> accuracy
+0.8694

@@ -1,0 +1,8 @@
+<i>Figure</i> <i>9-4.</i> <i>The</i> <i>K-Means</i> <i>algorithm</i>
+Although the algorithm is guaranteed to converge, it may not converge to the right
+solution (i.e., it may converge to a local optimum): whether it does or not depends on
+the centroid initialization. Figure 9-5 shows two suboptimal solutions that the algo‐
+rithm can converge to if you are not lucky with the random initialization step.
+<i>Figure</i> <i>9-5.</i> <i>Suboptimal</i> <i>solutions</i> <i>due</i> <i>to</i> <i>unlucky</i> <i>centroid</i> <i>initializations</i>
+Let’s look at a few ways you can mitigate this risk by improving the centroid
+initialization.

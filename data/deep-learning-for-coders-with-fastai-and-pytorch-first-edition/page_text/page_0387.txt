@@ -1,0 +1,4 @@
+<i>Figure</i> <i>12-6.</i> <i>2-layer</i> <i>RNN</i>
+The unrolled representation is shown in Figure 12-7 (similar to Figure 12-3).
+<i>Figure</i> <i>12-7.</i> <i>2-layer</i> <i>unrolled</i> <i>RNN</i>
+Let’s see how to implement this in practice.

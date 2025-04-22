@@ -1,0 +1,25 @@
+The same problem of high cardinality and dependent data also occurs in images and
+text. Images consist of thousands of pixels, which are not independent of one
+another. Natural language text is drawn from a vocabulary in the tens of thousands of
+words, and a word like walk is closer to the word run than to the word book .
+<header><largefont><b>Solution</b></largefont></header>
+The Embeddings design pattern addresses the problem of representing high-
+cardinality data densely in a lower dimension by passing the input data through an
+embedding layer that has trainable weights. This will map the high-dimensional, cat‐
+egorical input variable to a real-valued vector in some low-dimensional space. The
+weights to create the dense representation are learned as part of the optimization of
+the model (see Figure 2-5). In practice, these embeddings end up capturing closeness
+relationships in the input data.
+<i>Figure</i> <i>2-5.</i> <i>The</i> <i>weights</i> <i>of</i> <i>an</i> <i>embedding</i> <i>layer</i> <i>are</i> <i>learned</i> <i>as</i> <i>parameters</i> <i>during</i>
+<i>training.</i>
+Because embeddings capture closeness relationships in the input
+data in a lower-dimensional representation, we can use an embed‐
+ding layer as a replacement for clustering techniques (e.g., cus‐
+tomer segmentation) and dimensionality reduction methods like
+principal components analysis (PCA). Embedding weights are
+determined in the main model training loop, thus saving the need
+to cluster or do PCA beforehand.
+The weights in the embedding layer would be learned as part of the gradient descent
+procedure when training the natality model.
+At the end of training, the weights of the embedding layer might be such that the
+encoding for the categorical variables is as shown in Table 2-5.

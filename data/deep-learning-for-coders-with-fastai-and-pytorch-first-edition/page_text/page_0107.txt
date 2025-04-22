@@ -1,0 +1,15 @@
+• Responding to apartment rental ads on Craigslist with a Black name elicited
+fewer responses than with a white name.
+• An all-white jury was 16 percentage points more likely to convict a Black defend‐
+ant than a white one, but when a jury had one Black member, it convicted both at
+the same rate.
+The COMPAS algorithm, widely used for sentencing and bail decisions in the US, is
+an example of an important algorithm that, when tested by ProPublica, showed clear
+racial bias in practice (Figure 3-7).
+<i>Figure</i> <i>3-7.</i> <i>Results</i> <i>of</i> <i>the</i> <i>COMPAS</i> <i>algorithm</i>
+Any dataset involving humans can have this kind of bias: medical data, sales data,
+housing data, political data, and so on. Because underlying bias is so pervasive, bias in
+datasets is very pervasive. Racial bias even turns up in computer vision, as shown in
+the example of autocategorized photos shared on Twitter by a Google Photos user
+shown in Figure 3-8.
+<i>Figure</i> <i>3-8.</i> <i>One</i> <i>of</i> <i>these</i> <i>labels</i> <i>is</i> <i>very</i> <i>wrong…</i>

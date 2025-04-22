@@ -1,0 +1,47 @@
+paper,17
+As discussed in the tongue-in-cheek “Optimal Brain Surgeon” at the heart of
+each pruning method are a set of questions that need to be considered:
+• Which weights should be eliminated?
+• How should the remaining weights be adjusted for best performance?
+• How can such network pruning be done in a computationally efficient way?
+
+The answers to these questions inform how the score matrix is computed, so let’s
+begin by looking at one of the earliest and most popular pruning methods: magnitude
+pruning.
+<b>Magnitudepruning</b>
+As the name suggests, magnitude pruning calculates the scores according to the mag‐
+∣ ∣
+nitude of the weights = <i>W</i> and then derives the masks from
+<i>ij</i>
+1 ≤ <i>j,</i> <i>j</i> ≤ <i>n</i>
+= Top  . In the literature it is common to apply magnitude pruning in an itera‐
+<i>k</i>
+tive fashion by first training the model to learn which connections are important and
+pruning the weights of least importance. 18 The sparse model is then retrained and the
+process repeated until the desired sparsity is reached.
+One drawback with this approach is that it is computationally demanding: at every
+step of pruning we need to train the model to convergence. For this reason it is gener‐
+ally better to gradually increase the initial sparsity <i>s</i> (which is usually zero) to a final
+<i>i</i>
+<i>N:19</i>
+value <i>s</i> after some number of steps
+<i>f</i>
+3
+<i>t</i> − <i>t</i>
+0
+∈
+<i>s</i> = <i>s</i> + <i>s</i> − <i>s</i> 1 − fort <i>t</i> ,t + <i>Δt,...,t</i> + <i>NΔt</i>
+<i>t</i> <i>f</i> <i>i</i> <i>f</i> 0 0 0
+<i>NΔt</i>
+
+Here the idea is to update the binary masks every <i>Δt</i> steps to allow masked weights
+to reactivate during training and recover from any potential loss in accuracy that is
+induced by the pruning process. As shown in Figure 8-11, the cubic factor implies
+that the rate of weight pruning is highest in the early phases (when the number of
+redundant weights is large) and gradually tapers off.
+17 B.HassibiandD.Stork,“SecondOrderDerivativesforNetworkPruning:OptimalBrainSurgeon,”Proceed‐
+<i>ingsofthe5thInternationalConferenceonNeuralInformationProcessingSystems(November1992):164–171,</i>
+<i>https://papers.nips.cc/paper/1992/hash/303ed4c69846ab36c2904d3ba8573050-Abstract.html.</i>
+18 S.Hanetal.,“LearningBothWeightsandConnectionsforEfficientNeuralNetworks”,(2015).
+19 M.ZhuandS.Gupta,“ToPrune,orNottoPrune:ExploringtheEfficacyofPruningforModelCompression”,
+(2017).

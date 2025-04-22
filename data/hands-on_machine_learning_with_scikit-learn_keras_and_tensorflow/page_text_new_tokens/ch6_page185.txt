@@ -1,0 +1,22 @@
+<header><largefont><b>Instability</b></largefont></header>
+Hopefully by now you are convinced that Decision Trees have a lot going for them:
+they are simple to understand and interpret, easy to use, versatile, and powerful.
+However, they do have a few limitations. First, as you may have noticed, Decision
+Trees love orthogonal decision boundaries (all splits are perpendicular to an axis),
+which makes them sensitive to training set rotation. For example, Figure 6-7 shows a
+simple linearly separable dataset: on the left, a Decision Tree can split it easily, while
+on the right, after the dataset is rotated by 45°, the decision boundary looks unneces‐
+sarily convoluted. Although both Decision Trees fit the training set perfectly, it is very
+likely that the model on the right will not generalize well. One way to limit this prob‐
+lem is to use Principal Component Analysis (see Chapter 8), which often results in a
+better orientation of the training data.
+<i>Figure</i> <i>6-7.</i> <i>Sensitivity</i> <i>to</i> <i>training</i> <i>set</i> <i>rotation</i>
+More generally, the main issue with Decision Trees is that they are very sensitive to
+small variations in the training data. For example, if you just remove the widest <i>Iris</i>
+<i>versicolor</i> from the iris training set (the one with petals 4.8 cm long and 1.8 cm wide)
+and train a new Decision Tree, you may get the model represented in Figure 6-8. As
+you can see, it looks very different from the previous Decision Tree (Figure 6-2).
+Actually, since the training algorithm used by Scikit-Learn is stochastic,6 you may
+get very different models even on the same training data (unless you set the
+random_state hyperparameter).
+6 Itrandomlyselectsthesetoffeaturestoevaluateateachnode.

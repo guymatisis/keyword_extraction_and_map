@@ -1,0 +1,29 @@
+The final step prior to training the classifier is to load the encoder from our fine-
+tuned language model. We use load_encoder instead of load because we have only
+pretrained weights available for the encoder; load by default raises an exception if an
+incomplete model is loaded:
+learn = learn.load_encoder('finetuned')
+<header><largefont><b>Fine-Tuning</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Classifier</b></largefont></header>
+The last step is to train with discriminative learning rates and <i>gradual</i> <i>unfreezing.</i> In
+computer vision, we often unfreeze the model all at once, but for NLP classifiers, we
+find that unfreezing a few layers at a time makes a real difference:
+learn.fit_one_cycle(1, 2e-2)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.347427 0.184480 0.929320 00:33
+In just one epoch, we get the same result as our training in Chapter 1—not too bad!
+We can pass -2 to freeze_to to freeze all except the last two parameter groups:
+learn.freeze_to(-2)
+learn.fit_one_cycle(1, slice(1e-2/(2.6**4),1e-2))
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.247763 0.171683 0.934640 00:37
+Then we can unfreeze a bit more and continue training:
+learn.freeze_to(-3)
+learn.fit_one_cycle(1, slice(5e-3/(2.6**4),5e-3))
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.193377 0.156696 0.941200 00:45
+And finally, the whole model!
+learn.unfreeze()
+learn.fit_one_cycle(2, slice(1e-3/(2.6**4),1e-3))
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.172888 0.153770 0.943120 01:01
+1 0.161492 0.155567 0.942640 00:57

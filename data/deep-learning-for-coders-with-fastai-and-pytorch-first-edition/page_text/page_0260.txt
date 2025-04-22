@@ -1,0 +1,36 @@
+<b>Jargon:Embedding</b>
+Multiplying by a one-hot-encoded matrix, using the computational
+shortcut that it can be implemented by simply indexing directly.
+This is quite a fancy word for a very simple concept. The thing that
+you multiply the one-hot-encoded matrix by (or, using the compu‐
+tational shortcut, index into directly) is called the <i>embedding</i>
+<i>matrix.</i>
+In computer vision, we have a very easy way to get all the information of a pixel
+through its RGB values: each pixel in a colored image is represented by three num‐
+bers. Those three numbers give us the redness, the greenness, and the blueness, which
+is enough to get our model to work afterward.
+For the problem at hand, we don’t have the same easy way to characterize a user or a
+movie. There are probably relations with genres: if a given user likes romance, they
+are likely to give higher scores to romance movies. Other factors might be whether
+the movie is more action-oriented versus heavy on dialogue, or the presence of a spe‐
+cific actor whom a user might particularly like.
+How do we determine numbers to characterize those? The answer is, we don’t. We
+will let our model <i>learn</i> them. By analyzing the existing relations between users and
+movies, our model can figure out itself the features that seem important or not.
+This is what embeddings are. We will attribute to each of our users and each of our
+movies a random vector of a certain length (here, n_factors=5 ), and we will make
+those learnable parameters. That means that at each step, when we compute the loss
+by comparing our predictions to our targets, we will compute the gradients of the loss
+with respect to those embedding vectors and update them with the rules of SGD (or
+another optimizer).
+At the beginning, those numbers don’t mean anything since we have chosen them
+randomly, but by the end of training, they will. By learning on existing data about the
+relations between users and movies, without having any other information, we will
+see that they still get some important features, and can isolate blockbusters from
+independent films, action movies from romance, and so on.
+We are now in a position to create our whole model from scratch.
+<header><largefont><b>Collaborative</b></largefont> <largefont><b>Filtering</b></largefont> <largefont><b>from</b></largefont> <largefont><b>Scratch</b></largefont></header>
+Before we can write a model in PyTorch, we first need to learn the basics of object-
+oriented programming and Python. If you haven’t done any object-oriented program‐
+ming before, we will give you a quick introduction here, but we would recommend
+looking up a tutorial and getting some practice before moving on.

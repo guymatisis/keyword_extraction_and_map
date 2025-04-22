@@ -1,0 +1,22 @@
+We see the first hint of learning in Figure 4-8(b), and see that the model has learned
+the high-level view of the data by Figure 4-8(c). From then on, the model is adjusting
+the boundaries to get more and more of the blue points into the center region while
+keeping the orange points out. This helps, but only up to point. By the time we get to
+Figure 4-8(e), the adjustment of weights is starting to reflect random perturbations in
+the training data, and these are counterproductive on the validation dataset.
+We can therefore break the training into three phases. In the first phase, between
+stages (a) and (c), the model is learning high-level organization of the data. In the
+second phase, between stages and (c) and (e), the model is learning the details. By the
+time we get to the third phase, stage (f), the model is overfitting. A partially trained
+model from the end of phase 1 or from phase 2 has some advantages precisely
+because it has learned the high-level organization but is not caught up in the details.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+Besides providing resilience, saving intermediate checkpoints also allows us to imple‐
+ment early stopping and fine-tuning capabilities.
+<b>Earlystopping</b>
+In general, the longer you train, the lower the loss on the training dataset. However,
+at some point, the error on the validation dataset might stop decreasing. If you are
+starting to overfit to the training dataset, the validation error might even start to
+increase, as shown in Figure 4-9.
+<i>Figure</i> <i>4-9.</i> <i>Typically,</i> <i>the</i> <i>training</i> <i>loss</i> <i>continues</i> <i>to</i> <i>drop</i> <i>the</i> <i>longer</i> <i>you</i> <i>train,</i> <i>but</i> <i>once</i>
+<i>overfitting</i> <i>starts,</i> <i>the</i> <i>validation</i> <i>error</i> <i>on</i> <i>a</i> <i>withheld</i> <i>dataset</i> <i>starts</i> <i>to</i> <i>go</i> <i>up.</i>

@@ -1,0 +1,22 @@
+With a large beta , we might miss that the gradients have changed directions and roll
+over a small local minima. This is a desired side effect: intuitively, when we show a
+new input to our model, it will look like something in the training set but won’t be
+<i>exactly</i> like it. It will correspond to a point in the loss function that is close to the
+minimum we ended up with at the end of training, but not exactly <i>at</i> that minimum.
+So, we would rather end up training in a wide minimum, where nearby points have
+approximately the same loss (or if you prefer, a point where the loss is as flat as possi‐
+ble). Figure 16-2 shows how the chart in Figure 16-1 varies as we change beta.
+<i>Figure</i> <i>16-2.</i> <i>Momentum</i> <i>with</i> <i>different</i> <i>beta</i> <i>values</i>
+beta
+We can see in these examples that a that’s too high results in the overall changes
+in gradient getting ignored. In SGD with momentum, a value of beta that is often
+used is 0.9.
+fit_one_cycle beta
+by default starts with a of 0.95, gradually adjusts it to 0.85, and
+then gradually moves it back to 0.95 at the end of training. Let’s see how our training
+goes with momentum added to plain SGD.
+To add momentum to our optimizer, we’ll first need to keep track of the moving aver‐
+age gradient, which we can do with another callback. When an optimizer callback
+returns a dict, it is used to update the state of the optimizer and is passed back to the
+optimizer on the next step. So this callback will keep track of the gradient averages in
+a parameter called grad_avg:

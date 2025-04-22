@@ -1,0 +1,33 @@
+<i>Figure</i> <i>9-14.</i> <i>DBSCAN</i> <i>clustering</i> <i>using</i> <i>two</i> <i>different</i> <i>neighborhood</i> <i>radiuses</i>
+DBSCAN predict()
+Somewhat surprisingly, the class does not have a method, although
+it has a fit_predict() method. In other words, it cannot predict which cluster a new
+instance belongs to. This implementation decision was made because different classi‐
+fication algorithms can be better for different tasks, so the authors decided to let the
+user choose which one to use. Moreover, it’s not hard to implement. For example, let’s
+train a KNeighborsClassifier :
+<b>from</b> <b>sklearn.neighbors</b> <b>import</b> KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors=50)
+knn.fit(dbscan.components_, dbscan.labels_[dbscan.core_sample_indices_])
+Now, given a few new instances, we can predict which cluster they most likely belong
+to and even estimate a probability for each cluster:
+<b>>>></b> X_new = np.array([[-0.5, 0], [0, 0.5], [1, -0.1], [2, 1]])
+<b>>>></b> knn.predict(X_new)
+array([1, 0, 1, 0])
+<b>>>></b> knn.predict_proba(X_new)
+array([[0.18, 0.82],
+[1. , 0. ],
+[0.12, 0.88],
+[1. , 0. ]])
+Note that we only trained the classifier on the core instances, but we could also have
+chosen to train it on all the instances, or all but the anomalies: this choice depends on
+the final task.
+The decision boundary is represented in Figure 9-15 (the crosses represent the four
+X_new
+instances in ). Notice that since there is no anomaly in the training set, the clas‐
+sifier always chooses a cluster, even when that cluster is far away. It is fairly straight‐
+forward to introduce a maximum distance, in which case the two instances that are
+kneigh
+far away from both clusters are classified as anomalies. To do this, use the
+bors() KNeighborsClassifier.
+method of the Given a set of instances, it returns the

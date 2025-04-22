@@ -1,0 +1,37 @@
+<header><largefont><b>Challenges</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Scaling</b></largefont></header>
+While scaling up sounds simple in theory (“just add more layers!”), in practice there
+are many difficulties. Here are a few of the biggest challenges you’re likely to
+encounter when scaling language models:
+<i>Infrastructure</i>
+Provisioning and managing infrastructure that potentially spans hundreds or
+thousands of nodes with as many GPUs is not for the faint-hearted. Are the
+required number of nodes available? Is communication between nodes a bottle‐
+neck? Tackling these issues requires a very different skill set than that found in
+most data science teams, and typically involves specialized engineers familiar
+with running large-scale, distributed experiments.
+<i>Cost</i>
+Most ML practitioners have experienced the feeling of waking up in the middle
+of the night in a cold sweat, remembering they forgot to shut down that fancy
+GPU on the cloud. This feeling intensifies when running large-scale experiments,
+and most companies cannot afford the teams and resources necessary to train
+models at the largest scales. Training a single GPT-3-sized model can cost several
+million dollars, which is not the kind of pocket change that many companies
+have lying around. 4
+<i>Dataset</i> <i>curation</i>
+A model is only as good as the data it is trained on. Training large models
+requires large, high-quality datasets. When using terabytes of text data it
+becomes harder to make sure the dataset contains high-quality text, and even
+preprocessing becomes challenging. Furthermore, one needs to ensure that there
+is a way to control biases like sexism and racism that these language models can
+acquire when trained on large-scale webtext corpora. Another type of considera‐
+tion revolves around licensing issues with the training data and personal infor‐
+mation that can be embedded in large text datasets.
+<i>Model</i> <i>evaluation</i>
+Once the model is trained, the challenges don’t stop. Evaluating the model on
+downstream tasks again requires time and resources. In addition, you’ll want to
+probe the model for biased and toxic generations, even if you are confident that
+you created a clean dataset. These steps take time and need to be carried out
+thoroughly to minimize the risks of adverse effects later on.
+4 However,recentlyadistributeddeeplearningframeworkhasbeenproposedthatenablessmallergroupsto
+pooltheircomputationalresourcesandpretrainmodelsinacollaborativefashion.SeeM.Diskinetal.,“Dis‐
+tributedDeepLearninginOpenCollaborations”,(2021).

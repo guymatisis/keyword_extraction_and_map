@@ -1,0 +1,42 @@
+Next we must preprocess the images. The CNN expects 224 × 224 images, so we need
+to resize them. We also need to run the images through Xception’s prepro
+cess_input() function:
+<b>def</b> preprocess(image, label):
+resized_image = tf.image.resize(image, [224, 224])
+final_image = keras.applications.xception.preprocess_input(resized_image)
+<b>return</b> final_image, label
+Let’s apply this preprocessing function to all three datasets, shuffle the training set,
+and add batching and prefetching to all the datasets:
+batch_size = 32
+train_set = train_set.shuffle(1000)
+train_set = train_set.map(preprocess).batch(batch_size).prefetch(1)
+valid_set = valid_set.map(preprocess).batch(batch_size).prefetch(1)
+test_set = test_set.map(preprocess).batch(batch_size).prefetch(1)
+If you want to perform some data augmentation, change the preprocessing function
+for the training set, adding some random transformations to the training images. For
+example, use tf.image.random_crop() to randomly crop the images, use
+tf.image.random_flip_left_right()
+to randomly flip the images horizontally, and
+so on (see the “Pretrained Models for Transfer Learning” section of the notebook for
+an example).
+The keras.preprocessing.image.ImageDataGenerator class
+makes it easy to load images from disk and augment them in vari‐
+ous ways: you can shift each image, rotate it, rescale it, flip it hori‐
+zontally or vertically, shear it, or apply any transformation function
+you want to it. This is very convenient for simple projects. How‐
+ever, building a tf.data pipeline has many advantages: it can read
+the images efficiently (e.g., in parallel) from any source, not just the
+local disk; you can manipulate the Dataset as you wish; and if you
+write a preprocessing function based on tf.image operations, this
+function can be used both in the tf.data pipeline and in the model
+you will deploy to production (see Chapter 19).
+Next let’s load an Xception model, pretrained on ImageNet. We exclude the top of the
+network by setting include_top=False : this excludes the global average pooling layer
+and the dense output layer. We then add our own global average pooling layer, based
+on the output of the base model, followed by a dense output layer with one unit per
+class, using the softmax activation function. Finally, we create the Keras Model:
+base_model = keras.applications.xception.Xception(weights="imagenet",
+include_top=False)
+avg = keras.layers.GlobalAveragePooling2D()(base_model.output)
+output = keras.layers.Dense(n_classes, activation="softmax")(avg)
+model = keras.Model(inputs=base_model.input, outputs=output)

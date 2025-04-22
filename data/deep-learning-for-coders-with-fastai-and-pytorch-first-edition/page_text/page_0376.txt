@@ -1,0 +1,28 @@
+The second tweak is that each of these three layers will use the same weight matrix.
+The way that one word impacts the activations from previous words should not
+change depending on the position of a word. In other words, activation values will
+change as data moves through the layers, but the layer weights themselves will not
+change from layer to layer. So, a layer does not learn one sequence position; it must
+learn to handle all positions.
+Since layer weights do not change, you might think of the sequential layers as “the
+same layer” repeated. In fact, PyTorch makes this concrete; we can create just one
+layer and use it multiple times.
+<header><largefont><b>Our</b></largefont> <largefont><b>Language</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>in</b></largefont> <largefont><b>PyTorch</b></largefont></header>
+We can now create the language model module that we described earlier:
+<b>class</b> <b>LMModel1(Module):</b>
+<b>def</b> <b>__init__(self,</b> vocab_sz, n_hidden):
+self.i_h = nn.Embedding(vocab_sz, n_hidden)
+self.h_h = nn.Linear(n_hidden, n_hidden)
+self.h_o = nn.Linear(n_hidden,vocab_sz)
+<b>def</b> forward(self, x):
+h = F.relu(self.h_h(self.i_h(x[:,0])))
+h = h + self.i_h(x[:,1])
+h = F.relu(self.h_h(h))
+h = h + self.i_h(x[:,2])
+h = F.relu(self.h_h(h))
+<b>return</b> self.h_o(h)
+As you see, we have created three layers:
+• The embedding layer (i_h, for <i>input</i> to <i>hidden)</i>
+• The linear layer to create the activations for the next word (h_h, for <i>hidden</i> to
+<i>hidden)</i>
+• A final linear layer to predict the fourth word (h_o, for <i>hidden</i> to <i>output)</i>

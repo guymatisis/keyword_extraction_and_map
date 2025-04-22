@@ -1,0 +1,37 @@
+common issues and challenges that are associated with building large corpora for
+pretraining.
+As the dataset gets larger and larger, the chances that you can fully control—or at
+least have a precise idea of—what is inside it diminish. A very large dataset will most
+likely not have been assembled by dedicated creators that craft one example at a time,
+while being aware and knowledgeable of the full pipeline and the task that the
+machine learning model will be applied to. Instead, it is much more likely that a very
+large dataset will have been created in an automatic or semiautomatic way by collect‐
+ing data that is generated as a side effect of other activities. For instance, it may con‐
+sist of all the documents (e.g., contracts, purchase orders, etc.) that a company stores,
+logs from user activities, or data gathered from the internet.
+There are several important consequences that follow from the fact that large-scale
+datasets are mostly created with a high degree of automation. An important consider‐
+ation is that there is limited control over both their content and the way they are cre‐
+ated, and thus the risk of training a model on biased and lower-quality data increases.
+Recent investigations of famous large-scale datasets like BookCorpus and C4, which
+were used to train BERT and T5, respectively, have uncovered (among other things)
+that:1
+• A significant proportion of the C4 corpus is machine-translated rather than
+translated by humans.
+• Disparate erasure of African-American English as a result of stopword filtering
+in C4 has resulted in an underrepresentation of such content.
+• It is typically difficult in a large text corpus to find a middle ground between
+including (often too much) sexually or other explicit content and totally erasing
+all mention of sexuality or gender. As a surprising consequence of this, a rather
+common word like “sex” (which can have both neutral and explicit meanings) is
+completely unknown to a tokenizer that is trained on C4, since this word is fully
+absent from the corpus.
+• There are many occurrences of copyright violation in BookCorpus, and probably
+in other large-scale datasets as well. 2
+• There is genre skew toward “romance” novels in BookCorpus.
+These discoveries might not be incompatible with downstream usage of the models
+trained on these corpora. For instance, the strong overrepresentation of romance
+1 Y.Zhuetal.,“AligningBooksandMovies:TowardsStory-LikeVisualExplanationsbyWatchingMoviesand
+ReadingBooks”,(2015);J.Dodgeetal.,“DocumentingtheEnglishColossalCleanCrawledCorpus”,(2021).
+2 J.BandyandN.Vincent,“AddressingDocumentationDebtinMachineLearningResearch:ARetrospective
+DatasheetforBookCorpus”,(2021).

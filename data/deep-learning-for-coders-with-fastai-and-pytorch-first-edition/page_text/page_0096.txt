@@ -1,0 +1,20 @@
+“Latanya Sweeney, Arrested?” even though she is the only known Latanya Sweeney
+and has never been arrested. However, when she Googled other names, such as
+“Kirsten Lindquist,” she got more neutral ads, even though Kirsten Lindquist has
+been arrested three times.
+<i>Figure</i> <i>3-1.</i> <i>Google</i> <i>search</i> <i>showing</i> <i>ads</i> <i>about</i> <i>Professor</i> <i>Latanya</i> <i>Sweeney’s</i> <i>(nonexistent)</i>
+<i>arrest</i> <i>record</i>
+Being a computer scientist, she studied this systematically and looked at over 2,000
+names. She found a clear pattern: historically Black names received advertisements
+suggesting that the person had a criminal record, whereas traditionally white names
+had more neutral advertisements.
+This is an example of bias. It can make a big difference to people’s lives—for instance,
+if a job applicant is Googled, it may appear that they have a criminal record when
+they do not.
+<header><largefont><b>Why</b></largefont> <largefont><b>Does</b></largefont> <largefont><b>This</b></largefont> <largefont><b>Matter?</b></largefont></header>
+One very natural reaction to considering these issues is: “So what? What’s that got to
+do with me? I’m a data scientist, not a politician. I’m not one of the senior executives
+at my company who make the decisions about what we do. I’m just trying to build the
+most predictive model I can.”
+These are very reasonable questions. But we’re going to try to convince you that the
+answer is that everybody who is training models absolutely needs to consider how

@@ -1,0 +1,29 @@
+Pushing the model to the Hub may take a few minutes given the size of the check‐
+point (> 5 GB). Since this model is quite large, we’ll also create a smaller version that
+we can train to make sure everything works before scaling up. We will take the stan‐
+dard GPT-2 size as a base:
+tokenizer = AutoTokenizer.from_pretrained(model_ckpt)
+config_small = AutoConfig.from_pretrained("gpt2", vocab_size=len(tokenizer))
+model_small = AutoModelForCausalLM.from_config(config_small)
+<b>print(f'GPT-2</b> size: {model_size(model_small)/1000**2:.1f}M parameters')
+GPT-2 size: 111.0M parameters
+And let’s save it to the Hub as well for easy sharing and reuse:
+model_small.save_pretrained("models/" + model_ckpt + "-small", push_to_hub=True,
+organization=org)
+Now that we have two models we can train, we need to make sure we can feed them
+the input data efficiently during training.
+<header><largefont><b>Implementing</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Dataloader</b></largefont></header>
+To be able to train with maximal efficiency, we will want to supply our model with
+sequences filling its context. For example, if the context length of our model is 1,024
+tokens, we always want to provide 1,024-token sequences during training. But some
+of our code examples might be shorter or longer than 1,024 tokens. To feed batches
+sequence_length
+with full sequences of to our model, we should thus either drop the
+last incomplete sequence or pad it. However, this will render our training slightly less
+efficient and force us to take care of padding and masking padded token labels. We
+are much more compute- than data-constrained, so we’ll take the easy and efficient
+way here. We can use a little trick to make sure we don’t lose too many trailing seg‐
+ments: we can tokenize several examples and then concatenate them, separated by the
+special end-of-sequence token, to get a very long sequence. Finally, we split this
+sequence into equally sized chunks as shown in Figure 10-5. With this approach, we
+lose at most a small fraction of the data at the end.

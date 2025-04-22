@@ -1,0 +1,41 @@
+This is also a good point to make sure we are logged in to the Hugging Face Hub (if
+you’re working in a terminal, you can execute the command huggingface-cli login
+instead):
+<b>from</b> <b>huggingface_hub</b> <b>import</b> notebook_login
+notebook_login()
+Trainer
+We also need to tell the how to compute metrics on the validation set, so
+here we can use the align_predictions() function that we defined earlier to extract
+the predictions and labels in the format needed by <i>seqeval</i> to calculate the <i>F</i> -score:
+1
+<b>from</b> <b>seqeval.metrics</b> <b>import</b> f1_score
+<b>def</b> compute_metrics(eval_pred):
+y_pred, y_true = align_predictions(eval_pred.predictions,
+eval_pred.label_ids)
+<b>return</b> {"f1": f1_score(y_true, y_pred)}
+The final step is to define a <i>data</i> <i>collator</i> so we can pad each input sequence to the
+largest sequence length in a batch. Transformers provides a dedicated data collator
+for token classification that will pad the labels along with the inputs:
+<b>from</b> <b>transformers</b> <b>import</b> DataCollatorForTokenClassification
+data_collator = DataCollatorForTokenClassification(xlmr_tokenizer)
+Padding the labels is necessary because, unlike in a text classification task, the labels
+are also sequences. One important detail here is that the label sequences are padded
+with the value –100, which, as we’ve seen, is ignored by PyTorch loss functions.
+We will train several models in the course of this chapter, so we’ll avoid initializing a
+Trainer model_init()
+new model for every by creating a method. This method loads
+an untrained model and is called at the beginning of the train() call:
+<b>def</b> model_init():
+<b>return</b> (XLMRobertaForTokenClassification
+.from_pretrained(xlmr_model_name, config=xlmr_config)
+.to(device))
+We can now pass all this information together with the encoded datasets to the
+Trainer
+:
+<b>from</b> <b>transformers</b> <b>import</b> Trainer
+trainer = Trainer(model_init=model_init, args=training_args,
+data_collator=data_collator, compute_metrics=compute_metrics,
+train_dataset=panx_de_encoded["train"],
+eval_dataset=panx_de_encoded["validation"],
+tokenizer=xlmr_tokenizer)
+and then run the training loop as follows and push the final model to the Hub:

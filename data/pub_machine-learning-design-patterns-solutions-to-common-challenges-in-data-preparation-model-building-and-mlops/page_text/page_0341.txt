@@ -1,0 +1,9 @@
+<i>Figure</i> <i>7-7.</i> <i>Counterfactual</i> <i>analysis</i> <i>in</i> <i>the</i> <i>What-If</i> <i>Tool</i> <i>for</i> <i>two</i> <i>data</i> <i>points</i> <i>from</i> <i>a</i> <i>US</i>
+<i>mortgage</i> <i>application</i> <i>dataset.</i> <i>Differences</i> <i>between</i> <i>the</i> <i>two</i> <i>data</i> <i>points</i> <i>are</i> <i>bolded.</i>
+<i>More</i> <i>information</i> <i>on</i> <i>this</i> <i>dataset</i> <i>can</i> <i>be</i> <i>found</i> <i>in</i> <i>the</i> <i>discussion</i> <i>of</i> <i>the</i> <i>Fairness</i> <i>Lens</i>
+<i>pattern</i> <i>in</i> <i>this</i> <i>chapter.</i>
+To better understand this approach, let’s look at the game Quick, Draw!7 The game
+asks players to draw an item, and guesses what they are drawing in real time, using a
+deep neural network trained on thousands of drawings by others. After players finish
+a drawing, they can see how the neural network arrived at its prediction by looking at
+7 FormoredetailsonQuick,Draw!andexample-basedexplanations,seethispaper.

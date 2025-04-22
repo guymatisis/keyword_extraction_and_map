@@ -1,0 +1,12 @@
+<i>Figure</i> <i>10-7.</i> <i>Training</i> <i>loss</i> <i>and</i> <i>validation</i> <i>perplexity</i> <i>as</i> <i>a</i> <i>function</i> <i>of</i> <i>processed</i> <i>tokens</i> <i>for</i>
+<i>the</i> <i>small</i> <i>and</i> <i>large</i> <i>CodeParrot</i> <i>models</i>
+So what can we do with our freshly baked language model, straight out of the GPU
+oven? Well, we can use it to write some code for us. There are two types of analyses
+we can conduct: qualitative and quantitative. In the former, we look at concrete
+examples and try to better understand in which cases the model succeeds and where
+it fails. In the latter case, we evaluate the model’s performance statistically on a large
+set of test cases. In this section we’ll explore how we can use our model. First we’ll
+have a look at a few examples, and then we’ll briefly discuss how we could evaluate
+the model systematically and more robustly. First, let’s wrap the small model in a
+pipeline and use it to continue some code inputs:
+<b>from</b> <b>transformers</b> <b>import</b> pipeline, set_seed

@@ -1,0 +1,34 @@
+double_val: 40.78923797607422
+}
+}
+fields {
+key: "taxi_rides:dropoff_lon"
+value {
+double_val: -73.96871948242188
+}
+…
+To make an online prediction for this example, we pass the field values from the
+online_features predict_df
+object returned in as a pandas dataframe called to
+model.predict :
+predict_df = pd.DataFrame.from_dict(online_features_dict)
+model.predict(predict_df)
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+Feature stores work because they decouple feature engineering from feature usage,
+allowing feature development and creation to occur independently from the con‐
+sumption of features during model development. As features are added to the feature
+store, they become available immediately for both training and serving and are stored
+in a single location. This ensures consistency between model training and serving.
+For example, a model served as a customer-facing application may receive only 10
+input values from a client, but those 10 inputs may need to be transformed into many
+more features via feature engineering before being sent to a model. Those engineered
+features are maintained within the feature store. It is crucial that the pipeline for
+retrieving features during development is the same as when serving the model. A fea‐
+ture store ensures that consistency (Figure 6-16).
+Feast accomplishes this by using Beam on the backend for feature ingestion pipelines
+that write feature values into the feature sets, and uses Redis and BigQuery for online
+6-17).8
+and offline (respectively) feature retrieval (Figure As with any feature store,
+the ingestion pipeline also handles partial failure or race conditions that might cause
+some data to be in one storage but not the other.
+8 SeetheGojekblog,“Feast:BridgingMLModelsandData.”

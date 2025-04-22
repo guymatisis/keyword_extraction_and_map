@@ -1,0 +1,35 @@
+We can tell Pandas about a suitable ordering of these levels like so:
+sizes = 'Large','Large / Medium','Medium','Small','Mini','Compact'
+df['ProductSize'] = df['ProductSize'].astype('category')
+df['ProductSize'].cat.set_categories(sizes, ordered=True, inplace=True)
+The most important data column is the dependent variable—the one we want to pre‐
+dict. Recall that a model’s metric is a function that reflects how good the predictions
+are. It’s important to note what metric is being used for a project. Generally, selecting
+the metric is an important part of the project setup. In many cases, choosing a good
+metric will require more than just selecting a variable that already exists. It is more
+like a design process. You should think carefully about which metric, or set of metric,
+actually measures the notion of model quality that matters to you. If no variable rep‐
+resents that metric, you should see if you can build the metric from the variables that
+are available.
+However, in this case, Kaggle tells us what metric to use: the root mean squared log
+error (RMLSE) between the actual and predicted auction prices. We need do only a
+small amount of processing to use this: we take the log of the prices, so that the
+m_rmse of that value will give us what we ultimately need:
+dep_var = 'SalePrice'
+df[dep_var] = np.log(df[dep_var])
+We are now ready to explore our first machine learning algorithm for tabular data:
+decision trees.
+<header><largefont><b>Decision</b></largefont> <largefont><b>Trees</b></largefont></header>
+Decision tree ensembles, as the name suggests, rely on decision trees. So let’s start
+there! A decision tree asks a series of binary (yes or no) questions about the data.
+After each question, the data at that part of the tree is split between a Yes and a No
+branch, as shown in Figure 9-6. After one or more questions, either a prediction can
+be made on the basis of all previous answers or another question is required.
+This sequence of questions is now a procedure for taking any data item, whether an
+item from the training set or a new one, and assigning that item to a group. Namely,
+after asking and answering the questions, we can say the item belongs to the same
+group as all the other training data items that yielded the same set of answers to the
+questions. But what good is this? The goal of our model is to predict values for items,
+not to assign them into groups from the training dataset. The value is that we can
+now assign a prediction value for each of these groups—for regression, we take the
+target mean of the items in the group.

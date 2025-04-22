@@ -1,0 +1,27 @@
+<i>Figure</i> <i>11-9.</i> <i>With</i> <i>dropout</i> <i>regularization,</i> <i>at</i> <i>each</i> <i>training</i> <i>iteration</i> <i>a</i> <i>random</i> <i>subset</i> <i>of</i>
+<i>all</i> <i>neurons</i> <i>in</i> <i>one</i> <i>or</i> <i>more</i> <i>layers—except</i> <i>the</i> <i>output</i> <i>layer—are</i> <i>“dropped</i> <i>out”;</i> <i>these</i>
+<i>neurons</i> <i>output</i> <i>0</i> <i>at</i> <i>this</i> <i>iteration</i> <i>(represented</i> <i>by</i> <i>the</i> <i>dashed</i> <i>arrows)</i>
+It’s surprising at first that this destructive technique works at all. Would a company
+perform better if its employees were told to toss a coin every morning to decide
+whether or not to go to work? Well, who knows; perhaps it would! The company
+would be forced to adapt its organization; it could not rely on any single person to
+work the coffee machine or perform any other critical tasks, so this expertise would
+have to be spread across several people. Employees would have to learn to cooperate
+with many of their coworkers, not just a handful of them. The company would
+become much more resilient. If one person quit, it wouldn’t make much of a differ‐
+ence. It’s unclear whether this idea would actually work for companies, but it certainly
+does for neural networks. Neurons trained with dropout cannot co-adapt with their
+neighboring neurons; they have to be as useful as possible on their own. They also
+cannot rely excessively on just a few input neurons; they must pay attention to each of
+their input neurons. They end up being less sensitive to slight changes in the inputs.
+In the end, you get a more robust network that generalizes better.
+Another way to understand the power of dropout is to realize that a unique neural
+network is generated at each training step. Since each neuron can be either present or
+<i>N</i>
+absent, there are a total of 2 possible networks (where <i>N</i> is the total number of drop‐
+pable neurons). This is such a huge number that it is virtually impossible for the same
+neural network to be sampled twice. Once you have run 10,000 training steps, you
+have essentially trained 10,000 different neural networks (each with just one training
+instance). These neural networks are obviously not independent because they share
+many of their weights, but they are nevertheless all different. The resulting neural
+network can be seen as an averaging ensemble of all these smaller neural networks.

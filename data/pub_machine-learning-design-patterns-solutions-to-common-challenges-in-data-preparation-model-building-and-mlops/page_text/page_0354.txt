@@ -1,0 +1,37 @@
+The What-If Tool is model agnostic and can be used for any type
+of model regardless of architecture or framework. It works with
+models loaded within a notebook or in TensorBoard, models
+served via TensorFlow Serving, and models deployed to Cloud AI
+Platform Prediction. The What-If Tool team also created a tool for
+text-based models called the Language Interpretability Tool (LIT).
+Another important consideration for post-training evaluation is testing our model on
+a balanced set of examples. If there are particular slices of our data that we anticipate
+will be problematic for our model—like inputs that could be affected by data collec‐
+tion or representation bias—we should ensure our test set includes enough of these
+cases. After splitting our data, we’ll use the same type of analysis we employed in the
+“Before training” part of this section on <i>each</i> split of our data: training, validation,
+and test.
+As seen from this analysis, there is no one-size-fits-all solution or evaluation metric
+for model fairness. It is a continuous, iterative process that should be employed
+throughout an ML workflow—from data collection to deployed model.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+There are many ways to approach model fairness in addition to the pre- and post-
+training techniques discussed in the Solution section. Here, we’ll introduce a few
+alternative tools and processes for achieving fair models. ML fairness is a rapidly
+evolving area of research—the tools included in this section aren’t meant to provide
+an exhaustive list, but rather a few techniques and tools currently available for
+improving model fairness. We’ll also discuss the differences between the Fairness
+Lens and Explainable Predictions design patterns, as they are related and often used
+together.
+<b>FairnessIndicators</b>
+Fairness Indicators (FI) are a suite of open source tools designed to help in under‐
+standing a dataset’s distribution before training, and evaluating model performance
+using fairness metrics. The tools included in FI are TensorFlow Data Validation
+(TFDV) and TensorFlow Model Analysis (TFMA). Fairness Indicators are most often
+used as components in TFX pipelines (see “Design Pattern 25: Workflow Pipeline”
+on page 282 in Chapter 6 for more details) or via TensorBoard. With TFX, there are
+two pre-built components that utilize Fairness Indicator tools:
+• ExampleValidator for data analysis, detecting drift, and training–serving skew
+with TFDV.
+• Evaluator uses the TFMA library to evaluate a model across subsets of a dataset.
+An example of an interactive visualization generated from TFMA is shown in

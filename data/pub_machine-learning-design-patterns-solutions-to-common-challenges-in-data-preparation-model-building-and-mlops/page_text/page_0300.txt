@@ -1,0 +1,37 @@
+The four steps are as follows:
+1. Create a FeatureSet . The feature set specifies the entities, features, and source.
+2. Add entities and features to the FeatureSet .
+FeatureSet
+3. Register the . This creates a named feature set within Feast. The fea‐
+ture set contains no feature data.
+FeatureSet
+4. Load feature data into the .
+A notebook with the full code for this example can be found in the repository accom‐
+panying this book.
+<b>CreatingaFeatureSet.</b>
+We connect to a Feast deployment by setting up a client with
+the Python SDK:
+<b>from</b> <b>feast</b> <b>import</b> Client, FeatureSet, Entity, ValueType
+<i>#</i> <i>Connect</i> <i>to</i> <i>an</i> <i>existing</i> <i>Feast</i> <i>deployment</i>
+client = Client(core_url='localhost:6565')
+We can check that the client is connected by printing the existing feature sets with
+client.list_feature_sets()
+the command . If this is a new deployment, this will
+return an empty list. To create a new feature set, call the class FeatureSet and specify
+the feature set’s name:
+<i>#</i> <i>Create</i> <i>a</i> <i>feature</i> <i>set</i>
+taxi_fs = FeatureSet("taxi_rides")
+<b>AddingentitiesandfeaturestotheFeatureSet.</b> In the context of Feast, FeatureSets
+consist of entities and features. Entities are used as keys to look up feature values and
+are used to join features between different feature sets when creating datasets for
+training or serving. The entity serves as an identifier for whatever relevant character‐
+istic you have in the dataset. It is an object that can be modeled and store informa‐
+tion. In the context of a ride-hailing or food delivery service, a relevant entity could
+customer_id, order_id, driver_id, restaurant_id.
+be or In the context of a churn
+model, an entity could be a customer_id or segment_id . Here, the entity is the
+taxi_id
+, a unique identifier for the taxi vendor of each trip.
+At this stage, the feature set we created called taxi_rides contains no entities or fea‐
+tures. We can use the Feast core client to specify these from a pandas dataframe that
+contains the raw data inputs and entities as shown in Table 6-2.

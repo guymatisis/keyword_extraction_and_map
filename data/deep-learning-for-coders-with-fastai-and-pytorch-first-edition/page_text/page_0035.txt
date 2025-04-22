@@ -1,0 +1,13 @@
+<i>Figure</i> <i>1-11.</i> <i>Activations</i> <i>of</i> <i>the</i> <i>second</i> <i>layer</i> <i>of</i> <i>a</i> <i>CNN</i> <i>(courtesy</i> <i>of</i> <i>Matthew</i> <i>D.</i> <i>Zeiler</i>
+<i>and</i> <i>Rob</i> <i>Fergus)</i>
+For layer 2, there are nine examples of weight reconstructions for each of the features
+found by the model. We can see that the model has learned to create feature detectors
+that look for corners, repeating lines, circles, and other simple patterns. These are
+built from the basic building blocks developed in the first layer. For each of these, the
+righthand side of the picture shows small patches from actual images that these fea‐
+tures most closely match. For instance, the particular pattern in row 2, column 1
+matches the gradients and textures associated with sunsets.
+Figure 1-12 shows the image from the paper showing the results of reconstructing the
+features of layer 3.
+<i>Figure</i> <i>1-12.</i> <i>Activations</i> <i>of</i> <i>the</i> <i>third</i> <i>layer</i> <i>of</i> <i>a</i> <i>CNN</i> <i>(courtesy</i> <i>of</i> <i>Matthew</i> <i>D.</i> <i>Zeiler</i> <i>and</i>
+<i>Rob</i> <i>Fergus)</i>

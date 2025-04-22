@@ -1,0 +1,24 @@
+data. In this case you can use few-shot learning or use the embeddings from a
+pretrained language model to perform lookups with a nearest neighbor search.
+In this chapter we’ll work our way through this decision tree by tackling a common
+problem facing many support teams that use issue trackers like Jira or GitHub to
+assist their users: tagging issues with metadata based on the issue’s description. These
+tags might define the issue type, the product causing the problem, or which team is
+responsible for handling the reported issue. Automating this process can have a big
+impact on productivity and enables the support teams to focus on helping their users.
+As a running example, we’ll use the GitHub issues associated with a popular open
+source project: Transformers! Let’s now take a look at what information is con‐
+tained in these issues, how to frame the task, and how to get the data.
+The methods presented in this chapter work well for text classifica‐
+tion, but other techniques such as data augmentation may be nec‐
+essary for tackling more complex tasks like named entity
+recognition, question answering, or summarization.
+<header><largefont><b>Building</b></largefont> <largefont><b>a</b></largefont> <largefont><b>GitHub</b></largefont> <largefont><b>Issues</b></largefont> <largefont><b>Tagger</b></largefont></header>
+If you navigate to the Issues tab of the Transformers repository, you’ll find issues
+like the one shown in Figure 9-2, which contains a title, a description, and a set of
+tags or labels that characterize the issue. This suggests a natural way to frame the
+supervised learning task: given a title and description of an issue, predict one or more
+labels. Since each issue can be assigned a variable number of labels, this means we are
+dealing with a <i>multilabel</i> <i>text</i> <i>classification</i> problem. This is usually more challenging
+than the multiclass problem that we encountered in Chapter 2, where each tweet was
+assigned to only one emotion.

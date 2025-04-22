@@ -1,0 +1,23 @@
+shifted by one and two pixels to the right. As you can see, the outputs of the max
+pooling layer for images A and B are identical. This is what translation invariance
+means. For image C, the output is different: it is shifted one pixel to the right (but
+there is still 75% invariance). By inserting a max pooling layer every few layers in a
+CNN, it is possible to get some level of translation invariance at a larger scale. More‐
+over, max pooling offers a small amount of rotational invariance and a slight scale
+invariance. Such invariance (even if it is limited) can be useful in cases where the pre‐
+diction should not depend on these details, such as in classification tasks.
+<i>Figure</i> <i>14-9.</i> <i>Invariance</i> <i>to</i> <i>small</i> <i>translations</i>
+However, max pooling has some downsides too. Firstly, it is obviously very destruc‐
+tive: even with a tiny 2 × 2 kernel and a stride of 2, the output will be two times
+smaller in both directions (so its area will be four times smaller), simply dropping
+75% of the input values. And in some applications, invariance is not desirable. Take
+semantic segmentation (the task of classifying each pixel in an image according to the
+object that pixel belongs to, which we’ll explore later in this chapter): obviously, if the
+input image is translated by one pixel to the right, the output should also be trans‐
+lated by one pixel to the right. The goal in this case is <i>equivariance,</i> not invariance: a
+small change to the inputs should lead to a corresponding small change in the output.
+<header><largefont><b>TensorFlow</b></largefont> <largefont><b>Implementation</b></largefont></header>
+Implementing a max pooling layer in TensorFlow is quite easy. The following code
+creates a max pooling layer using a 2 × 2 kernel. The strides default to the kernel size,
+so this layer will use a stride of 2 (both horizontally and vertically). By default, it uses
+"valid" padding (i.e., no padding at all):

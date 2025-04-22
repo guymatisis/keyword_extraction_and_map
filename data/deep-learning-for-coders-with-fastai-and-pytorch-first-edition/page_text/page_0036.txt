@@ -1,0 +1,20 @@
+As you can see by looking at the righthand side of this picture, the features are now
+able to identify and match with higher-level semantic components, such as car
+wheels, text, and flower petals. Using these components, layers 4 and 5 can identify
+even higher-level concepts, as shown in Figure 1-13.
+<i>Figure</i> <i>1-13.</i> <i>Activations</i> <i>of</i> <i>the</i> <i>fourth</i> <i>and</i> <i>fifth</i> <i>layers</i> <i>of</i> <i>a</i> <i>CNN</i> <i>(courtesy</i> <i>of</i> <i>Matthew</i> <i>D.</i>
+<i>Zeiler</i> <i>and</i> <i>Rob</i> <i>Fergus)</i>
+This article was studying an older model called <i>AlexNet</i> that contained only five lay‐
+ers. Networks developed since then can have hundreds of layers—so you can imagine
+how rich the features developed by these models can be!
+When we fine-tuned our pretrained model earlier, we adapted what those last layers
+focus on (flowers, humans, animals) to specialize on the cats versus dogs problem.
+More generally, we could specialize such a pretrained model on many different tasks.
+Let’s have a look at some examples.
+<header><largefont><b>Image</b></largefont> <largefont><b>Recognizers</b></largefont> <largefont><b>Can</b></largefont> <largefont><b>Tackle</b></largefont> <largefont><b>Non-Image</b></largefont> <largefont><b>Tasks</b></largefont></header>
+An image recognizer can, as its name suggests, only recognize images. But a lot of
+things can be represented as images, which means that an image recognizer can learn
+to complete many tasks.
+For instance, a sound can be converted to a spectrogram, which is a chart that shows
+the amount of each frequency at each time in an audio file. Fast.ai student Ethan
+Sutin used this approach to easily beat the published accuracy of a state-of-the-art

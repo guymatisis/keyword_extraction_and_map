@@ -1,0 +1,37 @@
+tags = panx_ch["de"]["train"].features["ner_tags"].feature
+<b>print(tags)</b>
+ClassLabel(num_classes=7, names=['O', 'B-PER', 'I-PER', 'B-ORG', 'I-ORG',
+'B-LOC', 'I-LOC'], names_file=None, id=None)
+We can use the ClassLabel.int2str() method that we encountered in Chapter 2 to
+create a new column in our training set with class names for each tag. We’ll use the
+map() method to return a dict with the key corresponding to the new column name
+and the value as a list of class names:
+<b>def</b> create_tag_names(batch):
+<b>return</b> {"ner_tags_str": [tags.int2str(idx) <b>for</b> idx <b>in</b> batch["ner_tags"]]}
+panx_de = panx_ch["de"].map(create_tag_names)
+Now that we have our tags in human-readable format, let’s see how the tokens and
+tags align for the first example in the training set:
+de_example = panx_de["train"][0]
+pd.DataFrame([de_example["tokens"], de_example["ner_tags_str"]],
+['Tokens', 'Tags'])
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b> <b>6</b> <b>7</b> <b>8</b> <b>9</b> <b>10</b> <b>11</b>
+<b>Tokens</b> 2.000 Einwohnern an der Danziger Bucht in der polnischen Woiwodschaft Pommern .
+<b>Tags</b> O O O O B-LOC I-LOC O O B-LOC B-LOC I-LOC O
+The presence of the LOC tags make sense since the sentence “2,000 Einwohnern an der
+Danziger Bucht in der polnischen Woiwodschaft Pommern” means “2,000 inhabi‐
+tants at the Gdansk Bay in the Polish voivodeship of Pomerania” in English, and
+Gdansk Bay is a bay in the Baltic sea, while “voivodeship” corresponds to a state in
+Poland.
+As a quick check that we don’t have any unusual imbalance in the tags, let’s calculate
+the frequencies of each entity across each split:
+<b>from</b> <b>collections</b> <b>import</b> Counter
+split2freqs = defaultdict(Counter)
+<b>for</b> split, dataset <b>in</b> panx_de.items():
+<b>for</b> row <b>in</b> dataset["ner_tags_str"]:
+<b>for</b> tag <b>in</b> row:
+<b>if</b> tag.startswith("B"):
+tag_type = tag.split("-")[1]
+split2freqs[split][tag_type] += 1
+pd.DataFrame.from_dict(split2freqs, orient="index")
+<b>ORG</b> <b>LOC</b> <b>PER</b>
+<b>validation</b> 2683 3172 2893

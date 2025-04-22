@@ -1,0 +1,38 @@
+<header><largefont><b>Choosing</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Good</b></largefont> <largefont><b>Student</b></largefont> <largefont><b>Initialization</b></largefont></header>
+Now that we have our custom trainer, the first question you might have is which pre‐
+trained language model should we pick for the student? In general we should pick a
+smaller model for the student to reduce the latency and memory footprint. A good
+rule of thumb from the literature is that knowledge distillation works best when the
+teacher and student are of the same <i>model</i> <i>type.</i> 9 One possible reason for this is that
+different model types, say BERT and RoBERTa, can have different output embedding
+spaces, which hinders the ability of the student to mimic the teacher. In our case
+study the teacher is BERT, so DistilBERT is a natural candidate to initialize the stu‐
+dent with since it has 40% fewer parameters and has been shown to achieve strong
+results on downstream tasks.
+First we’ll need to tokenize and encode our queries, so let’s instantiate the tokenizer
+from DistilBERT and create a simple tokenize_text() function to take care of the
+preprocessing:
+<b>from</b> <b>transformers</b> <b>import</b> AutoTokenizer
+student_ckpt = "distilbert-base-uncased"
+student_tokenizer = AutoTokenizer.from_pretrained(student_ckpt)
+<b>def</b> tokenize_text(batch):
+<b>return</b> student_tokenizer(batch["text"], truncation=True)
+clinc_enc = clinc.map(tokenize_text, batched=True, remove_columns=["text"])
+clinc_enc = clinc_enc.rename_column("intent", "labels")
+text
+Here we’ve removed the column since we no longer need it, and we’ve also
+renamed the intent column to labels so it can be automatically detected by the
+trainer.10
+Now that we’ve processed our texts, the next thing we need to do is define the hyper‐
+compute_metrics() DistillationTrainer
+parameters and function for our . We’ll
+also push all of our models to the Hugging Face Hub, so let’s start by logging in to our
+account:
+<b>from</b> <b>huggingface_hub</b> <b>import</b> notebook_login
+notebook_login()
+Y.KimandH.Awadalla,“FastFormers:HighlyEfficientTransformerModelsforNaturalLanguageUnder‐
+9
+standing”,(2020).
+10 Bydefault,theTrainerlooksforacolumncalledlabelswhenfine-tuningonclassificationtasks.Youcan
+label_names TrainingArguments
+alsooverridethisbehaviorbyspecifyingthe argumentof .

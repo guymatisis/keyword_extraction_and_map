@@ -1,0 +1,14 @@
+We can see that anger and fear are most often confused with sadness , which agrees
+love
+with the observation we made when visualizing the embeddings. Also, and
+surprise are frequently mistaken for joy .
+In the next section we will explore the fine-tuning approach, which leads to superior
+classification performance. It is, however, important to note that doing this requires
+more computational resources, such as GPUs, that might not be available in your
+organization. In cases like these, a feature-based approach can be a good compromise
+between doing traditional machine learning and deep learning.
+<header><largefont><b>Fine-Tuning</b></largefont> <largefont><b>Transformers</b></largefont></header>
+Let’s now explore what it takes to fine-tune a transformer end-to-end. With the fine-
+tuning approach we do not use the hidden states as fixed features, but instead train
+them as shown in Figure 2-6. This requires the classification head to be differentiable,
+which is why this method usually uses a neural network for classification.

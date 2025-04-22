@@ -1,0 +1,21 @@
+TFPyEnvironment
+Python code). Thanks to the class, TF-Agents supports both pure
+Python environments and TensorFlow-based environments. More generally, TF-
+Agents supports and provides both pure Python and TensorFlow-based components
+(agents, replay buffers, metrics, and so on).
+Now that we have a nice Breakout environment, with all the appropriate preprocess‐
+ing and TensorFlow support, we must create the DQN agent and the other compo‐
+nents we will need to train it. Let’s look at the architecture of the system we will build.
+<header><largefont><b>Training</b></largefont> <largefont><b>Architecture</b></largefont></header>
+A TF-Agents training program is usually split into two parts that run in parallel, as
+you can see in Figure 18-13: on the left, a <i>driver</i> explores the <i>environment</i> using a
+<i>collect</i> <i>policy</i> to choose actions, and it collects <i>trajectories</i> (i.e., experiences), sending
+them to an <i>observer,</i> which saves them to a <i>replay</i> <i>buffer;</i> on the right, an <i>agent</i> pulls
+batches of trajectories from the replay buffer and trains some <i>networks,</i> which the col‐
+lect policy uses. In short, the left part explores the environment and collects trajecto‐
+ries, while the right part learns and updates the collect policy.
+<i>Figure</i> <i>18-13.</i> <i>A</i> <i>typical</i> <i>TF-Agents</i> <i>training</i> <i>architecture</i>
+This figure begs a few questions, which I’ll attempt to answer here:
+• Why are there multiple environments? Instead of exploring a single environ‐
+ment, you generally want the driver to explore multiple copies of the environ‐
+ment in parallel, taking advantage of the power of all your CPU cores, keeping

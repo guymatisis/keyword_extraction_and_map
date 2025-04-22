@@ -1,0 +1,22 @@
+As we will discuss shortly, in addition, the vast majority of AI researchers and devel‐
+opers are young white men. Most projects that we have seen do most user testing
+using friends and families of the immediate product development group. Given this,
+the kinds of problems we just discussed should not be surprising.
+Similar historical bias is found in the texts used as data for natural language process‐
+ing models. This crops up in downstream machine learning tasks in many ways. For
+instance, it was widely reported that until last year, Google Translate showed system‐
+atic bias in how it translated the Turkish gender-neutral pronoun “o” into English:
+when applied to jobs that are often associated with males, it used “he,” and when
+applied to jobs that are often associated with females, it used “she” (Figure 3-13).
+<i>Figure</i> <i>3-13.</i> <i>Gender</i> <i>bias</i> <i>in</i> <i>text</i> <i>datasets</i>
+We also see this kind of bias in online advertisements. For instance, a study in 2019
+by Muhammad Ali et al. found that even when the person placing the ad does not
+intentionally discriminate, Facebook will show ads to very different audiences based
+on race and gender. Housing ads with the same text but picturing either a white or a
+Black family were shown to racially different audiences.
+<b>Measurementbias</b>
+In “Does Machine Learning Automate Moral Hazard and Error” in <i>American</i> <i>Eco‐</i>
+<i>nomic</i> <i>Review,</i> Sendhil Mullainathan and Ziad Obermeyer look at a model that tries
+to answer this question: using historical electronic health record (EHR) data, what
+factors are most predictive of stroke? These are the top predictors from the model:
+• Prior stroke

@@ -1,0 +1,24 @@
+<i>Figure</i> <i>19-21.</i> <i>TensorFlow</i> <i>cluster</i>
+In general there will be a single task per machine, but as this example shows, you can
+configure multiple tasks on the same machine if you want (if they share the same
+GPUs, make sure the RAM is split appropriately, as discussed earlier).
+By default, every task in the cluster may communicate with every
+other task, so make sure to configure your firewall to authorize all
+communications between these machines on these ports (it’s usu‐
+ally simpler if you use the same port on every machine).
+When you start a task, you must give it the cluster spec, and you must also tell it what
+its type and index are (e.g., worker 0). The simplest way to specify everything at once
+(both the cluster spec and the current task’s type and index) is to set the TF_CONFIG
+environment variable before starting TensorFlow. It must be a JSON-encoded dictio‐
+"cluster"
+nary containing a cluster specification (under the key) and the type and
+index of the current task (under the "task" key). For example, the following TF_CON
+FIG
+environment variable uses the cluster we just defined and specifies that the task
+to start is the first worker:
+<b>import</b> <b>os</b>
+<b>import</b> <b>json</b>
+os.environ["TF_CONFIG"] = json.dumps({
+"cluster": cluster_spec,
+"task": {"type": "worker", "index": 0}
+})

@@ -1,0 +1,38 @@
+methods if you’re not familiar with them, since they’re commonly used in many
+Python libraries and applications; we’ve used them a few times previously in the
+book, but haven’t called attention to them.) The reason that TextBlock is special is
+that setting up the numericalizer’s vocab can take a long time (we have to read and
+tokenize every document to get the vocab).
+To be as efficient as possible, fastai performs a few optimizations:
+• It saves the tokenized documents in a temporary folder, so it doesn’t have to
+tokenize them more than once.
+• It runs multiple tokenization processes in parallel, to take advantage of your
+computer’s CPUs.
+We need to tell TextBlock how to access the texts, so that it can do this initial prepro‐
+cessing—that’s what from_folder does.
+show_batch then works in the usual way:
+dls_lm.show_batch(max_n=2)
+<b>text</b> <b>text_</b>
+<b>0</b>
+xxbosxxmajit’sawesome!xxmajinxxmajstoryxxmaj xxmajit’sawesome!xxmajinxxmajstoryxxmajmode,
+mode,yourgoingfrompunktopro.xxmajyouhaveto yourgoingfrompunktopro.xxmajyouhavetocomplete
+completegoalsthatinvolveskating,driving,and goalsthatinvolveskating,driving,andwalking.xxmaj
+walking.xxmajyoucreateyourownskaterandgiveita youcreateyourownskaterandgiveitaname,andyou
+name,andyoucanmakeitlookstupidorrealistic.xxmaj canmakeitlookstupidorrealistic.xxmajyouarewith
+youarewithyourfriendxxmajericthroughoutthegame yourfriendxxmajericthroughoutthegameuntilhe
+untilhebetraysyouandgetsyoukickedoffofthe betraysyouandgetsyoukickedoffoftheskateboard
+skateboard xxunk
+<b>1</b> whatxxmaji‘veread,xxmajdeathxxmajbedisbasedon xxmaji‘veread,xxmajdeathxxmajbedisbasedonan
+anactualdream,xxmajgeorgexxmajbarry,thedirector, actualdream,xxmajgeorgexxmajbarry,thedirector,
+successfullytransferreddreamtofilm,onlyageniuscould successfullytransferreddreamtofilm,onlyageniuscould
+accomplishsuchatask.\n\nxxmajoldmansionsmakefor accomplishsuchatask.\n\nxxmajoldmansionsmakefor
+goodqualityhorror,asdoportraits,notsurewhatto goodqualityhorror,asdoportraits,notsurewhatto
+makeofthekillerbedwithitskilleryellowliquid,quitea makeofthekillerbedwithitskilleryellowliquid,quitea
+bizarredream,indeed.xxmajalso,this bizarredream,indeed.xxmajalso,thisis
+Now that our data is ready, we can fine-tune the pretrained language model.
+<header><largefont><b>Fine-Tuning</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Language</b></largefont> <largefont><b>Model</b></largefont></header>
+To convert the integer word indices into activations that we can use for our neural
+network, we will use embeddings, just as we did for collaborative filtering and tabular
+modeling. Then we’ll feed those embeddings into a <i>recurrent</i> <i>neural</i> <i>network</i> (RNN),
+using an architecture called <i>AWD-LSTM</i> (we will show you how to write such a
+model from scratch in Chapter 12). As we discussed earlier, the embeddings in the

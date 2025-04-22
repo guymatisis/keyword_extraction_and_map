@@ -1,0 +1,28 @@
+bears = bears.new(item_tfms=Resize(128, ResizeMethod.Pad, pad_mode='zeros'))
+dls = bears.dataloaders(path)
+dls.valid.show_batch(max_n=4, nrows=1)
+All of these approaches seem somewhat wasteful or problematic. If we squish or
+stretch the images, they end up as unrealistic shapes, leading to a model that learns
+that things look different from how they actually are, which we would expect to result
+in lower accuracy. If we crop the images, we remove some of the features that allow us
+to perform recognition. For instance, if we were trying to recognize breeds of dog or
+cat, we might end up cropping out a key part of the body or the face necessary to
+distinguish between similar breeds. If we pad the images, we have a whole lot of
+empty space, which is just wasted computation for our model and results in a lower
+effective resolution for the part of the image we actually use.
+Instead, what we normally do in practice is to randomly select part of the image and
+then crop to just that part. On each epoch (which is one complete pass through all of
+our images in the dataset), we randomly select a different part of each image. This
+means that our model can learn to focus on, and recognize, different features in our
+images. It also reflects how images work in the real world: different photos of the
+same thing may be framed in slightly different ways.
+In fact, an entirely untrained neural network knows nothing whatsoever about how
+images behave. It doesn’t even recognize that when an object is rotated by one degree,
+it still is a picture of the same thing! So training the neural network with examples of
+images in which the objects are in slightly different places and are slightly different
+sizes helps it to understand the basic concept of what an object is, and how it can be
+represented in an image.
+Here is another example where we replace Resize with RandomResizedCrop , which is
+the transform that provides the behavior just described. The most important parame‐
+ter to pass in is min_scale , which determines how much of the image to select at
+minimum each time:

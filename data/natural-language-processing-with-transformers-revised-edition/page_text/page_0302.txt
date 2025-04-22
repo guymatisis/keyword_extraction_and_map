@@ -1,0 +1,42 @@
+novels in BookCorpus is probably acceptable if the model is intended to be used as a
+romance novel writing tool or for a building a game.
+Let’s illustrate the notion of a model being skewed by the data by comparing text gen‐
+erations from GPT and GPT-2. GPT was mostly trained on BookCorpus, while
+GPT-2 was trained on web pages, blogs, and news articles linked from Reddit. We’ll
+compare similar-sized versions of both models on the same prompt, so that the main
+difference is the pretraining dataset, and we’ll use the text-generation pipeline to
+investigate the model outputs:
+<b>from</b> <b>transformers</b> <b>import</b> pipeline, set_seed
+generation_gpt = pipeline("text-generation", model="openai-gpt")
+generation_gpt2 = pipeline("text-generation", model="gpt2")
+Next, let’s create a simple function to count the number of parameters in each model:
+<b>def</b> model_size(model):
+<b>return</b> sum(t.numel() <b>for</b> t <b>in</b> model.parameters())
+<b>print(f"GPT</b> size: {model_size(generation_gpt.model)/1000**2:.1f}M parameters")
+<b>print(f"GPT2</b> size: {model_size(generation_gpt2.model)/1000**2:.1f}M parameters")
+GPT size: 116.5M parameters
+GPT2 size: 124.4M parameters
+The original GPT model is about the same size as the smallest GPT-2 model. Now we
+can generate three different completions from each model, each with the same input
+prompt:
+<b>def</b> enum_pipeline_ouputs(pipe, prompt, num_return_sequences):
+out = pipe(prompt, num_return_sequences=num_return_sequences,
+clean_up_tokenization_spaces=True)
+<b>return</b> "\n".join(f"{i+1}." + s["generated_text"] <b>for</b> i, s <b>in</b> enumerate(out))
+prompt = "\nWhen they came back"
+<b>print("GPT</b> completions:\n" + enum_pipeline_ouputs(generation_gpt, prompt, 3))
+<b>print("")</b>
+<b>print("GPT-2</b> completions:\n" + enum_pipeline_ouputs(generation_gpt2, prompt, 3))
+GPT completions:
+1.
+When they came back.
+" we need all we can get, " jason said once they had settled into the back of
+the truck without anyone stopping them. " after getting out here, it 'll be up
+to us what to find. for now
+2.
+When they came back.
+his gaze swept over her body. he 'd dressed her, too, in the borrowed clothes
+that she 'd worn for the journey.
+" i thought it would be easier to just leave you there. " a woman like
+3.
+When they came back to the house and she was sitting there with the little boy.

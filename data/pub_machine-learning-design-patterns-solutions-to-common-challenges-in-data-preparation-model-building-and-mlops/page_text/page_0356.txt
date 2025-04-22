@@ -1,0 +1,39 @@
+<b>Allowanddisallowlists</b>
+When we can’t find a way to fix inherent bias in our data or model directly, it’s possi‐
+ble to hardcode rules on top of our production model using allow and disallow lists.
+This applies mostly to classification or generative models, when there are labels or
+words we don’t want our model to return. As an example, gendered words such as
+“man” and “woman” were removed from Google Cloud Vision API’s label detection
+feature. Because gender cannot be determined by appearance alone, it would have
+reinforced unfair biases to return these labels when the model’s prediction is based
+solely on visual features. Instead, the Vision API returns “person.” Similarly, the
+Smart Compose feature in Gmail avoids the use of gendered pronouns when com‐
+pleting sentences such as “I am meeting an investor next week. Do you want to meet
+___?”
+These allow and disallow lists can be applied in one of two phases in an ML
+workflow:
+<i>Data</i> <i>collection</i>
+When training a model from scratch or using the Transfer Learning design pat‐
+tern to add our own classification layer, we can define our model’s label set in the
+data collection phase, before a model has been trained.
+<i>After</i> <i>training</i>
+If we’re relying on a pre-trained model for predictions, and are using the same
+labels from that model, an allow and disallow list can be implemented in produc‐
+tion—after the model returns a prediction but before those labels are surfaced to
+end users. This could also apply to text generation models, where we don’t have
+complete control of all possible model outputs.
+<b>Dataaugmentation</b>
+In addition to the data distribution and representation solutions discussed earlier,
+another approach to minimizing model bias is to perform data <i>augmentation.</i> Using
+this approach, data is changed before training with the goal of removing potential
+sources of bias. One specific type of data augmentation is known as ablation, and is
+especially applicable in text models. In a text sentiment analysis model, for example,
+we could remove identity terms from text to ensure they don’t influence our model’s
+predictions. Building on the ice cream example we used earlier in this section, the
+sentence “Mint chip is their best ice cream flavor” would become “BLANK is their
+best ice cream flavor” after applying ablation. We’d then replace all other words
+throughout the dataset that we didn’t want to influence the model’s sentiment predic‐
+tion with the same word (we used BLANK here, but anything not present in the rest
+of the text data will work). Note that while this ablation technique works well for
+many text models, it’s important to be careful when removing areas of bias from tab‐
+ular datasets, as mentioned in the Problem section.

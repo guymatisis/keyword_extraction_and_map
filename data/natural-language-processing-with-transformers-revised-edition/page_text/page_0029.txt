@@ -1,0 +1,39 @@
+From the plot we see that for each emotion, most tweets are around 15 words long
+and the longest tweets are well below DistilBERT’s maximum context size. Texts that
+are longer than a model’s context size need to be truncated, which can lead to a loss in
+performance if the truncated text contains crucial information; in this case, it looks
+like that won’t be an issue.
+Let’s now figure out how we can convert these raw texts into a format suitable for
+Transformers! While we’re at it, let’s also reset the output format of our dataset
+since we don’t need the DataFrame format anymore:
+emotions.reset_format()
+<header><largefont><b>From</b></largefont> <largefont><b>Text</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Tokens</b></largefont></header>
+Transformer models like DistilBERT cannot receive raw strings as input; instead, they
+assume the text has been <i>tokenized</i> and <i>encoded</i> as numerical vectors. Tokenization is
+the step of breaking down a string into the atomic units used in the model. There are
+several tokenization strategies one can adopt, and the optimal splitting of words into
+subunits is usually learned from the corpus. Before looking at the tokenizer used for
+DistilBERT, let’s consider two extreme cases: <i>character</i> and <i>word</i> tokenization.
+<header><largefont><b>Character</b></largefont> <largefont><b>Tokenization</b></largefont></header>
+The simplest tokenization scheme is to feed each character individually to the model.
+str
+In Python, objects are really arrays under the hood, which allows us to quickly
+implement character-level tokenization with just one line of code:
+text = "Tokenizing text is a core task of NLP."
+tokenized_text = list(text)
+<b>print(tokenized_text)</b>
+['T', 'o', 'k', 'e', 'n', 'i', 'z', 'i', 'n', 'g', ' ', 't', 'e', 'x', 't', ' ',
+'i', 's', ' ', 'a', ' ', 'c', 'o', 'r', 'e', ' ', 't', 'a', 's', 'k', ' ', 'o',
+'f', ' ', 'N', 'L', 'P', '.']
+This is a good start, but we’re not done yet. Our model expects each character to be
+converted to an integer, a process sometimes called <i>numericalization.</i> One simple way
+to do this is by encoding each unique token (which are characters in this case) with a
+unique integer:
+token2idx = {ch: idx <b>for</b> idx, ch <b>in</b> enumerate(sorted(set(tokenized_text)))}
+<b>print(token2idx)</b>
+{' ': 0, '.': 1, 'L': 2, 'N': 3, 'P': 4, 'T': 5, 'a': 6, 'c': 7, 'e': 8, 'f': 9,
+'g': 10, 'i': 11, 'k': 12, 'n': 13, 'o': 14, 'r': 15, 's': 16, 't': 17, 'x': 18,
+'z': 19}
+This gives us a mapping from each character in our vocabulary to a unique integer.
+token2idx
+We can now use to transform the tokenized text to a list of integers:

@@ -1,0 +1,38 @@
+" don't be afraid, " he told her. she nodded slowly, her eyes wide. she was so
+lost in whatever she discovered that tom knew her mistake
+GPT-2 completions:
+1.
+When they came back we had a big dinner and the other guys went to see what
+their opinion was on her. I did an hour and they were happy with it.
+2.
+When they came back to this island there had been another massacre, but he could
+not help but feel pity for the helpless victim who had been left to die, and
+that they had failed that day. And so was very, very grateful indeed.
+3.
+When they came back to our house after the morning, I asked if she was sure. She
+said, "Nope." The two kids were gone that morning. I thought they were back to
+being a good friend.
+When Dost
+By just sampling a handful of outputs from both models we can already see the dis‐
+tinctive “romance” skew in GPT generation, which will typically imagine a dialogue
+with a romantic interaction between a woman and a man. On the other hand, GPT-2
+was trained on webtext linked to and from Reddit articles and mostly adopts a neu‐
+tral “they” in its generations, which contain “blog-like” or adventure-related elements.
+In general, any model trained on a dataset will reflect the language bias and over- or
+underrepresentation of populations and events in its training data. These biases in the
+behavior of the model are important to take into consideration with regard to the tar‐
+get audience interacting with the model; for some useful guidelines, we refer you to a
+paper by Google that provides a framework for dataset development.3
+This brief introduction should give you an idea of the difficult challenges you face
+when creating large text corpora. With these in mind, let’s now take a look at creating
+our own dataset!
+<header><largefont><b>Building</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Custom</b></largefont> <largefont><b>Code</b></largefont> <largefont><b>Dataset</b></largefont></header>
+To simplify the task a bit, we’ll focus on building a code generation model for the
+Python programming language only.4 The first thing we’ll need is a large pretraining
+corpus consisting of Python source code. Fortunately, there is a natural resource that
+every software engineer knows: GitHub! The famous code-sharing website hosts
+terabytes of code repositories that are openly accessible and can be downloaded and
+used according to their respective licenses. At the time of this book’s writing, GitHub
+3 B.Hutchinsonetal.,“TowardsAccountabilityforMachineLearningDatasets:PracticesfromSoftwareEngi‐
+neeringandInfrastructure”,(2020).
+4 Bycomparison,GitHubCopilotsupportsoveradozenprogramminglanguages.

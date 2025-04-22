@@ -1,0 +1,39 @@
+So, here’s our commitment to you. Throughout this book, we follow these principles:
+<i>Teaching</i> <i>the</i> <i>whole</i> <i>game</i>
+We’ll start off by showing you how to use a complete, working, usable, state-of-
+the-art deep learning network to solve real-world problems using simple, expres‐
+sive tools. And then we’ll gradually dig deeper and deeper into understanding
+how those tools are made, and how the tools that make those tools are made, and
+so on…
+<i>Always</i> <i>teaching</i> <i>through</i> <i>examples</i>
+We’ll ensure that there is a context and a purpose that you can understand intui‐
+tively, rather than starting with algebraic symbol manipulation.
+<i>Simplifying</i> <i>as</i> <i>much</i> <i>as</i> <i>possible</i>
+We’ve spent years building tools and teaching methods that make previously
+complex topics simple.
+<i>Removing</i> <i>barriers</i>
+Deep learning has, until now, been an exclusive game. We’re breaking it open and
+ensuring that everyone can play.
+The hardest part of deep learning is artisanal: how do you know if you’ve got enough
+data, whether it is in the right format, if your model is training properly, and, if it’s
+not, what you should do about it? That is why we believe in learning by doing. As
+with basic data science skills, with deep learning you get better only through practical
+experience. Trying to spend too much time on the theory can be counterproductive.
+The key is to just code and try to solve problems: the theory can come later, when you
+have context and motivation.
+There will be times when the journey feels hard. Times when you feel stuck. Don’t
+give up! Rewind through the book to find the last bit where you definitely weren’t
+stuck, and then read slowly through from there to find the first thing that isn’t clear.
+Then try some code experiments yourself, and Google around for more tutorials on
+whatever the issue you’re stuck with is—often you’ll find a different angle on the
+material that might help it to click. Also, it’s expected and normal to not understand
+everything (especially the code) on first reading. Trying to understand the material
+serially before proceeding can sometimes be hard. Sometimes things click into place
+after you get more context from parts down the road, from having a bigger picture.
+So if you do get stuck on a section, try moving on anyway and make a note to come
+back to it later.
+Remember, you don’t need any particular academic background to succeed at deep
+learning. Many important breakthroughs are made in research and industry by folks
+without a PhD, such as the paper “Unsupervised Representation Learning with Deep
+Convolutional Generative Adversarial Networks”—one of the most influential papers
+of the last decade, with over 5,000 citations—which was written by Alec Radford

@@ -1,0 +1,41 @@
+from.16
+When an experience is recorded in the replay buffer, its priority is set to a very
+large value, to ensure that it gets sampled at least once. However, once it is sampled
+(and every time it is sampled), the TD error <i>δ</i> is computed, and this experience’s pri‐
+ority is set to <i>p</i> = |δ| (plus a small constant to ensure that every experience has a non-
+zero probability of being sampled). The probability <i>P</i> of sampling an experience with
+<i>pζ,</i>
+priority <i>p</i> is proportional to where <i>ζ</i> is a hyperparameter that controls how greedy
+we want importance sampling to be: when <i>ζ</i> = 0, we just get uniform sampling, and
+when <i>ζ</i> = 1, we get full-blown importance sampling. In the paper, the authors used <i>ζ</i> =
+0.6, but the optimal value will depend on the task.
+There’s one catch, though: since the samples will be biased toward important experi‐
+ences, we must compensate for this bias during training by downweighting the expe‐
+riences according to their importance, or else the model will just overfit the
+important experiences. To be clear, we want important experiences to be sampled
+more often, but this also means we must give them a lower weight during training. To
+do this, we define each experience’s training weight as <i>w</i> = (n <i>P)–β,</i> where <i>n</i> is the
+number of experiences in the replay buffer, and <i>β</i> is a hyperparameter that controls
+how much we want to compensate for the importance sampling bias (0 means not at
+all, while 1 means entirely). In the paper, the authors used <i>β</i> = 0.4 at the beginning of
+training and linearly increased it to <i>β</i> = 1 by the end of training. Again, the optimal
+value will depend on the task, but if you increase one, you will usually want to
+increase the other as well.
+Now let’s look at one last important variant of the DQN algorithm.
+<header><largefont><b>Dueling</b></largefont> <largefont><b>DQN</b></largefont></header>
+The <i>Dueling</i> <i>DQN</i> algorithm (DDQN, not to be confused with Double DQN,
+although both techniques can easily be combined) was introduced in yet another
+2015 paper 17 by DeepMind researchers. To understand how it works, we must first
+note that the Q-Value of a state-action pair (s, <i>a)</i> can be expressed as <i>Q(s,</i> <i>a)</i> = <i>V(s)</i> +
+<i>A(s,</i> <i>a),</i> where <i>V(s)</i> is the value of state <i>s</i> and <i>A(s,</i> <i>a)</i> is the <i>advantage</i> of taking the
+action <i>a</i> in state <i>s,</i> compared to all other possible actions in that state. Moreover, the
+value of a state is equal to the Q-Value of the best action <i>a</i> * for that state (since we
+assume the optimal policy will pick the best action), so <i>V(s)</i> = <i>Q(s,</i> <i>a*),</i> which implies
+<i>a*)</i>
+that <i>A(s,</i> = 0. In a Dueling DQN, the model estimates both the value of the state
+and the advantage of each possible action. Since the best action should have an
+advantage of 0, the model subtracts the maximum predicted advantage from all pre‐
+16 Itcouldalsojustbethattherewardsarenoisy,inwhichcasetherearebettermethodsforestimatinganexpe‐
+rience’simportance(seethepaperforsomeexamples).
+17 ZiyuWangetal.,“DuelingNetworkArchitecturesforDeepReinforcementLearning,”arXivpreprintarXiv:
+1511.06581(2015).

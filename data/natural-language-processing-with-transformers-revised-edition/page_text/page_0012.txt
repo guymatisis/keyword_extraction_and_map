@@ -1,0 +1,39 @@
+<b>entity_group</b> <b>score</b> <b>word</b> <b>start</b> <b>end</b>
+<b>2</b> LOC 0.999755 Germany 90 97
+MISC 0.556569 Mega 208 212
+<b>3</b>
+PER 0.590256 ##tron 212 216
+<b>4</b>
+<b>5</b> ORG 0.669692 Decept 253 259
+<b>6</b> MISC 0.498350 ##icons 259 264
+<b>7</b> MISC 0.775361 Megatron 350 358
+<b>8</b> MISC 0.987854 OptimusPrime 367 380
+<b>9</b> PER 0.812096 Bumblebee 502 511
+You can see that the pipeline detected all the entities and also assigned a category
+ORG LOC PER
+such as (organization), (location), or (person) to each of them. Here we
+used the aggregation_strategy argument to group the words according to the mod‐
+el’s predictions. For example, the entity “Optimus Prime” is composed of two words,
+MISC
+but is assigned a single category: (miscellaneous). The scores tell us how confi‐
+dent the model was about the entities it identified. We can see that it was least confi‐
+dent about “Decepticons” and the first occurrence of “Megatron”, both of which it
+failed to group as a single entity.
+# word
+See those weird hash symbols ( ) in the column in the previ‐
+ous table? These are produced by the model’s <i>tokenizer,</i> which
+splits words into atomic units called <i>tokens.</i> You’ll learn all about
+tokenization in Chapter 2.
+Extracting all the named entities in a text is nice, but sometimes we would like to ask
+more targeted questions. This is where we can use <i>question</i> <i>answering.</i>
+<header><largefont><b>Question</b></largefont> <largefont><b>Answering</b></largefont></header>
+In question answering, we provide the model with a passage of text called the <i>context,</i>
+along with a question whose answer we’d like to extract. The model then returns the
+span of text corresponding to the answer. Let’s see what we get when we ask a specific
+question about our customer feedback:
+reader = pipeline("question-answering")
+question = "What does the customer want?"
+outputs = reader(question=question, context=text)
+pd.DataFrame([outputs])
+<b>score</b> <b>start</b> <b>end</b> <b>answer</b>
+<b>0</b> 0.631291 335 358 anexchangeofMegatron

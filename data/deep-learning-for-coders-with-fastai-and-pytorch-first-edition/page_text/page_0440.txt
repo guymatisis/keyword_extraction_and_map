@@ -1,0 +1,28 @@
+25. What information does ActivationStats save for each layer?
+26. How can we access a learner’s callback after training?
+27. What are the three statistics plotted by plot_layer_stats ? What does the x-axis
+represent?
+28. Why are activations near zero problematic?
+29. What are the upsides and downsides of training with a larger batch size?
+30. Why should we avoid using a high learning rate at the start of training?
+31. What is 1cycle training?
+32. What are the benefits of training with a high learning rate?
+33. Why do we want to use a low learning rate at the end of training?
+34. What is cyclical momentum?
+35. What callback tracks hyperparameter values during training (along with other
+information)?
+36. What does one column of pixels in the color_dim plot represent?
+37. What does “bad training” look like in color_dim? Why?
+38. What trainable parameters does a batch normalization layer contain?
+39. What statistics are used to normalize in batch normalization during training?
+How about during validation?
+40. Why do models with batch normalization layers generalize better?
+<header><largefont><b>Further</b></largefont> <largefont><b>Research</b></largefont></header>
+1. What features other than edge detectors have been used in computer vision
+(especially before deep learning became popular)?
+2. Other normalization layers are available in PyTorch. Try them out and see what
+works best. Learn about why other normalization layers have been developed and
+how they differ from batch normalization.
+3. Try moving the activation function after the batch normalization layer in conv .
+Does it make a difference? See what you can find out about what order is recom‐
+mended and why.

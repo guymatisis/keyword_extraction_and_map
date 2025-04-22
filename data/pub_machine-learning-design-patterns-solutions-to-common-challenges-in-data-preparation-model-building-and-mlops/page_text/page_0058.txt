@@ -1,0 +1,19 @@
+<i>Figure</i> <i>2-16.</i> <i>A</i> <i>feature</i> <i>cross</i> <i>between</i> <i>is_male</i> <i>and</i> <i>plurality</i> <i>creates</i> <i>an</i> <i>additional</i> <i>18</i>
+<i>binary</i> <i>features</i> <i>in</i> <i>our</i> <i>ML</i> <i>model.</i>
+Table 2-10 compares the training time in BigQuery ML and evaluation loss for both a
+linear model with a feature cross of ( is_male, plurality ) and a deep neural net‐
+work without any feature cross.
+<i>Table</i> <i>2-10.</i> <i>A</i> <i>comparison</i> <i>of</i> <i>BigQuery</i> <i>ML</i> <i>training</i> <i>metrics</i> <i>for</i> <i>models</i> <i>with</i> <i>and</i> <i>without</i>
+<i>feature</i> <i>crosses</i>
+<b>Modeltype</b> <b>Incl.featurecross</b> <b>Trainingtime(minutes)</b> <b>Eval.loss</b>
+<b>(RMSE)</b>
+Linear Yes 0.42 1.05
+DNN No 48 1.07
+A simple linear regression achieves comparable error on the evaluation set but trains
+one hundred times faster. Combining feature crosses with massive data is an alterna‐
+tive strategy for learning complex relationships in training data.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+While we discussed feature crosses as a way of handling categorical variables, they
+can be applied, with a bit of preprocessing, to numerical features also. Feature crosses
+cause sparsity in models and are often used along with techniques that counteract
+that sparsity.

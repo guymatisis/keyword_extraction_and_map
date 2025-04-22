@@ -1,0 +1,36 @@
+Finally, our function calls mean((-1,-2)) . The tuple (-1,-2) represents a range of
+axes. In Python, -1 refers to the last element, and -2 refers to the second-to-last. So in
+this case, this tells PyTorch that we want to take the mean ranging over the values
+indexed by the last two axes of the tensor. The last two axes are the horizontal and
+vertical dimensions of an image. After taking the mean over the last two axes, we are
+left with just the first tensor axis, which indexes over our images, which is why our
+final size was (1010). In other words, for every image, we averaged the intensity of all
+the pixels in that image.
+We’ll be learning lots more about broadcasting throughout this book, especially in
+Chapter 17, and will be practicing it regularly too.
+We can use mnist_distance to figure out whether an image is a 3 by using the fol‐
+lowing logic: if the distance between the digit in question and the ideal 3 is less than
+the distance to the ideal 7, then it’s a 3. This function will automatically do broadcast‐
+ing and be applied elementwise, just like all PyTorch functions and operators:
+<b>def</b> is_3(x): <b>return</b> mnist_distance(x,mean3) < mnist_distance(x,mean7)
+Let’s test it on our example case:
+is_3(a_3), is_3(a_3).float()
+(tensor(True), tensor(1.))
+Note that when we convert the Boolean response to a float, we get 1.0 for True and
+0.0 for False.
+Thanks to broadcasting, we can also test it on the full validation set of 3s:
+is_3(valid_3_tens)
+tensor([True, True, True, ..., True, True, True])
+Now we can calculate the accuracy for each of the 3s and 7s, by taking the average of
+that function for all 3s and its inverse for all 7s:
+accuracy_3s = is_3(valid_3_tens).float() .mean()
+accuracy_7s = (1 - is_3(valid_7_tens).float()).mean()
+accuracy_3s,accuracy_7s,(accuracy_3s+accuracy_7s)/2
+(tensor(0.9168), tensor(0.9854), tensor(0.9511))
+This looks like a pretty good start! We’re getting over 90% accuracy on both 3s and 7s,
+and we’ve seen how to define a metric conveniently using broadcasting. But let’s be
+honest: 3s and 7s are very different-looking digits. And we’re classifying only 2 out of
+the 10 possible digits so far. So we’re going to need to do better!
+To do better, perhaps it is time to try a system that does some real learning—one that
+can automatically modify itself to improve its performance. In other words, it’s time
+to talk about the training process and SGD.

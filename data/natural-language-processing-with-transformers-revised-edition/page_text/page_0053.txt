@@ -1,0 +1,38 @@
+<b>text</b> <b>label</b> <b>predicted_label</b> <b>loss</b>
+ifeeltrytotellmeimungratefultellmeimbasicallytheworstdaughtersisterin sadness sadness 0.017331
+theworld
+imkindarelievebutatthesametimeifeeldisheartened sadness sadness 0.017392
+iandfeelquiteungratefulforitbutimlookingforwardtosummerandwarmth sadness sadness 0.017400
+andlightnights
+irememberfeelingdisheartenedonedaywhenwewerestudyingapoemreally sadness sadness 0.017461
+dissectingitversebyversestanzabystanza
+ifeellikeanungratefulasshole sadness sadness 0.017485
+ileavethemeetingfeelingmorethanalittledisheartened sadness sadness 0.017670
+iamfeelingalittledisheartened sadness sadness 0.017685
+ifeellikeideservetobebrokewithhowfrivolousiam sadness sadness 0.017888
+istartedthisblogwithpureintentionsimustconfesstostartingtofeelalittle sadness sadness 0.017899
+disheartenedlatelybytheknowledgethattheredoesntseemtobeanybody
+readingit
+ifeelsoungratefultobewishingthispregnancyovernow sadness sadness 0.017913
+We now know that the joy is sometimes mislabeled and that the model is most confi‐
+sadness
+dent about predicting the label . With this information we can make targeted
+improvements to our dataset, and also keep an eye on the class the model seems to be
+very confident about.
+The last step before serving the trained model is to save it for later usage. Trans‐
+formers allows us to do this in a few steps, which we’ll show you in the next section.
+<b>Savingandsharingthemodel</b>
+The NLP community benefits greatly from sharing pretrained and fine-tuned models,
+and everybody can share their models with others via the Hugging Face Hub. Any
+community-generated model can be downloaded from the Hub just like we downloa‐
+ded the DistilBERT model. With the Trainer API, saving and sharing a model is
+simple:
+trainer.push_to_hub(commit_message="Training completed!")
+We can also use the fine-tuned model to make predictions on new tweets. Since we’ve
+pipeline()
+pushed our model to the Hub, we can now use it with the function, just
+like we did in Chapter 1. First, let’s load the pipeline:
+<b>from</b> <b>transformers</b> <b>import</b> pipeline
+<i>#</i> <i>Change</i> <i>`transformersbook`</i> <i>to</i> <i>your</i> <i>Hub</i> <i>username</i>
+model_id = "transformersbook/distilbert-base-uncased-finetuned-emotion"
+classifier = pipeline("text-classification", model=model_id)

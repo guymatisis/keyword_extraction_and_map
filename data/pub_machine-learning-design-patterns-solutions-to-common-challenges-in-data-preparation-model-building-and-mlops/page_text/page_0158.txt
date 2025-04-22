@@ -1,0 +1,20 @@
+<i>Figure</i> <i>4-11.</i> <i>Resume</i> <i>from</i> <i>a</i> <i>checkpoint</i> <i>from</i> <i>before</i> <i>the</i> <i>training</i> <i>loss</i> <i>starts</i> <i>to</i> <i>plateau.</i>
+<i>Train</i> <i>only</i> <i>on</i> <i>fresh</i> <i>data</i> <i>for</i> <i>subsequent</i> <i>iterations.</i>
+Fine-tuning only works as long as you are not changing the model
+architecture.
+It is not necessary to always start from an earlier checkpoint. In some cases, the final
+checkpoint (that is used to serve the model) can be used as a warm start for another
+model training iteration. Still, starting from an earlier checkpoint tends to provide
+better generalization.
+<b>Redefininganepoch</b>
+Machine learning tutorials often have code like this:
+model.fit(X_train, y_train,
+batch_size=100,
+epochs=15)
+This code assumes that you have a dataset that fits in memory, and consequently that
+your model can iterate through 15 epochs without running the risk of machine fail‐
+ure. Both these assumptions are unreasonable—ML datasets range into terabytes, and
+when training can last hours, the chances of machine failure are high.
+To make the preceding code more resilient, supply a TensorFlow dataset (not just a
+NumPy array) because the TensorFlow dataset is an out-of-memory dataset. It pro‐
+vides iteration capability and lazy loading. The code is now as follows:

@@ -1,0 +1,37 @@
+<b>AlltheCodeIsHere</b>
+Remember that we’re not using any PyTorch functionality for mod‐
+ules here; we’re defining everything ourselves. So if you’re not sure
+what register_modules does, or why it’s needed, have another
+look at our code for Module to see what we wrote!
+We can create a simplified AdaptivePool that only handles pooling to a 1×1 output,
+mean:
+and flattens it as well, by just using
+<b>class</b> <b>AdaptivePool(Module):</b>
+<b>def</b> forward(self, x): <b>return</b> x.mean((2,3))
+That’s enough for us to create a CNN!
+<b>def</b> simple_cnn():
+<b>return</b> Sequential(
+ConvLayer(3 ,16 ,stride=2), <i>#32</i>
+ConvLayer(16,32 ,stride=2), <i>#16</i>
+ConvLayer(32,64 ,stride=2), <i>#</i> <i>8</i>
+ConvLayer(64,128,stride=2), <i>#</i> <i>4</i>
+AdaptivePool(),
+Linear(128, 10)
+)
+Let’s see if our parameters are all being registered correctly:
+m = simple_cnn()
+len(m.parameters())
+10
+Now we can try adding a hook. Note that we’ve left room for only one hook in
+Module; you could make it a list, or use something like Pipeline to run a few as a
+single function:
+<b>def</b> print_stats(outp, inp): <b>print</b> (outp.mean().item(),outp.std().item())
+<b>for</b> i <b>in</b> range(4): m.layers[i].hook = print_stats
+r = m(xbt)
+r.shape
+0.5239089727401733 0.8776043057441711
+0.43470510840415955 0.8347987532615662
+0.4357188045978546 0.7621666193008423
+0.46562111377716064 0.7416611313819885
+torch.Size([128, 10])
+We have data and model. Now we need a loss function.

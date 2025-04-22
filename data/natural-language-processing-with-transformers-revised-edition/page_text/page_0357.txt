@@ -1,0 +1,12 @@
+<i>Figure</i> <i>11-9.</i> <i>The</i> <i>ViT</i> <i>architecture</i> <i>(courtesy</i> <i>of</i> <i>Alexey</i> <i>Dosovitskiy</i> <i>et</i> <i>al.)</i>
+Although this approach did not produce better results when pretrained on the stan‐
+dard ImageNet dataset, it scaled significantly better than CNNs on larger datasets.
+ViT is integrated in Transformers, and using it is very similar to the NLP pipelines
+that we’ve used throughout this book. Let’s start by loading the image of a rather
+famous dog:
+<b>from</b> <b>PIL</b> <b>import</b> Image
+<b>import</b> <b>matplotlib.pyplot</b> <b>as</b> <b>plt</b>
+image = Image.open("images/doge.jpg")
+plt.imshow(image)
+plt.axis("off")
+plt.show()

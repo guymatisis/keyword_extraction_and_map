@@ -1,0 +1,38 @@
+each step. There are also other synchronous distribution strategies within
+Keras, such as CentralStorageStrategy and MultiWorkerMirroredStrategy .
+MultiWorkerMirroredStrategy enables the distribution to be spread not just on
+CentralStorageStrategy
+GPUs on a single machine, but on multiple machines. In ,
+the model variables are not mirrored; instead, they are placed on the CPU and opera‐
+tions are replicated across all local GPUs. So the variable updates only happen in one
+place.
+When choosing between different distribution strategies, the best option depends on
+your computer topology and how fast the CPUs and GPUs can communicate with
+one another. Table 4-2 summarizes how the different strategies described here com‐
+pare on these criteria.
+<i>Table</i> <i>4-2.</i> <i>Choosing</i> <i>between</i> <i>distribution</i> <i>strategies</i> <i>depends</i> <i>on</i> <i>your</i> <i>computer</i> <i>topology</i> <i>and</i>
+<i>how</i> <i>fast</i> <i>the</i> <i>CPUs</i> <i>and</i> <i>GPUs</i> <i>can</i> <i>communicate</i> <i>with</i> <i>one</i> <i>another</i>
+<b>FasterCPU-GPUconnection</b> <b>FasterGPU-GPUconnection</b>
+OnemachinewithmultipleGPUs CentralStorageStrategy MirroredStrategy
+MultiplemachineswithmultipleGPUs MultiWorkerMirroredStrategy MultiWorkerMirroredStrategy
+<header><largefont><b>Distributed</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>Parallelism</b></largefont> <largefont><b>in</b></largefont> <largefont><b>PyTorch</b></largefont></header>
+DistributedDataParallel
+In PyTorch, the code always uses whether you have one
+GPU or multiple GPUs and whether the model is run on one machine or multiple
+machines. Instead, how and where you start the processes and how you wire up sam‐
+pling, data loading, and so on determines the distribution strategy.
+First, we initialize the process and wait for other processes to start and set up commu‐
+nication using:
+torch.distributed.init_process_group(backend="nccl")
+Second, specify the device number by obtaining a rank from the command line.
+Rank = 0 is the master process, and 1,2,3,... are the workers:
+device = torch.device("cuda:{}".format(local_rank))
+The model is created as normal in each of the processes, but is sent to this device. A
+distributed version of the model that will process its shard of batch is created using
+DistributedDataParallel:
+model = model.to(device)
+ddp_model = DistributedDataParallel(model, device_ids=[local_rank],
+output_device=local_rank)
+DistributedSampler
+The data itself is sharded using a , and each batch of data is also
+sent to the device:

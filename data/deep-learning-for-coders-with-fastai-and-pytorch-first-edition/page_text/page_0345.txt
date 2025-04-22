@@ -1,0 +1,33 @@
+<header><largefont><b>Saving</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Loading</b></largefont> <largefont><b>Models</b></largefont></header>
+You can easily save the state of your model like so:
+learn.save('1epoch')
+This will create a file in <i>learn.path/models/</i> named <i>1epoch.pth.</i> If you want to load
+your model in another machine after creating your Learner the same way, or resume
+training later, you can load the content of this file as follows:
+learn = learn.load('1epoch')
+Once the initial training has completed, we can continue fine-tuning the model after
+unfreezing:
+learn.unfreeze()
+learn.fit_one_cycle(10, 2e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>perplexity</b> <b>time</b>
+0 3.893486 3.772820 0.317104 43.502548 12:37
+1 3.820479 3.717197 0.323790 41.148880 12:30
+2 3.735622 3.659760 0.330321 38.851997 12:09
+3 3.677086 3.624794 0.333960 37.516987 12:12
+4 3.636646 3.601300 0.337017 36.645859 12:05
+5 3.553636 3.584241 0.339355 36.026001 12:04
+6 3.507634 3.571892 0.341353 35.583862 12:08
+7 3.444101 3.565988 0.342194 35.374371 12:08
+8 3.398597 3.566283 0.342647 35.384815 12:11
+9 3.375563 3.568166 0.342528 35.451500 12:05
+Once this is done, we save all of our model except the final layer that converts activa‐
+tions to probabilities of picking each token in our vocabulary. The model not includ‐
+ing the final layer is called the <i>encoder.</i> We can save it with save_encoder:
+learn.save_encoder('finetuned')
+<b>Jargon:Encoder</b>
+The model not including the task-specific final layer(s). This term
+means much the same thing as “body” when applied to vision
+CNNs, but “encoder” tends to be more used for NLP and genera‐
+tive models.
+This completes the second stage of the text classification process: fine-tuning the lan‐
+guage model. We can now use it to fine-tune a classifier using the IMDb sentiment

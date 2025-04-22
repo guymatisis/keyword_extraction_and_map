@@ -1,0 +1,38 @@
+<header><largefont><b>Adding</b></largefont> <largefont><b>Datasets</b></largefont> <largefont><b>to</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Hugging</b></largefont> <largefont><b>Face</b></largefont> <largefont><b>Hub</b></largefont></header>
+Pushing our dataset to the Hugging Face Hub will allow us to:
+• Easily access it from our training server.
+• See how streaming datasets work seamlessly with datasets from the Hub.
+• Share it with the community, including you, dear reader!
+To upload the dataset, we first need to log in to our Hugging Face account by running
+the following command in the terminal and providing the relevant credentials:
+<b>$</b> <b>huggingface-cli</b> <b>login</b>
+notebook_login()
+This is equivalent to the helper function we used in previous
+chapters. Once this is done, we can directly create a new dataset on the Hub and
+upload the compressed JSON files. To simplify things, we will create two repositories:
+one for the train split and one for the validation split. We can do this by running the
+repo create
+command of the CLI as follows:
+<b>$</b> <b>huggingface-cli</b> <b>repo</b> <b>create</b> <b>--type</b> <b>dataset</b> <b>--organization</b> <b>transformersbook</b> <b>\</b>
+<b>codeparrot-train</b>
+<b>$</b> <b>huggingface-cli</b> <b>repo</b> <b>create</b> <b>--type</b> <b>dataset</b> <b>--organization</b> <b>transformersbook</b> <b>\</b>
+<b>codeparrot-valid</b>
+Here we’ve specified that the repository should be a dataset (in contrast to the model
+repositories used to store weights), along with the organization we’d like to store the
+repositories under. If you’re running this code under your personal account, you can
+omit the --organization flag. Next, we need to clone these empty repositories to our
+local machine, copy the JSON files to them, and push the changes to the Hub. We will
+take the last compressed JSON file out of the 184 we have as the validation file (i.e.,
+roughly 0.5 percent of our dataset). Execute these commands to clone the repository
+from the Hub to your local machine:
+<b>$</b> <b>git</b> <b>clone</b> <b>https://huggingface.co/datasets/transformersbook/codeparrot-train</b>
+<b>$</b> <b>git</b> <b>clone</b> <b>https://huggingface.co/datasets/transformersbook/codeparrot-valid</b>
+Next, copy all but the last GitHub file as the training set:
+<b>$</b> <b>cd</b> <b>codeparrot-train</b>
+<b>$</b> <b>cp</b> <b>../codeparrot/*.json.gz</b> <b>.</b>
+<b>$</b> <b>rm</b> <b>./file-000000000183.json.gz</b>
+Then commit the files and push them to the Hub:
+<b>$</b> <b>git</b> <b>add</b> <b>.</b>
+<b>$</b> <b>git</b> <b>commit</b> <b>-m</b> <b>"Adding</b> <b>dataset</b> <b>files"</b>
+<b>$</b> <b>git</b> <b>push</b>
+Now, repeat the process for the validation set:

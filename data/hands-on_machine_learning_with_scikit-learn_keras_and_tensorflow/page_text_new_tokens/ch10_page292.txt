@@ -1,0 +1,27 @@
+<i>The</i> <i>Rectified</i> <i>Linear</i> <i>Unit</i> <i>function:</i> <i>ReLU(z)</i> <i>=</i> <i>max(0,</i> <i>z)</i>
+The ReLU function is continuous but unfortunately not differentiable at <i>z</i> = 0
+(the slope changes abruptly, which can make Gradient Descent bounce around),
+and its derivative is 0 for <i>z</i> < 0. In practice, however, it works very well and has
+the advantage of being fast to compute, so it has become the default.12 Most
+importantly, the fact that it does not have a maximum output value helps reduce
+some issues during Gradient Descent (we will come back to this in Chapter 11).
+These popular activation functions and their derivatives are represented in
+Figure 10-8. But wait! Why do we need activation functions in the first place? Well, if
+you chain several linear transformations, all you get is a linear transformation. For
+example, if f(x) = 2x + 3 and g(x) = 5x – 1, then chaining these two linear functions
+gives you another linear function: f(g(x)) = 2(5x – 1) + 3 = 10x + 1. So if you don’t
+have some nonlinearity between layers, then even a deep stack of layers is equivalent
+to a single layer, and you can’t solve very complex problems with that. Conversely, a
+large enough DNN with nonlinear activations can theoretically approximate any con‐
+tinuous function.
+<i>Figure</i> <i>10-8.</i> <i>Activation</i> <i>functions</i> <i>and</i> <i>their</i> <i>derivatives</i>
+OK! You know where neural nets came from, what their architecture is, and how to
+compute their outputs. You’ve also learned about the backpropagation algorithm. But
+what exactly can you do with them?
+<header><largefont><b>Regression</b></largefont> <largefont><b>MLPs</b></largefont></header>
+First, MLPs can be used for regression tasks. If you want to predict a single value (e.g.,
+the price of a house, given many of its features), then you just need a single output
+neuron: its output is the predicted value. For multivariate regression (i.e., to predict
+12 Biologicalneuronsseemtoimplementaroughlysigmoid(S-shaped)activationfunction,soresearchersstuck
+tosigmoidfunctionsforaverylongtime.ButitturnsoutthatReLUgenerallyworksbetterinANNs.Thisis
+oneofthecaseswherethebiologicalanalogywasmisleading.

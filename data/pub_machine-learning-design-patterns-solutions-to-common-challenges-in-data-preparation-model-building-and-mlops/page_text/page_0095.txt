@@ -1,0 +1,31 @@
+<i>Figure</i> <i>3-9.</i> <i>Understanding</i> <i>the</i> <i>Multilabel</i> <i>pattern</i> <i>by</i> <i>breaking</i> <i>down</i> <i>the</i> <i>problem</i> <i>into</i>
+<i>smaller</i> <i>binary</i> <i>classification</i> <i>tasks.</i>
+<b>Parsingsigmoidresults</b>
+To extract the predicted label for a model with softmax output, we can simply take
+the argmax (highest value index) of the output array to get the predicted class. Pars‐
+ing sigmoid outputs is less straightforward. Instead of taking the class with the high‐
+est predicted probability, we need to evaluate the probability of each class in our
+output layer and consider the probability <i>threshold</i> for our use case. Both of these
+choices are largely dependent on the end user application of our model.
+By threshold, we’re referring to the probability we’re comfortable
+with for confirming an input belongs to a particular class. For
+example, if we’re building a model to classify different types of ani‐
+mals in images, we might be comfortable saying an image has a cat
+even if the model is only 80% confident the image contains a cat.
+Alternatively, if we’re building a model that’s making healthcare
+predictions, we’ll likely want the model to be closer to 99% confi‐
+dent before confirming a specific medical condition is present or
+not. While thresholding is something we’ll need to consider for any
+type of classification model, it’s especially relevant to the Multilabel
+design pattern since we’ll need to determine thresholds for each
+class and they may be different.
+To look at a specific example, let’s take the Stack Overflow dataset in BigQuery and
+use it to build a model that predicts the tags associated with a Stack Overflow ques‐
+tion given its title. We’ll limit our dataset to questions that contain only five tags to
+keep things simple:
+SELECT
+title,
+REPLACE(tags, "|", ",") <b>as</b> tags
+FROM
+`bigquery-public-data.stackoverflow.posts_questions`
+WHERE

@@ -1,0 +1,35 @@
+metric, measure it for all models on some benchmark dataset, and choose the one
+with the best performance. But how do you define a metric for text generation? The
+standard metrics that we’ve seen, like accuracy, recall, and precision, are not easy to
+apply to this task. For each “gold standard” summary written by a human, dozens of
+other summaries with synonyms, paraphrases, or a slightly different way of formulat‐
+ing the facts could be just as acceptable.
+In the next section we will look at some common metrics that have been developed
+for measuring the quality of generated text.
+<header><largefont><b>Measuring</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Quality</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Generated</b></largefont> <largefont><b>Text</b></largefont></header>
+Good evaluation metrics are important, since we use them to measure the perfor‐
+mance of models not only when we train them but also later, in production. If we
+have bad metrics we might be blind to model degradation, and if they are misaligned
+with the business goals we might not create any value.
+Measuring performance on a text generation task is not as easy as with standard clas‐
+sification tasks such as sentiment analysis or named entity recognition. Take the
+example of translation; given a sentence like “I love dogs!” in English and translating
+it to Spanish there can be multiple valid possibilities, like “¡Me encantan los perros!”
+or “¡Me gustan los perros!” Simply checking for an exact match to a reference transla‐
+tion is not optimal; even humans would fare badly on such a metric because we all
+write text slightly differently from each other (and even from ourselves, depending on
+the time of the day or year!). Fortunately, there are alternatives.
+Two of the most common metrics used to evaluate generated text are BLEU and
+ROUGE. Let’s take a look at how they’re defined.
+<header><largefont><b>BLEU</b></largefont></header>
+The idea of BLEU is simple: 4 instead of looking at how many of the tokens in the gen‐
+erated texts are perfectly aligned with the reference text tokens, we look at words or
+<i>n-grams.</i> BLEU is a precision-based metric, which means that when we compare the
+two texts we count the number of words in the generation that occur in the reference
+and divide it by the length of the generation.
+However, there is an issue with this vanilla precision. Assume the generated text just
+repeats the same word over and over again, and this word also appears in the refer‐
+ence. If it is repeated as many times as the length of the reference text, then we get
+4 K.Papinenietal.,“BLEU:AMethodforAutomaticEvaluationofMachineTranslation,”Proceedingsofthe
+<i>40thAnnualMeetingoftheAssociationforComputationalLinguistics(July2002):311–318,http://dx.doi.org/</i>
+<i>10.3115/1073083.1073135.</i>

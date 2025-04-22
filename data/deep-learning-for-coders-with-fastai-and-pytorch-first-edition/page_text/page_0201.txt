@@ -1,0 +1,25 @@
+Does “logarithm” ring a bell? The logarithm function has this identity:
+y = b**a
+a = log(y,b)
+In this case, we’re assuming that log(y,b) returns <i>log</i> <i>y</i> <i>base</i> <i>b.</i> However, PyTorch
+doesn’t define log this way: log in Python uses the special number e (2.718…) as the
+base.
+Perhaps a logarithm is something that you have not thought about for the last 20
+years or so. But it’s a mathematical idea that is going to be really critical for many
+things in deep learning, so now would be a great time to refresh your memory. The
+key thing to know about logarithms is this relationship:
+log(a*b) = log(a)+log(b)
+When we see it in that format, it looks a bit boring; but think about what this really
+means. It means that logarithms increase linearly when the underlying signal increa‐
+ses exponentially or multiplicatively. This is used, for instance, in the Richter scale of
+earthquake severity and the dB scale of noise levels. It’s also often used on financial
+charts, where we want to show compound growth rates more clearly. Computer sci‐
+entists love using logarithms, because it means that modification, which can create
+really, really large and really, really small numbers, can be replaced by addition, which
+is much less likely to result in scales that are difficult for our computers to handle.
+<b>SylvainSays</b>
+It’s not just computer scientists who love logs! Until computers
+came along, engineers and scientists used a special ruler called a
+<i>slide</i> <i>rule</i> that did multiplication by adding logarithms. Logarithms
+are widely used in physics, for multiplying very big or very small
+numbers, and many other fields.

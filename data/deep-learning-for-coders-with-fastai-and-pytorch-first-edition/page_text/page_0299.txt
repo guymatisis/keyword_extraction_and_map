@@ -1,0 +1,34 @@
+together. To see how it works in practice, let’s get started on creating our own random
+forest!
+<header><largefont><b>Creating</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Random</b></largefont> <largefont><b>Forest</b></largefont></header>
+We can create a random forest just like we created a decision tree, except now we are
+also specifying parameters that indicate how many trees should be in the forest, how
+we should subset the data items (the rows), and how we should subset the fields (the
+columns).
+n_estimators
+In the following function definition, defines the number of trees we
+want, max_samples defines how many rows to sample for training each tree, and
+max_features defines how many columns to sample at each split point (where 0.5
+means “take half the total number of columns”). We can also specify when to stop
+splitting the tree nodes, effectively limiting the depth of the tree, by including the
+same min_samples_leaf parameter we used in the preceding section. Finally, we pass
+n_jobs=-1
+to tell sklearn to use all our CPUs to build the trees in parallel. By creating
+a little function for this, we can more quickly try variations in the rest of this chapter:
+<b>def</b> rf(xs, y, n_estimators=40, max_samples=200_000,
+max_features=0.5, min_samples_leaf=5, **kwargs):
+<b>return</b> RandomForestRegressor(n_jobs=-1, n_estimators=n_estimators,
+max_samples=max_samples, max_features=max_features,
+min_samples_leaf=min_samples_leaf, oob_score=True).fit(xs, y)
+m = rf(xs, y);
+Our validation RMSE is now much improved over our last result produced by the
+DecisionTreeRegressor , which made just one tree using all the available data:
+m_rmse(m, xs, y), m_rmse(m, valid_xs, valid_y)
+(0.170896, 0.233502)
+One of the most important properties of random forests is that they aren’t very sensi‐
+tive to the hyperparameter choices, such as max_features. You can set n_estimators
+to as high a number as you have time to train—the more trees you have, the more
+accurate the model will be. max_samples can often be left at its default, unless you
+have over 200,000 data points, in which case setting it to 200,000 will make it train
+faster with little impact on accuracy. max_features=0.5 and min_samples_leaf=4
+both tend to work well, although sklearn’s defaults work well too.

@@ -1,0 +1,32 @@
+processes, such as text classification (email filtering), entity extraction, question
+answering, speech recognition, text summarization, and sentiment analysis.
+• Embeddings
+• Hashed Feature
+• Neutral Class
+• Multimodal Input
+• Transfer Learning
+• Two-Phase Predictions
+• Cascade
+• Windowed Inference
+<header><largefont><b>Computer</b></largefont> <largefont><b>Vision</b></largefont></header>
+Computer vision is the broad parent name for AI that trains machines to understand
+visual input, such as images, videos, icons, and anything where pixels might be
+involved. Computer vision models aim to automate any task that might rely on
+human vision, from using an MRI to detect lung cancer to self-driving cars. Some
+classical applications of computer vision are image classification, video motion analy‐
+sis, image segmentation, and image denoising.
+• Reframing
+• Neutral Class
+• Multimodal Input
+• Transfer Learning
+• Embeddings
+• Multilabel
+• Cascade
+• Two-Phase Predictions
+<header><largefont><b>Predictive</b></largefont> <largefont><b>Analytics</b></largefont></header>
+Predictive modeling uses historical data to find patterns and determine the likelihood
+of a certain event occurring in the future. Predictive models can be found across
+many different industry domains. For example, businesses might use predictive mod‐
+els to forecast revenue more accurately or anticipate future demand for products. In
+medicine, predictive models might be used to assess the risk of a patient developing a
+chronic disease or predict when a patient might not show up for a scheduled

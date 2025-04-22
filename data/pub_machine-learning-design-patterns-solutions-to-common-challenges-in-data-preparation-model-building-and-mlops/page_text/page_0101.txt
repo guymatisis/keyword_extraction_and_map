@@ -1,0 +1,25 @@
+submodel of the ensemble. Each dataset is constructed by randomly sampling (with
+replacement) from the original training dataset. This means there is a high probabil‐
+ity that any of the <i>k</i> datasets will be missing some training examples, but also any
+dataset will likely have repeated training examples. The aggregation takes place on
+the output of the multiple ensemble model members—either an average in the case of
+a regression task or a majority vote in the case of classification.
+A good example of a bagging ensemble method is the random forest: multiple deci‐
+sion trees are trained on randomly sampled subsets of the entire training data, then
+the tree predictions are aggregated to produce a prediction, as shown in Figure 3-11.
+<i>Figure</i> <i>3-11.</i> <i>Bagging</i> <i>is</i> <i>good</i> <i>for</i> <i>decreasing</i> <i>variance</i> <i>in</i> <i>machine</i> <i>learning</i> <i>model</i> <i>output.</i>
+Popular machine learning libraries have implementations of bagging methods. For
+example, to implement a random Forest regression in scikit-learn to predict baby
+weight from our natality dataset:
+<b>from</b> <b>sklearn.ensemble</b> <b>import</b> RandomForestRegressor
+<i>#</i> <i>Create</i> <i>the</i> <i>model</i> <i>with</i> <i>50</i> <i>trees</i>
+RF_model = RandomForestRegressor(n_estimators=50,
+max_features='sqrt',
+n_jobs=-1, verbose = 1)
+<i>#</i> <i>Fit</i> <i>on</i> <i>training</i> <i>data</i>
+RF_model.fit(X_train, Y_train)
+Model averaging as seen in bagging is a powerful and reliable method for reducing
+model variance. As we’ll see, different ensemble methods combine multiple submo‐
+dels in different ways, sometimes using different models, different algorithms, or
+even different objective functions. With bagging, the model and algorithms are the
+same. For example, with random forest, the submodels are all short decision trees.

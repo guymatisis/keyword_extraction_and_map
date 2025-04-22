@@ -1,0 +1,20 @@
+computing the distance between the pickup and dropoff is a useful feature. Once this
+feature is computed on the dataset, we can store it within a feature set for future use.
+<b>AddingfeaturedatatoFeast.</b> FeatureSets. FeatureSet
+Data is stored in Feast using A
+contains the data schema and data source information, whether it is coming from a
+FeatureSets
+pandas dataframe or a streaming Kafka topic. are how Feast knows
+where to source the data it needs for a feature, how to ingest it, and some basic char‐
+acteristics about the data types. Groups of features can be ingested and stored
+together, and feature sets provide efficient storage and logical namespacing of data
+within these stores.
+Once our feature set is registered, Feast will start an Apache Beam job to populate the
+feature store with data from the source. A feature set is used to generate both offline
+and online feature stores, which ensures developers train and serve their model with
+the same data. Feast ensures that the source data complies with the expected schema
+of the feature set.
+There are four steps to ingest feature data into Feast, as shown in Figure 6-14.
+<i>Figure</i> <i>6-14.</i> <i>There</i> <i>are</i> <i>four</i> <i>steps</i> <i>to</i> <i>ingesting</i> <i>feature</i> <i>data</i> <i>into</i> <i>Feast:</i> <i>create</i> <i>a</i> <i>Feature‐</i>
+<i>Set,</i> <i>add</i> <i>entities</i> <i>and</i> <i>features,</i> <i>register</i> <i>the</i> <i>FeatureSet,</i> <i>and</i> <i>ingest</i> <i>feature</i> <i>data</i> <i>into</i> <i>the</i>
+<i>FeatureSet.</i>

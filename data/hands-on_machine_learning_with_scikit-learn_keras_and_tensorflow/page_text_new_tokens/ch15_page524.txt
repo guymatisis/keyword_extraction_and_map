@@ -1,0 +1,6 @@
+model to generate Bach-like music, one note at a time: you can do this by giving
+the model the start of a chorale and asking it to predict the next time step, then
+appending these time steps to the input sequence and asking the model for the
+next note, and so on. Also make sure to check out Google’s Coconet model,
+which was used for a nice Google doodle about Bach.
+Solutions to these exercises are available in Appendix A.

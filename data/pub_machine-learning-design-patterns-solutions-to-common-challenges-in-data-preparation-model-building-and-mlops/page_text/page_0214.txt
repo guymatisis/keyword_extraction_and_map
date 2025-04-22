@@ -1,0 +1,37 @@
+tion” on page 201. The serving infrastructure is usually designed as a microservice
+that offloads the heavy computation (such as with deep convolutional neural net‐
+works) to high-performance hardware such as tensor processing units (TPUs) or
+graphics processing units (GPUs) and minimizes the inefficiency associated with
+multiple software layers.
+However, there are circumstances where predictions need to be carried out asynchro‐
+nously over large volumes of data. For example, determining whether to reorder a
+stock-keeping unit (SKU) might be an operation that is carried out hourly, not every
+time the SKU is bought at the cash register. Music services might create personalized
+daily playlists for every one of their users and push them out to those users. The per‐
+sonalized playlist is not created on-demand in response to every interaction that the
+user makes with the music software. Because of this, the ML model needs to make
+predictions for millions of instances at a time, not one instance at a time.
+Attempting to take a software endpoint that is designed to handle one request at a
+time and sending it millions of SKUs or billions of users will overwhelm the ML
+model.
+<header><largefont><b>Solution</b></largefont></header>
+The Batch Serving design pattern uses a distributed data processing infrastructure
+(MapReduce, Apache Spark, BigQuery, Apache Beam, and so on) to carry out ML
+inference on a large number of instances asynchronously.
+In the discussion on the Stateless Serving Function design pattern, we trained a text
+classification model to output whether a review was positive or negative. Let’s say
+that we want to apply this model to every complaint that has ever been made to the
+United States Consumer Finance Protection Bureau (CFPB).
+We can load the Keras model into BigQuery as follows (complete code is available in
+a notebook in GitHub):
+<b>CREATE</b> <b>OR</b> <b>REPLACE</b> MODEL mlpatterns.imdb_sentiment
+<b>OPTIONS(model_type='tensorflow',</b> model_path='gs://.../*')
+Where normally, one would train a model using data in BigQuery, here we are simply
+loading an externally trained model. Having done that, though, it is possible to use
+BigQuery to carry out ML predictions. For example, the SQL query.
+<b>SELECT</b> * <b>FROM</b> <b>ML.PREDICT(MODEL</b> mlpatterns.imdb_sentiment,
+(SELECT 'This was very well done.' <b>AS</b> reviews)
+)
+returns a positive_review_probability of 0.82.
+Using a distributed data processing system like BigQuery to carry out one-off predic‐
+tions is not very efficient. However, what if we want to apply the machine learning

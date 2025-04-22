@@ -1,0 +1,40 @@
+It is apparent that something is wrong with the labels of these samples; for example,
+the United Nations and the Central African Republic are each labeled as a person! At
+the same time, “8. Juli” in the first example is labeled as an organization. It turns out
+the annotations for the PAN-X dataset were generated through an automated process.
+Such annotations are often referred to as “silver standard” (in contrast to the “gold
+standard” of human-generated annotations), and it is no surprise that there are cases
+where the automated approach failed to produce sensible labels. In fact, such failure
+modes are not unique to automatic approaches; even when humans carefully anno‐
+tate data, mistakes can occur when the concentration of the annotators fades or they
+simply misunderstand the sentence.
+Another thing we noticed earlier was that parentheses and slashes had a relatively
+high loss. Let’s look at a few examples of sequences with an opening parenthesis:
+df_tmp = df.loc[df["input_tokens"].apply(lambda x: u"\u2581(" <b>in</b> x)].head(2)
+<b>for</b> sample <b>in</b> get_samples(df_tmp):
+display(sample)
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b>
+▁Ham a ▁( ▁Unternehmen ▁) </s>
+<b>tokens</b>
+B-ORG IGN I-ORG I-ORG I-ORG IGN
+<b>labels</b>
+B-ORG I-ORG I-ORG I-ORG I-ORG I-ORG
+<b>preds</b>
+<b>losses</b> 0.01 0.00 0.01 0.01 0.01 0.00
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b> <b>6</b> <b>7</b>
+<b>tokens</b> ▁Kesk kül a ▁( ▁Mart na ▁) </s>
+<b>labels</b> B-LOC IGN IGN I-LOC I-LOC IGN I-LOC IGN
+<b>preds</b> B-LOC I-LOC I-LOC I-LOC I-LOC I-LOC I-LOC I-LOC
+<b>losses</b> 0.02 0.00 0.00 0.01 0.01 0.00 0.01 0.00
+In general we would not include the parentheses and their contents as part of the
+named entity, but this seems to be the way the automatic extraction annotated the
+documents. In the other examples, the parentheses contain a geographic specification.
+While this is indeed a location as well, we might want disconnect it from the original
+location in the annotations. This dataset consists of Wikipedia articles in different
+languages, and the article titles often contain some sort of explanation in parentheses.
+For instance, in the first example the text in parentheses indicates that Hama is an
+“Unternehmen,” or company in English. These are important details to know when
+we roll out the model, as they might have implications on the downstream perfor‐
+mance of the whole pipeline the model is part of.
+With a relatively simple analysis, we’ve identified some weaknesses in both our model
+and the dataset. In a real use case we would iterate on this step, cleaning up the

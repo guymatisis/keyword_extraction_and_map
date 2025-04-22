@@ -1,0 +1,37 @@
+Even a model trained to classify pictures of cats and dogs may need
+to be retrained regularly, not because cats and dogs will mutate
+overnight, but because cameras keep changing, along with image
+formats, sharpness, brightness, and size ratios. Moreover, people
+may love different breeds next year, or they may decide to dress
+their pets with tiny hats—who knows?
+So you need to monitor your model’s live performance. But how do you that? Well, it
+depends. In some cases, the model’s performance can be inferred from downstream
+metrics. For example, if your model is part of a recommender system and it suggests
+products that the users may be interested in, then it’s easy to monitor the number of
+recommended products sold each day. If this number drops (compared to non-
+recommended products), then the prime suspect is the model. This may be because
+the data pipeline is broken, or perhaps the model needs to be retrained on fresh data
+(as we will discuss shortly).
+However, it’s not always possible to determine the model’s performance without any
+human analysis. For example, suppose you trained an image classification model (see
+Chapter 3) to detect several product defects on a production line. How can you get an
+alert if the model’s performance drops, before thousands of defective products get
+shipped to your clients? One solution is to send to human raters a sample of all the
+pictures that the model classified (especially pictures that the model wasn’t so sure
+about). Depending on the task, the raters may need to be experts, or they could be
+nonspecialists, such as workers on a crowdsourcing platform (e.g., Amazon Mechani‐
+cal Turk). In some applications they could even be the users themselves, responding
+for example via surveys or repurposed captchas.24
+Either way, you need to put in place a monitoring system (with or without human
+raters to evaluate the live model), as well as all the relevant processes to define what to
+do in case of failures and how to prepare for them. Unfortunately, this can be a lot of
+work. In fact, it is often much more work than building and training a model.
+If the data keeps evolving, you will need to update your datasets and retrain your
+model regularly. You should probably automate the whole process as much as possi‐
+ble. Here are a few things you can automate:
+• Collect fresh data regularly and label it (e.g., using human raters).
+• Write a script to train the model and fine-tune the hyperparameters automati‐
+cally. This script could run automatically, for example every day or every week,
+depending on your needs.
+24 Acaptchaisatesttoensureauserisnotarobot.Thesetestshaveoftenbeenusedasacheapwaytolabel
+trainingdata.

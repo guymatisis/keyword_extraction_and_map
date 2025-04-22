@@ -1,0 +1,38 @@
+<header><largefont><b>From</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>to</b></largefont> <largefont><b>DataLoaders</b></largefont></header>
+DataLoaders is a thin class that just stores whatever DataLoader objects you pass to it
+and makes them available as train and valid . Although it’s a simple class, it’s impor‐
+DataLoad
+tant in fastai: it provides the data for your model. The key functionality in
+ers is provided with just these four lines of code (it has some other minor
+functionality we’ll skip over for now):
+<b>class</b> <b>DataLoaders(GetAttr):</b>
+<b>def</b> <b>__init__(self,</b> *loaders): self.loaders = loaders
+<b>def</b> <b>__getitem__(self,</b> i): <b>return</b> self.loaders[i]
+train,valid = add_props(lambda i,self: self[i])
+<b>Jargon:DataLoaders</b>
+A fastai class that stores multiple DataLoader objects you pass to it
+—normally a train and a valid , although it’s possible to have as
+many as you like. The first two are made available as properties.
+Later in the book, you’ll also learn about the Dataset and Datasets classes, which
+have the same relationship. To turn our downloaded data into a DataLoaders object,
+we need to tell fastai at least four things:
+• What kinds of data we are working with
+• How to get the list of items
+• How to label these items
+• How to create the validation set
+So far we have seen a number of <i>factory</i> <i>methods</i> for particular combinations of these
+things, which are convenient when you have an application and data structure that
+happen to fit into those predefined methods. For when you don’t, fastai has an
+extremely flexible system called the <i>data</i> <i>block</i> <i>API.</i> With this API, you can fully cus‐
+tomize every stage of the creation of your DataLoaders. Here is what we need to cre‐
+DataLoaders
+ate a for the dataset that we just downloaded:
+bears = DataBlock(
+blocks=(ImageBlock, CategoryBlock),
+get_items=get_image_files,
+splitter=RandomSplitter(valid_pct=0.2, seed=42),
+get_y=parent_label,
+item_tfms=Resize(128))
+Let’s look at each of these arguments in turn. First we provide a tuple specifying the
+types we want for the independent and dependent variables:
+blocks=(ImageBlock, CategoryBlock)

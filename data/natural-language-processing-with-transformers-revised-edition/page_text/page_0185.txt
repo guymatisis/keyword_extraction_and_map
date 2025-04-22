@@ -1,0 +1,39 @@
+with the SubjQA reviews, and Haystack’s document stores expect a list of dictionaries
+with text and meta keys as follows:
+{
+"text": "<the-context>",
+"meta": {
+"field_01": "<additional-metadata>",
+"field_02": "<additional-metadata>",
+...
+}
+}
+meta
+The fields in can be used for applying filters during retrieval. For our purposes
+we’ll include the item_id and q_review_id columns of SubjQA so we can filter by
+product and question ID, along with the corresponding training split. We can then
+DataFrame
+loop through the examples in each and add them to the index with the
+write_documents() method as follows:
+<b>for</b> split, df <b>in</b> dfs.items():
+<i>#</i> <i>Exclude</i> <i>duplicate</i> <i>reviews</i>
+docs = [{"text": row["context"],
+"meta":{"item_id": row["title"], "question_id": row["id"],
+"split": split}}
+<b>for</b> _,row <b>in</b> df.drop_duplicates(subset="context").iterrows()]
+document_store.write_documents(docs, index="document")
+<b>print(f"Loaded</b> {document_store.get_document_count()} documents")
+Loaded 1615 documents
+Great, we’ve loaded all our reviews into an index! To search the index we’ll need a
+retriever, so let’s look at how we can initialize one for Elasticsearch.
+<b>Initializingaretriever</b>
+The Elasticsearch document store can be paired with any of the Haystack retrievers,
+so let’s start by using a sparse retriever based on BM25 (short for “Best Match 25”).
+BM25 is an improved version of the classic Term Frequency-Inverse Document Fre‐
+quency (TF-IDF) algorithm and represents the question and context as sparse vectors
+that can be searched efficiently on Elasticsearch. The BM25 score measures how
+much matched text is about a search query and improves on TF-IDF by saturating TF
+values quickly and normalizing the document length so that short documents are
+favored over long ones.13
+13 Foranin-depthexplanationofdocumentscoringwithTF-IDFandBM25seeChapter23ofSpeechandLan‐
+<i>guageProcessing,3rdedition,byD.JurafskyandJ.H.Martin(PrenticeHall).</i>

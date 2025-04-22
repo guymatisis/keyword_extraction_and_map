@@ -1,0 +1,37 @@
+<b>if</b> request_json <b>and</b> 'review' <b>in</b> request_json:
+review = request_json['review']
+outputs = serving_fn(full_text_input=tf.constant([review]))
+<b>return</b> outputs['positive_review_logits']
+Note that we should be careful to define the serving function as a global variable (or a
+singleton class) so that it isn’t reloaded in response to every request. In practice, the
+serving function will be reloaded from the export path (on Google Cloud Storage)
+only in the case of cold starts.
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+The approach of exporting a model to a stateless function and deploying the stateless
+function in a web application framework works because web application frameworks
+offer autoscaling, can be fully managed, and are language neutral. They are also
+familiar to software and business development teams who may not have experience
+with machine learning. This also has benefits for agile development—an ML engineer
+or data scientist can independently change the model, and all the application devel‐
+oper needs to do is change the endpoint they are accessing.
+<b>Autoscaling</b>
+Scaling web endpoints to millions of requests per second is a well-understood engi‐
+neering problem. Rather than building services unique to machine learning, we can
+rely on the decades of engineering work that has gone into building resilient web
+applications and web servers. Cloud providers know how to autoscale web endpoints
+efficiently, with minimal warmup times.
+We don’t even need to write the serving system ourselves. Most modern enterprise
+machine learning frameworks come with a serving subsystem. For example, Tensor‐
+Flow provides TensorFlow Serving and PyTorch provides TorchServe. If we use these
+serving subsystems, we can simply provide the exported file and the software takes
+care of creating a web endpoint.
+<b>Fullymanaged</b>
+Cloud platforms abstract away the managing and installation of components like
+TensorFlow Serving as well. Thus, on Google Cloud, deploying the serving function
+as a REST API is as simple as running this command-line program providing the
+location of the SavedModel output:
+gcloud ai-platform versions create ${MODEL_VERSION} <b>\</b>
+--model ${MODEL_NAME} --origin ${MODEL_LOCATION} <b>\</b>
+--runtime-version $TFVERSION
+In Amazon’s SageMaker, deployment of a TensorFlow SavedModel is similarly sim‐
+ple, and achieved using:

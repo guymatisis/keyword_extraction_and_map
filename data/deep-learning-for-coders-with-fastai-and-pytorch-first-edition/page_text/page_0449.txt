@@ -1,0 +1,36 @@
+This has two problems, however: it can’t handle a stride other than 1, and it requires
+that ni==nf. Stop for a moment to think carefully about why this is.
+The issue is that with a stride of, say, 2 on one of the convolutions, the grid size of the
+output activations will be half the size on each axis of the input. So then we can’t add
+that back to x in forward because x and the output activations have different dimen‐
+sions. The same basic issue occurs if ni!=nf: the shapes of the input and output con‐
+nections won’t allow us to add them together.
+To fix this, we need a way to change the shape of x to match the result of self.convs .
+Halving the grid size can be done using an average pooling layer with a stride of 2:
+that is, a layer that takes 2×2 patches from the input and replaces them with their
+average.
+Changing the number of channels can be done by using a convolution. We want this
+skip connection to be as close to an identity map as possible, however, which means
+making this convolution as simple as possible. The simplest possible convolution is
+one with a kernel size of 1. That means that the kernel is size ni × nf × 1 × 1, so it’s
+only doing a dot product over the channels of each input pixel—it’s not combining
+across pixels at all. This kind of <i>1x1</i> <i>convolution</i> is widely used in modern CNNs, so
+take a moment to think about how it works.
+<b>Jargon:1x1Convolution</b>
+A convolution with a kernel size of 1.
+Here’s a ResBlock using these tricks to handle changing shape in the skip connection:
+<b>def</b> _conv_block(ni,nf,stride):
+<b>return</b> nn.Sequential(
+ConvLayer(ni, nf, stride=stride),
+ConvLayer(nf, nf, act_cls=None, norm_type=NormType.BatchZero))
+<b>class</b> <b>ResBlock(Module):</b>
+<b>def</b> <b>__init__(self,</b> ni, nf, stride=1):
+self.convs = _conv_block(ni,nf,stride)
+self.idconv = noop <b>if</b> ni==nf <b>else</b> ConvLayer(ni, nf, 1, act_cls=None)
+self.pool = noop <b>if</b> stride==1 <b>else</b> nn.AvgPool2d(2, ceil_mode=True)
+<b>def</b> forward(self, x):
+<b>return</b> F.relu(self.convs(x) + self.idconv(self.pool(x)))
+Note that we’re using the noop function here, which simply returns its input
+unchanged (noop is a computer science term that stands for “no operation”). In this
+case, idconv does nothing at all if nf==nf, and pool does nothing if stride==1, which
+is what we wanted in our skip connection.

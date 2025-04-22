@@ -1,0 +1,30 @@
+To be more specific, here are the steps required to turn this function into a machine
+learning classifier:
+1. <i>Initialize</i> the weights.
+2. For each image, use these weights to <i>predict</i> whether it appears to be a 3 or a 7.
+3. Based on these predictions, calculate how good the model is (its <i>loss).</i>
+4. Calculate the <i>gradient,</i> which measures for each weight how changing that weight
+would change the loss.
+5. <i>Step</i> (that is, change) all the weights based on that calculation.
+6. Go back to step 2 and <i>repeat</i> the process.
+7. Iterate until you decide to <i>stop</i> the training process (for instance, because the
+model is good enough or you don’t want to wait any longer).
+These seven steps, illustrated in Figure 4-1, are the key to the training of all deep
+learning models. That deep learning turns out to rely entirely on these steps is
+extremely surprising and counterintuitive. It’s amazing that this process can solve
+such complex problems. But, as you’ll see, it really does!
+<i>Figure</i> <i>4-1.</i> <i>The</i> <i>gradient</i> <i>descent</i> <i>process</i>
+There are many ways to do each of these seven steps, and we will be learning about
+them throughout the rest of this book. These are the details that make a big difference
+for deep learning practitioners, but it turns out that the general approach to each one
+follows some basic principles. Here are a few guidelines:
+<i>Initialize</i>
+We initialize the parameters to random values. This may sound surprising. There
+are certainly other choices we could make, such as initializing them to the per‐
+centage of times that pixel is activated for that category—but since we already
+know that we have a routine to improve these weights, it turns out that just start‐
+ing with random weights works perfectly well.
+<i>Loss</i>
+This is what Samuel referred to when he spoke of <i>testing</i> <i>the</i> <i>effectiveness</i> <i>of</i> <i>any</i>
+<i>current</i> <i>weight</i> <i>assignment</i> <i>in</i> <i>terms</i> <i>of</i> <i>actual</i> <i>performance.</i> We need a function that
+will return a number that is small if the performance of the model is good (the

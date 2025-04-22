@@ -1,0 +1,40 @@
+consecutive activations on the sequence length axis (the dimension in the middle).
+With this, TAR can be expressed as follows:
+loss += beta * (activations[:,1:] - activations[:,:-1]).pow(2).mean()
+alpha and beta are then two hyperparameters to tune. To make this work, we need
+our model with dropout to return three things: the proper output, the activations of
+the LSTM pre-dropout, and the activations of the LSTM post-dropout. AR is often
+applied on the dropped-out activations (to not penalize the activations we turned into
+zeros afterward), while TAR is applied on the non-dropped-out activations (because
+those zeros create big differences between two consecutive time steps). A callback
+called RNNRegularizer will then apply this regularization for us.
+<header><largefont><b>Training</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Weight-Tied</b></largefont> <largefont><b>Regularized</b></largefont> <largefont><b>LSTM</b></largefont></header>
+We can combine dropout (applied before we go into our output layer) with AR and
+TAR to train our previous LSTM. We just need to return three things instead of one:
+the normal output of our LSTM, the dropped-out activations, and the activations
+RNNRegularization
+from our LSTMs. The last two will be picked up by the callback
+for the contributions it has to make to the loss.
+Another useful trick we can add from the AWD-LSTM paper is <i>weight</i> <i>tying.</i> In a lan‐
+guage model, the input embeddings represent a mapping from English words to acti‐
+vations, and the output hidden layer represents a mapping from activations to
+English words. We might expect, intuitively, that these mappings could be the same.
+We can represent this in PyTorch by assigning the same weight matrix to each of
+these layers:
+self.h_o.weight = self.i_h.weight
+In LMMModel7, we include these final tweaks:
+<b>class</b> <b>LMModel7(Module):</b>
+<b>def</b> <b>__init__(self,</b> vocab_sz, n_hidden, n_layers, p):
+self.i_h = nn.Embedding(vocab_sz, n_hidden)
+self.rnn = nn.LSTM(n_hidden, n_hidden, n_layers, batch_first=True)
+self.drop = nn.Dropout(p)
+self.h_o = nn.Linear(n_hidden, vocab_sz)
+self.h_o.weight = self.i_h.weight
+self.h = [torch.zeros(n_layers, bs, n_hidden) <b>for</b> _ <b>in</b> range(2)]
+<b>def</b> forward(self, x):
+raw,h = self.rnn(self.i_h(x), self.h)
+out = self.drop(raw)
+self.h = [h_.detach() <b>for</b> h_ <b>in</b> h]
+<b>return</b> self.h_o(out),raw,out
+<b>def</b> reset(self):
+<b>for</b> h <b>in</b> self.h: h.zero_()

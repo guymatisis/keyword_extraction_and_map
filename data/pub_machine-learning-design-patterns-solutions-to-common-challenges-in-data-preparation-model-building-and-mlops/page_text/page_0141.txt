@@ -1,0 +1,36 @@
+<header><largefont><b>Training</b></largefont> <largefont><b>Design</b></largefont> <largefont><b>Patterns</b></largefont></header>
+The design patterns covered in this chapter all have to do with modifying the typical
+training loop in some way. In <i>Useful</i> <i>Overfitting,</i> we forgo the use of a validation or
+testing dataset because we want to intentionally overfit on the training dataset. In
+<i>Checkpoints,</i> we store the full state of the model periodically, so that we have access to
+partially trained models. When we use checkpoints, we usually also use <i>virtual</i>
+fit()
+<i>epochs,</i> wherein we decide to carry out the inner loop of the function, not on
+the full training dataset but on a fixed number of training examples. In <i>Transfer</i>
+<i>Learning,</i> we take part of a previously trained model, freeze the weights, and incorpo‐
+rate these nontrainable layers into a new model that solves the same problem, but on
+a smaller dataset. In <i>Distribution</i> <i>Strategy,</i> the training loop is carried out at scale over
+multiple workers, often with caching, hardware acceleration, and parallelization.
+Finally, in <i>Hyperparameter</i> <i>Tuning,</i> the training loop is itself inserted into an optimi‐
+zation method to find the optimal set of model hyperparameters.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>11:</b></largefont> <largefont><b>Useful</b></largefont> <largefont><b>Overfitting</b></largefont></header>
+Useful Overfitting is a design pattern where we forgo the use of generalization mech‐
+anisms because we want to intentionally overfit on the training dataset. In situations
+where overfitting can be beneficial, this design pattern recommends that we carry out
+machine learning without regularization, dropout, or a validation dataset for early
+stopping.
+<header><largefont><b>Problem</b></largefont></header>
+The goal of a machine learning model is to generalize and make reliable predictions
+on new, unseen data. If your model <i>overfits</i> the training data (for example, it contin‐
+ues to decrease the training error beyond the point at which validation error starts to
+increase), then its ability to generalize suffers and so do your future predictions.
+Introductory machine learning textbooks advise avoiding overfitting by using early
+stopping and regularization techniques.
+Consider, however, a situation of simulating the behavior of physical or dynamical
+systems like those found in climate science, computational biology, or computational
+finance. In such systems, the time dependence of observations can be described by a
+mathematical function or set of partial differential equations (PDEs). Although the
+equations that govern many of these systems can be formally expressed, they don’t
+have a closed-form solution. Instead, classical numerical methods have been devel‐
+oped to approximate solutions to these systems. Unfortunately, for many real-world
+applications, these methods can be too slow to be used in practice.

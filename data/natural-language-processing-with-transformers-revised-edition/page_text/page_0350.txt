@@ -1,0 +1,39 @@
+<i>Deployment</i>
+Finally, serving large language models also poses a significant challenge. In Chap‐
+ter 8 we looked at a few approaches, such as distillation, pruning, and quantiza‐
+tion, to help with these issues. However, this may not be enough if you are
+starting with a model that is hundreds of gigabytes in size. Hosted services such
+as the OpenAI API or Hugging Face’s Accelerated Inference API are designed to
+help companies that cannot or do not want to deal with these deployment
+challenges.
+This is by no means an exhaustive list, but it should give you an idea of the kinds of
+considerations and challenges that go hand in hand with scaling language models to
+ever larger sizes. While most of these efforts are centralized around a few institutions
+that have the resources and know-how to push the boundaries, there are currently
+two community-led projects that aim to produce and probe large language models in
+the open:
+<i>BigScience</i>
+This is a one-year-long research workshop that runs from 2021 to 2022 and is
+focused on large language models. The workshop aims to foster discussions and
+reflections around the research questions surrounding these models (capabilities,
+limitations, potential improvements, bias, ethics, environmental impact, role in
+the general AI/cognitive research landscape) as well as the challenges around cre‐
+ating and sharing such models and datasets for research purposes and among the
+research community. The collaborative tasks involve creating, sharing, and evalu‐
+ating a large multilingual dataset and a large language model. An unusually large
+compute budget was allocated for these collaborative tasks (several million GPU
+hours on several thousands GPUs). If successful, this workshop will run again in
+the future, focusing on involving an updated or different set of collaborative
+tasks. If you want to join the effort, you can find more information at the proj‐
+ect’s website.
+<i>EleutherAI</i>
+This is a decentralized collective of volunteer researchers, engineers, and devel‐
+opers focused on AI alignment, scaling, and open source AI research. One of its
+aims is to train and open-source a GPT-3-sized model, and the group has already
+released some impressive models like GPT-Neo and GPT-J, which is a 6-billion-
+parameter model and currently the best-performing publicly available trans‐
+former in terms of zero-shot performance. You can find more information at
+EleutherAI’s website.
+Now that we’ve explored how to scale transformers across compute, model size, and
+dataset size, let’s examine another active area of research: making self-attention more
+efficient.

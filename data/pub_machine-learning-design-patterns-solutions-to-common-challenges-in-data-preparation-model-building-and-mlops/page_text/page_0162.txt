@@ -1,0 +1,38 @@
+To see just how much data is required to train high-accuracy models, we can look at
+ImageNet, a database of over 14 million labeled images. ImageNet is frequently used
+as a benchmark for evaluating machine learning frameworks on various hardware. As
+an example, the MLPerf benchmark suite uses ImageNet to compare the time it took
+for various ML frameworks running on different hardware to reach 75.9% classifica‐
+tion accuracy. In the v0.7 MLPerf Training results, a TensorFlow model running on a
+Google TPU v3 took around 30 seconds to reach this target accuracy. 2 With more
+training time, models can reach even higher accuracy on ImageNet. However, this is
+largely due to ImageNet’s size. Most organizations with specialized prediction prob‐
+lems don’t have nearly as much data available.
+Because use cases like the image and text examples described above involve particu‐
+larly specialized data domains, it’s also not possible to use a general-purpose model to
+successfully identify bone fractures or diagnose diseases. A model that is trained on
+ImageNet might be able to label an x-ray image as <i>x-ray</i> or <i>medical</i> <i>imaging</i> but is
+unlikely to be able to label it as a <i>broken</i> <i>femur.</i> Because such models are often trained
+on a wide variety of high-level label categories, we wouldn’t expect them to under‐
+stand conditions present in the images that are specific to our dataset. To handle this,
+we need a solution that allows us to build a custom model using only the data we
+have available and with the labels that we care about.
+<header><largefont><b>Solution</b></largefont></header>
+With the Transfer Learning design pattern, we can take a model that has been trained
+on the same type of data for a similar task and apply it to a specialized task using our
+own custom data. By “same type of data,” we mean the same data modality—images,
+text, and so forth. Beyond just the broad category like images, it is also ideal to use a
+model that has been pre-trained on the same types of images. For example, use a
+model that has been pre-trained on photographs if you are going to use it for photo‐
+graph classification and a model that has been pre-trained on remotely sensed
+imagery if you are going to use it to classify satellite images. By <i>similar</i> <i>task,</i> we’re
+referring to the problem being solved. To do transfer learning for image classifica‐
+tion, for example, it is better to start with a model that has been trained for image
+classification, rather than object detection.
+Continuing with the example, let’s say we’re building a binary classifier to determine
+whether an image of an x-ray contains a broken bone. We only have 200 images of
+each class: <i>broken</i> and <i>not</i> <i>broken.</i> This isn’t enough to train a high-quality model
+from scratch, but it is sufficient for transfer learning. To solve this with transfer
+learning, we’ll need to find a model that has already been trained on a large dataset to
+2 MLPerfv0.7TrainingClosedResNet.Retrievedfromwww.mlperf.org23September2020,entry0.7-67.
+MLPerfnameandlogoaretrademarks.Seewww.mlperf.orgformoreinformation.

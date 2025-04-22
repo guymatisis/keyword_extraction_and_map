@@ -1,0 +1,33 @@
+functional API. Next, we’ll create a concatenated layer, feed that into our output
+layer, and finally create the model by passing in the original Input layers we defined
+above:
+merged_input = keras.layers.concatenate([embedding_layer, tabular_layer])
+merged_dense = Dense(16)(merged_input)
+output = Dense(1)(merged_dense)
+model = Model(inputs=[embedding_input, tabular_input], outputs=output)
+merged_dense = Dense(16, activation='relu')(merged_input)
+output = Dense(1)(merged_dense)
+model = Model(inputs=[embedding_input, tabular_input], outputs=output)
+Now we have a single model that accepts the multimodal input.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+As we just saw, the Multimodal Input design pattern explores how to represent <i>differ‐</i>
+<i>ent</i> <i>input</i> <i>formats</i> in the same model. In addition to mixing different <i>types</i> of data, we
+may also want to represent the <i>same</i> <i>data</i> <i>in</i> <i>different</i> <i>ways</i> to make it easier for our
+model to identify patterns. For example, we may have a ratings field that is on an
+ordinal scale of 1 star to 5 stars, and treat that ratings field as both numeric and cate‐
+gorical. Here, we are referring to <i>multimodal</i> <i>inputs</i> as both:
+• Combining different types of data, like images + metadata
+• Representing complex data in multiple ways
+We’ll start by exploring how tabular data can be represented in different ways, and
+then we’ll look at text and image data.
+<b>Tabulardatamultipleways</b>
+To see how we can represent tabular data in different ways for the same model, let’s
+return to the restaurant review example. We’ll imagine instead that rating is an <i>input</i>
+to our model and we’re trying to predict the review’s usefulness (how many people
+liked the review). As an input, the rating can be represented both as an integer value
+ranging from 1 to 5 and as a categorical feature. To represent rating categorically, we
+can bucket it. The way we bucket the data is up to us and dependent on our dataset
+and use case. To keep things simple, let’s say we want to create two buckets: “good”
+and “bad.” The “good” bucket includes ratings of 4 and 5, and “bad” includes 3 and
+below. We can then create a boolean value to encode the rating buckets and concate‐
+nate both the integer and boolean into a single array (full code is on GitHub).

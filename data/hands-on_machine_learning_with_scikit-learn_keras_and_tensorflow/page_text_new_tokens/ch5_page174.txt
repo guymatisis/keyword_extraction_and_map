@@ -1,0 +1,24 @@
+mented in Matlab and C++. For large-scale nonlinear problems, you may want to
+consider using neural networks instead (see Part II).
+<header><largefont><b>Exercises</b></largefont></header>
+1. What is the fundamental idea behind Support Vector Machines?
+2. What is a support vector?
+3. Why is it important to scale the inputs when using SVMs?
+4. Can an SVM classifier output a confidence score when it classifies an instance?
+What about a probability?
+5. Should you use the primal or the dual form of the SVM problem to train a model
+on a training set with millions of instances and hundreds of features?
+6. Say you’ve trained an SVM classifier with an RBF kernel, but it seems to underfit
+the training set. Should you increase or decrease <i>γ</i> ( gamma )? What about C ?
+7. How should you set the QP parameters (H, <b>f,</b> <b>A,</b> and <b>b)</b> to solve the soft margin
+linear SVM classifier problem using an off-the-shelf QP solver?
+LinearSVC SVC
+8. Train a on a linearly separable dataset. Then train an and a
+SGDClassifier on the same dataset. See if you can get them to produce roughly
+the same model.
+9. Train an SVM classifier on the MNIST dataset. Since SVM classifiers are binary
+classifiers, you will need to use one-versus-the-rest to classify all 10 digits. You
+may want to tune the hyperparameters using small validation sets to speed up the
+process. What accuracy can you reach?
+10. Train an SVM regressor on the California housing dataset.
+Solutions to these exercises are available in Appendix A.

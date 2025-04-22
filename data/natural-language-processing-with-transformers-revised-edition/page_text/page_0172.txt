@@ -1,0 +1,23 @@
+and answers for each paragraph. In the first version of SQuAD, each answer to a
+question was guaranteed to exist in the corresponding passage. But it wasn’t long
+before sequence models started performing better than humans at extracting the cor‐
+rect span of text with the answer. To make the task more difficult, SQuAD 2.0 was
+created by augmenting SQuAD 1.1 with a set of adversarial questions that are relevant
+alone.6
+to a given passage but cannot be answered from the text The state of the art as
+of this book’s writing is shown in Figure 7-3, with most models since 2019 surpassing
+human performance.
+<i>Figure</i> <i>7-3.</i> <i>Progress</i> <i>on</i> <i>the</i> <i>SQuAD</i> <i>2.0</i> <i>benchmark</i> <i>(image</i> <i>from</i> <i>Papers</i> <i>with</i> <i>Code)</i>
+However, this superhuman performance does not appear to reflect genuine reading
+comprehension, since answers to the “unanswerable” questions can usually be identi‐
+fied through patterns in the passages like antonyms. To address these problems Goo‐
+gle released the Natural Questions (NQ) dataset,7 which involves fact-seeking
+questions obtained from Google Search users. The answers in NQ are much longer
+than in SQuAD and present a more challenging benchmark.
+Now that we’ve explored our dataset a bit, let’s dive into understanding how trans‐
+formers can extract answers from text.
+6 P.Rajpurkar,R.Jia,andP.Liang,“KnowWhatYouDon’tKnow:UnanswerableQuestionsforSQuAD”,
+(2018).
+7 T.Kwiatkowskietal.,“NaturalQuestions:ABenchmarkforQuestionAnsweringResearch,”Transactionsof
+<i>theAssociationforComputationalLinguistics7(March2019):452–466,http://dx.doi.org/10.1162/</i>
+<i>tacl_a_00276.</i>

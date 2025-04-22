@@ -1,0 +1,15 @@
+most colored images have three values per pixel to define their color. We’ll look at
+working with color images next.
+<header><largefont><b>Color</b></largefont> <largefont><b>Images</b></largefont></header>
+A color picture is a rank-3 tensor:
+im = image2tensor(Image.open('images/grizzly.jpg'))
+im.shape
+torch.Size([3, 1000, 846])
+show_image(im);
+The first axis contains the channels red, green, and blue:
+_,axs = subplots(1,3)
+<b>for</b> bear,ax,color <b>in</b> zip(im,axs,('Reds','Greens','Blues')):
+show_image(255-bear, ax=ax, cmap=color)
+We saw what the convolution operation was for one filter on one channel of the
+image (our examples were done on a square). A convolutional layer will take an
+image with a certain number of channels (three for the first layer for regular RGB

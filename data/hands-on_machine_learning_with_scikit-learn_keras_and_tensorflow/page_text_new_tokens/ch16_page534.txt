@@ -1,0 +1,39 @@
+stateful=True
+Now let’s create the stateful RNN. First, we need to set when creating
+every recurrent layer. Second, the stateful RNN needs to know the batch size (since it
+will preserve a state for each input sequence in the batch), so we must set the
+batch_input_shape
+argument in the first layer. Note that we can leave the second
+dimension unspecified, since the inputs could have any length:
+model = keras.models.Sequential([
+keras.layers.GRU(128, return_sequences=True, stateful=True,
+dropout=0.2, recurrent_dropout=0.2,
+batch_input_shape=[batch_size, None, max_id]),
+keras.layers.GRU(128, return_sequences=True, stateful=True,
+dropout=0.2, recurrent_dropout=0.2),
+keras.layers.TimeDistributed(keras.layers.Dense(max_id,
+activation="softmax"))
+])
+At the end of each epoch, we need to reset the states before we go back to the begin‐
+ning of the text. For this, we can use a small callback:
+<b>class</b> <b>ResetStatesCallback(keras.callbacks.Callback):</b>
+<b>def</b> on_epoch_begin(self, epoch, logs):
+self.model.reset_states()
+And now we can compile and fit the model (for more epochs, because each epoch is
+much shorter than earlier, and there is only one instance per batch):
+model.compile(loss="sparse_categorical_crossentropy", optimizer="adam")
+model.fit(dataset, epochs=50, callbacks=[ResetStatesCallback()])
+After this model is trained, it will only be possible to use it to make
+predictions for batches of the same size as were used during train‐
+ing. To avoid this restriction, create an identical <i>stateless</i> model,
+and copy the stateful model’s weights to this model.
+Now that we have built a character-level model, it’s time to look at word-level models
+and tackle a common natural language processing task: <i>sentiment</i> <i>analysis.</i> In the pro‐
+cess we will learn how to handle sequences of variable lengths using masking.
+<header><largefont><b>Sentiment</b></largefont> <largefont><b>Analysis</b></largefont></header>
+If MNIST is the “hello world” of computer vision, then the IMDb reviews dataset is
+the “hello world” of natural language processing: it consists of 50,000 movie reviews
+in English (25,000 for training, 25,000 for testing) extracted from the famous Internet
+Movie Database, along with a simple binary target for each review indicating whether
+it is negative (0) or positive (1). Just like MNIST, the IMDb reviews dataset is popular
+for good reasons: it is simple enough to be tackled on a laptop in a reasonable amount

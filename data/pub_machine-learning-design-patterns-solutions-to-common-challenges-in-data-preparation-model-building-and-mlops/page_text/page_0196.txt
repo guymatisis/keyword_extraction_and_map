@@ -1,0 +1,36 @@
+type: INTEGER
+minValue: 8
+maxValue: 32
+scaleType: UNIT_LINEAR_SCALE
+Instead of using a config file to define these values, you can also do
+this using the AI Platform Python API.
+In order to do this, we’ll need to add an argument parser to our code that will specify
+the arguments we defined in the file above, then refer to these hyperparameters
+where they appear throughout our model code.
+nn.Sequential
+Next, we’ll build our model using PyTorch’s API with the SGD opti‐
+mizer. Since our model predicts baby weight as a float, this will be a regression
+model. We specify each of our hyperparameters using the args variable, which con‐
+tains the variables defined in our argument parser:
+<b>import</b> <b>torch.nn</b> <b>as</b> <b>nn</b>
+model = nn.Sequential(nn.Linear(num_features, args.hidden_layer_size),
+nn.ReLU(),
+nn.Linear(args.hidden_layer_size, 1))
+optimizer = torch.optim.SGD(model.parameters(), lr=args.lr,
+momentum=args.momentum)
+At the end of our model training code, we’ll create an instance of HyperTune(), and
+tell it the metric we’re trying to optimize. This will report the resulting value of our
+optimization metric after each training run. It’s important that whichever optimiza‐
+tion metric we choose is calculated on our test or validation datasets, and not our
+training dataset:
+<b>import</b> <b>hypertune</b>
+hpt = hypertune.HyperTune()
+val_mse = 0
+num_batches = 0
+criterion = nn.MSELoss()
+<b>with</b> torch.no_grad():
+<b>for</b> i, (data, label) <b>in</b> enumerate(validation_dataloader):
+num_batches += 1
+y_pred = model(data)
+mse = criterion(y_pred, label.view(-1,1))
+val_mse += mse.item()

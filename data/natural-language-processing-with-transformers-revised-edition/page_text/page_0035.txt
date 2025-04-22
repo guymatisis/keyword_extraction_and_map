@@ -1,0 +1,41 @@
+When using pretrained models, it is <i>really</i> important to make sure
+that you use the same tokenizer that the model was trained with.
+From the model’s perspective, switching the tokenizer is like shuf‐
+fling the vocabulary. If everyone around you started swapping
+random words like “house” for “cat,” you’d have a hard time under‐
+standing what was going on too!
+<header><largefont><b>Tokenizing</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Whole</b></largefont> <largefont><b>Dataset</b></largefont></header>
+map() DatasetDict
+To tokenize the whole corpus, we’ll use the method of our object.
+We’ll encounter this method many times throughout this book, as it provides a con‐
+venient way to apply a processing function to each element in a dataset. As we’ll soon
+map()
+see, the method can also be used to create new rows and columns.
+To get started, the first thing we need is a processing function to tokenize our exam‐
+ples with:
+<b>def</b> tokenize(batch):
+<b>return</b> tokenizer(batch["text"], padding=True, truncation=True)
+This function applies the tokenizer to a batch of examples; padding=True will pad the
+truncation=True
+examples with zeros to the size of the longest one in a batch, and
+will truncate the examples to the model’s maximum context size. To see tokenize()
+in action, let’s pass a batch of two examples from the training set:
+<b>print(tokenize(emotions["train"][:2]))</b>
+{'input_ids': [[101, 1045, 2134, 2102, 2514, 26608, 102, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0], [101, 1045, 2064, 2175, 2013, 3110, 2061, 20625, 2000,
+2061, 9636, 17772, 2074, 2013, 2108, 2105, 2619, 2040, 14977, 1998, 2003, 8300,
+102]], 'attention_mask': [[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+1, 1]]}
+Here we can see the result of padding: the first element of input_ids is shorter than
+the second, so zeros have been added to that element to make them the same length.
+These zeros have a corresponding [PAD] token in the vocabulary, and the set of spe‐
+cial tokens also includes the [CLS] and [SEP] tokens that we encountered earlier:
+<b>SpecialToken</b> [PAD] [UNK] [CLS] [SEP] [MASK]
+<b>SpecialTokenID</b> 0 100 101 102 103
+Also note that in addition to returning the encoded tweets as input_ids , the token‐
+attention_mask
+izer returns a list of arrays. This is because we do not want the
+model to get confused by the additional padding tokens: the attention mask allows
+the model to ignore the padded parts of the input. Figure 2-3 provides a visual
+explanation of how the input IDs and attention masks are padded.

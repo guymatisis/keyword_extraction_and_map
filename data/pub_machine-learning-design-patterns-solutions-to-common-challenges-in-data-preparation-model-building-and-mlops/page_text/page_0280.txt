@@ -1,0 +1,40 @@
+model_state <b>AS</b> (
+<b>SELECT</b>
+scheduled_arrival_time,
+arrival_delay,
+<b>AVG(arrival_delay)</b> OVER (time_window) <b>AS</b> prediction,
+4*STDDEV(arrival_delay) OVER (time_window) <b>AS</b> acceptable_deviation
+<b>FROM</b> <b>data</b>
+WINDOW time_window <b>AS</b>
+(ORDER <b>BY</b> UNIX_SECONDS(TIMESTAMP(scheduled_arrival_time))
+RANGE <b>BETWEEN</b> 7200 PRECEDING <b>AND</b> 1 PRECEDING)
+)
+Finally, we apply the anomaly detection algorithm to each instance:
+<b>SELECT</b>
+*,
+(ABS(arrival_delay - prediction) > acceptable_deviation) <b>AS</b> is_anomaly
+<b>FROM</b> model_state
+The result looks like Table 6-1, with the arrival delay of 54 minutes marked as an
+anomaly given that all the previous flights arrived early.
+<i>Table</i> <i>6-1.</i> <i>The</i> <i>result</i> <i>of</i> <i>a</i> <i>BigQuery</i> <i>query</i> <i>determining</i> <i>whether</i> <i>incoming</i> <i>flight</i> <i>data</i>
+<i>is</i> <i>an</i> <i>anomaly</i>
+<b>scheduled_arrival_time</b> <b>arrival_delay</b> <b>prediction</b> <b>acceptable_deviation</b> <b>is_anomaly</b>
+2010-05-01T05:45:00 -18.0 -8.25 62.51399843235114 false
+2010-05-01T06:00:00 -13.0 -10.2 56.878818553131005 false
+2010-05-01T06:35:00 -1.0 -10.666 51.0790237442599 false
+2010-05-01T06:45:00 -9.0 -9.28576 48.86521793473886 false
+2010-05-01T07:00:00 <b>54.0</b> -9.25 45.24220532707422 <b>true</b>
+Unlike the Apache Beam solution, the efficiency of distributed SQL will allow us to
+calculate the 2-hour time window centered on each instance (instead of at a resolu‐
+tion of 10-minute windows). However, the drawback is that BigQuery tends to have
+relatively high latency (on the order of seconds), and so it cannot be used for real-
+time control applications.
+<b>Sequencemodels</b>
+The Windowed Inference pattern of passing a sliding window of previous instances
+to an inference function is useful beyond anomaly detection or even time-series mod‐
+els. Specifically, it is useful in any class of models, such as Sequence models, that
+require a historical state. For example, a translation model needs to see several suc‐
+cessive words before it can carry out the translation so that the translation takes into
+account the context of the word. After all, the translation of the words “left,” “Chi‐
+cago,” and “road” vary between the sentences “I left Chicago by road” and “Turn left
+on Chicago Road.”

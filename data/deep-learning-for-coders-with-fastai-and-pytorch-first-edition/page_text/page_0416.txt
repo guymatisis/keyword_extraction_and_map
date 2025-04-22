@@ -1,0 +1,35 @@
+Let’s try that now. First, we’ll define a function with the basic parameters we’ll use in
+each convolution:
+<b>def</b> conv(ni, nf, ks=3, act=True):
+res = nn.Conv2d(ni, nf, stride=2, kernel_size=ks, padding=ks//2)
+<b>if</b> act: res = nn.Sequential(res, nn.ReLU())
+<b>return</b> res
+<b>Refactoring</b>
+Refactoring parts of your neural networks like this makes it much
+less likely you’ll get errors due to inconsistencies in your architec‐
+tures, and makes it more obvious to the reader which parts of your
+layers are actually changing.
+When we use a stride-2 convolution, we often increase the number of features at the
+same time. This is because we’re decreasing the number of activations in the activa‐
+tion map by a factor of 4; we don’t want to decrease the capacity of a layer by too
+much at a time.
+<b>Jargon:ChannelsandFeatures</b>
+These two terms are largely used interchangeably and refer to the
+size of the second axis of a weight matrix, which is the number of
+activations per grid cell after a convolution. <i>Features</i> is never used
+to refer to the input data, but <i>channels</i> can refer to either the input
+data (generally, channels are colors) or activations inside the
+network.
+Here is how we can build a simple CNN:
+simple_cnn = sequential(
+conv(1 ,4), <i>#14x14</i>
+conv(4 ,8), <i>#7x7</i>
+conv(8 ,16), <i>#4x4</i>
+conv(16,32), <i>#2x2</i>
+conv(32,2, act=False), <i>#1x1</i>
+Flatten(),
+)
+<b>JeremySays</b>
+I like to add comments like the ones here after each convolution to
+show how large the activation map will be after each layer. These
+comments assume that the input size is 28×28.

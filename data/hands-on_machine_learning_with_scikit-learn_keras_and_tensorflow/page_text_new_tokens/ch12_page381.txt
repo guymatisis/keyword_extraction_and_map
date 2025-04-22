@@ -1,0 +1,40 @@
+<header><largefont><b>Keras’</b></largefont> <largefont><b>Low-Level</b></largefont> <largefont><b>API</b></largefont></header>
+keras.backend
+The Keras API has its own low-level API, located in . It includes func‐
+square(), exp(), sqrt().
+tions like and In tf.keras, these functions generally just call
+the corresponding TensorFlow operations. If you want to write code that will be
+portable to other Keras implementations, you should use these Keras functions. How‐
+ever, they only cover a subset of all functions available in TensorFlow, so in this book
+we will use the TensorFlow operations directly. Here is as simple example using
+keras.backend , which is commonly named K for short:
+<b>>>></b> <b>from</b> <b>tensorflow</b> <b>import</b> keras
+<b>>>></b> K = keras.backend
+<b>>>></b> K.square(K.transpose(t)) + 10
+<tf.Tensor: id=39, shape=(3, 2), dtype=float32, numpy=
+array([[11., 26.],
+[14., 35.],
+[19., 46.]], dtype=float32)>
+<header><largefont><b>Tensors</b></largefont> <largefont><b>and</b></largefont> <largefont><b>NumPy</b></largefont></header>
+Tensors play nice with NumPy: you can create a tensor from a NumPy array, and vice
+versa. You can even apply TensorFlow operations to NumPy arrays and NumPy oper‐
+ations to tensors:
+<b>>>></b> a = np.array([2., 4., 5.])
+<b>>>></b> tf.constant(a)
+<tf.Tensor: id=111, shape=(3,), dtype=float64, numpy=array([2., 4., 5.])>
+<b>>>></b> t.numpy() <i>#</i> <i>or</i> <i>np.array(t)</i>
+array([[1., 2., 3.],
+[4., 5., 6.]], dtype=float32)
+<b>>>></b> tf.square(a)
+<tf.Tensor: id=116, shape=(3,), dtype=float64, numpy=array([4., 16., 25.])>
+<b>>>></b> np.square(t)
+array([[ 1., 4., 9.],
+[16., 25., 36.]], dtype=float32)
+Notice that NumPy uses 64-bit precision by default, while Tensor‐
+Flow uses 32-bit. This is because 32-bit precision is generally more
+than enough for neural networks, plus it runs faster and uses less
+RAM. So when you create a tensor from a NumPy array, make sure
+to set dtype=tf.float32 .
+<header><largefont><b>Type</b></largefont> <largefont><b>Conversions</b></largefont></header>
+Type conversions can significantly hurt performance, and they can easily go unno‐
+ticed when they are done automatically. To avoid this, TensorFlow does not perform

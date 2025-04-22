@@ -1,0 +1,30 @@
+To move images for which we’ve selected a different category, we would run this:
+<b>for</b> idx,cat <b>in</b> cleaner.change(): shutil.move(str(cleaner.fns[idx]), path/cat)
+<b>SylvainSays</b>
+Cleaning the data and getting it ready for your model are two of
+the biggest challenges for data scientists; they say it takes 90% of
+their time. The fastai library aims to provide tools that make it as
+easy as possible.
+We’ll be seeing more examples of model-driven data cleaning throughout this book.
+Once we’ve cleaned up our data, we can retrain our model. Try it yourself, and see if
+your accuracy improves!
+<b>NoNeedforBigData</b>
+After cleaning the dataset using these steps, we generally are seeing
+100% accuracy on this task. We even see that result when we down‐
+load a lot fewer images than the 150 per class we’re using here. As
+you can see, the common complaint that <i>you</i> <i>need</i> <i>massive</i> <i>amounts</i>
+<i>of</i> <i>data</i> <i>to</i> <i>do</i> <i>deep</i> <i>learning</i> can be a very long way from the truth!
+Now that we have trained our model, let’s see how we can deploy it to be used in
+practice.
+<header><largefont><b>Turning</b></largefont> <largefont><b>Your</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>into</b></largefont> <largefont><b>an</b></largefont> <largefont><b>Online</b></largefont> <largefont><b>Application</b></largefont></header>
+We are now going to look at what it takes to turn this model into a working online
+application. We will just go as far as creating a basic working prototype; we do not
+have the scope in this book to teach you all the details of web application develop‐
+ment generally.
+<header><largefont><b>Using</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Inference</b></largefont></header>
+Once you’ve got a model you’re happy with, you need to save it so you can then copy
+it over to a server where you’ll use it in production. Remember that a model consists
+of two parts: the <i>architecture</i> and the trained <i>parameters.</i> The easiest way to save a
+model is to save both of these, because that way, when you load the model, you can be
+sure that you have the matching architecture and parameters. To save both parts, use
+the export method.

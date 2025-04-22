@@ -1,0 +1,34 @@
+Common idioms to handle arrays of numbers include the following:
+• Representing the input array in terms of its bulk statistics. For example, we might
+use the length (that is, count of previous books on topic), average, median, mini‐
+mum, maximum, and so forth.
+• Representing the input array in terms of its empirical distribution—i.e., by the
+10th/20th/... percentile, and so on.
+• If the array is ordered in a specific way (for example, in order of time or by size),
+representing the input array by the last three or some other fixed number of
+items. For arrays of length less than three, the feature is padded to a length of
+three with missing values.
+All these end up representing the variable-length array of data as a fixed-length fea‐
+ture. We could have also formulated this problem as a time-series forecasting prob‐
+lem, as the problem of forecasting the sales of the next book on the topic based on the
+time history of sales of previous books. By treating the sales of previous books as an
+array input, we are assuming that the most important factors in predicting a book’s
+sales are characteristics of the book itself (author, publisher, reviews, and so on) and
+not the temporal continuity of the sales amounts.
+<header><largefont><b>Categorical</b></largefont> <largefont><b>Inputs</b></largefont></header>
+Because most modern, large-scale machine learning models (random forests, support
+vector machines, neural networks) operate on numerical values, categorical inputs
+have to be represented as numbers.
+Simply enumerating the possible values and mapping them to an ordinal scale will
+work poorly. Suppose that one of the inputs to the model that predicts the sales of a
+nonfiction book is the language that the book is written in. We can’t simply create a
+mapping table like this:
+<b>Categoricalinput</b> <b>Numericfeature</b>
+English 1.0
+Chinese 2.0
+German 3.0
+This is because the machine learning model will then attempt to interpolate between
+the popularity of German and English books to get the popularity of the book in Chi‐
+nese! Because there is no ordinal relationship between languages, we need to use a
+categorical to numeric mapping that allows the model to learn the market for books
+written in these languages independently.

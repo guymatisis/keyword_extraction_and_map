@@ -1,0 +1,26 @@
+<i>Figure</i> <i>8-9.</i> <i>Architecture</i> <i>of</i> <i>the</i> <i>ONNX</i> <i>and</i> <i>ONNX</i> <i>Runtime</i> <i>ecosystem</i> <i>(courtesy</i> <i>of</i> <i>the</i>
+<i>ONNX</i> <i>Runtime</i> <i>team)</i>
+To see ORT in action, the first thing we need to do is convert our distilled model into
+the ONNX format. The Transformers library has a built-in function called
+convert_graph_to_onnx.convert()
+that simplifies the process by taking the follow‐
+ing steps:
+Pipeline
+1. Initialize the model as a .
+2. Run placeholder inputs through the pipeline so that ONNX can record the com‐
+putational graph.
+3. Define dynamic axes to handle dynamic sequence lengths.
+4. Save the graph with network parameters.
+To use this function, we first need to set some OpenMP environment variables for
+ONNX:
+<b>import</b> <b>os</b>
+<b>from</b> <b>psutil</b> <b>import</b> cpu_count
+os.environ["OMP_NUM_THREADS"] = f"{cpu_count()}"
+os.environ["OMP_WAIT_POLICY"] = "ACTIVE"
+OpenMP is an API designed for developing highly parallelized applications. The
+OMP_NUM_THREADS
+environment variable sets the number of threads to use for parallel
+computations in the ONNX Runtime, while OMP_WAIT_POLICY=ACTIVE specifies that
+waiting threads should be active (i.e., using CPU processor cycles).
+Next, let’s convert our distilled model to the ONNX format. Here we need to specify
+the argument pipeline_name="text-classification" since convert() wraps the

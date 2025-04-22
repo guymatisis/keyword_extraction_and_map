@@ -1,0 +1,36 @@
+SELECT
+IF(apgar_1min = 10, 'Healthy',
+IF(apgar_1min >= 8, 'Neutral', 'NeedsAttention')) AS health,
+plurality,
+mother_age,
+gestation_weeks,
+ever_born
+FROM `bigquery-public-data.samples.natality`
+WHERE apgar_1min <= 10
+This model achieves an accuracy of 0.79 on a held-out evaluation dataset, much
+higher than the 0.56 that was achieved with two classes.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+The Neutral Class design pattern is one to keep in mind at the beginning of a
+machine learning problem. Collect the right data, and we can avoid a lot of sticky
+problems down the line. Here are a few situations where having a neutral class can be
+helpful.
+<b>Whenhumanexpertsdisagree</b>
+The neutral class is helpful in dealing with disagreements among human experts.
+Suppose we have human labelers to whom we show patient history and ask them
+what medication they would prescribe. We might have a clear signal for acetamino‐
+phen in some cases, a clear signal for ibuprofen in other cases, and a huge swath of
+cases for which human labelers disagree. The neutral class provides a way to deal with
+such cases.
+In the case of human labeling (unlike with the historical dataset of actual doctor
+actions where a patient was seen by only one doctor), every pattern is labeled by mul‐
+tiple experts. Therefore, we know a priori which cases humans disagree about. It
+might seem far simpler to simply discard such cases, and simply train a binary classi‐
+fier. After all, it doesn’t matter what the model does on the neutral cases. This has two
+problems:
+1. False confidence tends to affect the acceptance of the model by human experts. A
+model that outputs a neutral determination is often more acceptable to experts
+than a model that is wrongly confident in cases where the human expert would
+have chosen the alternative.
+2. If we are training a cascade of models, then downstream models will be
+extremely sensitive to the neutral classes. If we continue to improve this model,
+downstream models could change dramatically from version to version.

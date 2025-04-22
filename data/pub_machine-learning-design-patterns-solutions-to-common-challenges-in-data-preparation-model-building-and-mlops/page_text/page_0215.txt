@@ -1,0 +1,41 @@
+database?1
+model to every complaint in the CFPB We can simply adapt the query
+above, making sure to alias the consumer_complaint_narrative column in the inner
+SELECT as the reviews to be assessed:
+<b>SELECT</b> * <b>FROM</b> ML.PREDICT(MODEL mlpatterns.imdb_sentiment,
+(SELECT consumer_complaint_narrative <b>AS</b> reviews
+<b>FROM</b> `bigquery-public-data`.cfpb_complaints.complaint_database
+<b>WHERE</b> consumer_complaint_narrative <b>IS</b> <b>NOT</b> <b>NULL</b>
+)
+)
+The database has more than 1.5 million complaints, but they get processed in about
+30 seconds, proving the benefits of using a distributed data processing framework.
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+The Stateless Serving Function design pattern is set up for low-latency serving to sup‐
+port thousands of simultaneous queries. Using such a framework for occasional or
+periodic processing of millions of items can get quite expensive. If these requests are
+not latency-sensitive, it is more cost effective to use a distributed data processing
+architecture to invoke machine learning models on millions of items. The reason is
+that invoking an ML model on millions of items is an embarrassingly parallel prob‐
+lem—it is possible to take the million items, break them down into 1,000 groups of
+1,000 items each, send each group of items to a machine, then combine the results.
+The result of the machine learning model on item number 2,000 is completely inde‐
+pendent of the result of the machine learning model on item number 3,000, and so it
+is possible to divide up the work and conquer it.
+Take, for example, the query to find the five most positive complaints:
+<b>WITH</b> all_complaints <b>AS</b> (
+<b>SELECT</b> * <b>FROM</b> ML.PREDICT(MODEL mlpatterns.imdb_sentiment,
+(SELECT consumer_complaint_narrative <b>AS</b> reviews
+<b>FROM</b> `bigquery-public-data`.cfpb_complaints.complaint_database
+<b>WHERE</b> consumer_complaint_narrative <b>IS</b> <b>NOT</b> <b>NULL</b>
+)
+)
+)
+<b>SELECT</b> * <b>FROM</b> all_complaints
+<b>ORDER</b> <b>BY</b> positive_review_probability <b>DESC</b> <b>LIMIT</b> 5
+1 Curiouswhata“positive”complaintlookslike?Hereyougo:
+“IgetphonecallsmorningXXXXandnight.Ihavetoldthemtostopsomanycallsbuttheystillcallevenon
+Sundayinthemorning.IhadtwocallsinarowonaSundaymorningfromXXXXXXXX.Ireceivednine
+callsonSaturday.Ireceiveaboutnineduringtheweekdayeverydayaswell.
+Theonlyhintthatthecomplainerisunhappyisthattheyhaveaskedthecallerstostop.Otherwise,therestof
+thestatementsmightwellbeaboutsomeonebraggingabouthowpopulartheyare!”

@@ -1,0 +1,46 @@
+It is also possible to fine-tune a reading comprehension model
+Transformers
+directly in Transformers and then load it in
+Reader
+to run inference. For details on how to do the fine-tuning
+step, see the question answering tutorial in the library’s
+documentation.
+In FARMReader , the behavior of the sliding window is controlled by the same
+max_seq_length doc_stride
+and arguments that we saw for the tokenizer. Here we’ve
+used the values from the MiniLM paper. To confirm, let’s now test the reader on our
+simple example from earlier:
+<b>print(reader.predict_on_texts(question=question,</b> texts=[context], top_k=1))
+{'query': 'How much music can this hold?', 'no_ans_gap': 12.648084878921509,
+'answers': [{'answer': '6000 hours', 'score': 10.69961929321289, 'probability':
+0.3988136053085327, 'context': 'An MP3 is about 1 MB/minute, so about 6000 hours
+depending on file size.', 'offset_start': 38, 'offset_end': 48,
+'offset_start_in_doc': 38, 'offset_end_in_doc': 48, 'document_id':
+'e344757014e804eff50faa3ecf1c9c75'}]}
+Great, the reader appears to be working as expected—so next, let’s tie together all our
+components using one of Haystack’s pipelines.
+<b>Puttingitalltogether</b>
+Pipeline
+Haystack provides a abstraction that allows us to combine retrievers, read‐
+ers, and other components together as a graph that can be easily customized for each
+use case. There are also predefined pipelines analogous to those in Transformers,
+but specialized for QA systems. In our case, we’re interested in extracting answers, so
+ExtractiveQAPipeline
+we’ll use the , which takes a single retriever-reader pair as its
+arguments:
+<b>from</b> <b>haystack.pipeline</b> <b>import</b> ExtractiveQAPipeline
+pipe = ExtractiveQAPipeline(reader, es_retriever)
+Pipeline run()
+Each has a method that specifies how the query flow should be exe‐
+ExtractiveQAPipeline query,
+cuted. For the we just need to pass the the number of
+documents to retrieve with top_k_retriever , and the number of answers to extract
+top_k_reader
+from these documents with . In our case, we also need to specify a filter
+over the item ID, which can be done using the filters argument as we did with the
+retriever earlier. Let’s run a simple example using our question about the Amazon
+Fire tablet again, but this time returning the extracted answers:
+n_answers = 3
+preds = pipe.run(query=query, top_k_retriever=3, top_k_reader=n_answers,
+filters={"item_id": [item_id], "split":["train"]})
+<b>print(f"Question:</b> {preds['query']} <b>\n")</b>

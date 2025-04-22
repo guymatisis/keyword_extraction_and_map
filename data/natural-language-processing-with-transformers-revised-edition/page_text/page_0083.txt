@@ -1,0 +1,39 @@
+<i>GPT-3</i>
+Following the success of scaling GPT up to GPT-2, a thorough analysis on the
+behavior of language models at different scales revealed that there are simple
+power laws that govern the relation between compute, dataset size, model size,
+and the performance of a language model.20 Inspired by these insights, GPT-2
+GPT-3,21
+was upscaled by a factor of 100 to yield with 175 billion parameters.
+Besides being able to generate impressively realistic text passages, the model also
+exhibits few-shot learning capabilities: with a few examples of a novel task such
+as translating text to code, the model is able to accomplish the task on new exam‐
+ples. OpenAI has not open-sourced this model, but provides an interface through
+the OpenAI API.
+<i>GPT-Neo/GPT-J-6B</i>
+GPT-Neo and GPT-J-6B are GPT-like models that were trained by EleutherAI, a
+models.22
+collective of researchers who aim to re-create and release GPT-3 scale
+The current models are smaller variants of the full 175-billion-parameter model,
+with 1.3, 2.7, and 6 billion parameters, and are competitive with the smaller
+GPT-3 models OpenAI offers.
+The final branch in the transformers tree of life is the encoder-decoder models. Let’s
+take a look.
+<header><largefont><b>The</b></largefont> <largefont><b>Encoder-Decoder</b></largefont> <largefont><b>Branch</b></largefont></header>
+Although it has become common to build models using a single encoder or decoder
+stack, there are several encoder-decoder variants of the Transformer architecture that
+have novel applications across both NLU and NLG domains:
+<i>T5</i>
+The T5 model unifies all NLU and NLG tasks by converting them into text-to-
+text tasks. 23 All tasks are framed as sequence-to-sequence tasks, where adopting
+an encoder-decoder architecture is natural. For text classification problems, for
+example, this means that the text is used as the encoder input and the decoder
+has to generate the label as normal text instead of a class. We will look at this in
+more detail in Chapter 6. The T5 architecture uses the original Transformer
+architecture. Using the large crawled C4 dataset, the model is pretrained with
+masked language modeling as well as the SuperGLUE tasks by translating all of
+20 J.Kaplanetal.,“ScalingLawsforNeuralLanguageModels”,(2020).
+21 T.Brownetal.,“LanguageModelsAreFew-ShotLearners”,(2020).
+22 S.Blacketal.,“GPT-Neo:LargeScaleAutoregressiveLanguageModelingwithMesh-TensorFlow”,(2021);B.
+WangandA.Komatsuzaki,“GPT-J-6B:A6BillionParameterAutoregressiveLanguageModel”,(2021).
+23 C.Raffeletal.,“ExploringtheLimitsofTransferLearningwithaUnifiedText-to-TextTransformer”,(2019).

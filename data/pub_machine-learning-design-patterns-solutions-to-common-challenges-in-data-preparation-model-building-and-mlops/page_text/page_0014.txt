@@ -1,0 +1,38 @@
+Additionally, in scikit-learn, many utility functions for shuffling your data also allow
+you to set a random seed value:
+<b>from</b> <b>sklearn.utils</b> <b>import</b> shuffle
+data = shuffle(data, random_state=value)
+Keep in mind that you’ll need to use the same data <i>and</i> the same random seed when
+training your model to ensure repeatable, reproducible results across different
+experiments.
+Training an ML model involves several artifacts that need to be fixed in order to
+ensure reproducibility: the data used, the splitting mechanism used to generate data‐
+sets for training and validation, data preparation and model hyperparameters, and
+variables like the batch size and learning rate schedule.
+Reproducibility also applies to machine learning framework dependencies. In addi‐
+tion to manually setting a random seed, frameworks also implement elements of ran‐
+domness internally that are executed when you call a function to train your model. If
+this underlying implementation changes between different framework versions,
+repeatability is not guaranteed. As a concrete example, if one version of a frame‐
+work’s train() method makes 13 calls to rand() , and a newer version of the same
+framework makes 14 calls, using different versions between experiments will cause
+slightly different results, even with the same data and model code. Running ML
+workloads in containers and standardizing library versions can help ensure repeata‐
+bility. Chapter 6 introduces a series of patterns for making ML processes
+reproducible.
+Finally, reproducibility can refer to a model’s training environment. Often, due to
+large datasets and complexity, many models take a significant amount of time to
+train. This can be accelerated by employing distribution strategies like data or model
+parallelism (see Chapter 5). With this acceleration, however, comes an added chal‐
+lenge of repeatability when you rerun code that makes use of distributed training.
+<header><largefont><b>Data</b></largefont> <largefont><b>Drift</b></largefont></header>
+While machine learning models typically represent a static relationship between
+inputs and outputs, data can change significantly over time. Data drift refers to the
+challenge of ensuring your machine learning models stay relevant, and that model
+predictions are an accurate reflection of the environment in which they’re being used.
+For example, let’s say you’re training a model to classify news article headlines into
+categories like “politics,” “business,” and “technology.” If you train and evaluate your
+model on historical news articles from the 20th century, it likely won’t perform as
+well on current data. Today, we know that an article with the word “smartphone” in
+the headline is probably about technology. However, a model trained on historical
+data would have no knowledge of this word. To solve for drift, it’s important to

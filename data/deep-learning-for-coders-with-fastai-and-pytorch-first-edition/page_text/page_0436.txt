@@ -1,0 +1,20 @@
+The paper caused great excitement as soon as it was released, because it included the
+chart in Figure 13-16, which clearly demonstrated that batch normalization could
+train a model that was even more accurate than the current state of the art (the <i>Incep‐</i>
+<i>tion</i> architecture) and around 5× faster.
+<i>Figure</i> <i>13-16.</i> <i>Impact</i> <i>of</i> <i>batch</i> <i>normalization</i> <i>(courtesy</i> <i>of</i> <i>Sergey</i> <i>Ioffe</i> <i>and</i> <i>Christian</i>
+<i>Szegedy)</i>
+Batch normalization (often called <i>batchnorm)</i> works by taking an average of the mean
+and standard deviations of the activations of a layer and using those to normalize the
+activations. However, this can cause problems because the network might want some
+activations to be really high in order to make accurate predictions. So they also added
+two learnable parameters (meaning they will be updated in the SGD step), usually
+gamma beta.
+called and After normalizing the activations to get some new activation
+vector y, a batchnorm layer returns gamma*y + beta.
+That’s why our activations can have any mean or variance, independent from the
+mean and standard deviation of the results of the previous layer. Those statistics are
+learned separately, making training easier on our model. The behavior is different
+during training and validation: during training we use the mean and standard devia‐
+tion of the batch to normalize the data, while during validation we instead use a run‐
+ning mean of the statistics calculated during training.

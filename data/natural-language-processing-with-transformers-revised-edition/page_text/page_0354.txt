@@ -1,0 +1,34 @@
+The trick behind linearized attention mechanisms is to express the similarity function
+as a <i>kernel</i> <i>function</i> that decomposes the operation into two pieces:
+<i>T</i>
+sim <i>Q</i> ,K = <i>φ</i> <i>Q</i> <i>φ</i> <i>K</i>
+<i>j</i> <i>j</i> <i>i</i> <i>j</i>
+where <i>φ</i> is typically a high-dimensional feature map. Since <i>φ</i> <i>Q</i> is independent of <i>j</i>
+<i>i</i>
+and <i>k,</i> we can pull it under the sums to write the attention outputs as follows:
+<i>T</i> <i>T</i>
+<i>φ</i> <i>Q</i> ∑ <i>φ</i> <i>K</i> <i>V</i>
+<i>i</i> <i>j</i> <i>j</i> <i>j</i>
+<i>y</i> =
+<i>i</i> <i>T</i>
+<i>φ</i> <i>Q</i> ∑ <i>φ</i> <i>K</i>
+<i>i</i> <i>k</i> <i>k</i>
+<i>T</i>
+By first computing ∑ <i>φ</i> <i>K</i> <i>V</i> and ∑ <i>φ</i> <i>K</i> , we can effectively linearize the space and
+<i>j</i> <i>j</i> <i>j</i> <i>k</i> <i>k</i>
+time complexity of self-attention! The comparison between the two approaches is
+illustrated in Figure 11-7. Popular models that implement linearized self-attention
+include Linear Transformer and Performer. 8
+<i>Figure</i> <i>11-7.</i> <i>Complexity</i> <i>difference</i> <i>between</i> <i>standard</i> <i>self-attention</i> <i>and</i> <i>linearized</i> <i>self-</i>
+<i>attention</i> <i>(courtesy</i> <i>of</i> <i>Tianyang</i> <i>Lin)</i>
+In this section we’ve seen how Transformer architectures in general and attention in
+particular can be scaled up to achieve even better performance on a wide range of
+tasks. In the next section we’ll have a look at how transformers are branching out of
+NLP into other domains such as audio and computer vision.
+<header><largefont><b>Going</b></largefont> <largefont><b>Beyond</b></largefont> <largefont><b>Text</b></largefont></header>
+Using text to train language models has been the driving force behind the success of
+transformer language models, in combination with transfer learning. On the one
+hand, text is abundant and enables self-supervised training of large models. On the
+other hand, textual tasks such as classification and question answering are common,
+8 A.Katharopoulosetal.,“TransformersAreRNNs:FastAutoregressiveTransformerswithLinearAttention”,
+(2020);K.Choromanskietal.,“RethinkingAttentionwithPerformers”,(2020).

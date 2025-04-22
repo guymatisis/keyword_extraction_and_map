@@ -1,0 +1,36 @@
+9. In Jupyter Notebook, how do you measure the time taken for a single cell to
+execute?
+10. What is elementwise arithmetic?
+11. Write the PyTorch code to test whether every element of a is greater than the cor‐
+responding element of b.
+12. What is a rank-0 tensor? How do you convert it to a plain Python data type?
+13. What does this return, and why?
+tensor([1,2]) + tensor([1])
+14. What does this return, and why?
+tensor([1,2]) + tensor([1,2,3])
+matmul?
+15. How does elementwise arithmetic help us speed up
+16. What are the broadcasting rules?
+17. What is expand_as? Show an example of how it can be used to match the results
+of broadcasting.
+18. How does unsqueeze help us to solve certain broadcasting problems?
+unsqueeze?
+19. How can we use indexing to do the same operation as
+20. How do we show the actual contents of the memory used for a tensor?
+21. When adding a vector of size 3 to a matrix of size 3×3, are the elements of the
+vector added to each row or each column of the matrix? (Be sure to check your
+answer by running this code in a notebook.)
+22. Do broadcasting and expand_as result in increased memory use? Why or why
+not?
+23. Implement matmul using Einstein summation.
+24. What does a repeated index letter represent on the lefthand side of einsum?
+25. What are the three rules of Einstein summation notation? Why?
+26. What are the forward pass and backward pass of a neural network?
+27. Why do we need to store some of the activations calculated for intermediate lay‐
+ers in the forward pass?
+28. What is the downside of having activations with a standard deviation too far
+away from 1?
+29. How can weight initialization help avoid this problem?
+30. What is the formula to initialize weights such that we get a standard deviation of
+1 for a plain linear layer, and for a linear layer followed by ReLU?
+31. Why do we sometimes have to use the squeeze method in loss functions?

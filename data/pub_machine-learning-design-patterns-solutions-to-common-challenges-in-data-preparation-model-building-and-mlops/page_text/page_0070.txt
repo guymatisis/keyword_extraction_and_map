@@ -1,0 +1,40 @@
+• BOW encoding provides strong signals for the most significant words present in
+our vocabulary, while embeddings can identify relationships between words in a
+much larger vocabulary.
+• If we have text that switches between languages, we can build embeddings (or
+BOW encodings) for each one and concatenate them.
+• Embeddings can encode the frequency of words in text, where the BOW treats
+the presence of each word as a boolean value. Both representations are valuable.
+• BOW encoding can identify patterns between reviews that all contain the word
+“amazing,” while an embedding can learn to correlate the phrase “not amazing”
+with a below-average review. Again, both of these representations are valuable.
+<b>Extractingtabularfeaturesfromtext.</b>
+In addition to encoding raw text data, there are
+often other characteristics of text that can be represented as tabular features. Let’s say
+we are building a model to predict whether or not a Stack Overflow question will get
+a response. Various factors about the text but unrelated to the exact words themselves
+may be relevant to training a model on this task. For example, maybe the length of a
+question or the presence of a question mark influences the likelihood of an answer.
+However, when we create an embedding, we usually truncate the words to a certain
+length. The actual length of a question is lost in that data representation. Similarly,
+punctuation is often removed. We can use the Multimodal Input design pattern to
+bring back this lost information to the model.
+In the following query, we’ll extract some tabular features from the title field of the
+Stack Overflow dataset to predict whether or not a question will get an answer:
+<b>SELECT</b>
+<b>LENGTH(title)</b> <b>AS</b> title_len,
+ARRAY_LENGTH(SPLIT(title, " ")) <b>AS</b> word_count,
+ENDS_WITH(title, "?") <b>AS</b> ends_with_q_mark,
+IF
+(answer_count > 0,
+1,
+0) <b>AS</b> is_answered,
+<b>FROM</b>
+`bigquery-public-data.stackoverflow.posts_questions`
+This results in the following:
+<b>Row</b> <b>title_len</b> <b>word_count</b> <b>ends_with_q_mark</b> <b>is_answered</b>
+1 84 14 true 0
+2 104 16 false 0
+3 85 19 true 1
+4 88 14 false 1
+5 17 3 false 1

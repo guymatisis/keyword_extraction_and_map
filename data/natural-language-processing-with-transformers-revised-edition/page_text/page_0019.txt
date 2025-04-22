@@ -1,0 +1,33 @@
+<header><largefont><b>Main</b></largefont> <largefont><b>Challenges</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Transformers</b></largefont></header>
+In this chapter we’ve gotten a glimpse of the wide range of NLP tasks that can be tack‐
+led with transformer models. Reading the media headlines, it can sometimes sound
+like their capabilities are limitless. However, despite their usefulness, transformers are
+far from being a silver bullet. Here are a few challenges associated with them that we
+will explore throughout the book:
+<i>Language</i>
+NLP research is dominated by the English language. There are several models for
+other languages, but it is harder to find pretrained models for rare or low-
+resource languages. In Chapter 4, we’ll explore multilingual transformers and
+their ability to perform zero-shot cross-lingual transfer.
+<i>Data</i> <i>availability</i>
+Although we can use transfer learning to dramatically reduce the amount of
+labeled training data our models need, it is still a lot compared to how much a
+human needs to perform the task. Tackling scenarios where you have little to no
+labeled data is the subject of Chapter 9.
+<i>Working</i> <i>with</i> <i>long</i> <i>documents</i>
+Self-attention works extremely well on paragraph-long texts, but it becomes very
+expensive when we move to longer texts like whole documents. Approaches to
+mitigate this are discussed in Chapter 11.
+<i>Opacity</i>
+As with other deep learning models, transformers are to a large extent opaque. It
+is hard or impossible to unravel “why” a model made a certain prediction. This is
+an especially hard challenge when these models are deployed to make critical
+decisions. We’ll explore some ways to probe the errors of transformer models in
+Chapters 2 and 4.
+<i>Bias</i>
+Transformer models are predominantly pretrained on text data from the internet.
+This imprints all the biases that are present in the data into the models. Making
+sure that these are neither racist, sexist, or worse is a challenging task. We discuss
+some of these issues in more detail in Chapter 10.
+Although daunting, many of these challenges can be overcome. As well as in the spe‐
+cific chapters mentioned, we will touch on these topics in almost every chapter ahead.

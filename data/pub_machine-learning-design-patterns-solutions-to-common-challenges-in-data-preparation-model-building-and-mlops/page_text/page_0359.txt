@@ -1,0 +1,18 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>8</b></largefont></header>
+<header><largefont><b>Connected</b></largefont> <largefont><b>Patterns</b></largefont></header>
+We set out to create a catalog of machine learning design patterns, solutions to recur‐
+ring problems when designing, training, and deploying machine learning models and
+pipelines. In this chapter, we provide a quick reference to this inventory of patterns.
+We organized the patterns in the book in terms of where they would be used in a typ‐
+ical ML workflow. Thus, we had a chapter on input representation and another on
+model selection. We then discussed patterns that modify the typical training loop and
+make inference more resilient. We ended with patterns that promote a responsible
+use of ML systems. This is akin to organizing a recipe book with separate sections on
+appetizers, soups, entrees, and desserts. Such an organization, however, can make it
+hard to determine when to choose which soup and what desserts go well with some
+entree. Therefore, in this chapter, we also draw out how the patterns are related to
+one another. Finally, we also put together “meal plans” by discussing how the pat‐
+terns interact for common categories of ML tasks.
+<header><largefont><b>Patterns</b></largefont> <largefont><b>Reference</b></largefont></header>
+We’ve discussed a lot of different design patterns and how they can be used to
+address common challenges that arise in machine learning. Here is a summary.

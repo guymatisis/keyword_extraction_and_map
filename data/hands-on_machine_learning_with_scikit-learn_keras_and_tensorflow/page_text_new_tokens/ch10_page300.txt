@@ -1,0 +1,41 @@
+model = keras.models.Sequential([
+keras.layers.Flatten(input_shape=[28, 28]),
+keras.layers.Dense(300, activation="relu"),
+keras.layers.Dense(100, activation="relu"),
+keras.layers.Dense(10, activation="softmax")
+])
+<header><largefont><b>Using</b></largefont> <largefont><b>Code</b></largefont> <largefont><b>Examples</b></largefont> <largefont><b>from</b></largefont> <largefont><b>keras.io</b></largefont></header>
+Code examples documented on keras.io will work fine with tf.keras, but you need to
+change the imports. For example, consider this keras.io code:
+<b>from</b> <b>keras.layers</b> <b>import</b> Dense
+output_layer = Dense(10)
+You must change the imports like this:
+<b>from</b> <b>tensorflow.keras.layers</b> <b>import</b> Dense
+output_layer = Dense(10)
+Or simply use full paths, if you prefer:
+<b>from</b> <b>tensorflow</b> <b>import</b> keras
+output_layer = keras.layers.Dense(10)
+This approach is more verbose, but I use it in this book so you can easily see which
+packages to use, and to avoid confusion between standard classes and custom classes.
+from ten
+In production code, I prefer the previous approach. Many people also use
+sorflow.keras import layers layers.Dense(10).
+followed by
+The model’s summary() method displays all the model’s layers,14 including each layer’s
+name (which is automatically generated unless you set it when creating the layer), its
+(None
+output shape means the batch size can be anything), and its number of parame‐
+ters. The summary ends with the total number of parameters, including trainable and
+non-trainable parameters. Here we only have trainable parameters (we will see exam‐
+ples of non-trainable parameters in Chapter 11):
+<b>>>></b> model.summary()
+Model: "sequential"
+_________________________________________________________________
+Layer (type) Output Shape Param #
+=================================================================
+flatten (Flatten) (None, 784) 0
+_________________________________________________________________
+dense (Dense) (None, 300) 235500
+_________________________________________________________________
+keras.utils.plot_model()
+14 Youcanuse togenerateanimageofyourmodel.

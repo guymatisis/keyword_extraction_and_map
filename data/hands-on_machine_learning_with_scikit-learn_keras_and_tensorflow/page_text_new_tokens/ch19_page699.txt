@@ -1,0 +1,21 @@
+placement request fails, TensorFlow will fall back to its default placement rules (i.e.,
+GPU 0 by default if it exists and there is a GPU kernel, and CPU 0 otherwise).
+Now how exactly will TensorFlow execute all these operations across multiple
+devices?
+<header><largefont><b>Parallel</b></largefont> <largefont><b>Execution</b></largefont> <largefont><b>Across</b></largefont> <largefont><b>Multiple</b></largefont> <largefont><b>Devices</b></largefont></header>
+As we saw in Chapter 12, one of the benefits of using TF Functions is parallelism.
+Let’s look at this a bit more closely. When TensorFlow runs a TF Function, it starts by
+analyzing its graph to find the list of operations that need to be evaluated, and it
+counts how many dependencies each of them has. TensorFlow then adds each opera‐
+tion with zero dependencies (i.e., each source operation) to the evaluation queue of
+this operation’s device (see Figure 19-14). Once an operation has been evaluated, the
+dependency counter of each operation that depends on it is decremented. Once an
+operation’s dependency counter reaches zero, it is pushed to the evaluation queue of
+its device. And once all the nodes that TensorFlow needs have been evaluated, it
+returns their outputs.
+<i>Figure</i> <i>19-14.</i> <i>Parallelized</i> <i>execution</i> <i>of</i> <i>a</i> <i>TensorFlow</i> <i>graph</i>
+Operations in the CPU’s evaluation queue are dispatched to a thread pool called the
+<i>inter-op</i> <i>thread</i> <i>pool.</i> If the CPU has multiple cores, then these operations will effec‐
+tively be evaluated in parallel. Some operations have multithreaded CPU kernels:
+these kernels split their tasks into multiple suboperations, which are placed in
+another evaluation queue and dispatched to a second thread pool called the <i>intra-op</i>

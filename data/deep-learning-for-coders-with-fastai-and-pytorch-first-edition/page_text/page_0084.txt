@@ -1,0 +1,25 @@
+• There’s a lot more market competition in CPU than GPU servers, and as a result,
+there are much cheaper options available for CPU servers.
+Because of the complexity of GPU serving, many systems have sprung up to try to
+automate this. However, managing and running these systems is also complex, and
+generally requires compiling your model into a different form that’s specialized for
+that system. It’s typically preferable to avoid dealing with this complexity until/unless
+your app gets popular enough that it makes clear financial sense for you to do so.
+For at least the initial prototype of your application, and for any hobby projects that
+you want to show off, you can easily host them for free. The best place and the best
+way to do this will vary over time, so check the book’s website for the most up-to-date
+recommendations. As we’re writing this book in early 2020, the simplest (and free!)
+approach is to use Binder. To publish your web app on Binder, you follow these steps:
+1. Add your notebook to a GitHub repository.
+2. Paste the URL of that repo into Binder’s URL field, as shown in Figure 2-4.
+3. Change the File drop-down to instead select URL.
+4. In the “URL to open” field, enter /voila/render/name.ipynb (replacing <i>name</i>
+with the name of your notebook).
+5. Click the clipboard button at the bottom right to copy the URL and paste it
+somewhere safe.
+6. Click Launch.
+<i>Figure</i> <i>2-4.</i> <i>Deploying</i> <i>to</i> <i>Binder</i>
+The first time you do this, Binder will take around 5 minutes to build your site.
+Behind the scenes, it is finding a virtual machine that can run your app, allocating
+storage, and collecting the files needed for Jupyter, for your notebook, and for pre‐
+senting your notebook as a web application.

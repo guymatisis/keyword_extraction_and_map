@@ -1,0 +1,11 @@
+more specialized dataset. We then discussed the <i>Distribution</i> <i>Strategy</i> design pattern.
+Training large, complex neural networks can take a considerable amount of time.
+Distribution strategies offer various ways in which the training loop can be modified
+to be carried out at scale over multiple workers, using parallelization and hardware
+accelerators.
+Lastly, the <i>Hyperparameter</i> <i>Tuning</i> design pattern discussed how the SGD training
+loop itself can be optimized with respect to model hyperparameters. We saw some
+useful libraries that can be used to implement hyperparameter tuning for models cre‐
+ated with Keras and PyTorch.
+The next chapter looks at design patterns related to <i>resilience</i> (to large numbers of
+requests, spiky traffic, or change management) when placing models into production.

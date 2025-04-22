@@ -1,0 +1,47 @@
+'euclid_dist']
+label = 'fare_amt'
+features = model_features + [label]
+<i>#</i> <i>Retrieve</i> <i>training</i> <i>dataset</i> <i>from</i> <i>Feast</i>
+dataset = _feast_batch_client.get_batch_features(
+feature_refs=[FS_NAME + ":" + feature <b>for</b> feature <b>in</b> features],
+entity_rows=entity_df).to_dataframe()
+The dataframe dataset now contains all features and the label for our model, pulled
+directly from the feature store.
+<b>Onlineserving.</b>
+For online serving, Feast only stores the latest entity values, as
+opposed to historical serving where all historical values are stored. Online serving
+with Feast is built to be very low latency, and Feast provides a gRPC API backed by
+Redis. To retrieve online features, for example, when making online predictions with
+.get_online_features(...)
+the trained model, we use specifying the features we
+want to capture and the entity:
+<i>#</i> <i>retrieve</i> <i>online</i> <i>features</i> <i>for</i> <i>a</i> <i>single</i> <i>taxi_id</i>
+online_features = _feast_online_client.get_online_features(
+feature_refs=["taxi_rides:pickup_lat",
+"taxi_rides:pickup_lon",
+"taxi_rides:dropoff_lat",
+"taxi_rides:dropoff_lon",
+"taxi_rides:num_pass",
+"taxi_rides:euclid_dist"],
+entity_rows=[
+GetOnlineFeaturesRequest.EntityRow(
+fields={
+"taxi_id": Value(
+int64_val=5)
+}
+)
+]
+)
+online_features
+This saves as a list of maps where each item in the list contains the
+latest feature values for the provided entity, here, taxi_id = 5 :
+field_values {
+fields {
+key: "taxi_id"
+value {
+int64_val: 5
+}
+}
+fields {
+key: "taxi_rides:dropoff_lat"
+value {

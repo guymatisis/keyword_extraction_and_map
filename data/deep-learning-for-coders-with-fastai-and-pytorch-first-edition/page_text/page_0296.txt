@@ -1,0 +1,33 @@
+We have nearly as many leaf nodes as data points! That seems a little over-
+enthusiastic. Indeed, sklearn’s default settings allow it to continue splitting nodes until
+there is only one item in each leaf node. Let’s change the stopping rule to tell sklearn
+to ensure every leaf node contains at least 25 auction records:
+m = DecisionTreeRegressor(min_samples_leaf=25)
+m.fit(to.train.xs, to.train.y)
+m_rmse(m, xs, y), m_rmse(m, valid_xs, valid_y)
+(0.248562, 0.32368)
+That looks much better. Let’s check the number of leaves again:
+m.get_n_leaves()
+12397
+Much more reasonable!
+<b>AlexisSays</b>
+Here’s my intuition for an overfitting decision tree with more leaf
+nodes than data items. Consider the game Twenty Questions. In
+that game, the chooser secretly imagines an object (like, “our televi‐
+sion set”), and the guesser gets to pose 20 yes or no questions to try
+to guess what the object is (like “Is it bigger than a breadbox?”).
+The guesser is not trying to predict a numerical value, but just to
+identify a particular object out of the set of all imaginable objects.
+When your decision tree has more leaves than there are possible
+objects in your domain, it is essentially a well-trained guesser. It has
+learned the sequence of questions needed to identify a particular
+data item in the training set, and it is “predicting” only by describ‐
+ing that item’s value. This is a way of memorizing the training set—
+i.e., of overfitting.
+Building a decision tree is a good way to create a model of our data. It is very flexible,
+since it can clearly handle nonlinear relationships and interactions between variables.
+But we can see there is a fundamental compromise between how well it generalizes
+(which we can achieve by creating small trees) and how accurate it is on the training
+set (which we can achieve by using large trees).
+So how do we get the best of both worlds? We’ll show you right after we handle an
+important missing detail: how to handle categorical variables.

@@ -1,0 +1,32 @@
+data
+The underlying DataLoaders.
+loss_func
+The loss function used.
+opt
+The optimizer used to update the model parameters.
+opt_func
+The function used to create the optimizer.
+cbs
+The list containing all the Callbacks.
+dl
+The current DataLoader used for iteration.
+x/xb
+The last input drawn from self.dl (potentially modified by callbacks). xb is
+always a tuple (potentially with one element), and x is detuplified. You can assign
+only to xb.
+y/yb
+The last target drawn from self.dl (potentially modified by callbacks). yb is
+always a tuple (potentially with one element), and y is detuplified. You can assign
+only to yb .
+pred
+The last predictions from self.model (potentially modified by callbacks).
+loss
+The last computed loss (potentially modified by callbacks).
+n_epoch
+The number of epochs in this training.
+n_iter
+The number of iterations in the current self.dl.
+epoch
+The current epoch index (from 0 to n_epoch-1 ).
+iter
+The current iteration index in self.dl (from 0 to n_iter-1).

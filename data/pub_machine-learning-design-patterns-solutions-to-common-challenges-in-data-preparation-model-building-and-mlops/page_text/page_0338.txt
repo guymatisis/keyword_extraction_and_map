@@ -1,0 +1,10 @@
+<i>Figure</i> <i>7-5.</i> <i>The</i> <i>feature</i> <i>attributions</i> <i>returned</i> <i>from</i> <i>Explainable</i> <i>AI</i> <i>for</i> <i>an</i> <i>ImageNet</i>
+<i>model</i> <i>deployed</i> <i>to</i> <i>AI</i> <i>Platform.</i> <i>On</i> <i>the</i> <i>left</i> <i>is</i> <i>the</i> <i>original</i> <i>image.</i> <i>The</i> <i>IG</i> <i>attributions</i>
+<i>are</i> <i>shown</i> <i>in</i> <i>the</i> <i>middle,</i> <i>and</i> <i>the</i> <i>XRAI</i> <i>attributions</i> <i>are</i> <i>shown</i> <i>on</i> <i>the</i> <i>right.</i> <i>The</i> <i>key</i>
+<i>below</i> <i>shows</i> <i>what</i> <i>the</i> <i>regions</i> <i>in</i> <i>XRAI</i> <i>correspond</i> <i>to—lighter</i> <i>regions</i> <i>are</i> <i>the</i> <i>most</i>
+<i>important,</i> <i>and</i> <i>darker</i> <i>areas</i> <i>represent</i> <i>the</i> <i>least</i> <i>important</i> <i>regions.</i>
+<i>Figure</i> <i>7-6.</i> <i>As</i> <i>part</i> <i>of</i> <i>a</i> <i>study</i> <i>by</i> <i>Rory</i> <i>Sayres</i> <i>and</i> <i>colleagues</i> <i>in</i> <i>2019,</i> <i>different</i> <i>groups</i> <i>of</i>
+<i>ophthalmologists</i> <i>were</i> <i>asked</i> <i>to</i> <i>evaluate</i> <i>the</i> <i>degree</i> <i>of</i> <i>DR</i> <i>on</i> <i>an</i> <i>image</i> <i>in</i> <i>three</i> <i>scenar‐</i>
+<i>ios:</i> <i>the</i> <i>image</i> <i>by</i> <i>itself</i> <i>without</i> <i>model</i> <i>predictions,</i> <i>the</i> <i>image</i> <i>with</i> <i>model</i> <i>predictions,</i>
+<i>and</i> <i>the</i> <i>image</i> <i>with</i> <i>predictions</i> <i>and</i> <i>pixel</i> <i>attributions</i> <i>(shown</i> <i>here).</i> <i>We</i> <i>can</i> <i>see</i> <i>how</i>
+<i>pixel</i> <i>attributions</i> <i>can</i> <i>help</i> <i>increase</i> <i>confidence</i> <i>in</i> <i>the</i> <i>model’s</i> <i>prediction.</i>

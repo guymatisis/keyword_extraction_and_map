@@ -1,0 +1,42 @@
+<header><largefont><b>Training</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Summarization</b></largefont> <largefont><b>Model</b></largefont></header>
+We’ve worked through a lot of details on text summarization and evaluation, so let’s
+put this to use to train a custom text summarization model! For our application, we’ll
+use the SAMSum dataset developed by Samsung, which consists of a collection of dia‐
+logues along with brief summaries. In an enterprise setting, these dialogues might
+represent the interactions between a customer and the support center, so generating
+accurate summaries can help improve customer service and detect common patterns
+among customer requests. Let’s load it and look at an example:
+dataset_samsum = load_dataset("samsum")
+split_lengths = [len(dataset_samsum[split])for split <b>in</b> dataset_samsum]
+<b>print(f"Split</b> lengths: {split_lengths}")
+<b>print(f"Features:</b> {dataset_samsum['train'].column_names}")
+<b>print("\nDialogue:")</b>
+<b>print(dataset_samsum["test"][0]["dialogue"])</b>
+<b>print("\nSummary:")</b>
+<b>print(dataset_samsum["test"][0]["summary"])</b>
+Split lengths: [14732, 819, 818]
+Features: ['id', 'dialogue', 'summary']
+Dialogue:
+Hannah: Hey, do you have Betty's number?
+Amanda: Lemme check
+Hannah: <file_gif>
+Amanda: Sorry, can't find it.
+Amanda: Ask Larry
+Amanda: He called her last time we were at the park together
+Hannah: I don't know him well
+Hannah: <file_gif>
+Amanda: Don't be shy, he's very nice
+Hannah: If you say so..
+Hannah: I'd rather you texted him
+Amanda: Just text him
+Hannah: Urgh.. Alright
+Hannah: Bye
+Amanda: Bye bye
+Summary:
+Hannah needs Betty's number but Amanda doesn't have it. She needs to contact
+Larry.
+The dialogues look like what you would expect from a chat via SMS or WhatsApp,
+including emojis and placeholders for GIFs. The dialogue field contains the full text
+summary
+and the the summarized dialogue. Could a model that was fine-tuned on the
+CNN/DailyMail dataset deal with that? Let’s find out!

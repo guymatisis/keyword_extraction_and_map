@@ -1,0 +1,39 @@
+fastai is a bit different from most libraries in that by default it adds two linear layers,
+rather than one, in the CNN head. The reason is that transfer learning can still be
+useful even, as we have seen, when transferring the pretrained model to very different
+domains. However, just using a single linear layer is unlikely to be enough in these
+cases; we have found that using two linear layers can allow transfer learning to be
+used more quickly and easily, in more situations.
+<b>OneLastBatchnorm</b>
+create_head
+One parameter to that is worth looking at is
+bn_final. True
+Setting this to will cause a batchnorm layer to be
+added as your final layer. This can be useful in helping your model
+scale appropriately for your output activations. We haven’t seen this
+approach published anywhere as yet, but we have found that it
+works well in practice wherever we have used it.
+Let’s now take a look at what unet_learner did in the segmentation problem we
+showed in Chapter 1.
+<header><largefont><b>unet_learner</b></largefont></header>
+One of the most interesting architectures in deep learning is the one that we used for
+segmentation in Chapter 1. Segmentation is a challenging task, because the output
+required is really an image, or a pixel grid, containing the predicted label for every
+pixel. Other tasks share a similar basic design, such as increasing the resolution of an
+image (super-resolution), adding color to a black-and-white image (colorization), or
+converting a photo into a synthetic painting (style <i>transfer)—these</i> tasks are covered
+by an online chapter of this book, so be sure to check it out after you’ve read this
+chapter. In each case, we are starting with an image and converting it to another
+image of the same dimensions or aspect ratio, but with the pixels altered in some way.
+We refer to these as <i>generative</i> <i>vision</i> <i>models.</i>
+The way we do this is to start with the exact same approach to developing a CNN
+head as we saw in the previous section. We start with a ResNet, for instance, and cut
+off the adaptive pooling layer and everything after that. Then we replace those layers
+with our custom head, which does the generative task.
+There was a lot of handwaving in that last sentence! How on earth do we create a
+CNN head that generates an image? If we start with, say, a 224-pixel input image,
+then at the end of the ResNet body we will have a 7×7 grid of convolutional activa‐
+tions. How can we convert that into a 224-pixel segmentation mask?
+Naturally, we do this with a neural network! So we need some kind of layer that can
+increase the grid size in a CNN. One simple approach is to replace every pixel in the
+7×7 grid with four pixels in a 2×2 square. Each of those four pixels will have the same

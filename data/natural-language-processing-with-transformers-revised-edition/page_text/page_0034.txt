@@ -1,0 +1,40 @@
+encoded_text = tokenizer(text)
+<b>print(encoded_text)</b>
+{'input_ids': [101, 19204, 6026, 3793, 2003, 1037, 4563, 4708, 1997, 17953,
+2361, 1012, 102], 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+Just as with character tokenization, we can see that the words have been mapped to
+input_ids attention_mask
+unique integers in the field. We’ll discuss the role of the
+field in the next section. Now that we have the input_ids , we can convert them back
+into tokens by using the tokenizer’s convert_ids_to_tokens() method:
+tokens = tokenizer.convert_ids_to_tokens(encoded_text.input_ids)
+<b>print(tokens)</b>
+['[CLS]', 'token', '##izing', 'text', 'is', 'a', 'core', 'task', 'of', 'nl',
+'##p', '.', '[SEP]']
+We can observe three things here. First, some special [CLS] and [SEP] tokens have
+been added to the start and end of the sequence. These tokens differ from model to
+model, but their main role is to indicate the start and end of a sequence. Second, the
+tokens have each been lowercased, which is a feature of this particular checkpoint.
+Finally, we can see that “tokenizing” and “NLP” have been split into two tokens,
+## ##izing
+which makes sense since they are not common words. The prefix in and
+##p means that the preceding string is not whitespace; any token with this prefix
+should be merged with the previous token when you convert the tokens back to a
+AutoTokenizer convert_tokens_to_string()
+string. The class has a method for
+doing just that, so let’s apply it to our tokens:
+<b>print(tokenizer.convert_tokens_to_string(tokens))</b>
+[CLS] tokenizing text is a core task of nlp. [SEP]
+The AutoTokenizer class also has several attributes that provide information about
+the tokenizer. For example, we can inspect the vocabulary size:
+tokenizer.vocab_size
+30522
+and the corresponding model’s maximum context size:
+tokenizer.model_max_length
+512
+Another interesting attribute to know about is the names of the fields that the model
+expects in its forward pass:
+tokenizer.model_input_names
+['input_ids', 'attention_mask']
+Now that we have a basic understanding of the tokenization process for a single
+string, let’s see how we can tokenize the whole dataset!

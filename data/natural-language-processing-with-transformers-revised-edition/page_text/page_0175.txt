@@ -1,0 +1,39 @@
+For the purposes of this chapter, we’ll use a fine-tuned MiniLM model since it is fast
+to train and will allow us to quickly iterate on the techniques that we’ll be exploring.8
+As usual, the first thing we need is a tokenizer to encode our texts, so let’s take a look
+at how this works for QA tasks.
+<b>TokenizingtextforQA</b>
+To encode our texts, we’ll load the MiniLM model checkpoint from the Hugging Face
+Hub as usual:
+<b>from</b> <b>transformers</b> <b>import</b> AutoTokenizer
+model_ckpt = "deepset/minilm-uncased-squad2"
+tokenizer = AutoTokenizer.from_pretrained(model_ckpt)
+To see the model in action, let’s first try to extract an answer from a short passage of
+text. In extractive QA tasks, the inputs are provided as (question, context) pairs, so we
+pass them both to the tokenizer as follows:
+question = "How much music can this hold?"
+context = """An MP3 is about 1 MB/minute, so about 6000 hours depending on <b>\</b>
+file size."""
+inputs = tokenizer(question, context, return_tensors="pt")
+Tensor
+Here we’ve returned PyTorch objects, since we’ll need them to run the for‐
+ward pass through the model. If we view the tokenized inputs as a table:
+<b>input_ids</b> 101 2129 2172 2189 2064 2023 ... 5834 2006 5371 2946 1012 102
+0 0 0 0 0 0 ... 1 1 1 1 1 1
+<b>token_type_ids</b>
+1 1 1 1 1 1 ... 1 1 1 1 1 1
+<b>attention_mask</b>
+we can see the familiar input_ids and attention_mask tensors, while the
+token_type_ids
+tensor indicates which part of the inputs corresponds to the ques‐
+tion and context (a 0 indicates a question token, a 1 indicates a context token).9
+To understand how the tokenizer formats the inputs for QA tasks, let’s decode the
+input_ids
+tensor:
+<b>print(tokenizer.decode(inputs["input_ids"][0]))</b>
+8 W.Wangetal.,“MINILM:DeepSelf-AttentionDistillationforTask-AgnosticCompressionofPre-Trained
+Transformers”,(2020).
+9 Notethatthetoken_type_idsarenotpresentinalltransformermodels.InthecaseofBERT-likemodels
+token_type_ids
+suchasMiniLM,the arealsousedduringpretrainingtoincorporatethenextsentence
+predictiontask.

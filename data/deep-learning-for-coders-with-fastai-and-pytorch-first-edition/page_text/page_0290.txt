@@ -1,0 +1,35 @@
+fastai comes with a function that will do this for us—we just have to pass a column
+name that contains dates:
+df = add_datepart(df, 'saledate')
+Let’s do the same for the test set while we’re there:
+df_test = pd.read_csv(path/'Test.csv', low_memory=False)
+df_test = add_datepart(df_test, 'saledate')
+We can see that there are now lots of new columns in our DataFrame:
+' '.join(o <b>for</b> o <b>in</b> df.columns <b>if</b> o.startswith('sale'))
+'saleYear saleMonth saleWeek saleDay saleDayofweek saleDayofyear
+> saleIs_month_end saleIs_month_start saleIs_quarter_end saleIs_quarter_start
+> saleIs_year_end saleIs_year_start saleElapsed'
+This is a good first step, but we will need to do a bit more cleaning. For this, we will
+use fastai objects called TabularPandas and TabularProc.
+<header><largefont><b>Using</b></largefont> <largefont><b>TabularPandas</b></largefont> <largefont><b>and</b></largefont> <largefont><b>TabularProc</b></largefont></header>
+A second piece of preparatory processing is to be sure we can handle strings and
+missing data. Out of the box, sklearn cannot do either. Instead we will use fastai’s class
+TabularPandas , which wraps a Pandas DataFrame and provides a few conveniences.
+To populate a TabularPandas, we will use two TabularProcs, Categorify and
+FillMissing . A TabularProc is like a regular Transform , except for the following:
+• It returns the exact same object that’s passed to it, after modifying the object in
+place.
+• It runs the transform once, when data is first passed in, rather than lazily as the
+data is accessed.
+Categorify is a TabularProc that replaces a column with a numeric categorical col‐
+umn. FillMissing is a TabularProc that replaces missing values with the median of
+the column, and creates a new Boolean column that is set to True for any row where
+the value was missing. These two transforms are needed for nearly every tabular data‐
+set you will use, so this is a good starting point for your data processing:
+procs = [Categorify, FillMissing]
+TabularPandas will also handle splitting the dataset into training and validation sets
+for us. However, we need to be very careful about our validation set. We want to
+design it so that it is like the <i>test</i> <i>set</i> Kaggle will use to judge the contest.
+Recall the distinction between a validation set and a test set, as discussed in Chap‐
+ter 1. A <i>validation</i> <i>set</i> is data we hold back from training in order to ensure that the
+training process does not overfit on the training data. A <i>test</i> <i>set</i> is data that is held

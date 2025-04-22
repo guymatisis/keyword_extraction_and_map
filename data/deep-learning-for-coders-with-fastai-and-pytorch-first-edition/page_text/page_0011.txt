@@ -1,0 +1,37 @@
+when he was an undergraduate. Even at Tesla, where they’re trying to solve the
+extremely tough challenge of making a self-driving car, CEO Elon Musk says:
+A PhD is definitely not required. All that matters is a deep understanding of AI & abil‐
+ity to implement NNs in a way that is actually useful (latter point is what’s truly hard).
+Don’t care if you even graduated high school.
+What you will need to do to succeed, however, is to apply what you learn in this book
+to a personal project, and always persevere.
+<header><largefont><b>Your</b></largefont> <largefont><b>Projects</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Your</b></largefont> <largefont><b>Mindset</b></largefont></header>
+Whether you’re excited to identify if plants are diseased from pictures of their leaves,
+autogenerate knitting patterns, diagnose TB from X-rays, or determine when a rac‐
+coon is using your cat door, we will get you using deep learning on your own prob‐
+lems (via pretrained models from others) as quickly as possible, and then will
+progressively drill into more details. You’ll learn how to use deep learning to solve
+your own problems at state-of-the-art accuracy within the first 30 minutes of the next
+chapter! (And feel free to skip straight there now if you’re dying to get coding right
+away.) There is a pernicious myth out there that you need to have computing resour‐
+ces and datasets the size of those at Google to be able to do deep learning, but it’s not
+true.
+So, what sorts of tasks make for good test cases? You could train your model to distin‐
+guish between Picasso and Monet paintings or to pick out pictures of your daughter
+instead of pictures of your son. It helps to focus on your hobbies and passions—set‐
+ting yourself four or five little projects rather than striving to solve a big, grand prob‐
+lem tends to work better when you’re getting started. Since it is easy to get stuck,
+trying to be too ambitious too early can often backfire. Then, once you’ve got the
+basics mastered, aim to complete something you’re really proud of!
+<b>JeremySays</b>
+Deep learning can be set to work on almost any problem. For
+instance, my first startup was a company called FastMail, which
+provided enhanced email services when it launched in 1999 (and
+still does to this day). In 2002, I set it up to use a primitive form of
+deep learning, single-layer neural networks, to help categorize
+emails and stop customers from receiving spam.
+Common character traits in the people who do well at deep learning include playful‐
+ness and curiosity. The late physicist Richard Feynman is an example of someone we’d
+expect to be great at deep learning: his development of an understanding of the
+movement of subatomic particles came from his amusement at how plates wobble
+when they spin in the air.

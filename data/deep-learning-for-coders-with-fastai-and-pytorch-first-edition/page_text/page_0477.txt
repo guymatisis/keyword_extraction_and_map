@@ -1,0 +1,24 @@
+<b>def</b> average_grad(p, mom, grad_avg=None, **kwargs):
+<b>if</b> grad_avg <b>is</b> None: grad_avg = torch.zeros_like(p.grad.data)
+<b>return</b> {'grad_avg': grad_avg*mom + p.grad.data}
+To use it, we just have to replace p.grad.data with grad_avg in our step function:
+<b>def</b> momentum_step(p, lr, grad_avg, **kwargs): p.data.add_(-lr, grad_avg)
+opt_func = partial(Optimizer, cbs=[average_grad,momentum_step], mom=0.9)
+Learner will automatically schedule mom and lr, so fit_one_cycle will even work
+with our custom Optimizer:
+learn = get_learner(opt_func=opt_func)
+learn.fit_one_cycle(3, 0.03)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 2.856000 2.493429 0.246115 00:10
+1 2.504205 2.463813 0.348280 00:10
+2 2.187387 1.755670 0.418853 00:10
+learn.recorder.plot_sched()
+We’re still not getting great results, so let’s see what else we can do.
+<header><largefont><b>RMSProp</b></largefont></header>
+RMSProp is another variant of SGD introduced by Geoffrey Hinton in Lecture 6e of
+his Coursera class “Neural Networks for Machine Learning”. The main difference
+from SGD is that it uses an adaptive learning rate: instead of using the same learning
+rate for every parameter, each parameter gets its own specific learning rate controlled
+by a global learning rate. That way, we can speed up training by giving a higher learn‐
+ing rate to the weights that need to change a lot, while the ones that are good enough
+get a lower learning rate.

@@ -1,0 +1,23 @@
+<i>Figure</i> <i>2-4.</i> <i>The</i> <i>architecture</i> <i>used</i> <i>for</i> <i>sequence</i> <i>classification</i> <i>with</i> <i>an</i> <i>encoder-based</i>
+<i>transformer;</i> <i>it</i> <i>consists</i> <i>of</i> <i>the</i> <i>model’s</i> <i>pretrained</i> <i>body</i> <i>combined</i> <i>with</i> <i>a</i> <i>custom</i> <i>classifi‐</i>
+<i>cation</i> <i>head</i>
+First, the text is tokenized and represented as one-hot vectors called <i>token</i> <i>encodings.</i>
+The size of the tokenizer vocabulary determines the dimension of the token encod‐
+ings, and it usually consists of 20k–200k unique tokens. Next, these token encodings
+are converted to <i>token</i> <i>embeddings,</i> which are vectors living in a lower-dimensional
+space. The token embeddings are then passed through the encoder block layers to
+yield a <i>hidden</i> <i>state</i> for each input token. For the pretraining objective of language
+modeling, 6 each hidden state is fed to a layer that predicts the masked input tokens.
+For the classification task, we replace the language modeling layer with a classifica‐
+tion layer.
+In practice, PyTorch skips the step of creating one-hot vectors for
+token encodings because multiplying a matrix with a one-hot vec‐
+tor is the same as selecting a column from the matrix. This can be
+done directly by getting the column with the token ID from the
+matrix. We’ll see this in Chapter 3 when we use the nn.Embedding
+class.
+We have two options to train such a model on our Twitter dataset:
+<i>Feature</i> <i>extraction</i>
+We use the hidden states as features and just train a classifier on them, without
+modifying the pretrained model.
+6 InthecaseofDistilBERT,it’sguessingthemaskedtokens.

@@ -1,0 +1,42 @@
+pipeline()
+model in a Transformers function during the conversion. In addition
+to the model_ckpt , we also pass the tokenizer to initialize the pipeline:
+<b>from</b> <b>transformers.convert_graph_to_onnx</b> <b>import</b> convert
+model_ckpt = "transformersbook/distilbert-base-uncased-distilled-clinc"
+onnx_model_path = Path("onnx/model.onnx")
+convert(framework="pt", model=model_ckpt, tokenizer=tokenizer,
+output=onnx_model_path, opset=12, pipeline_name="text-classification")
+ONNX uses <i>operator</i> <i>sets</i> to group together immutable operator specifications, so
+opset=12 corresponds to a specific version of the ONNX library.
+InferenceSession
+Now that we have our model saved, we need to create an instance
+to feed inputs to the model:
+<b>from</b> <b>onnxruntime</b> <b>import</b> (GraphOptimizationLevel, InferenceSession,
+SessionOptions)
+<b>def</b> create_model_for_provider(model_path, provider="CPUExecutionProvider"):
+options = SessionOptions()
+options.intra_op_num_threads = 1
+options.graph_optimization_level = GraphOptimizationLevel.ORT_ENABLE_ALL
+session = InferenceSession(str(model_path), options, providers=[provider])
+session.disable_fallback()
+<b>return</b> session
+onnx_model = create_model_for_provider(onnx_model_path)
+onnx_model.run()
+Now when we call , we can get the class logits from the ONNX
+model. Let’s test this out with an example from the test set. Since the output from
+convert() tells us that ONNX expects just the input_ids and attention_mask as
+label
+inputs, we need to drop the column from our sample:
+inputs = clinc_enc["test"][:1]
+<b>del</b> inputs["labels"]
+logits_onnx = onnx_model.run(None, inputs)[0]
+logits_onnx.shape
+(1, 151)
+Once we have the logits, we can easily get the predicted label by taking the argmax:
+np.argmax(logits_onnx)
+61
+which indeed agrees with the ground truth label:
+clinc_enc["test"][0]["labels"]
+61
+The ONNX model is not compatible with the text-classification pipeline, so we’ll
+create our own class that mimics the core behavior:

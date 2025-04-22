@@ -1,0 +1,30 @@
+it is offline. When it regains connectivity, we could then send these clips to the cloud-
+hosted model for prediction.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+While the Two-Phase Predictions pattern works for many cases, there are situations
+where your end users may have very little internet connectivity and you therefore
+cannot rely on being able to call a cloud-hosted model. In this section, we’ll discuss
+two offline-only alternatives, a scenario where a client needs to make many predic‐
+tion requests at a time, and suggestions on how to run continuous evaluation for off‐
+line models.
+<b>Standalonesingle-phasemodel</b>
+Sometimes, the end users of your model may have little to no internet connectivity.
+Even though these users’ devices won’t be able to reliably access a cloud model, it’s
+still important to give them a way to access your application. For this case, rather
+than relying on a two-phase prediction flow, you can make your first model robust
+enough that it can be self-sufficient.
+To do this, we can create a smaller version of our complex model, and give users the
+option to download this simpler, smaller model for use when they are offline. These
+offline models may not be quite as accurate as their larger online counterparts, but
+this solution is infinitely better than having no offline support at all. To build more
+complex models designed for offline inference, it’s best to use a tool that allows you
+to quantize your model’s weights and other math operations both during and after
+training. This is known as <i>quantization</i> <i>aware</i> <i>training.</i>
+One example of an application that provides a simpler offline model is Google Trans‐
+late. Google Translate is a robust, online translation service available in hundreds of
+languages. However, there are many scenarios where you’d need to use a translation
+service without internet access. To handle this, Google translate lets you download
+offline translations in over 50 different languages. These offline models are small,
+around 40 to 50 megabytes, and come close in accuracy to the more complex online
+versions. Figure 5-12 shows a quality comparison of on-device and online translation
+models.

@@ -1,0 +1,24 @@
+bears = bears.new(item_tfms=RandomResizedCrop(128, min_scale=0.3))
+dls = bears.dataloaders(path)
+dls.train.show_batch(max_n=4, nrows=1, unique=True)
+Here, we used unique=True to have the same image repeated with different versions
+of this RandomResizedCrop transform.
+RandomResizedCrop is a specific example of a more general technique, called data
+augmentation.
+<header><largefont><b>Data</b></largefont> <largefont><b>Augmentation</b></largefont></header>
+<i>Data</i> <i>augmentation</i> refers to creating random variations of our input data, such that
+they appear different but do not change the meaning of the data. Examples of com‐
+mon data augmentation techniques for images are rotation, flipping, perspective
+warping, brightness changes, and contrast changes. For natural photo images such as
+the ones we are using here, a standard set of augmentations that we have found work
+aug_transforms
+pretty well are provided with the function.
+Because our images are now all the same size, we can apply these augmentations to an
+entire batch of them using the GPU, which will save a lot of time. To tell fastai we
+want to use these transforms on a batch, we use the batch_tfms parameter (note that
+we’re not using RandomResizedCrop in this example, so you can see the differences
+more clearly; we’re also using double the amount of augmentation compared to the
+default, for the same reason):
+bears = bears.new(item_tfms=Resize(128), batch_tfms=aug_transforms(mult=2))
+dls = bears.dataloaders(path)
+dls.train.show_batch(max_n=8, nrows=2, unique=True)

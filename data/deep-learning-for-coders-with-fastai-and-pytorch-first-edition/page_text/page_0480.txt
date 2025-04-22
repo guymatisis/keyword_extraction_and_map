@@ -1,0 +1,36 @@
+<header><largefont><b>Decoupled</b></largefont> <largefont><b>Weight</b></largefont> <largefont><b>Decay</b></largefont></header>
+Weight decay, which we’ve discussed in Chapter 8, is equivalent to (in the case of
+vanilla SGD) updating the parameters with the following:
+new_weight = weight - lr*weight.grad - lr*wd*weight
+The last part of that formula explains the name of this technique: each weight is
+decayed by a factor of lr * wd.
+The other name for weight decay is <i>L2</i> <i>regularization,</i> which consists of adding the
+sum of all squared weights to the loss (multiplied by the weight decay). As we saw in
+Chapter 8, this can be directly expressed on the gradients:
+weight.grad += wd*weight
+For SGD, those two formulas are equivalent. However, this equivalence holds only for
+standard SGD because, as we’ve seen with momentum, RMSProp, or in Adam, the
+update has some additional formulas around the gradient.
+Most libraries use the second formulation, but it was pointed out in “Decoupled
+Weight Decay Regularization” by Ilya Loshchilov and Frank Hutter that the first one
+is the only correct approach with the Adam optimizer or momentum, which is why
+fastai makes it its default.
+learn.fit_one_cycle!
+Now you know everything that is hidden behind the line
+Optimizers are only one part of the training process, however. When you need to
+change the training loop with fastai, you can’t directly change the code inside the
+library. Instead, we have designed a system of callbacks to let you write any tweaks
+you like in independent blocks that you can then mix and match.
+<header><largefont><b>Callbacks</b></largefont></header>
+Sometimes you need to change how things work a little bit. In fact, we have already
+seen examples of this: Mixup, fp16 training, resetting the model after each epoch for
+training RNNs, and so forth. How do we go about making these kinds of tweaks to
+the training process?
+We’ve seen the basic training loop, which, with the help of the Optimizer class, looks
+like this for a single epoch:
+<b>for</b> xb,yb <b>in</b> dl:
+loss = loss_func(model(xb), yb)
+loss.backward()
+opt.step()
+opt.zero_grad()
+Figure 16-3 shows how to picture that.

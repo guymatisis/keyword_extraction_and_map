@@ -1,0 +1,25 @@
+<b>from</b> <b>haystack.eval</b> <b>import</b> EvalAnswers
+<b>def</b> evaluate_reader(reader):
+score_keys = ['top_1_em', 'top_1_f1']
+eval_reader = EvalAnswers(skip_incorrect_retrieval=False)
+pipe = Pipeline()
+pipe.add_node(component=reader, name="QAReader", inputs=["Query"])
+pipe.add_node(component=eval_reader, name="EvalReader", inputs=["QAReader"])
+<b>for</b> l <b>in</b> labels_agg:
+doc = document_store.query(l.question,
+filters={"question_id":[l.origin]})
+_ = pipe.run(query=l.question, documents=doc, labels=l)
+<b>return</b> {k:v <b>for</b> k,v <b>in</b> eval_reader.__dict__.items() <b>if</b> k <b>in</b> score_keys}
+reader_eval = {}
+reader_eval["Fine-tune on SQuAD"] = evaluate_reader(reader)
+Notice that we specified skip_incorrect_retrieval=False . This is to ensure that
+the retriever always passes the context to the reader (as in the SQuAD evaluation).
+Now that we’ve run every question through the reader, let’s print the scores:
+<b>def</b> plot_reader_eval(reader_eval):
+fig, ax = plt.subplots()
+df = pd.DataFrame.from_dict(reader_eval)
+df.plot(kind="bar", ylabel="Score", rot=0, ax=ax)
+ax.set_xticklabels(["EM", "F1"])
+plt.legend(loc='upper left')
+plt.show()
+plot_reader_eval(reader_eval)

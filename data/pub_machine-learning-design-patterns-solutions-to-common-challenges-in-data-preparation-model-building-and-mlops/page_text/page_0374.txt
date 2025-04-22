@@ -1,0 +1,26 @@
+<i>Figure</i> <i>8-4.</i> <i>Manual</i> <i>development</i> <i>of</i> <i>AI</i> <i>models.</i> <i>Figure</i> <i>adapted</i> <i>from</i> <i>Google</i> <i>Cloud</i> <i>doc‐</i>
+<i>umentation.</i>
+<b>Strategicphase:Utilizingpipelines</b>
+Organizations in the strategic phase have aligned AI efforts with business objectives
+and priorities, and ML is seen as a pivotal accelerator for the business. As such, there
+is often senior executive sponsorship and dedicated budget for ML projects that are
+executed by skilled teams and strategic partners. There is infrastructure in place for
+these teams to easily share assets and develop ML systems that leverage both ready-
+to-use and custom models. There is a clear distinction between development and
+production environments.
+Teams typically already have skills in data wrangling with expertise in descriptive and
+predictive analytics. Data is stored in an enterprise data warehouse, and there is a
+unified model for centralized data and ML asset management. The development of
+ML models occurs as an orchestrated experiment. The ML assets and source code for
+these pipelines is stored in a centralized source repository and easily shared among
+members of the organization.
+The data pipelines for developing ML models are automated utilizing a fully man‐
+aged, serverless data service for ingestion and processing and are either scheduled or
+event driven. Additionally, the ML workflow for training, evaluation, and batch pre‐
+diction is managed by an automated pipeline so that the stages of the ML life cycle,
+from data validation and preparation to model training and validation (see
+Figure 8-5), are executed by a performance monitoring trigger. These models are
+stored in a centralized trained models registry and able to be deployed automatically
+based on predetermined model validation metrics.
+There may be several ML systems deployed and maintained in production with log‐
+ging, performance monitoring, and notifications in place. The ML systems leverage a

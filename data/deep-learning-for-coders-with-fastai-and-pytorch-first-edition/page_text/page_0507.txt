@@ -1,0 +1,39 @@
+x = torch.randn(200, 100)
+<b>for</b> i <b>in</b> range(50): x = relu(x @ (torch.randn(100,100) * sqrt(2/100)))
+x[0:5,0:5]
+tensor([[0.2871, 0.0000, 0.0000, 0.0000, 0.0026],
+[0.4546, 0.0000, 0.0000, 0.0000, 0.0015],
+[0.6178, 0.0000, 0.0000, 0.0180, 0.0079],
+[0.3333, 0.0000, 0.0000, 0.0545, 0.0000],
+[0.1940, 0.0000, 0.0000, 0.0000, 0.0096]])
+That’s better: our numbers aren’t all zeroed this time. So let’s go back to the definition
+of our neural net and use this initialization (which is named <i>Kaiming</i> <i>initialization</i> or
+<i>He</i> <i>initialization):</i>
+x = torch.randn(200, 100)
+y = torch.randn(200)
+w1 = torch.randn(100,50) * sqrt(2 / 100)
+b1 = torch.zeros(50)
+w2 = torch.randn(50,1) * sqrt(2 / 50)
+b2 = torch.zeros(1)
+Let’s look at the scale of our activations after going through the first linear layer and
+ReLU:
+l1 = lin(x, w1, b1)
+l2 = relu(l1)
+l2.mean(), l2.std()
+(tensor(0.5661), tensor(0.8339))
+Much better! Now that our weights are properly initialized, we can define our whole
+model:
+<b>def</b> model(x):
+l1 = lin(x, w1, b1)
+l2 = relu(l1)
+l3 = lin(l2, w2, b2)
+<b>return</b> l3
+This is the forward pass. Now all that’s left to do is to compare our output to the
+labels we have (random numbers, in this example) with a loss function. In this case,
+we will use the mean squared error. (It’s a toy problem, and this is the easiest loss
+function to use for what is next, computing the gradients.)
+The only subtlety is that our outputs and targets don’t have exactly the same shape—
+after going though the model, we get an output like this:
+out = model(x)
+out.shape
+torch.Size([200, 1])

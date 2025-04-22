@@ -1,0 +1,36 @@
+To get rid of this trailing 1 dimension, we use the squeeze function:
+<b>def</b> mse(output, targ): <b>return</b> (output.squeeze(-1) - targ).pow(2).mean()
+And now we are ready to compute our loss:
+loss = mse(out, y)
+That’s all for the forward pass—let’s now look at the gradients.
+<header><largefont><b>Gradients</b></largefont> <largefont><b>and</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Backward</b></largefont> <largefont><b>Pass</b></largefont></header>
+We’ve seen that PyTorch computes all the gradients we need with a magic call to
+loss.backward, but let’s explore what’s happening behind the scenes.
+Now comes the part where we need to compute the gradients of the loss with respect
+to all the weights of our model, so all the floats in w1 , b1 , w2 , and b2 . For this, we will
+need a bit of math—specifically, the <i>chain</i> <i>rule.</i> This is the rule of calculus that guides
+how we can compute the derivative of a composed function:
+<i>g</i> ∘ <i>f</i> ′ <i>x</i> = <i>g′</i> <i>f</i> <i>x</i> <i>f′</i> <i>x</i>
+<b>JeremySays</b>
+I find this notation hard to wrap my head around, so instead I like
+to think of it as follows: if y = g(u) and u=f(x), then dy/dx =
+dy/du * du/dx. The two notations mean the same thing, so use
+whatever works for you.
+Our loss is a big composition of different functions: mean squared error (which is, in
+turn, the composition of a mean and a power of two), the second linear layer, a ReLU,
+and the first linear layer. For instance, if we want the gradients of the loss with respect
+to b2 and our loss is defined by the following:
+loss = mse(out,y) = mse(lin(l2, w2, b2), y)
+The chain rule tells us that we have this:
+dloss dloss dout d d
+= × = <i>mse</i> <i>out,</i> <i>y</i> × <i>lin</i> <i>l</i> ,w ,b
+2 2 2
+db dout db dout db
+2 2 2
+To compute the gradients of the loss with respect to <i>b</i> , we first need the gradients of
+2
+the loss with respect to our output <i>out.</i> It’s the same if we want the gradients of the
+loss with respect to <i>w</i> . Then, to get the gradients of the loss with respect to <i>b</i> or <i>w</i> ,
+2 1 1
+we will need the gradients of the loss with respect to <i>l</i> , which in turn requires the
+1

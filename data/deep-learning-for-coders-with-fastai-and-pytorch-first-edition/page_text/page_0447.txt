@@ -1,0 +1,29 @@
+Actually, there is another way to create those extra 36 layers, which is much more
+interesting. What if we replaced every occurrence of conv(x) with x + conv(x),
+where conv is the function from the previous chapter that adds a second convolution,
+then a ReLU, then a batchnorm layer. Furthermore, recall that batchnorm does
+gamma*y + beta . What if we initialized gamma to zero for every one of those final
+batchnorm layers? Then our conv(x) for those extra 36 layers will always be equal to
+zero, which means x+conv(x) will always be equal to x .
+What has that gained us? The key thing is that those 36 extra layers, as they stand, are
+an <i>identity</i> <i>mapping,</i> but they have <i>parameters,</i> which means they are <i>trainable.</i> So, we
+can start with our best 20-layer model, add these 36 extra layers that initially do noth‐
+ing at all, and then <i>fine-tune</i> <i>the</i> <i>whole</i> <i>56-layer</i> <i>model.</i> Those extra 36 layers can then
+learn the parameters that make them most useful!
+The ResNet paper proposed a variant of this, which is to instead “skip over” every
+second convolution, so effectively we get x+conv2(conv1(x)). This is shown by the
+diagram in Figure 14-2 (from the paper).
+<i>Figure</i> <i>14-2.</i> <i>A</i> <i>simple</i> <i>ResNet</i> <i>block</i> <i>(courtesy</i> <i>of</i> <i>Kaiming</i> <i>He</i> <i>et</i> <i>al.)</i>
+That arrow on the right is just the x part of x+conv2(conv1(x)) and is known as the
+<i>identity</i> <i>branch,</i> or <i>skip</i> <i>connection.</i> The path on the left is the conv2(conv1(x)) part.
+You can think of the identity path as providing a direct route from the input to the
+output.
+In a ResNet, we don’t proceed by first training a smaller number of layers, and then
+adding new layers on the end and fine-tuning. Instead, we use ResNet blocks like the
+one in Figure 14-2 throughout the CNN, initialized from scratch in the usual way and
+trained with SGD in the usual way. We rely on the skip connections to make the net‐
+work easier to train with SGD.
+There’s another (largely equivalent) way to think of these ResNet blocks. This is how
+the paper describes it:
+Instead of hoping each few stacked layers directly fit a desired underlying mapping, we
+explicitly let these layers fit a residual mapping. Formally, denoting the desired

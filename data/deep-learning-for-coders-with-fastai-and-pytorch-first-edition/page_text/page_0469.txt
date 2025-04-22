@@ -1,0 +1,37 @@
+Once you’ve got as much data as you think you can reasonably get hold of, and are
+using it as effectively as possible by taking advantage of all the labels that you can find
+and doing all the augmentation that makes sense, if you are still overfitting, you
+should think about using more generalizable architectures. For instance, adding
+batch normalization may improve generalization.
+If you are still overfitting after doing the best you can at using your data and tuning
+your architecture, you can take a look at regularization. Generally speaking, adding
+dropout to the last layer or two will do a good job of regularizing your model. How‐
+ever, as we learned from the story of the development of AWD-LSTM, adding drop‐
+out of different types throughout your model can often help even more. Generally
+speaking, a larger model with more regularization is more flexible, and can therefore
+be more accurate than a smaller model with less regularization.
+Only after considering all of these options would we recommend that you try using a
+smaller version of your architecture.
+<header><largefont><b>Questionnaire</b></largefont></header>
+1. What is the head of a neural net?
+2. What is the body of a neural net?
+3. What is “cutting” a neural net? Why do we need to do this for transfer learning?
+4. What is model_meta ? Try printing it to see what’s inside.
+5. Read the source code for create_head and make sure you understand what each
+line does.
+6. Look at the output of create_head and make sure you understand why each
+layer is there, and how the create_head source created it.
+7. Figure out how to change the dropout, layer size, and number of layers created by
+create_cnn , and see if you can find values that result in better accuracy from the
+pet recognizer.
+AdaptiveConcatPool2d
+8. What does do?
+9. What is nearest neighbor interpolation? How can it be used to upsample convo‐
+lutional activations?
+10. What is a transposed convolution? What is another name for it?
+transpose=True
+11. Create a conv layer with and apply it to an image. Check the
+output shape.
+12. Draw the U-Net architecture.
+13. What is BPTT for Text Classification (BPT3C)?
+14. How do we handle different length sequences in BPT3C?

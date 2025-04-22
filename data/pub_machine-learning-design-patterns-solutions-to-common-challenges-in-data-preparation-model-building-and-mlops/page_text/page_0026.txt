@@ -1,0 +1,25 @@
+<b>Nonlineartransformations</b>
+What if our data is skewed and neither uniformly distributed nor distributed like a
+bell curve? In that case, it is better to apply a <i>nonlinear</i> <i>transform</i> to the input before
+scaling it. One common trick is to take the logarithm of the input value before scaling
+it. Other common transformations include the sigmoid and polynomial expansions
+(square, square root, cube, cube root, and so on). We’ll know that we have a good
+transformation function if the distribution of the transformed value becomes uni‐
+form or normally distributed.
+Assume that we are building a model to predict the sales of a nonfiction book. One of
+the inputs to the model is the popularity of the Wikipedia page corresponding to the
+topic. The number of views of pages in Wikipedia is, however, highly skewed and
+occupies a large dynamic range (see the left panel of Figure 2-4: the distribution is
+highly skewed toward rarely viewed pages, but the most common pages are viewed
+tens of millions of times). By taking the logarithm of the views, then taking the fourth
+root of this log value and scaling the result linearly, we obtain something that is in the
+desired range and somewhat bell-shaped. For details of the code to query the Wikipe‐
+dia data, apply these transformations, and generate this plot, refer to the GitHub
+repository for this book.
+<i>Figure</i> <i>2-4.</i> <i>Left</i> <i>panel:</i> <i>the</i> <i>distribution</i> <i>of</i> <i>the</i> <i>number</i> <i>of</i> <i>views</i> <i>of</i> <i>Wikipedia</i> <i>pages</i> <i>is</i>
+<i>highly</i> <i>skewed</i> <i>and</i> <i>occupies</i> <i>a</i> <i>large</i> <i>dynamic</i> <i>range.</i> <i>The</i> <i>second</i> <i>panel</i> <i>demonstrates</i> <i>that</i>
+<i>problems</i> <i>can</i> <i>be</i> <i>addressed</i> <i>by</i> <i>transforming</i> <i>the</i> <i>number</i> <i>of</i> <i>views</i> <i>using</i> <i>the</i> <i>logarithm,</i> <i>a</i>
+<i>power</i> <i>function,</i> <i>and</i> <i>linear</i> <i>scaling</i> <i>in</i> <i>succession.</i> <i>The</i> <i>third</i> <i>panel</i> <i>shows</i> <i>the</i> <i>effect</i> <i>of</i> <i>his‐</i>
+<i>togram</i> <i>equalization</i> <i>and</i> <i>the</i> <i>fourth</i> <i>panel</i> <i>shows</i> <i>the</i> <i>effect</i> <i>of</i> <i>the</i> <i>Box-Cox</i> <i>transform.</i>
+It can be difficult to devise a linearizing function that makes the distribution look like
+a bell curve. An easier approach is to bucketize the number of views, choosing the

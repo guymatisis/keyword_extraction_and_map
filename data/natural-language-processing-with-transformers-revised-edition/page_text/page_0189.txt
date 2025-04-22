@@ -1,0 +1,35 @@
+<b>for</b> idx <b>in</b> range(n_answers):
+<b>print(f"Answer</b> {idx+1}: {preds['answers'][idx]['answer']}")
+<b>print(f"Review</b> snippet: ...{preds['answers'][idx]['context']}...")
+<b>print("\n\n")</b>
+Question: Is it good for reading?
+Answer 1: I mainly use it for book reading
+Review snippet: ... is my third one. I never thought I would want a fire for I
+mainly use it for book reading. I decided to try the fire for when I travel I
+take my la...
+Answer 2: the larger screen compared to the Kindle makes for easier reading
+Review snippet: ...ght enough that I can hold it to read, but the larger screen
+compared to the Kindle makes for easier reading. I love the color, something I
+never thou...
+Answer 3: it is great for reading books when no light is available
+Review snippet: ...ecoming addicted to hers! Our son LOVES it and it is great
+for reading books when no light is available. Amazing sound but I suggest good
+headphones t...
+Great, we now have an end-to-end QA system for Amazon product reviews! This is a
+good start, but notice that the second and third answers are closer to what the ques‐
+tion is actually asking. To do better, we’ll need some metrics to quantify the perfor‐
+mance of the retriever and reader. We’ll take a look at that next.
+<header><largefont><b>Improving</b></largefont> <largefont><b>Our</b></largefont> <largefont><b>QA</b></largefont> <largefont><b>Pipeline</b></largefont></header>
+Although much of the recent research on QA has focused on improving reading com‐
+prehension models, in practice it doesn’t matter how good your reader is if the
+retriever can’t find the relevant documents in the first place! In particular, the
+retriever sets an upper bound on the performance of the whole QA system, so it’s
+important to make sure it’s doing a good job. With this in mind, let’s start by intro‐
+ducing some common metrics to evaluate the retriever so that we can compare the
+performance of sparse and dense representations.
+<header><largefont><b>Evaluating</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Retriever</b></largefont></header>
+A common metric for evaluating retrievers is <i>recall,</i> which measures the fraction of all
+relevant documents that are retrieved. In this context, “relevant” simply means
+whether the answer is present in a passage of text or not, so given a set of questions,
+we can compute recall by counting the number of times an answer appears in the top
+<i>k</i> documents returned by the retriever.

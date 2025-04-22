@@ -1,0 +1,35 @@
+Using grid search, we’d try every combination of the specified values, then use the
+combination that yielded the best evaluation metric on our model. Let’s see how this
+works on a random forest model trained on the Boston housing dataset, which comes
+pre-installed with scikit-learn. The model will predict the price of a house based on a
+number of factors. We can run grid search by creating an instance of the
+GridSearchCV
+class, and training the model passing it the values we defined earlier:
+<b>from</b> <b>sklearn.ensemble</b> <b>import</b> RandomForestRegressor
+<b>from</b> <b>sklearn.datasets</b> <b>import</b> load_boston
+X, y = load_boston(return_X_y=True)
+housing_model = RandomForestRegressor()
+grid_search_housing = GridSearchCV(
+housing_model, param_grid=grid_vals, scoring='max_error')
+grid_search_housing.fit(X, y)
+Note that the scoring parameter here is the metric we want to optimize. In the case of
+this regression model, we want to use the combination of hyperparameters that
+results in the lowest error for our model. To get the best combination of values from
+the grid search, we can run grid_search_housing.best_params_ . This returns the
+following:
+{'max_depth': 100, 'n_estimators': 150}
+We’d want to compare this to the error we’d get training a random forest regressor
+model <i>without</i> hyperparameter tuning, using scikit-learn’s default values for these
+parameters. This grid search approach works OK on the small example we’ve defined
+above, but with more complex models, we’d likely want to optimize more than two
+hyperparameters, each with a wide range of possible values. Eventually, grid search
+will lead to <i>combinatorial</i> <i>explosion—as</i> we add additional hyperparameters and val‐
+ues to our grid of options, the number of possible combinations we need to try and
+the time required to try them all increases significantly.
+Another problem with this approach is that no logic is being applied when choosing
+different combinations. Grid search is essentially a brute force solution, trying every
+possible combination of values. Let’s say that after a certain max_depth value, our
+model’s error increases. The grid search algorithm doesn’t learn from previous trials,
+max_depth
+so it wouldn’t know to stop trying values after a certain threshold. It will
+simply try every value you provide no matter the results.

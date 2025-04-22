@@ -1,0 +1,46 @@
+String()
+are not TensorFlow operations (and neither are the other operations in this
+code), so they cannot be included in a TensorFlow Function (except by wrapping
+them in a tf.py_function() operation, which would make the code slower and less
+portable, as we saw in Chapter 12). Fortunately, TensorFlow does include special pro‐
+tobuf definitions for which it provides parsing operations.
+<header><largefont><b>TensorFlow</b></largefont> <largefont><b>Protobufs</b></largefont></header>
+The main protobuf typically used in a TFRecord file is the Example protobuf, which
+represents one instance in a dataset. It contains a list of named features, where each
+feature can either be a list of byte strings, a list of floats, or a list of integers. Here is
+the protobuf definition:
+syntax = "proto3";
+message BytesList { repeated bytes value = 1; }
+message FloatList { repeated <b>float</b> value = 1 [packed = <b>true];</b> }
+message Int64List { repeated int64 value = 1 [packed = <b>true];</b> }
+message Feature {
+oneof kind {
+BytesList bytes_list = 1;
+FloatList float_list = 2;
+Int64List int64_list = 3;
+}
+};
+message Features { map<string, Feature> feature = 1; };
+message Example { Features features = 1; };
+The definitions of BytesList , FloatList , and Int64List are straightforward
+[packed = true]
+enough. Note that is used for repeated numerical fields, for a more
+efficient encoding. A Feature contains either a BytesList , a FloatList , or an
+Int64List. Features s)
+A (with an contains a dictionary that maps a feature name to
+Example Features
+the corresponding feature value. And finally, an contains only a
+object. 8 Here is how you could create a tf.train.Example representing the same per‐
+son as earlier and write it to a TFRecord file:
+<b>from</b> <b>tensorflow.train</b> <b>import</b> BytesList, FloatList, Int64List
+<b>from</b> <b>tensorflow.train</b> <b>import</b> Feature, Features, Example
+person_example = Example(
+features=Features(
+feature={
+"name": Feature(bytes_list=BytesList(value=[b"Alice"])),
+Whywas Example evendefined,sinceitcontainsnomorethana Features object?Well,TensorFlow’sdevel‐
+8
+opersmayonedaydecidetoaddmorefieldstoit.AslongasthenewExampledefinitionstillcontainsthe
+features
+field,withthesameID,itwillbebackwardcompatible.Thisextensibilityisoneofthegreatfeatures
+ofprotobufs.

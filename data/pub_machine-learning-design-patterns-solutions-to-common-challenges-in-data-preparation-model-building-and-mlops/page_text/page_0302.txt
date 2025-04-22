@@ -1,0 +1,49 @@
+FeatureSet
+directly from the pandas dataframe. We simply specify the column name
+that represents the entity. The schema and data types for the features of the Feature
+Set
+are then inferred from the dataframe:
+<i>#</i> <i>Infer</i> <i>the</i> <i>features</i> <i>of</i> <i>the</i> <i>feature</i> <i>set</i> <i>from</i> <i>the</i> <i>pandas</i> <i>DataFrame</i>
+taxi_fs.infer_fields_from_df(taxi_df,
+entities=[Entity(name='taxi_id', dtype=ValueType.INT64)],
+replace_existing_features=True)
+<b>RegisteringtheFeatureSet.</b> Once the FeatureSet is created, we can register it with Feast
+client.apply(taxi_fs)
+using . To confirm that the feature set was correctly regis‐
+tered or to explore the contents of another feature set, we can retrieve it
+using .get_feature_set(...):
+<b>print(client.get_feature_set("taxi_rides"))</b>
+This returns a JSON object containing the data schema for the taxi_rides feature
+set:
+{
+<b>"spec":</b> {
+<b>"name":</b> "taxi_rides",
+<b>"entities":</b> [
+{
+<b>"name":</b> "key",
+<b>"valueType":</b> "INT64"
+}
+],
+<b>"features":</b> [
+{
+<b>"name":</b> "dropoff_lon",
+<b>"valueType":</b> "DOUBLE"
+},
+{
+<b>"name":</b> "pickup_lon",
+<b>"valueType":</b> "DOUBLE"
+},
+...
+...
+],
+}
+}
+<b>IngestingfeaturedataintotheFeatureSet.</b>
+Once we are happy with our schema, we can
+.ingest(...)
+ingest the dataframe feature data into Feast using . We’ll specify the
+FeatureSet , called taxi_fs , and the dataframe from which to populate the feature
+taxi_df
+data, called .
+<i>#</i> <i>Load</i> <i>feature</i> <i>data</i> <i>into</i> <i>Feast</i> <i>for</i> <i>this</i> <i>specific</i> <i>feature</i> <i>set</i>
+client.ingest(taxi_fs, taxi_df)

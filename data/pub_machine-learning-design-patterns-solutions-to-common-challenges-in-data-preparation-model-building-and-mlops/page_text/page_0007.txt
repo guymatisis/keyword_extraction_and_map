@@ -1,0 +1,39 @@
+term for preprocessing is <i>feature</i> <i>engineering.</i> We’ll use these two terms interchangea‐
+bly throughout the book.
+There are various terms used to describe data as it goes through the feature engineer‐
+ing process. <i>Input</i> describes a single column in your dataset before it has been pro‐
+cessed, and <i>feature</i> describes a single column <i>after</i> it has been processed. For
+example, a timestamp could be your input, and the feature would be day of the week.
+To convert the data from timestamp to day of the week, you’ll need to do some data
+preprocessing. This preprocessing step can also be referred to as <i>data</i> <i>transformation.</i>
+An <i>instance</i> is an item you’d like to send to your model for prediction. An instance
+could be a row in your test dataset (without the label column), an image you want to
+classify, or a text document to send to a sentiment analysis model. Given a set of fea‐
+tures about the instance, the model will calculate a predicted value. In order to do
+that, the model is trained on <i>training</i> <i>examples,</i> which associate an instance with a
+<i>label.</i> A <i>training</i> <i>example</i> refers to a single instance (row) of data from your dataset
+that will be fed to your model. Building on the timestamp use case, a full training
+example might include: “day of week,” “city,” and “type of car.” A <i>label</i> is the output
+column in your dataset—the item your model is predicting. <i>Label</i> can refer both to
+the target column in your dataset (also called a <i>ground</i> <i>truth</i> <i>label)</i> and the output
+given by your model (also called a <i>prediction).</i> A sample label for the training exam‐
+ple outlined above could be “trip duration”—in this case, a float value denoting
+minutes.
+Once you’ve assembled your dataset and determined the features for your model,
+<i>data</i> <i>validation</i> is the process of computing statistics on your data, understanding
+your schema, and evaluating the dataset to identify problems like drift and training-
+serving skew. Evaluating various statistics on your data can help you ensure the data‐
+set contains a balanced representation of each feature. In cases where it’s not possible
+to collect more data, understanding data balance will help you design your model to
+account for this. Understanding your schema involves defining the data type for each
+feature and identifying training examples where certain values may be incorrect or
+missing. Finally, data validation can identify inconsistencies that may affect the qual‐
+ity of your training and test sets. For example, maybe the majority of your training
+dataset contains <i>weekday</i> examples while your test set contains primarily <i>weekend</i>
+examples.
+<header><largefont><b>The</b></largefont> <largefont><b>Machine</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>Process</b></largefont></header>
+The first step in a typical machine learning workflow is <i>training—the</i> process of pass‐
+ing training data to a model so that it can learn to identify patterns. After training,
+the next step in the process is testing how your model performs on data outside of
+your training set. This is known as model <i>evaluation.</i> You might run training and
+evaluation multiple times, performing additional feature engineering and tweaking

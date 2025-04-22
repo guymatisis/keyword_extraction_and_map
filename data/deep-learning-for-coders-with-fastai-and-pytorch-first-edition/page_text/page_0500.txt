@@ -1,0 +1,35 @@
+If we want to broadcast in the other dimension, we have to change the shape of our
+vector to make it a 3×1 matrix. This is done with the unsqueeze method in PyTorch:
+c = tensor([10.,20,30])
+m = tensor([[1., 2, 3], [4,5,6], [7,8,9]])
+c = c.unsqueeze(1)
+m.shape,c.shape
+(torch.Size([3, 3]), torch.Size([3, 1]))
+This time, c is expanded on the column side:
+c+m
+tensor([[11., 12., 13.],
+[24., 25., 26.],
+[37., 38., 39.]])
+As before, only three scalars are stored in memory:
+t = c.expand_as(m)
+t.storage()
+10.0
+20.0
+30.0
+[torch.FloatStorage of size 3]
+And the expanded tensor has the right shape because the column dimension has a
+stride of 0:
+t.stride(), t.shape
+((1, 0), torch.Size([3, 3]))
+With broadcasting, if we need to add dimensions, they are added by default at the
+beginning. When we were broadcasting before, PyTorch was executing
+c.unsqueeze(0) behind the scenes:
+c = tensor([10.,20,30])
+c.shape, c.unsqueeze(0).shape,c.unsqueeze(1).shape
+(torch.Size([3]), torch.Size([1, 3]), torch.Size([3, 1]))
+The unsqueeze command can be replaced by None indexing:
+c.shape, c[None,:].shape,c[:,None].shape
+(torch.Size([3]), torch.Size([1, 3]), torch.Size([3, 1]))
+You can always omit trailing colons, and ... means all preceding dimensions:
+c[None].shape,c[...,None].shape
+(torch.Size([1, 3]), torch.Size([3, 1]))

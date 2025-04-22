@@ -1,0 +1,27 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>8</b></largefont></header>
+<header><largefont><b>Collaborative</b></largefont> <largefont><b>Filtering</b></largefont> <largefont><b>Deep</b></largefont> <largefont><b>Dive</b></largefont></header>
+One common problem to solve is having a number of users and a number of prod‐
+ucts, and you want to recommend which products are most likely to be useful for
+which users. Many variations exist: for example, recommending movies (such as on
+Netflix), figuring out what to highlight for a user on a home page, deciding what sto‐
+ries to show in a social media feed, and so forth. A general solution to this problem,
+called <i>collaborative</i> <i>filtering,</i> works like this: look at which products the current user
+has used or liked, find other users who have used or liked similar products, and then
+recommend other products that those users have used or liked.
+For example, on Netflix, you may have watched lots of movies that are science fiction,
+full of action, and were made in the 1970s. Netflix may not know these particular
+properties of the films you have watched, but it will be able to see that other people
+who have watched the same movies that you watched also tended to watch other
+movies that are science fiction, full of action, and were made in the 1970s. In other
+words, to use this approach, we don’t necessarily need to know anything about the
+movies except who likes to watch them.
+There is a more general class of problems that this approach can solve, not necessarily
+involving users and products. Indeed, for collaborative filtering, we more commonly
+refer to <i>items,</i> rather than <i>products.</i> Items could be links that people click, diagnoses
+that are selected for patients, and so forth.
+The key foundational idea is that of <i>latent</i> <i>factors.</i> In the Netflix example, we started
+with the assumption that you like old, action-packed sci-fi movies. But you never told
+Netflix that you like these kinds of movies. And Netflix never needed to add columns
+to its movies table saying which movies are of these types. Still, there must be some
+underlying concept of sci-fi, action, and movie age, and these concepts must be rele‐
+vant for at least some people’s movie-watching decisions.

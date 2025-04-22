@@ -1,0 +1,36 @@
+gets these two as an input as well as all the encoder’s outputs to predict the next
+token, “fliegt”. In the next step the decoder gets “fliegt” as an additional input. We
+repeat the process until the decoder predicts the EOS token or we reached a max‐
+imum length.
+The Transformer architecture was originally designed for sequence-to-sequence tasks
+like machine translation, but both the encoder and decoder blocks were soon adapted
+as standalone models. Although there are hundreds of different transformer models,
+most of them belong to one of three types:
+<i>Encoder-only</i>
+These models convert an input sequence of text into a rich numerical representa‐
+tion that is well suited for tasks like text classification or named entity recogni‐
+tion. BERT and its variants, like RoBERTa and DistilBERT, belong to this class of
+architectures. The representation computed for a given token in this architecture
+depends both on the left (before the token) and the right (after the token) con‐
+texts. This is often called <i>bidirectional</i> <i>attention.</i>
+<i>Decoder-only</i>
+Given a prompt of text like “Thanks for lunch, I had a…” these models will auto-
+complete the sequence by iteratively predicting the most probable next word.
+The family of GPT models belong to this class. The representation computed for
+a given token in this architecture depends only on the left context. This is often
+called <i>causal</i> or <i>autoregressive</i> <i>attention.</i>
+<i>Encoder-decoder</i>
+These are used for modeling complex mappings from one sequence of text to
+another; they’re suitable for machine translation and summarization tasks. In
+addition to the Transformer architecture, which as we’ve seen combines an
+encoder and a decoder, the BART and T5 models belong to this class.
+In reality, the distinction between applications for decoder-only
+versus encoder-only architectures is a bit blurry. For example,
+decoder-only models like those in the GPT family can be primed
+for tasks like translation that are conventionally thought of as
+sequence-to-sequence tasks. Similarly, encoder-only models like
+BERT can be applied to summarization tasks that are usually asso‐
+ciated with encoder-decoder or decoder-only models.1
+Now that you have a high-level understanding of the Transformer architecture, let’s
+take a closer look at the inner workings of the encoder.
+1 Y.LiuandM.Lapata,“TextSummarizationwithPretrainedEncoder”,(2019).

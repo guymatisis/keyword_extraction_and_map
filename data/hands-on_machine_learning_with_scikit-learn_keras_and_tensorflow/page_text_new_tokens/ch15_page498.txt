@@ -1,0 +1,25 @@
+work quite well too. We will discuss both of these possibilities, and we will finish this
+chapter by implementing a <i>WaveNet:</i> this is a CNN architecture capable of handling
+sequences of tens of thousands of time steps. In Chapter 16, we will continue to
+explore RNNs and see how to use them for natural language processing, along with
+more recent architectures based on attention mechanisms. Let’s get started!
+<header><largefont><b>Recurrent</b></largefont> <largefont><b>Neurons</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Layers</b></largefont></header>
+Up to now we have focused on feedforward neural networks, where the activations
+flow only in one direction, from the input layer to the output layer (a few exceptions
+are discussed in Appendix E). A recurrent neural network looks very much like a
+feedforward neural network, except it also has connections pointing backward. Let’s
+look at the simplest possible RNN, composed of one neuron receiving inputs, pro‐
+ducing an output, and sending that output back to itself, as shown in Figure 15-1
+(left). At each <i>time</i> <i>step</i> <i>t</i> (also called a <i>frame),</i> this <i>recurrent</i> <i>neuron</i> receives the inputs
+<b>x</b> as well as its own output from the previous time step, <i>y</i> . Since there is no previ‐
+(t) (t–1)
+ous output at the first time step, it is generally set to 0. We can represent this tiny net‐
+work against the time axis, as shown in Figure 15-1 (right). This is called <i>unrolling</i> <i>the</i>
+<i>network</i> <i>through</i> <i>time</i> (it’s the same recurrent neuron represented once per time step).
+<i>Figure</i> <i>15-1.</i> <i>A</i> <i>recurrent</i> <i>neuron</i> <i>(left)</i> <i>unrolled</i> <i>through</i> <i>time</i> <i>(right)</i>
+You can easily create a layer of recurrent neurons. At each time step <i>t,</i> every neuron
+receives both the input vector <b>x</b> and the output vector from the previous time step
+(t)
+<b>y</b> , as shown in Figure 15-2. Note that both the inputs and outputs are vectors now
+(t–1)
+(when there was just a single neuron, the output was a scalar).

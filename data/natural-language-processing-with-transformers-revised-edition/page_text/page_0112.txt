@@ -1,0 +1,20 @@
+B-ORG
+We see that has the highest average loss, which means that determining the
+beginning of an organization poses a challenge to our model.
+We can break this down further by plotting the confusion matrix of the token classifi‐
+cation, where we see that the beginning of an organization is often confused with the
+I-ORG
+subsequent token:
+<b>from</b> <b>sklearn.metrics</b> <b>import</b> ConfusionMatrixDisplay, confusion_matrix
+<b>def</b> plot_confusion_matrix(y_preds, y_true, labels):
+cm = confusion_matrix(y_true, y_preds, normalize="true")
+fig, ax = plt.subplots(figsize=(6, 6))
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
+disp.plot(cmap="Blues", values_format=".2f", ax=ax, colorbar=False)
+plt.title("Normalized confusion matrix")
+plt.show()
+plot_confusion_matrix(df_tokens["labels"], df_tokens["predicted_label"],
+tags.names)
+From the plot, we can see that our model tends to confuse the B-ORG and I-ORG enti‐
+ties the most. Otherwise, it is quite good at classifying the remaining entities, which is
+clear by the near diagonal nature of the confusion matrix.

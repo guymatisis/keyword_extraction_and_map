@@ -1,0 +1,8 @@
+ax.set_xlabel("Number of training samples")
+ax.set_xscale("log")
+ax.set_xticks(sample_sizes)
+ax.set_xticklabels(sample_sizes)
+ax.minorticks_off()
+plt.tight_layout()
+plt.show()
+plot_metrics(micro_scores, macro_scores, train_samples, "Naive Bayes")

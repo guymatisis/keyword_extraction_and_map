@@ -1,0 +1,40 @@
+<header><largefont><b>Fine-Tuning</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Keras</b></largefont></header>
+If you are using TensorFlow, it’s also possible to fine-tune your models using the
+Trainer
+Keras API. The main difference from the PyTorch API is that there is no
+fit()
+class, since Keras models already provide a built-in method. To see how this
+works, let’s first load DistilBERT as a TensorFlow model:
+<b>from</b> <b>transformers</b> <b>import</b> TFAutoModelForSequenceClassification
+tf_model = (TFAutoModelForSequenceClassification
+.from_pretrained(model_ckpt, num_labels=num_labels))
+tf.data.Dataset
+Next, we’ll convert our datasets into the format. Because we have
+already padded our tokenized inputs, we can do this conversion easily by applying the
+to_tf_dataset() emotions_encoded
+method to :
+<i>#</i> <i>The</i> <i>column</i> <i>names</i> <i>to</i> <i>convert</i> <i>to</i> <i>TensorFlow</i> <i>tensors</i>
+tokenizer_columns = tokenizer.model_input_names
+tf_train_dataset = emotions_encoded["train"].to_tf_dataset(
+columns=tokenizer_columns, label_cols=["label"], shuffle=True,
+batch_size=batch_size)
+tf_eval_dataset = emotions_encoded["validation"].to_tf_dataset(
+columns=tokenizer_columns, label_cols=["label"], shuffle=False,
+batch_size=batch_size)
+Here we’ve also shuffled the training set, and defined the batch size for it and the vali‐
+dation set. The last thing to do is compile and train the model:
+<b>import</b> <b>tensorflow</b> <b>as</b> <b>tf</b>
+tf_model.compile(
+optimizer=tf.keras.optimizers.Adam(learning_rate=5e-5),
+loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+metrics=tf.metrics.SparseCategoricalAccuracy())
+tf_model.fit(tf_train_dataset, validation_data=tf_eval_dataset, epochs=2)
+<b>Erroranalysis</b>
+Before moving on, we should investigate our model’s predictions a little bit further. A
+simple yet powerful technique is to sort the validation samples by the model loss.
+When we pass the label during the forward pass, the loss is automatically calculated
+and returned. Here’s a function that returns the loss along with the predicted label:
+<b>from</b> <b>torch.nn.functional</b> <b>import</b> cross_entropy
+<b>def</b> forward_pass_with_label(batch):
+<i>#</i> <i>Place</i> <i>all</i> <i>input</i> <i>tensors</i> <i>on</i> <i>the</i> <i>same</i> <i>device</i> <i>as</i> <i>the</i> <i>model</i>
+inputs = {k:v.to(device) <b>for</b> k,v <b>in</b> batch.items()

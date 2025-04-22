@@ -1,0 +1,30 @@
+tures with potential bias like race and gender can often be worse than leaving them
+in, since it makes it harder to identify and correct instances of bias in the model.
+When collecting and preparing data, another area where bias can be introduced is in
+the way the data is labeled. Teams often outsource labeling of large datasets, but it’s
+important to take care in understanding how labelers can introduce bias to a dataset,
+especially if the labeling is subjective. This is known as <i>experimenter</i> <i>bias.</i> Imagine
+we’re building a sentiment analysis model, and we have outsourced the labeling to a
+group of 20 people—it’s their job to label each piece of text on a scale from 1 (nega‐
+tive) to 5 (positive). This type of analysis is extremely subjective and can be influ‐
+enced by one’s culture, upbringing, and many other factors. Before using this data to
+train our model, we should ensure this group of 20 labelers reflects a diverse popula‐
+tion.
+In addition to data, bias can also be introduced during model training by the objec‐
+tive function we choose. For example, if we optimize our model for overall accuracy,
+this may not accurately reflect model performance across all slices of data. In cases
+where datasets are inherently imbalanced, using accuracy as our only metric may
+miss cases where our model is underperforming or making unfair decisions on
+minority classes in our data.
+Throughout this book, we’ve seen that ML has the power to improve productivity,
+add business value, and automate tasks that were previously manual. As data scien‐
+tists and ML engineers, we have a shared responsibility to ensure the models we build
+don’t have adverse effects on the populations that use them.
+<header><largefont><b>Solution</b></largefont></header>
+To handle problematic bias in machine learning, we need solutions both for identify‐
+ing areas of harmful bias in data before training a model, and evaluating our trained
+model through a fairness lens. The Fairness Lens design pattern provides approaches
+for building datasets and models that treat all groups of users equally. We’ll demon‐
+strate techniques for both types of analysis using the What-If Tool, an open source
+tool for dataset and model evaluation that can be run from many Python notebook
+environments.

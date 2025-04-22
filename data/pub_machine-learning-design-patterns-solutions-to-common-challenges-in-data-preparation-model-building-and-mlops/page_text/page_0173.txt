@@ -1,0 +1,36 @@
+pre-trained model as a feature extractor rather than fine-tuning. If you’re retraining
+the weights of a model that was likely trained on thousands or millions of examples,
+fine-tuning can cause the updated model to overfit to your small dataset and lose the
+more general information learned from those millions of examples. Although it
+depends on your data and prediction task, when we say “small dataset” here, we’re
+referring to datasets with hundreds or a few thousand training examples.
+Another factor to take into account when deciding whether to fine-tune is how simi‐
+lar your prediction task is to that of the original pre-trained model you’re using.
+When the prediction task is similar or a continuation of the previous training, as it
+was in our movie review sentiment analysis model, fine-tuning can produce higher-
+accuracy results. When the task is different or the datasets are significantly different,
+it’s best to freeze all the layers of the pre-trained model instead of fine-tuning them.
+Table 4-1 summarizes the key points. 4
+<i>Table</i> <i>4-1.</i> <i>Criteria</i> <i>to</i> <i>help</i> <i>choose</i> <i>between</i> <i>feature</i> <i>extraction</i> <i>and</i> <i>fine-tuning</i>
+<b>Criterion</b> <b>Featureextraction</b> <b>Fine-tuning</b>
+Howlargeisthedataset? Small Large
+Isyourpredictiontaskthesameasthatofthepre-trained Differenttasks Sametask,orsimilartaskwithsame
+model? classdistributionoflabels
+Budgetfortrainingtimeandcomputationalcost Low High
+In our text example, the pre-trained model was trained on a corpus of news text but
+our use case was sentiment analysis. Because these tasks are different, we should use
+the original model as a feature extractor rather than fine-tune it. An example of dif‐
+ferent prediction tasks in an image domain might be using our MobileNet model
+trained on ImageNet as a basis for doing transfer learning on a dataset of medical
+images. Although both tasks involve image classification, the nature of the images in
+each dataset are very different.
+<b>Focusonimageandtextmodels</b>
+You may have noticed that all of the examples in this section focused on image and
+text data. This is because transfer learning is primarily for cases where you can apply
+a similar task to the same data domain. Models trained with tabular data, however,
+cover a potentially infinite number of possible prediction tasks and data types. You
+could train a model on tabular data to predict how you should price tickets to your
+event, whether or not someone is likely to default on loan, your company’s revenue
+next quarter, the duration of a taxi trip, and so forth. The specific data for these tasks
+is also incredibly varied, with the ticket problem depending on information about
+4 Formoreinformation,see“CS231nConvolutionalNeuralNetworksforVisualRecognition.”

@@ -1,0 +1,27 @@
+<i>Figure</i> <i>2-2.</i> <i>A</i> <i>Machine</i> <i>Learning</i> <i>pipeline</i> <i>for</i> <i>real</i> <i>estate</i> <i>investments</i>
+<header><largefont><b>Pipelines</b></largefont></header>
+A sequence of data processing components is called a data <i>pipeline.</i> Pipelines are very
+common in Machine Learning systems, since there is a lot of data to manipulate and
+many data transformations to apply.
+Components typically run asynchronously. Each component pulls in a large amount
+of data, processes it, and spits out the result in another data store. Then, some time
+later, the next component in the pipeline pulls this data and spits out its own output.
+Each component is fairly self-contained: the interface between components is simply
+the data store. This makes the system simple to grasp (with the help of a data flow
+graph), and different teams can focus on different components. Moreover, if a com‐
+ponent breaks down, the downstream components can often continue to run nor‐
+mally (at least for a while) by just using the last output from the broken component.
+This makes the architecture quite robust.
+On the other hand, a broken component can go unnoticed for some time if proper
+monitoring is not implemented. The data gets stale and the overall system’s perfor‐
+mance drops.
+The next question to ask your boss is what the current solution looks like (if any).
+The current situation will often give you a reference for performance, as well as
+insights on how to solve the problem. Your boss answers that the district housing pri‐
+ces are currently estimated manually by experts: a team gathers up-to-date informa‐
+tion about a district, and when they cannot get the median housing price, they
+estimate it using complex rules.
+This is costly and time-consuming, and their estimates are not great; in cases where
+they manage to find out the actual median housing price, they often realize that their
+estimates were off by more than 20%. This is why the company thinks that it would
+be useful to train a model to predict a district’s median housing price, given other

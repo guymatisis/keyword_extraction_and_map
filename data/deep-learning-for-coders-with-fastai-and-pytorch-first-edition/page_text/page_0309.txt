@@ -1,0 +1,23 @@
+Let’s do the same thing for YearMade . Since this is a numeric feature, we’ll need to
+draw a histogram, which groups the year values into a few discrete bins:
+ax = valid_xs_final['YearMade'].hist()
+Other than the special value 1950, which we used for coding missing year values,
+most of the data is from after 1990.
+Now we’re ready to look at <i>partial</i> <i>dependence</i> <i>plots.</i> Partial dependence plots try to
+answer the question: if a row varied on nothing other than the feature in question,
+how would it impact the dependent variable?
+For instance, how does YearMade impact sale price, all other things being equal? To
+YearMade.
+answer this question, we can’t just take the average sale price for each The
+problem with that approach is that many other things vary from year to year as well,
+such as which products are sold, how many products have air-conditioning, inflation,
+and so forth. So, merely averaging over all the auctions that have the same YearMade
+would also capture the effect of how every other field also changed along with Year
+Made and how that overall change affected price.
+YearMade
+Instead, what we do is replace every single value in the column with 1950,
+and then calculate the predicted sale price for every auction, and take the average
+over all auctions. Then we do the same for 1951, 1952, and so forth until our final
+year of 2011. This isolates the effect of only YearMade (even if it does so by averaging
+over some imagined records where we assign a YearMade value that might never
+actually exist alongside some other values).

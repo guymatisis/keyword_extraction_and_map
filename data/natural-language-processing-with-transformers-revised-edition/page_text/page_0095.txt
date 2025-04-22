@@ -1,0 +1,41 @@
+subwords with Byte-Pair Encoding (BPE) or Unigram algorithms in the next step
+of the pipeline. However, splitting into “words” is not always a trivial and deter‐
+ministic operation, or even an operation that makes sense. For instance, in lan‐
+guages like Chinese, Japanese, or Korean, grouping symbols in semantic units
+like Indo-European words can be a nondeterministic operation with several
+equally valid groups. In this case, it might be best to not pretokenize the text and
+instead use a language-specific library for pretokenization.
+<i>Tokenizer</i> <i>model</i>
+Once the input texts are normalized and pretokenized, the tokenizer applies a
+subword splitting model on the words. This is the part of the pipeline that needs
+to be trained on your corpus (or that has been trained if you are using a pre‐
+trained tokenizer). The role of the model is to split the words into subwords to
+reduce the size of the vocabulary and try to reduce the number of out-of-
+vocabulary tokens. Several subword tokenization algorithms exist, including
+BPE, Unigram, and WordPiece. For instance, our running example might look
+like [jack, spa, rrow, loves, new, york, !] after the tokenizer model is
+applied. Note that at this point we no longer have a list of strings but a list of inte‐
+gers (input IDs); to keep the example illustrative, we’ve kept the words but drop‐
+ped the quotes to indicate the transformation.
+<i>Postprocessing</i>
+This is the last step of the tokenization pipeline, in which some additional trans‐
+formations can be applied on the list of tokens—for instance, adding special
+tokens at the beginning or end of the input sequence of token indices. For exam‐
+ple, a BERT-style tokenizer would add classifications and separator tokens: [CLS,
+jack, spa, rrow, loves, new, york, !, SEP]
+. This sequence (recall that this
+will be a sequence of integers, not the tokens you see here) can then be fed to the
+model.
+Going back to our comparison of XLM-R and BERT, we now understand that Senten‐
+<s> <\s> [CLS] [SEP]
+cePiece adds and instead of and in the postprocessing step (as a
+convention, we’ll continue to use [CLS] and [SEP] in the graphical illustrations). Let’s
+go back to the SentencePiece tokenizer to see what makes it special.
+<header><largefont><b>The</b></largefont> <largefont><b>SentencePiece</b></largefont> <largefont><b>Tokenizer</b></largefont></header>
+The SentencePiece tokenizer is based on a type of subword segmentation called
+Unigram and encodes each input text as a sequence of Unicode characters. This last
+feature is especially useful for multilingual corpora since it allows SentencePiece to be
+agnostic about accents, punctuation, and the fact that many languages, like Japanese,
+do not have whitespace characters. Another special feature of SentencePiece is that
+whitespace is assigned the Unicode symbol U+2581, or the ▁ character, also called
+the lower one quarter block character. This enables SentencePiece to detokenize a

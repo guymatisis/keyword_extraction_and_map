@@ -1,0 +1,22 @@
+Saving the full model state so that model training can resume from a point is called
+<i>checkpointing,</i> and the saved model files are called <i>checkpoints.</i> How often should we
+checkpoint? The model state changes after every batch because of gradient descent.
+So, technically, if we don’t want to lose any work, we should checkpoint after every
+batch. However, checkpoints are huge and this I/O would add considerable overhead.
+Instead, model frameworks typically provide the option to checkpoint at the end of
+every epoch. This is a reasonable tradeoff between never checkpointing and check‐
+pointing after every batch.
+To checkpoint a model in Keras, provide a callback to the fit() method:
+checkpoint_path = '{}/checkpoints/taxi'.format(OUTDIR)
+cp_callback = tf.keras.callbacks.ModelCheckpoint(checkpoint_path,
+save_weights_only=False,
+verbose=1)
+history = model.fit(x_train, y_train,
+batch_size=64,
+epochs=3,
+validation_data=(x_val, y_val),
+verbose=2,
+callbacks=[cp_callback])
+With checkpointing added, the training looping becomes what is shown in
+Figure 4-6.
+<i>Figure</i> <i>4-6.</i> <i>Checkpointing</i> <i>saves</i> <i>the</i> <i>full</i> <i>model</i> <i>state</i> <i>at</i> <i>the</i> <i>end</i> <i>of</i> <i>every</i> <i>epoch.</i>

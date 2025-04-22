@@ -1,0 +1,29 @@
+input_shape
+and indicates the length of input sequences. Since here we have padded
+the titles before passing to the model, we set input_shape=[MAX_LEN] :
+model = models.Sequential([layers.Embedding(input_dim=VOCAB_SIZE + 1,
+output_dim=embed_dim,
+input_shape=[MAX_LEN]),
+layers.Lambda(lambda x: tf.reduce_mean(x,axis=1)),
+layers.Dense(N_CLASSES, activation='softmax')])
+Note that we need to put a custom Keras Lambda layer in between the embedding
+layer and the dense softmax layer to average the word vectors returned by the embed‐
+ding layer. This is the average that’s fed to the dense softmax layer. By doing so, we
+create a model that is simple but that loses information about the word order, creat‐
+ing a model that sees sentences as a “bag of words.”
+<b>Imageembeddings</b>
+While text deals with very sparse input, other data types, such as images or audio,
+consist of dense, high-dimensional vectors, usually with multiple channels containing
+raw pixel or frequency information. In this setting, an Embedding captures a rele‐
+vant, low-dimensional representation of the input.
+For image embeddings, a complex convolutional neural network—like Inception or
+ResNet—is first trained on a large image dataset, like ImageNet, containing millions
+of images and thousands of possible classification labels. Then, the last softmax layer
+is removed from the model. Without the final softmax classifier layer, the model can
+be used to extract a feature vector for a given input. This feature vector contains all
+the relevant information of the image so it is essentially a low-dimensional embed‐
+ding of the input image.
+Similarly, consider the task of image captioning, that is, generating a textual caption
+of a given image, shown in Figure 2-8.
+<i>Figure</i> <i>2-8.</i> <i>For</i> <i>the</i> <i>image</i> <i>translation</i> <i>task,</i> <i>the</i> <i>encoder</i> <i>produces</i> <i>a</i> <i>low-dimensional</i>
+<i>embedding</i> <i>representation</i> <i>of</i> <i>the</i> <i>image.</i>

@@ -1,0 +1,37 @@
+<b>a</b>
+<b>0</b> 1
+<b>1</b> 2
+<b>2</b>
+3
+<b>3</b>
+4
+df1['b'] = [10, 20, 30, 40]
+df1['a'] + df1['b']
+0 11
+1 22
+2 33
+3 44
+dtype: int64
+Pandas is a fast and flexible library, and an important part of every data scientist’s
+Python toolbox. Unfortunately, its API can be rather confusing and surprising, so it
+takes a while to get familiar with it. If you haven’t used Pandas before, we suggest
+going through a tutorial; we are particularly fond of <i>Python</i> <i>for</i> <i>Data</i> <i>Analysis</i>
+(O’Reilly) by Wes McKinney, the creator of Pandas. It also covers other important
+libraries like matplotlib and NumPy. We will try to briefly describe Pandas functional‐
+ity we use as we come across it, but will not go into the level of detail of McKinney’s
+book.
+Now that we have seen what the data looks like, let’s make it ready for model training.
+<header><largefont><b>Constructing</b></largefont> <largefont><b>a</b></largefont> <largefont><b>DataBlock</b></largefont></header>
+How do we convert from a DataFrame object to a DataLoaders object? We generally
+suggest using the data block API for creating a DataLoaders object, where possible,
+since it provides a good mix of flexibility and simplicity. Here we will show you the
+steps that we take to use the data block API to construct a DataLoaders object in
+practice, using this dataset as an example.
+As we have seen, PyTorch and fastai have two main classes for representing and
+accessing a training set or validation set:
+Dataset
+A collection that returns a tuple of your independent and dependent variable for
+a single item
+DataLoader
+An iterator that provides a stream of mini-batches, where each mini-batch is a
+couple of a batch of independent variables and a batch of dependent variables

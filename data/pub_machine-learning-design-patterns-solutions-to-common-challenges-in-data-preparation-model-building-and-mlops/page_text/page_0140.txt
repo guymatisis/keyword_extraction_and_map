@@ -1,0 +1,34 @@
+cannot know whether the model complexity is too high for a particular dataset until
+you actually train that model on that dataset. Therefore, evaluation needs to be done
+within the training loop, and <i>error</i> <i>metrics</i> on a withheld split of the training data,
+called the <i>validation</i> <i>dataset,</i> have to be monitored as well. Because the training and
+validation datasets have been used in the training loop, it is necessary to withhold yet
+another split of the training dataset, called the <i>testing</i> <i>dataset,</i> to report the actual
+error metrics that could be expected on new and unseen data. This evaluation is car‐
+ried out at the end.
+<header><largefont><b>Keras</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Loop</b></largefont></header>
+The typical training loop in Keras looks like this:
+model = keras.Model(...)
+model.compile(optimizer=keras.optimizers.Adam(),
+loss=keras.losses.categorical_crossentropy(),
+metrics=['accuracy'])
+history = model.fit(x_train, y_train,
+batch_size=64,
+epochs=3,
+validation_data=(x_val, y_val))
+results = model.evaluate(x_test, y_test, batch_size=128))
+model.save(...)
+Here, the model uses the Adam optimizer to carry out SGD on the cross entropy over
+the training dataset and reports out the final accuracy obtained on the testing dataset.
+The model fitting loops over the training dataset three times (each traversal over the
+training dataset is termed an <i>epoch)</i> with the model seeing batches consisting of 64
+training examples at a time. At the end of every epoch, the error metrics are calcula‐
+ted on the validation dataset and added to the history. At the end of the fitting loop,
+the model is evaluated on the testing dataset, saved, and potentially deployed for
+serving, as shown in Figure 4-1.
+<i>Figure</i> <i>4-1.</i> <i>A</i> <i>typical</i> <i>training</i> <i>loop</i> <i>consisting</i> <i>of</i> <i>three</i> <i>epochs.</i> <i>Each</i> <i>epoch</i> <i>is</i> <i>processed</i> <i>in</i>
+<i>chunks</i> <i>of</i> <i>batch_size</i> <i>examples.</i> <i>At</i> <i>the</i> <i>end</i> <i>of</i> <i>the</i> <i>third</i> <i>epoch,</i> <i>the</i> <i>model</i> <i>is</i> <i>evaluated</i> <i>on</i>
+<i>the</i> <i>testing</i> <i>dataset,</i> <i>and</i> <i>saved</i> <i>for</i> <i>potential</i> <i>deployment</i> <i>as</i> <i>a</i> <i>web</i> <i>service.</i>
+Instead of using the prebuilt fit() function, we could also write a custom training
+loop that iterates over the batches explicitly, but we will not need to do this for any of
+the design patterns discussed in this chapter.

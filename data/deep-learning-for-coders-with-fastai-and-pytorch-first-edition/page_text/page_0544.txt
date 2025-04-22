@@ -1,0 +1,14 @@
+<header><largefont><b>Further</b></largefont> <largefont><b>Research</b></largefont></header>
+1. Write resnet18 from scratch (refer to Chapter 14 as needed), and train it with
+the Learner in this chapter.
+2. Implement a batchnorm layer from scratch and use it in your resnet18.
+3. Write a Mixup callback for use in this chapter.
+4. Add momentum to SGD.
+5. Pick a few features that you’re interested in from fastai (or any other library) and
+implement them with the objects created in this chapter.
+6. Pick a research paper that’s not yet implemented in fastai or PyTorch and do so
+with the objects you created in this chapter. Then:
+• Port the paper over to fastai.
+• Submit a pull request to fastai, or create your own extension module and
+release it.
+Hint: you may find it helpful to use nbdev to create and deploy your package.

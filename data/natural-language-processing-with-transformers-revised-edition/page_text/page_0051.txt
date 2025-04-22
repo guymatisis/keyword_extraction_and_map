@@ -1,0 +1,43 @@
+<b>if</b> k <b>in</b> tokenizer.model_input_names}
+<b>with</b> torch.no_grad():
+output = model(**inputs)
+pred_label = torch.argmax(output.logits, axis=-1)
+loss = cross_entropy(output.logits, batch["label"].to(device),
+reduction="none")
+<i>#</i> <i>Place</i> <i>outputs</i> <i>on</i> <i>CPU</i> <i>for</i> <i>compatibility</i> <i>with</i> <i>other</i> <i>dataset</i> <i>columns</i>
+<b>return</b> {"loss": loss.cpu().numpy(),
+"predicted_label": pred_label.cpu().numpy()}
+map()
+Using the method once more, we can apply this function to get the losses for all
+the samples:
+<i>#</i> <i>Convert</i> <i>our</i> <i>dataset</i> <i>back</i> <i>to</i> <i>PyTorch</i> <i>tensors</i>
+emotions_encoded.set_format("torch",
+columns=["input_ids", "attention_mask", "label"])
+<i>#</i> <i>Compute</i> <i>loss</i> <i>values</i>
+emotions_encoded["validation"] = emotions_encoded["validation"].map(
+forward_pass_with_label, batched=True, batch_size=16)
+DataFrame
+Finally, we create a with the texts, losses, and predicted/true labels:
+emotions_encoded.set_format("pandas")
+cols = ["text", "label", "predicted_label", "loss"]
+df_test = emotions_encoded["validation"][:][cols]
+df_test["label"] = df_test["label"].apply(label_int2str)
+df_test["predicted_label"] = (df_test["predicted_label"]
+.apply(label_int2str))
+emotions_encoded
+We can now easily sort by the losses in either ascending or
+descending order. The goal of this exercise is to detect one of the following:
+<i>Wrong</i> <i>labels</i>
+Every process that adds labels to data can be flawed. Annotators can make mis‐
+takes or disagree, while labels that are inferred from other features can be wrong.
+If it was easy to automatically annotate data, then we would not need a model to
+do it. Thus, it is normal that there are some wrongly labeled examples. With this
+approach, we can quickly find and correct them.
+<i>Quirks</i> <i>of</i> <i>the</i> <i>dataset</i>
+Datasets in the real world are always a bit messy. When working with text, special
+characters or strings in the inputs can have a big impact on the model’s predic‐
+tions. Inspecting the model’s weakest predictions can help identify such features,
+and cleaning the data or injecting similar examples can make the model more
+robust.
+Let’s first have a look at the data samples with the highest losses:
+df_test.sort_values("loss", ascending=False).head(10)

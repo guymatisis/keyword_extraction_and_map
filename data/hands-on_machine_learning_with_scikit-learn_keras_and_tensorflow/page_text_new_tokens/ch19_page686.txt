@@ -1,0 +1,33 @@
+The converter also optimizes the model, both to shrink it and to reduce its latency. It
+prunes all the operations that are not needed to make predictions (such as training
+operations), and it optimizes computations whenever possible; for example, 3×a +
+4×a + 5×a will be converted to (3 + 4 + 5)×a. It also tries to fuse operations whenever
+possible. For example, Batch Normalization layers end up folded into the previous
+layer’s addition and multiplication operations, whenever possible. To get a good idea
+of how much TFLite can optimize a model, download one of the pretrained TFLite
+models, unzip the archive, then open the excellent Netron graph visualization tool
+and upload the <i>.pb</i> file to view the original model. It’s a big, complex graph, right?
+Next, open the optimized <i>.tflite</i> model and marvel at its beauty!
+Another way you can reduce the model size (other than simply using smaller neural
+network architectures) is by using smaller bit-widths: for example, if you use half-
+floats (16 bits) rather than regular floats (32 bits), the model size will shrink by a fac‐
+tor of 2, at the cost of a (generally small) accuracy drop. Moreover, training will be
+faster, and you will use roughly half the amount of GPU RAM.
+TFLite’s converter can go further than that, by quantizing the model weights down to
+fixed-point, 8-bit integers! This leads to a fourfold size reduction compared to using
+32-bit floats. The simplest approach is called <i>post-training</i> <i>quantization:</i> it just quanti‐
+zes the weights after training, using a fairly basic but efficient symmetrical quantiza‐
+tion technique. It finds the maximum absolute weight value, <i>m,</i> then it maps the
+floating-point range –m to +m to the fixed-point (integer) range –127 to +127. For
+example (see Figure 19-8), if the weights range from –1.5 to +0.8, then the bytes –127,
+0, and +127 will correspond to the floats –1.5, 0.0, and +1.5, respectively. Note that
+0.0 always maps to 0 when using symmetrical quantization (also note that the byte
+values +68 to +127 will not be used, since they map to floats greater than +0.8).
+<i>Figure</i> <i>19-8.</i> <i>From</i> <i>32-bit</i> <i>floats</i> <i>to</i> <i>8-bit</i> <i>integers,</i> <i>using</i> <i>symmetrical</i> <i>quantization</i>
+OPTIMIZE_FOR_SIZE
+To perform this post-training quantization, simply add to the list
+of converter optimizations before calling the convert() method:
+converter.optimizations = [tf.lite.Optimize.OPTIMIZE_FOR_SIZE]
+This technique dramatically reduces the model’s size, so it’s much faster to download
+and store. However, at runtime the quantized weights get converted back to floats
+before they are used (these recovered floats are not perfectly identical to the original

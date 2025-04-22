@@ -1,0 +1,20 @@
+In the plot you can see the number of comparisons as a function of the number of
+clusters. We are looking for the minimum of this function, where we need to do the
+least comparisons. We can see that the minimum is exactly where we expected to see
+20 10
+it, at 2 = 2 = 1,024.
+In addition to speeding up queries with partitioning, FAISS also allows you to utilize
+GPUs for a further speedup. If memory becomes a concern there are also several
+options to compress the vectors with advanced quantization schemes. If you want to
+use FAISS for your project, the repository has a simple guide for you to choose the
+right methods for your use case.
+One of the largest projects to use FAISS was the creation of the CCMatrix corpus by
+Facebook. The authors used multilingual embeddings to find parallel sentences in dif‐
+ferent languages. This enormous corpus was subsequently used to train M2M100, a
+large machine translation model that is able to directly translate between any of 100
+languages.
+<header><largefont><b>Fine-Tuning</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Vanilla</b></largefont> <largefont><b>Transformer</b></largefont></header>
+If we have access to labeled data, we can also try to do the obvious thing: simply fine-
+tune a pretrained transformer model. In this section, we’ll use the standard BERT
+checkpoint as a starting point. Later, we’ll see the effect that fine-tuning the language
+model has on performance.

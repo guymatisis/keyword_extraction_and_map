@@ -1,0 +1,19 @@
+learning continues to become more accessible, and one exciting development is the
+availability of machine learning models that can be expressed in SQL. We’ll use <i>Big‐</i>
+<i>Query</i> <i>ML</i> as an example of this, especially in situations where we want to combine
+data preprocessing and model creation.
+<i>Figure</i> <i>1-1.</i> <i>A</i> <i>breakdown</i> <i>of</i> <i>different</i> <i>types</i> <i>of</i> <i>machine</i> <i>learning,</i> <i>with</i> <i>a</i> <i>few</i> <i>examples</i> <i>of</i>
+<i>each.</i> <i>Note</i> <i>that</i> <i>although</i> <i>it</i> <i>is</i> <i>not</i> <i>included</i> <i>in</i> <i>this</i> <i>diagram,</i> <i>neural</i> <i>networks</i> <i>like</i>
+<i>autoencoders</i> <i>can</i> <i>also</i> <i>be</i> <i>used</i> <i>for</i> <i>unsupervised</i> <i>learning.</i>
+Conversely, neural networks with only an input and output layer are another subset
+of machine learning known as <i>linear</i> <i>models.</i> Linear models represent the patterns
+they’ve learned from data using a linear function. <i>Decision</i> <i>trees</i> are machine learning
+models that use your data to create a subset of paths with various branches. These
+branches approximate the results of different outcomes from your data. Finally, <i>clus‐</i>
+<i>tering</i> models look for similarities between different subsets of your data and use
+these identified patterns to group data into clusters.
+Machine learning problems (see Figure 1-1) can be broken into two types: supervised
+and unsupervised learning. <i>Supervised</i> <i>learning</i> defines problems where you know the
+ground truth label for your data in advance. For example, this could include labeling
+an image as “cat” or labeling a baby as being 2.3 kg at birth. You feed this labeled data
+to your model in hopes that it can learn enough to label new examples. With

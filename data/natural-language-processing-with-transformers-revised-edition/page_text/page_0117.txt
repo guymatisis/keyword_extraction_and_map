@@ -1,0 +1,42 @@
+num_samples
+monolingual corpus, downsamples it by , and fine-tunes XLM-R on that
+sample to return the metrics from the best epoch:
+<b>def</b> train_on_subset(dataset, num_samples):
+train_ds = dataset["train"].shuffle(seed=42).select(range(num_samples))
+valid_ds = dataset["validation"]
+test_ds = dataset["test"]
+training_args.logging_steps = len(train_ds) // batch_size
+trainer = Trainer(model_init=model_init, args=training_args,
+data_collator=data_collator, compute_metrics=compute_metrics,
+train_dataset=train_ds, eval_dataset=valid_ds, tokenizer=xlmr_tokenizer)
+trainer.train()
+<b>if</b> training_args.push_to_hub:
+trainer.push_to_hub(commit_message="Training completed!")
+f1_score = get_f1_score(trainer, test_ds)
+<b>return</b> pd.DataFrame.from_dict(
+{"num_samples": [len(train_ds)], "f1_score": [f1_score]})
+As we did with fine-tuning on the German corpus, we also need to encode the French
+corpus into input IDs, attention masks, and label IDs:
+panx_fr_encoded = encode_panx_dataset(panx_ch["fr"])
+Next let’s check that our function works by running it on a small training set of 250
+examples:
+training_args.push_to_hub = False
+metrics_df = train_on_subset(panx_fr_encoded, 250)
+metrics_df
+<b>num_samples</b> <b>f1_score</b>
+250 0.137329
+<b>0</b>
+We can see that with only 250 examples, fine-tuning on French underperforms the
+zero-shot transfer from German by a large margin. Let’s now increase our training set
+sizes to 500, 1,000, 2,000, and 4,000 examples to get an idea of how the performance
+increases:
+<b>for</b> num_samples <b>in</b> [500, 1000, 2000, 4000]:
+metrics_df = metrics_df.append(
+train_on_subset(panx_fr_encoded, num_samples), ignore_index=True)
+We can compare how fine-tuning on French samples compares to zero-shot cross-
+lingual transfer from German by plotting the <i>F</i> -scores on the test set as a function of
+1
+increasing training set size:
+fig, ax = plt.subplots()
+ax.axhline(f1_scores["de"]["fr"], ls="--", color="r")
+metrics_df.set_index("num_samples").plot(ax=ax)

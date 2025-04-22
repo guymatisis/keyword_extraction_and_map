@@ -1,0 +1,40 @@
+<i>bag</i> <i>of</i> <i>words,</i> since it completely loses the order of the words. Common words like
+"and" will have a large value in most texts, even though they are usually the least
+interesting (e.g., in the text "more and more basketball" the word "basketball" is
+clearly the most important, precisely because it is not a very frequent word). So, the
+word counts should be normalized in a way that reduces the importance of frequent
+words. A common way to do this is to divide each word count by the log of the total
+number of training instances in which the word appears. This technique is called
+<i>Term-Frequency</i> × <i>Inverse-Document-Frequency</i> (TF-IDF). For example, let’s imagine
+"and" "basketball" "more"
+that the words , , and appear respectively in 200, 10, and
+100 text instances in the training set: in this case, the final vector will be [1/
+log(200), 0/log(10), 2/log(100)], [0.19, 0.,
+which is approximately equal to
+0.43] . The TextVectorization layer will (likely) have an option to perform TF-IDF.
+If the standard preprocessing layers are insufficient for your task,
+you will still have the option to create your own custom prepro‐
+cessing layer, much like we did earlier with the Standardization
+class. Create a subclass of the keras.layers.PreprocessingLayer
+class with an adapt() method, which should take a data_sample
+argument and optionally an extra reset_state argument: if True ,
+then the adapt() method should reset any existing state before
+computing the new state; if False , it should try to update the exist‐
+ing state.
+As you can see, these Keras preprocessing layers will make preprocessing much eas‐
+ier! Now, whether you choose to write your own preprocessing layers or use Keras’s
+(or even use the Feature Columns API), all the preprocessing will be done on the fly.
+During training, however, it may be preferable to perform preprocessing ahead of
+time. Let’s see why we’d want to do that and how we’d go about it.
+<header><largefont><b>TF</b></largefont> <largefont><b>Transform</b></largefont></header>
+If preprocessing is computationally expensive, then handling it before training rather
+than on the fly may give you a significant speedup: the data will be preprocessed just
+once per instance <i>before</i> training, rather than once per instance and per epoch <i>during</i>
+training. As mentioned earlier, if the dataset is small enough to fit in RAM, you can
+use its cache() method. But if it is too large, then tools like Apache Beam or Spark
+will help. They let you run efficient data processing pipelines over large amounts of
+data, even distributed across multiple servers, so you can use them to preprocess all
+the training data before training.
+This works great and indeed can speed up training, but there is one problem: once
+your model is trained, suppose you want to deploy it to a mobile app. In that case you
+will need to write some code in your app to take care of preprocessing the data before

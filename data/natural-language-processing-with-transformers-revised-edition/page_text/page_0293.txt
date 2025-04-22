@@ -1,0 +1,28 @@
+<header><largefont><b>Fine-Tuning</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Classifier</b></largefont></header>
+Now we’ll repeat the fine-tuning procedure, but with the slight difference that we load
+our own custom checkpoint:
+model_ckpt = f'{model_ckpt}-issues-128'
+config = AutoConfig.from_pretrained(model_ckpt)
+config.num_labels = len(all_labels)
+config.problem_type = "multi_label_classification"
+<b>for</b> train_slice <b>in</b> train_slices:
+model = AutoModelForSequenceClassification.from_pretrained(model_ckpt,
+config=config)
+trainer = Trainer(
+model=model,
+tokenizer=tokenizer,
+args=training_args_fine_tune,
+compute_metrics=compute_metrics,
+train_dataset=ds_enc["train"].select(train_slice),
+eval_dataset=ds_enc["valid"],
+)
+trainer.train()
+pred = trainer.predict(ds_enc['test'])
+metrics = compute_metrics(pred)
+<i>#</i> <i>DA</i> <i>refers</i> <i>to</i> <i>domain</i> <i>adaptation</i>
+macro_scores['Fine-tune (DA)'].append(metrics['macro f1'])
+micro_scores['Fine-tune (DA)'].append(metrics['micro f1'])
+Comparing the results to the fine-tuning based on vanilla BERT, we see that we get an
+advantage especially in the low-data domain. We also gain a few percentage points in
+the regime where more labeled data is available:
+plot_metrics(micro_scores, macro_scores, train_samples, "Fine-tune (DA)")

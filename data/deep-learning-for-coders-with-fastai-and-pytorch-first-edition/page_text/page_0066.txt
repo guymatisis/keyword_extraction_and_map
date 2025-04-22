@@ -1,0 +1,30 @@
+<b>KeepinginTouchwiththeLatestServices</b>
+Services that can be used for creating datasets come and go all the
+time, and their features, interfaces, and pricing change regularly
+too. In this section, we’ll show how to use the Bing Image Search
+API available as part of Azure Cognitive Services at the time this
+book was written.
+To download images with Bing Image Search, sign up at Microsoft for a free account.
+You will be given a key, which you can copy and enter in a cell as follows (replacing
+<i>XXX</i> with your key and executing it):
+key = 'XXX'
+Or, if you’re comfortable at the command line, you can set it in your terminal with
+export AZURE_SEARCH_KEY=your_key_here
+and then restart the Jupyter server, type this in a cell, and execute it:
+key = os.environ['AZURE_SEARCH_KEY']
+Once you’ve set key, you can use search_images_bing. This function is provided by
+the small utils class included with the notebooks online (if you’re not sure where a
+function is defined, you can just type it in your notebook to find out, as shown here):
+search_images_bing
+<function utils.search_images_bing(key, term, min_sz=128)>
+Let’s try this function out:
+results = search_images_bing(key, 'grizzly bear')
+ims = results.attrgot('content_url')
+len(ims)
+150
+We’ve successfully downloaded the URLs of 150 grizzly bears (or, at least, images that
+Bing Image Search finds for that search term). Let’s look at one:
+dest = 'images/grizzly.jpg'
+download_url(ims[0], dest)
+im = Image.open(dest)
+im.to_thumb(128,128)

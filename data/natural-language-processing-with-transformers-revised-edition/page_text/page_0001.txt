@@ -1,0 +1,22 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>1</b></largefont></header>
+<header><largefont><b>Hello</b></largefont> <largefont><b>Transformers</b></largefont></header>
+In 2017, researchers at Google published a paper that proposed a novel neural net‐
+work architecture for sequence modeling. 1 Dubbed the <i>Transformer,</i> this architecture
+outperformed recurrent neural networks (RNNs) on machine translation tasks, both
+in terms of translation quality and training cost.
+In parallel, an effective transfer learning method called ULMFiT showed that training
+long short-term memory (LSTM) networks on a very large and diverse corpus could
+produce state-of-the-art text classifiers with little labeled data.2
+These advances were the catalysts for two of today’s most well-known transformers:
+the Generative Pretrained Transformer (GPT) 3 and Bidirectional Encoder Represen‐
+tations from Transformers (BERT).4 By combining the Transformer architecture with
+unsupervised learning, these models removed the need to train task-specific architec‐
+tures from scratch and broke almost every benchmark in NLP by a significant mar‐
+gin. Since the release of GPT and BERT, a zoo of transformer models has emerged; a
+timeline of the most prominent entries is shown in Figure 1-1.
+1 A.Vaswanietal.,“AttentionIsAllYouNeed”,(2017).Thistitlewassocatchythatnolessthan50follow-up
+papershaveincluded“allyouneed”intheirtitles!
+2 J.HowardandS.Ruder,“UniversalLanguageModelFine-TuningforTextClassification”,(2018).
+3 A.Radfordetal.,“ImprovingLanguageUnderstandingbyGenerativePre-Training”,(2018).
+4 J.Devlinetal.,“BERT:Pre-TrainingofDeepBidirectionalTransformersforLanguageUnderstanding”,
+(2018).

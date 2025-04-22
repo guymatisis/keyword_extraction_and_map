@@ -1,0 +1,13 @@
+So, for instance, even if you don’t normally enjoy detective movies, you might enjoy
+<i>LA</i> <i>Confidential!</i>
+It is not quite so easy to directly interpret the embedding matrices. There are just too
+many factors for a human to look at. But there is a technique that can pull out the
+most important underlying <i>directions</i> in such a matrix, called <i>principal</i> <i>component</i>
+<i>analysis</i> (PCA). We will not be going into this in detail in this book, because it is not
+particularly important for you to understand to be a deep learning practitioner, but if
+you are interested, we suggest you check out the fast.ai course Computational Linear
+Algebra for Coders. Figure 8-3 shows what our movies look like based on two of the
+strongest PCA components.
+<i>Figure</i> <i>8-3.</i> <i>Representation</i> <i>of</i> <i>movies</i> <i>based</i> <i>on</i> <i>two</i> <i>strongest</i> <i>PCA</i> <i>components</i>
+We can see here that the model seems to have discovered a concept of <i>classic</i> versus
+<i>pop</i> <i>culture</i> movies, or perhaps it is <i>critically</i> <i>acclaimed</i> that is represented here.

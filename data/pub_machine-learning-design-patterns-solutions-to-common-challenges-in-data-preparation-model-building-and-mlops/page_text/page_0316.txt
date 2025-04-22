@@ -1,0 +1,39 @@
+Function” on page 201 (introduced in Chapter 5) explained how to export a trained
+model as a stateless function for serving in production. This is especially useful when
+model inputs require preprocessing to transform data sent by the client into the for‐
+mat the model expects.
+To handle requirements for different groups of model end users, we can define multi‐
+ple serving functions when we export our model. These serving functions are part of
+<i>one</i> exported model version, and this model is deployed to a single REST endpoint.
+In TensorFlow, serving functions are implemented using model <i>signatures,</i> which
+define the input and output format a model is expecting. We can define multiple
+@tf.function
+serving functions using the decorator and pass each function an input
+signature.
+In the application code where we invoke our deployed model, we would determine
+which serving function to use based on the data sent from the client. For example, a
+request such as:
+{"signature_name": <b>"get_genre",</b> "instances": … }
+would be sent to the exported signature called get_genre , whereas a request like:
+{"signature_name": <b>"get_genre_with_explanation",</b> "instances": … }
+would be sent to the exported signature called get_genre_with_explanation .
+Deploying multiple signatures can, therefore, solve the backward compatibility prob‐
+lem. However, there is a significant difference—there is only one model, and when
+that model is deployed, all the signatures are simultaneously updated. In our original
+example of changing the model from providing just one genre to providing multiple
+genres, the model architecture changed. The multiple-signature approach wouldn’t
+work with that example since we have two different models. The multiple-signature
+solution is also not appropriate when we wish to keep different versions of the model
+separate and deprecate the older version over time.
+Using multiple signatures is better than using multiple versions if you wish to main‐
+tain <i>both</i> model signatures going forward. In the scenario where there are some cli‐
+ents who simply want the best answer and other clients who want both the best
+answer and an explanation, there is an added benefit to updating all the signatures
+with a newer model instead of having to update versions one by one every time the
+model is retrained and redeployed.
+What are some scenarios where we might want to maintain both versions of the
+model? With a text classification model, we may have some clients that need to send
+raw text to the model, and others that are able to transform raw text into matrices
+before getting a prediction. Based on the request data from the client, the model
+framework can determine which serving function to use. Passing text embedding
+matrices to a model is less expensive than preprocessing raw text, so this is an exam‐

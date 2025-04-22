@@ -1,0 +1,40 @@
+<header><largefont><b>Tokenizing</b></largefont> <largefont><b>Texts</b></largefont> <largefont><b>for</b></largefont> <largefont><b>NER</b></largefont></header>
+Now that we’ve established that the tokenizer and model can encode a single example,
+our next step is to tokenize the whole dataset so that we can pass it to the XLM-R
+model for fine-tuning. As we saw in Chapter 2, Datasets provides a fast way to
+Dataset map()
+tokenize a object with the operation. To achieve this, recall that we
+first need to define a function with the minimal signature:
+function(examples: Dict[str, List]) -> Dict[str, List]
+examples Dataset panx_de['train'][:10]
+where is equivalent to a slice of a , e.g., .
+Since the XLM-R tokenizer returns the input IDs for the model’s inputs, we just need
+to augment this information with the attention mask and the label IDs that encode
+the information about which token is associated with each NER tag.
+Following the approach taken in the Transformers documentation, let’s look at
+how this works with our single German example by first collecting the words and tags
+as ordinary lists:
+words, labels = de_example["tokens"], de_example["ner_tags"]
+is_split_into_words
+Next, we tokenize each word and use the argument to tell the
+tokenizer that our input sequence has already been split into words:
+tokenized_input = xlmr_tokenizer(de_example["tokens"], is_split_into_words=True)
+tokens = xlmr_tokenizer.convert_ids_to_tokens(tokenized_input["input_ids"])
+pd.DataFrame([tokens], index=["Tokens"])
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b> <b>6</b> <b>...</b> <b>18</b> <b>19</b> <b>20</b> <b>21</b> <b>22</b> <b>23</b> <b>24</b>
+<b>Tokens</b> <s> ▁2.000 ▁Einwohner n ▁an ▁der ▁Dan ... schaft ▁Po mmer n ▁ . </s>
+In this example we can see that the tokenizer has split “Einwohnern” into two sub‐
+▁
+words, “ Einwohner” and “n”. Since we’re following the convention that only
+“▁Einwohner” should be associated with the B-LOC label, we need a way to mask the
+tokenized_input
+subword representations after the first subword. Fortunately, is a
+class that contains a word_ids() function that can help us achieve this:
+word_ids = tokenized_input.word_ids()
+pd.DataFrame([tokens, word_ids], index=["Tokens", "Word IDs"])
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b> <b>6</b> <b>...</b> <b>18</b> <b>19</b> <b>20</b> <b>21</b> <b>22</b> <b>23</b> <b>24</b>
+<s> ▁2.000 ▁Einwohner n ▁an ▁der ▁Dan ... schaft ▁Po mmer n ▁ . </s>
+<b>Tokens</b>
+None 0 1 1 2 3 4 ... 9 10 10 10 11 11 None
+<b>Word</b>
+<b>IDs</b>

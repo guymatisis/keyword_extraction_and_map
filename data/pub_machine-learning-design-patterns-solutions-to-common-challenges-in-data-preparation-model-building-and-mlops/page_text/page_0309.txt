@@ -1,0 +1,37 @@
+training–serving skew, but not feature reusability. There are also some alternative
+uses of a feature store that we have not yet detailed, such as how a feature store han‐
+dles data from different sources and data arriving at different cadences.
+<b>Alternativeimplementations</b>
+Many large technology companies, like Uber, LinkedIn, Airbnb, Netflix, and Com‐
+cast, host their own version of a feature store, though the architectures and tools vary.
+Uber’s Michelangelo Palette is built around Spark/Scala using Hive for offline feature
+creation and Cassandra for online features. Hopsworks provides another open source
+feature store alternative to Feast and is built around dataframes using Spark and pan‐
+das with Hive for offline and MySQL Cluster for online feature access. Airbnb built
+their own feature store as part of their production ML framework called Zipline. It
+uses Spark and Flink for feature engineering jobs and Hive for feature storage.
+Whichever tech stack is used, the primary components of the feature store are the
+same:
+• A tool to process large feature engineering jobs quickly, such as Spark, Flink or
+Beam.
+• A storage component for housing the feature sets that are created, such as Hive,
+cloud storage (Amazon S3, Google Cloud Storage), BigQuery, Redis, BigTable,
+and/or Cassandra. The combination that Feast uses (BigQuery and Redis) is opti‐
+mized for offline versus online (low-latency) feature retrieval.
+• A metadata layer to record feature version information, documentation, and fea‐
+ture registry to simplify discovery and sharing of feature sets.
+• An API for ingesting and retrieving features to/from the feature store.
+<b>Transformdesignpattern</b>
+If feature engineering code is not the same during training and inference, there is a
+risk that the two code sources will not be consistent. This leads to training–serving
+skew, and model predictions may not be reliable since the features may not be the
+same. Feature stores get around this problem by having their feature engineering jobs
+write feature data to both an online and an offline database. And, while a feature
+store itself doesn’t perform the feature transformations, it provides a way to separate
+the upstream feature engineering steps from model serving and provide point in time
+correctness.
+The Transform design pattern discussed in this chapter also provides a way to keep
+feature transformations separate and reproducible. For example, tf.transform can
+be used to preprocess data using exactly the same code for both training a model and
+serving predictions in production, thus eliminating training–serving skew. This
+ensures that training and serving feature engineering pipelines are consistent.

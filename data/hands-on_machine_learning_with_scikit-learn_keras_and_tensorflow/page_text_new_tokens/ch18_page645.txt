@@ -1,0 +1,44 @@
+<b>>>></b> env.observation_spec()
+BoundedArraySpec(shape=(210, 160, 3), dtype=dtype('float32'), name=None,
+minimum=[[[0. 0. 0.], [0. 0. 0.],...]],
+maximum=[[[255., 255., 255.], [255., 255., 255.], ...]])
+<b>>>></b> env.action_spec()
+BoundedArraySpec(shape=(), dtype=dtype('int64'), name=None,
+minimum=0, maximum=3)
+<b>>>></b> env.time_step_spec()
+TimeStep(step_type=ArraySpec(shape=(), dtype=dtype('int32'), name='step_type'),
+reward=ArraySpec(shape=(), dtype=dtype('float32'), name='reward'),
+discount=BoundedArraySpec(shape=(), ..., minimum=0.0, maximum=1.0),
+observation=BoundedArraySpec(shape=(210, 160, 3), ...))
+As you can see, the observations are simply screenshots of the Atari screen, repre‐
+sented as NumPy arrays of shape [210, 160, 3]. To render an environment, you can
+call env.render(mode="human") , and if you want to get back the image in the form of
+a NumPy array, just call env.render(mode="rgb_array") (unlike in OpenAI Gym,
+this is the default mode).
+There are four actions available. Gym’s Atari environments have an extra method that
+you can call to know what each action corresponds to:
+<b>>>></b> env.gym.get_action_meanings()
+['NOOP', 'FIRE', 'RIGHT', 'LEFT']
+Specs can be instances of a specification class, nested lists, or dic‐
+tionaries of specs. If the specification is nested, then the specified
+object must match the specification’s nested structure. For example,
+{"sensors": ArraySpec(shape=[2]),
+if the observation spec is
+"camera": ArraySpec(shape=[100, 100])}
+, then a valid observa‐
+{"sensors": np.array([1.5, 3.5]), "camera":
+tion would be
+np.array(...)} tf.nest
+. The package provides tools to handle
+such nested structures (a.k.a. <i>nests).</i>
+The observations are quite large, so we will downsample them and also convert them
+to grayscale. This will speed up training and use less RAM. For this, we can use an
+<i>environment</i> <i>wrapper.</i>
+<header><largefont><b>Environment</b></largefont> <largefont><b>Wrappers</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Atari</b></largefont> <largefont><b>Preprocessing</b></largefont></header>
+TF-Agents provides several environment wrappers in the tf_agents.environ
+ments.wrappers
+package. As their name suggests, they wrap an environment, for‐
+warding every call to it, but also adding some extra functionality. Here are some of
+the available wrappers:
+ActionClipWrapper
+Clips the actions to the action spec.

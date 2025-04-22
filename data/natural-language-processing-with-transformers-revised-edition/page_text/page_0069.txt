@@ -1,0 +1,30 @@
+<b>def</b> forward(self, hidden_state):
+x = torch.cat([h(hidden_state) <b>for</b> h <b>in</b> self.heads], dim=-1)
+x = self.output_linear(x)
+<b>return</b> x
+Notice that the concatenated output from the attention heads is also fed through a
+final linear layer to produce an output tensor of shape [batch_size, seq_len,
+hidden_dim] that is suitable for the feed-forward network downstream. To confirm,
+let’s see if the multi-head attention layer produces the expected shape of our inputs.
+We pass the configuration we loaded earlier from the pretrained BERT model when
+initializing the MultiHeadAttention module. This ensures that we use the same set‐
+tings as BERT:
+multihead_attn = MultiHeadAttention(config)
+attn_output = multihead_attn(inputs_embeds)
+attn_output.size()
+torch.Size([1, 5, 768])
+It works! To wrap up this section on attention, let’s use BertViz again to visualize the
+head_view()
+attention for two different uses of the word “flies”. Here we can use the
+function from BertViz by computing the attentions of a pretrained checkpoint and
+indicating where the sentence boundary lies:
+<b>from</b> <b>bertviz</b> <b>import</b> head_view
+<b>from</b> <b>transformers</b> <b>import</b> AutoModel
+model = AutoModel.from_pretrained(model_ckpt, output_attentions=True)
+sentence_a = "time flies like an arrow"
+sentence_b = "fruit flies like a banana"
+viz_inputs = tokenizer(sentence_a, sentence_b, return_tensors='pt')
+attention = model(**viz_inputs).attentions
+sentence_b_start = (viz_inputs.token_type_ids == 0).sum(dim=1)
+tokens = tokenizer.convert_ids_to_tokens(viz_inputs.input_ids[0])
+head_view(attention, tokens, sentence_b_start, heads=[8])

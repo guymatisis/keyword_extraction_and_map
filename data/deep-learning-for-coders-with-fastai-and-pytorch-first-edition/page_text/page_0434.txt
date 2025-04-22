@@ -1,0 +1,16 @@
+To create color_dim , we take the histogram shown on the left here and convert it into
+just the colored representation shown at the bottom. Then we flip it on its side, as
+shown on the right. We found that the distribution is clearer if we take the log of the
+histogram values. Then, Giomo describes:
+The final plot for each layer is made by stacking the histogram of the activations from
+each batch along the horizontal axis. So each vertical slice in the visualisation repre‐
+sents the histogram of activations for a single batch. The color intensity corresponds to
+the height of the histogram; in other words, the number of activations in each histo‐
+gram bin.
+Figure 13-15 shows how this all fits together.
+<i>Figure</i> <i>13-15.</i> <i>Summary</i> <i>of</i> <i>the</i> <i>colorful</i> <i>dimension</i> <i>(courtesy</i> <i>of</i> <i>Stefano</i> <i>Giomo)</i>
+This illustrates why log(f) is more colorful than <i>f</i> when <i>f</i> follows a normal distribu‐
+tion, because taking a log changes the Gaussian curve in a quadratic, which isn’t as
+narrow.
+So with that in mind, let’s take another look at the result for the penultimate layer:
+learn.activation_stats.color_dim(-2)

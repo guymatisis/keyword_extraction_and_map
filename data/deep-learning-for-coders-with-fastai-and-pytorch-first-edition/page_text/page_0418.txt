@@ -1,0 +1,34 @@
+Note that the output of the final Conv2d layer is 64x2x1x1 . We need to remove those
+extra 1x1 axes; that’s what Flatten does. It’s basically the same as PyTorch’s squeeze
+method, but as a module.
+Let’s see if this trains! Since this is a deeper network than we’ve built from scratch
+before, we’ll use a lower learning rate and more epochs:
+learn.fit_one_cycle(2, 0.01)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.072684 0.045110 0.990186 00:05
+1 0.022580 0.030775 0.990186 00:05
+Success! It’s getting closer to the resnet18 result we had, although it’s not quite there
+yet, and it’s taking more epochs, and we’re needing to use a lower learning rate. We
+still have a few more tricks to learn, but we’re getting closer and closer to being able to
+create a modern CNN from scratch.
+<header><largefont><b>Understanding</b></largefont> <largefont><b>Convolution</b></largefont> <largefont><b>Arithmetic</b></largefont></header>
+We can see from the summary that we have an input of size 64x1x28x28 . The axes are
+batch,channel,height,width. This is often represented as NCHW (where N refers to
+batch size). TensorFlow, on the other hand, uses NHWC axis order. Here is the first
+layer:
+m = learn.model[0]
+m
+Sequential(
+(0): Conv2d(1, 4, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+(1): ReLU()
+)
+So we have 1 input channel, 4 output channels, and a 3×3 kernel. Let’s check the
+weights of the first convolution:
+m[0].weight.shape
+torch.Size([4, 1, 3, 3])
+The summary shows we have 40 parameters, and 4*1*3*3 is 36. What are the other
+four parameters? Let’s see what the bias contains:
+m[0].bias.shape
+torch.Size([4])
+We can now use this information to clarify our statement in the previous section:
+“When we use a stride-2 convolution, we often increase the number of features

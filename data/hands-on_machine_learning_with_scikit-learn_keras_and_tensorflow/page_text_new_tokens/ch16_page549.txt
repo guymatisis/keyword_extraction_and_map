@@ -1,0 +1,38 @@
+<header><largefont><b>Attention</b></largefont> <largefont><b>Mechanisms</b></largefont></header>
+Consider the path from the word “milk” to its translation “lait” in Figure 16-3: it is
+quite long! This means that a representation of this word (along with all the other
+words) needs to be carried over many steps before it is actually used. Can’t we make
+this path shorter?
+13
+This was the core idea in a groundbreaking 2014 paper by Dzmitry Bahdanau et al.
+They introduced a technique that allowed the decoder to focus on the appropriate
+words (as encoded by the encoder) at each time step. For example, at the time step
+where the decoder needs to output the word “lait,” it will focus its attention on the
+word “milk.” This means that the path from an input word to its translation is now
+much shorter, so the short-term memory limitations of RNNs have much less impact.
+Attention mechanisms revolutionized neural machine translation (and NLP in gen‐
+eral), allowing a significant improvement in the state of the art, especially for long
+sentences (over 30 words).14
+Figure 16-6 shows this model’s architecture (slightly simplified, as we will see). On the
+left, you have the encoder and the decoder. Instead of just sending the encoder’s final
+hidden state to the decoder (which is still done, although it is not shown in the fig‐
+ure), we now send all of its outputs to the decoder. At each time step, the decoder’s
+memory cell computes a weighted sum of all these encoder outputs: this determines
+which words it will focus on at this step. The weight <i>α</i> is the weight of the <i>i</i> th
+(t,i)
+<i>tth</i>
+encoder output at the decoder time step. For example, if the weight <i>α</i> is much
+(3,2)
+larger than the weights <i>α</i> and <i>α</i> , then the decoder will pay much more attention
+(3,0) (3,1)
+to word number 2 (“milk”) than to the other two words, at least at this time step. The
+rest of the decoder works just like earlier: at each time step the memory cell receives
+the inputs we just discussed, plus the hidden state from the previous time step, and
+finally (although it is not represented in the diagram) it receives the target word from
+the previous time step (or at inference time, the output from the previous time step).
+13 DzmitryBahdanauetal.,“NeuralMachineTranslationbyJointlyLearningtoAlignandTranslate,”arXivpre‐
+printarXiv:1409.0473(2014).
+14 ThemostcommonmetricusedinNMTistheBiLingualEvaluationUnderstudy(BLEU)score,whichcom‐
+pareseachtranslationproducedbythemodelwithseveralgoodtranslationsproducedbyhumans:itcounts
+thenumberofn-grams(sequencesofnwords)thatappearinanyofthetargettranslationsandadjuststhe
+scoretotakeintoaccountthefrequencyoftheproducedn-gramsinthetargettranslations.

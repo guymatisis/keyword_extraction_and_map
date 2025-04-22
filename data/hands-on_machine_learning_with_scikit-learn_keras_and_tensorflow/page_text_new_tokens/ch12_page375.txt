@@ -1,0 +1,20 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>12</b></largefont></header>
+<header><largefont><b>Custom</b></largefont> <largefont><b>Models</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Training</b></largefont></header>
+<header><largefont><b>with</b></largefont> <largefont><b>TensorFlow</b></largefont></header>
+Up until now, we’ve used only TensorFlow’s high-level API, tf.keras, but it already got
+us pretty far: we built various neural network architectures, including regression and
+classification nets, Wide & Deep nets, and self-normalizing nets, using all sorts of
+techniques, such as Batch Normalization, dropout, and learning rate schedules. In
+fact, 95% of the use cases you will encounter will not require anything other than
+tf.keras (and tf.data; see Chapter 13). But now it’s time to dive deeper into TensorFlow
+and take a look at its lower-level Python API. This will be useful when you need extra
+control to write custom loss functions, custom metrics, layers, models, initializers,
+regularizers, weight constraints, and more. You may even need to fully control the
+training loop itself, for example to apply special transformations or constraints to the
+gradients (beyond just clipping them) or to use multiple optimizers for different parts
+of the network. We will cover all these cases in this chapter, and we will also look at
+how you can boost your custom models and training algorithms using TensorFlow’s
+automatic graph generation feature. But first, let’s take a quick tour of TensorFlow.
+TensorFlow 2.0 (beta) was released in June 2019, making Tensor‐
+Flow much easier to use. The first edition of this book used TF 1,
+while this edition uses TF 2.

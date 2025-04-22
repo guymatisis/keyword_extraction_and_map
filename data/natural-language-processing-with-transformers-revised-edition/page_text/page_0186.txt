@@ -1,0 +1,44 @@
+ElasticsearchRetriever
+In Haystack, the BM25 retriever is used by default in , so
+let’s initialize this class by specifying the document store we wish to search over:
+<b>from</b> <b>haystack.retriever.sparse</b> <b>import</b> ElasticsearchRetriever
+es_retriever = ElasticsearchRetriever(document_store=document_store)
+Next, let’s look at a simple query for a single electronics product in the training set.
+For review-based QA systems like ours, it’s important to restrict the queries to a single
+item because otherwise the retriever would source reviews about products that are
+not related to a user’s query. For example, asking “Is the camera quality any good?”
+without a product filter could return reviews about phones, when the user might be
+asking about a specific laptop camera instead. By themselves, the ASIN values in our
+dataset are a bit cryptic, but we can decipher them with online tools like <i>amazon</i>
+<i>ASIN</i> or by simply appending the value of item_id to the <i>www.amazon.com/dp/</i> URL.
+The following item ID corresponds to one of Amazon’s Fire tablets, so let’s use the
+retrieve()
+retriever’s method to ask if it’s any good for reading with:
+item_id = "B0074BW614"
+query = "Is it good for reading?"
+retrieved_docs = es_retriever.retrieve(
+query=query, top_k=3, filters={"item_id":[item_id], "split":["train"]})
+top_k
+Here we’ve specified how many documents to return with the argument and
+applied a filter on both the item_id and split keys that were included in the meta
+field of our documents. Each element of retrieved_docs is a Haystack Document
+object that is used to represent documents and includes the retriever’s query score
+along with other metadata. Let’s have a look at one of the retrieved documents:
+<b>print(retrieved_docs[0])</b>
+{'text': 'This is a gift to myself. I have been a kindle user for 4 years and
+this is my third one. I never thought I would want a fire for I mainly use it
+for book reading. I decided to try the fire for when I travel I take my laptop,
+my phone and my iPod classic. I love my iPod but watching movies on the plane
+with it can be challenging because it is so small. Laptops battery life is not
+as good as the Kindle. So the Fire combines for me what I needed all three to
+do. So far so good.', 'score': 6.243799, 'probability': 0.6857824513476455,
+'question': None, 'meta': {'item_id': 'B0074BW614', 'question_id':
+'868e311275e26dbafe5af70774a300f3', 'split': 'train'}, 'embedding': None, 'id':
+'252e83e25d52df7311d597dc89eef9f6'}
+score
+In addition to the document’s text, we can see the that Elasticsearch computed
+for its relevance to the query (larger scores imply a better match). Under the hood,
+Elasticsearch relies on Lucene for indexing and search, so by default it uses Lucene’s
+<i>practical</i> <i>scoring</i> <i>function.</i> You can find the nitty-gritty details behind the scoring
+function in the Elasticsearch documentation, but in brief terms it first filters the can‐
+didate documents by applying a Boolean test (does the document match the query?),

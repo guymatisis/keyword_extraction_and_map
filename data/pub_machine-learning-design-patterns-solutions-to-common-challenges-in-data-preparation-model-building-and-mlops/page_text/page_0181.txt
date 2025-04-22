@@ -1,0 +1,29 @@
+Synchronous and asynchronous training each have their advantages, and disadvan‐
+tages and choosing between the two often comes down to hardware and network
+limitations.
+Synchronous training is particularly vulnerable to slow devices or poor network con‐
+nection because training will stall waiting for updates from all workers. This means
+synchronous distribution is preferable when all devices are on a single host and there
+are fast devices (for example, TPUs or GPUs) with strong links. On the other hand,
+asynchronous distribution is preferable if there are many low-power or unreliable
+workers. If a single worker fails or stalls in returning a gradient update, it won’t stall
+the training loop. The only limitation is I/O constraints.
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+Large, complex neural networks require massive amounts of training data to be effec‐
+tive. Distributed training schemes drastically increase the throughput of data pro‐
+cessed by these models and can effectively decrease training times from weeks to
+hours. Sharing resources between workers and parameter server tasks leads to a dra‐
+matic increase in data throughput. Figure 4-17 compares the throughput of training
+setups.5
+data, in this case images, with different distribution Most notable is that
+throughput increases with the number of worker nodes and, even though parameter
+servers perform tasks not related to the computation done on the GPU’s workers,
+splitting the workload among more machines is the most advantageous strategy.
+In addition, data parallelization decreases time to convergence during training. In a
+similar study, it was shown that increasing workers leads to minimum loss much
+faster. 6 Figure 4-18 compares the time to minimum for different distribution strate‐
+gies. As the number of workers increases, the time to minimum training loss dramat‐
+ically decreases, showing nearly a 5× speed up with 8 workers as opposed to just 1.
+5 VictorCamposetal.,“Distributedtrainingstrategiesforacomputervisiondeeplearningalgorithmonadis‐
+tributedGPUcluster,”InternationalConferenceonComputationalScience,ICCS2017,June12–14,2017.
+6 Ibid.

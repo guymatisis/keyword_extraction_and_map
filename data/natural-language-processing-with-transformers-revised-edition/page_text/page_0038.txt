@@ -1,0 +1,28 @@
+<i>Fine-tuning</i>
+We train the whole model end-to-end, which also updates the parameters of the
+pretrained model.
+In the following sections we explore both options for DistilBERT and examine their
+trade-offs.
+<header><largefont><b>Transformers</b></largefont> <largefont><b>as</b></largefont> <largefont><b>Feature</b></largefont> <largefont><b>Extractors</b></largefont></header>
+Using a transformer as a feature extractor is fairly simple. As shown in Figure 2-5, we
+freeze the body’s weights during training and use the hidden states as features for the
+classifier. The advantage of this approach is that we can quickly train a small or shal‐
+low model. Such a model could be a neural classification layer or a method that does
+not rely on gradients, such as a random forest. This method is especially convenient if
+GPUs are unavailable, since the hidden states only need to be precomputed once.
+<i>Figure</i> <i>2-5.</i> <i>In</i> <i>the</i> <i>feature-based</i> <i>approach,</i> <i>the</i> <i>DistilBERT</i> <i>model</i> <i>is</i> <i>frozen</i> <i>and</i> <i>just</i> <i>pro‐</i>
+<i>vides</i> <i>features</i> <i>for</i> <i>a</i> <i>classifier</i>
+<b>Usingpretrainedmodels</b>
+AutoModel
+We will use another convenient auto class from Transformers called .
+AutoTokenizer AutoModel from_pretrained()
+Similar to the class, has a method to
+load the weights of a pretrained model. Let’s use this method to load the DistilBERT
+checkpoint:
+<b>from</b> <b>transformers</b> <b>import</b> AutoModel
+model_ckpt = "distilbert-base-uncased"
+device = torch.device("cuda" <b>if</b> torch.cuda.is_available() <b>else</b> "cpu")
+model = AutoModel.from_pretrained(model_ckpt).to(device)
+Here we’ve used PyTorch to check whether a GPU is available or not, and then
+nn.Module.to()
+chained the PyTorch method to the model loader. This ensures that

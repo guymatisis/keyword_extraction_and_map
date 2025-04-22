@@ -1,0 +1,41 @@
+2.7.9).6
+default with the Python binary installers (since Python You can check to see if
+pip is installed by typing the following command:
+$ <b>python3</b> <b>-m</b> <b>pip</b> <b>--version</b>
+pip 19.3.1 from [...]/lib/python3.7/site-packages/pip (python 3.7)
+You should make sure you have a recent version of pip installed. To upgrade the pip
+module, type the following (the exact version may differ):7
+$ <b>python3</b> <b>-m</b> <b>pip</b> <b>install</b> <b>--user</b> <b>-U</b> <b>pip</b>
+Collecting pip
+[...]
+Successfully installed pip-19.3.1
+<header><largefont><b>Creating</b></largefont> <largefont><b>an</b></largefont> <largefont><b>Isolated</b></largefont> <largefont><b>Environment</b></largefont></header>
+If you would like to work in an isolated environment (which is strongly recom‐
+mended so that you can work on different projects without having conflicting library
+versions), install virtualenv8 by running the following pip command (again, if you
+want virtualenv to be installed for all users on your machine, remove --user and run
+this command with administrator rights):
+$ <b>python3</b> <b>-m</b> <b>pip</b> <b>install</b> <b>--user</b> <b>-U</b> <b>virtualenv</b>
+Collecting virtualenv
+[...]
+Successfully installed virtualenv-16.7.6
+Now you can create an isolated Python environment by typing this:
+$ <b>cd</b> <b>$ML_PATH</b>
+$ <b>python3</b> <b>-m</b> <b>virtualenv</b> <b>my_env</b>
+Using base prefix '[...]'
+New python executable in [...]/ml/my_env/bin/python3
+Also creating executable in [...]/ml/my_env/bin/python
+Installing setuptools, pip, wheel...done.
+Now every time you want to activate this environment, just open a terminal and type
+the following:
+6 I’llshowtheinstallationstepsusingpipinabashshellonaLinuxormacOSsystem.Youmayneedtoadapt
+thesecommandstoyourownsystem.OnWindows,IrecommendinstallingAnacondainstead.
+Ifyouwanttoupgradepipforallusersonyourmachineratherthanjustyourownuser,youshouldremove
+7
+the --user optionandmakesureyouhaveadministratorrights(e.g.,byadding sudo beforethewholecom‐
+mandonLinuxormacOS).
+8 Alternativetoolsincludevenv(verysimilartovirtualenvandincludedinthestandardlibrary),virtualenv‐
+wrapper(providesextrafunctionalitiesontopofvirtualenv),pyenv(allowseasyswitchingbetweenPython
+requests
+versions),andpipenv(agreatpackagingtoolbythesameauthorasthepopular library,builtontop
+ofpipandvirtualenv).

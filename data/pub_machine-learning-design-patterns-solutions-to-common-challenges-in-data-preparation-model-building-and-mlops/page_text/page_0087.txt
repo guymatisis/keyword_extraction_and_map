@@ -1,0 +1,6 @@
+<i>Figure</i> <i>3-4.</i> <i>The</i> <i>precision</i> <i>of</i> <i>the</i> <i>multiclass</i> <i>classification</i> <i>is</i> <i>controlled</i> <i>by</i> <i>the</i> <i>width</i> <i>of</i> <i>the</i>
+<i>bins</i> <i>for</i> <i>the</i> <i>label.</i>
+The sharpness of the PDF indicates the precision of the task as a regression. A
+sharper PDF indicates a smaller standard deviation of the output distribution while a
+wider PDF indicates a larger standard deviation and thus more variance. For a very
+sharp density function, it’s better to stick with a regression model (see Figure 3-5).

@@ -1,0 +1,37 @@
+dataset. Since the dataset only contains data without parallel texts (i.e., transla‐
+tions), the TLM objective of XLM was dropped. This approach beats XLM and
+multilingual BERT variants by a large margin, especially on low-resource
+languages.
+<i>ALBERT</i>
+The ALBERT model introduced three changes to make the encoder architecture
+more efficient.13 First, it decouples the token embedding dimension from the hid‐
+den dimension, thus allowing the embedding dimension to be small and thereby
+saving parameters, especially when the vocabulary gets large. Second, all layers
+share the same parameters, which decreases the number of effective parameters
+even further. Finally, the NSP objective is replaced with a sentence-ordering pre‐
+diction: the model needs to predict whether or not the order of two consecutive
+sentences was swapped rather than predicting if they belong together at all. These
+changes make it possible to train even larger models with fewer parameters and
+reach superior performance on NLU tasks.
+<i>ELECTRA</i>
+One limitation of the standard MLM pretraining objective is that at each training
+step only the representations of the masked tokens are updated, while the other
+input tokens are not. To address this issue, ELECTRA uses a two-model
+approach: 14 the first model (which is typically small) works like a standard
+masked language model and predicts masked tokens. The second model, called
+the <i>discriminator,</i> is then tasked to predict which of the tokens in the first model’s
+output were originally masked. Therefore, the discriminator needs to make a
+binary classification for every token, which makes training 30 times more effi‐
+cient. For downstream tasks the discriminator is fine-tuned like a standard BERT
+model.
+<i>DeBERTa</i>
+The DeBERTa model introduces two architectural changes. 15 First, each token is
+represented as two vectors: one for the content, the other for relative position. By
+disentangling the tokens’ content from their relative positions, the self-attention
+layers can better model the dependency of nearby token pairs. On the other
+hand, the absolute position of a word is also important, especially for decoding.
+For this reason, an absolute position embedding is added just before the softmax
+layer of the token decoding head. DeBERTa is the first model (as an ensemble) to
+13 Z.Lanetal.,“ALBERT:ALiteBERTforSelf-SupervisedLearningofLanguageRepresentations”,(2019).
+14 K.Clarketal.,“ELECTRA:Pre-TrainingTextEncodersasDiscriminatorsRatherThanGenerators”,(2020).
+15 P.Heetal.,“DeBERTa:Decoding-EnhancedBERTwithDisentangledAttention”,(2020).

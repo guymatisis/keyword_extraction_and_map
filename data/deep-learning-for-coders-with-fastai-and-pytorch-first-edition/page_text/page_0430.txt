@@ -1,0 +1,24 @@
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 2.309385 2.302744 0.113500 00:08
+Let’s see what the penultimate layer looks like:
+learn.activation_stats.plot_layer_stats(-2)
+Again, we’ve got most of our activations near zero. Let’s see what else we can do to
+improve training stability.
+<header><largefont><b>1cycle</b></largefont> <largefont><b>Training</b></largefont></header>
+Our initial weights are not well suited to the task we’re trying to solve. Therefore, it is
+dangerous to begin training with a high learning rate: we may very well make the
+training diverge instantly, as we’ve seen. We probably don’t want to end training with
+a high learning rate either, so that we don’t skip over a minimum. But we want to
+train at a high learning rate for the rest of the training period, because we’ll be able to
+train more quickly that way. Therefore, we should change the learning rate during
+training, from low, to high, and then back to low again.
+Leslie Smith (yes, the same guy who invented the learning rate finder!) developed this
+idea in his article “Super-Convergence: Very Fast Training of Neural Networks Using
+Large Learning Rates”. He designed a schedule for learning rate separated into two
+phases: one where the learning rate grows from the minimum value to the maximum
+value (warmup), and one where it decreases back to the minimum value (annealing).
+Smith called this combination of approaches <i>1cycle</i> <i>training.</i>
+1cycle training allows us to use a much higher maximum learning rate than other
+types of training, which gives two benefits:
+• By training with higher learning rates, we train faster—a phenomenon Smith
+calls <i>super-convergence.</i>

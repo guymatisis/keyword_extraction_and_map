@@ -1,0 +1,29 @@
+exp <i>z</i> /T
+<i>t,i</i>
+
+<i>P</i> <i>y</i> = <i>w</i> <i>y</i> , =
+<i>t</i> <i>i</i> < <i>t</i>
+<i>V</i>
+∑ exp <i>z</i> /T
+<i>j</i> = 1 <i>t,</i> <i>j</i>
+By tuning <i>T</i> we can control the shape of the probability distribution. 5 When <i>T</i> ≪ 1,
+the distribution becomes peaked around the origin and the rare tokens are sup‐
+≫
+pressed. On the other hand, when <i>T</i> 1, the distribution flattens out and each token
+becomes equally likely. The effect of temperature on token probabilities is shown in
+Figure 5-5.
+<i>Figure</i> <i>5-5.</i> <i>Distribution</i> <i>of</i> <i>randomly</i> <i>generated</i> <i>token</i> <i>probabilities</i> <i>for</i> <i>three</i> <i>selected</i>
+<i>temperatures</i>
+To see how we can use temperature to influence the generated text, let’s sample with
+temperature generate()
+<i>T</i> = 2 by setting the parameter in the function (we’ll
+explain the meaning of the top_k parameter in the next section):
+output_temp = model.generate(input_ids, max_length=max_length, do_sample=True,
+temperature=2.0, top_k=0)
+<b>print(tokenizer.decode(output_temp[0]))</b>
+In a shocking finding, scientist discovered a herd of unicorns living in a
+remote, previously unexplored valley, in the Andes Mountains. Even more
+surprising to the researchers was the fact that the unicorns spoke perfect
+English.
+While the station aren protagonist receive Pengala nostalgiates tidbitRegarding
+5 Ifyouknowsomephysics,youmayrecognizeastrikingresemblancetotheBoltzmanndistribution.

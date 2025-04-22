@@ -1,0 +1,37 @@
+<header><largefont><b>fastai’s</b></largefont> <largefont><b>Tabular</b></largefont> <largefont><b>Classes</b></largefont></header>
+In fastai, a tabular model is simply a model that takes columns of continuous or cate‐
+gorical data, and predicts a category (a classification model) or a continuous value (a
+regression model). Categorical independent variables are passed through an embed‐
+ding and concatenated, as we saw in the neural net we used for collaborative filtering,
+and then continuous variables are concatenated as well.
+tabular_learner TabularModel.
+The model created in is an object of class Take a
+look at the source for tabular_learner now (remember, that’s tabular_learner?? in
+Jupyter). You’ll see that like collab_learner, it first calls get_emb_sz to calculate
+appropriate embedding sizes (you can override these by using the emb_szs parameter,
+which is a dictionary containing any column names you want to set sizes for man‐
+ually), and it sets a few other defaults. Other than that, it creates the TabularModel
+TabularLearner TabularLearner Learner,
+and passes that to (note that is identical to
+except for a customized predict method).
+That means that really all the work is happening in TabularModel, so take a look at
+the source for that now. With the exception of the BatchNorm1d and Dropout layers
+(which we’ll be learning about shortly), you now have the knowledge required to
+understand this whole class. Take a look at the discussion of EmbeddingNN at the end
+n_cont=0 TabularModel.
+of the preceding chapter. Recall that it passed to We now
+can see why that was: because there are zero continuous variables (in fastai, the n_
+prefix means “number of,” and cont is an abbreviation for “continuous”).
+Another thing that can help with generalization is to use several models and average
+their predictions—a technique, as mentioned earlier, known as <i>ensembling.</i>
+<header><largefont><b>Ensembling</b></largefont></header>
+Think back to the original reasoning behind why random forests work so well: each
+tree has errors, but those errors are not correlated with each other, so the average of
+those errors should tend toward zero once there are enough trees. Similar reasoning
+could be used to consider averaging the predictions of models trained using different
+algorithms.
+In our case, we have two very different models, trained using very different algo‐
+rithms: a random forest and a neural network. It would be reasonable to expect that
+the kinds of errors that each one makes would be quite different. Therefore, we might
+expect that the average of their predictions would be better than either one’s individ‐
+ual predictions.

@@ -1,0 +1,36 @@
+SHAP has some built-in visualization methods that make it easier to understand the
+resulting attribution values. We’ll use SHAP’s force_plot() method to plot the attri‐
+bution values for the first example in our test set with the following code:
+shap.force_plot(
+explainer.expected_value[0],
+shap_values[0][0,:],
+x_test.iloc[0,:]
+)
+explainer.expected_value
+In the code above, is our model’s baseline. SHAP calcu‐
+lates the baseline as the mean of the model’s output across the dataset we passed
+when we created the explainer (in this case, x_train[:100] ), though we could also
+force_plot.
+pass our own baseline value to The ground truth value for this example
+is 14 miles per gallon, and our model predicts 13.16. Our explanation will therefore
+explain our model’s prediction of 13.16 with feature attribution values. In this case,
+the attribution values are relative to the model’s baseline of 24.16 MPG. The attribu‐
+tion values should therefore add up to roughly 11, the difference between the model’s
+baseline and the prediction for this example. We can identify the most important fea‐
+tures by looking at the ones with the highest absolute value. Figure 7-3 shows the
+resulting plot for this example’s attribution values.
+<i>Figure</i> <i>7-3.</i> <i>The</i> <i>feature</i> <i>attribution</i> <i>values</i> <i>for</i> <i>one</i> <i>example</i> <i>from</i> <i>our</i> <i>fuel</i> <i>efficiency</i> <i>pre‐</i>
+<i>diction</i> <i>model.</i> <i>In</i> <i>this</i> <i>case,</i> <i>the</i> <i>car’s</i> <i>weight</i> <i>is</i> <i>the</i> <i>most</i> <i>significant</i> <i>indicator</i> <i>of</i> <i>MPG</i>
+<i>with</i> <i>a</i> <i>feature</i> <i>attribution</i> <i>value</i> <i>of</i> <i>roughly</i> <i>6.</i> <i>Had</i> <i>our</i> <i>model’s</i> <i>prediction</i> <i>been</i> <i>above</i>
+<i>the</i> <i>baseline</i> <i>of</i> <i>24.16,</i> <i>we</i> <i>would</i> <i>instead</i> <i>see</i> <i>mostly</i> <i>negative</i> <i>attribution</i> <i>values.</i>
+For this example, the most important indicator of fuel efficiency is weight, pushing
+our model’s prediction down by about 6 MPG from the baseline. This is followed by
+horsepower, displacement, and then the car’s model year. We can get a summary (or
+global explanation) of the feature attribution values for the first 10 examples from
+our test set with the following:
+shap.summary_plot(
+shap_values,
+feature_names=data.columns.tolist(),
+class_names=['MPG']
+)
+This results in the summary plot shown in Figure 7-4.

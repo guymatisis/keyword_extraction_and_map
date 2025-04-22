@@ -1,0 +1,30 @@
+For this initial test, we’ll use the same simple model that we used in Chapter 1:
+learn = cnn_learner(dls, resnet34, metrics=error_rate)
+learn.fine_tune(2)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 1.491732 0.337355 0.108254 00:18
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 0.503154 0.293404 0.096076 00:23
+1 0.314759 0.225316 0.066306 00:23
+As we’ve briefly discussed before, the table shown when we fit a model shows us the
+results after each epoch of training. Remember, an epoch is one complete pass
+through all of the images in the data. The columns shown are the average loss over
+the items of the training set, the loss on the validation set, and any metrics that we
+requested—in this case, the error rate.
+Remember that <i>loss</i> is whatever function we’ve decided to use to optimize the param‐
+eters of our model. But we haven’t actually told fastai what loss function we want to
+use. So what is it doing? fastai will generally try to select an appropriate loss function
+based on the kind of data and model you are using. In this case, we have image data
+and a categorical outcome, so fastai will default to using <i>cross-entropy</i> <i>loss.</i>
+<header><largefont><b>Cross-Entropy</b></largefont> <largefont><b>Loss</b></largefont></header>
+<i>Cross-entropy</i> <i>loss</i> is a loss function that is similar to the one we used in the previous
+chapter, but (as we’ll see) has two benefits:
+• It works even when our dependent variable has more than two categories.
+• It results in faster and more reliable training.
+To understand how cross-entropy loss works for dependent variables with more than
+two categories, we first have to understand what the actual data and activations that
+are seen by the loss function look like.
+<header><largefont><b>Viewing</b></largefont> <largefont><b>Activations</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Labels</b></largefont></header>
+Let’s take a look at the activations of our model. To get a batch of real data from our
+DataLoaders, we can use the one_batch method:
+x,y = dls.one_batch()

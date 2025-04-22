@@ -1,0 +1,39 @@
+<b>def</b> get_dls(bs, size):
+dblock = DataBlock(blocks=(ImageBlock, CategoryBlock),
+get_items=get_image_files,
+get_y=parent_label,
+item_tfms=Resize(460),
+batch_tfms=[*aug_transforms(size=size, min_scale=0.75),
+Normalize.from_stats(*imagenet_stats)])
+<b>return</b> dblock.dataloaders(path, bs=bs)
+dls = get_dls(64, 224)
+x,y = dls.one_batch()
+x.mean(dim=[0,2,3]),x.std(dim=[0,2,3])
+(TensorImage([-0.0787, 0.0525, 0.2136], device='cuda:5'),
+TensorImage([1.2330, 1.2112, 1.3031], device='cuda:5'))
+Let’s check what effect this had on training our model:
+model = xresnet50()
+learn = Learner(dls, model, loss_func=CrossEntropyLossFlat(), metrics=accuracy)
+learn.fit_one_cycle(5, 3e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 1.632865 2.250024 0.391337 01:02
+1 1.294041 1.579932 0.517177 01:02
+2 0.960535 1.069164 0.657207 01:04
+3 0.730220 0.767433 0.771845 01:05
+4 0.577889 0.550673 0.824496 01:06
+Although it helped only a little here, normalization becomes especially important
+when using pretrained models. The pretrained model knows how to work with only
+data of the type that it has seen before. If the average pixel value was 0 in the data it
+was trained with, but your data has 0 as the minimum possible value of a pixel, then
+the model is going to be seeing something very different from what is intended!
+This means that when you distribute a model, you need to also distribute the statistics
+used for normalization, since anyone using it for inference or transfer learning will
+need to use the same statistics. By the same token, if you’re using a model that some‐
+one else has trained, make sure you find out what normalization statistics they used,
+and match them.
+We didn’t have to handle normalization in previous chapters because when using a
+pretrained model through cnn_learner, the fastai library automatically adds the
+proper Normalize transform; the model has been pretrained with certain statistics in
+Normalize (usually coming from the ImageNet dataset), so the library can fill those in
+for you. Note that this applies to only pretrained models, which is why we need to
+add this information manually here, when training from scratch.

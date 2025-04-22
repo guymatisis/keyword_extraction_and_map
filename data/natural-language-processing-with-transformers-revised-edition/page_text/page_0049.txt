@@ -1,0 +1,18 @@
+{'test_loss': 0.22047173976898193,
+'test_accuracy': 0.9225,
+'test_f1': 0.9225500751072866,
+'test_runtime': 1.6357,
+'test_samples_per_second': 1222.725,
+'test_steps_per_second': 19.564}
+It also contains the raw predictions for each class. We can decode the predictions
+greedily using np.argmax() . This yields the predicted labels and has the same format
+as the labels returned by the Scikit-learn models in the feature-based approach:
+y_preds = np.argmax(preds_output.predictions, axis=1)
+With the predictions, we can plot the confusion matrix again:
+plot_confusion_matrix(y_preds, y_valid, labels)
+This is much closer to the ideal diagonal confusion matrix. The love category is still
+joy surprise
+often confused with , which seems natural. is also frequently mistaken
+for joy , or confused with fear . Overall the performance of the model seems quite
+good, but before we call it a day, let’s dive a little deeper into the types of errors our
+model is likely to make.

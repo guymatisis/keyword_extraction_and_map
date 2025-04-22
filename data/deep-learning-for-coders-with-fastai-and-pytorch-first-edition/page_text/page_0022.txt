@@ -1,0 +1,27 @@
+(By the way, what Samuel called “weights” are most generally referred to as model
+<i>parameters</i> these days, in case you have encountered that term. The term <i>weights</i> is
+reserved for a particular type of model parameter.)
+Next, Samuel said we need an <i>automatic</i> <i>means</i> <i>of</i> <i>testing</i> <i>the</i> <i>effectiveness</i> <i>of</i> <i>any</i> <i>cur‐</i>
+<i>rent</i> <i>weight</i> <i>assignment</i> <i>in</i> <i>terms</i> <i>of</i> <i>actual</i> <i>performance.</i> In the case of his checkers pro‐
+gram, the “actual performance” of a model would be how well it plays. And you could
+automatically test the performance of two models by setting them to play against each
+other, and seeing which one usually wins.
+Finally, he says we need <i>a</i> <i>mechanism</i> <i>for</i> <i>altering</i> <i>the</i> <i>weight</i> <i>assignment</i> <i>so</i> <i>as</i> <i>to</i> <i>maxi‐</i>
+<i>mize</i> <i>the</i> <i>performance.</i> For instance, we could look at the difference in weights
+between the winning model and the losing model, and adjust the weights a little fur‐
+ther in the winning direction.
+We can now see why he said that such a procedure <i>could</i> <i>be</i> <i>made</i> <i>entirely</i> <i>automatic</i>
+<i>and…a</i> <i>machine</i> <i>so</i> <i>programmed</i> <i>would</i> <i>“learn”</i> <i>from</i> <i>its</i> <i>experience.</i> Learning would
+become entirely automatic when the adjustment of the weights was also automatic—
+when instead of us improving a model by adjusting its weights manually, we relied on
+an automated mechanism that produced adjustments based on performance.
+Figure 1-6 shows the full picture of Samuel’s idea of training a machine learning
+model.
+<i>Figure</i> <i>1-6.</i> <i>Training</i> <i>a</i> <i>machine</i> <i>learning</i> <i>model</i>
+Notice the distinction between the model’s <i>results</i> (e.g., the moves in a checkers game)
+and its <i>performance</i> (e.g., whether it wins the game, or how quickly it wins).
+Also note that once the model is trained—that is, once we’ve chosen our final, best,
+favorite weight assignment—then we can think of the weights as being <i>part</i> <i>of</i> <i>the</i>
+<i>model,</i> since we’re not varying them anymore.
+Therefore, actually <i>using</i> a model after it’s trained looks like Figure 1-7.
+<i>Figure</i> <i>1-7.</i> <i>Using</i> <i>a</i> <i>trained</i> <i>model</i> <i>as</i> <i>a</i> <i>program</i>

@@ -1,0 +1,38 @@
+<header><largefont><b>Evaluating</b></largefont> <largefont><b>PEGASUS</b></largefont> <largefont><b>on</b></largefont> <largefont><b>SAMSum</b></largefont></header>
+First we’ll run the same summarization pipeline with PEGASUS to see what the out‐
+put looks like. We can reuse the code we used for the CNN/DailyMail summary
+generation:
+pipe_out = pipe(dataset_samsum["test"][0]["dialogue"])
+<b>print("Summary:")</b>
+<b>print(pipe_out[0]["summary_text"].replace("</b> .<n>", ".\n"))
+Summary:
+Amanda: Ask Larry Amanda: He called her last time we were at the park together.
+Hannah: I'd rather you texted him.
+Amanda: Just text him .
+We can see that the model mostly tries to summarize by extracting the key sentences
+from the dialogue. This probably worked relatively well on the CNN/DailyMail data‐
+set, but the summaries in SAMSum are more abstract. Let’s confirm this by running
+the full ROUGE evaluation on the test set:
+score = evaluate_summaries_pegasus(dataset_samsum["test"], rouge_metric, model,
+tokenizer, column_text="dialogue",
+column_summary="summary", batch_size=8)
+rouge_dict = dict((rn, score[rn].mid.fmeasure) <b>for</b> rn <b>in</b> rouge_names)
+pd.DataFrame(rouge_dict, index=["pegasus"])
+<b>rouge1</b> <b>rouge2</b> <b>rougeL</b> <b>rougeLsum</b>
+0.296168 0.087803 0.229604 0.229514
+<b>pegasus</b>
+Well, the results aren’t great, but this is not unexpected since we’ve moved quite a bit
+away from the CNN/DailyMail data distribution. Nevertheless, setting up the evalua‐
+tion pipeline before training has two advantages: we can directly measure the success
+of training with the metric and we have a good baseline. Fine-tuning the model on
+our dataset should result in an immediate improvement in the ROUGE metric, and if
+that is not the case we’ll know something is wrong with our training loop.
+<header><largefont><b>Fine-Tuning</b></largefont> <largefont><b>PEGASUS</b></largefont></header>
+Before we process the data for training, let’s have a quick look at the length distribu‐
+tion of the input and outputs:
+d_len = [len(tokenizer.encode(s)) <b>for</b> s <b>in</b> dataset_samsum["train"]["dialogue"]]
+s_len = [len(tokenizer.encode(s)) <b>for</b> s <b>in</b> dataset_samsum["train"]["summary"]]
+fig, axes = plt.subplots(1, 2, figsize=(10, 3.5), sharey=True)
+axes[0].hist(d_len, bins=20, color="C0", edgecolor="C0")
+axes[0].set_title("Dialogue Token Length")
+axes[0].set_xlabel("Length")

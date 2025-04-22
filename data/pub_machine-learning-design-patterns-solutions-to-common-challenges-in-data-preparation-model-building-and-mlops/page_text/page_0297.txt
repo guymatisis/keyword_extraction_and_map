@@ -1,0 +1,26 @@
+also a metadata layer that simplifies documentation and versioning of different fea‐
+ture sets and an API that manages loading and retrieving feature data.
+<i>Figure</i> <i>6-12.</i> <i>A</i> <i>feature</i> <i>store</i> <i>provides</i> <i>a</i> <i>bridge</i> <i>between</i> <i>raw</i> <i>data</i> <i>sources</i> <i>and</i> <i>model</i>
+<i>training</i> <i>and</i> <i>serving.</i>
+The typical workflow of a data or ML engineer is to read raw data (structured or
+streaming) from a data source, apply various transformations on the data using their
+favorite processing framework, and store the transformed feature within the feature
+store. Rather than creating feature pipelines to support a single ML model, the Fea‐
+ture Store pattern decouples feature engineering from model development. In partic‐
+ular, tools like Apache Beam, Flink, or Spark are often used when building a feature
+store since they can handle processing data in batch as well as streaming. This also
+reduces the incidence of training–serving skew, since the feature data is populated by
+the same feature creation pipelines.
+After features are created, they are housed in a data store to be retrieved for training
+and serving. For serving feature retrieval, speed is optimized. A model in production
+backing some online application may need to produce real-time predictions within
+milliseconds, making low latency essential. However, for training, higher latency is
+not a problem. Instead the emphasis is on high throughput since historical features
+are pulled in large batches for training. A feature store addresses both these use cases
+by using different data stores for online and offline feature access. For example, a fea‐
+ture store may use Cassandra or Redis as a data store for online feature retrieval, and
+Hive or BigQuery for fetching historical, large batch feature sets.
+In the end, a typical feature store will house many different feature sets containing
+features created from myriad raw data sources. The metadata layer is built in to docu‐
+ment feature sets and provide a registry for easy feature discovery and cross collabo‐
+ration among teams.

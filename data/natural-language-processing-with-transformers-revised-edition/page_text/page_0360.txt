@@ -1,0 +1,43 @@
+"end_page": 120},
+{"chapter": 4, "name": "Summarization", "start_page": 121,
+"end_page": 140},
+{"chapter": 5, "name": "Conclusion", "start_page": 141,
+"end_page": 144}
+]
+We can also easily add the number of pages each chapter has with the existing fields.
+In order to play nicely with the TAPAS model, we need to make sure that all columns
+str:
+are of type
+table = pd.DataFrame(book_data)
+table['number_of_pages'] = table['end_page']-table['start_page']
+table = table.astype(str)
+table
+<b>chapter</b> <b>name</b> <b>start_page</b> <b>end_page</b> <b>number_of_pages</b>
+<b>0</b> 0 Introduction 1 11 10
+<b>1</b> 1 Textclassification 12 48 36
+2 NamedEntityRecognition 49 73 24
+<b>2</b>
+3 QuestionAnswering 74 120 46
+<b>3</b>
+<b>4</b> 4 Summarization 121 140 19
+<b>5</b> 5 Conclusion 141 144 3
+By now you should know the drill. We first load the table-question-answering
+pipeline:
+table_qa = pipeline("table-question-answering")
+and then pass some queries to extract the answers:
+table_qa = pipeline("table-question-answering")
+queries = ["What's the topic in chapter 4?",
+"What is the total number of pages?",
+"On which page does the chapter about question-answering start?",
+"How many chapters have more than 20 pages?"]
+preds = table_qa(table, queries)
+aggregator
+These predictions store the type of table operation in an field, along with
+the answer. Let’s see how well TAPAS fared on our questions:
+<b>for</b> query, pred <b>in</b> zip(queries, preds):
+<b>print(query)</b>
+<b>if</b> pred["aggregator"] == "NONE":
+<b>print("Predicted</b> answer: " + pred["answer"])
+<b>else:</b>
+<b>print("Predicted</b> answer: " + pred["answer"])
+<b>print('='*50)</b>

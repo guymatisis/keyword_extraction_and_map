@@ -1,0 +1,39 @@
+To be able to move beyond fixed applications to crafting your own novel solutions to
+novel problems, it helps to really understand the data block API (and maybe also the
+mid-tier API, which we’ll see later in the book). As an example, let’s consider the
+problem of <i>image</i> <i>regression.</i> This refers to learning from a dataset in which the inde‐
+pendent variable is an image, and the dependent variable is one or more floats. Often
+we see people treat image regression as a whole separate application—but as you’ll see
+here, we can treat it as just another CNN on top of the data block API.
+We’re going to jump straight to a somewhat tricky variant of image regression,
+because we know you’re ready for it! We’re going to do a key point model. A <i>key</i> <i>point</i>
+refers to a specific location represented in an image—in this case, we’ll use images of
+people and we’ll be looking for the center of the person’s face in each image. That
+means we’ll actually be predicting <i>two</i> values for each image: the row and column of
+the face center.
+<header><largefont><b>Assembling</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Data</b></largefont></header>
+We will use the Biwi Kinect Head Pose dataset for this section. We’ll begin by down‐
+loading the dataset as usual:
+path = untar_data(URLs.BIWI_HEAD_POSE)
+Let’s see what we’ve got!
+path.ls()
+(#50) [Path('13.obj'),Path('07.obj'),Path('06.obj'),Path('13'),Path('10'),Path('
+> 02'),Path('11'),Path('01'),Path('20.obj'),Path('17')...]
+There are 24 directories numbered from 01 to 24 (they correspond to the different
+people photographed), and a corresponding <i>.obj</i> file for each (we won’t need them
+here). Let’s take a look inside one of these directories:
+(path/'01').ls()
+(#1000) [Path('01/frame_00281_pose.txt'),Path('01/frame_00078_pose.txt'),Path('0
+> 1/frame_00349_rgb.jpg'),Path('01/frame_00304_pose.txt'),Path('01/frame_00207_
+> pose.txt'),Path('01/frame_00116_rgb.jpg'),Path('01/frame_00084_rgb.jpg'),Path
+> ('01/frame_00070_rgb.jpg'),Path('01/frame_00125_pose.txt'),Path('01/frame_003
+> 24_rgb.jpg')...]
+Inside the subdirectories, we have different frames. Each of them comes with an
+image (_rgb.jpg) and a pose file (_pose.txt). We can easily get all the image files recur‐
+get_image_files,
+sively with and then write a function that converts an image file‐
+name to its associated pose file:
+img_files = get_image_files(path)
+<b>def</b> img2pose(x): <b>return</b> Path(f'{str(x)[:-7]}pose.txt')
+img2pose(img_files[0])
+Path('13/frame_00349_pose.txt')

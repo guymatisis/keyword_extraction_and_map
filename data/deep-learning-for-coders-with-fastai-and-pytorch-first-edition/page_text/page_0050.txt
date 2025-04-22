@@ -1,0 +1,34 @@
+thousands of items, using the default 20% validation set size may be more than you
+need. On the other hand, if you have lots of data, using some of it for validation prob‐
+ably doesn’t have any downsides.
+Having two levels of “reserved data”—a validation set and a test set, with one level
+representing data that you are virtually hiding from yourself—may seem a bit
+extreme. But it is often necessary because models tend to gravitate toward the sim‐
+plest way to do good predictions (memorization), and we as fallible humans tend to
+gravitate toward fooling ourselves about how well our models are performing. The
+discipline of the test set helps us keep ourselves intellectually honest. That doesn’t
+mean we <i>always</i> need a separate test set—if you have very little data, you may need
+just a validation set—but generally it’s best to use one if at all possible.
+This same discipline can be critical if you intend to hire a third party to perform
+modeling work on your behalf. A third party might not understand your require‐
+ments accurately, or their incentives might even encourage them to misunderstand
+them. A good test set can greatly mitigate these risks and let you evaluate whether
+their work solves your actual problem.
+To put it bluntly, if you’re a senior decision maker in your organization (or you’re
+advising senior decision makers), the most important takeaway is this: if you ensure
+that you really understand what test and validation sets are and why they’re impor‐
+tant, you’ll avoid the single biggest source of failures we’ve seen when organizations
+decide to use AI. For instance, if you’re considering bringing in an external vendor or
+service, make sure that you hold out some test data that the vendor <i>never</i> <i>gets</i> <i>to</i> <i>see.</i>
+Then <i>you</i> check their model on your test data, using a metric that <i>you</i> choose based
+on what actually matters to you in practice, and <i>you</i> decide what level of performance
+is adequate. (It’s also a good idea for you to try out simple baseline yourself, so you
+know what a really simple model can achieve. Often it’ll turn out that your simple
+model performs just as well as one produced by an external “expert”!)
+<header><largefont><b>Use</b></largefont> <largefont><b>Judgment</b></largefont> <largefont><b>in</b></largefont> <largefont><b>Defining</b></largefont> <largefont><b>Test</b></largefont> <largefont><b>Sets</b></largefont></header>
+To do a good job of defining a validation set (and possibly a test set), you will some‐
+times want to do more than just randomly grab a fraction of your original dataset.
+Remember: a key property of the validation and test sets is that they must be repre‐
+sentative of the new data you will see in the future. This may sound like an impossible
+order! By definition, you haven’t seen this data yet. But you usually still do know
+some things.

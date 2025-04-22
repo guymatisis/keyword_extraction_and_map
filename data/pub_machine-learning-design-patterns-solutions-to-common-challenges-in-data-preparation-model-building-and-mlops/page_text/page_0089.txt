@@ -1,0 +1,36 @@
+<b>Labelbias</b>
+Recommendation systems like matrix factorization can be reframed in the context of
+neural networks, both as a regression or classification. One advantage to this change
+of context is that a neural network framed as a regression or classification model can
+incorporate many more additional features outside of just the user and item embed‐
+dings learned in matrix factorization. So it can be an appealing alternative.
+However, it is important to consider the nature of the target label when reframing the
+problem. For example, suppose we reframed our recommendation model to a classi‐
+fication task that predicts the likelihood a user will click on a certain video thumb‐
+nail. This seems like a reasonable reframing since our goal is to provide content a
+user will select and watch. But be careful. This change of label is not actually in line
+with our prediction task. By optimizing for user clicks, our model will inadvertently
+promote click bait and not actually recommend content of use to the user.
+Instead, a more advantageous label would be video watch time, reframing our recom‐
+mendation as a regression instead. Or perhaps we can modify the classification objec‐
+tive to predict the likelihood that a user will watch at least half the video clip. There is
+often more than one suitable approach, and it is important to consider the problem
+holistically when framing a solution.
+Be careful when changing the label and training task of your
+machine learning model, as it can inadvertently introduce label
+bias into your solution. Consider again the example of video rec‐
+ommendation we discussed in “Why It Works” on page 82.
+<b>Multitasklearning</b>
+One alternative to reframing is multitask learning. Instead of trying to choose
+between regression or classification, do both! Generally speaking, multitask learning
+refers to any machine learning model in which more than one loss function is opti‐
+mized. This can be accomplished in many different ways, but the two most common
+forms of multi task learning in neural networks is through hard parameter sharing
+and soft parameter sharing.
+Parameter sharing refers to the parameters of the neural network being shared
+between the different output tasks, such as regression and classification. Hard param‐
+eter sharing occurs when the hidden layers of the model are shared between all the
+output tasks. In soft parameter sharing, each label has its own neural network with its
+own parameters, and the parameters of the different models are encouraged to be
+similar through some form of regularization. Figure 3-6 shows the typical architec‐
+ture for hard parameter sharing and soft parameter sharing.

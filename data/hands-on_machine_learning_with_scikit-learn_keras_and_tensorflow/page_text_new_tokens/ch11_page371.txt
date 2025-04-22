@@ -1,0 +1,40 @@
+Reducing <i>r</i> increases the amount of regularization and helps reduce overfitting. Max-
+norm regularization can also help alleviate the unstable gradients problems (if you
+are not using Batch Normalization).
+To implement max-norm regularization in Keras, set the kernel_constraint argu‐
+max_norm()
+ment of each hidden layer to a constraint with the appropriate max value,
+like this:
+keras.layers.Dense(100, activation="elu", kernel_initializer="he_normal",
+kernel_constraint=keras.constraints.max_norm(1.))
+After each training iteration, the model’s fit() method will call the object returned
+max_norm(),
+by passing it the layer’s weights and getting rescaled weights in return,
+which then replace the layer’s weights. As you’ll see in Chapter 12, you can define
+your own custom constraint function if necessary and use it as the kernel_con
+straint bias_constraint
+. You can also constrain the bias terms by setting the
+argument.
+The max_norm() function has an axis argument that defaults to 0 . A Dense layer usu‐
+axis=0
+ally has weights of shape [number <i>of</i> <i>inputs,</i> <i>number</i> <i>of</i> <i>neurons],</i> so using
+means that the max-norm constraint will apply independently to each neuron’s
+weight vector. If you want to use max-norm with convolutional layers (see Chap‐
+ter 14), make sure to set the max_norm() constraint’s axis argument appropriately
+axis=[0, 1, 2]
+(usually ).
+<header><largefont><b>Summary</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Practical</b></largefont> <largefont><b>Guidelines</b></largefont></header>
+In this chapter we have covered a wide range of techniques, and you may be wonder‐
+ing which ones you should use. This depends on the task, and there is no clear con‐
+sensus yet, but I have found the configuration in Table 11-3 to work fine in most
+cases, without requiring much hyperparameter tuning. That said, please do not con‐
+sider these defaults as hard rules!
+<i>Table</i> <i>11-3.</i> <i>Default</i> <i>DNN</i> <i>configuration</i>
+<b>Hyperparameter</b> <b>Defaultvalue</b>
+Kernelinitializer Heinitialization
+Activationfunction ELU
+Normalization Noneifshallow;BatchNormifdeep
+Regularization Earlystopping(+ℓ reg.ifneeded)
+2
+Optimizer Momentumoptimization(orRMSProporNadam)
+Learningrateschedule 1cycle

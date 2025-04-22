@@ -1,0 +1,39 @@
+<b>rouge1</b> <b>rouge2</b> <b>rougeL</b> <b>rougeLsum</b>
+<b>t5</b> 0.486486 0.222222 0.378378 0.486486
+0.582278 0.207792 0.455696 0.506329
+<b>bart</b>
+0.866667 0.655172 0.800000 0.833333
+<b>pegasus</b>
+The ROUGE metric in the Datasets library also calculates confi‐
+dence intervals (by default, the 5th and 95th percentiles). The aver‐
+age value is stored in the attribute mid and the interval can be
+retrieved with low and high .
+These results are obviously not very reliable as we only looked at a single sample, but
+we can compare the quality of the summary for that one example. The table confirms
+our observation that of the models we considered, GPT-2 performs worst. This is not
+surprising since it is the only model of the group that was not explicitly trained to
+summarize. It is striking, however, that the simple first-three-sentence baseline
+doesn’t fare too poorly compared to the transformer models that have on the order of
+a billion parameters! PEGASUS and BART are the best models overall (higher
+ROUGE scores are better), but T5 is slightly better on ROUGE-1 and the LCS scores.
+These results place T5 and PEGASUS as the best models, but again these results
+should be treated with caution as we only evaluated the models on a single example.
+Looking at the results in the PEGASUS paper, we would expect the PEGASUS to out‐
+perform T5 on the CNN/DailyMail dataset.
+Let’s see if we can reproduce those results with PEGASUS.
+<header><largefont><b>Evaluating</b></largefont> <largefont><b>PEGASUS</b></largefont> <largefont><b>on</b></largefont> <largefont><b>the</b></largefont> <largefont><b>CNN/DailyMail</b></largefont> <largefont><b>Dataset</b></largefont></header>
+We now have all the pieces in place to evaluate the model properly: we have a dataset
+with a test set from CNN/DailyMail, we have a metric with ROUGE, and we have a
+summarization model. We just need to put the pieces together. Let’s first evaluate the
+performance of the three-sentence baseline:
+<b>def</b> evaluate_summaries_baseline(dataset, metric,
+column_text="article",
+column_summary="highlights"):
+summaries = [three_sentence_summary(text) <b>for</b> text <b>in</b> dataset[column_text]]
+metric.add_batch(predictions=summaries,
+references=dataset[column_summary])
+score = metric.compute()
+<b>return</b> score
+Now we’ll apply the function to a subset of the data. Since the test fraction of the
+CNN/DailyMail dataset consists of roughly 10,000 samples, generating summaries for
+all these articles takes a lot of time. Recall from Chapter 5 that every generated token

@@ -1,0 +1,33 @@
+Yes! You now have a nice prediction service running on the cloud that can automati‐
+cally scale up to any number of QPS, plus you can query it from anywhere securely.
+Moreover, it costs you close to nothing when you don’t use it: you’ll pay just a few
+cents per month per gigabyte used on GCS. And you can also get detailed logs and
+metrics using Google Stackdriver.
+But what if you want to deploy your model to a mobile app? Or to an embedded
+device?
+<header><largefont><b>Deploying</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>to</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Mobile</b></largefont> <largefont><b>or</b></largefont> <largefont><b>Embedded</b></largefont> <largefont><b>Device</b></largefont></header>
+If you need to deploy your model to a mobile or embedded device, a large model may
+simply take too long to download and use too much RAM and CPU, all of which will
+make your app unresponsive, heat the device, and drain its battery. To avoid this, you
+need to make a mobile-friendly, lightweight, and efficient model, without sacrificing
+too much of its accuracy. The TFLite library provides several tools8 to help you
+deploy your models to mobile and embedded devices, with three main objectives:
+• Reduce the model size, to shorten download time and reduce RAM usage.
+• Reduce the amount of computations needed for each prediction, to reduce
+latency, battery usage, and heating.
+• Adapt the model to device-specific constraints.
+To reduce the model size, TFLite’s model converter can take a SavedModel and com‐
+press it to a much lighter format based on FlatBuffers. This is an efficient cross-
+platform serialization library (a bit like protocol buffers) initially created by Google
+for gaming. It is designed so you can load FlatBuffers straight to RAM without any
+preprocessing: this reduces the loading time and memory footprint. Once the model
+is loaded into a mobile or embedded device, the TFLite interpreter will execute it to
+make predictions. Here is how you can convert a SavedModel to a FlatBuffer and save
+it to a <i>.tflite</i> file:
+converter = tf.lite.TFLiteConverter.from_saved_model(saved_model_path)
+tflite_model = converter.convert()
+<b>with</b> open("converted_model.tflite", "wb") <b>as</b> f:
+f.write(tflite_model)
+You can also save a tf.keras model directly to a FlatBuffer using
+from_keras_model() .
+8 AlsocheckoutTensorFlow’sGraphTransformToolsformodifyingandoptimizingcomputationalgraphs.

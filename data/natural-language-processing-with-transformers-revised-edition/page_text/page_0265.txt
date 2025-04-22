@@ -1,0 +1,38 @@
+Using the masked language model for classification is a nice trick, but we can do bet‐
+ter still by using a model that has been trained on a task that is closer to classification.
+There is a neat proxy task called <i>text</i> <i>entailment</i> that fits the bill. In text entailment,
+the model needs to determine whether two text passages are likely to follow or con‐
+tradict each other. Models are typically trained to detect entailments and contradic‐
+tions with datasets such as Multi-Genre NLI Corpus (MNLI) or Cross-Lingual NLI
+Corpus (XNLI). 3
+Each sample in these datasets is composed of three parts: a premise, a hypothesis, and
+a label, which can be one of entailment , neutral , or contradiction . The entail
+ment
+label is assigned when the hypothesis text is necessarily true under the premise.
+The contradiction label is used when the hypothesis is necessarily false or inappro‐
+neutral
+priate under the premise. If neither of these cases applies, then the label is
+assigned. See Table 9-1 for examples of each.
+<i>Table</i> <i>9-1.</i> <i>The</i> <i>three</i> <i>classes</i> <i>in</i> <i>the</i> <i>MLNI</i> <i>dataset</i>
+<b>Premise</b> <b>Hypothesis</b> <b>Label</b>
+Hisfavouritecolorisblue. Heisintoheavymetalmusic. neutral
+Shefindsthejokehilarious. Shethinksthejokeisnotfunnyatall. contradiction
+Thehousewasrecentlybuilt. Thehouseisnew. entailment
+Now, it turns out that we can hijack a model trained on the MNLI dataset to build a
+classifier without needing any labels at all! The key idea is to treat the text we wish to
+classify as the premise, and then formulate the hypothesis as:
+“This example is about {label}.”
+where we insert the class name for the label. The entailment score then tells us how
+likely that premise is to be about that topic, and we can run this for any number of
+classes sequentially. The downside of this approach is that we need to execute a for‐
+ward pass for each class, which makes it less efficient than a standard classifier.
+Another slightly tricky aspect is that the choice of label names can have a large impact
+on the accuracy, and choosing labels with semantic meaning is generally the best
+Class 1,
+approach. For example, if the label is simply the model has no hint what this
+might mean and whether this constitutes a contradiction or entailment.
+Transformers has an MNLI model for zero-shot classification built in. We can ini‐
+tialize it via a pipeline as follows:
+3 A.Williams,N.Nangia,andS.R.Bowman,“ABroad-CoverageChallengeCorpusforSentenceUnderstanding
+ThroughInference”,(2018);A.Conneauetal.,“XNLI:EvaluatingCross-LingualSentenceRepresentations”,
+(2018).

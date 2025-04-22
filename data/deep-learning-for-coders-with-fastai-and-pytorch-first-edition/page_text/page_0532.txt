@@ -1,0 +1,37 @@
+Now that we have this, we can define Module :
+<b>class</b> <b>Module:</b>
+<b>def</b> <b>__init__(self):</b>
+self.hook,self.params,self.children,self._training = None,[],[],False
+<b>def</b> register_parameters(self, *ps): self.params += ps
+<b>def</b> register_modules (self, *ms): self.children += ms
+@property
+<b>def</b> training(self): <b>return</b> self._training
+@training.setter
+<b>def</b> training(self,v):
+self._training = v
+<b>for</b> m <b>in</b> self.children: m.training=v
+<b>def</b> parameters(self):
+<b>return</b> self.params + sum([m.parameters() <b>for</b> m <b>in</b> self.children], [])
+<b>def</b> <b>__setattr__(self,k,v):</b>
+super().__setattr__(k,v)
+<b>if</b> isinstance(v,Parameter): self.register_parameters(v)
+<b>if</b> isinstance(v,Module): self.register_modules(v)
+<b>def</b> <b>__call__(self,</b> *args, **kwargs):
+res = self.forward(*args, **kwargs)
+<b>if</b> self.hook <b>is</b> <b>not</b> None: self.hook(res, args)
+<b>return</b> res
+<b>def</b> cuda(self):
+<b>for</b> p <b>in</b> self.parameters(): p.data = p.data.cuda()
+The key functionality is in the definition of parameters:
+self.params + sum([m.parameters() <b>for</b> m <b>in</b> self.children], [])
+This means that we can ask any Module for its parameters, and it will return them,
+including for all its child modules (recursively). But how does it know what its
+parameters are? It’s thanks to implementing Python’s special __setattr__ method,
+which is called for us anytime Python sets an attribute on a class. Our implementa‐
+tion includes this line:
+<b>if</b> isinstance(v,Parameter): self.register_parameters(v)
+As you see, this is where we use our new Parameter class as a “marker”—anything of
+this class is added to our params .
+Python’s __call__ allows us to define what happens when our object is treated as a
+function; we just call forward (which doesn’t exist here, so it’ll need to be added by
+subclasses). Before we do, we’ll call a hook, if it’s defined. Now you can see that

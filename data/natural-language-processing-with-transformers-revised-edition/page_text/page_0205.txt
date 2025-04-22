@@ -1,0 +1,28 @@
+and we would like our model to synthesize these fragments into a single coherent
+answer. Let’s have a look at how we can use generative QA to succeed at this task.
+<header><largefont><b>Going</b></largefont> <largefont><b>Beyond</b></largefont> <largefont><b>Extractive</b></largefont> <largefont><b>QA</b></largefont></header>
+One interesting alternative to extracting answers as spans of text in a document is to
+generate them with a pretrained language model. This approach is often referred to as
+<i>abstractive</i> or <i>generative</i> <i>QA</i> and has the potential to produce better-phrased answers
+that synthesize evidence across multiple passages. Although less mature than extrac‐
+tive QA, this is a fast-moving field of research, so chances are that these approaches
+will be widely adopted in industry by the time you are reading this! In this section
+we’ll briefly touch on the current state of the art: <i>retrieval-augmented</i> <i>generation</i>
+(RAG).16
+RAG extends the classic retriever-reader architecture that we’ve seen in this chapter
+by swapping the reader for a <i>generator</i> and using DPR as the retriever. The generator
+is a pretrained sequence-to-sequence transformer like T5 or BART that receives latent
+vectors of documents from DPR and then iteratively generates an answer based on
+the query and these documents. Since DPR and the generator are differentiable, the
+whole process can be fine-tuned end-to-end as illustrated in Figure 7-13.
+<i>Figure</i> <i>7-13.</i> <i>The</i> <i>RAG</i> <i>architecture</i> <i>for</i> <i>fine-tuning</i> <i>a</i> <i>retriever</i> <i>and</i> <i>generator</i> <i>end-to-end</i>
+<i>(courtesy</i> <i>of</i> <i>Ethan</i> <i>Perez)</i>
+DPRetriever
+To show RAG in action we’ll use the from earlier, so we just need to
+instantiate a generator. There are two types of RAG models to choose from:
+<i>RAG-Sequence</i>
+Uses the same retrieved document to generate the complete answer. In particular,
+the top <i>k</i> documents from the retriever are fed to the generator, which produces
+an output sequence for each document, and the result is marginalized to obtain
+the best answer.
+16 P.Lewisetal.,“Retrieval-AugmentedGenerationforKnowledge-IntensiveNLPTasks”,(2020).

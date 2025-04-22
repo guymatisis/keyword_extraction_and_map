@@ -1,0 +1,37 @@
+<header><largefont><b>Self-Attention</b></largefont></header>
+As we discussed in Chapter 1, attention is a mechanism that allows neural networks
+to assign a different amount of weight or “attention” to each element in a sequence.
+For text sequences, the elements are <i>token</i> <i>embeddings</i> like the ones we encountered
+in Chapter 2, where each token is mapped to a vector of some fixed dimension. For
+example, in BERT each token is represented as a 768-dimensional vector. The “self”
+part of self-attention refers to the fact that these weights are computed for all hidden
+states in the same set—for example, all the hidden states of the encoder. By contrast,
+the attention mechanism associated with recurrent models involves computing the
+relevance of each encoder hidden state to the decoder hidden state at a given decod‐
+ing timestep.
+The main idea behind self-attention is that instead of using a fixed embedding for
+each token, we can use the whole sequence to compute a <i>weighted</i> <i>average</i> of each
+embedding. Another way to formulate this is to say that given a sequence of token
+embeddings <i>x</i> ,...,x , self-attention produces a sequence of new embeddings <i>x′,...,x′</i>
+1 <i>n</i> 1 <i>n</i>
+where each <i>x</i> ′ is a linear combination of all the <i>x</i> :
+<i>i</i> <i>j</i>
+<i>n</i>
+<i>x</i> ′ = <largefont>∑</largefont> <i>w</i> <i>x</i>
+<i>i</i> <i>ji</i> <i>j</i>
+<i>j</i> = 1
+The coefficients <i>w</i> are called <i>attention</i> <i>weights</i> and are normalized so that ∑ <i>w</i> = 1.
+<i>ji</i> <i>j</i> <i>ji</i>
+To see why averaging the token embeddings might be a good idea, consider what
+comes to mind when you see the word “flies”. You might think of annoying insects,
+but if you were given more context, like “time flies like an arrow”, then you would
+realize that “flies” refers to the verb instead. Similarly, we can create a representation
+for “flies” that incorporates this context by combining all the token embeddings in
+different proportions, perhaps by assigning a larger weight <i>w</i> to the token embed‐
+<i>ji</i>
+dings for “time” and “arrow”. Embeddings that are generated in this way are called
+<i>contextualized</i> <i>embeddings</i> and predate the invention of transformers in language
+models like ELMo.2 A diagram of the process is shown in Figure 3-3, where we illus‐
+trate how, depending on the context, two different representations for “flies” can be
+generated via self-attention.
+2 M.E.Petersetal.,“DeepContextualizedWordRepresentations”,(2017).

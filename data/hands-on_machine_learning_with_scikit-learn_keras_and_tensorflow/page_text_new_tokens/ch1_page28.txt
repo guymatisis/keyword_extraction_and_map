@@ -1,0 +1,42 @@
+Complex models such as deep neural networks can detect subtle patterns in the data,
+but if the training set is noisy, or if it is too small (which introduces sampling noise),
+then the model is likely to detect patterns in the noise itself. Obviously these patterns
+will not generalize to new instances. For example, say you feed your life satisfaction
+model many more attributes, including uninformative ones such as the country’s
+name. In that case, a complex model may detect patterns like the fact that all coun‐
+tries in the training data with a <i>w</i> in their name have a life satisfaction greater than 7:
+New Zealand (7.3), Norway (7.4), Sweden (7.2), and Switzerland (7.5). How confident
+are you that the <i>w-satisfaction</i> rule generalizes to Rwanda or Zimbabwe? Obviously
+this pattern occurred in the training data by pure chance, but the model has no way
+to tell whether a pattern is real or simply the result of noise in the data.
+Overfitting happens when the model is too complex relative to the
+amount and noisiness of the training data. Here are possible solu‐
+tions:
+• Simplify the model by selecting one with fewer parameters
+(e.g., a linear model rather than a high-degree polynomial
+model), by reducing the number of attributes in the training
+data, or by constraining the model.
+• Gather more training data.
+• Reduce the noise in the training data (e.g., fix data errors and
+remove outliers).
+Constraining a model to make it simpler and reduce the risk of overfitting is called
+<i>regularization.</i> For example, the linear model we defined earlier has two parameters,
+<i>θ</i> and <i>θ</i> . This gives the learning algorithm two <i>degrees</i> <i>of</i> <i>freedom</i> to adapt the model
+0 1
+to the training data: it can tweak both the height (θ ) and the slope (θ ) of the line. If
+0 1
+we forced <i>θ</i> = 0, the algorithm would have only one degree of freedom and would
+1
+have a much harder time fitting the data properly: all it could do is move the line up
+or down to get as close as possible to the training instances, so it would end up
+around the mean. A very simple model indeed! If we allow the algorithm to modify <i>θ</i>
+1
+but we force it to keep it small, then the learning algorithm will effectively have some‐
+where in between one and two degrees of freedom. It will produce a model that’s sim‐
+pler than one with two degrees of freedom, but more complex than one with just one.
+You want to find the right balance between fitting the training data perfectly and
+keeping the model simple enough to ensure that it will generalize well.
+Figure 1-23 shows three models. The dotted line represents the original model that
+was trained on the countries represented as circles (without the countries represented
+as squares), the dashed line is our second model trained with all countries (circles and
+squares), and the solid line is a model trained with the same data as the first model

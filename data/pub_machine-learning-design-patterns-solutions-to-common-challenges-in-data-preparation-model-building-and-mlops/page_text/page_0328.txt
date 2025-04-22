@@ -1,0 +1,19 @@
+car.3
+fuel efficiency of a In scikit-learn, we can get the learned coefficients of a linear
+regression model with the following:
+model = LinearRegression().fit(x_train, y_train)
+coefficients = model.coef_
+The resulting coefficients for each feature in our model are shown in Figure 7-1.
+<i>Figure</i> <i>7-1.</i> <i>The</i> <i>learned</i> <i>coefficients</i> <i>from</i> <i>our</i> <i>linear</i> <i>regression</i> <i>fuel</i> <i>efficiency</i> <i>model,</i>
+<i>which</i> <i>predicts</i> <i>a</i> <i>car’s</i> <i>miles</i> <i>per</i> <i>gallon.</i> <i>We</i> <i>used</i> <i>get_dummies()</i> <i>from</i> <i>pandas</i> <i>to</i> <i>convert</i>
+<i>the</i> <i>origin</i> <i>feature</i> <i>to</i> <i>a</i> <i>boolean</i> <i>column</i> <i>since</i> <i>it</i> <i>is</i> <i>categorical.</i>
+The coefficients show us the relationship between each feature and the model’s out‐
+put, predicted miles per gallon (MPG). For example, from these coefficients, we can
+conclude that for each additional cylinder in a car, our model’s predicted MPG will
+decrease. Our model has also learned that as new cars are introduced (denoted by the
+“model year” feature), they often have higher fuel efficiency. We can learn much
+more about the relationships between our model’s features and output from these
+coefficients than we could from the learned weights of a hidden layer in a deep neural
+network. This is why models like the one demonstrated above are often referred to as
+<i>interpretable</i> <i>by</i> <i>design.</i>
+3 ThemodeldiscussedhereistrainedonapublicUCIdataset.

@@ -1,0 +1,20 @@
+<i>Figure</i> <i>2-14.</i> <i>This</i> <i>dataset</i> <i>is</i> <i>not</i> <i>linearly</i> <i>separable</i> <i>using</i> <i>only</i> <i>x_1</i> <i>and</i> <i>x_2</i> <i>as</i> <i>inputs.</i>
+<header><largefont><b>Solution</b></largefont></header>
+In machine learning, feature engineering is the process of using domain knowledge
+to create new features that aid the machine learning process and increase the predic‐
+tive power of our model. One commonly used feature engineering technique is creat‐
+ing a feature cross.
+A feature cross is a synthetic feature formed by concatenating two or more categori‐
+cal features in order to capture the interaction between them. By joining two features
+in this way, it is possible to encode nonlinearity into the model, which can allow for
+predictive abilities beyond what each of the features would have been able to provide
+individually. Feature crosses provide a way to have the ML model learn relationships
+between the features faster. While more complex models like neural networks and
+trees can learn feature crosses on their own, using feature crosses explicitly can allow
+us to get away with training just a linear model. Consequently, feature crosses can
+speed up model training (less expensive) and reduce model complexity (less training
+data is needed).
+To create a feature column for the dataset above, we can bucketize x_1 and x_2 each
+into two buckets, depending on their sign. This converts x_1 and x_2 into categorical
+features. Let A denote the bucket where x_1 >= 0 and B the bucket where x_1 < 0. Let
+C denote the bucket where x_2 >= 0 and D the bucket where x_2 < 0 (Figure 2-15).

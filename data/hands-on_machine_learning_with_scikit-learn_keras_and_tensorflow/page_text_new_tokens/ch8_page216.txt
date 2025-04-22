@@ -1,0 +1,9 @@
+<i>Figure</i> <i>8-2.</i> <i>A</i> <i>3D</i> <i>dataset</i> <i>lying</i> <i>close</i> <i>to</i> <i>a</i> <i>2D</i> <i>subspace</i>
+Notice that all training instances lie close to a plane: this is a lower-dimensional (2D)
+subspace of the high-dimensional (3D) space. If we project every training instance
+perpendicularly onto this subspace (as represented by the short lines connecting the
+instances to the plane), we get the new 2D dataset shown in Figure 8-3. Ta-da! We
+have just reduced the dataset’s dimensionality from 3D to 2D. Note that the axes cor‐
+respond to new features <i>z</i> and <i>z</i> (the coordinates of the projections on the plane).
+1 2
+<i>Figure</i> <i>8-3.</i> <i>The</i> <i>new</i> <i>2D</i> <i>dataset</i> <i>after</i> <i>projection</i>

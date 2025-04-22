@@ -1,0 +1,27 @@
+above the point where you are. We have found this to be useful when developing the
+fastai library.
+If you ever have any questions about a fastai method, you should use the function
+doc , passing it the method name:
+doc(learn.predict)
+A window pops up containing a brief one-line explanation. The “Show in docs” link
+takes you to the full documentation, where you’ll find all the details and lots of exam‐
+ples. Also, most of fastai’s methods are just a handful of lines, so you can click the
+“source” link to see exactly what’s going on behind the scenes.
+Let’s move on to something much less sexy, but perhaps significantly more widely
+commercially useful: building models from plain <i>tabular</i> data.
+<b>Jargon:Tabular</b>
+Data that is in the form of a table, such as from a spreadsheet, data‐
+base, or a comma-separated values (CSV) file. A tabular model is a
+model that tries to predict one column of a table based on informa‐
+tion in other columns of the table.
+It turns out that looks very similar too. Here is the code necessary to train a model
+that will predict whether a person is a high-income earner, based on their socioeco‐
+nomic background:
+<b>from</b> <b>fastai.tabular.all</b> <b>import</b> *
+path = untar_data(URLs.ADULT_SAMPLE)
+dls = TabularDataLoaders.from_csv(path/'adult.csv', path=path, y_names="salary",
+cat_names = ['workclass', 'education', 'marital-status', 'occupation',
+'relationship', 'race'],
+cont_names = ['age', 'fnlwgt', 'education-num'],
+procs = [Categorify, FillMissing, Normalize])
+learn = tabular_learner(dls, metrics=accuracy)

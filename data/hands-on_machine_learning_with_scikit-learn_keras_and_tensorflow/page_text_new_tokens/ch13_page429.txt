@@ -1,0 +1,44 @@
+The fixed-length features are parsed as regular tensors, but the variable-length fea‐
+tures are parsed as sparse tensors. You can convert a sparse tensor to a dense tensor
+using tf.sparse.to_dense() , but in this case it is simpler to just access its values:
+<b>>>></b> tf.sparse.to_dense(parsed_example["emails"], default_value=b"")
+<tf.Tensor: [...] dtype=string, numpy=array([b'a@b.com', b'c@d.com'], [...])>
+<b>>>></b> parsed_example["emails"].values
+<tf.Tensor: [...] dtype=string, numpy=array([b'a@b.com', b'c@d.com'], [...])>
+A BytesList can contain any binary data you want, including any serialized object.
+tf.io.encode_jpeg()
+For example, you can use to encode an image using the JPEG
+format and put this binary data in a BytesList . Later, when your code reads the
+TFRecord, it will start by parsing the Example , then it will need to call
+tf.io.decode_jpeg()
+to parse the data and get the original image (or you can use
+tf.io.decode_image() , which can decode any BMP, GIF, JPEG, or PNG image). You
+BytesList
+can also store any tensor you want in a by serializing the tensor using
+tf.io.serialize_tensor() then putting the resulting byte string in a BytesList
+feature. Later, when you parse the TFRecord, you can parse this data using
+tf.io.parse_tensor()
+.
+Instead of parsing examples one by one using tf.io.parse_single_example() , you
+may want to parse them batch by batch using tf.io.parse_example() :
+dataset = tf.data.TFRecordDataset(["my_contacts.tfrecord"]).batch(10)
+<b>for</b> serialized_examples <b>in</b> dataset:
+parsed_examples = tf.io.parse_example(serialized_examples,
+feature_description)
+As you can see, the Example protobuf will probably be sufficient for most use cases.
+However, it may be a bit cumbersome to use when you are dealing with lists of lists.
+For example, suppose you want to classify text documents. Each document may be
+represented as a list of sentences, where each sentence is represented as a list of
+words. And perhaps each document also has a list of comments, where each com‐
+ment is represented as a list of words. There may be some contextual data too, such as
+SequenceExample
+the document’s author, title, and publication date. TensorFlow’s
+protobuf is designed for such use cases.
+<header><largefont><b>Handling</b></largefont> <largefont><b>Lists</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Lists</b></largefont> <largefont><b>Using</b></largefont> <largefont><b>the</b></largefont> <largefont><b>SequenceExample</b></largefont> <largefont><b>Protobuf</b></largefont></header>
+Here is the definition of the SequenceExample protobuf:
+message FeatureList { repeated Feature feature = 1; };
+message FeatureLists { map<string, FeatureList> feature_list = 1; };
+message SequenceExample {
+Features context = 1;
+FeatureLists feature_lists = 2;
+};

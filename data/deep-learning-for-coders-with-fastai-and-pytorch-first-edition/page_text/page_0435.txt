@@ -1,0 +1,28 @@
+This shows a classic picture of “bad training.” We start with nearly all activations at
+zero—that’s what we see at the far left, with all the dark blue. The bright yellow at the
+bottom represents the near-zero activations. Then, over the first few batches, we see
+the number of nonzero activations exponentially increasing. But it goes too far and
+collapses! We see the dark blue return, and the bottom becomes bright yellow again.
+It almost looks like training restarts from scratch. Then we see the activations
+increase again and collapse again. After repeating this a few times, eventually we see a
+spread of activations throughout the range.
+It’s much better if training can be smooth from the start. The cycles of exponential
+increase and then collapse tend to result in a lot of near-zero activations, resulting in
+slow training and poor final results. One way to solve this problem is to use batch
+normalization.
+<header><largefont><b>Batch</b></largefont> <largefont><b>Normalization</b></largefont></header>
+To fix the slow training and poor final results we ended up with in the previous sec‐
+tion, we need to fix the initial large percentage of near-zero activations, and then try
+to maintain a good distribution of activations throughout training.
+Sergey Ioffe and Christian Szegedy presented a solution to this problem in the 2015
+paper “Batch Normalization: Accelerating Deep Network Training by Reducing Inter‐
+nal Covariate Shift”. In the abstract, they describe just the problem that we’ve seen:
+Training Deep Neural Networks is complicated by the fact that the distribution of each
+layer’s inputs changes during training, as the parameters of the previous layers change.
+This slows down the training by requiring lower learning rates and careful parameter
+initialization…We refer to this phenomenon as internal covariate shift, and address the
+problem by normalizing layer inputs.
+Their solution, they say is as follows:
+Making normalization a part of the model architecture and performing the normaliza‐
+tion for each training mini-batch. Batch Normalization allows us to use much higher
+learning rates and be less careful about initialization.

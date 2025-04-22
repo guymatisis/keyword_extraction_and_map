@@ -1,0 +1,40 @@
+<header><largefont><b>A</b></largefont> <largefont><b>First</b></largefont> <largefont><b>Look</b></largefont> <largefont><b>at</b></largefont> <largefont><b>Hugging</b></largefont> <largefont><b>Face</b></largefont> <largefont><b>Datasets</b></largefont></header>
+We will use Datasets to download the data from the Hugging Face Hub. We can
+use the list_datasets() function to see what datasets are available on the Hub:
+<b>from</b> <b>datasets</b> <b>import</b> list_datasets
+all_datasets = list_datasets()
+<b>print(f"There</b> are {len(all_datasets)} datasets currently available on the Hub")
+<b>print(f"The</b> first 10 are: {all_datasets[:10]}")
+There are 1753 datasets currently available on the Hub
+The first 10 are: ['acronym_identification', 'ade_corpus_v2', 'adversarial_qa',
+'aeslc', 'afrikaans_ner_corpus', 'ag_news', 'ai2_arc', 'air_dialogue',
+'ajgt_twitter_ar', 'allegro_reviews']
+We see that each dataset is given a name, so let’s load the emotion dataset with the
+load_dataset()
+function:
+<b>from</b> <b>datasets</b> <b>import</b> load_dataset
+emotions = load_dataset("emotion")
+If we look inside our emotions object:
+emotions
+DatasetDict({
+train: Dataset({
+features: ['text', 'label'],
+num_rows: 16000
+})
+validation: Dataset({
+features: ['text', 'label'],
+num_rows: 2000
+})
+test: Dataset({
+features: ['text', 'label'],
+num_rows: 2000
+})
+})
+we see it is similar to a Python dictionary, with each key corresponding to a different
+split. And we can use the usual dictionary syntax to access an individual split:
+train_ds = emotions["train"]
+train_ds
+Dataset({
+features: ['text', 'label'],
+num_rows: 16000
+})

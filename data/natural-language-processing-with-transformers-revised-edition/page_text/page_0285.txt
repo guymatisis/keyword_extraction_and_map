@@ -1,0 +1,40 @@
+For many applications, starting with a pretrained BERT-like model
+is a good idea. However, if the domain of your corpus differs signif‐
+icantly from the pretraining corpus (which is usually Wikipedia),
+you should explore the many models that are available on the Hug‐
+ging Face Hub. Chances are someone has already pretrained a
+model on your domain!
+Let’s start by loading the pretrained tokenizer, tokenizing our dataset, and getting rid
+of the columns we don’t need for training and evaluation:
+<b>import</b> <b>torch</b>
+<b>from</b> <b>transformers</b> <b>import</b> (AutoTokenizer, AutoConfig,
+AutoModelForSequenceClassification)
+model_ckpt = "bert-base-uncased"
+tokenizer = AutoTokenizer.from_pretrained(model_ckpt)
+<b>def</b> tokenize(batch):
+<b>return</b> tokenizer(batch["text"], truncation=True, max_length=128)
+ds_enc = ds.map(tokenize, batched=True)
+ds_enc = ds_enc.remove_columns(['labels', 'text'])
+The multilabel loss function expects the labels to be of type float, since it also allows
+for class probabilities instead of discrete labels. Therefore, we need to change the type
+of the column label_ids . Since changing the format of the column element-wise
+does not play well with Arrow’s typed format, we’ll do a little workaround. First, we
+create a new column with the labels. The format of that column is inferred from the
+first element. Then we delete the original column and rename the new one to take the
+place of the original one:
+ds_enc.set_format("torch")
+ds_enc = ds_enc.map(lambda x: {"label_ids_f": x["label_ids"].to(torch.float)},
+remove_columns=["label_ids"])
+ds_enc = ds_enc.rename_column("label_ids_f", "label_ids")
+Since we are likely to quickly overfit the training data due to its limited size, we set
+load_best_model_at_end=True and choose the best model based on the micro
+<i>F</i> -score:
+1
+<b>from</b> <b>transformers</b> <b>import</b> Trainer, TrainingArguments
+training_args_fine_tune = TrainingArguments(
+output_dir="./results", num_train_epochs=20, learning_rate=3e-5,
+lr_scheduler_type='constant', per_device_train_batch_size=4,
+per_device_eval_batch_size=32, weight_decay=0.0,
+evaluation_strategy="epoch", save_strategy="epoch",logging_strategy="epoch",
+load_best_model_at_end=True, metric_for_best_model='micro f1',
+save_total_limit=1, log_level='error')

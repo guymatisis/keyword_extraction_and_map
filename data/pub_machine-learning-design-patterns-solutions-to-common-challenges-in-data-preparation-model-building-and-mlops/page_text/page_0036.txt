@@ -1,0 +1,36 @@
+<i>Table</i> <i>2-2.</i> <i>The</i> <i>expected</i> <i>number</i> <i>of</i> <i>entries</i> <i>per</i> <i>bucket</i> <i>and</i> <i>the</i> <i>probability</i> <i>of</i> <i>at</i> <i>least</i> <i>one</i>
+<i>collision</i> <i>when</i> <i>IATA</i> <i>airport</i> <i>codes</i> <i>are</i> <i>hashed</i> <i>into</i> <i>different</i> <i>numbers</i> <i>of</i> <i>buckets</i>
+<b>num_hash_buckets</b> <b>entries_per_bucket</b> <b>collision_prob</b>
+3 115.666667 1.000000
+10 34.700000 1.000000
+100 3.470000 1.000000
+1000 0.347000 1.000000
+10000 0.034700 0.997697
+100000 0.003470 0.451739
+<b>Skew</b>
+The loss of accuracy is particularly acute when the distribution of the categorical
+input is highly skewed. Consider the case of the hash bucket that contains ORD (Chi‐
+cago, one of the busiest airports in the world). We can find this using the following:
+<b>CREATE</b> <b>TEMPORARY</b> <b>FUNCTION</b> hashed(airport STRING, numbuckets INT64) <b>AS</b> (
+<b>ABS(MOD(FARM_FINGERPRINT(airport),</b> numbuckets))
+);
+<b>WITH</b> airports <b>AS</b> (
+<b>SELECT</b>
+departure_airport, <b>COUNT(1)</b> <b>AS</b> num_flights
+<b>FROM</b> `bigquery-samples.airline_ontime_data.flights`
+<b>GROUP</b> <b>BY</b> departure_airport
+)
+<b>SELECT</b>
+departure_airport, num_flights
+<b>FROM</b> airports
+<b>WHERE</b> hashed(departure_airport, 100) = hashed('ORD', 100)
+The result shows that while there are ~3.6 million flights from ORD, there are only
+~67,000 flights from BTV (Burlington, Vermont):
+<b>departure_airport</b> <b>num_flights</b>
+ORD 3610491
+BTV 66555
+MCI 597761
+This indicates that, for all practical purposes, the model will impute the long taxi
+times and weather delays that Chicago experiences to the municipal airport in
+Burlington, Vermont! The model accuracy for BTV and MCI (Kansas City airport)
+will be quite poor because there are so many flights out of Chicago.

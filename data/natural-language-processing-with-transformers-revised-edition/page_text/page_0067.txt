@@ -1,0 +1,37 @@
+And that’s it—we’ve gone through all the steps to implement a simplified form of self-
+attention! Notice that the whole process is just two matrix multiplications and a soft‐
+max, so you can think of “self-attention” as just a fancy form of averaging.
+Let’s wrap these steps into a function that we can use later:
+<b>def</b> scaled_dot_product_attention(query, key, value):
+dim_k = query.size(-1)
+scores = torch.bmm(query, key.transpose(1, 2)) / sqrt(dim_k)
+weights = F.softmax(scores, dim=-1)
+<b>return</b> torch.bmm(weights, value)
+Our attention mechanism with equal query and key vectors will assign a very large
+score to identical words in the context, and in particular to the current word itself: the
+dot product of a query with itself is always 1. But in practice, the meaning of a word
+will be better informed by complementary words in the context than by identical
+words—for example, the meaning of “flies” is better defined by incorporating infor‐
+mation from “time” and “arrow” than by another mention of “flies”. How can we pro‐
+mote this behavior?
+Let’s allow the model to create a different set of vectors for the query, key, and value of
+a token by using three different linear projections to project our initial token vector
+into three different spaces.
+<b>Multi-headedattention</b>
+In our simple example, we only used the embeddings “as is” to compute the attention
+scores and weights, but that’s far from the whole story. In practice, the self-attention
+layer applies three independent linear transformations to each embedding to generate
+the query, key, and value vectors. These transformations project the embeddings and
+each projection carries its own set of learnable parameters, which allows the self-
+attention layer to focus on different semantic aspects of the sequence.
+It also turns out to be beneficial to have <i>multiple</i> sets of linear projections, each one
+representing a so-called <i>attention</i> <i>head.</i> The resulting <i>multi-head</i> <i>attention</i> <i>layer</i> is
+illustrated in Figure 3-5. But why do we need more than one attention head? The rea‐
+son is that the softmax of one head tends to focus on mostly one aspect of similarity.
+Having several heads allows the model to focus on several aspects at once. For
+instance, one head can focus on subject-verb interaction, whereas another finds
+nearby adjectives. Obviously we don’t handcraft these relations into the model, and
+they are fully learned from the data. If you are familiar with computer vision models
+you might see the resemblance to filters in convolutional neural networks, where one
+filter can be responsible for detecting faces and another one finds wheels of cars in
+images.

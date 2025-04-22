@@ -1,0 +1,36 @@
+6014acd4b1ed55e55/LibriSpeech/dev-clean/1272/128104/1272-128104-0000.flac',
+'id': '1272-128104-0000', 'text': 'MISTER QUILTER IS THE APOSTLE OF THE MIDDLE
+CLASSES AND WE ARE GLAD TO WELCOME HIS GOSPEL'}
+Here we can see that the audio in the file column is stored in the FLAC coding for‐
+mat, while the expected transcription is given by the text column. To convert the
+audio to an array of floats, we can use the <i>SoundFile</i> library to read each file in our
+dataset with map() :
+<b>import</b> <b>soundfile</b> <b>as</b> <b>sf</b>
+<b>def</b> map_to_array(batch):
+speech, _ = sf.read(batch["file"])
+batch["speech"] = speech
+<b>return</b> batch
+ds = ds.map(map_to_array)
+If you are using a Jupyter notebook you can easily play the sound files with the fol‐
+IPython
+lowing widgets:
+<b>from</b> <b>IPython.display</b> <b>import</b> Audio
+display(Audio(ds[0]['speech'], rate=16000))
+Finally, we can pass the inputs to the pipeline and inspect the prediction:
+pred = asr(ds[0]["speech"])
+<b>print(pred)</b>
+{'text': 'MISTER QUILTER IS THE APOSTLE OF THE MIDDLE CLASSES AND WE ARE GLAD TO
+WELCOME HIS GOSPEL'}
+This transcription seems to be correct. We can see that some punctuation is missing,
+but this is hard to get from audio alone and could be added in a postprocessing step.
+With only a handful of lines of code we can build ourselves a state-of-the-art speech-
+to-text application!
+Building a model for a new language still requires a minimum amount of labeled
+data, which can be challenging to obtain, especially for low-resource languages. Soon
+after the release of wav2vec 2.0, a paper describing a method named wav2vec-U was
+published.15 In this work, a combination of clever clustering and GAN training is
+used to build a speech-to-text model using only independent unlabeled speech and
+unlabeled text data. This process is visualized in detail in Figure 11-13. No aligned
+speech and text data is required at all, which enables the training of highly perform‐
+ant speech-to-text models for a much larger spectrum of languages.
+15 A.Baevskietal.,“UnsupervisedSpeechRecognition”,(2021).

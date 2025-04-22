@@ -1,0 +1,36 @@
+Using what we just saw, let’s build a custom model for this task and train it. How? We
+will use a pretrained architecture and pass our two images through it. Then we can
+concatenate the results and send them to a custom head that will return two predic‐
+tions. In terms of modules, this looks like this:
+<b>class</b> <b>SiameseModel(Module):</b>
+<b>def</b> <b>__init__(self,</b> encoder, head):
+self.encoder,self.head = encoder,head
+<b>def</b> forward(self, x1, x2):
+ftrs = torch.cat([self.encoder(x1), self.encoder(x2)], dim=1)
+<b>return</b> self.head(ftrs)
+To create our encoder, we just need to take a pretrained model and cut it, as we
+explained before. The function create_body does that for us; we just have to pass it
+the place where we want to cut. As we saw earlier, per the dictionary of metadata for
+pretrained models, the cut value for a ResNet is –2:
+encoder = create_body(resnet34, cut=-2)
+Then we can create our head. A look at the encoder tells us the last layer has 512 fea‐
+tures, so this head will need to receive 512*4. Why 4? First we have to multiply by 2
+because we have two images. Then we need a second multiplication by 2 because of
+our concat-pool trick. So we create the head as follows:
+head = create_head(512*4, 2, ps=0.5)
+With our encoder and head, we can now build our model:
+model = SiameseModel(encoder, head)
+Before using Learner , we have two more things to define. First, we must define the
+loss function we want to use. It’s regular cross entropy, but since our targets are Boo‐
+leans, we need to convert them to integers or PyTorch will throw an error:
+<b>def</b> loss_func(out, targ):
+<b>return</b> nn.CrossEntropyLoss()(out, targ.long())
+More importantly, to take full advantage of transfer learning, we have to define a cus‐
+tom <i>splitter.</i> A splitter is a function that tells the fastai library how to split the model
+into parameter groups. These are used behind the scenes to train only the head of a
+model when we do transfer learning.
+Here we want two parameter groups: one for the encoder and one for the head. We
+can thus define the following splitter (params is just a function that returns all param‐
+eters of a given module):
+<b>def</b> siamese_splitter(model):
+<b>return</b> [params(model.encoder), params(model.head)]

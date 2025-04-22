@@ -1,0 +1,24 @@
+validation set is used to measure the accuracy of the model. By default, the 20% that is
+held out is selected randomly. The parameter seed=42 sets the <i>random</i> <i>seed</i> to the
+same value every time we run this code, which means we get the same validation set
+every time we run it—this way, if we change our model and retrain it, we know that
+any differences are due to the changes to the model, not due to having a different ran‐
+dom validation set.
+fastai will <i>always</i> show you your model’s accuracy using <i>only</i> the validation set, <i>never</i>
+the training set. This is absolutely critical, because if you train a large enough model
+for a long enough time, it will eventually memorize the label of every item in your
+dataset! The result will not be a useful model, because what we care about is how well
+our model works on <i>previously</i> <i>unseen</i> <i>images.</i> That is always our goal when creating a
+model: for it to be useful on data that the model sees only in the future, after it has
+been trained.
+Even when your model has not fully memorized all your data, earlier on in training it
+may have memorized certain parts of it. As a result, the longer you train for, the bet‐
+ter your accuracy will get on the training set; the validation set accuracy will also
+improve for a while, but eventually it will start getting worse as the model starts to
+memorize the training set rather than finding generalizable underlying patterns in the
+data. When this happens, we say that the model is <i>overfitting.</i>
+Figure 1-9 shows what happens when you overfit, using a simplified example where
+we have just one parameter and some randomly generated data based on the function
+x**2. As you see, although the predictions in the overfit model are accurate for data
+near the observed data points, they are way off when outside of that range.
+<i>Figure</i> <i>1-9.</i> <i>Example</i> <i>of</i> <i>overfitting</i>

@@ -1,0 +1,45 @@
+origin
+we can see the question-answer pair, along with an field that contains the
+unique question ID so we can filter the document store per question. We’ve also
+added the product ID to the meta field so we can filter the labels by product. Now that
+label
+we have our labels, we can write them to the index on Elasticsearch as follows:
+document_store.write_labels(labels, index="label")
+<b>print(f"""Loaded</b> {document_store.get_label_count(index="label")} <b>\</b>
+question-answer pairs""")
+Loaded 358 question-answer pairs
+Next, we need to build up a mapping between our question IDs and corresponding
+answers that we can pass to the pipeline. To get all the labels, we can use the
+get_all_labels_aggregated() method from the document store that will aggregate
+all question-answer pairs associated with a unique ID. This method returns a list of
+MultiLabel
+objects, but in our case we only get one element since we’re filtering by
+question ID. We can build up a list of aggregated labels as follows:
+labels_agg = document_store.get_all_labels_aggregated(
+index="label",
+open_domain=True,
+aggregate_by_meta=["item_id"]
+)
+<b>print(len(labels_agg))</b>
+330
+By peeking at one of these labels we can see that all the answers associated with a
+given question are aggregated together in a multiple_answers field:
+<b>print(labels_agg[109])</b>
+{'question': 'How does the fan work?', 'multiple_answers': ['the fan is really
+really good', "the fan itself isn't super loud. There is an adjustable dial to
+change fan speed"], 'is_correct_answer': True, 'is_correct_document': True,
+'origin': '5a9b7616541f700f103d21f8ad41bc4b', 'multiple_document_ids': [None,
+None], 'multiple_offset_start_in_docs': [None, None], 'no_answer': False,
+'model_id': None, 'meta': {'item_id': 'B002MU1ZRS'}}
+We now have all the ingredients for evaluating the retriever, so let’s define a function
+that feeds each question-answer pair associated with each product to the evaluation
+pipeline and tracks the correct retrievals in our pipe object:
+<b>def</b> run_pipeline(pipeline, top_k_retriever=10, top_k_reader=4):
+<b>for</b> l <b>in</b> labels_agg:
+_ = pipeline.pipeline.run(
+query=l.question,
+top_k_retriever=top_k_retriever,
+top_k_reader=top_k_reader,
+top_k_eval_documents=top_k_retriever,
+labels=l,
+filters={"item_id": [l.meta["item_id"]], "split": ["test"]})

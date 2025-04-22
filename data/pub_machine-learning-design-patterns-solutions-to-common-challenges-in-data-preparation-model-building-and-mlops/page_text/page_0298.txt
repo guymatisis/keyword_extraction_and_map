@@ -1,0 +1,17 @@
+<b>Feast</b>
+As an example of this pattern in action, consider Feast, which is an open source fea‐
+ture store for machine learning developed by Google Cloud and Gojek. It is built
+around Google Cloud services using Big Query for offline model training and Redis
+for low-latency, online serving (Figure 6-13). Apache Beam is used for feature cre‐
+ation, which allows for consistent data pipelines for both batch and streaming.
+<i>Figure</i> <i>6-13.</i> <i>High-level</i> <i>architecture</i> <i>of</i> <i>the</i> <i>Feast</i> <i>feature</i> <i>store.</i> <i>Feast</i> <i>is</i> <i>built</i> <i>around</i>
+<i>Google</i> <i>BigQuery,</i> <i>Redis,</i> <i>and</i> <i>Apache</i> <i>Beam.</i>
+To see how this works in practice, we’ll use a public BigQuery dataset containing
+information about taxi rides in New York City.7 Each row of the table contains a
+timestamp of the pickup, the pickup latitude and longitude, the dropoff latitude and
+longitude, the number of passengers, and the cost of the taxi ride. The goal of the ML
+model will be to predict the cost of the taxi ride, denoted fare_amount , using these
+characteristics.
+This model benefits from engineering additional features from the raw data. For
+example, since taxi rides are based on the distance and duration of the trip, pre-
+7 ThedataisavailableintheBigQuerytable:bigquery-public-data.new_york_taxi_trips.tlc_yellow_trips_2016.

@@ -1,0 +1,23 @@
+<i>Decoder</i>
+Uses the encoder’s hidden state to iteratively generate an output sequence of
+tokens, one token at a time
+As illustrated in Figure 3-1, the encoder and decoder are themselves composed of
+several building blocks.
+<i>Figure</i> <i>3-1.</i> <i>Encoder-decoder</i> <i>architecture</i> <i>of</i> <i>the</i> <i>transformer,</i> <i>with</i> <i>the</i> <i>encoder</i> <i>shown</i> <i>in</i>
+<i>the</i> <i>upper</i> <i>half</i> <i>of</i> <i>the</i> <i>figure</i> <i>and</i> <i>the</i> <i>decoder</i> <i>in</i> <i>the</i> <i>lower</i> <i>half</i>
+We’ll look at each of the components in detail shortly, but we can already see a few
+things in Figure 3-1 that characterize the Transformer architecture:
+• The input text is tokenized and converted to <i>token</i> <i>embeddings</i> using the techni‐
+ques we encountered in Chapter 2. Since the attention mechanism is not aware of
+the relative positions of the tokens, we need a way to inject some information
+about token positions into the input to model the sequential nature of text. The
+token embeddings are thus combined with <i>positional</i> <i>embeddings</i> that contain
+positional information for each token.
+• The encoder is composed of a stack of <i>encoder</i> <i>layers</i> or “blocks,” which is analo‐
+gous to stacking convolutional layers in computer vision. The same is true of the
+decoder, which has its own stack of <i>decoder</i> <i>layers.</i>
+• The encoder’s output is fed to each decoder layer, and the decoder then generates
+a prediction for the most probable next token in the sequence. The output of this
+step is then fed back into the decoder to generate the next token, and so on until
+a special end-of-sequence (EOS) token is reached. In the example from
+Figure 3-1, imagine the decoder has already predicted “Die” and “Zeit”. Now it

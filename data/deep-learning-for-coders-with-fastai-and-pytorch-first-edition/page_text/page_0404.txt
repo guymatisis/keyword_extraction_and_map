@@ -1,0 +1,22 @@
+edges at the middle, top, and bottom, and so forth. So what if we could extract infor‐
+mation about where the edges occur in each image, and then use that information as
+our features, instead of raw pixels?
+It turns out that finding the edges in an image is a very common task in computer
+vision and is surprisingly straightforward. To do it, we use something called a <i>convo‐</i>
+<i>lution.</i> A convolution requires nothing more than multiplication and addition—two
+operations that are responsible for the vast majority of work that we will see in every
+single deep learning model in this book!
+A convolution applies a <i>kernel</i> across an image. A kernel is a little matrix, such as the
+3×3 matrix in the top right of Figure 13-1.
+<i>Figure</i> <i>13-1.</i> <i>Applying</i> <i>a</i> <i>kernel</i> <i>to</i> <i>one</i> <i>location</i>
+The 7×7 grid to the left is the <i>image</i> we’re going to apply the kernel to. The convolu‐
+tion operation multiplies each element of the kernel by each element of a 3×3 block of
+the image. The results of these multiplications are then added together. The diagram
+in Figure 13-1 shows an example of applying a kernel to a single location in the
+image, the 3×3 block around cell 18.
+Let’s do this with code. First, we create a little 3×3 matrix like so:
+top_edge = tensor([[-1,-1,-1],
+[ 0, 0, 0],
+[ 1, 1, 1]]).float()
+We’re going to call this our kernel (because that’s what fancy computer vision
+researchers call these). And we’ll need an image, of course:

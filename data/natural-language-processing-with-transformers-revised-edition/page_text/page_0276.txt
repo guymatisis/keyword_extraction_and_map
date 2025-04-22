@@ -1,0 +1,43 @@
+Since GPT-3 is only available through the OpenAI API, we’ll use GPT-2 to test the
+technique. Specifically, we’ll use a variant of GPT-2 that was trained on Python code,
+which will hopefully capture some of the context contained in our GitHub issues.
+Let’s write a helper function that takes a list of texts and uses the model to create a
+single-vector representation for each text. One problem we have to deal with is that
+transformer models like GPT-2 will actually return one embedding vector per token.
+For example, given the sentence “I took my dog for a walk”, we can expect several
+embedding vectors, one for each token. But what we really want is a single embed‐
+ding vector for the whole sentence (or GitHub issue in our application). To deal with
+this, we can use a technique called <i>pooling.</i> One of the simplest pooling methods is to
+average the token embeddings, which is called <i>mean</i> <i>pooling.</i> With mean pooling, the
+only thing we need to watch out for is that we don’t include padding tokens in the
+average, so we can use the attention mask to handle that.
+To see how this works, let’s load a GPT-2 tokenizer and model, define the mean pool‐
+embed_text()
+ing operation, and wrap the whole process in a simple function:
+<b>import</b> <b>torch</b>
+<b>from</b> <b>transformers</b> <b>import</b> AutoTokenizer, AutoModel
+model_ckpt = "miguelvictor/python-gpt2-large"
+tokenizer = AutoTokenizer.from_pretrained(model_ckpt)
+model = AutoModel.from_pretrained(model_ckpt)
+<b>def</b> mean_pooling(model_output, attention_mask):
+<i>#</i> <i>Extract</i> <i>the</i> <i>token</i> <i>embeddings</i>
+token_embeddings = model_output[0]
+<i>#</i> <i>Compute</i> <i>the</i> <i>attention</i> <i>mask</i>
+input_mask_expanded = (attention_mask
+.unsqueeze(-1)
+.expand(token_embeddings.size())
+.float())
+<i>#</i> <i>Sum</i> <i>the</i> <i>embeddings,</i> <i>but</i> <i>ignore</i> <i>masked</i> <i>tokens</i>
+sum_embeddings = torch.sum(token_embeddings * input_mask_expanded, 1)
+sum_mask = torch.clamp(input_mask_expanded.sum(1), min=1e-9)
+<i>#</i> <i>Return</i> <i>the</i> <i>average</i> <i>as</i> <i>a</i> <i>single</i> <i>vector</i>
+<b>return</b> sum_embeddings / sum_mask
+<b>def</b> embed_text(examples):
+inputs = tokenizer(examples["text"], padding=True, truncation=True,
+max_length=128, return_tensors="pt")
+<b>with</b> torch.no_grad():
+model_output = model(**inputs)
+pooled_embeds = mean_pooling(model_output, inputs["attention_mask"])
+<b>return</b> {"embedding": pooled_embeds.cpu().numpy()}
+Now we can get the embeddings for each split. Note that GPT-style models don’t have
+a padding token, and therefore we need to add one before we can get the embeddings

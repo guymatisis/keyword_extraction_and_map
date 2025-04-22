@@ -1,0 +1,19 @@
+baseline, and explains why many of the attribution values are negative. We can deter‐
+mine the most important features by taking the absolute value of the feature attribu‐
+tions. In this example, the trip’s distance was the most important feature, causing our
+model’s prediction to decrease 2.4 minutes from the baseline. Additionally, as a san‐
+ity check, we should ensure that the feature attribution values roughly add up to the
+difference between the current prediction and the baseline prediction.
+<i>Figure</i> <i>7-2.</i> <i>The</i> <i>feature</i> <i>attribution</i> <i>values</i> <i>for</i> <i>a</i> <i>single</i> <i>example</i> <i>in</i> <i>a</i> <i>model</i> <i>predicting</i>
+<i>bike</i> <i>trip</i> <i>duration.</i> <i>The</i> <i>model’s</i> <i>baseline,</i> <i>calculated</i> <i>using</i> <i>the</i> <i>median</i> <i>of</i> <i>each</i> <i>feature</i>
+<i>value,</i> <i>is</i> <i>13.6</i> <i>minutes,</i> <i>and</i> <i>the</i> <i>attribution</i> <i>values</i> <i>show</i> <i>how</i> <i>much</i> <i>each</i> <i>feature</i> <i>influ‐</i>
+<i>enced</i> <i>the</i> <i>prediction.</i>
+Informative baselines, on the other hand, compare a model’s prediction with a spe‐
+cific alternative scenario. In a model identifying fraudulent transactions, an informa‐
+tive baseline might answer the question, “Why was this transaction flagged as fraud
+instead of nonfraudulent?” Instead of using the median feature values across the
+entire training dataset to calculate the baseline, we would take the median of only the
+nonfraudulent values. In an image model, maybe the training images contain a signif‐
+icant portion of solid black and white pixels, and using these as a baseline would
+result in inaccurate predictions. In this case, we’d need to come up with a different
+<i>informative</i> baseline image.

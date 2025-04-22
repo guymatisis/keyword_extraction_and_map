@@ -1,0 +1,22 @@
+SVMs: the bias term will be called <i>b,</i> and the feature weights vector will be called <b>w.</b>
+No bias feature will be added to the input feature vectors.
+<header><largefont><b>Decision</b></largefont> <largefont><b>Function</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Predictions</b></largefont></header>
+The linear SVM classifier model predicts the class of a new instance <b>x</b> by simply com‐
+puting the decision function <b>w</b> ⊺ <b>x</b> + <i>b</i> = <i>w</i> <i>x</i> + ⋯ + <i>w</i> <i>x</i> + <i>b.</i> If the result is positive,
+1 1 <i>n</i> <i>n</i>
+the predicted class <i>ŷ</i> is the positive class (1), and otherwise it is the negative class (0);
+see Equation 5-2.
+<i>Equation</i> <i>5-2.</i> <i>Linear</i> <i>SVM</i> <i>classifier</i> <i>prediction</i>
+⊺
+0 if <b>w</b> <b>x</b> + <i>b</i> < 0,
+<i>y</i> =
+⊺
+1 if <b>w</b> <b>x</b> + <i>b</i> ≥ 0
+Figure 5-12 shows the decision function that corresponds to the model in the left in
+Figure 5-4: it is a 2D plane because this dataset has two features (petal width and petal
+length). The decision boundary is the set of points where the decision function is
+equal to 0: it is the intersection of two planes, which is a straight line (represented by
+the thick solid line). 3
+<i>Figure</i> <i>5-12.</i> <i>Decision</i> <i>function</i> <i>for</i> <i>the</i> <i>iris</i> <i>dataset</i>
+3 Moregenerally,whentherearenfeatures,thedecisionfunctionisann-dimensionalhyperplane,andthedeci‐
+sionboundaryisan(n–1)-dimensionalhyperplane.

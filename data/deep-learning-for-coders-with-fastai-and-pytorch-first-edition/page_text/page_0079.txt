@@ -1,0 +1,35 @@
+This method even saves the definition of how to create your DataLoaders . This is
+important, because otherwise you would have to redefine how to transform your data
+in order to use your model in production. fastai automatically uses your validation set
+DataLoader for inference by default, so your data augmentation will not be applied,
+which is generally what you want.
+When you call export, fastai will save a file called <i>export.pkl:</i>
+learn.export()
+Let’s check that the file exists, by using the ls method that fastai adds to Python’s Path
+class:
+path = Path()
+path.ls(file_exts='.pkl')
+(#1) [Path('export.pkl')]
+You’ll need this file wherever you deploy your app to. For now, let’s try to create a
+simple app within our notebook.
+When we use a model for getting predictions, instead of training, we call it <i>inference.</i>
+To create our inference learner from the exported file, we use load_learner (in this
+case, this isn’t really necessary, since we already have a working Learner in our note‐
+book; we’re doing it here so you can see the whole process end to end):
+learn_inf = load_learner(path/'export.pkl')
+When we’re doing inference, we’re generally getting predictions for just one image at
+a time. To do this, pass a filename to predict :
+learn_inf.predict('images/grizzly.jpg')
+('grizzly', tensor(1), tensor([9.0767e-06, 9.9999e-01, 1.5748e-07]))
+This has returned three things: the predicted category in the same format you origi‐
+nally provided (in this case, that’s a string), the index of the predicted category, and
+the probabilities of each category. The last two are based on the order of categories in
+the <i>vocab</i> of the DataLoaders; that is, the stored list of all possible categories. At infer‐
+ence time, you can access the DataLoaders as an attribute of the Learner:
+learn_inf.dls.vocab
+(#3) ['black','grizzly','teddy']
+We can see here that if we index into the vocab with the integer returned by predict ,
+we get back “grizzly,” as expected. Also, note that if we index into the list of probabili‐
+ties, we see a nearly 1.00 probability that this is a grizzly.
+We know how to make predictions from our saved model, so we have everything we
+need to start building our app. We can do it directly in a Jupyter notebook.

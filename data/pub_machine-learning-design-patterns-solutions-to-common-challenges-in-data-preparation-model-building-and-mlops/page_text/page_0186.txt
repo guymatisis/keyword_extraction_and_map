@@ -1,0 +1,24 @@
+<i>Figure</i> <i>4-20.</i> <i>Large</i> <i>batch</i> <i>sizes</i> <i>have</i> <i>been</i> <i>shown</i> <i>to</i> <i>adversely</i> <i>affect</i> <i>the</i> <i>quality</i> <i>of</i> <i>the</i>
+<i>final</i> <i>trained</i> <i>model.</i>
+Thus, setting the mini-batch size in the context of distributed training is a complex
+optimization space of its own, as it affects both statistical accuracy (generalization)
+and hardware efficiency (utilization) of the model. Related work, focusing on this
+optimization, introduces a layerwise adaptive large batch optimization technique
+called LAMB, which has been able to reduce BERT training time from 3 days to just
+76 minutes.
+<b>MinimizingI/Owaits</b>
+GPUs and TPUs can process data much faster than CPUs, and when using dis‐
+tributed strategies with multiple accelerators, I/O pipelines can struggle to keep up,
+creating a bottleneck to more efficient training. Specifically, before a training step fin‐
+ishes, the data for the next step is not available for processing. This is shown in
+Figure 4-21. The CPU handles the input pipeline: reading data from storage, prepro‐
+cessing, and sending to the accelerator for computation. As distributed strategies
+speed up training, more than ever it becomes necessary to have efficient input pipe‐
+lines to fully utilize the computing power available.
+This can be achieved in a number of ways, including using optimized file formats like
+tf.data
+TFRecords and building data pipelines using the TensorFlow API. The
+tf.data API makes it possible to handle large amounts of data and has built-in trans‐
+formations useful for creating flexible, efficient pipelines. For example, tf.data.Data
+set.prefetch
+overlaps the preprocessing and model execution of a training step so

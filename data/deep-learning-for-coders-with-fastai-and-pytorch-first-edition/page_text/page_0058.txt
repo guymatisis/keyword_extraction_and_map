@@ -1,0 +1,34 @@
+timating the constraints might mean that you fail to consider and react to important
+issues.
+The best thing to do is to keep an open mind. If you remain open to the possibility
+that deep learning might solve part of your problem with less data or complexity than
+you expect, you can design a process through which you can find the specific capabil‐
+ities and constraints related to your particular problem. This doesn’t mean making
+any risky bets—we will show you how you can gradually roll out models so that they
+don’t create significant risks, and can even backtest them prior to putting them in
+production.
+<header><largefont><b>Starting</b></largefont> <largefont><b>Your</b></largefont> <largefont><b>Project</b></largefont></header>
+So where should you start your deep learning journey? The most important thing is
+to ensure that you have a project to work on—it is only through working on your
+own projects that you will get real experience building and using models. When
+selecting a project, the most important consideration is data availability.
+Regardless of whether you are doing a project just for your own learning or for prac‐
+tical application in your organization, you want to be able to start quickly. We have
+seen many students, researchers, and industry practitioners waste months or years
+while they attempt to find their perfect dataset. The goal is not to find the “perfect”
+dataset or project, but just to get started and iterate from there. If you take this
+approach, you will be on your third iteration of learning and improving while the
+perfectionists are still in the planning stages!
+We also suggest that you iterate from end to end in your project; don’t spend months
+fine-tuning your model, or polishing the perfect GUI, or labeling the perfect dataset.
+…Instead, complete every step as well as you can in a reasonable amount of time, all
+the way to the end. For instance, if your final goal is an application that runs on a
+mobile phone, that should be what you have after each iteration. But perhaps in the
+early iterations you take shortcuts; for instance, by doing all of the processing on a
+remote server and using a simple responsive web application. By completing the
+project end to end, you will see where the trickiest bits are, and which bits make the
+biggest difference to the final result.
+As you work through this book, we suggest that you complete lots of small experi‐
+ments, by running and adjusting the notebooks we provide, at the same time that you
+gradually develop your own projects. That way, you will be getting experience with all
+of the tools and techniques that we’re explaining as we discuss them.

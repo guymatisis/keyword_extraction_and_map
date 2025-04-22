@@ -1,0 +1,13 @@
+Now that we’ve passed the tool our model, the resulting visualization shown in
+Figure 7-13 plots our test datapoints according to our model’s prediction confidence
+indicated on the y-axis.
+<i>Figure</i> <i>7-13.</i> <i>The</i> <i>What-If</i> <i>Tool’s</i> <i>Datapoint</i> <i>editor</i> <i>for</i> <i>a</i> <i>binary</i> <i>classification</i> <i>model.</i> <i>The</i>
+<i>y-axis</i> <i>is</i> <i>the</i> <i>model’s</i> <i>prediction</i> <i>output</i> <i>for</i> <i>each</i> <i>datapoint,</i> <i>ranging</i> <i>from</i> <i>0</i> <i>(denied)</i> <i>to</i> <i>1</i>
+<i>(approved).</i>
+The What-If Tool’s Performance & Fairness tab lets us evaluate our model’s fairness
+across different data slices. By selecting one of our model’s features to “Slice by,” we
+can compare our model’s results for different values of this feature. In Figure 7-14,
+we’ve sliced by the agency_code_HUD feature—a boolean value indicating whether an
+application was underwritten by HUD (0 for non-HUD loans, 1 for HUD loans).
+<i>Figure</i> <i>7-14.</i> <i>The</i> <i>What-If</i> <i>Tool</i> <i>Performance</i> <i>&</i> <i>Fairness</i> <i>tab,</i> <i>showing</i> <i>our</i> <i>XGBoost</i>
+<i>model</i> <i>performance</i> <i>across</i> <i>different</i> <i>feature</i> <i>values.</i>

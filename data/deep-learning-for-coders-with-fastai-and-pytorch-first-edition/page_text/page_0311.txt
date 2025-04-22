@@ -1,0 +1,37 @@
+would want to find out <i>why</i> it’s missing so often and what that <i>means.</i> Missing values
+can sometimes be useful predictors—it entirely depends on what causes them to be
+missing. Sometimes, however, they can indicate <i>data</i> <i>leakage.</i>
+<header><largefont><b>Data</b></largefont> <largefont><b>Leakage</b></largefont></header>
+In the paper “Leakage in Data Mining: Formulation, Detection, and Avoidance”, Sha‐
+char Kaufman et al. describe leakage as follows:
+The introduction of information about the target of a data mining problem, which
+should not be legitimately available to mine from. A trivial example of leakage would
+be a model that uses the target itself as an input, thus concluding for example that “it
+rains on rainy days.” In practice, the introduction of this illegitimate information is
+unintentional, and facilitated by the data collection, aggregation, and preparation
+process.
+They give as an example:
+A real-life business intelligence project at IBM where potential customers for certain
+products were identified, among other things, based on keywords found on their web‐
+sites. This turned out to be leakage since the website content used for training had
+been sampled at the point in time where the potential customer has already become a
+customer, and where the website contained traces of the IBM products purchased, such
+as the word “Websphere” (e.g., in a press release about the purchase or a specific prod‐
+uct feature the client uses).
+Data leakage is subtle and can take many forms. In particular, missing values often
+represent data leakage.
+For instance, Jeremy competed in a Kaggle competition designed to predict which
+researchers would end up receiving research grants. The information was provided
+by a university and included thousands of examples of research projects, along with
+information about the researchers involved and data on whether or not each grant
+was eventually accepted. The university hoped to be able to use the models developed
+in this competition to rank which grant applications were most likely to succeed, so it
+could prioritize its processing.
+Jeremy used a random forest to model the data, and then used feature importance to
+find out which features were most predictive. He noticed three surprising things:
+• The model was able to correctly predict who would receive grants over 95% of
+the time.
+• Apparently meaningless identifier columns were the most important predictors.
+• The day of week and day of year columns were also highly predictive; for
+instance, the vast majority of grant applications dated on a Sunday were accepted,
+and many accepted grant applications were dated on January 1.

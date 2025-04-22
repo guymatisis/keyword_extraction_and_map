@@ -1,0 +1,41 @@
+<header><largefont><b>TfmdLists</b></largefont></header>
+Here is the short way of doing the transformation we saw in the previous section:
+tls = TfmdLists(files, [Tokenizer.from_folder(path), Numericalize])
+At initialization, the TfmdLists will automatically call the setup method of each
+Transform in order, providing each not with the raw items but the items transformed
+by all the previous Transforms, in order. We can get the result of our Pipeline on any
+raw element just by indexing into the TfmdLists:
+t = tls[0]; t[:20]
+tensor([ 2, 8, 91, 11, 22, 5793, 22, 37, 4910, 34,
+> 11, 8, 13042, 23, 107, 30, 11, 25, 44, 14])
+And the TfmdLists knows how to decode for show purposes:
+tls.decode(t)[:100]
+'xxbos xxmaj well , " cube " ( 1997 ) , xxmaj vincenzo \'s first movie , was one
+> of the most interesti'
+In fact, it even has a show method:
+tls.show(t)
+xxbos xxmaj well , " cube " ( 1997 ) , xxmaj vincenzo 's first movie , was one
+> of the most interesting and tricky ideas that xxmaj i 've ever seen when
+> talking about movies . xxmaj they had just one scenery , a bunch of actors
+> and a plot . xxmaj so , what made it so special were all the effective
+> direction , great dialogs and a bizarre condition that characters had to deal
+> like rats in a labyrinth . xxmaj his second movie , " cypher " ( 2002 ) , was
+> all about its story , but it was n't so good as " cube " but here are the
+> characters being tested like rats again .
+" nothing " is something very interesting and gets xxmaj vincenzo coming back
+> to his ' cube days ' , locking the characters once again in a very different
+> space with no time once more playing with the characters like playing with
+> rats in an experience room . xxmaj but instead of a thriller sci - fi ( even
+> some of the promotional teasers and trailers erroneous seemed like that ) , "
+> nothing " is a loose and light comedy that for sure can be called a modern
+> satire about our society and also about the intolerant world we 're living .
+> xxmaj once again xxmaj xxunk amaze us with a great idea into a so small kind
+> of thing . 2 actors and a blinding white scenario , that 's all you got most
+> part of time and you do n't need more than that . xxmaj while " cube " is a
+> claustrophobic experience and " cypher " confusing , " nothing " is
+> completely the opposite but at the same time also desperate .
+xxmaj this movie proves once again that a smart idea means much more than just
+> a millionaire budget . xxmaj of course that the movie fails sometimes , but
+> its prime idea means a lot and offsets any flaws . xxmaj there 's nothing
+> more to be said about this movie because everything is a brilliant surprise
+> and a totally different experience that i had in movies since " cube " .

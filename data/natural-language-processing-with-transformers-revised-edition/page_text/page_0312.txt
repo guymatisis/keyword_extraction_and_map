@@ -1,0 +1,35 @@
+<header><largefont><b>The</b></largefont> <largefont><b>Tokenizer</b></largefont> <largefont><b>Model</b></largefont></header>
+As you saw in Chapter 4, the tokenizer is a processing pipeline consisting of four
+steps: normalization, pretokenization, the tokenizer model, and postprocessing. The
+part of the tokenizer pipeline that can be trained on data is the tokenizer model. As
+we discussed in Chapter 2, there are several subword tokenization algorithms that can
+be used, such as BPE, WordPiece, and Unigram.
+BPE starts from a list of basic units (single characters) and creates a vocabulary by a
+process of progressively creating new tokens formed by merging the most frequently
+co-occurring basic units and adding them to the vocabulary. This process is reiterated
+until a predefined vocabulary size is reached.
+Unigram starts from the other end, by initializing its base vocabulary with all the
+words in the corpus, and potential subwords. Then it progressively removes or splits
+the less useful tokens to obtain a smaller and smaller vocabulary, until the target
+vocabulary size is reached. WordPiece is a predecessor of Unigram, and its official
+implementation was never open-sourced by Google.
+The impact of these various algorithms on downstream performance varies depend‐
+ing on the task, and overall it’s quite difficult to identify if one algorithm is clearly
+superior to the others. Both BPE and Unigram have reasonable performance in most
+cases, but let’s have a look at some aspects to consider when evaluating.
+<header><largefont><b>Measuring</b></largefont> <largefont><b>Tokenizer</b></largefont> <largefont><b>Performance</b></largefont></header>
+The optimality and performance of a tokenizer are challenging to measure in prac‐
+tice. Some possible metrics include:
+• <i>Subword</i> <i>fertility,</i> which calculates the average number of subwords produced per
+tokenized word
+• <i>Proportion</i> <i>of</i> <i>continued</i> <i>words,</i> which refers to the proportion of tokenized words
+in a corpus that are split into at least two subtokens
+• <i>Coverage</i> <i>metrics</i> like the proportion of unknown words or rarely used tokens in
+a tokenized corpus
+In addition, robustness to misspelling or noise is often estimated, as well as model
+performance on such out-of-domain examples, as this strongly depends on the toke‐
+nization process.
+These measures give a set of different views on the tokenizer’s performance, but they
+tend to ignore the interaction of the tokenizer with the model. For example, subword
+fertility can be minimized by including all the possible words in the vocabulary, but
+this will produce a very large vocabulary for the model.

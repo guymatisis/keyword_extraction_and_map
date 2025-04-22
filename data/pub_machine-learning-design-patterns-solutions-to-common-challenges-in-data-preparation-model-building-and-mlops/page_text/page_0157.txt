@@ -1,0 +1,35 @@
+experimentation (where there is no validation dataset) and plays the part of the vali‐
+dation dataset in production (where there is no test dataset).
+The larger your training dataset, the more complex a model you can use, and the
+more accurate a model you can get. Using regularization rather than early stopping
+or checkpoint selection allows you to use a larger training dataset. In the experimen‐
+tation phase (when you are exploring different model architectures, training techni‐
+ques, and hyperparameters), we recommend that you turn off early stopping and
+train with larger models (see also “Design Pattern 11: Useful Overfitting” on page
+141). This is to ensure that the model has enough capacity to learn the predictive pat‐
+terns. During this process, monitor error convergence on the training split. At the
+end of experimentation, you can use the evaluation dataset to diagnose how well your
+model does on data it has not encountered during training.
+When training the model to deploy in production, you will need to prepare to be able
+to do continuous evaluation and model retraining. Turn on early stopping or check‐
+point selection and monitor the error metric on the evaluation dataset. Choose
+between early stopping and checkpoint selection depending on whether you need to
+control cost (in which case, you would choose early stopping) or want to prioritize
+model accuracy (in which case, you would choose checkpoint selection).
+<b>Fine-tuning</b>
+In a well-behaved training loop, gradient descent behaves such that you get to the
+neighborhood of the optimal error quickly on the basis of the majority of your data,
+then slowly converge toward the lowest error by optimizing on the corner cases.
+Now, imagine that you need to periodically retrain the model on fresh data. You typi‐
+cally want to emphasize the fresh data, not the corner cases from last month. You are
+often better off resuming your training, not from the last checkpoint, but the check‐
+point marked by the blue line in Figure 4-11. This corresponds to the start of phase 2
+in our discussion of the phases of model training described earlier in “Why It Works”
+on page 169. This helps ensure that you have a general method that you are able to then
+fine-tune for a few epochs on just the fresh data.
+When you resume from the checkpoint marked by the thick dashed vertical line, you
+will be on the fourth epoch, and so the learning rate will be quite low. Therefore, the
+fresh data will not dramatically change the model. However, the model will behave
+optimally (in the context of the larger model) on the fresh data because you will have
+sharpened it on this smaller dataset. This is called <i>fine-tuning.</i> Fine-tuning is also dis‐
+cussed in “Design Pattern 13: Transfer Learning” on page 161.

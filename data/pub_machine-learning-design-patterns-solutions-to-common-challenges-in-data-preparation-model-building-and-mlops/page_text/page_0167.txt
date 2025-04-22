@@ -1,0 +1,37 @@
+Because they both represent features in reduced dimensionality, bottleneck layers are
+conceptually similar to embeddings. For example, in an autoencoder model with an
+encoder-decoder architecture, the bottleneck layer <i>is</i> an embedding. In this case, the
+bottleneck serves as the middle layer of the model, mapping the original input data to
+a lower-dimensionality representation, which the decoder (the second half of the net‐
+work) uses to map the input back to its original, higher-dimensional representation.
+To see a diagram of the bottleneck layer in an autoencoder, refer to Figure 2-13 in
+Chapter 2.
+An embedding layer is essentially a lookup table of weights, mapping a particular fea‐
+ture to some dimension in vector space. The main difference is that the weights in an
+embedding layer can be trained, whereas all the layers leading up to and including the
+bottleneck layer have their weights frozen. In other words, the entire network up to
+and including the bottleneck layer is nontrainable, and the weights in the layers after
+the bottleneck are the only trainable layers in the model.
+It’s also worth noting that pre-trained embeddings can be used in
+the Transfer Learning design pattern. When you build a model that
+includes an embedding layer, you can either utilize an existing
+(pre-trained) embedding lookup, or train your own embedding
+layer from scratch.
+To summarize, transfer learning is a solution you can employ to solve a similar prob‐
+lem on a smaller dataset. Transfer learning always makes use of a bottleneck layer
+with nontrainable, frozen weights. Embeddings are a type of data representation.
+Ultimately, it comes down to purpose. If the purpose is to train a similar model, you
+would use transfer learning. Consequently, if the purpose is to represent an input
+image more concisely, you would use an embedding. The code might be exactly the
+same.
+<b>Implementingtransferlearning</b>
+You can implement transfer learning in Keras using one of these two methods:
+• Loading a pre-trained model on your own, removing the layers after the bottle‐
+neck, and adding a new final layer with your own data and labels
+• Using a pre-trained TensorFlow Hub module as the foundation for your transfer
+learning task
+Let’s start by looking at how to load and use a pre-trained model on your own. For
+this, we’ll build on the VGG model example we introduced earlier. Note that VGG is
+a model architecture, whereas ImageNet is the data it was trained on. Together, these
+make up the pre-trained model we’ll be using for transfer learning. Here, we’re using
+transfer learning to classify colorectal histology images. Whereas the original

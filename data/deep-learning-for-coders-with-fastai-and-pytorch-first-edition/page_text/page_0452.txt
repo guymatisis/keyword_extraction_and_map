@@ -1,0 +1,40 @@
+<b>Jargon:Top-5Accuracy</b>
+A metric testing how often the label we want is in the top 5 predic‐
+tions of our model. It was used in the ImageNet competition
+because many of the images contained multiple objects, or con‐
+tained objects that could be easily confused or may even have been
+mislabeled with a similar label. In these situations, looking at top-1
+accuracy may be inappropriate. However, recently CNNs have been
+getting so good that top-5 accuracy is nearly 100%, so some
+researchers are using top-1 accuracy for ImageNet too now.
+We’ll use this tweaked version as we scale up to the full ResNet, because it’s substan‐
+tially better. It differs a little bit from our previous implementation, in that instead of
+just starting with ResNet blocks, it begins with a few convolutional layers followed by
+a max pooling layer. This is what the first layers, called the <i>stem</i> of the network, look
+like:
+<b>def</b> _resnet_stem(*sizes):
+<b>return</b> [
+ConvLayer(sizes[i], sizes[i+1], 3, stride = 2 <b>if</b> i==0 <b>else</b> 1)
+<b>for</b> i <b>in</b> range(len(sizes)-1)
+] + [nn.MaxPool2d(kernel_size=3, stride=2, padding=1)]
+_resnet_stem(3,32,32,64)
+[ConvLayer(
+(0): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+(1): BatchNorm2d(32, eps=1e-05, momentum=0.1)
+(2): ReLU()
+), ConvLayer(
+(0): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+(1): BatchNorm2d(32, eps=1e-05, momentum=0.1)
+(2): ReLU()
+), ConvLayer(
+(0): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+(1): BatchNorm2d(64, eps=1e-05, momentum=0.1)
+(2): ReLU()
+), MaxPool2d(kernel_size=3, stride=2, padding=1, ceil_mode=False)]
+<b>Jargon:Stem</b>
+The first few layers of a CNN. Generally, the stem has a different
+structure than the main body of the CNN.
+The reason that we have a stem of plain convolutional layers, instead of ResNet
+blocks, is based on an important insight about all deep convolutional neural net‐
+works: the vast majority of the computation occurs in the early layers. Therefore, we
+should keep the early layers as fast and simple as possible.

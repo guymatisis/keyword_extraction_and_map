@@ -1,0 +1,36 @@
+it is an entirely random model! All of the layers prior to the last one have been care‐
+fully trained to be good at image classification tasks in general. As we saw in the
+images from the Zeiler and Fergus paper in Chapter 1 (see Figures 1-10 through
+1-13), the first few layers encode general concepts, such as finding gradients and
+edges, and later layers encode concepts that are still useful for us, such as finding eye‐
+balls and fur.
+We want to train a model in such a way that we allow it to remember all of these gen‐
+erally useful ideas from the pretrained model, use them to solve our particular task
+(classify pet breeds), and adjust them only as required for the specifics of our particu‐
+lar task.
+Our challenge when fine-tuning is to replace the random weights in our added linear
+layers with weights that correctly achieve our desired task (classifying pet breeds)
+without breaking the carefully pretrained weights and the other layers. A simple trick
+can allow this to happen: tell the optimizer to update the weights in only those ran‐
+domly added final layers. Don’t change the weights in the rest of the neural network
+at all. This is called <i>freezing</i> those pretrained layers.
+When we create a model from a pretrained network, fastai automatically freezes all of
+the pretrained layers for us. When we call the fine_tune method, fastai does two
+things:
+• Trains the randomly added layers for one epoch, with all other layers frozen
+• Unfreezes all the layers, and trains them for the number of epochs requested
+Although this is a reasonable default approach, it is likely that for your particular
+dataset, you may get better results by doing things slightly differently. The fine_tune
+method has parameters you can use to change its behavior, but it might be easiest for
+you to just call the underlying methods directly if you want to get custom behavior.
+Remember that you can see the source code for the method by using the following
+syntax:
+learn.fine_tune??
+So let’s try doing this manually ourselves. First of all, we will train the randomly
+added layers for three epochs, using fit_one_cycle. As mentioned in Chapter 1,
+fit_one_cycle is the suggested way to train models without using fine_tune. We’ll
+see why later in the book; in short, what fit_one_cycle does is to start training at a
+low learning rate, gradually increase it for the first section of training, and then grad‐
+ually decrease it again for the last section of training:
+learn = cnn_learner(dls, resnet34, metrics=error_rate)
+learn.fit_one_cycle(3, 3e-3)

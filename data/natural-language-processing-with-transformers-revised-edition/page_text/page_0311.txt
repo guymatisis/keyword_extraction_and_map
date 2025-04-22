@@ -1,0 +1,36 @@
+• The T5 tokenizer was trained on the C4 corpus that we encountered earlier, but
+an extensive step of stopword filtering was used to create it. As a result, the T5
+tokenizer has never seen common English words such as “sex.”
+• The CamemBERT tokenizer was also trained on a very large corpus of text, but
+only comprising French text (the French subset of the OSCAR corpus). As such,
+it is unaware of common English words such “being.”
+We can easily test these features of each tokenizer in practice:
+<b>from</b> <b>transformers</b> <b>import</b> AutoTokenizer
+<b>def</b> tok_list(tokenizer, string):
+input_ids = tokenizer(string, add_special_tokens=False)["input_ids"]
+<b>return</b> [tokenizer.decode(tok) <b>for</b> tok <b>in</b> input_ids]
+tokenizer_T5 = AutoTokenizer.from_pretrained("t5-base")
+tokenizer_camembert = AutoTokenizer.from_pretrained("camembert-base")
+<b>print(f'T5</b> tokens for "sex": {tok_list(tokenizer_T5,"sex")}')
+<b>print(f'CamemBERT</b> tokens for "being": {tok_list(tokenizer_camembert,"being")}')
+T5 tokens for "sex": ['', 's', 'ex']
+CamemBERT tokens for "being": ['be', 'ing']
+In many cases, splitting such short and common words into subparts will be ineffi‐
+cient, since this will increase the input sequence length of the model (which has limi‐
+ted context). Therefore, it’s important to be aware of the domain and preprocessing of
+the dataset that was used to train the tokenizer. The tokenizer and model can encode
+bias from the dataset that has an impact on the downstream behavior of the model.
+To create an optimal tokenizer for our dataset, we thus need to train one ourselves.
+Let’s see how this can be done.
+Training a model involves starting from a given set of weights and
+using backpropagation from an error signal on a designed objective
+to minimize the loss of the model and find an optimal set of
+weights for the model to perform the task defined by the training
+objective. Training a tokenizer, on the other hand, does <i>not</i> involve
+backpropagation or weights. It is a way to create an optimal map‐
+ping from a string of text to a list of integers that can be ingested by
+the model. In today’s tokenizers, the optimal string-to-integer con‐
+version involves a vocabulary consisting of a list of atomic strings
+and an associated method to convert, normalize, cut, or map a text
+string into a list of indices with this vocabulary. This list of indices
+is then the input for our neural network.

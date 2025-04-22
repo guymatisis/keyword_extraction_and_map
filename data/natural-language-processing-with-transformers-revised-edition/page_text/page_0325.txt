@@ -1,0 +1,26 @@
+<i>Figure</i> <i>10-4.</i> <i>Using</i> <i>an</i> <i>encoder-decoder</i> <i>architecture</i> <i>for</i> <i>a</i> <i>sequence-to-sequence</i> <i>task</i>
+<i>where</i> <i>the</i> <i>inputs</i> <i>are</i> <i>split</i> <i>into</i> <i>comment/code</i> <i>pairs</i> <i>using</i> <i>heuristics:</i> <i>the</i> <i>model</i> <i>gets</i> <i>one</i>
+<i>element</i> <i>as</i> <i>input</i> <i>and</i> <i>needs</i> <i>to</i> <i>generate</i> <i>the</i> <i>other</i> <i>one</i>
+Since we want to build a code autocompletion model, we’ll select the first objective
+and choose a GPT architecture for the task. So let’s initialize a fresh GPT-2 model!
+<header><largefont><b>Initializing</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Model</b></largefont></header>
+from_pretrained()
+This is the first time in this book that we won’t use the method to
+load a model but initialize the new model. We will, however, load the configuration of
+gpt2-xl
+so that we use the same hyperparameters and only adapt the vocabulary size
+for the new tokenizer. We then initialize a new model with this configuration with the
+from_config() method:
+<b>from</b> <b>transformers</b> <b>import</b> AutoConfig, AutoModelForCausalLM, AutoTokenizer
+tokenizer = AutoTokenizer.from_pretrained(model_ckpt)
+config = AutoConfig.from_pretrained("gpt2-xl", vocab_size=len(tokenizer))
+model = AutoModelForCausalLM.from_config(config)
+Let’s check how large the model actually is:
+<b>print(f'GPT-2</b> (xl) size: {model_size(model)/1000**2:.1f}M parameters')
+GPT-2 (xl) size: 1529.6M parameters
+This is a 1.5B parameter model! This is a lot of capacity, but we also have a large data‐
+set. In general, large language models are more efficient to train as long as the dataset
+is reasonably large. Let’s save the newly initialized model in a <i>models/</i> folder and push
+it to the Hub:
+model.save_pretrained("models/" + model_ckpt, push_to_hub=True,
+organization=org)

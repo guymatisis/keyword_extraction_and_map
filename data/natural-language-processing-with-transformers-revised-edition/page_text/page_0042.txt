@@ -1,0 +1,41 @@
+classify. In the next section, we’ll see how visualizing the features provides a fast way
+to achieve this.
+<b>Visualizingthetrainingset</b>
+Since visualizing the hidden states in 768 dimensions is tricky to say the least, we’ll
+use the powerful UMAP algorithm to project the vectors down to 2D. 7 Since UMAP
+works best when the features are scaled to lie in the [0,1] interval, we’ll first apply a
+MinMaxScaler umap-learn
+and then use the UMAP implementation from the library
+to reduce the hidden states:
+<b>from</b> <b>umap</b> <b>import</b> UMAP
+<b>from</b> <b>sklearn.preprocessing</b> <b>import</b> MinMaxScaler
+<i>#</i> <i>Scale</i> <i>features</i> <i>to</i> <i>[0,1]</i> <i>range</i>
+X_scaled = MinMaxScaler().fit_transform(X_train)
+<i>#</i> <i>Initialize</i> <i>and</i> <i>fit</i> <i>UMAP</i>
+mapper = UMAP(n_components=2, metric="cosine").fit(X_scaled)
+<i>#</i> <i>Create</i> <i>a</i> <i>DataFrame</i> <i>of</i> <i>2D</i> <i>embeddings</i>
+df_emb = pd.DataFrame(mapper.embedding_, columns=["X", "Y"])
+df_emb["label"] = y_train
+df_emb.head()
+<b>X</b> <b>Y</b> <b>label</b>
+<b>0</b> 4.358075 6.140816 0
+<b>1</b> -3.134567 5.329446 0
+5.152230 2.732643 3
+<b>2</b>
+-2.519018 3.067250 2
+<b>3</b>
+-3.364520 3.356613 3
+<b>4</b>
+The result is an array with the same number of training samples, but with only 2 fea‐
+tures instead of the 768 we started with! Let’s investigate the compressed data a little
+bit further and plot the density of points for each category separately:
+fig, axes = plt.subplots(2, 3, figsize=(7,5))
+axes = axes.flatten()
+cmaps = ["Greys", "Blues", "Oranges", "Reds", "Purples", "Greens"]
+labels = emotions["train"].features["label"].names
+<b>for</b> i, (label, cmap) <b>in</b> enumerate(zip(labels, cmaps)):
+df_emb_sub = df_emb.query(f"label == {i}")
+axes[i].hexbin(df_emb_sub["X"], df_emb_sub["Y"], cmap=cmap,
+gridsize=20, linewidths=(0,))
+7 L.McInnes,J.Healy,andJ.Melville,“UMAP:UniformManifoldApproximationandProjectionforDimen‐
+sionReduction”,(2018).

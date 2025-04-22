@@ -1,0 +1,23 @@
+The various versions of the models (ResNet-18, -34, -50, etc.) just change the number
+of blocks in each of those groups. This is the definition of a ResNet-18:
+rn = ResNet(dls.c, [2,2,2,2])
+Let’s train it for a little bit and see how it fares compared to the previous model:
+learn = get_learner(rn)
+learn.fit_one_cycle(5, 3e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 1.673882 1.828394 0.413758 00:13
+1 1.331675 1.572685 0.518217 00:13
+2 1.087224 1.086102 0.650701 00:13
+3 0.900428 0.968219 0.684331 00:12
+4 0.760280 0.782558 0.757197 00:12
+Even though we have more channels (and our model is therefore even more accu‐
+rate), our training is just as fast as before thanks to our optimized stem.
+To make our model deeper without taking too much compute or memory, we can use
+another kind of layer introduced by the ResNet paper for ResNets with a depth of 50
+or more: the bottleneck layer.
+<header><largefont><b>Bottleneck</b></largefont> <largefont><b>Layers</b></largefont></header>
+Instead of stacking two convolutions with a kernel size of 3, bottleneck layers use
+three convolutions: two 1×1 (at the beginning and the end) and one 3×3, as shown on
+the right in Figure 14-4.
+<i>Figure</i> <i>14-4.</i> <i>Comparison</i> <i>of</i> <i>regular</i> <i>and</i> <i>bottleneck</i> <i>ResNet</i> <i>blocks</i> <i>(courtesy</i> <i>of</i> <i>Kaiming</i>
+<i>He</i> <i>et</i> <i>al.)</i>

@@ -1,0 +1,38 @@
+The embedding lookup is competitive on the micro scores with the previous
+approaches while just having two “learnable” parameters, <i>k</i> and <i>m,</i> but performs
+slightly worse on the macro scores.
+Take these results with a grain of salt; which method works best strongly depends on
+the domain. The zero-shot pipeline’s training data is quite different from the GitHub
+issues dataset we’re using it on, which contains a lot of code that the model likely has
+not encountered much before. For a more common task such as sentiment analysis of
+reviews, the pipeline might work much better. Similarly, the embeddings’ quality
+depends on the model and the data it was trained on. We tried half a dozen models,
+sentence-transformers/stsb-roberta-large
+such as , which was trained to give
+high-quality embeddings of sentences, and microsoft/codebert-base and dbern
+sohn/roberta-python , which were trained on code and documentation. For this spe‐
+cific use case, GPT-2 trained on Python code worked best.
+Since you don’t actually need to change anything in your code besides replacing the
+model checkpoint name to test another model, you can quickly try out a few models
+once you have the evaluation pipeline set up.
+Let’s now compare this simple embedding trick against simply fine-tuning a trans‐
+former on the limited data we have.
+<header><largefont><b>Efficient</b></largefont> <largefont><b>Similarity</b></largefont> <largefont><b>Search</b></largefont> <largefont><b>with</b></largefont> <largefont><b>FAISS</b></largefont></header>
+We first encountered FAISS in Chapter 7, where we used it to retrieve documents via
+the DPR embeddings. Here we’ll explain briefly how the FAISS library works and why
+it is a powerful tool in the ML toolbox.
+We are used to performing fast text queries on huge datasets such as Wikipedia or the
+web with search engines such as Google. When we move from text to embeddings, we
+would like to maintain that performance; however, the methods used to speed up text
+queries don’t apply to embeddings.
+To speed up text search we usually create an inverted index that maps terms to docu‐
+ments. An inverted index works like an index at the end of a book: each word is map‐
+ped to the pages (or in our case, document) it occurs in. When we later run a query
+we can quickly look up in which documents the search terms appear. This works well
+with discrete objects such as words, but does not work with continuous objects such
+as vectors. Each document likely has a unique vector, and therefore the index will
+never match with a new vector. Instead of looking for exact matches, we need to look
+for close or similar matches.
+When we want to find the most similar vectors in a database to a query vector, in
+theory we need to compare the query vector to each of the <i>n</i> vectors in the database.
+For a small database such as we have in this chapter this is no problem, but if we

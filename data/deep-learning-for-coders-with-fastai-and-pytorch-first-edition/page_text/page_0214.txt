@@ -1,0 +1,36 @@
+However, using a deeper model is going to require more GPU RAM, so you may need
+to lower the size of your batches to avoid an <i>out-of-memory</i> <i>error.</i> This happens when
+you try to fit too much inside your GPU and looks like this:
+Cuda runtime error: out of memory
+You may have to restart your notebook when this happens. The way to solve it is to
+use a smaller batch size, which means passing smaller groups of images at any given
+time through your model. You can pass the batch size you want to the call by creating
+your DataLoaders with bs= .
+The other downside of deeper architectures is that they take quite a bit longer to
+train. One technique that can speed things up a lot is <i>mixed-precision</i> <i>training.</i> This
+refers to using less-precise numbers (half-precision <i>floating</i> <i>point,</i> also called <i>fp16)</i>
+where possible during training. As we are writing these words in early 2020, nearly all
+current NVIDIA GPUs support a special feature called <i>tensor</i> <i>cores</i> that can dramati‐
+cally speed up neural network training, by 2–3×. They also require a lot less GPU
+memory. To enable this feature in fastai, just add to_fp16() after your Learner cre‐
+ation (you also need to import the module).
+You can’t really know the best architecture for your particular problem ahead of time
+—you need to try training some. So let’s try a ResNet-50 now with mixed precision:
+<b>from</b> <b>fastai2.callback.fp16</b> <b>import</b> *
+learn = cnn_learner(dls, resnet50, metrics=error_rate).to_fp16()
+learn.fine_tune(6, freeze_epochs=3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 1.427505 0.310554 0.098782 00:21
+1 0.606785 0.302325 0.094723 00:22
+2 0.409267 0.294803 0.091340 00:21
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 0.261121 0.274507 0.083897 00:26
+1 0.296653 0.318649 0.084574 00:26
+2 0.242356 0.253677 0.069012 00:26
+3 0.150684 0.251438 0.065629 00:26
+4 0.094997 0.239772 0.064276 00:26
+5 0.061144 0.228082 0.054804 00:26
+You’ll see here we’ve gone back to using fine_tune, since it’s so handy! We can pass
+freeze_epochs
+to tell fastai how many epochs to train for while frozen. It will auto‐
+matically change learning rates appropriately for most datasets.

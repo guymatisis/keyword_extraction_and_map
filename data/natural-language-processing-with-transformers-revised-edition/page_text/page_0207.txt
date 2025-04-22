@@ -1,0 +1,34 @@
+Answer 2: the Screen is absolutely beautiful
+Answer 3: Kindle fire
+This result isn’t too bad for an answer, but it does suggest that the subjective nature of
+the question is confusing the generator. Let’s try with something a bit more factual:
+generate_answers("What is the main drawback?")
+Question: What is the main drawback?
+Answer 1: the price
+Answer 2: no flash support
+Answer 3: the cost
+This is more sensible! To get better results we could fine-tune RAG end-to-end on
+SubjQA; we’ll leave this as an exercise, but if you’re interested in exploring it there are
+scripts in the Transformers repository to help you get started.
+<header><largefont><b>Conclusion</b></largefont></header>
+Well, that was a whirlwind tour of QA, and you probably have many more questions
+that you’d like answered (pun intended!). In this chapter, we discussed two
+approaches to QA (extractive and generative) and examined two different retrieval
+algorithms (BM25 and DPR). Along the way, we saw that domain adaptation can be a
+simple technique to boost the performance of our QA system by a significant margin,
+and we looked at a few of the most common metrics that are used for evaluating such
+systems. Although we focused on closed-domain QA (i.e., a single domain of elec‐
+tronic products), the techniques in this chapter can easily be generalized to the open-
+domain case; we recommend reading Cloudera’s excellent Fast Forward QA series to
+see what’s involved.
+Deploying QA systems in the wild can be a tricky business to get right, and our expe‐
+rience is that a significant part of the value comes from first providing end users with
+useful search capabilities, followed by an extractive component. In this respect, the
+reader can be used in novel ways beyond answering on-demand user queries. For
+example, researchers at Grid Dynamics were able to use their reader to automatically
+extract a set of pros and cons for each product in a client’s catalog. They also showed
+that a reader can be used to extract named entities in a zero-shot fashion by creating
+queries like “What kind of camera?” Given its infancy and subtle failure modes, we
+recommend exploring generative QA only once the other two approaches have been
+exhausted. This “hierarchy of needs” for tackling QA problems is illustrated in
+Figure 7-14.

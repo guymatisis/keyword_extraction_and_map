@@ -1,0 +1,20 @@
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 1.677074 1.827367 0.467548 00:02
+1 1.282722 1.870913 0.388942 00:02
+2 1.090705 1.651793 0.462500 00:02
+3 1.005092 1.613794 0.516587 00:02
+4 0.965975 1.560775 0.551202 00:02
+5 0.916182 1.595857 0.560577 00:02
+6 0.897657 1.539733 0.574279 00:02
+7 0.836274 1.585141 0.583173 00:02
+8 0.805877 1.629808 0.586779 00:02
+9 0.795096 1.651267 0.588942 00:02
+This is already better! The next step is to use more targets and compare them to the
+intermediate predictions.
+<header><largefont><b>Creating</b></largefont> <largefont><b>More</b></largefont> <largefont><b>Signal</b></largefont></header>
+Another problem with our current approach is that we predict only one output word
+for each three input words. As a result, the amount of signal that we are feeding back
+to update weights with is not as large as it could be. It would be better if we predicted
+the next word after every single word, rather than every three words, as shown in
+Figure 12-5.
+<i>Figure</i> <i>12-5.</i> <i>RNN</i> <i>predicting</i> <i>after</i> <i>every</i> <i>token</i>

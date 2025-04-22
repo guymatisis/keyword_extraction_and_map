@@ -1,0 +1,26 @@
+<i>Figure</i> <i>5-2.</i> <i>Third</i> <i>and</i> <i>subsequent</i> <i>steps</i> <i>of</i> <i>the</i> <i>query</i> <i>to</i> <i>find</i> <i>the</i> <i>five</i> <i>most</i> <i>“positive”</i>
+<i>complaints.</i>
+The third step sorts the dataset in descending order and takes five. This is done on
+each worker, so each of the 10 workers finds the 5 most positive complaints in “their”
+shard. The remaining steps retrieve and format the remaining bits of data and write
+them to the output.
+The final step (not shown) takes the 50 complaints, sorts them, and selects the 5 that
+form the actual result. The ability to separate work in this way across many workers is
+what enables BigQuery to carry out the entire operation on 1.5 million complaint
+documents in 35 seconds.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+The Batch Serving design pattern depends on the ability to split a task across multiple
+workers. So, it is not restricted to data warehouses or even to SQL. Any MapReduce
+framework will work. However, SQL data warehouses tend to be the easiest and are
+often the default choice, especially when the data is structured in nature.
+Even though batch serving is used when latency is not a concern, it is possible to
+incorporate precomputed results and periodic refreshing to use this in scenarios
+where the space of possible prediction inputs is limited.
+<b>Batchandstreampipelines</b>
+Frameworks like Apache Spark or Apache Beam are useful when the input needs pre‐
+processing before it can be supplied to the model, if the machine learning model out‐
+puts require postprocessing, or if either the preprocessing or postprocessing are hard
+to express in SQL. If the inputs to the model are images, audio, or video, then SQL is
+not an option and it is necessary to use a data processing framework that can handle
+unstructured data. These frameworks can also take advantage of accelerated hard‐
+ware like TPUs and GPUs to carry out preprocessing of the images.

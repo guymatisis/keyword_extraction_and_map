@@ -1,0 +1,30 @@
+Before proceeding with the tools outlined in this section, it’s worth
+analyzing both the dataset and prediction task to determine
+whether there is potential for problematic bias. This requires look‐
+ing closer at <i>who</i> will be impacted by a model, and <i>how</i> those
+groups will be impacted. If problematic bias seems likely, the tech‐
+nical approaches outlined in this section provide a good starting
+point for mitigating this type of bias. If, on the other hand, the
+skew in the dataset contains naturally occurring bias that will not
+have adverse effects on different groups of people, “Design Pattern
+10: Rebalancing ” on page 122 in Chapter 3 provides solutions for
+handling data that is inherently imbalanced.
+Throughout this section, we’ll be referencing a public dataset of US mortgage appli‐
+cations. Loan agencies in the US are required to report information on an individual
+application, like the type of loan, the applicant’s income, the agency handling the
+loan, and the status of the application. We will train a loan application approval
+model on this dataset in order to demonstrate different aspects of fairness. To our
+knowledge, this dataset is not used as is by any loan agency to train ML models, and
+so the fairness red flags we raise are only hypothetical.
+We’ve created a subset of this dataset and done some preprocessing to turn this into a
+binary classification problem—whether an application was approved or denied. In
+Figure 7-9, we can see a preview of the dataset.
+<i>Figure</i> <i>7-9.</i> <i>A</i> <i>preview</i> <i>of</i> <i>a</i> <i>few</i> <i>columns</i> <i>from</i> <i>the</i> <i>US</i> <i>mortgage</i> <i>application</i> <i>dataset</i> <i>refer‐</i>
+<i>enced</i> <i>throughout</i> <i>this</i> <i>section.</i>
+<b>Beforetraining</b>
+Because ML models are a direct representation of the data used to train them, it’s
+possible to mitigate a significant amount of bias <i>before</i> building or training a model
+by performing thorough data analysis, and using the results of this analysis to adjust
+our data. In this phase, focus on identifying data collection or data representation
+bias, outlined in the Problem section. Table 7-3 shows some questions to consider for
+each type of bias depending on data type.

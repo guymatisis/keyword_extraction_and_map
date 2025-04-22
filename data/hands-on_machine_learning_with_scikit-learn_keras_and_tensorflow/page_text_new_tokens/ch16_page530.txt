@@ -1,0 +1,30 @@
+when the instances in the training set are independent and identically distributed (see
+Chapter 4), we need to shuffle these windows. Then we can batch the windows and
+separate the inputs (the first 100 characters) from the target (the last character):
+batch_size = 32
+dataset = dataset.shuffle(10000).batch(batch_size)
+dataset = dataset.map(lambda windows: (windows[:, :-1], windows[:, 1:]))
+Figure 16-1 summarizes the dataset preparation steps discussed so far (showing win‐
+dows of length 11 rather than 101, and a batch size of 3 instead of 32).
+<i>Figure</i> <i>16-1.</i> <i>Preparing</i> <i>a</i> <i>dataset</i> <i>of</i> <i>shuffled</i> <i>windows</i>
+As discussed in Chapter 13, categorical input features should generally be encoded,
+usually as one-hot vectors or as embeddings. Here, we will encode each character
+using a one-hot vector because there are fairly few distinct characters (only 39):
+dataset = dataset.map(
+<b>lambda</b> X_batch, Y_batch: (tf.one_hot(X_batch, depth=max_id), Y_batch))
+Finally, we just need to add prefetching:
+dataset = dataset.prefetch(1)
+That’s it! Preparing the dataset was the hardest part. Now let’s create the model.
+<header><largefont><b>Building</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Char-RNN</b></largefont> <largefont><b>Model</b></largefont></header>
+To predict the next character based on the previous 100 characters, we can use an
+GRU drop
+RNN with 2 layers of 128 units each and 20% dropout on both the inputs (
+out ) and the hidden states ( recurrent_dropout ). We can tweak these hyperparame‐
+Dense
+ters later, if needed. The output layer is a time-distributed layer like we saw in
+(max_id)
+Chapter 15. This time this layer must have 39 units because there are 39 dis‐
+tinct characters in the text, and we want to output a probability for each possible
+character (at each time step). The output probabilities should sum up to 1 at each
+Dense
+time step, so we apply the softmax activation function to the outputs of the

@@ -1,0 +1,16 @@
+<header><largefont><b>The</b></largefont> <largefont><b>Encoder</b></largefont></header>
+As we saw earlier, the transformer’s encoder consists of many encoder layers stacked
+next to each other. As illustrated in Figure 3-2, each encoder layer receives a sequence
+of embeddings and feeds them through the following sublayers:
+• A multi-head self-attention layer
+• A fully connected feed-forward layer that is applied to each input embedding
+The output embeddings of each encoder layer have the same size as the inputs, and
+we’ll soon see that the main role of the encoder stack is to “update” the input embed‐
+dings to produce representations that encode some contextual information in the
+sequence. For example, the word “apple” will be updated to be more “company-like”
+and less “fruit-like” if the words “keynote” or “phone” are close to it.
+<i>Figure</i> <i>3-2.</i> <i>Zooming</i> <i>into</i> <i>the</i> <i>encoder</i> <i>layer</i>
+Each of these sublayers also uses skip connections and layer normalization, which are
+standard tricks to train deep neural networks effectively. But to truly understand what
+makes a transformer work, we have to go deeper. Let’s start with the most important
+building block: the self-attention layer.

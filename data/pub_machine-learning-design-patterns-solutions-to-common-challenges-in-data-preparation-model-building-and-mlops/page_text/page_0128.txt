@@ -1,0 +1,35 @@
+<header><largefont><b>Output</b></largefont> <largefont><b>Layer</b></largefont> <largefont><b>Bias</b></largefont></header>
+In conjunction with assigning class weights, it is also helpful to initialize the model’s
+output layer with a bias to account for dataset imbalance. Why would we want to
+manually set the initial bias for our output layer? When we have imbalanced datasets,
+setting the output bias will help our model converge faster. This is because the bias of
+the last (prediction) layer of a trained model will output, on average, the log of the
+ratio of minority to majority examples in the dataset. By setting the bias, the model
+already starts out at the “correct” value without having to discover it through gradient
+descent.
+By default, Keras uses a bias of zero. This corresponds with the bias we’d want to use
+log(1/1) = 0
+for a perfectly balanced dataset where . To calculate the correct bias
+while taking our dataset balance into account, use:
+bias = log(num_minority_examples / num_majority_examples)
+<b>Upsampling</b>
+Another common technique for handling imbalanced datasets is <i>upsampling.</i> With
+upsampling, we overrepresent our minority class by both replicating minority class
+examples and generating additional, synthetic examples. This is often done in combi‐
+nation with downsampling the majority class. This approach—combining downsam‐
+pling and upsampling—was proposed in 2002 and referred to as Synthetic Minority
+Over-sampling Technique (SMOTE). SMOTE provides an algorithm that constructs
+these synthetic examples by analyzing the feature space of minority class examples in
+the dataset and then generates similar examples within this feature space using a
+nearest neighbors approach. Depending on how many similar data points we choose
+to consider at once (also referred to as the number of nearest neighbors), the SMOTE
+approach randomly generates a new minority class example between these points.
+Let’s look at the Pima Indian Diabetes Dataset to see how this works at a high level.
+34% of this dataset contains examples of patients who had diabetes, so we’ll consider
+this our minority class. Table 3-3 shows a subset of columns for two minority class
+examples.
+<i>Table</i> <i>3-3.</i> <i>A</i> <i>subset</i> <i>of</i> <i>features</i> <i>for</i> <i>two</i> <i>training</i> <i>examples</i> <i>from</i> <i>the</i> <i>minority</i> <i>class</i> <i>(has</i>
+<i>diabetes)</i> <i>in</i> <i>the</i> <i>Pima</i> <i>Indian</i> <i>Diabetes</i> <i>Dataset</i>
+<b>Glucose</b> <b>BloodPressure</b> <b>SkinThickness</b> <b>BMI</b>
+148 72 35 33.6
+183 64 0 23.3

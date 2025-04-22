@@ -1,0 +1,36 @@
+With elementwise arithmetic, we can remove one of our three nested loops: we can
+multiply the tensors that correspond to the i-th row of a and the j-th column of b
+before summing all the elements, which will speed things up because the inner loop
+will now be executed by PyTorch at C speed.
+To access one column or row, we can simply write a[i,:] or b[:,j]. The : means
+take everything in that dimension. We could restrict this and take only a slice of that
+dimension by passing a range, like 1:5, instead of just :. In that case, we would take
+the elements in columns 1 to 4 (the second number is noninclusive).
+One simplification is that we can always omit a trailing colon, so a[i,:] can be
+abbreviated to a[i] . With all of that in mind, we can write a new version of our
+matrix multiplication:
+<b>def</b> matmul(a,b):
+ar,ac = a.shape
+br,bc = b.shape
+<b>assert</b> ac==br
+c = torch.zeros(ar, bc)
+<b>for</b> i <b>in</b> range(ar):
+<b>for</b> j <b>in</b> range(bc): c[i,j] = (a[i] * b[:,j]).sum()
+<b>return</b> c
+%timeit -n 20 t3 = matmul(m1,m2)
+1.7 ms ± 88.1 µs per loop (mean ± std. dev. of 7 runs, 20 loops each)
+We’re already ~700 times faster, just by removing that inner for loop! And that’s just
+the beginning—with broadcasting, we can remove another loop and get an even
+more important speedup.
+<header><largefont><b>Broadcasting</b></largefont></header>
+As we discussed in Chapter 4, <i>broadcasting</i> is a term introduced by the Numpy
+Library that describes how tensors of different ranks are treated during arithmetic
+operations. For instance, it’s obvious there is no way to add a 3×3 matrix with a 4×5
+matrix, but what if we want to add one scalar (which can be represented as a 1×1 ten‐
+sor) with a matrix? Or a vector of size 3 with a 3×4 matrix? In both cases, we can find
+a way to make sense of this operation.
+Broadcasting gives specific rules to codify when shapes are compatible when trying to
+do an elementwise operation, and how the tensor of the smaller shape is expanded to
+match the tensor of the bigger shape. It’s essential to master those rules if you want to
+be able to write code that executes quickly. In this section, we’ll expand our previous
+treatment of broadcasting to understand these rules.

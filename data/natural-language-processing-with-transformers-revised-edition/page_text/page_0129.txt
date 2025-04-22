@@ -1,0 +1,41 @@
+<b>Input</b> <b>Choice1</b> <b>Choice2</b> <b>Choice3</b> <b>Choice4</b> <b>Choice5</b>
+<b>4</b> Transformersarethemost in(46.28%) of(15.09%) ,(4.94%) on(4.40%) ever(2.72%)
+populartoyline
+<b>5</b> Transformersarethemost the(65.99%) history America(6.91%) Japan(2.44%) North(1.40%)
+populartoylinein (12.42%)
+<b>6</b> Transformersarethemost world United history(4.29%) US(4.23%) U(2.30%)
+populartoylineinthe (69.26%) (4.55%)
+<b>7</b> Transformersarethemost ,(39.73%) .(30.64%) and(9.87%) with(2.32%) today(1.74%)
+populartoylineintheworld
+With this simple method we were able to generate the sentence “Transformers are the
+most popular toy line in the world”. Interestingly, this indicates that GPT-2 has inter‐
+nalized some knowledge about the Transformers media franchise, which was created
+by two toy companies (Hasbro and Takara Tomy). We can also see the other possible
+continuations at each step, which shows the iterative nature of text generation. Unlike
+other tasks such as sequence classification where a single forward pass suffices to gen‐
+erate the predictions, with text generation we need to decode the output tokens one at
+a time.
+Implementing greedy search wasn’t too hard, but we’ll want to use the built-in
+generate() function from Transformers to explore more sophisticated decoding
+methods. To reproduce our simple example, let’s make sure sampling is switched off
+(it’s off by default, unless the specific configuration of the model you are loading the
+checkpoint from states otherwise) and specify the max_new_tokens for the number of
+newly generated tokens:
+input_ids = tokenizer(input_txt, return_tensors="pt")["input_ids"].to(device)
+output = model.generate(input_ids, max_new_tokens=n_steps, do_sample=False)
+<b>print(tokenizer.decode(output[0]))</b>
+Transformers are the most popular toy line in the world,
+Now let’s try something a bit more interesting: can we reproduce the unicorn story
+from OpenAI? As we did previously, we’ll encode the prompt with the tokenizer, and
+max_length
+we’ll specify a larger value for to generate a longer sequence of text:
+max_length = 128
+input_txt = """In a shocking finding, scientist discovered <b>\</b>
+a herd of unicorns living in a remote, previously unexplored <b>\</b>
+valley, in the Andes Mountains. Even more surprising to the <b>\</b>
+researchers was the fact that the unicorns spoke perfect English.\n\n
+"""
+input_ids = tokenizer(input_txt, return_tensors="pt")["input_ids"].to(device)
+output_greedy = model.generate(input_ids, max_length=max_length,
+do_sample=False)
+<b>print(tokenizer.decode(output_greedy[0]))</b>

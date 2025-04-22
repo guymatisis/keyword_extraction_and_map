@@ -1,0 +1,40 @@
+<b>In-PlaceOperations</b>
+Methods in PyTorch whose names end in an underscore modify
+their objects <i>in</i> <i>place.</i> For instance, bias.zero_ sets all elements of
+the tensor bias to 0.
+Our only remaining step is to update the weights and biases based on the gradient
+and learning rate. When we do so, we have to tell PyTorch not to take the gradient of
+this step too—otherwise, things will get confusing when we try to compute the deriv‐
+ative at the next batch! If we assign to the data attribute of a tensor, PyTorch will not
+take the gradient of that step. Here’s our basic training loop for an epoch:
+<b>def</b> train_epoch(model, lr, params):
+<b>for</b> xb,yb <b>in</b> dl:
+calc_grad(xb, yb, model)
+<b>for</b> <b>in</b>
+p params:
+p.data -= p.grad*lr
+p.grad.zero_()
+We also want to check how we’re doing, by looking at the accuracy of the validation
+set. To decide if an output represents a 3 or a 7, we can just check whether it’s greater
+than 0. So our accuracy for each item can be calculated (using broadcasting, so no
+loops!) as follows:
+(preds>0.0).float() == train_y[:4]
+tensor([[False],
+[ True],
+[ True],
+[False]])
+That gives us this function to calculate our validation accuracy:
+<b>def</b> batch_accuracy(xb, yb):
+preds = xb.sigmoid()
+correct = (preds>0.5) == yb
+<b>return</b> correct.float().mean()
+We can check it works:
+batch_accuracy(linear1(batch), train_y[:4])
+tensor(0.5000)
+And then put the batches together:
+<b>def</b>
+validate_epoch(model):
+accs = [batch_accuracy(model(xb), yb) <b>for</b> xb,yb <b>in</b> valid_dl]
+<b>return</b> round(torch.stack(accs).mean().item(), 4)
+validate_epoch(linear1)
+0.5219

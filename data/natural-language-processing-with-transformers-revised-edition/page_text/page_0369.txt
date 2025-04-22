@@ -1,0 +1,26 @@
+form suitable for the model, while the tokenizer is responsible for decoding the mod‐
+el’s predictions into text:
+<b>from</b> <b>transformers</b> <b>import</b> CLIPProcessor, CLIPModel
+clip_ckpt = "openai/clip-vit-base-patch32"
+model = CLIPModel.from_pretrained(clip_ckpt)
+processor = CLIPProcessor.from_pretrained(clip_ckpt)
+Then we need a fitting image to try it out. What would be better suited than a picture
+of Optimus Prime?
+image = Image.open("images/optimusprime.jpg")
+plt.imshow(image)
+plt.axis("off")
+plt.show()
+Next, we set up the texts to compare the image against and pass it through the model:
+<b>import</b> <b>torch</b>
+texts = ["a photo of a transformer", "a photo of a robot", "a photo of agi"]
+inputs = processor(text=texts, images=image, return_tensors="pt", padding=True)
+<b>with</b> torch.no_grad():
+outputs = model(**inputs)
+logits_per_image = outputs.logits_per_image
+probs = logits_per_image.softmax(dim=1)
+probs
+tensor([[0.9557, 0.0413, 0.0031]])
+Well, it almost got the right answer (a photo of AGI of course). Jokes aside, CLIP
+makes image classification very flexible by allowing us to define classes through text
+instead of having the classes hardcoded in the model architecture. This concludes our
+tour of multimodal transformer models, but we hope we’ve whetted your appetite.

@@ -1,0 +1,30 @@
+pipeline itself, like adding a new component. We can do both with the TFX CLI. We
+can define the scaffolding for our pipeline in a single Python script, which has two
+key parts:
+• An instance of tfx.orchestration.pipeline where we define our pipeline and the
+components it includes.
+• An instance of kubeflow_dag_runner from the tfx library. We’ll use this to create
+and run our pipeline. In addition to the Kubeflow runner, there’s also an API for
+running TFX pipelines with Apache Beam, which we could use to run our pipe‐
+line locally.
+Our pipeline (see full code in GitHub) will have the five steps or components defined
+above, and we can define our pipeline with the following:
+pipeline.Pipeline(
+pipeline_name='huricane_prediction',
+pipeline_root='path/to/pipeline/code',
+components=[
+bigquery_gen, statistics_gen, schema_gen, train, model_pusher
+]
+)
+BigQueryExampleGen
+To use the component provided by TFX, we provide the query
+that will fetch our data. We can define this component in one line of code, where
+query is our BigQuery SQL query as a string:
+bigquery_gen = BigQueryExampleGen(query=query)
+Another benefit of using pipelines is that it provides tooling to keep track of the
+input, output artifacts, and logs for each component. The output of the statis
+tics_gen
+component, for example, is a summary of our dataset, which we can see in
+Figure 6-7. statistics_gen is a pre-built component available in TFX that uses TF
+Data Validation to generate summary statistics on our dataset.
+<i>Figure</i> <i>6-7.</i> <i>The</i> <i>output</i> <i>artifact</i> <i>from</i> <i>the</i> <i>statistics_gen</i> <i>component</i> <i>in</i> <i>a</i> <i>TFX</i> <i>pipeline.</i>

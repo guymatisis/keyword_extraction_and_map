@@ -1,0 +1,40 @@
+At the heart of this process lies a decoding method that determines which token is
+selected at each timestep. Since the language model head produces a logit <i>z</i> per
+<i>t,i</i>
+token in the vocabulary at each step, we can get the probability distribution over the
+next possible token <i>w</i> by taking the softmax:
+<i>i</i>
+
+<i>P</i> <i>y</i> = <i>w</i> <i>y</i> , = softmax <i>z</i>
+<i>t</i> <i>i</i> < <i>t</i> <i>t,i</i>
+The goal of most decoding methods is to search for the most likely overall sequence
+
+by picking a such that:
+
+= argmax <i>P</i>
+
+Finding  directly would involve evaluating every possible sequence with the lan‐
+guage model. Since there does not exist an algorithm that can do this in a reasonable
+amount of time, we rely on approximations instead. In this chapter we’ll explore a few
+of these approximations and gradually build up toward smarter and more complex
+algorithms that can be used to generate high-quality texts.
+<header><largefont><b>Greedy</b></largefont> <largefont><b>Search</b></largefont> <largefont><b>Decoding</b></largefont></header>
+The simplest decoding method to get discrete tokens from a model’s continuous out‐
+put is to greedily select the token with the highest probability at each timestep:
+<i>y</i> = argmax <i>P</i> <i>y</i> <i>y</i> ,
+<i>t</i> <i>t</i> < <i>t</i>
+<i>y</i>
+<i>t</i>
+To see how greedy search works, let’s start by loading the 1.5-billion-parameter ver‐
+sion of GPT-2 with a language modeling head:3
+<b>import</b> <b>torch</b>
+<b>from</b> <b>transformers</b> <b>import</b> AutoTokenizer, AutoModelForCausalLM
+device = "cuda" <b>if</b> torch.cuda.is_available() <b>else</b> "cpu"
+model_name = "gpt2-xl"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
+Now let’s generate some text! Although Transformers provides a generate() func‐
+tion for autoregressive models like GPT-2, we’ll implement this decoding method
+3 Ifyourunoutofmemoryonyourmachine,youcanloadasmallerGPT-2versionbyreplacingmodel_name =
+"gpt-xl" model_name = "gpt"
+with .

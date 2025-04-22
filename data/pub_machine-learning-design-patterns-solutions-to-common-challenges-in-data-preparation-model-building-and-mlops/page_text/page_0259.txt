@@ -1,0 +1,46 @@
+<header><largefont><b>Solution</b></largefont></header>
+First, we identify a column that captures the correlation relationship between rows.
+In our airline delay dataset, this is the date column. Then, we use the last few digits of
+a hash function on that column to split the data. For the airline delay problem, we
+date
+can use the Farm Fingerprint hashing algorithm on the column to split the
+available data into training, validation, and testing datasets.
+For more on the Farm Fingerprint algorithm, support for other
+frameworks and languages, and the relationship between hashing
+and cryptography, please see “Design Pattern 1: Hashed Feature”
+on page 32 in Chapter 2. In particular, open source wrappers of the
+Farm Hash algorithm are available in a number of languages
+(including Python), and so this pattern can be applied even if data
+is not in a data warehouse that supports a repeatable hash out of
+the box.
+date
+Here is how to split the dataset based on the hash of the column:
+<b>SELECT</b>
+airline,
+departure_airport,
+departure_schedule,
+arrival_airport,
+arrival_delay
+<b>FROM</b>
+`bigquery-samples`.airline_ontime_data.flights
+<b>WHERE</b>
+<b>ABS(MOD(FARM_FINGERPRINT(date),</b> 10)) < 8 <i>--</i> <i>80%</i> <i>for</i> <i>TRAIN</i>
+To split on the date column, we compute its hash using the FARM_FINGERPRINT func‐
+tion and then use the modulo function to find an arbitrary 80% subset of the rows.
+FARM_FINGERPRINT
+This is now repeatable—because the function returns the same
+value any time it is invoked on a specific date, we can be sure we will get the same
+80% of data each time. As a result, all the flights on any given date will belong to the
+same split—train, validation, or test. This is repeatable regardless of the random seed.
+arrival_airport
+If we want to split our data by (so that 80% of airports are in the
+training dataset, perhaps because we are trying to predict something about airport
+arrival_airport date
+amenities), we would compute the hash on instead of .
+< 8
+It is also straightforward to get the validation data: change the in the query above
+to =8 , and for testing data, change it to =9 . This way, we get 10% of samples in valida‐
+tion and 10% in testing.
+date
+What are the considerations for choosing the column to split on? The column
+has to have several characteristics for us to be able to use it as the splitting column:

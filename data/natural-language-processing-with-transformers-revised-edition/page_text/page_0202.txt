@@ -1,0 +1,27 @@
+subjqa_data = {}
+<i>#</i> <i>Create</i> <i>`paragraphs`</i> <i>for</i> <i>each</i> <i>product</i> <i>ID</i>
+groups = (df.groupby("title").apply(create_paragraphs)
+.to_frame(name="paragraphs").reset_index())
+subjqa_data["data"] = groups.to_dict(orient="records")
+<i>#</i> <i>Save</i> <i>the</i> <i>result</i> <i>to</i> <i>disk</i>
+<b>with</b> open(f"electronics-{split}.json", "w+", encoding="utf-8") <b>as</b> f:
+json.dump(subjqa_data, f)
+convert_to_squad(dfs)
+Now that we have the splits in the right format, let’s fine-tune our reader by specify‐
+ing the locations of the train and dev splits, along with where to save the fine-tuned
+model:
+train_filename = "electronics-train.json"
+dev_filename = "electronics-validation.json"
+reader.train(data_dir=".", use_gpu=True, n_epochs=1, batch_size=16,
+train_filename=train_filename, dev_filename=dev_filename)
+With the reader fine-tuned, let’s now compare its performance on the test set against
+our baseline model:
+reader_eval["Fine-tune on SQuAD + SubjQA"] = evaluate_reader(reader)
+plot_reader_eval(reader_eval)
+Wow, domain adaptation has increased our EM score by a factor of six and more than
+doubled the <i>F</i> -score! At this point, you might be wondering why we didn’t just fine-
+1
+tune a pretrained language model directly on the SubjQA training set. One reason is
+that we only have 1,295 training examples in SubjQA while SQuAD has over 100,000,
+so we might run into challenges with overfitting. Nevertheless, let’s take a look at what
+naive fine-tuning produces. For a fair comparison, we’ll use the same language model

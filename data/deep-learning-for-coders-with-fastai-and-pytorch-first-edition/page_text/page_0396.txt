@@ -1,0 +1,21 @@
+We can see, however, that if we were to just zero those activations without doing any‐
+thing else, our model would have problems training: if we go from the sum of five
+activations (that are all positive numbers since we apply a ReLU) to just two, this
+won’t have the same scale. Therefore, if we apply dropout with a probability p , we
+rescale all activations by dividing them by 1-p (on average p will be zeroed, so it
+leaves 1-p), as shown in Figure 12-11.
+<i>Figure</i> <i>12-11.</i> <i>Why</i> <i>we</i> <i>scale</i> <i>the</i> <i>activations</i> <i>when</i> <i>applying</i> <i>dropout</i> <i>(courtesy</i> <i>of</i> <i>Nitish</i>
+<i>Srivastava</i> <i>et</i> <i>al.)</i>
+This is a full implementation of the dropout layer in PyTorch (although PyTorch’s
+native layer is actually written in C, not Python):
+<b>class</b> <b>Dropout(Module):</b>
+<b>def</b> <b>__init__(self,</b> p): self.p = p
+<b>def</b> forward(self, x):
+<b>if</b> <b>not</b> self.training: <b>return</b> x
+mask = x.new(*x.shape).bernoulli_(1-p)
+<b>return</b> x * mask.div_(1-p)
+bernoulli_ p)
+The method is creating a tensor of random zeros (with probability and
+ones (with probability 1-p), which is then multiplied with our input before dividing
+by 1-p . Note the use of the training attribute, which is available in any PyTorch
+nn.Module, and tells us if we are doing training or inference.

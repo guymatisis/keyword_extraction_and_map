@@ -1,0 +1,34 @@
+<header><largefont><b>Training</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Binary</b></largefont> <largefont><b>Classifier</b></largefont></header>
+Let’s simplify the problem for now and only try to identify one digit—for example,
+the number 5. This “5-detector” will be an example of a <i>binary</i> <i>classifier,</i> capable of
+distinguishing between just two classes, 5 and not-5. Let’s create the target vectors for
+this classification task:
+y_train_5 = (y_train == 5) <i>#</i> <i>True</i> <i>for</i> <i>all</i> <i>5s,</i> <i>False</i> <i>for</i> <i>all</i> <i>other</i> <i>digits</i>
+y_test_5 = (y_test == 5)
+Now let’s pick a classifier and train it. A good place to start is with a <i>Stochastic</i> <i>Gradi‐</i>
+SGDClassifier
+<i>ent</i> <i>Descent</i> (SGD) classifier, using Scikit-Learn’s class. This classifier
+has the advantage of being capable of handling very large datasets efficiently. This is
+in part because SGD deals with training instances independently, one at a time
+(which also makes SGD well suited for online learning), as we will see later. Let’s cre‐
+SGDClassifier
+ate an and train it on the whole training set:
+<b>from</b> <b>sklearn.linear_model</b> <b>import</b> SGDClassifier
+sgd_clf = SGDClassifier(random_state=42)
+sgd_clf.fit(X_train, y_train_5)
+SGDClassifier
+The relies on randomness during training (hence
+the name “stochastic”). If you want reproducible results, you
+random_state
+should set the parameter.
+Now we can use it to detect images of the number 5:
+<b>>>></b> sgd_clf.predict([some_digit])
+array([ True])
+True
+The classifier guesses that this image represents a 5 ( ). Looks like it guessed right
+in this particular case! Now, let’s evaluate this model’s performance.
+<header><largefont><b>Performance</b></largefont> <largefont><b>Measures</b></largefont></header>
+Evaluating a classifier is often significantly trickier than evaluating a regressor, so we
+will spend a large part of this chapter on this topic. There are many performance
+measures available, so grab another coffee and get ready to learn many new concepts
+and acronyms!

@@ -1,0 +1,38 @@
+• Data governance is made difficult if each ML project computes features from
+sensitive data differently.
+• Ad hoc features aren’t easily shared between teams or across projects. In many
+organizations, the same raw data is used by multiple teams, but separate teams
+may define features differently and there is no easy access to feature documenta‐
+tion. This also hinders effective cross-collaboration of teams, leading to siloed
+work and unnecessarily duplicated effort.
+• Ad hoc features used for training and serving are inconsistent—i.e., training–
+serving skew. Training is typically done using historical data with batch features
+that are created offline. However, serving is typically carried out online. If the
+feature pipeline for training differs at all from the pipeline used in production for
+serving (for example, different libraries, preprocessing code, or languages), then
+we run the risk of training–serving skew.
+• Productionizing features is difficult. When moving to production, there is no
+standardized framework to serve features for online ML models and to serve
+batch features for offline model training. Models are trained offline using fea‐
+tures created in batch processes, but when served in production, these features
+are often created with an emphasis on low latency and less on high throughput.
+The framework for feature generation and storage is not flexible to handle both
+of these scenarios.
+In short, the ad hoc approach to feature engineering slows model development and
+leads to duplicated effort and work stream inefficiency. Furthermore, feature creation
+is inconsistent between training and inference, running the risk of training–serving
+skew or data leakage by accidentally introducing label information into the model
+input pipeline.
+<header><largefont><b>Solution</b></largefont></header>
+The solution is to create a shared feature store, a centralized location to store and
+document feature datasets that will be used in building machine learning models and
+can be shared across projects and teams. The feature store acts as the interface
+between the data engineer’s pipelines for feature creation and the data scientist’s
+workflow building models using those features (Figure 6-12). This way, there is a
+central repository to house precomputed features, which speeds development time
+and aids in feature discovery. This also allows the basic software engineering princi‐
+ples of versioning, documentation, and access control to be applied to the features
+that are created.
+A typical feature store is built with two key design characteristics: tooling to process
+large feature data sets quickly, and a way to store features that supports both low-
+latency access (for inference) and large batch access (for model training). There is

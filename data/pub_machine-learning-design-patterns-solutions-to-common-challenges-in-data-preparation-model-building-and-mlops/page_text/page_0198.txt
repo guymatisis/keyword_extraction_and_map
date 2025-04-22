@@ -1,0 +1,39 @@
+evolutionary theory of natural selection. This theory, also known as “survival of the
+fittest,” posits that the highest-performing (“fittest”) members of a population will
+survive and pass their genes to future generations, while less-fit members will not.
+Genetic algorithms have been applied to different types of optimization problems,
+including hyperparameter tuning.
+As it relates to hyperparameter search, a genetic approach works by first defining a
+<i>fitness</i> <i>function.</i> This function measures the quality of a particular trial, and can typi‐
+cally be defined by your model’s optimization metric (accuracy, error, and so on).
+After defining your fitness function, you randomly select a few combinations of
+hyperparameters from your search space and run a trial for each of those combina‐
+tions. You then take the hyperparameters from the trials that performed best, and use
+those values to define your new search space. This search space becomes your new
+“population,” and you use it to generate new combinations of values to use in your
+next set of trials. You continue this process, narrowing down the number of trials you
+run until you’ve arrived at a result that satisfies your requirements.
+Because they use the results of previous trials to improve, genetic algorithms are
+“smarter” than manual, grid, and random search. However, when the hyperparame‐
+ter search space is large, the complexity of genetic algorithms increases. Rather than
+using a surrogate function as a proxy for model training like in Bayesian optimiza‐
+tion, genetic algorithms require training your model for each possible combination of
+hyperparameter values. Additionally, at the time of writing, genetic algorithms are
+less common and there are fewer ML frameworks that support them out of the box
+for hyperparameter tuning.
+<header><largefont><b>Summary</b></largefont></header>
+This chapter focused on design patterns that modify the typical SGD training loop of
+machine learning. We started with looking at the <i>Useful</i> <i>Overfitting</i> pattern, which
+covered situations where overfitting is beneficial. For example, when using data-
+driven methods like machine learning to approximate solutions to complex dynami‐
+cal systems or PDEs where the full input space can be covered, overfitting on the
+training set is the goal. Overfitting is also useful as a technique when developing and
+debugging ML model architectures. Next, we covered model <i>Checkpoints</i> and how to
+use them when training ML models. In this design pattern, we save the full state of
+the model periodically during training. These checkpoints can be used as the final
+model, as in the case of early stopping, or used as the starting points in the case of
+training failures or fine-tuning.
+The <i>Transfer</i> <i>Learning</i> design pattern covered reusing parts of a previously trained
+model. Transfer learning is a useful way to leverage the learned feature extraction lay‐
+ers of the pre-trained model when your own dataset is limited. It can also be used to
+fine-tune a pre-trained model that was trained on a large generic dataset to your

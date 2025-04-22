@@ -1,0 +1,21 @@
+which converts spoken words to text and enables voice technologies like Siri to
+answer questions like “What is the weather like today?”
+The wav2vec 2.0 family of models are one of the most recent developments in ASR:
+they use a transformer layer in combination with a CNN, as illustrated in
+Figure 11-12.14 By leveraging unlabeled data during pretraining, these models achieve
+competitive results with only a few minutes of labeled data.
+<i>Figure</i> <i>11-12.</i> <i>Architecture</i> <i>of</i> <i>wav2vec</i> <i>2.0</i> <i>(courtesy</i> <i>of</i> <i>Alexei</i> <i>Baevski)</i>
+The wav2vec 2.0 models are integrated in Transformers, and you won’t be sur‐
+prised to learn that loading and using them follows the familiar steps that we have
+seen throughout this book. Let’s load a pretrained model that was trained on 960
+hours of speech audio:
+asr = pipeline("automatic-speech-recognition")
+To apply this model to some audio files we’ll use the ASR subset of the SUPERB data‐
+set, which is the same dataset the model was pretrained on. Since the dataset is quite
+large, we’ll just load one example for our demo purposes:
+<b>from</b> <b>datasets</b> <b>import</b> load_dataset
+ds = load_dataset("superb", "asr", split="validation[:1]")
+<b>print(ds[0])</b>
+{'chapter_id': 128104, 'speaker_id': 1272, 'file': '~/.cache/huggingf
+ace/datasets/downloads/extracted/e4e70a454363bec1c1a8ce336139866a39442114d86a433
+14 A.Baevskietal.,“wav2vec2.0:AFrameworkforSelf-SupervisedLearningofSpeechRepresentations”,(2020).

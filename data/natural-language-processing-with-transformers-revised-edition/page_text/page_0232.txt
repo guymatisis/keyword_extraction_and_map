@@ -1,0 +1,19 @@
+ones.13
+get back floating-point numbers when we dequantize the fixed-point An illus‐
+tration of the conversion is shown in Figure 8-6.
+<i>Figure</i> <i>8-6.</i> <i>Quantizing</i> <i>floating-point</i> <i>numbers</i> <i>as</i> <i>unsigned</i> <i>8-bit</i> <i>integers</i> <i>(courtesy</i> <i>of</i>
+<i>Manas</i> <i>Sahni)</i>
+Now, one of the main reasons why transformers (and deep neural networks more
+generally) are prime candidates for quantization is that the weights and activations
+tend to take values in relatively small ranges. This means we don’t have to squeeze the
+8
+whole range of possible FP32 numbers into, say, the 2 = 256 numbers represented by
+INT8. To see this, let’s pick out one of the attention weight matrices from our distilled
+model and plot the frequency distribution of the values:
+<b>import</b> <b>matplotlib.pyplot</b> <b>as</b> <b>plt</b>
+state_dict = pipe.model.state_dict()
+weights = state_dict["distilbert.transformer.layer.0.attention.out_lin.weight"]
+plt.hist(weights.flatten().numpy(), bins=250, range=(-0.3,0.3), edgecolor="C0")
+plt.show()
+13 Anaffinemapisjustafancynameforthe <i>y</i> = <i>Ax+bmapthatyou’refamiliarwithinthelinearlayersofa</i>
+neuralnetwork.

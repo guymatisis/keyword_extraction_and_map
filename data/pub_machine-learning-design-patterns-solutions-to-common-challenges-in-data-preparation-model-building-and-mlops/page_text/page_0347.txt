@@ -1,0 +1,44 @@
+<i>Table</i> <i>7-3.</i> <i>Descriptions</i> <i>of</i> <i>different</i> <i>types</i> <i>of</i> <i>data</i> <i>bias</i>
+<b>Definition</b> <b>Considerationsforanalysis</b>
+Datadistribution Datathatdoesn’tcontainan
+• Doesthedatacontainabalancedsetofexamplesacrossallrelevant
+bias equalrepresentationofall
+demographicslices(gender,age,race,religion,etc.)?
+possiblegroupsthatwilluse
+• Doeseachlabelinthedatacontainabalancedsplitofallpossible
+themodelinproduction
+variationsofthislabel?(E.g.,theshoeexampleintheProblem
+section.)
+Data Datathatiswellbalanced,
+• Forclassificationmodels,arelabelsbalancedacrossrelevantfeatures?
+representation butdoesn’trepresent
+Forexample,inadatasetintendedforcreditworthinessprediction,
+bias differentslicesofdata
+doesthedatacontainanequalrepresentationacrossgender,race,and
+equally otheridentitycharacteristicsofpeoplemarkedasunlikelytopayback
+aloan?
+• Istherebiasinthewaydifferentdemographicgroupsarerepresented
+inthedata?Thisisespeciallyrelevantformodelspredictingsentiment
+oraratingvalue.
+• Istheresubjectivebiasintroducedbydatalabelers?
+Once we’ve examined our data and corrected for bias, we should take these same
+considerations into account when splitting our data into training, test, and validation
+sets. That is to say, once our full dataset is balanced, it’s essential that our train, test,
+and validation splits maintain the same balance. Returning to our shoe image exam‐
+ple, let’s imagine we’ve improved our dataset to include varied images of 10 types of
+shoes. The training set should contain a similar percentage of each type of shoe as the
+test and validation sets. This will ensure that our model reflects and is being evaluated
+on real-world scenarios.
+To see what this dataset analysis looks like in practice, we’ll use the What-If Tool on
+the mortgage dataset introduced above. This will let us visualize the current balance
+of our data across various slices. The What-If Tool works both with and without a
+model. Since we haven’t built our model yet, we can initialize the What-If Tool
+widget by passing it only our data:
+config_builder = WitConfigBuilder(test_examples, column_names)
+WitWidget(config_builder)
+In Figure 7-10, we can see what the tool looks like when it loads when passed 1,000
+examples from our dataset. The first tab is called the “Datapoint editor,” which pro‐
+vides an overview of our data and lets us inspect individual examples. In this visuali‐
+zation, our data points are colored by the label—whether or not a mortgage
+application was approved. An individual example is also highlighted, and we can see
+the feature values associated with it.

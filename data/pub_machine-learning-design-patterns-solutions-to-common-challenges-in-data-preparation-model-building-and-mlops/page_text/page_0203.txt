@@ -1,0 +1,40 @@
+are expensive and difficult to manage. When designing enterprise applications, archi‐
+tects are careful to minimize the number of stateful components. Web applications,
+for example, are often designed to work based on REST APIs, and these involve
+transfer of state from the client to the server with each call.
+In a machine learning model, there is a lot of state captured during training. Things
+like the epoch number and learning rate are part of a model’s state and have to be
+remembered because typically, the learning rate is decayed with each successive
+epoch. By saying that the model has to be exported as a stateless function, we are
+requiring the model framework creators to keep track of these stateful variables and
+not include them in the exported file.
+When stateless functions are used, it simplifies the server code and makes it more
+scalable but can make client code more complicated. For example, some model func‐
+tions are inherently stateful. A spelling correction model that takes a word and
+returns the corrected form will need to be stateful because it has to know the previous
+few words in order to correct a word like “there” to “their” depending on the context.
+Models that operate on sequences maintain history using special structures like
+recurrent neural network units. In such cases, needing to export the model as a state‐
+less function requires changing the input from a single word to, for example, a sen‐
+tence. This means clients of a spelling correction model will need to manage the state
+(to collect a sequence of words and break them up into sentences) and send it along
+with every request. The resulting client-side complexity is most visible when the
+spell-checking client has to go back and change a previous word because of context
+that gets added later.
+<header><largefont><b>Problem</b></largefont></header>
+Let’s take a text classification model that uses, as its training data, movie reviews from
+the Internet Movie Database (IMDb). For the initial layer of the model, we will use a
+pre-trained embedding that maps text to 20-dimensional embedding vectors (for the
+full code, see the <i>serving_function.ipynb</i> notebook in the GitHub repository for this
+book):
+model = tf.keras.Sequential()
+embedding = (
+"https://tfhub.dev/google/tf2-preview/gnews-swivel-20dim-with-oov/1")
+hub_layer = hub.KerasLayer(embedding, input_shape=[],
+dtype=tf.string, <b>trainable=True,</b> name='full_text')
+model.add(hub_layer)
+model.add(tf.keras.layers.Dense(16, activation='relu', name='h1_dense'))
+model.add(tf.keras.layers.Dense(1, name='positive_review_logits'))
+The embedding layer is obtained from TensorFlow Hub and marked as being traina‐
+ble so that we can carry out fine-tuning (see “Design Pattern 13: Transfer Learning”
+on page 161 in Chapter 4) on the vocabulary found in IMDb reviews. The subsequent

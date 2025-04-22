@@ -1,0 +1,38 @@
+But it’s sometimes not flexible enough. For debugging purposes, for instance, we
+might need to apply just parts of the transforms that come with this data block. Or we
+might want to create a DataLoaders for an application that isn’t directly supported by
+fastai. In this section, we’ll dig into the pieces that are used inside fastai to implement
+the data block API. Understanding these will enable you to leverage the power and
+flexibility of this mid-tier API.
+<b>Mid-LevelAPI</b>
+The mid-level API does not contain only functionality for creating
+DataLoaders.
+It also has the <i>callback</i> system, which allows us to
+customize the training loop any way we like, and the <i>general</i> <i>opti‐</i>
+<i>mizer.</i> Both will be covered in Chapter 16.
+<header><largefont><b>Transforms</b></largefont></header>
+When we studied tokenization and numericalization in the preceding chapter, we
+started by grabbing a bunch of texts:
+files = get_text_files(path, folders = ['train', 'test'])
+txts = L(o.open().read() <b>for</b> o <b>in</b> files[:2000])
+Tokenizer
+We then showed how to tokenize them with a
+tok = Tokenizer.from_folder(path)
+tok.setup(txts)
+toks = txts.map(tok)
+toks[0]
+(#374) ['xxbos','xxmaj','well',',','"','cube','"','(','1997',')'...]
+and how to numericalize, including automatically creating the vocab for our corpus:
+num = Numericalize()
+num.setup(toks)
+nums = toks.map(num)
+nums[0][:10]
+tensor([ 2, 8, 76, 10, 23, 3112, 23, 34, 3113, 33])
+The classes also have a decode method. For instance, Numericalize.decode gives us
+back the string tokens:
+nums_dec = num.decode(nums[0][:10]); nums_dec
+(#10) ['xxbos','xxmaj','well',',','"','cube','"','(','1997',')']
+Tokenizer.decode
+turns this back into a single string (it may not, however, be exactly
+the same as the original string; this depends on whether the tokenizer is <i>reversible,</i>
+which the default word tokenizer is not at the time we’re writing this book):

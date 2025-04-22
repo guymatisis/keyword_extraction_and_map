@@ -1,0 +1,38 @@
+saledate
+The date of the sale.
+In any sort of data science work, it’s important to <i>look</i> <i>at</i> <i>your</i> <i>data</i> <i>directly</i> to make
+sure you understand the format, how it’s stored, what types of values it holds, etc.
+Even if you’ve read a description of the data, the actual data may not be what you
+expect. We’ll start by reading the training set into a Pandas DataFrame. Generally, it’s
+a good idea to also specify low_memory=False unless Pandas actually runs out of
+memory and returns an error. The low_memory parameter, which is True by default,
+tells Pandas to look at only a few rows of data at a time to figure out what type of data
+is in each column. This means that Pandas can end up using different data types for
+different rows, which generally leads to data processing errors or model training
+problems later.
+Let’s load our data and have a look at the columns:
+df = pd.read_csv(path/'TrainAndValid.csv', low_memory=False)
+df.columns
+Index(['SalesID', 'SalePrice', 'MachineID', 'ModelID', 'datasource',
+'auctioneerID', 'YearMade', 'MachineHoursCurrentMeter', 'UsageBand',
+'saledate', 'fiModelDesc', 'fiBaseModel', 'fiSecondaryDesc',
+'fiModelSeries', 'fiModelDescriptor', 'ProductSize',
+'fiProductClassDesc', 'state', 'ProductGroup', 'ProductGroupDesc',
+'Drive_System', 'Enclosure', 'Forks', 'Pad_Type', 'Ride_Control',
+'Stick', 'Transmission', 'Turbocharged', 'Blade_Extension',
+'Blade_Width', 'Enclosure_Type', 'Engine_Horsepower', 'Hydraulics',
+'Pushblock', 'Ripper', 'Scarifier', 'Tip_Control', 'Tire_Size',
+'Coupler', 'Coupler_System', 'Grouser_Tracks', 'Hydraulics_Flow',
+'Track_Type', 'Undercarriage_Pad_Width', 'Stick_Length', 'Thumb',
+'Pattern_Changer', 'Grouser_Type', 'Backhoe_Mounting', 'Blade_Type',
+'Travel_Controls', 'Differential_Type', 'Steering_Controls'],
+dtype='object')
+That’s a lot of columns for us to look at! Try looking through the dataset to get a sense
+of what kind of information is in each one. We’ll shortly see how to “zero in” on the
+most interesting bits.
+At this point, a good next step is to handle <i>ordinal</i> <i>columns.</i> This refers to columns
+containing strings or similar, but where those strings have a natural ordering. For
+instance, here are the levels of ProductSize :
+df['ProductSize'].unique()
+array([nan, 'Medium', 'Small', 'Large / Medium', 'Mini', 'Large', 'Compact'],
+> dtype=object)

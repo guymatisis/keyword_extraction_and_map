@@ -1,0 +1,37 @@
+However, the feature store provides an added advantage of feature reusability that
+tf.transform does not have. Although tf.transform pipelines ensure reproducibil‐
+ity, the features are created and developed only for that model and are not easily
+shared or reused by other models and pipelines.
+tf.transform
+On the other hand, takes special care to ensure that feature creation
+during serving is carried out on accelerated hardware, since it is part of the serving
+graph. Feature stores typically do not provide this capability today.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>27:</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>Versioning</b></largefont></header>
+In the Model Versioning design pattern, backward compatibility is achieved by
+deploying a changed model as a microservice with a different REST endpoint. This is
+a necessary prerequisite for many of the other patterns discussed in this chapter.
+<header><largefont><b>Problem</b></largefont></header>
+As we’ve seen with <i>data</i> <i>drift</i> (introduced in Chapter 1), models can become stale
+over time and need to be updated regularly to make sure they reflect an organiza‐
+tion’s changing goals, and the environment associated with their training data.
+Deploying model updates to production will inevitably affect the way models behave
+on new data, which presents a challenge—we need an approach for keeping produc‐
+tion models up to date while still ensuring backward compatibility for existing model
+users.
+Updates to an existing model might include changing a model’s architecture in order
+to improve accuracy, or retraining a model on more recent data to address drift.
+While these types of changes likely won’t require a different model output format,
+they will affect the prediction results users get from a model. As an example, let’s
+imagine we’re building a model that predicts the genre of a book from its description
+and uses the predicted genres to make recommendations to users. We trained our
+initial model on a dataset of older classic books, but now have access to new data on
+thousands of more recent books to use for training. Training on this updated dataset
+improves our overall model accuracy, but slightly reduces accuracy on older “classic”
+books. To handle this, we’ll need a solution that lets users choose an older version of
+our model if they prefer.
+Alternatively, our model’s end users might start to require more information on <i>how</i>
+the model is arriving at a specific prediction. In a medical use case, a doctor might
+need to see the regions in an x-ray that caused a model to predict the presence of dis‐
+ease rather than rely solely on the predicted label. In this case, the response from a
+deployed model would need to be updated to include these highlighted regions. This
+process is known as <i>explainability</i> and is discussed further in Chapter 7.

@@ -1,0 +1,18 @@
+sequence without ambiguities and without relying on language-specific pretokeniz‐
+ers. In our example from the previous section, for instance, we can see that Word‐
+Piece has lost the information that there is no whitespace between “York” and “!”. By
+contrast, SentencePiece preserves the whitespace in the tokenized text so we can con‐
+vert back to the raw text without ambiguity:
+"".join(xlmr_tokens).replace(u"\u2581", " ")
+'<s> Jack Sparrow loves New York!</s>'
+Now that we understand how SentencePiece works, let’s see how we can encode our
+simple example in a form suitable for NER. The first thing to do is load the pretrained
+model with a token classification head. But instead of loading this head directly from
+Transformers, we will build it ourselves! By diving deeper into the Transformers
+API, we can do this with just a few steps.
+<header><largefont><b>Transformers</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Named</b></largefont> <largefont><b>Entity</b></largefont> <largefont><b>Recognition</b></largefont></header>
+In Chapter 2, we saw that for text classification BERT uses the special [CLS] token to
+represent an entire sequence of text. This representation is then fed through a fully
+connected or dense layer to output the distribution of all the discrete label values, as
+shown in Figure 4-2.
+<i>Figure</i> <i>4-2.</i> <i>Fine-tuning</i> <i>an</i> <i>encoder-based</i> <i>transformer</i> <i>for</i> <i>sequence</i> <i>classification</i>

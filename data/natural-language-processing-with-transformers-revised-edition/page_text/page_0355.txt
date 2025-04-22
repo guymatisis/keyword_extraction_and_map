@@ -1,0 +1,34 @@
+and developing effective strategies for them allows us to address a wide range of real-
+world problems.
+However, there are limits to this approach, including:
+<i>Human</i> <i>reporting</i> <i>bias</i>
+The frequencies of events in text may not represent their true frequencies. 9 A
+model solely trained on text from the internet might have a very distorted image
+of the world.
+<i>Common</i> <i>sense</i>
+Common sense is a fundamental quality of human reasoning, but is rarely writ‐
+ten down. As such, language models trained on text might know many facts
+about the world, but lack basic common-sense reasoning.
+<i>Facts</i>
+A probabilistic language model cannot store facts in a reliable way and can pro‐
+duce text that is factually wrong. Similarly, such models can detect named enti‐
+ties, but have no direct way to access information about them.
+<i>Modality</i>
+Language models have no way to connect to other modalities that could address
+the previous points, such as audio or visual signals or tabular data.
+So, if we could solve the modality limitations we could potentially address some of
+the others as well. Recently there has been a lot of progress in pushing transformers
+to new modalities, and even building multimodal models. In this section we’ll high‐
+light a few of these advances.
+<header><largefont><b>Vision</b></largefont></header>
+Vision has been the stronghold of convolutional neural networks (CNNs) since they
+kickstarted the deep learning revolution. More recently, transformers have begun to
+be applied to this domain and to achieve efficiency similar to or better than CNNs.
+Let’s have a look at a few examples.
+<b>iGPT</b>
+Inspired by the success of the GPT family of models with text, iGPT (short for image
+GPT) applies the same methods to images.10 By viewing images as sequences of pixels,
+iGPT uses the GPT architecture and autoregressive pretraining objective to predict
+9 J.GordonandB.VanDurme,“ReportingBiasandKnowledgeExtraction”,(2013).
+10 M.Chenetal.,“GenerativePretrainingfromPixels,”Proceedingsofthe37thInternationalConferenceon
+<i>MachineLearning119(2020):1691–1703,https://proceedings.mlr.press/v119/chen20s.html.</i>

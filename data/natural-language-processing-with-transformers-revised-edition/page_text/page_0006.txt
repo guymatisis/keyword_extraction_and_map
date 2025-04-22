@@ -1,0 +1,28 @@
+Although attention enabled the production of much better translations, there was still
+a major shortcoming with using recurrent models for the encoder and decoder: the
+computations are inherently sequential and cannot be parallelized across the input
+sequence.
+With the transformer, a new modeling paradigm was introduced: dispense with
+recurrence altogether, and instead rely entirely on a special form of attention called
+<i>self-attention.</i> We’ll cover self-attention in more detail in Chapter 3, but the basic idea
+is to allow attention to operate on all the states in the <i>same</i> <i>layer</i> of the neural net‐
+work. This is shown in Figure 1-6, where both the encoder and the decoder have their
+own self-attention mechanisms, whose outputs are fed to feed-forward neural net‐
+works (FF NNs). This architecture can be trained much faster than recurrent models
+and paved the way for many of the recent breakthroughs in NLP.
+<i>Figure</i> <i>1-6.</i> <i>Encoder-decoder</i> <i>architecture</i> <i>of</i> <i>the</i> <i>original</i> <i>Transformer</i>
+In the original Transformer paper, the translation model was trained from scratch on
+a large corpus of sentence pairs in various languages. However, in many practical
+applications of NLP we do not have access to large amounts of labeled text data to
+train our models on. A final piece was missing to get the transformer revolution
+started: transfer learning.
+<header><largefont><b>Transfer</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>in</b></largefont> <largefont><b>NLP</b></largefont></header>
+It is nowadays common practice in computer vision to use transfer learning to train a
+convolutional neural network like ResNet on one task, and then adapt it to or <i>fine-</i>
+<i>tune</i> it on a new task. This allows the network to make use of the knowledge learned
+from the original task. Architecturally, this involves splitting the model into of a <i>body</i>
+and a <i>head,</i> where the head is a task-specific network. During training, the weights of
+the body learn broad features of the source domain, and these weights are used to ini‐
+tialize a new model for the new task. 7 Compared to traditional supervised learning,
+this approach typically produces high-quality models that can be trained much more
+7 Weightsarethelearnableparametersofaneuralnetwork.

@@ -1,0 +1,37 @@
+`bigquery-public-data.samples.natality`
+<b>LIMIT</b> 10000
+The resulting model will cluster our data into four groups. Once the model has been
+created, we can then generate predictions on new data and look at that prediction’s
+distance from existing clusters. If the distance is high, we can flag the data point as an
+anomaly. To generate a cluster prediction on our model, we can run the following
+query, passing it a made-up average example from the dataset:
+<b>SELECT</b>
+*
+<b>FROM</b>
+ML.PREDICT (MODEL `project-name.dataset-name.baby_weight`,
+(
+<b>SELECT</b>
+7.0 <b>as</b> weight_pounds,
+28 <b>as</b> mother_age,
+40 <b>as</b> gestation_weeks
+)
+)
+The query results in Table 3-6 show us the distance between this data point and the
+model’s generated clusters, called centroids.
+<i>Table</i> <i>3-6.</i> <i>The</i> <i>distance</i> <i>between</i> <i>our</i> <i>average</i> <i>weight</i> <i>example</i> <i>data</i> <i>point</i> <i>and</i> <i>each</i> <i>of</i> <i>the</i>
+<i>clusters</i> <i>generated</i> <i>by</i> <i>our</i> <i>k-means</i> <i>model</i>
+<b>CENTROID_ID</b> <b>NEAREST_CENTROIDS_DISTANCE.CENTROID_ID</b> <b>NEAREST_CENTROIDS_DISTANCE.DISTANCE</b>
+4 4 0.29998627812137374
+1 1.2370167418282159
+2 1.376651161584178
+3 1.6853517159990536
+This example clearly fits into centroid 4, as seen by the small distance (.29).
+We can compare this to the results we get if we send an outlier, underweight example
+to the model, as shown in Table 3-7.
+<i>Table</i> <i>3-7.</i> <i>The</i> <i>distance</i> <i>between</i> <i>our</i> <i>underweight</i> <i>example</i> <i>data</i> <i>point</i> <i>and</i> <i>each</i> <i>of</i> <i>the</i>
+<i>clusters</i> <i>generated</i> <i>by</i> <i>our</i> <i>k-means</i> <i>model</i>
+<b>CENTROID_ID</b> <b>NEAREST_CENTROIDS_DISTANCE.CENTROID_ID</b> <b>NEAREST_CENTROIDS_DISTANCE.DISTANCE</b>
+3 3 3.061985789261998
+4 3.3124603501734966
+2 4.330205096751425
+1 4.658614918595627

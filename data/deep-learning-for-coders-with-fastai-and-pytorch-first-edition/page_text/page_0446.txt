@@ -1,0 +1,25 @@
+the models. Most interestingly, the difference was observed not only in the validation
+set, but also in the training set; so it wasn’t just a generalization issue, but a training
+issue. As the paper explains:
+Unexpectedly, such degradation is not caused by overfitting, and adding more layers to
+a suitably deep model leads to higher training error, as [previously reported] and thor‐
+oughly verified by our experiments.
+This phenomenon was illustrated by the graph in Figure 14-1, with training error on
+the left and test error on the right.
+<i>Figure</i> <i>14-1.</i> <i>Training</i> <i>of</i> <i>networks</i> <i>of</i> <i>different</i> <i>depth</i> <i>(courtesy</i> <i>of</i> <i>Kaiming</i> <i>He</i> <i>et</i> <i>al.)</i>
+As the authors mention here, they are not the first people to have noticed this curious
+fact. But they were the first to make a very important leap:
+Let us consider a shallower architecture and its deeper counterpart that adds more lay‐
+ers onto it. There exists a solution by construction to the deeper model: the added lay‐
+ers are identity mapping, and the other layers are copied from the learned shallower
+model.
+As this is an academic paper, this process is described in a rather inaccessible way, but
+the concept is actually very simple: start with a 20-layer neural network that is trained
+well, and add another 36 layers that do nothing at all (for instance, they could be lin‐
+ear layers with a single weight equal to 1, and bias equal to 0). The result will be a 56-
+layer network that does exactly the same thing as the 20-layer network, proving that
+there are always deep networks that should be <i>at</i> <i>least</i> <i>as</i> <i>good</i> as any shallow network.
+But for some reason, SGD does not seem able to find them.
+<b>Jargon:IdentityMapping</b>
+Returning the input without changing it at all. This process is per‐
+formed by an <i>identity</i> <i>function.</i>

@@ -1,0 +1,16 @@
+efficiently on a variety of downstream tasks, and with much less labeled data. A com‐
+parison of the two approaches is shown in Figure 1-7.
+<i>Figure</i> <i>1-7.</i> <i>Comparison</i> <i>of</i> <i>traditional</i> <i>supervised</i> <i>learning</i> <i>(left)</i> <i>and</i> <i>transfer</i> <i>learning</i>
+<i>(right)</i>
+In computer vision, the models are first trained on large-scale datasets such as Image‐
+Net, which contain millions of images. This process is called <i>pretraining</i> and its main
+purpose is to teach the models the basic features of images, such as edges or colors.
+These pretrained models can then be fine-tuned on a downstream task such as classi‐
+fying flower species with a relatively small number of labeled examples (usually a few
+hundred per class). Fine-tuned models typically achieve a higher accuracy than
+supervised models trained from scratch on the same amount of labeled data.
+Although transfer learning became the standard approach in computer vision, for
+many years it was not clear what the analogous pretraining process was for NLP. As a
+result, NLP applications typically required large amounts of labeled data to achieve
+high performance. And even then, that performance did not compare to what was
+achieved in the vision domain.

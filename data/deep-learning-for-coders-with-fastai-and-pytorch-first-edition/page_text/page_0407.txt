@@ -1,0 +1,24 @@
+<header><largefont><b>Mapping</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Convolutional</b></largefont> <largefont><b>Kernel</b></largefont></header>
+We can map apply_kernel() across the coordinate grid. That is, we’ll be taking our
+3×3 kernel and applying it to each 3×3 section of our image. For instance, Figure 13-2
+shows the positions a 3×3 kernel can be applied to in the first row of a 5×5 image.
+<i>Figure</i> <i>13-2.</i> <i>Applying</i> <i>a</i> <i>kernel</i> <i>across</i> <i>a</i> <i>grid</i>
+To get a grid of coordinates, we can use a <i>nested</i> <i>list</i> <i>comprehension,</i> like so:
+[[(i,j) <b>for</b> j <b>in</b> range(1,5)] <b>for</b> i <b>in</b> range(1,5)]
+[[(1, 1), (1, 2), (1, 3), (1, 4)],
+[(2, 1), (2, 2), (2, 3), (2, 4)],
+[(3, 1), (3, 2), (3, 3), (3, 4)],
+[(4, 1), (4, 2), (4, 3), (4, 4)]]
+<b>NestedListComprehensions</b>
+Nested list comprehensions are used a lot in Python, so if you
+haven’t seen them before, take a few minutes to make sure you
+understand what’s happening here, and experiment with writing
+your own nested list comprehensions.
+Here’s the result of applying our kernel over a coordinate grid:
+rng = range(1,27)
+top_edge3 = tensor([[apply_kernel(i,j,top_edge) <b>for</b> j <b>in</b> rng] <b>for</b> i <b>in</b> rng])
+show_image(top_edge3);
+Looking good! Our top edges are black, and bottom edges are white (since they are
+the <i>opposite</i> of top edges). Now that our image contains negative numbers too, mat
+plotlib has automatically changed our colors so that white is the smallest number in
+the image, black the highest, and zeros appear as gray.

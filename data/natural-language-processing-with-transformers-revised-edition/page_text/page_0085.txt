@@ -1,0 +1,8 @@
+transformer encoder model. We added embedding layers for tokens and positional
+information, we built in a feed-forward layer to complement the attention heads, and
+finally we added a classification head to the model body to make predictions. We also
+had a look at the decoder side of the Transformer architecture, and concluded the
+chapter with an overview of the most important model architectures.
+Now that you have a better understanding of the underlying principles, let’s go
+beyond simple classification and build a multilingual named entity recognition
+model.

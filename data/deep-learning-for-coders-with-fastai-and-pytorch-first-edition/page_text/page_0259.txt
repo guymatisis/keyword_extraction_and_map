@@ -1,0 +1,35 @@
+To represent collaborative filtering in PyTorch, we can’t just use the crosstab repre‐
+sentation directly, especially if we want it to fit into our deep learning framework. We
+can represent our movie and user latent factor tables as simple matrices:
+n_users = len(dls.classes['user'])
+n_movies = len(dls.classes['title'])
+n_factors = 5
+user_factors = torch.randn(n_users, n_factors)
+movie_factors = torch.randn(n_movies, n_factors)
+To calculate the result for a particular movie and user combination, we have to look
+up the index of the movie in our movie latent factor matrix, and the index of the user
+in our user latent factor matrix; then we can do our dot product between the two
+latent factor vectors. But <i>look</i> <i>up</i> <i>in</i> <i>an</i> <i>index</i> is not an operation our deep learning
+models know how to do. They know how to do matrix products and activation
+functions.
+Fortunately, it turns out that we can represent <i>look</i> <i>up</i> <i>in</i> <i>an</i> <i>index</i> as a matrix product.
+The trick is to replace our indices with one-hot-encoded vectors. Here is an example
+of what happens if we multiply a vector by a one-hot-encoded vector representing the
+index 3:
+one_hot_3 = one_hot(3, n_users).float()
+user_factors.t() @ one_hot_3
+tensor([-0.4586, -0.9915, -0.4052, -0.3621, -0.5908])
+It gives us the same vector as the one at index 3 in the matrix:
+user_factors[3]
+tensor([-0.4586, -0.9915, -0.4052, -0.3621, -0.5908])
+If we do that for a few indices at once, we will have a matrix of one-hot-encoded vec‐
+tors, and that operation will be a matrix multiplication! This would be a perfectly
+acceptable way to build models using this kind of architecture, except that it would
+use a lot more memory and time than necessary. We know that there is no real under‐
+lying reason to store the one-hot-encoded vector, or to search through it to find the
+occurrence of the number 1—we should just be able to index into an array directly
+with an integer. Therefore, most deep learning libraries, including PyTorch, include a
+special layer that does just this; it indexes into a vector using an integer, but has its
+derivative calculated in such a way that it is identical to what it would have been if it
+had done a matrix multiplication with a one-hot-encoded vector. This is called an
+<i>embedding.</i>

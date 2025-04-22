@@ -1,0 +1,21 @@
+learn.show_results(ds_idx=1, max_n=3, figsize=(6,8))
+It’s quite amazing that with just a few minutes of computation, we’ve created such an
+accurate key points model, and without any special domain-specific application. This
+is the power of building on flexible APIs and using transfer learning! It’s particularly
+striking that we’ve been able to use transfer learning so effectively, even between
+totally different tasks; our pretrained model was trained to do image classification,
+and we fine-tuned for image regression.
+<header><largefont><b>Conclusion</b></largefont></header>
+In problems that are at first glance completely different (single-label classification,
+multi-label classification, and regression), we end up using the same model with just
+different numbers of outputs. The loss function is the one thing that changes, which
+is why it’s important to double-check that you are using the right loss function for
+your problem.
+fastai will automatically try to pick the right one from the data you built, but if you
+are using pure PyTorch to build your DataLoaders, make sure you think hard about
+your choice of loss function, and remember that you most probably want the
+following:
+• nn.CrossEntropyLoss for single-label classification
+• nn.BCEWithLogitsLoss for multi-label classification
+nn.MSELoss
+• for regression

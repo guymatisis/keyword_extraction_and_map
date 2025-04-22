@@ -1,0 +1,46 @@
+inputs=["Query"])
+pipe.add_node(component=self.eval_retriever, name="EvalRetriever",
+inputs=["ESRetriever"])
+self.pipeline = pipe
+pipe = EvalRetrieverPipeline(es_retriever)
+name inputs
+Notice that each node is given a and a list of . In most cases, each node
+has a single outgoing edge, so we just need to include the name of the previous node
+in inputs .
+Now that we have our evaluation pipeline, we need to pass some queries and their
+label
+corresponding answers. To do this, we’ll add the answers to a dedicated index
+on our document store. Haystack provides a Label object that represents the answer
+label
+spans and their metadata in a standardized fashion. To populate the index,
+we’ll first create a list of Label objects by looping over each question in the test set
+and extracting the matching answers and additional metadata:
+<b>from</b> <b>haystack</b> <b>import</b> Label
+labels = []
+<b>for</b> i, row <b>in</b> dfs["test"].iterrows():
+<i>#</i> <i>Metadata</i> <i>used</i> <i>for</i> <i>filtering</i> <i>in</i> <i>the</i> <i>Retriever</i>
+meta = {"item_id": row["title"], "question_id": row["id"]}
+<i>#</i> <i>Populate</i> <i>labels</i> <i>for</i> <i>questions</i> <i>with</i> <i>answers</i>
+<b>if</b> len(row["answers.text"]):
+<b>for</b> answer <b>in</b> row["answers.text"]:
+label = Label(
+question=row["question"], answer=answer, id=i, origin=row["id"],
+meta=meta, is_correct_answer=True, is_correct_document=True,
+no_answer=False)
+labels.append(label)
+<i>#</i> <i>Populate</i> <i>labels</i> <i>for</i> <i>questions</i> <i>without</i> <i>answers</i>
+<b>else:</b>
+label = Label(
+question=row["question"], answer="", id=i, origin=row["id"],
+meta=meta, is_correct_answer=True, is_correct_document=True,
+no_answer=True)
+labels.append(label)
+If we peek at one of these labels:
+<b>print(labels[0])</b>
+{'id': 'e28f5e62-85e8-41b2-8a34-fbff63b7a466', 'created_at': None, 'updated_at':
+None, 'question': 'What is the tonal balance of these headphones?', 'answer': 'I
+have been a headphone fanatic for thirty years', 'is_correct_answer': True,
+'is_correct_document': True, 'origin': 'd0781d13200014aa25860e44da9d5ea7',
+'document_id': None, 'offset_start_in_doc': None, 'no_answer': False,
+'model_id': None, 'meta': {'item_id': 'B00001WRSJ', 'question_id':
+'d0781d13200014aa25860e44da9d5ea7'}}

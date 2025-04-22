@@ -1,0 +1,42 @@
+The implementation in scikit-learn is also straightforward:
+<b>from</b> <b>sklearn.ensemble</b> <b>import</b> GradientBoostingRegressor
+<i>#</i> <i>Create</i> <i>the</i> <i>Gradient</i> <i>Boosting</i> <i>regressor</i>
+GB_model = GradientBoostingRegressor(n_estimators=1,
+max_depth=1,
+learning_rate=1,
+criterion='mse')
+<i>#</i> <i>Fit</i> <i>on</i> <i>training</i> <i>data</i>
+GB_model.fit(X_train, Y_train)
+<b>Stacking</b>
+Stacking is an ensemble method that combines the outputs of a collection of models
+to make a prediction. The initial models, which are typically of different model types,
+are trained to completion on the full training dataset. Then, a secondary meta-model
+is trained using the initial model outputs as features. This second meta-model learns
+how to best combine the outcomes of the initial models to decrease the training error
+and can be any type of machine learning model.
+To implement a stacking ensemble, we first train all the members of the ensemble on
+the training dataset. The following code calls a function, fit_model , that takes as
+X_train Y_train
+arguments a model and the training dataset inputs and label . This
+way <i>members</i> is a list containing all the trained models in our ensemble. The full code
+for this example can be found in the code repository for this book:
+members = [model_1, model_2, model_3]
+<i>#</i> <i>fit</i> <i>and</i> <i>save</i> <i>models</i>
+n_members = len(members)
+<b>for</b> i <b>in</b> range(n_members):
+<i>#</i> <i>fit</i> <i>model</i>
+model = fit_model(members[i])
+<i>#</i> <i>save</i> <i>model</i>
+filename = 'models/model_' + str(i + 1) + '.h5'
+model.save(filename, save_format='tf')
+<b>print('Saved</b> {}\n'.format(filename))
+These submodels are incorporated into a larger stacking ensemble model as individ‐
+ual inputs. Since these input models are trained alongside the secondary ensemble
+model, we fix the weights of these input models. This can be done by setting
+layer.trainable False
+to for the ensemble member models:
+<b>for</b> i <b>in</b> range(n_members):
+model = members[i]
+<b>for</b> layer <b>in</b> model.layers:
+<i>#</i> <i>make</i> <i>not</i> <i>trainable</i>
+layer.trainable = False

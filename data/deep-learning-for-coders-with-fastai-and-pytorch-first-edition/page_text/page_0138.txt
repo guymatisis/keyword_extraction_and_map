@@ -1,0 +1,32 @@
+We will use Jupyter to do some little checks of our work along the way—in this case,
+making sure that the number of returned items seems reasonable:
+seven_tensors = [tensor(Image.open(o)) <b>for</b> o <b>in</b> sevens]
+three_tensors = [tensor(Image.open(o)) <b>for</b> o <b>in</b> threes]
+len(three_tensors),len(seven_tensors)
+(6131, 6265)
+<b>ListComprehensions</b>
+List and dictionary comprehensions are a wonderful feature of
+Python. Many Python programmers use them every day, including
+the authors of this book—they are part of “idiomatic Python.” But
+programmers coming from other languages may have never seen
+them before. A lot of great tutorials are just a web search away, so
+we won’t spend a long time discussing them now. Here is a quick
+explanation and example to get you started. A list comprehension
+looks like this: new_list = [f(o) for o in a_list if o>0].
+This will return every element of a_list that is greater than 0, after
+passing it to the function f. There are three parts here: the collec‐
+tion you are iterating over (a_list), an optional filter (if o>0),
+and something to do to each element ( f(o) ). It’s not only shorter to
+write, but also way faster than the alternative ways of creating the
+same list with a loop.
+We’ll also check that one of the images looks OK. Since we now have tensors (which
+Jupyter by default will print as values), rather than PIL images (which Jupyter by
+default will display images), we need to use fastai’s show_image function to display it:
+show_image(three_tensors[1]);
+For every pixel position, we want to compute the average over all the images of the
+intensity of that pixel. To do this, we first combine all the images in this list into a
+single three-dimensional tensor. The most common way to describe such a tensor is
+to call it a <i>rank-3</i> <i>tensor.</i> We often need to stack up individual tensors in a collection
+stack
+into a single tensor. Unsurprisingly, PyTorch comes with a function called that
+we can use for this purpose.

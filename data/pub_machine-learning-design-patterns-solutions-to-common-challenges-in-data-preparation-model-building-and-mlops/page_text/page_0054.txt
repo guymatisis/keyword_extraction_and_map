@@ -1,0 +1,22 @@
+<i>Figure</i> <i>2-15.</i> <i>The</i> <i>feature</i> <i>cross</i> <i>introduces</i> <i>four</i> <i>new</i> <i>boolean</i> <i>features.</i>
+A feature cross of these bucketized features introduces four new boolean features for
+our model:
+AC where x_1 >= 0 and x_2 >= 0
+BC where x_1 < 0 and x_2 >= 0
+AD where x_1 >= 0 and x_2 < 0
+BD where x_1 < 0 and x_2 < 0
+Each of these four boolean features (AC, BC, AD, and BD) would get its own weight
+when training the model. This means we can treat each quadrant as its own feature.
+Since the original dataset was split perfectly by the buckets we created, a feature cross
+of A and B is able to linearly separate the dataset.
+But this is just an illustration. What about real-world data? Consider a public dataset
+of yellow cab rides in New York City (see Table 2-8). 5
+<i>Table</i> <i>2-8.</i> <i>A</i> <i>preview</i> <i>of</i> <i>the</i> <i>public</i> <i>New</i> <i>York</i> <i>City</i> <i>taxi</i> <i>dataset</i> <i>in</i> <i>BigQuery</i>
+<b>pickup_datetime</b> <b>pickuplon</b> <b>pickuplat</b> <b>dropofflon</b> <b>dropofflat</b> <b>passengers</b> <b>fare_amount</b>
+2014-05–1715:15:00UTC -73.99955 40.7606 -73.99965 40.72522 1 31
+2013–12-0915:03:00UTC -73.99095 40.749772 -73.870807 40.77407 1 34.33
+2013-04–1808:48:00UTC -73.973102 40.785075 -74.011462 40.708307 1 29
+2009–11-0506:47:00UTC -73.980313 40.744282 -74.015285 40.711458 1 14.9
+2009-05-2109:47:06UTC -73.901887 40.764021 -73.901795 40.763612 1 12.8
+5 Thefeature_cross.ipynbnotebookinthebook’srepositoryofthisbookwillhelpyoufollowthediscussion
+better.

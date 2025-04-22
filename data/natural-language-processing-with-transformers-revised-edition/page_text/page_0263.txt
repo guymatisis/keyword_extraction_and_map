@@ -1,0 +1,34 @@
+Note that we plot the number of samples on a logarithmic scale. From the figure we
+can see that the micro and macro <i>F</i> -scores both improve as we increase the number
+1
+of training samples. With so few samples to train on, the results are also slightly noisy
+since each slice can have a different class distribution. Nevertheless, what’s important
+here is the trend, so let’s now see how these results fare against transformer-based
+approaches!
+<header><largefont><b>Working</b></largefont> <largefont><b>with</b></largefont> <largefont><b>No</b></largefont> <largefont><b>Labeled</b></largefont> <largefont><b>Data</b></largefont></header>
+The first technique that we’ll consider is <i>zero-shot</i> <i>classification,</i> which is suitable in
+settings where you have no labeled data at all. This is surprisingly common in indus‐
+try, and might occur because there is no historic data with labels or because acquiring
+the labels for the data is difficult. We will cheat a bit in this section since we will still
+use the test data to measure the performance, but we will not use any data to train the
+model (otherwise the comparison to the following approaches would be difficult).
+The goal of zero-shot classification is to make use of a pretrained model without any
+additional fine-tuning on your task-specific corpus. To get a better idea of how this
+could work, recall that language models like BERT are pretrained to predict masked
+tokens in text on thousands of books and large Wikipedia dumps. To successfully
+predict a missing token, the model needs to be aware of the topic in the context. We
+can try to trick the model into classifying a document for us by providing a sentence
+like:
+“This section was about the topic [MASK].”
+The model should then give a reasonable suggestion for the document’s topic, since
+this is a natural text to occur in the dataset. 2
+Let’s illustrate this further with the following toy problem: suppose you have two chil‐
+dren, and one of them likes movies with cars while the other enjoys movies with ani‐
+mals better. Unfortunately, they have already seen all the ones you know, so you want
+to build a function that tells you what topic a new movie is about. Naturally, you turn
+to transformers for this task. The first thing to try is to load BERT-base in the fill-
+mask pipeline, which uses the masked language model to predict the content of the
+masked tokens:
+<b>from</b> <b>transformers</b> <b>import</b> pipeline
+pipe = pipeline("fill-mask", model="bert-base-uncased")
+2 WethankJoeDavisonforsuggestingthisapproachtous.

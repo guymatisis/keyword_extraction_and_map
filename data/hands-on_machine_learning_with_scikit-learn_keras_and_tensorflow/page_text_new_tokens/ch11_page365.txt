@@ -1,0 +1,37 @@
+makes the code ugly and error-prone. To avoid this, you can try refactoring your code
+to use loops. Another option is to use Python’s functools.partial() function,
+which lets you create a thin wrapper for any callable, with some default argument
+values:
+<b>from</b> <b>functools</b> <b>import</b> partial
+RegularizedDense = partial(keras.layers.Dense,
+activation="elu",
+kernel_initializer="he_normal",
+kernel_regularizer=keras.regularizers.l2(0.01))
+model = keras.models.Sequential([
+keras.layers.Flatten(input_shape=[28, 28]),
+RegularizedDense(300),
+RegularizedDense(100),
+RegularizedDense(10, activation="softmax",
+kernel_initializer="glorot_uniform")
+])
+<header><largefont><b>Dropout</b></largefont></header>
+<i>Dropout</i> is one of the most popular regularization techniques for deep neural net‐
+works. It was proposed in a paper 23 by Geoffrey Hinton in 2012 and further detailed
+paper24
+in a 2014 by Nitish Srivastava et al., and it has proven to be highly successful:
+even the state-of-the-art neural networks get a 1–2% accuracy boost simply by adding
+dropout. This may not sound like a lot, but when a model already has 95% accuracy,
+getting a 2% accuracy boost means dropping the error rate by almost 40% (going
+from 5% error to roughly 3%).
+It is a fairly simple algorithm: at every training step, every neuron (including the
+input neurons, but always excluding the output neurons) has a probability <i>p</i> of being
+temporarily “dropped out,” meaning it will be entirely ignored during this training
+step, but it may be active during the next step (see Figure 11-9). The hyperparameter
+<i>p</i> is called the <i>dropout</i> <i>rate,</i> and it is typically set between 10% and 50%: closer to 20–
+30% in recurrent neural nets (see Chapter 15), and closer to 40–50% in convolutional
+neural networks (see Chapter 14). After training, neurons don’t get dropped any‐
+more. And that’s all (except for a technical detail we will discuss momentarily).
+23 GeoffreyE.Hintonetal.,“ImprovingNeuralNetworksbyPreventingCo-AdaptationofFeatureDetectors,”
+arXivpreprintarXiv:1207.0580(2012).
+24 NitishSrivastavaetal.,“Dropout:ASimpleWaytoPreventNeuralNetworksfromOverfitting,”Journalof
+<i>MachineLearningResearch15(2014):1929–1958.</i>

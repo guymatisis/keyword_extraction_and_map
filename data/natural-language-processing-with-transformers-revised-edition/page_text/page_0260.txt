@@ -1,0 +1,39 @@
+<header><largefont><b>Implementing</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Naive</b></largefont> <largefont><b>Bayesline</b></largefont></header>
+Whenever you start a new NLP project, it’s always a good idea to implement a set of
+strong baselines. There are two main reasons for this:
+1. A baseline based on regular expressions, handcrafted rules, or a very simple
+model might already work really well to solve the problem. In these cases, there is
+no reason to bring out big guns like transformers, which are generally more com‐
+plex to deploy and maintain in production environments.
+2. The baselines provide quick checks as you explore more complex models. For
+example, suppose you train BERT-large and get an accuracy of 80% on your vali‐
+dation set. You might write it off as a hard dataset and call it a day. But what if
+you knew that a simple classifier like logistic regression gets 95% accuracy? That
+would raise your suspicions and prompt you to debug your model.
+So let’s start our analysis by training a baseline model. For text classification, a great
+baseline is a <i>Naive</i> <i>Bayes</i> <i>classifier</i> as it is very simple, quick to train, and fairly robust
+to perturbations in the inputs. The Scikit-learn implementation of Naive Bayes does
+not support multilabel classification out of the box, but fortunately we can again use
+the Scikit-multilearn library to cast the problem as a one-versus-rest classification
+task where we train <i>L</i> binary classifiers for <i>L</i> labels. First, let’s use a multilabel binar‐
+izer to create a new label_ids column in our training sets. We can use the map()
+function to take care of all the processing in one go:
+<b>def</b> prepare_labels(batch):
+batch["label_ids"] = mlb.transform(batch["labels"])
+<b>return</b> batch
+ds = ds.map(prepare_labels, batched=True)
+To measure the performance of our classifiers, we’ll use the micro and macro
+<i>F</i> -scores, where the former tracks performance on the frequent labels and the latter
+1
+on all labels disregarding the frequency. Since we’ll be evaluating each model across
+defaultdict
+different-sized training splits, let’s create a with a list to store the scores
+per split:
+<b>from</b> <b>collections</b> <b>import</b> defaultdict
+macro_scores, micro_scores = defaultdict(list), defaultdict(list)
+Now we’re finally ready to train our baseline! Here’s the code to train the model and
+evaluate our classifier across increasing training set sizes:
+<b>from</b> <b>sklearn.naive_bayes</b> <b>import</b> MultinomialNB
+<b>from</b> <b>sklearn.metrics</b> <b>import</b> classification_report
+<b>from</b> <b>skmultilearn.problem_transform</b> <b>import</b> BinaryRelevance
+<b>from</b> <b>sklearn.feature_extraction.text</b> <b>import</b> CountVectorizer

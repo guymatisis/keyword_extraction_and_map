@@ -1,0 +1,37 @@
+gradients of the loss with respect to <i>l</i> , which will need the gradients of the loss with
+2
+respect to <i>out.</i>
+So to compute all the gradients we need for the update, we need to begin from the
+output of the model and work our way <i>backward,</i> one layer after the other—which is
+why this step is known as <i>backpropagation.</i> We can automate it by having each func‐
+tion we implemented (relu, mse, lin) provide its backward step: that is, how to
+derive the gradients of the loss with respect to the input(s) from the gradients of the
+loss with respect to the output.
+Here we populate those gradients in an attribute of each tensor, a bit like PyTorch
+does with .grad .
+The first are the gradients of the loss with respect to the output of our model (which
+squeeze mse,
+is the input of the loss function). We undo the we did in and then we
+use the formula that gives us the derivative of <i>x</i> 2 : 2x. The derivative of the mean is just
+1/n, where <i>n</i> is the number of elements in our input:
+<b>def</b> mse_grad(inp, targ):
+<i>#</i> <i>grad</i> <i>of</i> <i>loss</i> <i>with</i> <i>respect</i> <i>to</i> <i>output</i> <i>of</i> <i>previous</i> <i>layer</i>
+inp.g = 2. * (inp.squeeze() - targ).unsqueeze(-1) / inp.shape[0]
+For the gradients of the ReLU and our linear layer, we use the gradients of the loss
+with respect to the output (in out.g) and apply the chain rule to compute the gradi‐
+ents of the loss with respect to the output (in inp.g ). The chain rule tells us that
+inp.g = relu'(inp) * out.g. The derivative of relu is either 0 (when inputs are
+negative) or 1 (when inputs are positive), so this gives us the following:
+<b>def</b> relu_grad(inp, out):
+<i>#</i> <i>grad</i> <i>of</i> <i>relu</i> <i>with</i> <i>respect</i> <i>to</i> <i>input</i> <i>activations</i>
+inp.g = (inp>0).float() * out.g
+The scheme is the same to compute the gradients of the loss with respect to the
+inputs, weights, and bias in the linear layer:
+<b>def</b> lin_grad(inp, out, w, b):
+<i>#</i> <i>grad</i> <i>of</i> <i>matmul</i> <i>with</i> <i>respect</i> <i>to</i> <i>input</i>
+inp.g = out.g @ w.t()
+w.g = inp.t() @ out.g
+b.g = out.g.sum(0)
+We won’t linger on the mathematical formulas that define them since they’re not
+important for our purposes, but do check out Khan Academy’s excellent calculus les‐
+sons if you’re interested in this topic.

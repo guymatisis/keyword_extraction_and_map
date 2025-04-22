@@ -1,0 +1,19 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>14</b></largefont></header>
+<header><largefont><b>ResNets</b></largefont></header>
+In this chapter, we will build on top of the CNNs introduced in the previous chapter
+and explain to you the ResNet (residual network) architecture. It was introduced in
+2015 by Kaiming He et al. in the article “Deep Residual Learning for Image Recogni‐
+tion” and is by far the most used model architecture nowadays. More recent develop‐
+ments in image models almost always use the same trick of residual connections, and
+most of the time, they are just a tweak of the original ResNet.
+We will first show you the basic ResNet as it was first designed and then explain the
+modern tweaks that make it more performant. But first, we will need a problem a lit‐
+tle bit more difficult than the MNIST dataset, since we are already close to 100%
+accuracy with a regular CNN on it.
+<header><largefont><b>Going</b></largefont> <largefont><b>Back</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Imagenette</b></largefont></header>
+It’s going to be tough to judge any improvements we make to our models when we are
+already at an accuracy that is as high as we saw on MNIST in the previous chapter, so
+we will tackle a tougher image classification problem by going back to Imagenette.
+We’ll stick with small images to keep things reasonably fast.
+Let’s grab the data—we’ll use the already-resized 160 px version to make things faster
+still, and will random crop to 128 px:

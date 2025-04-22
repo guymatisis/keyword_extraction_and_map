@@ -1,0 +1,25 @@
+<i>Figure</i> <i>4-1.</i> <i>Randomly</i> <i>generated</i> <i>linear</i> <i>dataset</i>
+inv()
+Now let’s compute <b>θ</b> using the Normal Equation. We will use the function from
+NumPy’s linear algebra module ( np.linalg ) to compute the inverse of a matrix, and
+dot()
+the method for matrix multiplication:
+X_b = np.c_[np.ones((100, 1)), X] <i>#</i> <i>add</i> <i>x0</i> <i>=</i> <i>1</i> <i>to</i> <i>each</i> <i>instance</i>
+theta_best = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
+The function that we used to generate the data is <i>y</i> = 4 + 3x + Gaussian noise. Let’s
+1
+see what the equation found:
+<b>>>></b> theta_best
+array([[4.21509616],
+[2.77011339]])
+We would have hoped for <i>θ</i> = 4 and <i>θ</i> = 3 instead of <i>θ</i> = 4.215 and <i>θ</i> = 2.770. Close
+0 1 0 1
+enough, but the noise made it impossible to recover the exact parameters of the origi‐
+nal function.
+Now we can make predictions using <b>θ:</b>
+<b>>>></b> X_new = np.array([[0], [2]])
+<b>>>></b> X_new_b = np.c_[np.ones((2, 1)), X_new] <i>#</i> <i>add</i> <i>x0</i> <i>=</i> <i>1</i> <i>to</i> <i>each</i> <i>instance</i>
+<b>>>></b> y_predict = X_new_b.dot(theta_best)
+<b>>>></b> y_predict
+array([[4.21509616],
+[9.75532293]])

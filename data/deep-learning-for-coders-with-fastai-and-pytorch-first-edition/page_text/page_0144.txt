@@ -1,0 +1,35 @@
+to work on). In addition, PyTorch can automatically calculate derivatives of these
+operations, including combinations of operations. As you’ll see, it would be impossi‐
+ble to do deep learning in practice without this capability.
+<b>SylvainSays</b>
+If you don’t know what C is, don’t worry: you won’t need it at all. In
+a nutshell, it’s a low-level (low-level means more similar to the lan‐
+guage that computers use internally) language that is very fast com‐
+pared to Python. To take advantage of its speed while
+programming in Python, try to avoid as much as possible writing
+loops, and replace them by commands that work directly on arrays
+or tensors.
+Perhaps the most important new coding skill for a Python programmer to learn is
+how to effectively use the array/tensor APIs. We will be showing lots more tricks later
+in this book, but here’s a summary of the key things you need to know for now.
+To create an array or tensor, pass a list (or list of lists, or list of lists of lists, etc.) to
+array or tensor:
+data = [[1,2,3],[4,5,6]]
+arr = array (data)
+tns = tensor(data)
+arr <i>#</i> <i>numpy</i>
+array([[1, 2, 3],
+[4, 5, 6]])
+tns <i>#</i> <i>pytorch</i>
+tensor([[1, 2, 3],
+[4, 5, 6]])
+All the operations that follow are shown on tensors, but the syntax and results for
+NumPy arrays are identical.
+You can select a row (note that, like lists in Python, tensors are 0-indexed, so 1 refers
+to the second row/column):
+tns[1]
+tensor([4, 5, 6])
+Or a column, by using : to indicate <i>all</i> <i>of</i> <i>the</i> <i>first</i> <i>axis</i> (we sometimes refer to the
+dimensions of tensors/arrays as <i>axes):</i>
+tns[:,1]
+tensor([2, 5])

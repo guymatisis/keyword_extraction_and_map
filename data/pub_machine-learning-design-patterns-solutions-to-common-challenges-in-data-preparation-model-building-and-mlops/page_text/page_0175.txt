@@ -1,0 +1,36 @@
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>14:</b></largefont> <largefont><b>Distribution</b></largefont> <largefont><b>Strategy</b></largefont></header>
+In Distribution Strategy, the training loop is carried out at scale over multiple work‐
+ers, often with caching, hardware acceleration, and parallelization.
+<header><largefont><b>Problem</b></largefont></header>
+These days, it’s common for large neural networks to have millions of parameters
+and be trained on massive amounts of data. In fact, it’s been shown that increasing
+the scale of deep learning, with respect to the number of training examples, the num‐
+ber of model parameters, or both, drastically improves model performance. However,
+as the size of models and data increases, the computation and memory demands
+increase proportionally, making the time it takes to train these models one of the big‐
+gest problems of deep learning.
+GPUs provide a substantial computational boost and bring the training time of mod‐
+estly sized deep neural networks within reach. However, for very large models trained
+on massive amounts of data, individual GPUs aren’t enough to make the training
+time tractible. For example, at the time of writing, training ResNet-50 on the bench‐
+mark ImageNet dataset for 90 epochs on a single NVIDIA M40 GPU requires 10 18
+single precision operations and takes 14 days. As AI is being used more and more to
+solve problems within complex domains, and open source libraries like Tensorflow
+and PyTorch make building deep learning models more accessible, large neural net‐
+works comparable to ResNet-50 have become the norm.
+This is a problem. If it takes two weeks to train your neural network, then you have to
+wait two weeks before you can iterate on new ideas or experiment with tweaking the
+settings. Furthermore, for some complex problems like medical imaging, autono‐
+mous driving, or language translation, it’s not always feasible to break the problem
+down into smaller components or work with only a subset of the data. It’s only with
+the full scale of the data that you can assess whether things work or not.
+Training time translates quite literally to money. In the world of serverless machine
+learning, rather than buying your own expensive GPU, it is possible to submit train‐
+ing jobs via a cloud service where you are charged for training time. The cost of train‐
+ing a model, whether it is to pay for a GPU or to pay for a serverless training service,
+quickly adds up.
+Is there a way to speed up the training of these large neural networks?
+<header><largefont><b>Solution</b></largefont></header>
+One way to accelerate training is through distribution strategies in the training loop.
+There are different distribution techniques, but the common idea is to split the effort
+of training the model across multiple machines. There are two ways this can be done:

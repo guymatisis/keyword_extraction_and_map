@@ -1,0 +1,43 @@
+Each step involves weight updates based on a single mini-batch of data, and this
+allows us to stop at 14.3 epochs. This gives us much more granularity, but we have to
+define an “epoch” as 1/15th of the total number of steps:
+steps_per_epoch=NUM_STEPS // NUM_CHECKPOINTS,
+This is so that we get the right number of checkpoints. It works as long as we make
+sure to repeat the trainds infinitely:
+trainds = trainds.repeat()
+repeat() num_epochs
+The is needed because we no longer set , so the number of
+epochs defaults to one. Without the repeat() , the model will exit once the training
+patterns are exhausted after reading the dataset once.
+<b>Retrainingwithmoredata.</b>
+What happens when we get 100,000 more examples? Easy!
+We add it to our data warehouse but do not update the code. Our code will still want
+to process 143,000 steps, and it will get to process that much data, except that 10% of
+the examples it sees are newer. If the model converges, great. If it doesn’t, we know
+that these new data points are the issue because we are not training longer than we
+were before. By keeping the number of steps constant, we have been able to separate
+out the effects of new data from training on more data.
+Once we have trained for 143,000 steps, we restart the training and run it a bit longer
+(say, 10,000 steps), and as long as the model continues to converge, we keep training
+it longer. Then, we update the number 143,000 in the code above (in reality, it will be
+a parameter to the code) to reflect the new number of steps.
+This all works fine, until you want to do hyperparameter tuning. When you do
+hyperparameter tuning, you will want to want to change the batch size. Unfortu‐
+nately, if you change the batch size to 50, you will find yourself training for half the
+time because we are training for 143,000 steps, and each step is only half as long as
+before. Obviously, this is no good.
+<b>Virtualepochs.</b>
+The answer is to keep the total number of training examples shown to
+the model (not number of steps; see Figure 4-12) constant:
+NUM_TRAINING_EXAMPLES = 1000 * 1000
+STOP_POINT = 14.3
+TOTAL_TRAINING_EXAMPLES = int(STOP_POINT * NUM_TRAINING_EXAMPLES)
+BATCH_SIZE = 100
+NUM_CHECKPOINTS = 15
+steps_per_epoch = (TOTAL_TRAINING_EXAMPLES //
+(BATCH_SIZE*NUM_CHECKPOINTS))
+cp_callback = tf.keras.callbacks.ModelCheckpoint(...)
+history = model.fit(trainds,
+validation_data=evalds,
+epochs=NUM_CHECKPOINTS,
+steps_per_epoch=steps_per_epoch,

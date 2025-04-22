@@ -1,0 +1,33 @@
+training and makes it smoother. In the next chapter, we will use both of those layers
+to build the most popular architecture in computer vision: a residual network.
+<header><largefont><b>Questionnaire</b></largefont></header>
+1. What is a feature?
+2. Write out the convolutional kernel matrix for a top edge detector.
+3. Write out the mathematical operation applied by a 3×3 kernel to a single pixel in
+an image.
+4. What is the value of a convolutional kernel applied to a 3×3 matrix of zeros?
+5. What is padding?
+6. What is stride?
+7. Create a nested list comprehension to complete any task that you choose.
+input weight
+8. What are the shapes of the and parameters to PyTorch’s 2D convo‐
+lution?
+9. What is a channel?
+10. What is the relationship between a convolution and a matrix multiplication?
+11. What is a convolutional neural network?
+12. What is the benefit of refactoring parts of your neural network definition?
+13. What is Flatten ? Where does it need to be included in the MNIST CNN? Why?
+14. What does NCHW mean?
+15. Why does the third layer of the MNIST CNN have 7*7*(1168-16)
+multiplications?
+16. What is a receptive field?
+17. What is the size of the receptive field of an activation after two stride-2 convolu‐
+tions? Why?
+18. Run <i>conv-example.xlsx</i> yourself and experiment with <i>trace</i> <i>precedents.</i>
+19. Have a look at Jeremy or Sylvain’s list of recent Twitter “likes,” and see if you find
+any interesting resources or ideas there.
+20. How is a color image represented as a tensor?
+21. How does a convolution work with a color input?
+22. What method can we use to see that data in DataLoaders ?
+23. Why do we double the number of filters after each stride-2 conv?
+24. Why do we use a larger kernel in the first conv with MNIST (with simple_cnn )?

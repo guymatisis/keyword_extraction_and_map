@@ -1,0 +1,35 @@
+and then applies a similarity metric that’s based on representing both the document
+and the query as vectors.
+Now that we have a way to retrieve relevant documents, the next thing we need is a
+way to extract answers from them. This is where the reader comes in, so let’s take a
+look at how we can load our MiniLM model in Haystack.
+<b>Initializingareader</b>
+In Haystack, there are two types of readers one can use to extract answers from a
+given context:
+FARMReader
+Based on deepset’s <i>FARM</i> framework for fine-tuning and deploying transform‐
+ers. Compatible with models trained using Transformers and can load models
+directly from the Hugging Face Hub.
+TransformersReader
+Based on the QA pipeline from Transformers. Suitable for running inference
+only.
+Although both readers handle a model’s weights in the same way, there are some dif‐
+ferences in the way the predictions are converted to produce answers:
+• In Transformers, the QA pipeline normalizes the start and end logits with a
+softmax in each passage. This means that it is only meaningful to compare
+answer scores between answers extracted from the same passage, where the prob‐
+abilities sum to 1. For example, an answer score of 0.9 from one passage is not
+necessarily better than a score of 0.8 in another. In FARM, the logits are not nor‐
+malized, so inter-passage answers can be compared more easily.
+• The TransformersReader sometimes predicts the same answer twice, but with
+different scores. This can happen in long contexts if the answer lies across two
+overlapping windows. In FARM, these duplicates are removed.
+Since we will be fine-tuning the reader later in the chapter, we’ll use the FARMReader .
+As with Transformers, to load the model we just need to specify the MiniLM
+checkpoint on the Hugging Face Hub along with some QA-specific arguments:
+<b>from</b> <b>haystack.reader.farm</b> <b>import</b> FARMReader
+model_ckpt = "deepset/minilm-uncased-squad2"
+max_seq_length, doc_stride = 384, 128
+reader = FARMReader(model_name_or_path=model_ckpt, progress_bar=False,
+max_seq_len=max_seq_length, doc_stride=doc_stride,
+return_no_answer=True)

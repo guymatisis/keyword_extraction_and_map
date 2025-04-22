@@ -1,0 +1,23 @@
+<i>Figure</i> <i>7-12.</i> <i>The</i> <i>Features</i> <i>tab</i> <i>in</i> <i>the</i> <i>What-If</i> <i>Tool,</i> <i>which</i> <i>shows</i> <i>histograms</i> <i>of</i> <i>how</i> <i>a</i>
+<i>dataset</i> <i>is</i> <i>balanced</i> <i>for</i> <i>each</i> <i>column.</i>
+Once we’ve refined our dataset and prediction task, we can consider anything else we
+might want to optimize during model training. For example, maybe we care most
+about our model’s accuracy on applications it predicts as “approved.” During model
+training, we’d want to optimize for AUC (or another metric) on the “approved” class
+in this binary classification model.
+If we’ve done all we can to eliminate data collection bias and find
+that there is not enough data available for a specific class, we can
+follow “Design Pattern 10: Rebalancing ” on page 122 in Chapter 3.
+This pattern discusses techniques for building models to handle
+imbalanced data.
+<header><largefont><b>Bias</b></largefont> <largefont><b>in</b></largefont> <largefont><b>Other</b></largefont> <largefont><b>Forms</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Data</b></largefont></header>
+Although we’ve shown a tabular dataset here, bias is equally common in other types
+of data. The Civil Comments dataset provided by Jigsaw provides a good example of
+areas where we might find bias in text data. This dataset labels comments according
+to their toxicity (ranging from 0 to 1), and has been used to build models for flagging
+toxic online comments. Each comment in the dataset is tagged as to whether one of a
+collection of identity attributes is present, like the mention of a religion, race, or sex‐
+ual orientation. If we plan to use this data to train a model, it’s important that we look
+out for data representation bias. That is to say, the identity terms in a comment
+should <i>not</i> influence that comment’s toxicity, and any such bias should be accounted
+for before training a model.

@@ -1,0 +1,29 @@
+evaluation. We’ve seen that we get almost perfect recall at <i>k</i> = 10, so we can fix this
+value and assess the impact this has on the reader’s performance (since it will now
+receive multiple contexts per query compared to the SQuAD-style evaluation):
+<i>#</i> <i>Initialize</i> <i>retriever</i> <i>pipeline</i>
+pipe = EvalRetrieverPipeline(es_retriever)
+<i>#</i> <i>Add</i> <i>nodes</i> <i>for</i> <i>reader</i>
+eval_reader = EvalAnswers()
+pipe.pipeline.add_node(component=reader, name="QAReader",
+inputs=["EvalRetriever"])
+pipe.pipeline.add_node(component=eval_reader, name="EvalReader",
+inputs=["QAReader"])
+<i>#</i> <i>Evaluate!</i>
+run_pipeline(pipe)
+<i>#</i> <i>Extract</i> <i>metrics</i> <i>from</i> <i>reader</i>
+reader_eval["QA Pipeline (top-1)"] = {
+k:v <b>for</b> k,v <b>in</b> eval_reader.__dict__.items()
+<b>if</b> k <b>in</b> ["top_1_em", "top_1_f1"]}
+We can then compare the top 1 EM and <i>F</i> scores for the model to predict an answer
+1
+in the documents returned by the retriever in Figure 7-12.
+<i>Figure</i> <i>7-12.</i> <i>Comparison</i> <i>of</i> <i>EM</i> <i>and</i> <i>F</i> <i>scores</i> <i>for</i> <i>the</i> <i>reader</i> <i>against</i> <i>the</i> <i>whole</i> <i>QA</i>
+<i>1</i>
+<i>pipeline</i>
+From this plot we can see the effect that the retriever has on the overall performance.
+In particular, there is an overall degradation compared to matching the question-
+context pairs, as is done in the SQuAD-style evaluation. This can be circumvented by
+increasing the number of possible answers that the reader is allowed to predict.
+Until now we have only extracted answer spans from the context, but in general it
+could be that bits and pieces of the answer are scattered throughout the document

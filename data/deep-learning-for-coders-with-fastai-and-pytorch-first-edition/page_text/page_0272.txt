@@ -1,0 +1,39 @@
+<i>probabilistic</i> <i>matrix</i> <i>factorization</i> (PMF). Another approach, which generally works
+similarly well given the same data, is deep learning.
+<header><largefont><b>Deep</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Collaborative</b></largefont> <largefont><b>Filtering</b></largefont></header>
+To turn our architecture into a deep learning model, the first step is to take the results
+of the embedding lookup and concatenate those activations together. This gives us a
+matrix that we can then pass through linear layers and nonlinearities in the usual way.
+Since we’ll be concatenating the embedding matrices, rather than taking their dot
+product, the two embedding matrices can have different sizes (different numbers of
+latent factors). fastai has a function get_emb_sz that returns recommended sizes for
+embedding matrices for your data, based on a heuristic that fast.ai has found tends to
+work well in practice:
+embs = get_emb_sz(dls)
+embs
+[(944, 74), (1635, 101)]
+Let’s implement this class:
+<b>class</b> <b>CollabNN(Module):</b>
+<b>def</b> <b>__init__(self,</b> user_sz, item_sz, y_range=(0,5.5), n_act=100):
+self.user_factors = Embedding(*user_sz)
+self.item_factors = Embedding(*item_sz)
+self.layers = nn.Sequential(
+nn.Linear(user_sz[1]+item_sz[1], n_act),
+nn.ReLU(),
+nn.Linear(n_act, 1))
+self.y_range = y_range
+<b>def</b> forward(self, x):
+embs = self.user_factors(x[:,0]),self.item_factors(x[:,1])
+x = self.layers(torch.cat(embs, dim=1))
+<b>return</b> sigmoid_range(x, *self.y_range)
+And use it to create a model:
+model = CollabNN(*embs)
+CollabNN creates our Embedding layers in the same way as previous classes in this
+chapter, except that we now use the embs sizes. self.layers is identical to the mini-
+forward,
+neural net we created in Chapter 4 for MNIST. Then, in we apply the
+embeddings, concatenate the results, and pass this through the mini-neural net.
+Finally, we apply sigmoid_range as we have in previous models.
+Let’s see if it trains:
+learn = Learner(dls, model, loss_func=MSELossFlat())
+learn.fit_one_cycle(5, 5e-3, wd=0.01)

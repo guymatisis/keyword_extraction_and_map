@@ -1,0 +1,27 @@
+<i>Figure</i> <i>4-6.</i> <i>Matrix</i> <i>multiplication</i>
+This image shows two matrices, A and B, being multiplied together. Each item of the
+AB, A
+result, which we’ll call contains each item of its corresponding row of multiplied
+by each item of its corresponding column of B, added together. For instance, row 1,
+column 2 (the yellow dot with a red border) is calculated as <i>a</i> *b + <i>a</i> *b . If
+1,1 1,2 1,2 2,2
+you need a refresher on matrix multiplication, we suggest you take a look at the
+“Intro to Matrix Multiplication” on Khan Academy, since this is the most important
+mathematical operation in deep learning.
+In Python, matrix multiplication is represented with the @ operator. Let’s try it:
+<b>def</b> linear1(xb): <b>return</b> xb@weights + bias
+preds = linear1(train_x)
+preds
+tensor([[20.2336],
+[17.0644],
+[15.2384],
+...,
+[18.3804],
+[23.8567],
+[28.6816]], grad_fn=<AddBackward0>)
+The first element is the same as we calculated before, as we’d expect. This equation,
+batch @ weights + bias, is one of the two fundamental equations of any neural net‐
+work (the other one is the <i>activation</i> <i>function,</i> which we’ll see in a moment).
+Let’s check our accuracy. To decide if an output represents a 3 or a 7, we can just
+check whether it’s greater than 0, so our accuracy for each item can be calculated
+(using broadcasting, so no loops!) as follows:

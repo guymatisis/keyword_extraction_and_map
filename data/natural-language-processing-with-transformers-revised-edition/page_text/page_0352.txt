@@ -1,0 +1,24 @@
+A common pattern is to make attention more efficient by introducing sparsity into
+the attention mechanism or by applying kernels to the attention matrix. Let’s take a
+quick look at some of the most popular approaches to make self-attention more effi‐
+cient, starting with sparsity.
+<header><largefont><b>Sparse</b></largefont> <largefont><b>Attention</b></largefont></header>
+One way to reduce the number of computations that are performed in the self-
+attention layer is to simply limit the number of query-key pairs that are generated
+according to some predefined pattern. There have been many sparsity patterns
+explored in the literature, but most of them can be decomposed into a handful of
+“atomic” patterns illustrated in Figure 11-5.
+<i>Figure</i> <i>11-5.</i> <i>Common</i> <i>atomic</i> <i>sparse</i> <i>attention</i> <i>patterns</i> <i>for</i> <i>self-attention:</i> <i>a</i> <i>colored</i>
+<i>square</i> <i>means</i> <i>the</i> <i>attention</i> <i>score</i> <i>is</i> <i>calculated,</i> <i>while</i> <i>a</i> <i>blank</i> <i>square</i> <i>means</i> <i>the</i> <i>score</i> <i>is</i>
+<i>discarded</i> <i>(courtesy</i> <i>of</i> <i>Tianyang</i> <i>Lin)</i>
+We can describe these patterns as follows:7
+<i>Global</i> <i>attention</i>
+Defines a few special tokens in the sequence that are allowed to attend to all other
+tokens
+<i>Band</i> <i>attention</i>
+Computes attention over a diagonal band
+<i>Dilated</i> <i>attention</i>
+Skips some query-key pairs by using a dilated window with gaps
+<i>Random</i> <i>attention</i>
+Randomly samples a few keys for each query to compute attention scores
+7 T.Linetal.,“ASurveyofTransformers”,(2021).

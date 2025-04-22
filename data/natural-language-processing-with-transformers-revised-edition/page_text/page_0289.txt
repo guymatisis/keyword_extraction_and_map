@@ -1,0 +1,36 @@
+In this section we briefly looked at various ways to make good use of the few labeled
+examples that we have. Very often we also have access to a lot of unlabeled data in
+addition to the labeled examples; in the next section we’ll discuss how to make good
+use of that.
+<header><largefont><b>Leveraging</b></largefont> <largefont><b>Unlabeled</b></largefont> <largefont><b>Data</b></largefont></header>
+Although having access to large volumes of high-quality labeled data is the best-case
+scenario to train a classifier, this does not mean that unlabeled data is worthless. Just
+think about the pretraining of most models we have used: even though they are
+trained on mostly unrelated data from the internet, we can leverage the pretrained
+weights for other tasks on a wide variety of texts. This is the core idea of transfer
+learning in NLP. Naturally, if the downstream task has similar textual structure as the
+pretraining texts the transfer works better, so if we can bring the pretraining task
+closer to the downstream objective we could potentially improve the transfer.
+Let’s think about this in terms of our concrete use case: BERT is pretrained on the
+BookCorpus and English Wikipedia, and texts containing code and GitHub issues are
+definitely a small niche in these datasets. If we pretrained BERT from scratch we
+could do it on a crawl of all of the issues on GitHub, for example. However, this
+would be expensive, and a lot of aspects about language that BERT has learned are
+still valid for GitHub issues. So is there a middle ground between retraining from
+scratch and just using the model as is for classification? There is, and it is called
+domain adaptation (which we also saw for question answering in Chapter 7). Instead
+of retraining the language model from scratch, we can continue training it on data
+from our domain. In this step we use the classic language model objective of predict‐
+ing masked words, which means we don’t need any labeled data. After that we can
+load the adapted model as a classifier and fine-tune it, thus leveraging the unlabeled
+data.
+The beauty of domain adaptation is that compared to labeled data, unlabeled data is
+often abundantly available. Furthermore, the adapted model can be reused for many
+use cases. Imagine you want to build an email classifier and apply domain adaptation
+on all your historic emails. You can later use the same model for named entity recog‐
+nition or another classification task like sentiment analysis, since the approach is
+agnostic to the downstream task.
+Let’s now see the steps we need to take to fine-tune a pretrained language model.
+<header><largefont><b>Fine-Tuning</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Language</b></largefont> <largefont><b>Model</b></largefont></header>
+In this section we’ll fine-tune the pretrained BERT model with masked language
+modeling on the unlabeled portion of our dataset. To do this we only need two new

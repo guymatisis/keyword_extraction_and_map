@@ -1,0 +1,23 @@
+These are then all added together to produce a single number for each grid location
+for each output feature, as shown in Figure 13-13.
+<i>Figure</i> <i>13-13.</i> <i>Adding</i> <i>the</i> <i>RGB</i> <i>filters</i>
+Then we have ch_out filters like this, so in the end, the result of our convolutional
+layer will be a batch of images with ch_out channels and a height and width given by
+the formula outlined earlier. This give us ch_out tensors of size ch_in x ks x ks
+that we represent in one big tensor of four dimensions. In PyTorch, the order of the
+dimensions for those weights is ch_out x ch_in x ks x ks.
+Additionally, we may want to have a bias for each filter. In the preceding example, the
+final result for our convolutional layer would be <i>y</i> + <i>y</i> + <i>y</i> + <i>b</i> in that case. As in a
+<i>R</i> <i>G</i> <i>B</i>
+linear layer, there are as many biases as we have kernels, so the bias is a vector of size
+ch_out.
+No special mechanisms are required when setting up a CNN for training with color
+images. Just make sure your first layer has three inputs.
+There are lots of ways of processing color images. For instance, you can change them
+to black and white, change from RGB to HSV (hue, saturation, and value) color
+space, and so forth. In general, it turns out experimentally that changing the encoding
+of colors won’t make any difference to your model results, as long as you don’t lose
+information in the transformation. So, transforming to black and white is a bad idea,
+since it removes the color information entirely (and this can be critical; for instance, a
+pet breed may have a distinctive color); but converting to HSV generally won’t make
+any difference.

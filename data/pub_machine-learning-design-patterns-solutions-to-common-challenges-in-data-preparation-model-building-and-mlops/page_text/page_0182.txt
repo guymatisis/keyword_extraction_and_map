@@ -1,0 +1,4 @@
+<i>Figure</i> <i>4-17.</i> <i>Comparison</i> <i>of</i> <i>throughput</i> <i>between</i> <i>different</i> <i>distribution</i> <i>setups.</i> <i>Here,</i>
+<i>2W1PS</i> <i>indicates</i> <i>two</i> <i>workers</i> <i>and</i> <i>one</i> <i>parameter</i> <i>server.</i>
+<i>Figure</i> <i>4-18.</i> <i>As</i> <i>the</i> <i>number</i> <i>of</i> <i>GPUs</i> <i>increases,</i> <i>the</i> <i>time</i> <i>to</i> <i>convergence</i> <i>during</i> <i>training</i>
+<i>decreases.</i>

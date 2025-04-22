@@ -1,0 +1,37 @@
+<b>import</b> <b>torch</b>
+<b>import</b> <b>torch.nn.functional</b> <b>as</b> <b>F</b>
+input_ids = torch.tensor(input_ids)
+one_hot_encodings = F.one_hot(input_ids, num_classes=len(token2idx))
+one_hot_encodings.shape
+torch.Size([38, 20])
+For each of the 38 input tokens we now have a one-hot vector with 20 dimensions,
+since our vocabulary consists of 20 unique characters.
+It’s important to always set num_classes in the one_hot() function
+because otherwise the one-hot vectors may end up being shorter
+than the length of the vocabulary (and need to be padded with
+zeros manually). In TensorFlow, the equivalent function is
+tf.one_hot(), depth
+where the argument plays the role of
+num_classes.
+By examining the first vector, we can verify that a 1 appears in the location indicated
+input_ids[0]
+by :
+<b>print(f"Token:</b> {tokenized_text[0]}")
+<b>print(f"Tensor</b> index: {input_ids[0]}")
+<b>print(f"One-hot:</b> {one_hot_encodings[0]}")
+Token: T
+Tensor index: 5
+One-hot: tensor([0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+From our simple example we can see that character-level tokenization ignores any
+structure in the text and treats the whole string as a stream of characters. Although
+this helps deal with misspellings and rare words, the main drawback is that linguistic
+structures such as words need to be <i>learned</i> from the data. This requires significant
+compute, memory, and data. For this reason, character tokenization is rarely used in
+practice. Instead, some structure of the text is preserved during the tokenization step.
+<i>Word</i> <i>tokenization</i> is a straightforward approach to achieve this, so let’s take a look at
+how it works.
+<header><largefont><b>Word</b></largefont> <largefont><b>Tokenization</b></largefont></header>
+Instead of splitting the text into characters, we can split it into words and map each
+word to an integer. Using words from the outset enables the model to skip the step of
+learning words from characters, and thereby reduces the complexity of the training
+process.

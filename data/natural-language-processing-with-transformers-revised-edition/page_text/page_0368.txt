@@ -1,0 +1,6 @@
+<i>Figure</i> <i>11-17.</i> <i>Architecture</i> <i>of</i> <i>CLIP</i> <i>(courtesy</i> <i>of</i> <i>Alec</i> <i>Radford)</i>
+The zero-shot image classification performance of CLIP is remarkable and competi‐
+tive with fully supervised trained vision models, while being more flexible with
+regard to new classes. CLIP is also fully integrated in Transformers, so we can try it
+out. For image-to-text tasks, we instantiate a <i>processor</i> that consists of a <i>feature</i> <i>extrac‐</i>
+<i>tor</i> and a tokenizer. The role of the feature extractor is to convert the image into a

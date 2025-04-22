@@ -1,0 +1,35 @@
+<b>$</b> <b>cd</b> <b>../codeparrot-valid</b>
+<b>$</b> <b>cp</b> <b>../codeparrot/file-000000000183.json.gz</b> <b>.</b>
+<b>$</b> <b>mv</b> <b>./file-000000000183.json.gz</b> <b>./file-000000000183_validation.json.gz</b>
+<b>$</b> <b>git</b> <b>add</b> <b>.</b>
+<b>$</b> <b>git</b> <b>commit</b> <b>-m</b> <b>"Adding</b> <b>dataset</b> <b>files"</b>
+<b>$</b> <b>git</b> <b>push</b>
+The git add . step can take a couple of minutes since a hash of all the files is com‐
+puted. Uploading all the files will also take a little while. Since this will enable us to
+use streaming later in the chapter, however, this is not lost time, and this step will
+allow us to go significantly faster in the rest of our experiments. Note that we added a
+_validation suffix to the validation filename. This will enable us to load it later as a
+validation split.
+And that’s it! Our two splits of the dataset as well as the full dataset are now live on
+the Hugging Face Hub at the following URLs:
+• <i>https://huggingface.co/datasets/transformersbook/codeparrot</i>
+• <i>https://huggingface.co/datasets/transformersbook/codeparrot-train</i>
+• <i>https://huggingface.co/datasets/transformersbook/codeparrot-valid</i>
+It’s good practice to add README cards that explain how the data‐
+sets were created and provide as much useful information about
+them as possible. A well-documented dataset is more likely to be
+useful to other people, as well as your future self. You can read the
+Datasets README guide for a detailed description of how to
+write good dataset documentation. You can also use the web editor
+to modify your README cards directly on the Hub later.
+<header><largefont><b>Building</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Tokenizer</b></largefont></header>
+Now that we have gathered and loaded our large dataset, let’s see how we can effi‐
+ciently process the data to feed to our model. In the previous chapters we’ve used
+tokenizers that accompanied the models we used. This made sense since these models
+were pretrained using data passed through a specific preprocessing pipeline defined
+in the tokenizer. When using a pretrained model, it’s important to stick with the same
+preprocessing design choices selected for pretraining. Otherwise the model may be
+fed out-of-distribution patterns or unknown tokens.
+However, when we train a new model, using a tokenizer prepared for another dataset
+can be suboptimal. Here are a few examples of the kinds of problems we might run
+into when using an existing tokenizer:

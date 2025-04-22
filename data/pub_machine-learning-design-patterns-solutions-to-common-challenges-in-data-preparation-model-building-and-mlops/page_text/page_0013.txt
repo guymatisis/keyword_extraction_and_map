@@ -1,0 +1,39 @@
+In regards to labeling inconsistencies, let’s return to the text sentiment example. In
+this case, it’s likely people will not always agree on what is considered positive and
+negative when labeling training data. To solve this, you can have multiple people
+labeling each example in your dataset, then take the most commonly applied label for
+each item. Being aware of potential labeler bias, and implementing systems to
+account for it, will ensure label consistency throughout your dataset. We’ll explore
+the concept of bias in the “Design Pattern 30: Fairness Lens” on page 343 in Chapter 7.
+<i>Timeliness</i> in data refers to the latency between when an event occurred and when it
+was added to your database. If you’re collecting data on application logs, for example,
+an error log might take a few hours to show up in your log database. For a dataset
+recording credit card transactions, it might take one day from when the transaction
+occurred before it is reported in your system. To deal with timeliness, it’s useful to
+record as much information as possible about a particular data point, and make sure
+that information is reflected when you transform your data into features for a
+machine learning model. More specifically, you can keep track of the timestamp of
+when an event occurred and when it was added to your dataset. Then, when perform‐
+ing feature engineering, you can account for these differences accordingly.
+<header><largefont><b>Reproducibility</b></largefont></header>
+In traditional programming, the output of a program is reproducible and guaranteed.
+For example, if you write a Python program that reverses a string, you know that an
+input of the word “banana” will always return an output of “ananab.” Similarly, if
+there’s a bug in your program causing it to incorrectly reverse strings containing
+numbers, you could send the program to a colleague and expect them to be able to
+reproduce the error with the same inputs you used (unless the bug has something to
+do with the program maintaining some incorrect internal state, differences in archi‐
+tecture such as floating point precision, or differences in execution such as
+threading).
+Machine learning models, on the other hand, have an inherent element of random‐
+ness. When training, ML model weights are initialized with random values. These
+weights then converge during training as the model iterates and learns from the data.
+Because of this, the same model code given the same training data will produce
+slightly different results across training runs. This introduces a challenge of reprodu‐
+cibility. If you train a model to 98.1% accuracy, a repeated training run is not guaran‐
+teed to reach the same result. This can make it difficult to run comparisons across
+experiments.
+In order to address this problem of repeatability, it’s common to set the random
+seed value used by your model to ensure that the same randomness will be
+applied each time you run training. In TensorFlow, you can do this by running
+tf.random.set_seed(value) at the beginning of your program.

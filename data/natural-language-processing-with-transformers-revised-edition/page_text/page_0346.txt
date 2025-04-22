@@ -1,0 +1,22 @@
+We have to learn the bitter lesson that building in how we think we think does not
+work in the long run…. One thing that should be learned from the bitter lesson is the
+great power of general purpose methods, of methods that continue to scale with
+increased computation even as the available computation becomes very great. The two
+methods that seem to scale arbitrarily in this way are <i>search</i> and <i>learning.</i>
+There are now signs that a similar lesson is at play with transformers; while many of
+the early BERT and GPT descendants focused on tweaking the architecture or pre‐
+training objectives, the best-performing models in mid-2021, like GPT-3, are essen‐
+tially basic scaled-up versions of the original models without many architectural
+modifications. In Figure 11-1 you can see a timeline of the development of the largest
+models since the release of the original Transformer architecture in 2017, which
+shows that model size has increased by over four orders of magnitude in just a few
+years!
+<i>Figure</i> <i>11-1.</i> <i>Parameter</i> <i>counts</i> <i>over</i> <i>time</i> <i>for</i> <i>prominent</i> <i>Transformer</i> <i>architectures</i>
+This dramatic growth is motivated by empirical evidence that large language models
+perform better on downstream tasks and that interesting capabilities such as zero-
+shot and few-shot learning emerge in the 10- to 100-billion parameter range. How‐
+ever, the number of parameters is not the only factor that affects model performance;
+the amount of compute and training data must also be scaled in tandem to train these
+monsters. Given that large language models like GPT-3 are estimated to cost $4.6
+million to train, it is clearly desirable to be able to estimate the model’s performance
+in advance. Somewhat surprisingly, the performance of language models appears to

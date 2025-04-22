@@ -1,0 +1,37 @@
+<b>Definingtheperformancemetrics</b>
+To monitor metrics during training, we need to define a compute_metrics() function
+Trainer EvalPrediction
+for the . This function receives an object (which is a named
+tuple with predictions and label_ids attributes) and needs to return a dictionary
+that maps each metric’s name to its value. For our application, we’ll compute the
+<i>F</i> -score and the accuracy of the model as follows:
+1
+<b>from</b> <b>sklearn.metrics</b> <b>import</b> accuracy_score, f1_score
+<b>def</b> compute_metrics(pred):
+labels = pred.label_ids
+preds = pred.predictions.argmax(-1)
+f1 = f1_score(labels, preds, average="weighted")
+acc = accuracy_score(labels, preds)
+<b>return</b> {"accuracy": acc, "f1": f1}
+With the dataset and metrics ready, we just have two final things to take care of before
+we define the Trainer class:
+1. Log in to our account on the Hugging Face Hub. This will allow us to push our
+fine-tuned model to our account on the Hub and share it with the community.
+2. Define all the hyperparameters for the training run.
+We’ll tackle these steps in the next section.
+<b>Trainingthemodel</b>
+If you’re running this code in a Jupyter notebook, you can log in to the Hub with the
+following helper function:
+<b>from</b> <b>huggingface_hub</b> <b>import</b> notebook_login
+notebook_login()
+This will display a widget in which you can enter your username and password, or an
+access token with write privileges. You can find details on how to create access tokens
+in the Hub documentation. If you’re working in the terminal, you can log in by run‐
+ning the following command:
+<b>$</b> <b>huggingface-cli</b> <b>login</b>
+To define the training parameters, we use the TrainingArguments class. This class
+stores a lot of information and gives you fine-grained control over the training and
+output_dir
+evaluation. The most important argument to specify is , which is where
+all the artifacts from training are stored. Here is an example of TrainingArguments in
+all its glory:

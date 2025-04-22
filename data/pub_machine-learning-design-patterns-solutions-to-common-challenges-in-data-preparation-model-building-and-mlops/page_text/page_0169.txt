@@ -1,0 +1,39 @@
+<b>Pre-trainedembeddings</b>
+While we can load a pre-trained model on our own, we can also implement transfer
+learning by making use of the many pre-trained models available in TF Hub, a library
+of pre-trained models (called modules). These modules span a variety of data
+domains and use cases, including classification, object detection, machine translation,
+and more. In TensorFlow, you can load these modules as a layer, then add your own
+classification layer on top.
+To see how TF Hub works, let’s build a model that classifies movie reviews as either
+<i>positive</i> or <i>negative.</i> First, we’ll load a pre-trained embedding model trained on a
+large corpus of news articles. We can instantiate this model as a hub.KerasLayer :
+hub_layer = hub.KerasLayer(
+"https://tfhub.dev/google/tf2-preview/gnews-swivel-20dim/1",
+input_shape=[], dtype=tf.string, trainable=True)
+We can stack additional layers on top of this to build our classifier:
+model = keras.Sequential([
+hub_layer,
+keras.layers.Dense(32, activation='relu'),
+keras.layers.Dense(1, activation='sigmoid')
+])
+We can now train this model, passing it our own text dataset as input. The resulting
+prediction will be a 1-element array indicating whether our model thinks the given
+text is positive or negative.
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+To understand why transfer learning works, let’s first look at an analogy. When chil‐
+dren are learning their first language, they are exposed to many examples and correc‐
+ted if they misidentify something. For example, the first time they learn to identify a
+cat, they’ll see their parents point to the cat and say the word <i>cat,</i> and this repetition
+strengthens pathways in their brain. Similarly, they are corrected when they say <i>cat</i>
+referring to an animal that is not a cat. When the child then learns how to identify a
+dog, they don’t need to start from scratch. They can use a similar recognition process
+to the one they used for the cat but apply it to a slightly different task. In this way, the
+child has built a foundation for learning. In addition to learning new things, they
+have also learned <i>how</i> to learn new things. Applying these learning methods to differ‐
+ent domains is roughly how transfer learning works, too.
+How does this play out in neural networks? In a typical convolutional neural network
+(CNN), the learning is hierarchical. The first layers learn to recognize edges and
+shapes present in an image. In the cat example, this might mean that the model can
+identify areas in an image where the edge of the cat’s body meets the background.
+The next layers in the model begin to understand groups of edges—perhaps that

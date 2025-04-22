@@ -1,0 +1,18 @@
+<i>Figure</i> <i>19-17.</i> <i>Splitting</i> <i>a</i> <i>deep</i> <i>recurrent</i> <i>neural</i> <i>network</i>
+In short, model parallelism may speed up running or training some types of neural
+networks, but not all, and it requires special care and tuning, such as making sure
+that devices that need to communicate the most run on the same machine.18 Let’s look
+at a much simpler and generally more efficient option: data parallelism.
+<header><largefont><b>Data</b></largefont> <largefont><b>Parallelism</b></largefont></header>
+Another way to parallelize the training of a neural network is to replicate it on every
+device and run each training step simultaneously on all replicas, using a different
+mini-batch for each. The gradients computed by each replica are then averaged, and
+the result is used to update the model parameters. This is called <i>data</i> <i>parallelism.</i>
+There are many variants of this idea, so let’s look at the most important ones.
+<b>Dataparallelismusingthemirroredstrategy</b>
+Arguably the simplest approach is to completely mirror all the model parameters
+across all the GPUs and always apply the exact same parameter updates on every
+GPU. This way, all replicas always remain perfectly identical. This is called the <i>mir‐</i>
+<i>rored</i> <i>strategy,</i> and it turns out to be quite efficient, especially when using a single
+machine (see Figure 19-18).
+18 Ifyouareinterestedingoingfurtherwithmodelparallelism,checkoutMeshTensorFlow.

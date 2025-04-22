@@ -1,0 +1,28 @@
+once each quarter, it doesn’t make sense to train more frequently than that. However,
+if the volume and occurrence of new data is high, then it would be beneficial to
+retrain more frequently. The most extreme version of this is online machine learning.
+Some machine learning applications, such as ad placement or newsfeed recommen‐
+dation, require online, real-time decision, and can continuously improve perfor‐
+mance by retraining and updating parameter weights with each new training
+example.
+In general, the optimal time frame is something you as a practitioner will determine
+through experience and experimentation. If you are trying to model a rapidly moving
+task, such as adversary or competitive behavior, then it makes sense to set a more fre‐
+quent retraining schedule. If the problem is fairly static, like predicting a baby’s birth
+weight, then less frequent retrainings should suffice.
+In either case, it is helpful to have an automated pipeline set up that can execute the
+full retraining process with a single API call. Tools like Cloud Composer/Apache Air‐
+flow and AI Platform Pipelines are useful to create, schedule, and monitor ML work‐
+flows from preprocessing raw data and training to hyperparameter tuning and
+deployment. We discuss this further in the next chapter in “Design Pattern 25: Work‐
+flow Pipeline”.
+<b>DatavalidationwithTFX</b>
+Data distributions can change over time, as shown in Figure 5-7. For example, con‐
+sider the natality birth weight dataset. As medicine and societal standards change
+over time, the relationship between model features, such as the mother’s age or the
+number of gestation weeks, change with respect to the model label, the weight of the
+baby. This data drift negatively impacts the model’s ability to generalize to new data.
+In short, your model has gone <i>stale,</i> and it needs to be retrained on fresh data.
+<i>Figure</i> <i>5-7.</i> <i>Data</i> <i>distributions</i> <i>can</i> <i>change</i> <i>over</i> <i>time.</i> <i>Data</i> <i>drift</i> <i>refers</i> <i>to</i> <i>any</i> <i>change</i>
+<i>that</i> <i>has</i> <i>occurred</i> <i>to</i> <i>the</i> <i>data</i> <i>being</i> <i>fed</i> <i>to</i> <i>your</i> <i>model</i> <i>for</i> <i>prediction</i> <i>as</i> <i>compared</i> <i>to</i> <i>the</i>
+<i>data</i> <i>used</i> <i>for</i> <i>training.</i>

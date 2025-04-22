@@ -1,0 +1,33 @@
+nn.Linear
+Note that a feed-forward layer such as is usually applied to a tensor of
+shape (batch_size, input_dim) , where it acts on each element of the batch dimen‐
+sion independently. This is actually true for any dimension except the last one, so
+(batch_size, seq_len, hidden_dim)
+when we pass a tensor of shape the layer is
+applied to all token embeddings of the batch and sequence independently, which is
+exactly what we want. Let’s test this by passing the attention outputs:
+feed_forward = FeedForward(config)
+ff_outputs = feed_forward(attn_outputs)
+ff_outputs.size()
+torch.Size([1, 5, 768])
+We now have all the ingredients to create a fully fledged transformer encoder layer!
+The only decision left to make is where to place the skip connections and layer nor‐
+malization. Let’s take a look at how this affects the model architecture.
+<header><largefont><b>Adding</b></largefont> <largefont><b>Layer</b></largefont> <largefont><b>Normalization</b></largefont></header>
+As mentioned earlier, the Transformer architecture makes use of <i>layer</i> <i>normalization</i>
+and <i>skip</i> <i>connections.</i> The former normalizes each input in the batch to have zero
+mean and unity variance. Skip connections pass a tensor to the next layer of the
+model without processing and add it to the processed tensor. When it comes to plac‐
+ing the layer normalization in the encoder or decoder layers of a transformer, there
+are two main choices adopted in the literature:
+<i>Post</i> <i>layer</i> <i>normalization</i>
+This is the arrangement used in the Transformer paper; it places layer normaliza‐
+tion in between the skip connections. This arrangement is tricky to train from
+scratch as the gradients can diverge. For this reason, you will often see a concept
+known as <i>learning</i> <i>rate</i> <i>warm-up,</i> where the learning rate is gradually increased
+from a small value to some maximum value during training.
+<i>Pre</i> <i>layer</i> <i>normalization</i>
+This is the most common arrangement found in the literature; it places layer nor‐
+malization within the span of the skip connections. This tends to be much more
+stable during training, and it does not usually require any learning rate warm-up.
+The difference between the two arrangements is illustrated in Figure 3-6.

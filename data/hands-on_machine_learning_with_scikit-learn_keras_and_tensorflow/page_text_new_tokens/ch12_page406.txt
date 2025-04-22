@@ -1,0 +1,41 @@
+We can obviously call this function with a Python value, such as an int or a float, or
+we can call it with a tensor:
+<b>>>></b> cube(2)
+8
+<b>>>></b> cube(tf.constant(2.0))
+<tf.Tensor: id=18634148, shape=(), dtype=float32, numpy=8.0>
+tf.function()
+Now, let’s use to convert this Python function to a <i>TensorFlow</i>
+<i>Function:</i>
+<b>>>></b> tf_cube = tf.function(cube)
+<b>>>></b> tf_cube
+<tensorflow.python.eager.def_function.Function at 0x1546fc080>
+This TF Function can then be used exactly like the original Python function, and it
+will return the same result (but as tensors):
+<b>>>></b> tf_cube(2)
+<tf.Tensor: id=18634201, shape=(), dtype=int32, numpy=8>
+<b>>>></b> tf_cube(tf.constant(2.0))
+<tf.Tensor: id=18634211, shape=(), dtype=float32, numpy=8.0>
+tf.function() cube()
+Under the hood, analyzed the computations performed by the
+function and generated an equivalent computation graph! As you can see, it was
+rather painless (we will see how this works shortly). Alternatively, we could have used
+tf.function as a decorator; this is actually more common:
+@tf.function
+<b>def</b> tf_cube(x):
+<b>return</b> x ** 3
+The original Python function is still available via the TF Function’s python_function
+attribute, in case you ever need it:
+<b>>>></b> tf_cube.python_function(2)
+8
+TensorFlow optimizes the computation graph, pruning unused nodes, simplifying
+expressions (e.g., 1 + 2 would get replaced with 3), and more. Once the optimized
+graph is ready, the TF Function efficiently executes the operations in the graph, in the
+appropriate order (and in parallel when it can). As a result, a TF Function will usually
+run much faster than the original Python function, especially if it performs complex
+computations.15 Most of the time you will not really need to know more than that:
+when you want to boost a Python function, just transform it into a TF Function.
+That’s all!
+15 However,inthistrivialexample,thecomputationgraphissosmallthatthereisnothingatalltooptimize,so
+tf_cube() cube()
+actuallyrunsmuchslowerthan .

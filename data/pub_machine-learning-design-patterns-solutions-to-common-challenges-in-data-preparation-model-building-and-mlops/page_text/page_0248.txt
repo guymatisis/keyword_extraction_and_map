@@ -1,0 +1,36 @@
+This allows the client to match inputs to outputs, but is more expensive in terms of
+bandwidth and client-side computation.
+Because high-performance servers will support multiple clients, be backed by a clus‐
+ter, and batch up requests to gain performance benefits, it’s better to plan ahead for
+this—ask that clients supply keys with every prediction and for clients to specify keys
+that will not cause a collision with other clients.
+<header><largefont><b>Summary</b></largefont></header>
+In this chapter, we looked at techniques for operationalizing machine learning mod‐
+els to ensure they are resilient and can scale to handle production load. Each resil‐
+ience pattern we discussed relates to the deployment and serving steps in a typical
+ML workflow.
+We started this chapter by looking at how to encapsulate your trained machine learn‐
+ing model as a stateless function using the <i>Stateless</i> <i>Serving</i> <i>Function</i> design pattern.
+A serving function decouples your model’s training and deployment environments
+by defining a function that performs inference on an exported version of your model,
+and is deployed to a REST endpoint. Not all production models require immediate
+prediction results, as there are situations where you need to send a large batch of data
+to your model for prediction but don’t need results right away. We saw how the
+<i>Batch</i> <i>Serving</i> design pattern solves this by utilizing distributed data processing infra‐
+structure designed to run many model prediction requests asynchronously as a back‐
+ground job, with output written to a specified location.
+Next, with the <i>Continued</i> <i>Model</i> <i>Evaluation</i> design pattern, we looked at an approach
+to verifying that your deployed model is still performing well on new data. This pat‐
+tern addresses the problems of data and concept drift by regularly evaluating your
+model and using these results to determine if retraining is necessary. In the
+<i>Two-Phase</i> <i>Predictions</i> design pattern, we solved for specific use cases where models
+need to be deployed at the edge. When you can break a problem into two logical
+parts, this pattern first creates a simpler model that can be deployed on-device. This
+edge model is connected to a more complex model hosted in the cloud. Finally, in the
+<i>Keyed</i> <i>Prediction</i> design pattern, we discussed why it can be beneficial to supply a
+unique key with each example when making prediction requests. This ensures that
+your client associates each prediction output with the correct input example.
+In the next chapter, we’ll look at <i>reproducibility</i> patterns. These patterns address chal‐
+lenges associated with the inherent randomness present in many aspects of machine
+learning and focus on enabling reliable, consistent results each time a machine learn‐
+ing process runs.

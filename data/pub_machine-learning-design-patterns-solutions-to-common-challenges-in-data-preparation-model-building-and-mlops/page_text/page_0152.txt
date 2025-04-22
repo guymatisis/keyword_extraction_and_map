@@ -1,0 +1,35 @@
+<header><largefont><b>Checkpoints</b></largefont> <largefont><b>in</b></largefont> <largefont><b>PyTorch</b></largefont></header>
+At the time of writing, PyTorch doesn’t support checkpoints directly. However, it
+does support externalizing the state of most objects. To implement checkpoints in
+PyTorch, ask for the epoch, model state, optimizer state, and any other information
+needed to resume training to be serialized along with the model:
+torch.save({
+'epoch': epoch,
+'model_state_dict': <b>model.state_dict(),</b>
+'optimizer_state_dict': <b>optimizer.state_dict(),</b>
+'loss': loss,
+…
+}, PATH)
+When loading from a checkpoint, you need to create the necessary classes and then
+load them from the checkpoint:
+model = ...
+optimizer = ...
+checkpoint = torch.load(PATH)
+<b>model.load_state_dict(checkpoint['model_state_dict'])</b>
+<b>optimizer.load_state_dict(checkpoint['optimizer_state_dict'])</b>
+epoch = checkpoint['epoch']
+loss = checkpoint['loss']
+This is lower level than TensorFlow but provides the flexibility of storing multiple
+models in a checkpoint and choosing which parts of the model state to load or not
+load.
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+TensorFlow and Keras automatically resume training from a checkpoint if check‐
+points are found in the output path. To start training from scratch, therefore, you
+have to start from a new output directory (or delete previous checkpoints from the
+output directory). This works because enterprise-grade machine learning frameworks
+honor the presence of checkpoint files.
+Even though checkpoints are designed primarily to support resilience, the availability
+of partially trained models opens up a number of other use cases. This is because the
+partially trained models are usually more generalizable than the models created in
+later iterations. A good intuition of why this occurs can be obtained from the Tensor‐
+Flow playground, as shown in Figure 4-7.

@@ -1,0 +1,11 @@
+macro_scores['Zero Shot'].append(clf_report['macro avg']['f1-score'])
+micro_scores['Zero Shot'].append(clf_report['micro avg']['f1-score'])
+plot_metrics(micro_scores, macro_scores, train_samples, "Zero Shot")
+Comparing the zero-shot pipeline to the baseline, we observe two things:
+1. If we have less than 50 labeled samples, the zero-shot pipeline handily outper‐
+forms the baseline.
+2. Even above 50 samples, the performance of the zero-shot pipeline is superior
+when considering both the micro and macro <i>F</i> -scores. The results for the micro
+1
+<i>F</i> -score tell us that the baseline performs well on the frequent classes, while the
+1

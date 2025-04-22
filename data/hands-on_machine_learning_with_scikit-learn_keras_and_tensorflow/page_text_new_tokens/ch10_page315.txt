@@ -1,0 +1,41 @@
+You will typically have a script that trains a model and saves it, and one or more
+scripts (or web services) that load the model and use it to make predictions. Loading
+the model is just as easy:
+model = keras.models.load_model("my_keras_model.h5")
+This will work when using the Sequential API or the Functional
+API, but unfortunately not when using model subclassing. You can
+use save_weights() and load_weights() to at least save and
+restore the model parameters, but you will need to save and restore
+everything else yourself.
+But what if training lasts several hours? This is quite common, especially when train‐
+ing on large datasets. In this case, you should not only save your model at the end of
+training, but also save checkpoints at regular intervals during training, to avoid losing
+fit()
+everything if your computer crashes. But how can you tell the method to save
+checkpoints? Use callbacks.
+<header><largefont><b>Using</b></largefont> <largefont><b>Callbacks</b></largefont></header>
+The fit() method accepts a callbacks argument that lets you specify a list of objects
+that Keras will call at the start and end of training, at the start and end of each epoch,
+ModelCheckpoint
+and even before and after processing each batch. For example, the
+callback saves checkpoints of your model at regular intervals during training, by
+default at the end of each epoch:
+[...] <i>#</i> <i>build</i> <i>and</i> <i>compile</i> <i>the</i> <i>model</i>
+checkpoint_cb = keras.callbacks.ModelCheckpoint("my_keras_model.h5")
+history = model.fit(X_train, y_train, epochs=10, callbacks=[checkpoint_cb])
+Moreover, if you use a validation set during training, you can set
+save_best_only=True when creating the ModelCheckpoint . In this case, it will only
+save your model when its performance on the validation set is the best so far. This
+way, you do not need to worry about training for too long and overfitting the training
+set: simply restore the last model saved after training, and this will be the best model
+on the validation set. The following code is a simple way to implement early stopping
+(introduced in Chapter 4):
+checkpoint_cb = keras.callbacks.ModelCheckpoint("my_keras_model.h5",
+save_best_only=True)
+history = model.fit(X_train, y_train, epochs=10,
+validation_data=(X_valid, y_valid),
+callbacks=[checkpoint_cb])
+model = keras.models.load_model("my_keras_model.h5") <i>#</i> <i>roll</i> <i>back</i> <i>to</i> <i>best</i> <i>model</i>
+EarlyStopping
+Another way to implement early stopping is to simply use the call‐
+back. It will interrupt training when it measures no progress on the validation set for

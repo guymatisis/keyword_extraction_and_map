@@ -1,0 +1,27 @@
+token, and the most likely sequence is selected by ranking the <i>b</i> beams according to
+their log probabilities. An example of beam search is shown in Figure 5-4.
+<i>Figure</i> <i>5-4.</i> <i>Beam</i> <i>search</i> <i>with</i> <i>two</i> <i>beams</i>
+Why do we score the sequences using log probabilities instead of the probabilities
+themselves? That calculating the overall probability of a sequence <i>P</i> <i>y</i> , <i>y</i> ,..., <i>y</i>
+1 2 <i>t</i>
+involves calculating a <i>product</i> of conditional probabilities <i>P</i> <i>y</i> <i>y</i> ,  is one reason.
+<i>t</i> < <i>t</i>
+Since each conditional probability is typically a small number in the range [0,1],
+taking their product can lead to an overall probability that can easily underflow. This
+means that the computer can no longer precisely represent the result of the calcula‐
+tion. For example, suppose we have a sequence of <i>t</i> = 1024 tokens and generously
+assume that the probability for each token is 0.5. The overall probability for this
+sequence is an extremely small number:
+0.5 ** 1024
+5.562684646268003e-309
+which leads to numerical instability as we run into underflow. We can avoid this by
+calculating a related term, the log probability. If we apply the logarithm to the joint
+and conditional probabilities, then with the help of the product rule for logarithms
+we get:
+<i>N</i>
+log <i>P</i> <i>y</i> ,...y  = <largefont>∑</largefont> log <i>P</i> <i>y</i> <i>y</i> ,
+1 <i>t</i> <i>t</i> < <i>t</i>
+<i>t</i> = 1
+In other words, the product of probabilities we saw earlier becomes a sum of log
+probabilities, which is much less likely to run into numerical instabilities. For exam‐
+ple, calculating the log probability of the same example as before gives:

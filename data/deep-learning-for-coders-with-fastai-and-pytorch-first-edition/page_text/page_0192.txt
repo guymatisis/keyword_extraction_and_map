@@ -1,0 +1,34 @@
+You can do this using the show_batch method:
+dls.show_batch(nrows=1, ncols=3)
+Take a look at each image, and check that each one seems to have the correct label for
+that breed of pet. Often, data scientists work with data with which they are not as
+familiar as domain experts may be: for instance, I actually don’t know what a lot of
+these pet breeds are. Since I am not an expert on pet breeds, I would use Google
+images at this point to search for a few of these breeds, and make sure the images
+look similar to what I see in this output.
+If you made a mistake while building your DataBlock, you likely won’t see it before
+summary
+this step. To debug this, we encourage you to use the method. It will attempt
+to create a batch from the source you give it, with a lot of details. Also, if it fails, you
+will see exactly at which point the error happens, and the library will try to give you
+some help. For instance, one common mistake is to forget to use a Resize transform,
+so you end up with pictures of different sizes and are not able to batch them. Here is
+what the summary would look like in that case (note that the exact text may have
+changed since the time of writing, but it will give you an idea):
+pets1 = DataBlock(blocks = (ImageBlock, CategoryBlock),
+get_items=get_image_files,
+splitter=RandomSplitter(seed=42),
+get_y=using_attr(RegexLabeller(r'(.+)_\d+.jpg$'), 'name'))
+pets1.summary(path/"images")
+Setting-up type transforms pipelines
+Collecting items from /home/sgugger/.fastai/data/oxford-iiit-pet/images
+Found 7390 items
+2 datasets of sizes 5912,1478
+Setting up Pipeline: PILBase.create
+Setting up Pipeline: partial -> Categorize
+Building one sample
+Pipeline: PILBase.create
+starting from
+/home/sgugger/.fastai/data/oxford-iiit-pet/images/american_bulldog_83.jpg
+applying PILBase.create gives
+PILImage mode=RGB size=375x500

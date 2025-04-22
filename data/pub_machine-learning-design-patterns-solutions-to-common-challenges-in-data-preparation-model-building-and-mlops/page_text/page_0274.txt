@@ -1,0 +1,31 @@
+<i>Figure</i> <i>6-5.</i> <i>Arrival</i> <i>delays</i> <i>at</i> <i>Dallas</i> <i>Fort</i> <i>Worth</i> <i>(DFW)</i> <i>airport</i> <i>on</i> <i>May</i> <i>10–11,</i> <i>2010.</i>
+<i>Abnormal</i> <i>arrival</i> <i>delays</i> <i>are</i> <i>marked</i> <i>with</i> <i>a</i> <i>dot.</i>
+The arrival delays exhibit considerable variability, but it is still possible to note
+unusually large arrival delays (marked by a dot). Note that the definition of “unusual”
+varies by context. Early in the morning (left corner of the plot), most flights are on
+time, so even the small spike is anomalous. By the middle of the day (after 12 p.m. on
+May 10), variability picks up and 25-minute delays are quite common, but a 75-
+minute delay is still unusual.
+Whether or not a specific delay is anomalous depends on a time context, for example,
+on the arrival delays observed over the past two hours. To determine that a delay is
+anomalous requires that we first sort the dataframe based on the time (as in the graph
+in Figure 6-5 and shown below in pandas):
+df = df.sort_values(by='scheduled_time').set_index('scheduled_time')
+Then, we need to apply an anomaly detection function to sliding windows of two
+hours:
+df['delay'].rolling('2h').apply(is_anomaly, raw=False)
+is_anomaly
+The anomaly detection function, , can be quite sophisticated, but let’s
+take the simple case of discarding extrema and calling a data value an anomaly if it is
+more than four standard deviations from the mean in the two-hour window:
+<b>def</b> is_anomaly(d):
+outcome = d[-1] <i>#</i> <i>the</i> <i>last</i> <i>item</i>
+<i>#</i> <i>discard</i> <i>min</i> <i>&</i> <i>max</i> <i>value</i> <i>&</i> <i>current</i> <i>(last)</i> <i>item</i>
+xarr = d.drop(index=[d.idxmin(), d.idxmax(), d.index[-1]])
+prediction = xarr.mean()
+acceptable_deviation = 4 * xarr.std()
+<b>return</b> np.abs(outcome - prediction) > acceptable_deviation
+This works on historical (training) data because the entire dataframe is at hand. Of
+course, when running inference on our production model, we will not have the entire
+dataframe. In production, we will be receiving flight arrival information one by one,
+as each flight arrives. So, all that we will have is a single delay value at a timestamp:

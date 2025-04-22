@@ -1,0 +1,26 @@
+<i>Figure</i> <i>7-5.</i> <i>A</i> <i>single</i> <i>Decision</i> <i>Tree</i> <i>(left)</i> <i>versus</i> <i>a</i> <i>bagging</i> <i>ensemble</i> <i>of</i> <i>500</i> <i>trees</i> <i>(right)</i>
+Bootstrapping introduces a bit more diversity in the subsets that each predictor is
+trained on, so bagging ends up with a slightly higher bias than pasting; but the extra
+diversity also means that the predictors end up being less correlated, so the ensemble’s
+variance is reduced. Overall, bagging often results in better models, which explains
+why it is generally preferred. However, if you have spare time and CPU power, you
+can use cross-validation to evaluate both bagging and pasting and select the one that
+works best.
+<header><largefont><b>Out-of-Bag</b></largefont> <largefont><b>Evaluation</b></largefont></header>
+With bagging, some instances may be sampled several times for any given predictor,
+BaggingClassifier
+while others may not be sampled at all. By default a samples <i>m</i>
+training instances with replacement (bootstrap=True), where <i>m</i> is the size of the
+training set. This means that only about 63% of the training instances are sampled on
+predictor.6
+average for each The remaining 37% of the training instances that are not
+sampled are called <i>out-of-bag</i> (oob) instances. Note that they are not the same 37%
+for all predictors.
+Since a predictor never sees the oob instances during training, it can be evaluated on
+these instances, without the need for a separate validation set. You can evaluate the
+ensemble itself by averaging out the oob evaluations of each predictor.
+In Scikit-Learn, you can set oob_score=True when creating a BaggingClassifier to
+request an automatic oob evaluation after training. The following code demonstrates
+oob_score_
+this. The resulting evaluation score is available through the variable:
+6 Asmgrows,thisratioapproaches1–exp(–1)≈63.212%.

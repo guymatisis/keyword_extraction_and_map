@@ -1,0 +1,39 @@
+For example, if our model is classifying images as cats, dogs, or rabbits, the softmax
+output might look like this for a given image: [ .89 , .02 , .09 ]. This means our model
+is predicting an 89% chance the image is a cat, 2% chance it’s a dog, and 9% chance
+it’s a rabbit. Because each image can have <i>only</i> <i>one</i> <i>possible</i> <i>label</i> in this scenario, we
+can take the argmax (index of the highest probability) to determine our model’s pre‐
+dicted class. The less-common scenario is when each training example can be
+assigned <i>more</i> <i>than</i> <i>one</i> label, which is what this pattern addresses.
+The Multilabel design pattern exists for models trained on all data modalities. For
+image classification, in the earlier cat, dog, rabbit example, we could instead use
+training images that each depicted <i>multiple</i> animals, and could therefore have multi‐
+ple labels. For text models, we can imagine a few scenarios where text can be labeled
+with multiple tags. Using the dataset of Stack Overflow questions on BigQuery as an
+example, we could build a model to predict the tags associated with a particular ques‐
+tion. As an example, the question “How do I plot a pandas DataFrame?” could be tag‐
+ged as “Python,” “pandas,” and “visualization.” Another multilabel text classification
+example is a model that identifies toxic comments. For this model, we might want to
+flag comments with multiple toxicity labels. A comment could therefore be labeled
+both “hateful” and “obscene.”
+This design pattern can also apply to tabular datasets. Imagine a healthcare dataset
+with various physical characteristics for each patient, like height, weight, age, blood
+pressure, and more. This data could be used to predict the presence of multiple con‐
+ditions. For example, a patient could show risk of both heart disease and diabetes.
+<header><largefont><b>Solution</b></largefont></header>
+The solution for building models that can assign <i>more</i> <i>than</i> <i>one</i> <i>label</i> to a given train‐
+ing example is to use the <i>sigmoid</i> activation function in our final output layer. Rather
+than generating an array where all values sum to 1 (as in softmax), each <i>individual</i>
+value in a sigmoid array is a float between 0 and 1. That is to say, when implementing
+the Multilabel design pattern, our label needs to be multi-hot encoded. The length of
+the multi-hot array corresponds with the number of classes in our model, and each
+output in this label array will be a sigmoid value.
+Building on the image example above, let’s say our training dataset included images
+with more than one animal. The sigmoid output for an image that contained a cat
+and a dog but not a rabbit might look like the following: [ .92 , .85 , .11 ]. This output
+means the model is 92% confident the image contains a cat, 85% confident it contains
+a dog, and 11% confident it contains a rabbit.
+A version of this model for 28×28-pixel images with sigmoid output might look like
+this, using the Keras Sequential API:
+model = keras.Sequential([
+keras.layers.Flatten(input_shape=(28, 28)),

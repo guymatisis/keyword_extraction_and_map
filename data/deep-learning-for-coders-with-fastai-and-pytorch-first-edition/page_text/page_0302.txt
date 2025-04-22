@@ -1,0 +1,32 @@
+This is particularly beneficial in cases where we have only a small amount of training
+data, as it allows us to see whether our model generalizes without removing items to
+create a validation set. The OOB predictions are available in the oob_prediction_
+attribute. Note that we compare them to the training labels, since this is being calcu‐
+lated on trees using the training set:
+r_mse(m.oob_prediction_, y)
+0.210686
+We can see that our OOB error is much lower than our validation set error. This
+means that something else is causing that error, in <i>addition</i> to normal generalization
+error. We’ll discuss the reasons for this later in this chapter.
+This is one way to interpret our model’s predictions—let’s focus on more of those
+now.
+<header><largefont><b>Model</b></largefont> <largefont><b>Interpretation</b></largefont></header>
+For tabular data, model interpretation is particularly important. For a given model,
+we are most likely to be interested in are the following:
+• How confident are we in our predictions using a particular row of data?
+• For predicting with a particular row of data, what were the most important fac‐
+tors, and how did they influence that prediction?
+• Which columns are the strongest predictors, which can we ignore?
+• Which columns are effectively redundant with each other, for purposes of pre‐
+diction?
+• How do predictions vary as we vary these columns?
+As we will see, random forests are particularly well suited to answering these ques‐
+tions. Let’s start with the first one!
+<header><largefont><b>Tree</b></largefont> <largefont><b>Variance</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Prediction</b></largefont> <largefont><b>Confidence</b></largefont></header>
+We saw how the model averages the individual tree’s predictions to get an overall pre‐
+diction—that is, an estimate of the value. But how can we know the confidence of the
+estimate? One simple way is to use the standard deviation of predictions across the
+trees, instead of just the mean. This tells us the <i>relative</i> confidence of predictions. In
+general, we would want to be more cautious of using the results for rows where trees
+give very different results (higher standard deviations), compared to cases where they
+are more consistent (lower standard deviations).

@@ -1,0 +1,38 @@
+Let’s try both of these now:
+dist_3_abs = (a_3 - mean3).abs().mean()
+dist_3_sqr = ((a_3 - mean3)**2).mean().sqrt()
+dist_3_abs,dist_3_sqr
+(tensor(0.1114), tensor(0.2021))
+dist_7_abs = (a_3 - mean7).abs().mean()
+dist_7_sqr = ((a_3 - mean7)**2).mean().sqrt()
+dist_7_abs,dist_7_sqr
+(tensor(0.1586), tensor(0.3021))
+In both cases, the distance between our 3 and the “ideal” 3 is less than the distance to
+the ideal 7, so our simple model will give the right prediction in this case.
+PyTorch already provides both of these as <i>loss</i> <i>functions.</i> You’ll find these inside
+torch.nn.functional , which the PyTorch team recommends importing as F (and is
+available by default under that name in fastai):
+F.l1_loss(a_3.float(),mean7), F.mse_loss(a_3,mean7).sqrt()
+(tensor(0.1586), tensor(0.3021))
+Here, MSE stands for <i>mean</i> <i>squared</i> <i>error,</i> and l1 refers to the standard mathematical
+jargon for <i>mean</i> <i>absolute</i> <i>value</i> (in math it’s called the <i>L1</i> <i>norm).</i>
+<b>SylvainSays</b>
+Intuitively, the difference between L1 norm and mean squared
+error (MSE) is that the latter will penalize bigger mistakes more
+heavily than the former (and be more lenient with small mistakes).
+<b>JeremySays</b>
+When I first came across this L1 thingie, I looked it up to see what
+on earth it meant. I found on Google that it is a <i>vector</i> <i>norm</i> using
+<i>absolute</i> <i>value,</i> so I looked up “vector norm” and started reading:
+<i>Given</i> <i>a</i> <i>vector</i> <i>space</i> <i>V</i> <i>over</i> <i>a</i> <i>field</i> <i>F</i> <i>of</i> <i>the</i> <i>real</i> <i>or</i> <i>complex</i> <i>numbers,</i>
+<i>a</i> <i>norm</i> <i>on</i> <i>V</i> <i>is</i> <i>a</i> <i>nonnegative-valued</i> <i>any</i> <i>function</i> <i>p:</i> <i>V</i> <i>→</i> <i>\[0,+∞)</i>
+<i>with</i> <i>the</i> <i>following</i> <i>properties:</i> <i>For</i> <i>all</i> <i>a∈F</i> <i>and</i> <i>all</i> <i>u,</i> <i>v∈V,</i> <i>p(u</i> <i>+</i> <i>v)</i>
+<i>≤</i> <i>p(u)</i> <i>+</i> <i>p(v)…Then</i> I stopped reading. “Ugh, I’ll never understand
+math!” I thought, for the thousandth time. Since then, I’ve learned
+that every time these complex mathy bits of jargon come up in
+practice, it turns out I can replace them with a tiny bit of code!
+Like, the <i>L1</i> <i>loss</i> is just equal to (a-b).abs().mean(), where a and
+b are tensors. I guess mathy folks just think differently than I do…
+I’ll make sure in this book that every time some mathy jargon
+comes up, I’ll give you the little bit of code it’s equal to as well, and
+explain in common-sense terms what’s going on.

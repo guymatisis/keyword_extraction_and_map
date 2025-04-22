@@ -1,0 +1,37 @@
+<b>Pre-trainedmodels</b>
+The Cascade is also needed when we wish to reuse the output of a pre-trained model
+as an input into our model. For example, let’s say we are building a model to detect
+authorized entrants to a building so that we can automatically open the gate. One of
+the inputs to our model might be the license plate of the vehicle. Instead of using the
+security photo directly in our model, we might find it simpler to use the output of an
+optical character recognition (OCR) model. It is critical that we recognize that OCR
+systems will have errors, and so we should not train our model with perfect license
+plate information. Instead, we should train the model on the actual output of the
+OCR system. Indeed, because different OCR models will behave differently and have
+different errors, it is necessary to retrain the model if we change the vendor of our
+OCR system.
+A common scenario of using a pre-trained model as the first step
+of a pipeline is using an object-detection model followed by a fine-
+grained image classification model. For example, the object-
+detection model might find all handbags in the image, an
+intermediate step might crop the image to the bounding boxes of
+the detected objects, and the subsequent model might identify the
+type of handbag. We recommend using a Cascade so that the entire
+pipeline can be retrained whenever the object-detection model is
+updated (such as with a new version of the API).
+<b>ReframinginsteadofCascade</b>
+Note that in our example problem, we were trying to predict the likelihood that an
+item would be returned, and so this was a classification problem. Suppose instead we
+wish to predict hourly sales amounts. Most of the time, we will serve just retail buy‐
+ers, but once in a while (perhaps four or five times a year), we will have a wholesale
+buyer.
+This is notionally a regression problem of predicting daily sales amounts where we
+have a confounding factor in the form of wholesale buyers. Reframing the regression
+problem to be a classification problem of different sales amounts might be a better
+approach. Although it will involve training a classification model for each sales
+amount bucket, it avoids the need to get the retail versus wholesale classification
+correct.
+<b>Regressioninraresituations</b>
+The Cascade design pattern can be helpful when carrying out regression when some
+values are much more common than others. For example, we might want to predict
+the quantity of rainfall from a satellite image. It might be the case that on 99% of the

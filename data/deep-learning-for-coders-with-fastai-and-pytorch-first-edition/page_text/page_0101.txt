@@ -1,0 +1,34 @@
+project goals being worked on, if they know that employees are not going to like the
+answers. This is sometimes done by compartmentalizing pieces as much as possible.
+In other words, we’re not saying that any of this is easy. It’s hard. It’s really hard. We all
+have to do our best. And we have often seen that the people who do get involved in
+the higher-level context of these projects, and attempt to develop cross-disciplinary
+capabilities and teams, become some of the most important and well rewarded mem‐
+bers of their organizations. It’s the kind of work that tends to be highly appreciated by
+senior executives, even if it is sometimes considered rather uncomfortable by middle
+management.
+<header><largefont><b>Topics</b></largefont> <largefont><b>in</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>Ethics</b></largefont></header>
+Data ethics is a big field, and we can’t cover everything. Instead, we’re going to pick a
+few topics that we think are particularly relevant:
+• The need for recourse and accountability
+• Feedback loops
+• Bias
+• Disinformation
+Let’s look at each in turn.
+<header><largefont><b>Recourse</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Accountability</b></largefont></header>
+In a complex system, it is easy for no one person to feel responsible for outcomes.
+While this is understandable, it does not lead to good results. In the earlier example
+of the Arkansas healthcare system in which a bug led to people with cerebral palsy
+losing access to needed care, the creator of the algorithm blamed government offi‐
+cials, and government officials blamed those who implemented the software. NYU
+professor Danah Boyd described this phenomenon: “Bureaucracy has often been
+used to shift or evade responsibility….Today’s algorithmic systems are extending
+bureaucracy.”
+An additional reason why recourse is so necessary is that data often contains errors.
+Mechanisms for audits and error correction are crucial. A database of suspected gang
+members maintained by California law enforcement officials was found to be full of
+errors, including 42 babies who had been added to the database when they were less
+than 1 year old (28 of whom were marked as “admitting to being gang members”). In
+this case, there was no process in place for correcting mistakes or removing people
+after they’d been added. Another example is the US credit report system: a large-scale
+study of credit reports by the Federal Trade Commission (FTC) in 2012 found that

@@ -1,0 +1,21 @@
+<i>Figure</i> <i>9-1.</i> <i>Several</i> <i>techniques</i> <i>that</i> <i>can</i> <i>be</i> <i>used</i> <i>to</i> <i>improve</i> <i>model</i> <i>performance</i> <i>in</i> <i>the</i>
+<i>absence</i> <i>of</i> <i>large</i> <i>amounts</i> <i>of</i> <i>labeled</i> <i>data</i>
+Let’s walk through this decision tree step-by-step:
+<i>1.</i> <i>Do</i> <i>you</i> <i>have</i> <i>labeled</i> <i>data?</i>
+Even a handful of labeled samples can make a difference with regard to which
+method works best. If you have no labeled data at all, you can start with the zero-
+shot learning approach, which often sets a strong baseline to work from.
+<i>2.</i> <i>How</i> <i>many</i> <i>labels?</i>
+If labeled data is available, the deciding factor is how much. If you have a lot of
+training data available you can use the standard fine-tuning approach discussed
+in Chapter 2.
+<i>3.</i> <i>Do</i> <i>you</i> <i>have</i> <i>unlabeled</i> <i>data?</i>
+If you only have a handful of labeled samples it can help immensely if you have
+access to large amounts of unlabeled data. If you have access to unlabeled data
+you can either use it to fine-tune the language model on the domain before train‐
+ing a classifier, or you can use more sophisticated methods such as unsupervised
+(UST).1
+data augmentation (UDA) or uncertainty-aware self-training If you don’t
+have any unlabeled data available, you don’t have the option of annotating more
+1 Q.Xieetal.,“UnsupervisedDataAugmentationforConsistencyTraining”,(2019);S.MukherjeeandA.H.
+Awadallah,“Uncertainty-AwareSelf-TrainingforFew-ShotTextClassification”,(2020).

@@ -1,0 +1,21 @@
+<i>Figure</i> <i>15-2.</i> <i>The</i> <i>U-Net</i> <i>architecture</i> <i>(courtesy</i> <i>of</i> <i>Olaf</i> <i>Ronneberger,</i> <i>Philipp</i> <i>Fischer,</i> <i>and</i>
+<i>Thomas</i> <i>Brox)</i>
+This picture shows the CNN body on the left (in this case, it’s a regular CNN, not a
+ResNet, and they’re using 2×2 max pooling instead of stride-2 convolutions, since this
+paper was written before ResNets came along) and the transposed convolutional
+(“up-conv”) layers on the right. The extra skip connections are shown as gray arrows
+crossing from left to right (these are sometimes called <i>cross</i> <i>connections).</i> You can see
+why it’s called a <i>U-Net!</i>
+With this architecture, the input to the transposed convolutions is not just the lower-
+resolution grid in the preceding layer, but also the higher-resolution grid in the
+ResNet head. This allows the U-Net to use all of the information of the original
+image, as it is needed. One challenge with U-Nets is that the exact architecture
+depends on the image size. fastai has a unique DynamicUnet class that autogenerates
+an architecture of the right size based on the data provided.
+Let’s focus now on an example in which we leverage the fastai library to write a cus‐
+tom model.
+<header><largefont><b>A</b></largefont> <largefont><b>Siamese</b></largefont> <largefont><b>Network</b></largefont></header>
+Let’s go back to the input pipeline we set up in Chapter 11 for a Siamese network. As
+you may remember, it consisted of a pair of images with the label being True or
+False,
+depending on whether they were in the same class.

@@ -1,0 +1,39 @@
+The third image is built by adding 0.3 times the first one and 0.7 times the second. In
+this example, should the model predict “church” or “gas station”? The right answer is
+30% church and 70% gas station, since that’s what we’ll get if we take the linear com‐
+bination of the one-hot-encoded targets. For instance, suppose we have 10 classes,
+and “church” is represented by the index 2 and “gas station” by the index 7. The one-
+hot-encoded representations are as follows:
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0] and [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+So here is our final target:
+[0, 0, 0.3, 0, 0, 0, 0, 0.7, 0, 0]
+This all done for us inside fastai by adding a <i>callback</i> to our Learner. Callbacks are
+what is used inside fastai to inject custom behavior in the training loop (like a learn‐
+ing rate schedule, or training in mixed precision). You’ll be learning all about call‐
+backs, including how to make your own, in Chapter 16. For now, all you need to
+know is that you use the cbs parameter to Learner to pass callbacks.
+Here is how we train a model with Mixup:
+model = xresnet50()
+learn = Learner(dls, model, loss_func=CrossEntropyLossFlat(),
+metrics=accuracy, cbs=Mixup)
+learn.fit_one_cycle(5, 3e-3)
+What happens when we train a model with data that’s “mixed up” in this way? Clearly,
+it’s going to be harder to train, because it’s harder to see what’s in each image. And the
+model has to predict two labels per image, rather than just one, as well as figuring out
+how much each one is weighted. Overfitting seems less likely to be a problem, how‐
+ever, because we’re not showing the same image in each epoch, but are instead show‐
+ing a random combination of two images.
+Mixup requires far more epochs to train to get better accuracy, compared to other
+augmentation approaches we’ve seen. You can try training Imagenette with and
+without Mixup by using the <i>examples/train_imagenette.py</i> script in the fastai repo. At
+the time of writing, the leaderboard in the Imagenette repo is showing that Mixup is
+used for all leading results for trainings of >80 epochs, and for fewer epochs Mixup is
+not being used. This is in line with our experience of using Mixup too.
+One of the reasons that Mixup is so exciting is that it can be applied to types of data
+other than photos. In fact, some people have even shown good results by using
+Mixup on activations <i>inside</i> their models, not just on inputs—this allows Mixup to be
+used for NLP and other data types too.
+There’s another subtle issue that Mixup deals with for us, which is that it’s not actually
+possible with the models we’ve seen before for our loss to ever be perfect. The prob‐
+lem is that our labels are 1s and 0s, but the outputs of softmax and sigmoid can never
+equal 1 or 0. This means training our model pushes our activations ever closer to

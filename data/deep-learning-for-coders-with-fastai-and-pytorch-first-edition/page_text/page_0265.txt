@@ -1,0 +1,31 @@
+In practice, though, it would be very inefficient (and maybe numerically unstable) to
+compute that big sum and add it to the loss. If you remember a little bit of high
+school math, you might recall that the derivative of p**2 with respect to p is 2*p, so
+adding that big sum to our loss is exactly the same as doing this:
+parameters.grad += wd * 2 * parameters
+In practice, since wd is a parameter that we choose, we can make it twice as big, so we
+don’t even need the *2 in this equation. To use weight decay in fastai, pass wd in your
+call to fit or fit_one_cycle (it can be passed on both):
+model = DotProductBias(n_users, n_movies, 50)
+learn = Learner(dls, model, loss_func=MSELossFlat())
+learn.fit_one_cycle(5, 5e-3, wd=0.1)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 0.972090 0.962366 00:13
+1 0.875591 0.885106 00:13
+2 0.723798 0.839880 00:13
+3 0.586002 0.823225 00:13
+4 0.490980 0.823060 00:13
+Much better!
+<header><largefont><b>Creating</b></largefont> <largefont><b>Our</b></largefont> <largefont><b>Own</b></largefont> <largefont><b>Embedding</b></largefont> <largefont><b>Module</b></largefont></header>
+So far, we’ve used Embedding without thinking about how it really works. Let’s re-
+create DotProductBias <i>without</i> using this class. We’ll need a randomly initialized
+weight matrix for each of the embeddings. We have to be careful, however. Recall
+from Chapter 4 that optimizers require that they can get all the parameters of a mod‐
+parameters
+ule from the module’s method. However, this does not happen fully auto‐
+matically. If we just add a tensor as an attribute to a Module , it will not be included in
+parameters:
+<b>class</b> <b>T(Module):</b>
+<b>def</b> <b>__init__(self):</b> self.a = torch.ones(3)
+L(T().parameters())
+(#0) []

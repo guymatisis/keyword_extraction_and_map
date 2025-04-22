@@ -1,0 +1,38 @@
+environment outside this context. As an example, let’s say we train a model to iden‐
+tify fraudulent credit card transactions and it finds, as a global-level feature attribu‐
+tion, that a transaction’s amount is the feature most indicative of fraud. Following
+this, it would be incorrect to conclude that amount is <i>always</i> the biggest indicator of
+credit card fraud—this is only the case within the context of our training dataset,
+model, and specified baseline value.
+We can think of explanations as an important addition to accuracy, error, and other
+metrics used to evaluate ML models. They provide useful insight into a model’s qual‐
+ity and potential bias, but should not be the sole determinant of a high-quality model.
+We recommend using explanations as one piece of model evaluation criteria in addi‐
+tion to data and model evaluation, and many of the other patterns outlined in this
+and previous chapters.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>30:</b></largefont> <largefont><b>Fairness</b></largefont> <largefont><b>Lens</b></largefont></header>
+The Fairness Lens design pattern suggests the use of preprocessing and postprocess‐
+ing techniques to ensure that model predictions are fair and equitable for different
+groups of users and scenarios. Fairness in machine learning is a continuously evolv‐
+ing area of research, and there is no single catch-all solution or definition to making a
+model “fair.” Evaluating an entire end-to-end ML workflow—from data collection to
+model deployment—through a fairness lens is essential to building successful, high-
+quality models.
+<header><largefont><b>Problem</b></largefont></header>
+With the word “machine” in its name, it’s easy to assume that ML models can’t be
+biased. After all, models are the result of patterns learned by a computer, right? The
+problem with this thinking is that the datasets models learn from are created by
+<i>humans,</i> not machines, and humans are full of bias. This inherent human bias is
+inevitable, but is not necessarily always bad. Take for example a dataset used to train
+a financial fraud detection model—this data will likely be heavily imbalanced with
+very few fraudulent examples, since fraud is relatively rare in most cases. This is an
+example of naturally occurring bias, as it is a reflection of the statistical properties of
+the original dataset. Bias becomes <i>harmful</i> when it affects different groups of people
+differently. This is known as <i>problematic</i> <i>bias,</i> and it’s what we’ll be focusing on
+throughout this section. If this type of bias is not accounted for, it can find its way
+into models, creating adverse effects as production models directly reflect the bias
+present in the data.
+Problematic bias is present even in situations where you may not expect it. As an
+example, imagine we’re building a model to identify different types of clothing and
+accessories. We’ve been tasked with collecting all of the shoe images for the training
+dataset. When we think about shoes, we take note of the first thing that comes to

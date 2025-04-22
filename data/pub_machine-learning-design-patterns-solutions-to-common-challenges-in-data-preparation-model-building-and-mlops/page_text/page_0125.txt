@@ -1,0 +1,37 @@
+these metrics, but that is OK since precision, recall, and F-score are a better indica‐
+tion of model performance in this case.
+Note that, when evaluating models trained on imbalanced datasets, we need to use
+<i>unsampled</i> <i>data</i> when calculating success metrics. This means that no matter how we
+modify our dataset for training per the solutions we’ll outline below, we should leave
+our test set as is so that it provides an accurate representation of the original dataset.
+In other words, our test set should have roughly the same class balance as the original
+dataset. For the example above, that would be 5% fraud/95% nonfraud.
+If we are looking for a metric that captures the performance of the model across all
+thresholds, average precision-recall is a more informative metric than area under the
+ROC curve (AUC) for model evaluation. This is because average precision-recall
+places more emphasis on how many predictions the model got right out of the <i>total</i>
+number it assigned to the positive class. This gives more weight to the positive class,
+which is important for imbalanced datasets. The AUC, on the other hand, treats both
+classes equally and is less sensitive to model improvements, which isn’t optimal in sit‐
+uations with imbalanced data.
+<b>Downsampling</b>
+Downsampling is a solution for handling imbalanced datasets by changing the
+underlying dataset, rather than the model. With downsampling, we decrease the
+number of examples from the majority class used during model training. To see how
+this works, let’s take a look at the synthetic fraud detection dataset on Kaggle. 4 Each
+example in the dataset contains various information about the transaction, including
+the transaction type, the amount of the transaction, and the account balance both
+before and after the transaction took place. The dataset contains 6.3 million exam‐
+ples, only 8,000 of which are fraudulent transactions. That’s a mere 0.1% of the entire
+dataset.
+While a large dataset can often improve a model’s ability to identify patterns, it’s less
+helpful when the data is significantly imbalanced. If we train a model on this entire
+dataset (6.3M rows) without any modifications, chances are we’ll see a misleading
+accuracy of 99.9% as a result of the model randomly guessing the nonfraudulent class
+each time. We can solve for this by removing a large chunk of the majority class from
+the dataset.
+We’ll take all 8,000 of the fraudulent examples and set them aside to use when train‐
+ing the model. Then, we’ll take a small, random sample of the nonfraudulent transac‐
+4 ThedatasetwasgeneratedbasedonthePaySimresearchproposedinthispaper:EdgarLopez-Rojas,Ahmad
+Elmir,andStefanAxelsson,“PaySim:Afinancialmobilemoneysimulatorforfrauddetection,”28thEuro‐
+<i>peanModelingandSimulationSymposium,EMSS,Larnaca,Cyprus(2016):249–255.</i>

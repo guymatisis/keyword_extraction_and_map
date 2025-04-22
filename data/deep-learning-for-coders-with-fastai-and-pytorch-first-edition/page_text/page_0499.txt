@@ -1,0 +1,35 @@
+If we look at the corresponding tensor, we can ask for its storage property (which
+shows the actual contents of the memory used for the tensor) to check there is no
+useless data stored:
+t = c.expand_as(m)
+t.storage()
+10.0
+20.0
+30.0
+[torch.FloatStorage of size 3]
+Even though the tensor officially has nine elements, only three scalars are stored in
+memory. This is possible thanks to the clever trick of giving that dimension a <i>stride</i> of
+0. on that dimension (which means that when PyTorch looks for the next row by
+adding the stride, it doesn’t move):
+t.stride(), t.shape
+((0, 1), torch.Size([3, 3]))
+Since m is of size 3×3, there are two ways to do broadcasting. The fact it was done on
+the last dimension is a convention that comes from the rules of broadcasting and has
+nothing to do with the way we ordered our tensors. If instead we do this, we get the
+same result:
+c + m
+tensor([[11., 22., 33.],
+[14., 25., 36.],
+[17., 28., 39.]])
+In fact, it’s only possible to broadcast a vector of size n with a matrix of size m by n:
+c = tensor([10.,20,30])
+m = tensor([[1., 2, 3], [4,5,6]])
+c+m
+tensor([[11., 22., 33.],
+[14., 25., 36.]])
+This won’t work:
+c = tensor([10.,20])
+m = tensor([[1., 2, 3], [4,5,6]])
+c+m
+RuntimeError: The size of tensor a (2) must match the size of tensor b (3) at
+dimension 1

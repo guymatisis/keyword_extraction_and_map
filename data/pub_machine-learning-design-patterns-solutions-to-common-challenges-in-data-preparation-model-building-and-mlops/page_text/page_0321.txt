@@ -1,0 +1,35 @@
+average precision (MAP) is 95%, we can expect to be asked: “Is a MAP of 95% good
+or bad?”
+It is no good to wave our hands and say that this depends on the problem. Of course,
+it does. So, what is a good MAE for the bicycle rental problem in New York City?
+How about in London? What is a good MAP for the product catalog image classifica‐
+tion task?
+Model performance is typically stated in terms of cold, hard numbers that are diffi‐
+cult for end users to put into context. Explaining the formula for MAP, MAE, and so
+on does not provide the intuition that business decision makers are asking for.
+<header><largefont><b>Solution</b></largefont></header>
+If this is the second ML model being developed for a task, an easy answer is to com‐
+pare the model’s performance against the currently operational version. It is quite
+easy to say that the MAE is now 30 seconds lower or that the MAP is 1% higher. This
+works even if the current production workflow doesn’t use ML. As long as this task is
+already being performed in production and evaluation metrics are being collected, we
+can compare the performance of our new ML model against the current production
+methodology.
+But what if there is no current production methodology in place, and we are building
+the very first model for a green-field task? In such cases, the solution is to create a
+simple benchmark for the sole purpose of comparing against our newly developed
+ML model. We call this a <i>heuristic</i> <i>benchmark.</i>
+A good heuristic benchmark should be intuitively easy to understand and relatively
+trivial to compute. If we find ourselves defending or debugging the algorithm used by
+the benchmark, we should search for a simpler, more understandable one. Good
+examples of a heuristic benchmark are constants, rules of thumb, or bulk statistics
+(such as the mean, median, or mode). Avoid the temptation to train even a simple
+machine learning model, such as a linear regression, on a dataset and use that as a
+benchmark—linear regression is likely not intuitive enough, especially once we start
+to include categorical variables, more than a handful of inputs, or engineered
+features.
+Do not use a heuristic benchmark if there is already an operational
+practice in place. Instead, we should compare our model against
+that existing standard. The existing operational practice does not
+need to use ML—it is simply whatever technique is currently being
+used to solve the problem.

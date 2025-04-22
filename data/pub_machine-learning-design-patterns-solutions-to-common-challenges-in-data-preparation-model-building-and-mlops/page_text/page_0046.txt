@@ -1,0 +1,27 @@
+By training this model architecture on a massive dataset of image/caption pairs, the
+encoder learns an efficient vector representation for images. The decoder learns how
+to translate this vector to a text caption. In this sense, the encoder becomes an
+Image2Vec embedding machine.
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+The embedding layer is just another hidden layer of the neural network. The weights
+are then associated to each of the high-cardinality dimensions, and the output is
+passed through the rest of the network. Therefore, the weights to create the embed‐
+ding are learned through the process of gradient descent just like any other weights in
+the neural network. This means that the resulting vector embeddings represent the
+most efficient low-dimensional representation of those feature values with respect to
+the learning task.
+While this improved embedding ultimately aids the model, the embeddings them‐
+selves have inherent value and allow us to gain additional insight into our dataset.
+Consider again the customer video dataset. By only using one-hot encoding, any two
+separate users, user_i and user_j, will have the same similarity measure. Similarly, the
+dot product or cosine similarity for any two distinct six-dimensional one-hot
+encodings of birth plurality would have zero similarity. This makes sense since the
+one-hot encoding is essentially telling our model to treat any two different birth plu‐
+ralities as separate and unrelated. For our dataset of customers and video watches, we
+lose any notion of similarity between customers or videos. But this doesn’t feel quite
+right. Two different customers or videos likely do have similarities between them.
+The same goes for birth plurality. The occurrence of quadruplets and quintuplets
+likely affects the birthweight in a statistically similar way as opposed to single child
+birthweights (see Figure 2-9).
+<i>Figure</i> <i>2-9.</i> <i>By</i> <i>forcing</i> <i>our</i> <i>categorical</i> <i>variable</i> <i>into</i> <i>a</i> <i>lower-dimensional</i> <i>embedding</i>
+<i>space,</i> <i>we</i> <i>can</i> <i>also</i> <i>learn</i> <i>relationships</i> <i>between</i> <i>the</i> <i>different</i> <i>categories.</i>

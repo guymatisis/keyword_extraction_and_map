@@ -1,0 +1,35 @@
+• Hidden dropout (applied to the hidden state between two layers)
+This makes it even more regularized. Since fine-tuning those five dropout values
+(including the dropout before the output layer) is complicated, we have determined
+good defaults and allow the magnitude of dropout to be tuned overall with the
+drop_mult
+parameter you saw in that chapter (which is multiplied by each dropout).
+Another architecture that is very powerful, especially in “sequence-to-sequence”
+problems (problems in which the dependent variable is itself a variable-length
+sequence, such as language translation), is the Transformers architecture. You can
+find it in a bonus chapter on the book’s website.
+<header><largefont><b>Questionnaire</b></largefont></header>
+1. If the dataset for your project is so big and complicated that working with it takes
+a significant amount of time, what should you do?
+2. Why do we concatenate the documents in our dataset before creating a language
+model?
+3. To use a standard fully connected network to predict the fourth word given the
+previous three words, what two tweaks do we need to make to our model?
+4. How can we share a weight matrix across multiple layers in PyTorch?
+5. Write a module that predicts the third word given the previous two words of a
+sentence, without peeking.
+6. What is a recurrent neural network?
+7. What is hidden state?
+8. What is the equivalent of hidden state in LMModel1 ?
+9. To maintain the state in an RNN, why is it important to pass the text to the model
+in order?
+10. What is an “unrolled” representation of an RNN?
+11. Why can maintaining the hidden state in an RNN lead to memory and perfor‐
+mance problems? How do we fix this problem?
+12. What is BPTT?
+13. Write code to print out the first few batches of the validation set, including con‐
+verting the token IDs back into English strings, as we showed for batches of
+IMDb data in Chapter 10.
+14. What does the ModelResetter callback do? Why do we need it?
+15. What are the downsides of predicting just one output word for each three input
+words?

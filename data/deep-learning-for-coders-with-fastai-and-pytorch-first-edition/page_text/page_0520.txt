@@ -1,0 +1,36 @@
+during backpropagation (backward hook). A forward hook is a function that takes
+three things—a module, its input, and its output—and it can perform any behavior
+you want. (fastai also provides a handy HookCallback that we won’t cover here, but
+take a look at the fastai docs; it makes working with hooks a little easier.)
+To illustrate, we’ll use the same cats and dogs model we trained in Chapter 1:
+path = untar_data(URLs.PETS)/'images'
+<b>def</b> is_cat(x): <b>return</b> x[0].isupper()
+dls = ImageDataLoaders.from_name_func(
+path, get_image_files(path), valid_pct=0.2, seed=21,
+label_func=is_cat, item_tfms=Resize(224))
+learn = cnn_learner(dls, resnet34, metrics=error_rate)
+learn.fine_tune(1)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 0.141987 0.018823 0.007442 00:16
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 0.050934 0.015366 0.006766 00:21
+To start, we’ll grab a cat picture and a batch of data:
+img = PILImage.create('images/chapter1_cat_example.jpg')
+x, = first(dls.test_dl([img]))
+For CAM, we want to store the activations of the last convolutional layer. We put our
+hook function in a class so it has a state that we can access later, and just store a copy
+of the output:
+<b>class</b> <b>Hook():</b>
+<b>def</b> hook_func(self, m, i, o): self.stored = o.detach().clone()
+Hook
+We can then instantiate a and attach it to the layer we want, which is the last
+layer of the CNN body:
+hook_output = Hook()
+hook = learn.model[0].register_forward_hook(hook_output.hook_func)
+Now we can grab a batch and feed it through our model:
+<b>with</b> torch.no_grad(): output = learn.model.eval()(x)
+And we can access our stored activations:
+act = hook_output.stored[0]
+Let’s also double-check our predictions:
+F.softmax(output, dim=-1)
+tensor([[7.3566e-07, 1.0000e+00]], device='cuda:0')

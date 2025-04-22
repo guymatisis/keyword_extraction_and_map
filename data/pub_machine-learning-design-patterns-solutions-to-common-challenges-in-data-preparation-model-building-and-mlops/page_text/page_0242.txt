@@ -1,0 +1,27 @@
+<i>Figure</i> <i>5-12.</i> <i>A</i> <i>comparison</i> <i>of</i> <i>on-device</i> <i>phrase-based</i> <i>and</i> <i>(newer)</i> <i>neural-machine</i>
+<i>translation</i> <i>models</i> <i>and</i> <i>online</i> <i>neural</i> <i>machine</i> <i>translation</i> <i>(source:</i> <i>The</i> <i>Keyword).</i>
+Another example of a standalone single-phase model is Google Bolo, a speech-based
+language learning app for children. The app works entirely offline and was developed
+with the intention of helping populations where reliable internet access is not always
+available.
+<b>Offlinesupportforspecificusecases</b>
+Another solution for making your application work for users with minimal internet
+connectivity is to make only certain parts of your app available offline. This could
+involve enabling a few common features offline or caching the results of an ML
+model’s prediction for later use offline. With this alternative, we’re still employing
+two prediction phases, but we’re limiting the use cases covered by our offline model.
+In this approach, the app works sufficiently offline, but provides full functionality
+when it regains connectivity.
+Google Maps, for example, lets you download maps and directions in advance. To
+avoid having directions take up too much space on a mobile device, only driving
+directions might be made available offline (not walking or biking). Another example
+could be a fitness application that tracks your steps and makes recommendations for
+future activity. Let’s say the most common use of this app is checking how many
+steps you have walked on the current day. To support this use case offline, we could
+sync the fitness tracker’s data to a user’s device over Bluetooth to enable checking the
+current day’s fitness status offline. To optimize our app’s performance, we might
+decide to make fitness history and recommendations only available online.
+We could further build upon this by storing the user’s queries while their device is
+offline and sending them to a cloud model when they regain connectivity to provide
+more detailed results. Additionally, we could even provide a basic recommendation
+model available offline, with the intention of complementing this with improved

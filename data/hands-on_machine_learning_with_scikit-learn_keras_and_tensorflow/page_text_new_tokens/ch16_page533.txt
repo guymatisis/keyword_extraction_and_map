@@ -1,0 +1,29 @@
+ping input sequences (rather than the shuffled and overlapping sequences we used to
+train stateless RNNs). When creating the Dataset , we must therefore use
+shift=n_steps (instead of shift=1 ) when calling the window() method. Moreover,
+shuffle()
+we must obviously <i>not</i> call the method. Unfortunately, batching is much
+harder when preparing a dataset for a stateful RNN than it is for a stateless RNN.
+Indeed, if we were to call batch(32) , then 32 consecutive windows would be put in
+the same batch, and the following batch would not continue each of these window
+where it left off. The first batch would contain windows 1 to 32 and the second batch
+would contain windows 33 to 64, so if you consider, say, the first window of each
+batch (i.e., windows 1 and 33), you can see that they are not consecutive. The simplest
+solution to this problem is to just use “batches” containing a single window:
+dataset = tf.data.Dataset.from_tensor_slices(encoded[:train_size])
+dataset = dataset.window(window_length, shift=n_steps, drop_remainder=True)
+dataset = dataset.flat_map(lambda window: window.batch(window_length))
+dataset = dataset.batch(1)
+dataset = dataset.map(lambda windows: (windows[:, :-1], windows[:, 1:]))
+dataset = dataset.map(
+<b>lambda</b> X_batch, Y_batch: (tf.one_hot(X_batch, depth=max_id), Y_batch))
+dataset = dataset.prefetch(1)
+Figure 16-2 summarizes the first steps.
+<i>Figure</i> <i>16-2.</i> <i>Preparing</i> <i>a</i> <i>dataset</i> <i>of</i> <i>consecutive</i> <i>sequence</i> <i>fragments</i> <i>for</i> <i>a</i> <i>stateful</i> <i>RNN</i>
+Batching is harder, but it is not impossible. For example, we could chop Shakespeare’s
+text into 32 texts of equal length, create one dataset of consecutive input sequences
+for each of them, and finally use tf.train.Dataset.zip(datasets).map(lambda
+*windows: tf.stack(windows))
+to create proper consecutive batches, where the <i>n</i> th
+input sequence in a batch starts off exactly where the <i>nth</i> input sequence ended in the
+previous batch (see the notebook for the full code).

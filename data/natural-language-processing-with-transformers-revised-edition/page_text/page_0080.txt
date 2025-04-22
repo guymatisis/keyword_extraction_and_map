@@ -1,0 +1,39 @@
+classification, named entity recognition, and question answering. Let’s have a brief
+look at the BERT model and its variants:
+<i>BERT</i>
+BERT is pretrained with the two objectives of predicting masked tokens in texts
+and determining if one text passage is likely to follow another. 8 The former task is
+called <i>masked</i> <i>language</i> <i>modeling</i> (MLM) and the latter <i>next</i> <i>sentence</i> <i>prediction</i>
+(NSP).
+<i>DistilBERT</i>
+Although BERT delivers great results, it’s size can make it tricky to deploy in
+environments where low latencies are required. By using a technique known as
+knowledge distillation during pretraining, DistilBERT achieves 97% of BERT’s
+faster.9
+performance while using 40% less memory and being 60% You can find
+more details on knowledge distillation in Chapter 8.
+<i>RoBERTa</i>
+A study following the release of BERT revealed that its performance can be fur‐
+ther improved by modifying the pretraining scheme. RoBERTa is trained longer,
+on larger batches with more training data, and it drops the NSP task.10 Together,
+these changes significantly improve its performance compared to the original
+BERT model.
+<i>XLM</i>
+Several pretraining objectives for building multilingual models were explored in
+the work on the cross-lingual language model (XLM),11 including the autoregres‐
+sive language modeling from GPT-like models and MLM from BERT. In addi‐
+tion, the authors of the paper on XLM pretraining introduced <i>translation</i>
+<i>language</i> <i>modeling</i> (TLM), which is an extension of MLM to multiple language
+inputs. Experimenting with these pretraining tasks, they achieved state-of-the-art
+results on several multilingual NLU benchmarks as well as on translation tasks.
+<i>XLM-RoBERTa</i>
+Following the work of XLM and RoBERTa, the XLM-RoBERTa or XLM-R model
+takes multilingual pretraining one step further by massively upscaling the
+training data.12 Using the Common Crawl corpus, its developers created a dataset
+with 2.5 terabytes of text; they then trained an encoder with MLM on this
+8 J.Devlinetal.,“BERT:Pre-TrainingofDeepBidirectionalTransformersforLanguageUnderstanding”,
+(2018).
+9 V.Sanhetal.,“DistilBERT,aDistilledVersionofBERT:Smaller,Faster,CheaperandLighter”,(2019).
+10 Y.Liuetal.,“RoBERTa:ARobustlyOptimizedBERTPretrainingApproach”,(2019).
+11 G.Lample,andA.Conneau,“Cross-LingualLanguageModelPretraining”,(2019).
+12 A.Conneauetal.,“UnsupervisedCross-LingualRepresentationLearningatScale”,(2019).

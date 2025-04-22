@@ -1,0 +1,21 @@
+This output shows that the image with the highest loss is one that has been predicted
+as “grizzly” with high confidence. However, it’s labeled (based on our Bing image
+search) as “black.” We’re not bear experts, but it sure looks to us like this label is
+incorrect! We should probably change its label to “grizzly.”
+The intuitive approach to doing data cleaning is to do it <i>before</i> you train a model. But
+as you’ve seen in this case, a model can help you find data issues more quickly and
+easily. So, we normally prefer to train a quick and simple model first, and then use it
+to help us with data cleaning.
+ImageClassifierCleaner
+fastai includes a handy GUI for data cleaning called that
+allows you to choose a category and the training versus validation set and view the
+highest-loss images (in order), along with menus to allow images to be selected for
+removal or relabeling:
+cleaner = ImageClassifierCleaner(learn)
+cleaner
+We can see that among our “black bears” is an image that contains two bears: one
+grizzly, one black. So, we should choose <Delete> in the menu under this image.
+ImageClassifierCleaner doesn’t do the deleting or changing of labels for you; it just
+returns the indices of items to change. So, for instance, to delete (unlink) all images
+selected for deletion, we would run this:
+<b>for</b> idx <b>in</b> cleaner.delete(): cleaner.fns[idx].unlink()

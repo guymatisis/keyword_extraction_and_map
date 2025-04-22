@@ -1,0 +1,25 @@
+plt.figure(figsize=(8,8))
+plt.subplot(221); plot_digits(X_aa[:25], images_per_row=5)
+plt.subplot(222); plot_digits(X_ab[:25], images_per_row=5)
+plt.subplot(223); plot_digits(X_ba[:25], images_per_row=5)
+plt.subplot(224); plot_digits(X_bb[:25], images_per_row=5)
+plt.show()
+The two 5 × 5 blocks on the left show digits classified as 3s, and the two 5 × 5 blocks
+on the right show images classified as 5s. Some of the digits that the classifier gets
+wrong (i.e., in the bottom-left and top-right blocks) are so badly written that even a
+human would have trouble classifying them (e.g., the 5 in the first row and second
+column truly looks like a badly written 3). However, most misclassified images seem
+like obvious errors to us, and it’s hard to understand why the classifier made the mis‐
+takes it did. 3 The reason is that we used a simple SGDClassifier , which is a linear
+model. All it does is assign a weight per class to each pixel, and when it sees a new
+image it just sums up the weighted pixel intensities to get a score for each class. So
+since 3s and 5s differ only by a few pixels, this model will easily confuse them.
+The main difference between 3s and 5s is the position of the small line that joins the
+top line to the bottom arc. If you draw a 3 with the junction slightly shifted to the left,
+the classifier might classify it as a 5, and vice versa. In other words, this classifier is
+quite sensitive to image shifting and rotation. So one way to reduce the 3/5 confusion
+would be to preprocess the images to ensure that they are well centered and not too
+rotated. This will probably help reduce other errors as well.
+3 Butrememberthatourbrainisafantasticpatternrecognitionsystem,andourvisualsystemdoesalotof
+complexpreprocessingbeforeanyinformationreachesourconsciousness,sothefactthatitfeelssimpledoes
+notmeanthatitis.

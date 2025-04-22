@@ -1,0 +1,31 @@
+For each pattern, we describe the commonly occurring problem that is being
+addressed and then walk through a variety of potential solutions to the problem, the
+trade-offs of these solutions, and recommendations for choosing between these solu‐
+tions. Implementation code for these solutions is provided in SQL (useful if you are
+carrying out preprocessing and other ETL in Spark SQL, BigQuery, and so on),
+scikit-learn, and/or Keras with a TensorFlow backend.
+<header><largefont><b>How</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Use</b></largefont> <largefont><b>This</b></largefont> <largefont><b>Book</b></largefont></header>
+This is a catalog of patterns that we have observed in practice, among multiple teams.
+In some cases, the underlying concepts have been known for many years. We don’t
+claim to have invented or discovered these patterns. Instead, we hope to provide a
+common frame of reference and set of tools for ML practitioners. We will have suc‐
+ceeded if this book gives you and your team a vocabulary when talking about con‐
+cepts that you already incorporate intuitively into your ML projects.
+We don’t expect you to read this book sequentially (although you can!). Instead, we
+anticipate that you will skim through the book, read a few sections more deeply than
+others, reference the ideas in conversations with colleagues, and refer back to the
+book when faced with problems you remember reading about. If you plan to skip
+around, we recommend that you start with Chapter 1 and Chapter 8 before dipping
+into individual patterns.
+Each pattern has a brief problem statement, a canonical solution, an explanation of
+why the solution works, and a many-part discussion on tradeoffs and alternatives.
+We recommend that you read the discussion section with the canonical solution
+firmly in mind, so as to compare and contrast. The pattern description will include
+code snippets taken from the implementation of the canonical solution. The full code
+can be found in our GitHub repository. We strongly encourage you to peruse the
+code as you read the pattern description.
+<header><largefont><b>Machine</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>Terminology</b></largefont></header>
+Because machine learning practitioners today may have different areas of primary
+expertise—software engineering, data analysis, DevOps, or statistics—there can be
+subtle differences in the way that different practitioners use certain terms. In this sec‐
+tion, we define terminology that we use throughout the book.

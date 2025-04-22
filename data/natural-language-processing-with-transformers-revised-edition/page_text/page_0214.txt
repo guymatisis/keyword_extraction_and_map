@@ -1,0 +1,46 @@
+Now that we have a basic understanding of the contents in the CLINC150 dataset,
+let’s implement the compute_accuracy() method of PerformanceBenchmark . Since
+the dataset is balanced across the intent classes, we’ll use accuracy as our metric. We
+can load this metric with Datasets as follows:
+<b>from</b> <b>datasets</b> <b>import</b> load_metric
+accuracy_score = load_metric("accuracy")
+The accuracy metric expects the predictions and references (i.e., the ground truth
+labels) to be integers. We can use the pipeline to extract the predictions from the text
+str2int() intents
+field and then use the method of our object to map each predic‐
+tion to its corresponding ID. The following code collects all the predictions and labels
+in lists before returning the accuracy on the dataset. Let’s also add it to our Perform
+anceBenchmark
+class:
+<b>def</b> compute_accuracy(self):
+<i>"""This</i> <i>overrides</i> <i>the</i> <i>PerformanceBenchmark.compute_accuracy()</i> <i>method"""</i>
+preds, labels = [], []
+<b>for</b> example <b>in</b> self.dataset:
+pred = self.pipeline(example["text"])[0]["label"]
+label = example["intent"]
+preds.append(intents.str2int(pred))
+labels.append(label)
+accuracy = accuracy_score.compute(predictions=preds, references=labels)
+<b>print(f"Accuracy</b> on test set - {accuracy['accuracy']:.3f}")
+<b>return</b> accuracy
+PerformanceBenchmark.compute_accuracy = compute_accuracy
+Next, let’s compute the size of our model by using the torch.save() function from
+torch.save()
+PyTorch to serialize the model to disk. Under the hood, uses Python’s
+pickle module and can be used to save anything from models to tensors to ordinary
+Python objects. In PyTorch, the recommended way to save a model is by using its
+state_dict
+, which is a Python dictionary that maps each layer in a model to its
+learnable parameters (i.e., weights and biases). Let’s see what is stored in the
+state_dict of our baseline model:
+list(pipe.model.state_dict().items())[42]
+('bert.encoder.layer.2.attention.self.value.weight',
+tensor([[-1.0526e-02, -3.2215e-02, 2.2097e-02, ..., -6.0953e-03,
+4.6521e-03, 2.9844e-02],
+[-1.4964e-02, -1.0915e-02, 5.2396e-04, ..., 3.2047e-05,
+-2.6890e-02, -2.1943e-02],
+[-2.9640e-02, -3.7842e-03, -1.2582e-02, ..., -1.0917e-02,
+3.1152e-02, -9.7786e-03],
+...,
+[-1.5116e-02, -3.3226e-02, 4.2063e-02, ..., -5.2652e-03,
+1.1093e-02, 2.9703e-03],

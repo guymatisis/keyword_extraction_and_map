@@ -1,0 +1,13 @@
+<header><largefont><b>A</b></largefont> <largefont><b>Note</b></largefont> <largefont><b>About</b></largefont> <largefont><b>Twitter</b></largefont></header>
+We are not, to say the least, big users of social networks in general. But our goal in
+writing this book is to help you become the best deep learning practitioner you can,
+and we would be remiss not to mention how important Twitter has been in our own
+deep learning journeys.
+You see, there’s another part of Twitter, far away from Donald Trump and the Karda‐
+shians, where deep learning researchers and practitioners talk shop every day. As we
+were writing this section, Jeremy wanted to double-check that what we were saying
+about stride-2 convolutions was accurate, so he asked on Twitter:
+A few minutes later, this answer popped up:
+Christian Szegedy is the first author of Inception, the 2014 ImageNet winner, and
+source of many key insights used in modern neural networks. Two hours later, this
+appeared:

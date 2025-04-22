@@ -1,0 +1,28 @@
+"spherical"
+All clusters must be spherical, but they can have different diameters (i.e., differ‐
+ent variances).
+"diag"
+Clusters can take on any ellipsoidal shape of any size, but the ellipsoid’s axes must
+be parallel to the coordinate axes (i.e., the covariance matrices must be diagonal).
+"tied"
+All clusters must have the same ellipsoidal shape, size, and orientation (i.e., all
+clusters share the same covariance matrix).
+covariance_type "full"
+By default, is equal to , which means that each cluster can
+take on any shape, size, and orientation (it has its own unconstrained covariance
+cova
+matrix). Figure 9-18 plots the solutions found by the EM algorithm when
+riance_type "tied" "spherical.”
+is set to or
+<i>Figure</i> <i>9-18.</i> <i>Gaussian</i> <i>mixtures</i> <i>for</i> <i>tied</i> <i>clusters</i> <i>(left)</i> <i>and</i> <i>spherical</i> <i>clusters</i> <i>(right)</i>
+The computational complexity of training a GaussianMixture
+model depends on the number of instances <i>m,</i> the number of
+dimensions <i>n,</i> the number of clusters <i>k,</i> and the constraints on the
+covariance_type "spherical "diag"
+covariance matrices. If is or ,
+cova
+it is <i>O(kmn),</i> assuming the data has a clustering structure. If
+riance_type "tied" "full" 2 3
+is or , it is <i>O(kmn</i> + <i>kn</i> ), so it will not
+scale to large numbers of features.
+Gaussian mixture models can also be used for anomaly detection. Let’s see how.

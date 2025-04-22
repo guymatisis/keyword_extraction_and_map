@@ -1,0 +1,31 @@
+flatten()
+these nested columns with the method and convert each split to a Pandas
+DataFrame as follows:
+<b>import</b> <b>pandas</b> <b>as</b> <b>pd</b>
+dfs = {split: dset.to_pandas() <b>for</b> split, dset <b>in</b> subjqa.flatten().items()}
+<b>for</b> split, df <b>in</b> dfs.items():
+<b>print(f"Number</b> of questions in {split}: {df['id'].nunique()}")
+Number of questions in train: 1295
+Number of questions in test: 358
+Number of questions in validation: 255
+Notice that the dataset is relatively small, with only 1,908 examples in total. This sim‐
+ulates a real-world scenario, since getting domain experts to label extractive QA data‐
+sets is labor-intensive and expensive. For example, the CUAD dataset for extractive
+QA on legal contracts is estimated to have a value of $2 million to account for the
+legal expertise needed to annotate its 13,000 examples!4
+There are quite a few columns in the SubjQA dataset, but the most interesting ones
+for building our QA system are shown in Table 7-1.
+<i>Table</i> <i>7-1.</i> <i>Column</i> <i>names</i> <i>and</i> <i>their</i> <i>descriptions</i> <i>from</i> <i>the</i> <i>SubjQA</i> <i>dataset</i>
+<b>Columnname</b> <b>Description</b>
+title TheAmazonStandardIdentificationNumber(ASIN)associatedwitheachproduct
+question Thequestion
+answers.answer_text Thespanoftextinthereviewlabeledbytheannotator
+answers.answer_start Thestartcharacterindexoftheanswerspan
+context Thecustomerreview
+Let’s focus on these columns and take a look at a few of the training examples. We can
+use the sample() method to select a random sample:
+qa_cols = ["title", "question", "answers.text",
+"answers.answer_start", "context"]
+sample_df = dfs["train"][qa_cols].sample(2, random_state=7)
+sample_df
+4 D.Hendrycksetal.,“CUAD:AnExpert-AnnotatedNLPDatasetforLegalContractReview”,(2021).

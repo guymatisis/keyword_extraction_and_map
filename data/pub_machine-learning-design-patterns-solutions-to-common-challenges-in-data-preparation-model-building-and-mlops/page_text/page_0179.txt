@@ -1,0 +1,42 @@
+sampler = DistributedSampler(dataset=trainds)
+loader = DataLoader(dataset=trainds, batch_size=batch_size,
+sampler=sampler, num_workers=4)
+...
+<b>for</b> data <b>in</b> train_loader:
+features, labels = data[0].to(device), data[1].to(device)
+When a PyTorch trainer is launched, it is told the total number of nodes and its own
+rank:
+python -m torch.distributed.launch --nproc_per_node=4 <b>\</b>
+<b>--nnodes=16</b> <b>--node_rank=3</b> --master_addr="192.168.0.1" <b>\</b>
+--master_port=1234 my_pytorch.py
+If the number of nodes is one, we have the equivalent of TensorFlow’s
+MirroredStrategy , and if the number of nodes is more than one, we have the equiva‐
+MultiWorkerMirroredStrategy.
+lent of TensorFlow’s If the number of processes per
+OneDeviceStrategy
+node and number of nodes are both one, then we have a . Opti‐
+mized communication for all these cases is provided if supported by the backend
+init_process_group
+(NCCL, in this case) passed into .
+<b>Asynchronoustraining</b>
+In asynchronous training, the workers train on different slices of the input data inde‐
+pendently, and the model weights and parameters are updated asynchronously, typi‐
+cally through a parameter server architecture. This means that no one worker waits
+for updates to the model from any of the other workers. In the parameter-server
+architecture, there is a single parameter server that manages the current values of the
+model weights, as in Figure 4-16.
+As with synchronous training, a mini-batch of data is split among each of the sepa‐
+rate workers for each SGD step. Each device performs a forward pass with their por‐
+tion of the mini-batch and computes gradients for each parameter of the model.
+Those gradients are sent to the parameter server, which performs the parameter
+update and then sends the new model parameters back to the worker with another
+split of the next mini-batch.
+The key difference between synchronous and asynchronous training is that the
+parameter server does not do an <i>all-reduce.</i> Instead, it computes the new model
+parameters periodically based on whichever gradient updates it received since the last
+computation. Typically, asynchronous distribution achieves higher throughput than
+synchronous training because a slow worker doesn’t block the progression of training
+steps. If a single worker fails, the training continues as planned with the other work‐
+ers while that worker reboots. As a result, some splits of the mini-batch may be lost
+during training, making it too difficult to accurately keep track of how many epochs
+of data have been processed. This is another reason why we typically specify virtual

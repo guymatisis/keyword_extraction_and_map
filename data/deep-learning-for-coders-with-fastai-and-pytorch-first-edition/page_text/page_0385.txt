@@ -1,0 +1,41 @@
+This is easy enough to add. We need to first change our data so that the dependent
+variable has each of the three next words after each of our three input words. Instead
+of 3, we use an attribute, sl (for sequence length), and make it a bit bigger:
+sl = 16
+seqs = L((tensor(nums[i:i+sl]), tensor(nums[i+1:i+sl+1]))
+<b>for</b> i <b>in</b> range(0,len(nums)-sl-1,sl))
+cut = int(len(seqs) * 0.8)
+dls = DataLoaders.from_dsets(group_chunks(seqs[:cut], bs),
+group_chunks(seqs[cut:], bs),
+bs=bs, drop_last=True, shuffle=False)
+Looking at the first element of seqs , we can see that it contains two lists of the same
+size. The second list is the same as the first, but offset by one element:
+[L(vocab[o] <b>for</b> o <b>in</b> s) <b>for</b> s <b>in</b> seqs[0]]
+[(#16) ['one','.','two','.','three','.','four','.','five','.'...],
+(#16) ['.','two','.','three','.','four','.','five','.','six'...]]
+Now we need to modify our model so that it outputs a prediction after every word,
+rather than just at the end of a three-word sequence:
+<b>class</b> <b>LMModel4(Module):</b>
+<b>def</b> <b>__init__(self,</b> vocab_sz, n_hidden):
+self.i_h = nn.Embedding(vocab_sz, n_hidden)
+self.h_h = nn.Linear(n_hidden, n_hidden)
+self.h_o = nn.Linear(n_hidden,vocab_sz)
+self.h = 0
+<b>def</b> forward(self, x):
+outs = []
+<b>for</b> i <b>in</b> range(sl):
+self.h = self.h + self.i_h(x[:,i])
+self.h = F.relu(self.h_h(self.h))
+outs.append(self.h_o(self.h))
+self.h = self.h.detach()
+<b>return</b> torch.stack(outs, dim=1)
+<b>def</b> reset(self): self.h = 0
+This model will return outputs of shape bs x sl x vocab_sz (since we stacked on
+dim=1 ). Our targets are of shape bs x sl , so we need to flatten those before using
+them in F.cross_entropy:
+<b>def</b> loss_func(inp, targ):
+<b>return</b> F.cross_entropy(inp.view(-1, len(vocab)), targ.view(-1))
+We can now use this loss function to train the model:
+learn = Learner(dls, LMModel4(len(vocab), 64), loss_func=loss_func,
+metrics=accuracy, cbs=ModelResetter)
+learn.fit_one_cycle(15, 3e-3)

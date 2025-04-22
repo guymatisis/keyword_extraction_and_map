@@ -1,0 +1,41 @@
+In this chapter, we’ll look at design patterns that address different aspects of reprodu‐
+cibility. The <i>Transform</i> design pattern captures data preparation dependencies from
+the model training pipeline to reproduce them during serving. <i>Repeatable</i> <i>Splitting</i>
+captures the way data is split among training, validation, and test datasets to ensure
+that a training example that is used in training is never used for evaluation or testing
+even as the dataset grows. The <i>Bridged</i> <i>Schema</i> design pattern looks at how to ensure
+reproducibility when the training dataset is a hybrid of data conforming to different
+schema. The <i>Workflow</i> <i>Pipeline</i> design pattern captures all the steps in the machine
+learning process to ensure that as the model is retrained, parts of the pipeline can be
+reused. The <i>Feature</i> <i>Store</i> design pattern addresses reproducibility and reusability of
+features across different machine learning jobs. The <i>Windowed</i> <i>Inference</i> design pat‐
+tern ensures that features that are calculated in a dynamic, time-dependent way can
+be correctly repeated between training and serving. <i>Versioning</i> of data and models is
+a prerequisite to handle many of the design patterns in this chapter.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>21:</b></largefont> <largefont><b>Transform</b></largefont></header>
+The Transform design pattern makes moving an ML model to production much eas‐
+ier by keeping inputs, features, and transforms carefully separate.
+<header><largefont><b>Problem</b></largefont></header>
+The problem is that the <i>inputs</i> to a machine learning model are not the <i>features</i> that
+the machine learning model uses in its computations. In a text classification model,
+for example, the inputs are the raw text documents and the features are the numerical
+embedding representations of this text. When we train a machine learning model, we
+train it with features that are extracted from the raw inputs. Take this model that is
+trained to predict the duration of bicycle rides in London using BigQuery ML:
+<b>CREATE</b> <b>OR</b> <b>REPLACE</b> MODEL ch09eu.bicycle_model
+<b>OPTIONS(input_label_cols=['duration'],</b>
+model_type='linear_reg')
+<b>AS</b>
+<b>SELECT</b>
+duration
+, start_station_name
+, <b>CAST(EXTRACT(dayofweek</b> <b>from</b> start_date) <b>AS</b> STRING)
+<b>as</b> dayofweek
+, <b>CAST(EXTRACT(hour</b> <b>from</b> start_date) <b>AS</b> STRING)
+<b>as</b> hourofday
+<b>FROM</b>
+`bigquery-public-data.london_bicycles.cycle_hire`
+(start_station_name, dayofweek, hourofday)
+This model has three features and
+computed from two inputs, start_station_name and start_date , as shown in
+Figure 6-1.

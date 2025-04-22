@@ -1,0 +1,42 @@
+file and uses it as a substitute for RAM, basically using the hard drive as a direct
+extension of the RAM memory.
+Up to now we have mostly used Datasets to access remote datasets on the Hugging
+Face Hub. Here, we will directly load our 50 GB of compressed JSON files that we
+codeparrot
+have stored locally in the repository. Since the JSON files are com‐
+pressed, we first need to decompress them, which Datasets takes care of for us. Be
+careful, because this requires about 180 GB of free disk space! However, it will use
+delete_extracted=True
+almost no RAM. By setting in the dataset’s downloading
+configuration, we can make sure that we delete all the files we don’t need anymore as
+soon as possible:
+<b>from</b> <b>datasets</b> <b>import</b> load_dataset, DownloadConfig
+download_config = DownloadConfig(delete_extracted=True)
+dataset = load_dataset("./codeparrot", split="train",
+download_config=download_config)
+Under the hood, Datasets extracted and read all the compressed JSON files by
+loading them in a single optimized cache file. Let’s see how big this dataset is once
+loaded:
+<b>import</b> <b>psutil</b>
+<b>print(f"Number</b> of python files code in dataset : {len(dataset)}")
+ds_size = sum(os.stat(f["filename"]).st_size <b>for</b> f <b>in</b> dataset.cache_files)
+<i>#</i> <i>os.stat.st_size</i> <i>is</i> <i>expressed</i> <i>in</i> <i>bytes,</i> <i>so</i> <i>we</i> <i>convert</i> <i>to</i> <i>GB</i>
+<b>print(f"Dataset</b> size (cache file) : {ds_size / 2**30:.2f} GB")
+<i>#</i> <i>Process.memory_info</i> <i>is</i> <i>expressed</i> <i>in</i> <i>bytes,</i> <i>so</i> <i>we</i> <i>convert</i> <i>to</i> <i>MB</i>
+<b>print(f"RAM</b> used: {psutil.Process(os.getpid()).memory_info().rss >> 20} MB")
+Number of python files code in dataset : 18695559
+Dataset size (cache file) : 183.68 GB
+RAM memory used: 4924 MB
+As we can see, the dataset is much larger than our typical RAM memory, but we can
+still load and access it, and we’re actually using a very limited amount of memory.
+You may wonder if this will make our training I/O-bound. In practice, NLP data is
+usually very lightweight to load in comparison to the model processing computa‐
+tions, so this is rarely an issue. In addition, the zero-copy/zero-overhead format uses
+Apache Arrow under the hood, which makes it very efficient to access any element.
+Depending on the speed of your hard drive and the batch size, iterating over the
+dataset can typically be done at a rate of a few tenths of a GB/s to several GB/s. This is
+great, but what if you can’t free enough disk space to store the full dataset locally?
+Everybody knows the feeling of helplessness when you get a full disk warning and
+need to painfully try to reclaim a few GB by looking for hidden files to delete. Luckily,
+you don’t need to store the full dataset locally if you use the streaming feature of
+Datasets!

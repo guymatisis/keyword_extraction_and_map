@@ -1,0 +1,35 @@
+this at the start of 2020, things are just starting to change, but it’s likely to take a while.
+So be careful: most people you speak to will probably greatly underestimate what you
+can do in deep learning with few resources, because they probably won’t deeply
+understand how to use pretrained models.
+Using a pretrained model for a task different from what it was originally trained for is
+known as <i>transfer</i> <i>learning.</i> Unfortunately, because transfer learning is so under-
+studied, few domains have pretrained models available. For instance, few pretrained
+models are currently available in medicine, making transfer learning challenging to
+use in that domain. In addition, it is not yet well understood how to use transfer
+learning for tasks such as time series analysis.
+<b>Jargon:TransferLearning</b>
+Using a pretrained model for a task different from what it was orig‐
+inally trained for.
+The sixth line of our code tells fastai how to <i>fit</i> the model:
+learn.fine_tune(1)
+As we’ve discussed, the architecture only describes a <i>template</i> for a mathematical
+function; it doesn’t actually do anything until we provide values for the millions of
+parameters it contains.
+This is the key to deep learning—determining how to fit the parameters of a model to
+get it to solve your problem. To fit a model, we have to provide at least one piece of
+information: how many times to look at each image (known as number of <i>epochs).</i>
+The number of epochs you select will largely depend on how much time you have
+available, and how long you find it takes in practice to fit your model. If you select a
+number that is too small, you can always train for more epochs later.
+But why is the method called fine_tune, and not fit? fastai <i>does</i> have a method
+called fit , which does indeed fit a model (i.e., look at images in the training set mul‐
+tiple times, each time updating the parameters to make the predictions closer and
+closer to the target labels). But in this case, we’ve started with a pretrained model, and
+we don’t want to throw away all those capabilities that it already has. As you’ll learn in
+this book, there are some important tricks to adapt a pretrained model for a new
+dataset—a process called <i>fine-tuning.</i>
+<b>Jargon:Fine-Tuning</b>
+A transfer learning technique that updates the parameters of a pre‐
+trained model by training for additional epochs using a different
+task from that used for pretraining.

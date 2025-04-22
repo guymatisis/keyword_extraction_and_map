@@ -1,0 +1,20 @@
+the payday response. In the third case, the text assistant has been trained to detect
+out-of-scope queries (usually labeled as a separate class) and informs the customer
+about which topics it can answer questions about.
+<i>Figure</i> <i>8-2.</i> <i>Three</i> <i>exchanges</i> <i>between</i> <i>a</i> <i>human</i> <i>(right)</i> <i>and</i> <i>a</i> <i>text-based</i> <i>assistant</i> <i>(left)</i>
+<i>for</i> <i>personal</i> <i>finance</i> <i>(courtesy</i> <i>of</i> <i>Stefan</i> <i>Larson</i> <i>et</i> <i>al.)</i>
+As a baseline, we’ve fine-tuned a BERT-base model that achieves around 94% accu‐
+racy on the CLINC150 dataset.1 This dataset includes 22,500 in-scope queries across
+150 intents and 10 domains like banking and travel, and also includes 1,200 out-of-
+oos
+scope queries that belong to an intent class. In practice we would also gather our
+own in-house dataset, but using public data is a great way to iterate quickly and gen‐
+erate preliminary results.
+To get started, let’s download our fine-tuned model from the Hugging Face Hub and
+wrap it in a pipeline for text classification:
+<b>from</b> <b>transformers</b> <b>import</b> pipeline
+bert_ckpt = "transformersbook/bert-base-uncased-finetuned-clinc"
+pipe = pipeline("text-classification", model=bert_ckpt)
+Now that we have a pipeline, we can pass a query to get the predicted intent and con‐
+fidence score from the model:
+1 S.Larsonetal.,“AnEvaluationDatasetforIntentClassificationandOut-of-ScopePrediction”,(2019).

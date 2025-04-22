@@ -1,0 +1,19 @@
+There’s no need to use fine_tune, so we’ll train with fit_one_cycle for a few epochs
+and see how it looks:
+learn.fit_one_cycle(5, 1e-2)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 0.069705 0.062389 00:11
+1 0.056253 0.058489 00:11
+2 0.048385 0.052256 00:11
+3 0.043400 0.050743 00:11
+4 0.040358 0.050986 00:11
+We can use our r_mse function to compare the result to the random forest result we
+got earlier:
+preds,targs = learn.get_preds()
+r_mse(preds,targs)
+0.2258
+It’s quite a bit better than the random forest (although it took longer to train, and it’s
+fussier about hyperparameter tuning).
+Before we move on, let’s save our model in case we want to come back to it again
+later:
+learn.save('nn')

@@ -1,0 +1,38 @@
+This chapter was written using version 0.9.0 of the Haystack
+library. In version 0.10.0, the pipeline and evaluation APIs were
+redesigned to make it easier to inspect whether the retriever or
+reader are impacting performance. To see what this chapter’s code
+looks like with the new API, check out the GitHub repository.
+<b>Initializingadocumentstore</b>
+In Haystack, there are various document stores to choose from and each one can be
+paired with a dedicated set of retrievers. This is illustrated in Table 7-3, where the
+compatibility of sparse (TF-IDF, BM25) and dense (Embedding, DPR) retrievers is
+shown for each of the available document stores. We’ll explain what all these acro‐
+nyms mean later in this chapter.
+<i>Table</i> <i>7-3.</i> <i>Compatibility</i> <i>of</i> <i>Haystack</i> <i>retrievers</i> <i>and</i> <i>document</i> <i>stores</i>
+<b>Inmemory</b> <b>Elasticsearch</b> <b>FAISS</b> <b>Milvus</b>
+TF-IDF Yes Yes No No
+BM25 No Yes No No
+Embedding Yes Yes Yes Yes
+DPR Yes Yes Yes Yes
+Since we’ll be exploring both sparse and dense retrievers in this chapter, we’ll use the
+ElasticsearchDocumentStore
+, which is compatible with both retriever types. Elastic‐
+search is a search engine that is capable of handling a diverse range of data types,
+including textual, numerical, geospatial, structured, and unstructured. Its ability to
+store huge volumes of data and quickly filter it with full-text search features makes it
+especially well suited for developing QA systems. It also has the advantage of being
+the industry standard for infrastructure analytics, so there’s a good chance your com‐
+pany already has a cluster that you can work with.
+To initialize the document store, we first need to download and install Elasticsearch.
+12 wget
+By following Elasticsearch’s guide, we can grab the latest release for Linux with
+tar
+and unpack it with the shell command:
+url = """https://artifacts.elastic.co/downloads/elasticsearch/\
+elasticsearch-7.9.2-linux-x86_64.tar.gz"""
+!wget -nc -q {url}
+!tar -xzf elasticsearch-7.9.2-linux-x86_64.tar.gz
+Next we need to start the Elasticsearch server. Since we’re running all the code in this
+book within Jupyter notebooks, we’ll need to use Python’s Popen() function to spawn
+12 TheguidealsoprovidesinstallationinstructionsformacOSandWindows.

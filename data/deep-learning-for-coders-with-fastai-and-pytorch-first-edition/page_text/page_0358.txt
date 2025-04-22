@@ -1,0 +1,39 @@
+<header><largefont><b>Writing</b></largefont> <largefont><b>Your</b></largefont> <largefont><b>Own</b></largefont> <largefont><b>Transform</b></largefont></header>
+If you want to write a custom transform to apply to your data, the easiest way is to
+write a function. As you can see in this example, a Transform will be applied only to a
+matching type, if a type is provided (otherwise, it will always be applied). In the fol‐
+lowing code, the :int in the function signature means that f gets applied only to
+ints. That’s why tfm(2.0) returns 2.0, but tfm(2) returns 3 here:
+<b>def</b> f(x:int): <b>return</b> x+1
+tfm = Transform(f)
+tfm(2),tfm(2.0)
+(3, 2.0)
+Here, f is converted to a Transform with no setup and no decode method.
+Python has a special syntax for passing a function (like f ) to another function (or
+something that behaves like a function, known as a <i>callable</i> in Python), called a <i>deco‐</i>
+<i>rator.</i> A decorator is used by prepending a callable with @ and placing it before a func‐
+tion definition (there are lots of good online tutorials about Python decorators, so
+take a look at one if this is a new concept for you). The following is identical to the
+previous code:
+@Transform
+<b>def</b> f(x:int): <b>return</b> x+1
+f(2),f(2.0)
+(3, 2.0)
+If you need either setup or decode, you will need to subclass Transform to imple‐
+ment the actual encoding behavior in encodes, then (optionally) the setup behavior
+in setups and the decoding behavior in decodes :
+<b>class</b> <b>NormalizeMean(Transform):</b>
+<b>def</b> setups(self, items): self.mean = sum(items)/len(items)
+<b>def</b> encodes(self, x): <b>return</b> x-self.mean
+<b>def</b> decodes(self, x): <b>return</b> x+self.mean
+Here, NormalizeMean will initialize a certain state during the setup (the mean of all
+elements passed); then the transformation is to subtract that mean. For decoding pur‐
+poses, we implement the reverse of that transformation by adding the mean. Here is
+an example of NormalizeMean in action:
+tfm = NormalizeMean()
+tfm.setup([1,2,3,4,5])
+start = 2
+y = tfm(start)
+z = tfm.decode(y)
+tfm.mean,y,z
+(3.0, -1.0, 2.0)

@@ -1,0 +1,38 @@
+you are happy to wait for. Then look at the training and validation loss plots, as
+shown previously, and in particular your metrics. If you see that they are still getting
+better even in your final epochs, you know that you have not trained for too long.
+On the other hand, you may well see that the metrics you have chosen are really get‐
+ting worse at the end of training. Remember, it’s not just that we’re looking for the
+validation loss to get worse, but the actual metrics. Your validation loss will first get
+worse during training because the model gets overconfident, and only later will get
+worse because it is incorrectly memorizing the data. We care in practice about only
+the latter issue. Remember, our loss function is something that we use to allow our
+optimizer to have something it can differentiate and optimize; it’s not the thing we
+care about in practice.
+Before the days of 1cycle training, it was common to save the model at the end of
+each epoch, and then select whichever model had the best accuracy out of all of the
+models saved in each epoch. This is known as <i>early</i> <i>stopping.</i> However, this is unlikely
+to give you the best answer, because those epochs in the middle occur before the
+learning rate has had a chance to reach the small values, where it can really find the
+best result. Therefore, if you find that you have overfit, what you should do is retrain
+your model from scratch, and this time select a total number of epochs based on
+where your previous best results were found.
+If you have the time to train for more epochs, you may want to instead use that time
+to train more parameters—that is, use a deeper architecture.
+<header><largefont><b>Deeper</b></largefont> <largefont><b>Architectures</b></largefont></header>
+In general, a model with more parameters can model your data more accurately.
+(There are lots and lots of caveats to this generalization, and it depends on the
+specifics of the architectures you are using, but it is a reasonable rule of thumb for
+now.) For most of the architectures that we will be seeing in this book, you can create
+larger versions of them by simply adding more layers. However, since we want to use
+pretrained models, we need to make sure that we choose a number of layers that have
+already been pretrained for us.
+This is why, in practice, architectures tend to come in a small number of variants. For
+instance, the ResNet architecture that we are using in this chapter comes in variants
+with 18, 34, 50, 101, and 152 layers, pretrained on ImageNet. A larger (more layers
+and parameters; sometimes described as the <i>capacity</i> of a model) version of a ResNet
+will always be able to give us a better training loss, but it can suffer more from overfit‐
+ting, because it has more parameters to overfit with.
+In general, a bigger model has the ability to better capture the real underlying rela‐
+tionships in your data, as well as to capture and memorize the specific details of your
+individual images.

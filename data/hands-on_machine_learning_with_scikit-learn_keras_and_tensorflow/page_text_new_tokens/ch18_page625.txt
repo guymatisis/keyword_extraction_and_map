@@ -1,0 +1,27 @@
+The simple policy gradients algorithm we just trained solved the CartPole task, but it
+would not scale well to larger and more complex tasks. Indeed, it is highly <i>sample</i>
+<i>inefficient,</i> meaning it needs to explore the game for a very long time before it can
+make significant progress. This is due to the fact that it must run multiple episodes to
+estimate the advantage of each action, as we have seen. However, it is the foundation
+of more powerful algorithms, such as <i>Actor-Critic</i> algorithms (which we will discuss
+briefly at the end of this chapter).
+We will now look at another popular family of algorithms. Whereas PG algorithms
+directly try to optimize the policy to increase rewards, the algorithms we will look at
+now are less direct: the agent learns to estimate the expected return for each state, or
+for each action in each state, then it uses this knowledge to decide how to act. To
+understand these algorithms, we must first introduce <i>Markov</i> <i>decision</i> <i>processes.</i>
+<header><largefont><b>Markov</b></largefont> <largefont><b>Decision</b></largefont> <largefont><b>Processes</b></largefont></header>
+In the early 20th century, the mathematician Andrey Markov studied stochastic pro‐
+cesses with no memory, called <i>Markov</i> <i>chains.</i> Such a process has a fixed number of
+states, and it randomly evolves from one state to another at each step. The probability
+for it to evolve from a state <i>s</i> to a state <i>s</i> ′ is fixed, and it depends only on the pair (s, <i>s</i>
+′), not on past states (this is why we say that the system has no memory).
+Figure 18-7 shows an example of a Markov chain with four states.
+<i>Figure</i> <i>18-7.</i> <i>Example</i> <i>of</i> <i>a</i> <i>Markov</i> <i>chain</i>
+Suppose that the process starts in state <i>s</i> , and there is a 70% chance that it will
+0
+remain in that state at the next step. Eventually it is bound to leave that state and
+never come back because no other state points back to <i>s</i> . If it goes to state <i>s</i> , it will
+0 1
+then most likely go to state <i>s</i> (90% probability), then immediately back to state <i>s</i>
+2 1

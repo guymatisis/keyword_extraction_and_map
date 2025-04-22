@@ -1,0 +1,38 @@
+A new, synthetic example based on these two actual examples from the dataset might
+look like Table 3-4, calculating by the midpoint between each of these column values.
+<i>Table</i> <i>3-4.</i> <i>A</i> <i>synthetic</i> <i>example</i> <i>generated</i> <i>from</i> <i>the</i> <i>two</i> <i>minority</i> <i>training</i> <i>examples</i> <i>using</i>
+<i>the</i> <i>SMOTE</i> <i>approach</i>
+<b>Glucose</b> <b>BloodPressure</b> <b>SkinThickness</b> <b>BMI</b>
+165.5 68 17.5 28.4
+The SMOTE technique refers primarily to tabular data, but similar logic can be
+applied to image datasets. For example, if we’re building a model to distinguish
+between Bengal and Siamese cats and only 10% of our dataset contains images of
+Bengals, we can generate additional variations of the Bengal cats in our dataset
+ImageDataGenerator
+through image augmentation using the Keras class. With a few
+parameters, this class will generate multiple variations of the same image by rotating,
+cropping, adjusting brightness, and more.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+There are a few other alternative solutions for building models with inherently imbal‐
+anced datasets, including reframing the problem and handling cases of anomaly
+detection. We’ll also explore several important considerations for imbalanced data‐
+sets: overall dataset size, the optimal model architectures for different problem types,
+and explaining minority class prediction.
+<b>ReframingandCascade</b>
+Reframing the problem is another approach for handling imbalanced datasets. First,
+we might consider switching the problem from classification to regression or vice
+versa utilizing the techniques described in the Reframing design pattern section and
+training a cascade of models. For example, let’s say we have a regression problem
+where the majority of our training data falls within a certain range, with a few outli‐
+ers. Assuming we care about predicting outlier values, we could convert this to a clas‐
+sification problem by bucketing the majority of the data in one bucket and the
+outliers in another.
+Imagine we’re building a model to predict baby weight using the BigQuery natality
+dataset. Using pandas, we can create a histogram of a sample of the baby weight data
+to see the weight distribution:
+%%bigquerydf
+<b>SELECT</b>
+weight_pounds
+<b>FROM</b>
+`bigquery-public-data.samples.natality`
+<b>LIMIT</b> 10000

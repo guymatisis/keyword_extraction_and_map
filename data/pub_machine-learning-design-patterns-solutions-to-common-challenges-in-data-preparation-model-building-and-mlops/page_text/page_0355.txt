@@ -1,0 +1,15 @@
+Figure 7-15. This looks at one feature in the data (height) and breaks down the
+model’s false negative rate for each possible categorical value of that feature.
+<i>Figure</i> <i>7-15.</i> <i>Comparing</i> <i>a</i> <i>model’s</i> <i>false</i> <i>negative</i> <i>rate</i> <i>over</i> <i>different</i> <i>subsets</i> <i>of</i> <i>data.</i>
+From the Fairness Indicators Python package, TFMA can also be used as a stand‐
+alone tool that works with both TensorFlow and non-TensorFlow models.
+<b>Automatingdataevaluation</b>
+The fairness evaluation methods we discussed in the Solution section focused on
+manual, interactive data and model analysis. This type of analysis is important, espe‐
+cially in the initial phases of model development. As we operationalize our model and
+shift our focus to maintaining and improving it, finding ways to automate fairness
+evaluation will improve efficiency and ensure that fairness is integrated throughout
+our ML process. We can do this through “Design Pattern 18: Continued Model Eval‐
+uation” on page 220 discussed in Chapter 5, or with “Design Pattern 25: Workflow
+Pipeline” on page 282 in Chapter 6 using components like those provided by TFX for
+data analysis and model evaluation.

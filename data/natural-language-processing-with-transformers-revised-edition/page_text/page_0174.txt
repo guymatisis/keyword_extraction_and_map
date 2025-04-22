@@ -1,0 +1,25 @@
+typically started with a pretrained model and fine-tuned the task-specific head our‐
+selves. For example, in Chapter 2, we had to fine-tune the classification head because
+the number of classes was tied to the dataset at hand. For extractive QA, we can
+actually start with a fine-tuned model since the structure of the labels remains the
+same across datasets.
+You can find a list of extractive QA models by navigating to the Hugging Face Hub
+and searching for “squad” on the Models tab (Figure 7-5).
+<i>Figure</i> <i>7-5.</i> <i>A</i> <i>selection</i> <i>of</i> <i>extractive</i> <i>QA</i> <i>models</i> <i>on</i> <i>the</i> <i>Hugging</i> <i>Face</i> <i>Hub</i>
+As you can see, at the time of writing, there are more than 350 QA models to choose
+from—so which one should you pick? In general, the answer depends on various fac‐
+tors like whether your corpus is mono- or multilingual and the constraints of run‐
+ning the model in a production environment. Table 7-2 lists a few models that
+provide a good foundation to build on.
+<i>Table</i> <i>7-2.</i> <i>Baseline</i> <i>transformer</i> <i>models</i> <i>that</i> <i>are</i> <i>fine-tuned</i> <i>on</i> <i>SQuAD</i> <i>2.0</i>
+<b>Transformer</b> <b>Description</b> <b>Numberof</b> <b>F</b> <b>-scoreon</b>
+<b>1</b>
+<b>parameters</b> <b>SQuAD2.0</b>
+MiniLM AdistilledversionofBERT-basethatpreserves99%oftheperformance 66M 79.5
+whilebeingtwiceasfast
+RoBERTa-base RoBERTamodelshavebetterperformancethantheirBERTcounterparts 125M 83.0
+andcanbefine-tunedonmostQAdatasetsusingasingleGPU
+ALBERT-XXL State-of-the-artperformanceonSQuAD2.0,butcomputationally 235M 88.1
+intensiveanddifficulttodeploy
+XLM-RoBERTa- Multilingualmodelfor100languageswithstrongzero-shot 570M 83.8
+large performance

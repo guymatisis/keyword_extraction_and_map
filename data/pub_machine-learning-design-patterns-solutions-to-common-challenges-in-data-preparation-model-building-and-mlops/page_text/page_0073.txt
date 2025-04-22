@@ -1,0 +1,15 @@
+<i>Figure</i> <i>2-23.</i> <i>Using</i> <i>overlapping</i> <i>windows</i> <i>for</i> <i>max</i> <i>pooling</i> <i>on</i> <i>a</i> <i>4×4</i> <i>pixel</i> <i>grid.</i>
+We could then transform this into a 2×2 grid (Figure 2-24).
+<i>Figure</i> <i>2-24.</i> <i>Transforming</i> <i>the</i> <i>3×3</i> <i>grid</i> <i>into</i> <i>2×2</i> <i>with</i> <i>sliding</i> <i>windows</i> <i>and</i> <i>max</i> <i>pool‐</i>
+<i>ing.</i>
+We end with a final scalar value of 127. While the end value is the same, you can see
+how the intermediate steps preserved more detail from the original matrix.
+Keras provides convolution layers to build models that split images into smaller, win‐
+dowed chunks. Let’s say we’re building a model to classify 28×28 color images as
+either “dog” or “cat.” Since these images are color, each image will be represented as a
+28×28×3-dimensional array, since each pixel has three color channels. Here’s how
+we’d define the inputs to this model using a convolution layer and the Sequential
+API:
+Conv2D(filters=16, kernel_size=3, activation='relu', input_shape=(28,28,3))
+In this example, we’re dividing our input images into 3×3 chunks before passing
+them through a max pooling layer. Building a model architecture that splits images

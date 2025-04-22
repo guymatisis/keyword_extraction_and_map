@@ -1,0 +1,42 @@
+Let’s first estimate the average character length per token in our dataset:
+examples, total_characters, total_tokens = 500, 0, 0
+dataset = load_dataset('transformersbook/codeparrot-train', split='train',
+streaming=True)
+<b>for</b> _, example <b>in</b> tqdm(zip(range(examples), iter(dataset)), total=examples):
+total_characters += len(example['content'])
+total_tokens += len(tokenizer(example['content']).tokens())
+characters_per_token = total_characters / total_tokens
+<b>print(characters_per_token)</b>
+3.6233025034779565
+With that we have all that’s needed to create our own IterableDataset (which is a
+helper class provided by PyTorch) for preparing constant-length inputs for the
+model. We just need to inherit from IterableDataset and set up the __iter__()
+function that yields the next element with the logic we just walked through:
+<b>import</b> <b>torch</b>
+<b>from</b> <b>torch.utils.data</b> <b>import</b> IterableDataset
+<b>class</b> <b>ConstantLengthDataset(IterableDataset):</b>
+<b>def</b> __init__(self, tokenizer, dataset, seq_length=1024,
+num_of_sequences=1024, chars_per_token=3.6):
+self.tokenizer = tokenizer
+self.concat_token_id = tokenizer.eos_token_id
+self.dataset = dataset
+self.seq_length = seq_length
+self.input_characters = seq_length * chars_per_token * num_of_sequences
+<b>def</b> __iter__(self):
+iterator = iter(self.dataset)
+more_examples = True
+<b>while</b> more_examples:
+buffer, buffer_len = [], 0
+<b>while</b> True:
+<b>if</b> buffer_len >= self.input_characters:
+m=f"Buffer full: {buffer_len}>={self.input_characters:.0f}"
+<b>print(m)</b>
+<b>break</b>
+<b>try:</b>
+m=f"Fill buffer: {buffer_len}<{self.input_characters:.0f}"
+<b>print(m)</b>
+buffer.append(next(iterator)["content"])
+buffer_len += len(buffer[-1])
+<b>except</b> <b>StopIteration:</b>
+iterator = iter(self.dataset)
+all_token_ids = []

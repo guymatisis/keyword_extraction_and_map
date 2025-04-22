@@ -1,0 +1,38 @@
+df_dom = pd.concat([xs_final, valid_xs_final])
+is_valid = np.array([0]*len(xs_final) + [1]*len(valid_xs_final))
+m = rf(df_dom, is_valid)
+rf_feat_importance(m, df_dom)[:6]
+<b>cols</b> <b>imp</b>
+<b>5</b> saleElapsed 0.859446
+<b>9</b>
+SalesID 0.119325
+<b>13</b> MachineID 0.014259
+<b>0</b> YearMade 0.001793
+<b>8</b> fiModelDesc 0.001740
+<b>11</b> Enclosure 0.000657
+This shows that three columns differ significantly between the training and validation
+sets: saleElapsed, SalesID, and MachineID. It’s fairly obvious why this is the case for
+saleElapsed:
+it’s the number of days between the start of the dataset and each row, so
+it directly encodes the date. The difference in SalesID suggests that identifiers for
+auction sales might increment over time. MachineID suggests something similar
+might be happening for individual items sold in those auctions.
+Let’s get a baseline of the original random forest model’s RMSE, and then determine
+the effect of removing each of these columns in turn:
+m = rf(xs_final, y)
+<b>print('orig',</b> m_rmse(m, valid_xs_final, valid_y))
+<b>for</b> c <b>in</b> ('SalesID','saleElapsed','MachineID'):
+m = rf(xs_final.drop(c,axis=1), y)
+<b>print(c,</b> m_rmse(m, valid_xs_final.drop(c,axis=1), valid_y))
+orig 0.232795
+SalesID 0.23109
+saleElapsed 0.236221
+MachineID 0.233492
+It looks like we should be able to remove SalesID and MachineID without losing any
+accuracy. Let’s check:
+time_vars = ['SalesID','MachineID']
+xs_final_time = xs_final.drop(time_vars, axis=1)
+valid_xs_time = valid_xs_final.drop(time_vars, axis=1)
+m = rf(xs_final_time, y)
+m_rmse(m, valid_xs_time, valid_y)
+0.231307

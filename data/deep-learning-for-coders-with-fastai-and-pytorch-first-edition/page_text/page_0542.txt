@@ -1,0 +1,21 @@
+Finally, we’ll check that the learning rate followed the schedule we defined (as you see,
+we’re not using cosine annealing here):
+plt.plot(onecyc.lrs);
+<header><largefont><b>Conclusion</b></largefont></header>
+We have explored how the key concepts of the fastai library are implemented by re-
+implementing them in this chapter. Since it’s mostly full of code, you should definitely
+try to experiment with it by looking at the corresponding notebook on the book’s
+website. Now that you know how it’s built, as a next step be sure to check out the
+intermediate and advanced tutorials in the fastai documentation to learn how to cus‐
+tomize every bit of the library.
+<header><largefont><b>Questionnaire</b></largefont></header>
+<b>Experiments</b>
+For the questions here that ask you to explain what a function or
+class is, you should also complete your own code experiments.
+1. What is glob?
+2. How do you open an image with the Python imaging library?
+3. What does L.map do?
+4. What does Self do?
+5. What is L.val2idx?
+6. What methods do you need to implement to create your own Dataset?
+7. Why do we call convert when we open an image from Imagenette?

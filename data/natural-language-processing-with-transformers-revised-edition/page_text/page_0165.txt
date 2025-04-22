@@ -1,0 +1,9 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>7</b></largefont></header>
+<header><largefont><b>Question</b></largefont> <largefont><b>Answering</b></largefont></header>
+Whether you’re a researcher, analyst, or data scientist, chances are that at some point
+you’ve needed to wade through oceans of documents to find the information you’re
+looking for. To make matters worse, you’re constantly reminded by Google and Bing
+that there exist better ways to search! For instance, if we search for “When did Marie
+Curie win her first Nobel Prize?” on Google, we immediately get the correct answer
+of “1903,” as illustrated in Figure 7-1.
+<i>Figure</i> <i>7-1.</i> <i>A</i> <i>Google</i> <i>search</i> <i>query</i> <i>and</i> <i>corresponding</i> <i>answer</i> <i>snippet</i>

@@ -1,0 +1,21 @@
+their models will be used, and consider how to best ensure that they are used as posi‐
+tively as possible. There are things you can do. And if you don’t do them, things can
+go pretty badly.
+One particularly hideous example of what happens when technologists focus on tech‐
+nology at all costs is the story of IBM and Nazi Germany. In 2001, a Swiss judge ruled
+that it was not unreasonable “to deduce that IBM’s technical assistance facilitated the
+tasks of the Nazis in the commission of their crimes against humanity, acts also
+involving accountancy and classification by IBM machines and utilized in the con‐
+centration camps themselves.”
+IBM, you see, supplied the Nazis with data tabulation products necessary to track the
+extermination of Jews and other groups on a massive scale. This was driven from the
+top of the company, with marketing to Hitler and his leadership team. Company
+President Thomas Watson personally approved the 1939 release of special IBM alpha‐
+betizing machines to help organize the deportation of Polish Jews. Pictured in
+Figure 3-2 is Adolf Hitler (far left) meeting with IBM CEO Tom Watson Sr. (second
+from left), shortly before Hitler awarded Watson a special “Service to the Reich”
+medal in 1937.
+<i>Figure</i> <i>3-2.</i> <i>IBM</i> <i>CEO</i> <i>Tom</i> <i>Watson</i> <i>Sr.</i> <i>meeting</i> <i>with</i> <i>Adolf</i> <i>Hitler</i>
+But this was not an isolated incident—the organization’s involvement was extensive.
+IBM and its subsidiaries provided regular training and maintenance onsite at the
+concentration camps: printing off cards, configuring machines, and repairing them as

@@ -1,0 +1,21 @@
+a huge model on all of your data for a really long time. But the reason that deep learn‐
+ing is not straightforward is that your data, memory, and time are typically limited. If
+you are running out of memory or time, the solution is to train a smaller model. If
+you are not able to train for long enough to overfit, you are not taking advantage of
+the capacity of your model.
+So, step 1 is to get to the point where you can overfit. Then the question is how to
+reduce that overfitting. Figure 15-3 shows how we recommend prioritizing the steps
+from there.
+<i>Figure</i> <i>15-3.</i> <i>Steps</i> <i>to</i> <i>reducing</i> <i>overfitting</i>
+Many practitioners, when faced with an overfitting model, start at exactly the wrong
+end of this diagram. Their starting point is to use a smaller model or more regulariza‐
+tion. Using a smaller model should be absolutely the last step you take, unless train‐
+ing your model is taking up too much time or memory. Reducing the size of your
+model reduces the ability of your model to learn subtle relationships in your data.
+Instead, your first step should be to seek to <i>create</i> <i>more</i> <i>data.</i> That could involve
+adding more labels to data that you already have, finding additional tasks that your
+model could be asked to solve (or, to think of it another way, identifying different
+kinds of labels that you could model), or creating additional synthetic data by using
+more or different data augmentation techniques. Thanks to the development of
+Mixup and similar approaches, effective data augmentation is now available for
+nearly all kinds of data.

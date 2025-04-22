@@ -1,0 +1,28 @@
+Now imagine that you are a data scientist who needs to build a system that can auto‐
+matically identify emotional states such as “anger” or “joy” that people express about
+your company’s product on Twitter. In this chapter, we’ll tackle this task using a var‐
+iant of BERT called DistilBERT.1 The main advantage of this model is that it achieves
+comparable performance to BERT, while being significantly smaller and more effi‐
+cient. This enables us to train a classifier in a few minutes, and if you want to train a
+larger BERT model you can simply change the checkpoint of the pretrained model. A
+<i>checkpoint</i> corresponds to the set of weights that are loaded into a given transformer
+architecture.
+This will also be our first encounter with three of the core libraries from the Hugging
+Face ecosystem: Datasets, Tokenizers, and Transformers. As shown in
+Figure 2-2, these libraries will allow us to quickly go from raw text to a fine-tuned
+model that can be used for inference on new tweets. So, in the spirit of Optimus
+Prime, let’s dive in, “transform, and roll out!”2
+<i>Figure</i> <i>2-2.</i> <i>A</i> <i>typical</i> <i>pipeline</i> <i>for</i> <i>training</i> <i>transformer</i> <i>models</i> <i>with</i> <i>the</i> <i>Datasets,</i>
+<i>Tokenizers,</i> <i>and</i> <i>Transformers</i> <i>libraries</i>
+<header><largefont><b>The</b></largefont> <largefont><b>Dataset</b></largefont></header>
+To build our emotion detector we’ll use a great dataset from an article that explored
+how emotions are represented in English Twitter messages.3 Unlike most sentiment
+analysis datasets that involve just “positive” and “negative” polarities, this dataset con‐
+tains six basic emotions: anger, disgust, fear, joy, sadness, and surprise. Given a tweet,
+our task will be to train a model that can classify it into one of these emotions.
+1 V.Sanhetal.,“DistilBERT,aDistilledVersionofBERT:Smaller,Faster,CheaperandLighter”,(2019).
+2 OptimusPrimeistheleaderofaraceofrobotsinthepopularTransformersfranchiseforchildren(andfor
+thosewhoareyoungatheart!).
+3 E.Saraviaetal.,“CARER:ContextualizedAffectRepresentationsforEmotionRecognition,”Proceedingsofthe
+<i>2018ConferenceonEmpiricalMethodsinNaturalLanguageProcessing(Oct–Nov2018):3687–3697,http://</i>
+<i>dx.doi.org/10.18653/v1/D18-1404.</i>

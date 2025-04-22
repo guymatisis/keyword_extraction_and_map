@@ -1,0 +1,23 @@
+Input IDs shape: torch.Size([1, 28])
+Start logits shape: torch.Size([1, 28])
+End logits shape: torch.Size([1, 28])
+we see that there are two logits (a start and end) associated with each input token. As
+illustrated in Figure 7-6, larger, positive logits correspond to more likely candidates
+for the start and end tokens. In this example we can see that the model assigns the
+highest start token logits to the numbers “1” and “6000”, which makes sense since our
+question is asking about a quantity. Similarly, we see that the end tokens with the
+highest logits are “minute” and “hours”.
+<i>Figure</i> <i>7-6.</i> <i>Predicted</i> <i>logits</i> <i>for</i> <i>the</i> <i>start</i> <i>and</i> <i>end</i> <i>tokens;</i> <i>the</i> <i>token</i> <i>with</i> <i>the</i> <i>highest</i> <i>score</i>
+<i>is</i> <i>colored</i> <i>in</i> <i>orange</i>
+To get the final answer, we can compute the argmax over the start and end token log‐
+its and then slice the span from the inputs. The following code performs these steps
+and decodes the result so we can print the resulting text:
+<b>import</b> <b>torch</b>
+start_idx = torch.argmax(start_logits)
+end_idx = torch.argmax(end_logits) + 1
+answer_span = inputs["input_ids"][0][start_idx:end_idx]
+answer = tokenizer.decode(answer_span)
+<b>print(f"Question:</b> {question}")
+<b>print(f"Answer:</b> {answer}")
+Question: How much music can this hold?
+Answer: 6000 hours

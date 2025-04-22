@@ -1,0 +1,31 @@
+<header><largefont><b>Efficient</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>Representations</b></largefont></header>
+Which of the following number sequences do you find the easiest to memorize?
+• 40, 27, 25, 36, 81, 57, 10, 73, 19, 68
+• 50, 48, 46, 44, 42, 40, 38, 36, 34, 32, 30, 28, 26, 24, 22, 20, 18, 16, 14
+At first glance, it would seem that the first sequence should be easier, since it is much
+shorter. However, if you look carefully at the second sequence, you will notice that it
+is just the list of even numbers from 50 down to 14. Once you notice this pattern, the
+second sequence becomes much easier to memorize than the first because you only
+need to remember the pattern (i.e., decreasing even numbers) and the starting and
+ending numbers (i.e., 50 and 14). Note that if you could quickly and easily memorize
+very long sequences, you would not care much about the existence of a pattern in the
+second sequence. You would just learn every number by heart, and that would be
+that. The fact that it is hard to memorize long sequences is what makes it useful to
+recognize patterns, and hopefully this clarifies why constraining an autoencoder dur‐
+ing training pushes it to discover and exploit patterns in the data.
+The relationship between memory, perception, and pattern matching was famously
+studied by William Chase and Herbert Simon in the early 1970s.1 They observed that
+expert chess players were able to memorize the positions of all the pieces in a game by
+looking at the board for just five seconds, a task that most people would find impossi‐
+ble. However, this was only the case when the pieces were placed in realistic positions
+(from actual games), not when the pieces were placed randomly. Chess experts don’t
+have a much better memory than you and I; they just see chess patterns more easily,
+thanks to their experience with the game. Noticing patterns helps them store infor‐
+mation efficiently.
+Just like the chess players in this memory experiment, an autoencoder looks at the
+inputs, converts them to an efficient latent representation, and then spits out some‐
+thing that (hopefully) looks very close to the inputs. An autoencoder is always com‐
+posed of two parts: an <i>encoder</i> (or <i>recognition</i> <i>network)</i> that converts the inputs to a
+latent representation, followed by a <i>decoder</i> (or <i>generative</i> <i>network)</i> that converts the
+internal representation to the outputs (see Figure 17-1).
+1 WilliamG.ChaseandHerbertA.Simon,“PerceptioninChess,”CognitivePsychology4,no.1(1973):55–81.

@@ -1,0 +1,35 @@
+have a list of 0s, with a 1 in any position where that category is present. For example,
+if there is a 1 in the second and fourth positions, that means vocab items two and four
+are present in this image. This is known as <i>one-hot</i> <i>encoding.</i> The reason we can’t
+easily just use a list of category indices is that each list would be a different length,
+and PyTorch requires tensors, where everything has to be the same length.
+<b>Jargon:One-HotEncoding</b>
+Using a vector of 0s, with a 1 in each location that is represented in
+the data, to encode a list of integers.
+Let’s check what the categories represent for this example (we are using the conve‐
+nient torch.where function, which tells us all of the indices where our condition is
+true or false):
+idxs = torch.where(dsets.train[0][1]==1.)[0]
+dsets.train.vocab[idxs]
+(#1) ['dog']
+With NumPy arrays, PyTorch tensors, and fastai’s L class, we can index directly using
+a list or vector, which makes a lot of code (such as this example) much clearer and
+more concise.
+We have ignored the column is_valid up until now, which means that DataBlock
+has been using a random split by default. To explicitly choose the elements of our val‐
+idation set, we need to write a function and pass it to splitter (or use one of fastai’s
+predefined functions or classes). It will take the items (here our whole DataFrame)
+and must return two (or more) lists of integers:
+<b>def</b> splitter(df):
+train = df.index[~df['is_valid']].tolist()
+valid = df.index[df['is_valid']].tolist()
+<b>return</b> train,valid
+dblock = DataBlock(blocks=(ImageBlock, MultiCategoryBlock),
+splitter=splitter,
+get_x=get_x,
+get_y=get_y)
+dsets = dblock.datasets(df)
+dsets.train[0]
+(PILImage mode=RGB size=500x333,
+TensorMultiCategory([0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0.,
+> 0., 0., 0., 0., 0., 0.]))

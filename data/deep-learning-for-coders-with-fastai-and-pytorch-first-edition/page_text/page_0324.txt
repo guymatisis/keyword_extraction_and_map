@@ -1,0 +1,30 @@
+subtracting the predictions of each new tree from the residuals from the previous
+tree, the residuals will get smaller and smaller.
+To make predictions with an ensemble of boosted trees, we calculate the predictions
+from each tree and then add them all together. There are many models following this
+basic approach, and many names for the same models. <i>Gradient</i> <i>boosting</i> <i>machines</i>
+(GBMs) and <i>gradient</i> <i>boosted</i> <i>decision</i> <i>trees</i> (GBDTs) are the terms you’re most likely
+to come across, or you may see the names of specific libraries implementing these; at
+the time of writing, <i>XGBoost</i> is the most popular.
+Note that, unlike with random forests, with this approach, there is nothing to stop us
+from overfitting. Using more trees in a random forest does not lead to overfitting,
+because each tree is independent of the others. But in a boosted ensemble, the more
+trees you have, the better the training error becomes, and eventually you will see
+overfitting on the validation set.
+We are not going to go into detail on how to train a gradient boosted tree ensemble
+here, because the field is moving rapidly, and any guidance we give will almost cer‐
+tainly be outdated by the time you read this. As we write this, sklearn has just added a
+HistGradientBoostingRegressor class that provides excellent performance. There
+are many hyperparameters to tweak for this class, and for all gradient boosted tree
+methods we have seen. Unlike random forests, gradient boosted trees are extremely
+sensitive to the choices of these hyperparameters; in practice, most people use a loop
+that tries a range of hyperparameters to find the ones that work best.
+One more technique that has gotten great results is to use embeddings learned by a
+neural net in a machine learning model.
+<header><largefont><b>Combining</b></largefont> <largefont><b>Embeddings</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Other</b></largefont> <largefont><b>Methods</b></largefont></header>
+The abstract of the entity embedding paper we mentioned at the start of this chapter
+states: “The embeddings obtained from the trained neural network boost the perfor‐
+mance of all tested machine learning methods considerably when used as the input
+features instead.” It includes the very interesting table shown in Figure 9-8.
+<i>Figure</i> <i>9-8.</i> <i>Effects</i> <i>of</i> <i>using</i> <i>neural</i> <i>network</i> <i>embeddings</i> <i>as</i> <i>input</i> <i>to</i> <i>other</i> <i>machine</i> <i>learn‐</i>
+<i>ing</i> <i>methods</i> <i>(courtesy</i> <i>of</i> <i>Cheng</i> <i>Guo</i> <i>and</i> <i>Felix</i> <i>Berkhahn)</i>

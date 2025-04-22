@@ -1,0 +1,34 @@
+<b>Handlingprecisionincreases</b>
+When the input provider increases the precision of their data stream, follow the
+bridging approach to create a training dataset that consists of the higher-resolution
+data, augmented with some of the older data.
+For floating-point values, it is not necessary to explicitly bridge the older data to
+match the newer data’s precision. To see why, consider the case where some data was
+originally provided to one decimal place (e.g., 3.5 or 4.2) but is now being provided to
+two decimal places (e.g., 3.48 or 4.23). If we assume that 3.5 in the older data consists
+distributed1
+of values that would be uniformly in [3.45, 3.55] in the newer data, the
+statically imputed value would be 3.5, which is precisely the value that is stored in the
+older data.
+For categorical values—for example, if the older data stored the location as a state or
+provincial code and the newer data provided the county or district code—use the fre‐
+quency distribution of counties within states as described in the main solution to
+carry out static imputation.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>24:</b></largefont> <largefont><b>Windowed</b></largefont> <largefont><b>Inference</b></largefont></header>
+The Windowed Inference design pattern handles models that require an ongoing
+sequence of instances in order to run inference. This pattern works by externalizing
+the model state and invoking the model from a stream analytics pipeline. This pat‐
+tern is also useful when a machine learning model requires features that need to be
+computed from aggregates over time windows. By externalizing the state to a stream
+pipeline, the Windowed Inference design pattern ensures that features calculated in a
+dynamic, time-dependent way can be correctly repeated between training and
+serving. It is a way of avoiding training–serving skew in the case of temporal aggre‐
+gate features.
+<header><largefont><b>Problem</b></largefont></header>
+Take a look at the arrival delays at Dallas Fort Worth (DFW) airport depicted for a
+couple of days in May 2010 in Figure 6-5 (the full notebook is on GitHub).
+1 Notethattheoverallprobabilitydistributionfunctiondoesn’tneedtobeuniform—allthatwerequireisthat
+theoriginalbinsarenarrowenoughforustobeabletoapproximatetheprobabilitydistributionfunctionbya
+staircasefunction.Wherethisassumptionfailsiswhenwehaveahighlyskeweddistributionthatwasinade‐
+quatelysampledintheolderdata.Insuchcases,itispossiblethat3.46ismorelikelythan3.54,andthiswould
+needtobereflectedinthebridgeddataset.

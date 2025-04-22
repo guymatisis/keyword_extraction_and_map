@@ -1,0 +1,37 @@
+<b>Aggregatefeature</b>
+In cases where the distribution of a categorical variable is skewed or where the num‐
+ber of buckets is so small that bucket collisions are frequent, we might find it helpful
+to add an aggregate feature as an input to our model. For example, for every airport,
+we could find the probability of on-time flights in the training dataset and add it as a
+feature to our model. This allows us to avoid losing the information associated with
+individual airports when we hash the airport codes. In some cases, we might be able
+to avoid using the airport name as a feature entirely, since the relative frequency of
+on-time flights might be sufficient.
+<b>Hyperparametertuning</b>
+Because of the trade-offs with bucket collision frequency, choosing the number of
+buckets can be difficult. It very often depends on the problem itself. Therefore, we
+recommend that you treat the number of buckets as a hyperparameter that is tuned:
+- <b>parameterName:</b> nbuckets
+type: INTEGER
+minValue: 10
+maxValue: 20
+scaleType: UNIT_LINEAR_SCALE
+Make sure that the number of buckets remains within a sensible range of the cardin‐
+ality of the categorical variable being hashed.
+<b>Cryptographichash</b>
+What makes the Hashed Feature lossy is the modulo part of the implementation.
+What if we were to avoid the modulo altogether? After all, the farm fingerprint has a
+fixed length (an INT64 is 64 bits), and so it can be represented using 64 feature val‐
+ues, each of which is 0 or 1. This is called <i>binary</i> <i>encoding.</i>
+However, binary encoding does not solve the problem of out-of-vocabulary inputs or
+cold start (only the problem of high cardinality). In fact, the bitwise coding is a red
+herring. If we don’t do a modulo, we can get a unique representation by simply
+encoding the three characters that form the IATA code (thus using a feature of length
+3*26=78). The problem with this representation is immediately obvious: airports
+whose names start with the letter O have nothing in common when it comes to their
+flight delay characteristics—the encoding has created a <i>spurious</i> <i>correlation</i> between
+airports that start with the same letter. The same insight holds in binary space as well.
+Because of this, we do not recommend binary encoding of farm fingerprint values.
+Binary encoding of an MD5 hash will not suffer from this spurious correlation prob‐
+lem because the output of an MD5 hash is uniformly distributed, and so the resulting
+bits will be uniformly distributed. However, unlike the Farm Fingerprint algorithm,

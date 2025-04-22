@@ -1,0 +1,25 @@
+<b>def</b> get_data(url, presize, resize):
+path = untar_data(url)
+<b>return</b> DataBlock(
+blocks=(ImageBlock, CategoryBlock), get_items=get_image_files,
+splitter=GrandparentSplitter(valid_name='val'),
+get_y=parent_label, item_tfms=Resize(presize),
+batch_tfms=[*aug_transforms(min_scale=0.5, size=resize),
+Normalize.from_stats(*imagenet_stats)],
+).dataloaders(path, bs=128)
+dls = get_data(URLs.IMAGENETTE_160, 160, 128)
+dls.show_batch(max_n=4)
+When we looked at MNIST, we were dealing with 28×28-pixel images. For Image‐
+nette, we are going to be training with 128×128-pixel images. Later, we would like to
+be able to use larger images as well—at least as big as 224×224-pixels, the ImageNet
+standard. Do you recall how we managed to get a single vector of activations for each
+image out of the MNIST convolutional neural network?
+The approach we used was to ensure that there were enough stride-2 convolutions
+such that the final layer would have a grid size of 1. Then we just flattened out the
+unit axes that we ended up with, to get a vector for each image (so, a matrix of activa‐
+tions for a mini-batch). We could do the same thing for Imagenette, but that would
+cause two problems:
+• We’d need lots of stride-2 layers to make our grid 1×1 at the end—perhaps more
+than we would otherwise choose.
+• The model would not work on images of any size other than the size we origi‐
+nally trained on.

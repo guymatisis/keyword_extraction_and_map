@@ -1,0 +1,24 @@
+Then we’ll test the model on the full dataset. The blue dots are the training data, and
+the red dots are the predictions:
+plt.scatter(x_lin, y_lin, 20)
+plt.scatter(x_lin, m_lin.predict(xs_lin), color='red', alpha=0.5);
+We have a big problem! Our predictions outside the domain that our training data
+covered are all too low. Why do you suppose this is?
+Remember, a random forest just averages the predictions of a number of trees. And a
+tree simply predicts the average value of the rows in a leaf. Therefore, a tree and a
+random forest can never predict values outside the range of the training data. This is
+particularly problematic for data indicating a trend over time, such as inflation, and
+you wish to make predictions for a future time. Your predictions will be systemati‐
+cally too low.
+But the problem extends beyond time variables. Random forests are not able to
+extrapolate outside the types of data they have seen, in a more general sense. That’s
+why we need to make sure our validation set does not contain out-of-domain data.
+<header><largefont><b>Finding</b></largefont> <largefont><b>Out-of-Domain</b></largefont> <largefont><b>Data</b></largefont></header>
+Sometimes it is hard to know whether your test set is distributed in the same way as
+your training data, or, if it is different, which columns reflect that difference. There’s
+an easy way to figure this out, which is to use a random forest!
+But in this case, we don’t use the random forest to predict our actual dependent vari‐
+able. Instead, we try to predict whether a row is in the validation set or the training
+set. To see this in action, let’s combine our training and validation sets, create a
+dependent variable that represents which dataset each row comes from, build a ran‐
+dom forest using that data, and get its feature importance:

@@ -1,0 +1,38 @@
+Suppose we have a decision tree to predict whether a baby will require intensive care
+(IC) or can be normally discharged (ND), and suppose that the decision tree takes as
+inputs two variables, <i>x1</i> and <i>x2.</i> The trained model might look something like
+Figure 2-1.
+It is pretty clear that <i>x1</i> and <i>x2</i> need to be boolean variables in order for <i>f(x1,</i> <i>x2)</i> to
+work. Suppose that two of the pieces of information we’d like the model to consider
+when classifying a baby as requiring intensive care or not is the hospital that the baby
+is born in and the baby’s weight. Can we use the hospital that a baby is born in as an
+input to the decision tree? No, because the hospital takes neither the value True nor
+the value False and cannot be fed into the && (AND) operator. It’s mathematically
+not compatible. Of course, we can “make” the hospital value boolean by performing
+an operation such as:
+x1 = (hospital IN France)
+so that <i>x1</i> is True when the hospital is in France, and False if not. Similarly, a baby’s
+weight cannot be fed directly into the model, but by performing an operation such as:
+x1 = (babyweight < 3 kg)
+we can use the hospital or the baby weight as an input to the model. This is an exam‐
+ple of how input data (hospital, a complex object or baby weight, a floating point
+number) can be represented in the form (boolean) expected by the model. This is
+what we mean by <i>data</i> <i>representation.</i>
+In this book, we will use the term <i>input</i> to represent the real-world data fed to the
+model (for example, the baby weight) and the term <i>feature</i> to represent the trans‐
+formed data that the model actually operates on (for example, whether the baby
+weight is less than 3 kilograms). The process of creating features to represent the
+input data is called <i>feature</i> <i>engineering,</i> and so we can think of feature engineering as
+a way of selecting the data representation.
+Of course, rather than hardcoding parameters such as the threshold value of 3 kilo‐
+grams, we’d prefer the machine learning model to learn how to create each node by
+selecting the input variable and the threshold. Decision trees are an example of
+machine learning models that are capable of learning the data representation.1 Many
+of the patterns that we look at in this chapter will involve similarly <i>learnable</i>
+<i>data</i> <i>representations.</i>
+The <i>Embeddings</i> design pattern is the canonical example of a data representation that
+deep neural networks are capable of learning on their own. In an embedding, the
+learned representation is dense and lower-dimensional than the input, which could
+baby weight
+1 Here,thelearneddatarepresentationconsistsof astheinputvariable,thelessthanoperator,
+andthethresholdof3kg.

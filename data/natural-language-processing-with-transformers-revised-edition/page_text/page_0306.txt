@@ -1,0 +1,35 @@
+<b>$</b> <b>git</b> <b>clone</b> <b>https://huggingface.co/datasets/transformersbook/codeparrot</b>
+<header><largefont><b>To</b></largefont> <largefont><b>Filter</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Noise</b></largefont> <largefont><b>or</b></largefont> <largefont><b>Not?</b></largefont></header>
+Anybody can create a GitHub repository, so the quality of the projects varies. There
+are some conscious choices to be made regarding how we want the system to perform
+in a real-world setting. Having some noise in the training dataset will make our sys‐
+tem more robust to noisy inputs at inference time, but will also make its predictions
+more random. Depending on the intended use and whole system integration, you
+may choose more or less noisy data and add pre- and postfiltering operations.
+For the educational purposes of the present chapter and to keep the data preparation
+code concise, we will not filter according to stars or usage and will just grab all the
+Python files in the GitHub BigQuery dataset. Data preparation, however, is a crucial
+step, and you should make sure you clean up your dataset as much as possible. In our
+case a few things to consider are whether to balance the programming languages in
+the dataset; filter low-quality data (e.g., via GitHub stars or references from other
+repos); remove duplicated code samples; take copyright information into account;
+investigate the language used in documentation, comments, or docstrings; and
+remove personal identifying information such as passwords or keys.
+Working with a 50 GB dataset can be challenging; it requires sufficient disk space,
+and one must be careful not to run out of RAM. In the following section, we’ll have a
+look how Datasets helps deal with these constraints of working with large datasets
+on small machines.
+<header><largefont><b>Working</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Large</b></largefont> <largefont><b>Datasets</b></largefont></header>
+Loading a very large dataset is often a challenging task, in particular when the data is
+larger than your machine’s RAM. For a large-scale pretraining dataset, this is a very
+common situation. In our example, we have 50 GB of compressed data and about 200
+GB of uncompressed data, which is difficult to extract and load into the RAM mem‐
+ory of a standard-sized laptop or desktop computer.
+Thankfully, Datasets has been designed from the ground up to overcome this
+problem with two specific features that allow you to set yourself free from RAM and
+hard drive space limitations: memory mapping and streaming.
+<b>Memorymapping</b>
+To overcome RAM limitations, Datasets uses a mechanism for zero-copy and zero-
+overhead memory mapping that is activated by default. Basically, each dataset is
+cached on the drive in a file that is a direct reflection of the content in RAM memory.
+Instead of loading the dataset in RAM, Datasets opens a read-only pointer to this

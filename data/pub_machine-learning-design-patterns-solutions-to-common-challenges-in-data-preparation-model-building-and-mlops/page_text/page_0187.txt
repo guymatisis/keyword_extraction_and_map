@@ -1,0 +1,25 @@
+that while the model is executing training step <i>N,</i> the input pipeline is reading and
+preparing data for training step <i>N</i> <i>+</i> <i>1,</i> as shown in Figure 4-22.
+<i>Figure</i> <i>4-21.</i> <i>With</i> <i>distributed</i> <i>training</i> <i>on</i> <i>multiple</i> <i>GPU/TPUs</i> <i>available,</i> <i>it</i> <i>is</i> <i>necessary</i>
+<i>to</i> <i>have</i> <i>efficient</i> <i>input</i> <i>pipelines.</i>
+<i>Figure</i> <i>4-22.</i> <i>Prefetching</i> <i>overlaps</i> <i>preprocessing</i> <i>and</i> <i>model</i> <i>execution,</i> <i>so</i> <i>that</i> <i>while</i> <i>the</i>
+<i>model</i> <i>is</i> <i>executing</i> <i>one</i> <i>training</i> <i>step,</i> <i>the</i> <i>input</i> <i>pipeline</i> <i>is</i> <i>reading</i> <i>and</i> <i>preparing</i> <i>data</i>
+<i>for</i> <i>the</i> <i>next.</i>
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>15:</b></largefont> <largefont><b>Hyperparameter</b></largefont> <largefont><b>Tuning</b></largefont></header>
+In Hyperparameter Tuning, the training loop is itself inserted into an optimization
+method to find the optimal set of model hyperparameters.
+<header><largefont><b>Problem</b></largefont></header>
+In machine learning, model training involves finding the optimal set of breakpoints
+(in the case of decision trees), weights (in the case of neural networks), or support
+vectors (in the case of support vector machines). We term these <i>model</i> parameters.
+However, in order to carry out model training and find the optimal model parame‐
+ters, we often have to hardcode a variety of things. For example, we might decide that
+the maximum depth of a tree will be 5 (in the case of decision trees), or that the acti‐
+vation function will be ReLU (for neural networks) or choose the set of kernels that
+we will employ (in SVMs). These parameters are called <i>hyperparameters.</i>
+Model parameters refer to the weights and biases learned by your model. You do not
+have direct control over model parameters, since they are largely a function of your
+training data, model architecture, and many other factors. In other words, you can‐
+not manually set model parameters. Your model’s weights are initialized with ran‐
+dom values and then optimized by your model as it goes through training iterations.
+Hyperparameters, on the other hand, refer to any parameters that you, as a model

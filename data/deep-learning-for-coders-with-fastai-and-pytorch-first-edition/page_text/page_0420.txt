@@ -1,0 +1,24 @@
+Here, the cell with the green border is the cell we clicked, and the blue highlighted
+cells are its <i>precedents—the</i> cells used to calculate its value. These cells are the corre‐
+sponding 3×3 area of cells from the input layer (on the left), and the cells from the
+filter (on the right). Let’s now click <i>trace</i> <i>precedents</i> again, to see what cells are used to
+calculate these inputs. Figure 13-11 shows what happens.
+<i>Figure</i> <i>13-11.</i> <i>Secondary</i> <i>precedents</i> <i>of</i> <i>Conv2</i> <i>layer</i>
+In this example, we have just two convolutional layers, each of stride 2, so this is now
+tracing right back to the input image. We can see that a 7×7 area of cells in the input
+layer is used to calculate the single green cell in the Conv2 layer. This 7×7 area is the
+<i>receptive</i> <i>field</i> in the input of the green activation in Conv2. We can also see that a
+second filter kernel is needed now, since we have two layers.
+As you see from this example, the deeper we are in the network (specifically, the more
+stride-2 convs we have before a layer), the larger the receptive field for an activation
+in that layer is. A large receptive field means that a large amount of the input image is
+used to calculate each activation in that layer. We now know that in the deeper layers
+of the network, we have semantically rich features, corresponding to larger receptive
+fields. Therefore, we’d expect that we’d need more weights for each of our features to
+handle this increasing complexity. This is another way of saying the same thing we
+mentioned in the previous section: when we introduce a stride-2 conv in our net‐
+work, we should also increase the number of channels.
+When writing this particular chapter, we had a lot of questions we needed answers
+for, to be able to explain CNNs to you as best we could. Believe it or not, we found
+most of the answers on Twitter. We’re going to take a quick break to talk to you about
+that now, before we move on to color images.

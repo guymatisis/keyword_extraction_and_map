@@ -1,0 +1,22 @@
+<i>Figure</i> <i>6-10.</i> <i>The</i> <i>relationship</i> <i>between</i> <i>TFX,</i> <i>Kubeflow</i> <i>Pipelines,</i> <i>Kubeflow,</i> <i>and</i> <i>under‐</i>
+<i>lying</i> <i>infrastructure.</i> <i>TFX</i> <i>operates</i> <i>at</i> <i>the</i> <i>highest</i> <i>level</i> <i>on</i> <i>top</i> <i>of</i> <i>Kubeflow</i> <i>Pipelines,</i>
+<i>with</i> <i>pre-built</i> <i>components</i> <i>offering</i> <i>specific</i> <i>approaches</i> <i>to</i> <i>common</i> <i>workflow</i> <i>steps.</i>
+<i>Kubeflow</i> <i>Pipelines</i> <i>provides</i> <i>an</i> <i>API</i> <i>for</i> <i>defining</i> <i>and</i> <i>orchestrating</i> <i>an</i> <i>ML</i> <i>pipeline,</i> <i>pro‐</i>
+<i>viding</i> <i>more</i> <i>flexibility</i> <i>in</i> <i>how</i> <i>each</i> <i>step</i> <i>is</i> <i>implemented.</i> <i>Both</i> <i>TFX</i> <i>and</i> <i>KFP</i> <i>run</i> <i>on</i>
+<i>Kubeflow,</i> <i>a</i> <i>platform</i> <i>for</i> <i>running</i> <i>container-based</i> <i>ML</i> <i>workloads</i> <i>on</i> <i>Kubernetes.</i> <i>All</i> <i>of</i>
+<i>the</i> <i>tools</i> <i>in</i> <i>this</i> <i>diagram</i> <i>are</i> <i>open</i> <i>source,</i> <i>so</i> <i>the</i> <i>underlying</i> <i>infrastructure</i> <i>where</i> <i>pipe‐</i>
+<i>lines</i> <i>run</i> <i>is</i> <i>up</i> <i>to</i> <i>the</i> <i>user—some</i> <i>options</i> <i>include</i> <i>GKE,</i> <i>Anthos,</i> <i>Azure,</i> <i>AWS,</i> <i>or</i>
+<i>on-premises.</i>
+<b>Developmentversusproductionpipelines</b>
+The way a pipeline is invoked often changes as we move from development to pro‐
+duction. We’ll likely want to build and prototype our pipeline from a notebook,
+where we can re-invoke our pipeline by running a notebook cell, debug errors, and
+update code all from the same environment. Once we’re ready to productionize, we
+can move our component code and pipeline definition to a single script. With our
+pipeline defined in a script, we’ll be able to schedule runs and make it easier for oth‐
+ers in our organization to invoke the pipeline in a reproducible way. One tool avail‐
+able for productionizing pipelines is Kale, which takes Jupyter notebook code and
+converts it into a script using the Kubeflow Pipelines API.
+A production pipeline also allows for <i>orchestration</i> of an ML workflow. By orchestra‐
+tion, we mean adding logic to our pipeline to determine which steps will be executed,
+and what the outcome of those steps will be. For example, we might decide we only

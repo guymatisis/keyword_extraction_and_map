@@ -1,0 +1,22 @@
+predict_proba()
+has a method. Scikit-Learn classifiers generally have one or the
+other, or both. The predict_proba() method returns an array containing a row per
+instance and a column per class, each containing the probability that the given
+instance belongs to the given class (e.g., 70% chance that the image represents a 5):
+<b>from</b> <b>sklearn.ensemble</b> <b>import</b> RandomForestClassifier
+forest_clf = RandomForestClassifier(random_state=42)
+y_probas_forest = cross_val_predict(forest_clf, X_train, y_train_5, cv=3,
+method="predict_proba")
+The roc_curve() function expects labels and scores, but instead of scores you can
+give it class probabilities. Let’s use the positive class’s probability as the score:
+y_scores_forest = y_probas_forest[:, 1] <i>#</i> <i>score</i> <i>=</i> <i>proba</i> <i>of</i> <i>positive</i> <i>class</i>
+fpr_forest, tpr_forest, thresholds_forest = roc_curve(y_train_5,y_scores_forest)
+Now you are ready to plot the ROC curve. It is useful to plot the first ROC curve as
+well to see how they compare (Figure 3-7):
+plt.plot(fpr, tpr, "b:", label="SGD")
+plot_roc_curve(fpr_forest, tpr_forest, "Random Forest")
+plt.legend(loc="lower right")
+plt.show()
+<i>Figure</i> <i>3-7.</i> <i>Comparing</i> <i>ROC</i> <i>curves:</i> <i>the</i> <i>Random</i> <i>Forest</i> <i>classifier</i> <i>is</i> <i>superior</i> <i>to</i> <i>the</i> <i>SGD</i>
+<i>classifier</i> <i>because</i> <i>its</i> <i>ROC</i> <i>curve</i> <i>is</i> <i>much</i> <i>closer</i> <i>to</i> <i>the</i> <i>top-left</i> <i>corner,</i> <i>and</i> <i>it</i> <i>has</i> <i>a</i> <i>greater</i>
+<i>AUC</i>

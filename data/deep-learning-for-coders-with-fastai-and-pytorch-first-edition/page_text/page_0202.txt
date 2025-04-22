@@ -1,0 +1,30 @@
+Taking the mean of the positive or negative log of our probabilities (depending on
+whether it’s the correct or incorrect class) gives us the <i>negative</i> <i>log</i> <i>likelihood</i> loss. In
+PyTorch, nll_loss assumes that you already took the log of the softmax, so it doesn’t
+do the logarithm for you.
+<b>ConfusingName,Beware</b>
+The “nll” in nll_loss stands for “negative log likelihood,” but it
+doesn’t actually take the log at all! It assumes you have <i>already</i>
+taken the log. PyTorch has a function called log_softmax that
+combines log and softmax in a fast and accurate way. nll_loss is
+designed to be used after log_softmax.
+When we first take the softmax, and then the log likelihood of that, that combination
+nn.CrossEntropyLoss
+is called <i>cross-entropy</i> <i>loss.</i> In PyTorch, this is available as
+(which, in practice, does log_softmax and then nll_loss):
+loss_func = nn.CrossEntropyLoss()
+As you see, this is a class. Instantiating it gives you an object that behaves like a
+function:
+loss_func(acts, targ)
+tensor(1.8045)
+All PyTorch loss functions are provided in two forms, the class form just shown as
+well as a plain functional form, available in the F namespace:
+F.cross_entropy(acts, targ)
+tensor(1.8045)
+Either one works fine and can be used in any situation. We’ve noticed that most peo‐
+ple tend to use the class version, and that’s more often used in PyTorch’s official docs
+and examples, so we’ll tend to use that too.
+By default, PyTorch loss functions take the mean of the loss of all items. You can use
+reduction='none' to disable that:
+nn.CrossEntropyLoss(reduction='none')(acts, targ)
+tensor([0.5067, 0.6973, 2.0160, 5.6958, 0.9062, 1.0048])

@@ -1,0 +1,27 @@
+Removing these variables has slightly improved the model’s accuracy; but more
+importantly, it should make it more resilient over time, and easier to maintain and
+understand. We recommend that for all datasets, you try building a model in which
+your dependent variable is is_valid , as we did here. It can often uncover subtle
+<i>domain</i> <i>shift</i> issues that you may otherwise miss.
+One thing that might help in our case is to simply avoid using old data. Often, old
+data shows relationships that just aren’t valid anymore. Let’s try just using the most
+recent few years of the data:
+xs['saleYear'].hist();
+Here’s the result of training on this subset:
+filt = xs['saleYear']>2004
+xs_filt = xs_final_time[filt]
+y_filt = y[filt]
+m = rf(xs_filt, y_filt)
+m_rmse(m, xs_filt, y_filt), m_rmse(m, valid_xs_time, valid_y)
+(0.17768, 0.230631)
+It’s a tiny bit better, which shows that you shouldn’t always use your entire dataset;
+sometimes a subset can be better.
+Let’s see if using a neural network helps.
+<header><largefont><b>Using</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Neural</b></largefont> <largefont><b>Network</b></largefont></header>
+We can use the same approach to build a neural network model. Let’s first replicate
+the steps we took to set up the TabularPandas object:
+df_nn = pd.read_csv(path/'TrainAndValid.csv', low_memory=False)
+df_nn['ProductSize'] = df_nn['ProductSize'].astype('category')
+df_nn['ProductSize'].cat.set_categories(sizes, ordered=True, inplace=True)
+df_nn[dep_var] = np.log(df_nn[dep_var])
+df_nn = add_datepart(df_nn, 'saledate')

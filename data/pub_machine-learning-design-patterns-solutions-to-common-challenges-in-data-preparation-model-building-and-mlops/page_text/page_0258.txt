@@ -1,0 +1,39 @@
+Another way to separate out the programming language and framework used for
+transformation of the features from the language used to write the model is to carry
+out the preprocessing in containers and use these custom containers as part of both
+the training and serving. This is discussed in “Design Pattern 25: Workflow Pipeline”
+on page 282 and is adopted in practice by Kubeflow Serving.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>22:</b></largefont> <largefont><b>Repeatable</b></largefont> <largefont><b>Splitting</b></largefont></header>
+To ensure that sampling is repeatable and reproducible, it is necessary to use a well-
+distributed column and a deterministic hash function to split the available data into
+training, validation, and test datasets.
+<header><largefont><b>Problem</b></largefont></header>
+Many machine learning tutorials will suggest splitting data randomly into training,
+validation, and test datasets using code similar to the following:
+df = pd.DataFrame(...)
+rnd = np.random.rand(len(df))
+train = df[ rnd < 0.8 ]
+valid = df[ rnd >= 0.8 & rnd < 0.9 ]
+test = df[ rnd >= 0.9 ]
+Unfortunately, this approach fails in many real-world situations. The reason is that it
+is rare that the rows are independent. For example, if we are training a model to pre‐
+dict flight delays, the arrival delays of flights on the same day will be highly correlated
+with one another. This leads to leakage of information between the training and test‐
+ing dataset when some of the flights on any particular day are in the training dataset
+and some other flights on the same day are in the testing dataset. This leakage due to
+correlated rows is a frequently occurring problem, and one that we have to avoid
+when doing machine learning.
+rand
+In addition, the function orders data differently each time it is run, so if we run
+the program again, we will get a different 80% of rows. This can play havoc if we are
+experimenting with different machine learning models with the goal of choosing the
+best one—we need to compare the model performance on the same test dataset. In
+order to address this, we need to set the random seed in advance or store the data
+after it is split. Hardcoding how the data is to be split is not a good idea because,
+when carrying out techniques like jackknifing, bootstrapping, cross-validation, and
+hyperparameter tuning, we will need to change this data split and do so in a way that
+allows us to do individual trials.
+For machine learning, we want lightweight, repeatable splitting of the data that works
+regardless of programming language or random seeds. We also want to ensure that
+correlated rows fall into the same split. For example, we do not want flights on Janu‐
+ary 2, 2019 in the test dataset if flights on that day are in the training dataset.

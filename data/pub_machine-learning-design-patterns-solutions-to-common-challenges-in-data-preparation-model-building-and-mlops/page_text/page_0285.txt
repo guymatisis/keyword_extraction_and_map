@@ -1,0 +1,37 @@
+Transform
+of data drift or potential training–serving skew.3 The component also
+takes output from SchemaGen and is where we perform feature engineering to trans‐
+form our data input into the right format for our model. This could include convert‐
+ing free-form text inputs into embeddings, normalizing numeric inputs, and more.
+Once our data is ready to be fed into a model, we can pass it to the Trainer compo‐
+nent. When we set up our Trainer component, we point to a function that defines
+our model code, and we can specify where we’d like to train the model. Here, we’ll
+show how to use Cloud AI Platform Training from this component. Finally, the
+Pusher component handles model deployment. There are many other pre-built com‐
+ponents provided by TFX—we’ve only included a few here that we’ll use in our sam‐
+ple pipeline.
+For this example, we’ll use the NOAA hurricane dataset in BigQuery to build a model
+that infers the SSHS code4 for a hurricane. We’ll keep the features, components, and
+model code relatively short in order to focus on the pipeline tooling. The steps of our
+pipeline are outlined below, and roughly follow the workflow outlined in Figure 6-6:
+1. Data collection: run a query to get the hurricane data from BigQuery.
+ExampleValidator
+2. Data validation: use the component to identify anomalies and
+check for data drift.
+3. Data analysis and preprocessing: generate some statistics on the data and define
+the schema.
+4. Model training: train a tf.keras model on AI Platform.
+5. Model deployment: deploy the trained model to AI Platform Prediction.5
+When our pipeline is complete, we’ll be able to invoke the entire process outlined
+above with a single API call. Let’s start by discussing the scaffolding for a typical TFX
+pipeline and the process for running it on AI Platform.
+<b>BuildingtheTFXpipeline</b>
+We’ll use the tfx command-line tools to create and invoke our pipeline. New invoca‐
+tions of a pipeline are known as <i>runs,</i> which are distinct from updates we make to the
+3 Formoreondatavalidation,see“DesignPattern30:FairnessLens”onpage343inChapter7,ResponsibleAI.
+4 SSHSstandsforSaffir–SimpsonHurricaneScale,andisascalefrom1to5usedtomeasurethestrengthand
+severityofahurricane.NotethattheMLmodeldoesnotforecasttheseverityofthehurricaneatalatertime.
+Instead,itsimplylearnsthewindspeedthresholdsusedintheSaffir–Simpsonscale.
+5 Whiledeploymentisthelaststepinourexamplepipeline,productionpipelinesoftenincludemoresteps,
+suchasstoringthemodelinasharedrepositoryorexecutingaseparateservingpipelinethatdoesCI/CDand
+testing.

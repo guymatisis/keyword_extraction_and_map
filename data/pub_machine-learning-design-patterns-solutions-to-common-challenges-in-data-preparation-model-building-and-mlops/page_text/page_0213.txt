@@ -1,0 +1,37 @@
+<b>Predictionlibrary</b>
+Instead of deploying the serving function as a microservice that can be invoked via a
+REST API, it is possible to implement the prediction code as a library function. The
+library function would load the exported model the first time it is called, invoke
+model.predict() with the provided input, and return the result. Application devel‐
+opers who need to predict with the library can then include the library with their
+applications.
+A library function is a better alternative than a microservice if the model cannot be
+called over a network either because of physical reasons (there is no network connec‐
+tivity) or because of performance constraints. The library function approach also
+places the computational burden on the client, and this might be preferable from a
+TensorFlow.js
+budgetary standpoint. Using the library approach with can avoid
+cross-site problems when there is a desire to have the model running in a browser.
+The main drawback of the library approach is that maintenance and updates of the
+model are difficult—all the client code that uses the model will have to be updated to
+use the new version of the library. The more commonly a model is updated, the more
+attractive a microservices approach becomes. A secondary drawback is that the
+library approach is restricted to programming languages for which libraries are writ‐
+ten, whereas the REST API approach opens up the model to applications written in
+pretty much any modern programming language.
+The library developer should take care to employ a threadpool and use parallelization
+to support the necessary throughput. However, there is usually a limit to the scalabil‐
+ity achievable with this approach.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>17:</b></largefont> <largefont><b>Batch</b></largefont> <largefont><b>Serving</b></largefont></header>
+The Batch Serving design pattern uses software infrastructure commonly used for
+distributed data processing to carry out inference on a large number of instances all
+at once.
+<header><largefont><b>Problem</b></largefont></header>
+Commonly, predictions are carried one at a time and on demand. Whether or not a
+credit card transaction is fraudulent is determined at the time a payment is being
+processed. Whether or not a baby requires intensive care is determined when the
+baby is examined immediately after birth. Therefore, when you deploy a model into
+an ML serving framework, it is set up to process one instance, or at most a few thou‐
+sands of instances, embedded in a single request.
+The serving framework is architected to process an individual request synchronously
+and as quickly as possible, as discussed in “Design Pattern 16: Stateless Serving Func‐

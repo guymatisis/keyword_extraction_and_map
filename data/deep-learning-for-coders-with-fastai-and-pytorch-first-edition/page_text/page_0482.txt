@@ -1,0 +1,9 @@
+the first library to provide all of this functionality. It modifies the training loop so it
+looks like Figure 16-4.
+<i>Figure</i> <i>16-4.</i> <i>Training</i> <i>loop</i> <i>with</i> <i>callbacks</i>
+The effectiveness of this approach has been borne out over the last couple of years—
+by using the fastai callback system, we were able to implement every single new paper
+we tried and fulfill every user request for modifying the training loop. The training
+loop itself has not required modifications. Figure 16-5 shows just a few of the call‐
+backs that have been added.
+<i>Figure</i> <i>16-5.</i> <i>Some</i> <i>fastai</i> <i>callbacks</i>

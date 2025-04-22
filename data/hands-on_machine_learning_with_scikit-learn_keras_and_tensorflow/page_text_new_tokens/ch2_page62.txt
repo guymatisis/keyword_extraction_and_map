@@ -1,0 +1,38 @@
+housing["rooms_per_household"] = housing["total_rooms"]/housing["households"]
+housing["bedrooms_per_room"] = housing["total_bedrooms"]/housing["total_rooms"]
+housing["population_per_household"]=housing["population"]/housing["households"]
+And now let’s look at the correlation matrix again:
+<b>>>></b> corr_matrix = housing.corr()
+<b>>>></b> corr_matrix["median_house_value"].sort_values(ascending=False)
+median_house_value 1.000000
+median_income 0.687160
+rooms_per_household 0.146285
+total_rooms 0.135097
+housing_median_age 0.114110
+households 0.064506
+total_bedrooms 0.047689
+population_per_household -0.021985
+population -0.026920
+longitude -0.047432
+latitude -0.142724
+bedrooms_per_room -0.259984
+Name: median_house_value, dtype: float64
+Hey, not bad! The new bedrooms_per_room attribute is much more correlated with
+the median house value than the total number of rooms or bedrooms. Apparently
+houses with a lower bedroom/room ratio tend to be more expensive. The number of
+rooms per household is also more informative than the total number of rooms in a
+district—obviously the larger the houses, the more expensive they are.
+This round of exploration does not have to be absolutely thorough; the point is to
+start off on the right foot and quickly gain insights that will help you get a first rea‐
+sonably good prototype. But this is an iterative process: once you get a prototype up
+and running, you can analyze its output to gain more insights and come back to this
+exploration step.
+<header><largefont><b>Prepare</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Machine</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>Algorithms</b></largefont></header>
+It’s time to prepare the data for your Machine Learning algorithms. Instead of doing
+this manually, you should write functions for this purpose, for several good reasons:
+• This will allow you to reproduce these transformations easily on any dataset (e.g.,
+the next time you get a fresh dataset).
+• You will gradually build a library of transformation functions that you can reuse
+in future projects.
+• You can use these functions in your live system to transform the new data before
+feeding it to your algorithms.

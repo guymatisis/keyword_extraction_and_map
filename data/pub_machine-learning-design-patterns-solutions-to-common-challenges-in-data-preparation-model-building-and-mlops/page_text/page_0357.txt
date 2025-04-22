@@ -1,0 +1,28 @@
+Another data augmentation approach involves generating new data, and it was used
+by Google Translate to minimize gender bias when translating text to and from
+gender-neutral and gender-specific languages. The solution involved rewriting trans‐
+lation data such that when applicable, a provided translation would be offered in both
+the feminine and masculine form. For example, the gender-neutral English sentence
+“We are doctors” would yield two results when being translated to Spanish, as seen in
+Figure 7-16. In Spanish, the word “we” can have both a feminine and masculine
+form.
+<i>Figure</i> <i>7-16.</i> <i>When</i> <i>translating</i> <i>a</i> <i>gender-neutral</i> <i>word</i> <i>in</i> <i>one</i> <i>language</i> <i>(here,</i> <i>the</i> <i>word</i>
+<i>“we”</i> <i>in</i> <i>English)</i> <i>to</i> <i>a</i> <i>language</i> <i>where</i> <i>that</i> <i>word</i> <i>is</i> <i>gender-specific,</i> <i>Google</i> <i>Translate</i>
+<i>now</i> <i>provides</i> <i>multiple</i> <i>translations</i> <i>to</i> <i>minimize</i> <i>gender</i> <i>bias.</i>
+<b>ModelCards</b>
+Originally introduced in a research paper, Model Cards provide a framework for
+reporting a model’s capabilities and limitations. The goal of Model Cards is to
+improve model transparency by providing details on scenarios where a model should
+and should not be used, since mitigating problematic bias only works if a model is
+used in the way it was intended. In this way, Model Cards encourage accountability
+for using a model in the correct context.
+The first Model Cards released provide summaries and fairness metrics for the Face
+Detection and Object Detection features in Google Cloud’s Vision API. To generate
+Model Cards for our own ML models, TensorFlow provides a Model Card Toolkit
+(MCT) that can be run as a standalone Python library or as part of a TFX pipeline.
+The toolkit reads exported model assets and generates a series of charts with various
+performance and fairness metrics.
+<b>Fairnessversusexplainability</b>
+The concepts of fairness and explainability in ML are sometimes confused since they
+are often used together and are both part of the larger initiative of Responsible AI.
+Fairness applies specifically to identifying and removing bias from models, and

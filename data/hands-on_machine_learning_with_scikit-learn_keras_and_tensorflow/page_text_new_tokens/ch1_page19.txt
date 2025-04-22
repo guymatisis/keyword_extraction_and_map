@@ -1,0 +1,21 @@
+For example, suppose you want to know if money makes people happy, so you down‐
+load the Better Life Index data from the OECD’s website and stats about gross domes‐
+tic product (GDP) per capita from the IMF’s website. Then you join the tables and
+sort by GDP per capita. Table 1-1 shows an excerpt of what you get.
+<i>Table</i> <i>1-1.</i> <i>Does</i> <i>money</i> <i>make</i> <i>people</i> <i>happier?</i>
+<b>Country</b> <b>GDPpercapita(USD)</b> <b>Lifesatisfaction</b>
+Hungary 12,240 4.9
+Korea 27,195 5.8
+France 37,675 6.5
+Australia 50,962 7.3
+UnitedStates 55,805 7.2
+Let’s plot the data for these countries (Figure 1-17).
+<i>Figure</i> <i>1-17.</i> <i>Do</i> <i>you</i> <i>see</i> <i>a</i> <i>trend</i> <i>here?</i>
+There does seem to be a trend here! Although the data is <i>noisy</i> (i.e., partly random), it
+looks like life satisfaction goes up more or less linearly as the country’s GDP per cap‐
+ita increases. So you decide to model life satisfaction as a linear function of GDP per
+capita. This step is called <i>model</i> <i>selection:</i> you selected a <i>linear</i> <i>model</i> of life satisfac‐
+tion with just one attribute, GDP per capita (Equation 1-1).
+<i>Equation</i> <i>1-1.</i> <i>A</i> <i>simple</i> <i>linear</i> <i>model</i>
+life_satisfaction = <i>θ</i> + <i>θ</i> × GDP_per_capita
+0 1

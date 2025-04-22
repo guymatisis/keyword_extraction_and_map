@@ -1,0 +1,34 @@
+decoded_summaries = [d.replace("<n>", " ") <b>for</b> d <b>in</b> decoded_summaries]
+metric.add_batch(predictions=decoded_summaries, references=target_batch)
+score = metric.compute()
+<b>return</b> score
+Let’s unpack this evaluation code a bit. First we split the dataset into smaller batches
+that we can process simultaneously. Then for each batch we tokenize the input arti‐
+cles and feed them to the generate() function to produce the summaries using beam
+search. We use the same generation parameters as proposed in the paper. The new
+parameter for length penalty ensures that the model does not generate sequences that
+are too long. Finally, we decode the generated texts, replace the <n> token, and add
+the decoded texts with the references to the metric. At the end, we compute and
+AutoModelFor
+return the ROUGE scores. Let’s now load the model again with the
+Seq2SeqLM class, used for seq2seq generation tasks, and evaluate it:
+<b>from</b> <b>transformers</b> <b>import</b> AutoModelForSeq2SeqLM, AutoTokenizer
+model_ckpt = "google/pegasus-cnn_dailymail"
+tokenizer = AutoTokenizer.from_pretrained(model_ckpt)
+model = AutoModelForSeq2SeqLM.from_pretrained(model_ckpt).to(device)
+score = evaluate_summaries_pegasus(test_sampled, rouge_metric,
+model, tokenizer, batch_size=8)
+rouge_dict = dict((rn, score[rn].mid.fmeasure) <b>for</b> rn <b>in</b> rouge_names)
+pd.DataFrame(rouge_dict, index=["pegasus"])
+<b>rouge1</b> <b>rouge2</b> <b>rougeL</b> <b>rougeLsum</b>
+<b>pegasus</b> 0.434381 0.210883 0.307195 0.373231
+These numbers are very close to the published results. One thing to note here is that
+the loss and per-token accuracy are decoupled to some degree from the ROUGE
+scores. The loss is independent of the decoding strategy, whereas the ROUGE score is
+strongly coupled.
+Since ROUGE and BLEU correlate better with human judgment than loss or accu‐
+racy, we should focus on them and carefully explore and choose the decoding strategy
+when building text generation models. These metrics are far from perfect, however,
+and one should always consider human judgments as well.
+Now that we’re equipped with an evaluation function, it’s time to train our own
+model for summarization.

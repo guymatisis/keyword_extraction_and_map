@@ -1,0 +1,26 @@
+avg_val_mse = (val_mse / num_batches)
+hpt.report_hyperparameter_tuning_metric(
+hyperparameter_metric_tag='val_mse',
+metric_value=avg_val_mse,
+global_step=epochs
+)
+Once we’ve submitted our training job to AI Platform, we can monitor logs in the
+Cloud console. After each trial completes, you’ll be able to see the values chosen for
+each hyperparameter and the resulting value of your optimization metric, as seen in
+Figure 4-25.
+<i>Figure</i> <i>4-25.</i> <i>A</i> <i>sample</i> <i>of</i> <i>the</i> <i>HyperTune</i> <i>summary</i> <i>in</i> <i>the</i> <i>AI</i> <i>Platform</i> <i>console.</i> <i>This</i> <i>is</i>
+<i>for</i> <i>a</i> <i>PyTorch</i> <i>model</i> <i>optimizing</i> <i>three</i> <i>model</i> <i>parameters,</i> <i>with</i> <i>the</i> <i>goal</i> <i>of</i> <i>minimizing</i>
+<i>mean</i> <i>squared</i> <i>error</i> <i>on</i> <i>the</i> <i>validation</i> <i>dataset.</i>
+By default, AI Platform Training will use Bayesian optimization for your tuning job,
+but you can also specify if you’d like to use grid or random search algorithms instead.
+The Cloud service also optimizes your hyperparameter search <i>across</i> training jobs. If
+we run another training job similar to the one above, but with a few tweaks to our
+hyperparameters and search space, it’ll use the results of our last job to efficiently
+choose values for the next set of trials.
+We’ve shown a PyTorch example here, but you can use AI Platform Training for
+hyperparameter tuning in any machine learning framework by packaging your train‐
+ing code and providing a <i>setup.py</i> file that installs any library dependencies.
+<b>Geneticalgorithms</b>
+We’ve explored various algorithms for hyperparameter optimization: manual search,
+grid search, random search, and Bayesian optimization. Another less-common alter‐
+native is a genetic algorithm, which is roughly based on Charles Darwin’s

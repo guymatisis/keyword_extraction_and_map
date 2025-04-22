@@ -1,0 +1,34 @@
+As we saw earlier, a random forest is itself an ensemble. But we can then include a
+random forest in <i>another</i> ensemble—an ensemble of the random forest and the neu‐
+ral network! While ensembling won’t make the difference between a successful and
+an unsuccessful modeling process, it can certainly add a nice little boost to any mod‐
+els that you have built.
+One minor issue we have to be aware of is that our PyTorch model and our sklearn
+model create data of different types: PyTorch gives us a rank-2 tensor (a column
+matrix), whereas NumPy gives us a rank-1 array (a vector). squeeze removes any unit
+axes from a tensor, and to_np converts it into a NumPy array:
+rf_preds = m.predict(valid_xs_time)
+ens_preds = (to_np(preds.squeeze()) + rf_preds) /2
+This gives us a better result than either model achieved on its own:
+r_mse(ens_preds,valid_y)
+0.22291
+In fact, this result is better than any score shown on the Kaggle leaderboard. It’s not
+directly comparable, however, because the Kaggle leaderboard uses a separate dataset
+that we do not have access to. Kaggle does not allow us to submit to this old competi‐
+tion to find out how we would have done, but our results certainly look encouraging!
+<header><largefont><b>Boosting</b></largefont></header>
+So far, our approach to ensembling has been to use <i>bagging,</i> which involves combin‐
+ing many models (each trained on a different data subset) by averaging them. As we
+saw, when this is applied to decision trees, this is called a <i>random</i> <i>forest.</i>
+In another important approach to ensembling, called <i>boosting,</i> where we add models
+instead of averaging them. Here is how boosting works:
+1. Train a small model that underfits your dataset.
+2. Calculate the predictions in the training set for this model.
+3. Subtract the predictions from the targets; these are called the <i>residuals</i> and repre‐
+sent the error for each point in the training set.
+4. Go back to step 1, but instead of using the original targets, use the residuals as
+the targets for the training.
+5. Continue doing this until you reach a stopping criterion, such as a maximum
+number of trees, or you observe your validation set error getting worse.
+Using this approach, each new tree will be attempting to fit the error of all of the pre‐
+vious trees combined. Because we are continually creating new residuals by

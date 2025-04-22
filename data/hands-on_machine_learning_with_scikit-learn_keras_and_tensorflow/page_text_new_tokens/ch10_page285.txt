@@ -1,0 +1,31 @@
+The most common step function used in Perceptrons is the <i>Heaviside</i> <i>step</i> <i>function</i>
+(see Equation 10-1). Sometimes the sign function is used instead.
+<i>Equation</i> <i>10-1.</i> <i>Common</i> <i>step</i> <i>functions</i> <i>used</i> <i>in</i> <i>Perceptrons</i> <i>(assuming</i> <i>threshold</i> <i>=</i>
+<i>0)</i>
+−1 if <i>z</i> < 0
+0 if <i>z</i> < 0
+heaviside <i>z</i> = sgn <i>z</i> = 0 if <i>z</i> = 0
+1 if <i>z</i> ≥ 0
++1 if <i>z</i> > 0
+A single TLU can be used for simple linear binary classification. It computes a linear
+combination of the inputs, and if the result exceeds a threshold, it outputs the posi‐
+tive class. Otherwise it outputs the negative class (just like a Logistic Regression or
+linear SVM classifier). You could, for example, use a single TLU to classify iris flowers
+based on petal length and width (also adding an extra bias feature <i>x</i> = 1, just like we
+0
+did in previous chapters). Training a TLU in this case means finding the right values
+for <i>w</i> , <i>w</i> , and <i>w</i> (the training algorithm is discussed shortly).
+0 1 2
+TLUs,7
+A Perceptron is simply composed of a single layer of with each TLU connected
+to all the inputs. When all the neurons in a layer are connected to every neuron in the
+previous layer (i.e., its input neurons), the layer is called a <i>fully</i> <i>connected</i> <i>layer,</i> or a
+<i>dense</i> <i>layer.</i> The inputs of the Perceptron are fed to special passthrough neurons
+called <i>input</i> <i>neurons:</i> they output whatever input they are fed. All the input neurons
+form the <i>input</i> <i>layer.</i> Moreover, an extra bias feature is generally added (x = 1): it is
+0
+typically represented using a special type of neuron called a <i>bias</i> <i>neuron,</i> which out‐
+puts 1 all the time. A Perceptron with two inputs and three outputs is represented in
+Figure 10-5. This Perceptron can classify instances simultaneously into three different
+binary classes, which makes it a multioutput classifier.
+7 ThenamePerceptronissometimesusedtomeanatinynetworkwithasingleTLU.

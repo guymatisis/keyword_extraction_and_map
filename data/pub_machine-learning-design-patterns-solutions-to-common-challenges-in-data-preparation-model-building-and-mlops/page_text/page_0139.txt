@@ -1,0 +1,25 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>4</b></largefont></header>
+<header><largefont><b>Model</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Patterns</b></largefont></header>
+Machine learning models are usually trained iteratively, and this iterative process is
+informally called the <i>training</i> <i>loop.</i> In this chapter, we discuss what the typical train‐
+ing loop looks like, and catalog a number of situations in which you might want to do
+something different.
+<header><largefont><b>Typical</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Loop</b></largefont></header>
+Machine learning models can be trained using different types of optimization. Deci‐
+sion trees are often built node by node based on an information gain measure. In
+genetic algorithms, the model parameters are represented as genes, and the optimiza‐
+tion method involves techniques that are based on evolutionary theory. However, the
+most common approach to determining the parameters of machine learning models
+is <i>gradient</i> <i>descent.</i>
+<header><largefont><b>Stochastic</b></largefont> <largefont><b>Gradient</b></largefont> <largefont><b>Descent</b></largefont></header>
+On large datasets, gradient descent is applied to mini-batches of the input data to
+train everything from linear models and boosted trees to deep neural networks
+(DNNs) and support vector machines (SVMs). This is called <i>stochastic</i> <i>gradient</i>
+<i>descent</i> <i>(SGD),</i> and extensions of SGD (such as Adam and Adagrad) are the de facto
+optimizers used in modern-day machine learning frameworks.
+Because SGD requires training to take place iteratively on small batches of the train‐
+ing dataset, training a machine learning model happens in a loop. SGD finds a mini‐
+mum, but is not a closed-form solution, and so we have to detect whether the model
+convergence has happened. Because of this, the error (called the <i>loss)</i> on the training
+dataset has to be monitored. Overfitting can happen if the model complexity is higher
+than can be afforded by the size and coverage of the dataset. Unfortunately, you

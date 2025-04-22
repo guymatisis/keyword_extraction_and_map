@@ -1,0 +1,37 @@
+<header><largefont><b>In-Context</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Few-Shot</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>with</b></largefont> <largefont><b>Prompts</b></largefont></header>
+We saw earlier in this chapter that we can use a language model like BERT or GPT-2
+and adapt it to a supervised task by using prompts and parsing the model’s token pre‐
+dictions. This is different from the classic approach of adding a task-specific head and
+tuning the model parameters for the task. On the plus side, this approach does not
+require any training data, but on the negative side it seems we can’t leverage labeled
+data if we have access to it. There is a middle ground that we can sometimes take
+advantage of called <i>in-context</i> or <i>few-shot</i> <i>learning.</i>
+To illustrate the concept, consider an English to French translation task. In the zero-
+shot paradigm, we would construct a prompt that might look as follows:
+prompt = """\
+Translate English to French:
+thanks =>
+"""
+This hopefully prompts the model to predict the tokens of the word “merci”. We
+already saw when using GPT-2 for summarization in Chapter 6 that adding “TL;DR”
+to a text prompted the model to generate a summary without explicitly being trained
+to do this. An interesting finding of the GPT-3 paper was the ability of large language
+models to effectively learn from examples presented in the prompt—so, the previous
+translation example could be augmented with several English to German examples,
+which would make the model perform much better on this task.6
+Furthermore, the authors found that the larger the models are scaled, the better they
+are at using the in-context examples, leading to significant performance boosts.
+Although GPT-3-sized models are challenging to use in production, this is an excit‐
+ing emerging research field and people have built cool applications, such as a natural
+language shell where commands are entered in natural language and parsed by
+GPT-3 to shell commands.
+An alternative approach to using labeled data is to create examples of the prompts
+and desired predictions and continue training the language model on these examples.
+A novel method called ADAPET uses such an approach and beats GPT-3 on a wide
+variety of tasks,7 tuning the model with generated prompts. Recent work by Hugging
+Face researchers suggests that such an approach can be more data-efficient than fine-
+head.8
+tuning a custom
+6 T.Brownetal.,“LanguageModelsAreFew-ShotLearners”,(2020).
+7 D.Tametal.,“ImprovingandSimplifyingPatternExploitingTraining”,(2021).
+8 T.LeScaoandA.M.Rush,“HowManyDataPointsIsaPromptWorth?”,(2021).

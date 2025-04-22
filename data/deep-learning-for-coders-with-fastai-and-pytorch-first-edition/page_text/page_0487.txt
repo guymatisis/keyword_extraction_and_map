@@ -1,0 +1,34 @@
+The following attributes are added by TrainEvalCallback and should be available
+unless you went out of your way to remove that callback:
+train_iter
+The number of training iterations done since the beginning of this training
+pct_train
+The percentage of training iterations completed (from 0 to 1)
+training
+A flag to indicate whether we’re in training mode
+The following attribute is added by Recorder and should be available unless you went
+out of your way to remove that callback:
+smooth_loss
+An exponentially averaged version of the training loss
+Callbacks can also interrupt any part of the training loop by using a system of
+exceptions.
+<header><largefont><b>Callback</b></largefont> <largefont><b>Ordering</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Exceptions</b></largefont></header>
+Sometimes callbacks need to be able to tell fastai to skip over a batch or an epoch, or
+stop training altogether. For instance, consider TerminateOnNaNCallback. This handy
+callback will automatically stop training anytime the loss becomes infinite or NaN (not
+<i>a</i> <i>number).</i> Here’s the fastai source for this callback:
+<b>class</b> <b>TerminateOnNaNCallback(Callback):</b>
+run_before=Recorder
+<b>def</b> after_batch(self):
+<b>if</b> torch.isinf(self.loss) <b>or</b> torch.isnan(self.loss):
+<b>raise</b> CancelFitException
+The line raise CancelFitException tells the training loop to interrupt training at
+this point. The training loop catches this exception and does not run any further
+training or validation. The callback control flow exceptions available are as follows:
+CancelFitException
+Skip the rest of this batch and go to after_batch .
+CancelEpochException
+after_train.
+Skip the rest of the training part of the epoch and go to
+CancelTrainException
+Skip the rest of the validation part of the epoch and go to after_validate.

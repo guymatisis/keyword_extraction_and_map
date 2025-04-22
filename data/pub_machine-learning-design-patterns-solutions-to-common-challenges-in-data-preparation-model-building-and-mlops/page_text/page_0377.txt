@@ -1,0 +1,16 @@
+<i>Figure</i> <i>8-6.</i> <i>Fully</i> <i>automated</i> <i>processes</i> <i>support</i> <i>AI</i> <i>development.</i> <i>Figure</i> <i>adapted</i> <i>from</i>
+<i>Google</i> <i>Cloud</i> <i>documentation.</i>
+<header><largefont><b>Common</b></largefont> <largefont><b>Patterns</b></largefont> <largefont><b>by</b></largefont> <largefont><b>Use</b></largefont> <largefont><b>Case</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>Type</b></largefont></header>
+Many of the design patterns discussed in this book are utilized throughout the course
+of any machine learning development cycle and will likely be used regardless of the
+production use case—for example, Hyperparameter Tuning, Heuristic Benchmark,
+Repeatable Splitting, Model Versioning, Distributed Training, Workflow Pipelines,
+or Checkpoints. Other design patterns, you might find, are particularly useful for cer‐
+tain scenarios. Here, we’ll group together commonly used design patterns according
+to popular machine learning use cases.
+<header><largefont><b>Natural</b></largefont> <largefont><b>Language</b></largefont> <largefont><b>Understanding</b></largefont></header>
+Natural language understanding (NLU) is a branch of AI that focuses on training a
+machine to understand the meaning behind text and language. NLU is used by
+speech agents like Amazon’s Alexa, Apple’s Siri, and Google’s Assistant to under‐
+stand sentences like, “What is the weather forecast this weekend?” There are many
+use cases that fall under the umbrella of NLU and it can be applied to a lot of

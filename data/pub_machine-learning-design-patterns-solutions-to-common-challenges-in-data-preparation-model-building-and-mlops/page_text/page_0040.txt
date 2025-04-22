@@ -1,0 +1,36 @@
+<i>Table</i> <i>2-3.</i> <i>An</i> <i>example</i> <i>of</i> <i>one-hot</i> <i>encoding</i> <i>categorical</i> <i>inputs</i> <i>for</i> <i>the</i> <i>natality</i> <i>dataset</i>
+<b>Plurality</b> <b>One-hotencoding</b>
+Single(1) [1,0,0,0,0,0]
+Multiple(2+) [0,1,0,0,0,0]
+Twins(2) [0,0,1,0,0,0]
+Triplets(3) [0,0,0,1,0,0]
+Quadruplets(4) [0,0,0,0,1,0]
+Quintuplets(5) [0,0,0,0,0,1]
+When encoded in this way, we need six dimensions to represent each of the different
+categories. Six dimensions may not be so bad, but what if we had many, many more
+categories to consider?
+For example, what if our dataset consisted of customers’ view history of our video
+database and our task is to suggest a list of new videos given customers’ previous
+video interactions? In this scenario, the customer_id field could have millions of
+unique entries. Similarly, the video_id of previously watched videos could contain
+thousands of entries as well. One-hot encoding <i>high-cardinality</i> categorical features
+like video_ids or customer_ids as inputs to a machine learning model leads to a
+sparse matrix that isn’t well suited for a number of machine learning algorithms.
+The second problem with one-hot encoding is that it treats the categorical variables
+as being <i>independent.</i> However, the data representation for twins should be close to
+the data representation for triplets and quite far away from the data representation
+for quintuplets. A multiple is most likely a twin, but could be a triplet. As an example,
+Table 2-4 shows an alternate representation of the plurality column in a lower
+dimension that captures this <i>closeness</i> relationship.
+<i>Table</i> <i>2-4.</i> <i>Using</i> <i>lower</i> <i>dimensionality</i> <i>embeddings</i> <i>to</i> <i>represent</i> <i>the</i> <i>plurality</i> <i>column</i>
+<i>in</i> <i>the</i> <i>natality</i> <i>dataset.</i>
+<b>Plurality</b> <b>Candidateencoding</b>
+Single(1) [1.0,0.0]
+Multiple(2+) [0.0,0.6]
+Twins(2) [0.0,0.5]
+Triplets(3) [0.0,0.7]
+Quadruplets(4) [0.0,0.8]
+Quintuplets(5) [0.0,0.9]
+These numbers are arbitrary of course. But is it possible to learn the best possible rep‐
+resentation of the plurality column using just two dimensions for the natality prob‐
+lem? That is the problem that the Embeddings design pattern solves.

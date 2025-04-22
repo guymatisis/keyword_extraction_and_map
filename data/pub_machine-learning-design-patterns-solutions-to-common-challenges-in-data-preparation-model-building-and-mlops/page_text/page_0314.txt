@@ -1,0 +1,30 @@
+Both Azure and AWS have similar model versioning services avail‐
+able. On Azure, model deployment and versioning is available with
+Azure Machine Learning. In AWS, these services are available in
+SageMaker.
+An ML engineer deploying a new version of a model as an ML model endpoint may
+want to use an API gateway such as Apigee that determines which model version to
+call. There are various reasons for doing this, including split testing a new version.
+For split testing, maybe they want to test a model update with a randomly selected
+group of 10% of application users to track how it affects their overall engagement
+with the app. The API gateway determines which deployed model version to call
+given a user’s ID or IP address.
+With multiple model versions deployed, AI Platform allows for performance moni‐
+toring and analytics across versions. This lets us trace errors to a specific version,
+monitor traffic, and combine this with additional data we’re collecting in our
+application.
+<header><largefont><b>Versioning</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Handle</b></largefont> <largefont><b>Newly</b></largefont> <largefont><b>Available</b></largefont> <largefont><b>Data</b></largefont></header>
+In addition to handling changes to our model itself, another reason to use versioning
+is when new training data becomes available. Assuming this new data follows the
+same schema used to train the original model, it’s important to keep track of <i>when</i>
+the data was captured for each newly trained version. One approach to tracking this is
+to encode the timestamp range of each training dataset in the name of a model ver‐
+sion. For example, if the latest version of a model is trained on data from 2019, we
+v20190101_20191231
+could name the version .
+We can use this approach in combination with “Design Pattern 18: Continued Model
+Evaluation” on page 220 (discussed in Chapter 5) to determine when to take older
+model versions offline, or how far back training data should go. Continuous evalua‐
+tion might help us determine that our model performs best when trained on data
+from the past two years. This could then inform the versions we decide to remove,
+and how much data to use when training newer versions.

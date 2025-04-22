@@ -1,0 +1,32 @@
+Finally, we tell PyTorch to calculate the gradients for us:
+yt.backward()
+The “backward” here refers to <i>backpropagation,</i> which is the name given to the pro‐
+cess of calculating the derivative of each layer. We’ll see how this is done exactly in
+Chapter 17, when we calculate the gradients of a deep neural net from scratch. This is
+called the <i>backward</i> <i>pass</i> of the network, as opposed to the <i>forward</i> <i>pass,</i> which is
+where the activations are calculated. Life would probably be easier if backward was
+just called calculate_grad, but deep learning folks really do like to add jargon every‐
+where they can!
+We can now view the gradients by checking the grad attribute of our tensor:
+xt.grad
+tensor(6.)
+If you remember your high school calculus rules, the derivative of x**2 is 2*x , and we
+have x=3, so the gradients should be 2*3=6, which is what PyTorch calculated for us!
+Now we’ll repeat the preceding steps, but with a vector argument for our function:
+xt = tensor([3.,4.,10.]).requires_grad_()
+xt
+tensor([ 3., 4., 10.], requires_grad=True)
+And we’ll add sum to our function so it can take a vector (i.e., a rank-1 tensor) and
+return a scalar (i.e., a rank-0 tensor):
+<b>def</b> f(x): <b>return</b> (x**2).sum()
+yt = f(xt)
+yt
+tensor(125., grad_fn=<SumBackward0>)
+Our gradients are 2*xt, as we’d expect!
+yt.backward()
+xt.grad
+tensor([ 6., 8., 20.])
+The gradients tell us only the slope of our function; they don’t tell us exactly how far
+to adjust the parameters. But they do give us some idea of how far: if the slope is very
+large, that may suggest that we have more adjustments to do, whereas if the slope is
+very small, that may suggest that we are close to the optimal value.

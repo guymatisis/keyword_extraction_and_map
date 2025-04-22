@@ -1,0 +1,41 @@
+only partial knowledge of the MDP. In general we assume that the agent initially
+knows only the possible states and actions, and nothing more. The agent uses an
+<i>exploration</i> <i>policy—for</i> example, a purely random policy—to explore the MDP, and as
+it progresses, the TD Learning algorithm updates the estimates of the state values
+based on the transitions and rewards that are actually observed (see Equation 18-4).
+<i>Equation</i> <i>18-4.</i> <i>TD</i> <i>Learning</i> <i>algorithm</i>
+<i>s′</i>
+<i>V</i> <i>s</i> 1 − <i>α</i> <i>V</i> <i>s</i> + <i>α</i> <i>r</i> + <i>γ</i> · <i>V</i>
+<i>k+1</i> <i>k</i> <i>k</i>
+or, equivalently:
+<i>V</i> <i>s</i> <i>V</i> <i>s</i> + <i>α</i> · <i>δ</i> <i>s,r,s</i> ′
+<i>k+1</i> <i>k</i> <i>k</i>
+with <i>δ</i> <i>s,r,s</i> ′ = <i>r</i> + <i>γ</i> · <i>V</i> <i>s</i> ′ − <i>V</i> <i>s</i>
+<i>k</i> <i>k</i> <i>k</i>
+In this equation:
+• <i>α</i> is the learning rate (e.g., 0.01).
+′
+• <i>r</i> + <i>γ</i> · <i>V</i> (s ) is called the <i>TD</i> <i>target.</i>
+<i>k</i>
+• <i>δ</i> (s, <i>r,</i> <i>s′)</i> is called the <i>TD</i> <i>error.</i>
+k
+A more concise way of writing the first form of this equation is to use the notation
+<i>a</i> <i>b,</i> which means <i>a</i> ← (1 – <i>α)</i> · <i>a</i> + <i>α</i> ·b . So, the first line of Equation 18-4 can
+<i>k+1</i> <i>k</i> <i>k</i>
+<i>α</i>
+′
+be rewritten like this: <i>V</i> <i>s</i> <i>r</i> + <i>γ</i> · <i>V</i> <i>s</i> .
+<i>α</i>
+TD Learning has many similarities with Stochastic Gradient
+Descent, in particular the fact that it handles one sample at a time.
+Moreover, just like Stochastic GD, it can only truly converge if you
+gradually reduce the learning rate (otherwise it will keep bouncing
+around the optimum Q-Values).
+For each state <i>s,</i> this algorithm simply keeps track of a running average of the imme‐
+diate rewards the agent gets upon leaving that state, plus the rewards it expects to get
+later (assuming it acts optimally).
+<header><largefont><b>Q-Learning</b></largefont></header>
+Similarly, the Q-Learning algorithm is an adaptation of the Q-Value Iteration algo‐
+rithm to the situation where the transition probabilities and the rewards are initially
+unknown (see Equation 18-5). Q-Learning works by watching an agent play (e.g.,
+randomly) and gradually improving its estimates of the Q-Values. Once it has

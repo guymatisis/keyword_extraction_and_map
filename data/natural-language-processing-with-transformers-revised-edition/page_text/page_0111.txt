@@ -1,0 +1,38 @@
+.sort_values(by="sum", ascending=False)
+.reset_index()
+.round(2)
+.head(10)
+.T
+)
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b> <b>6</b> <b>7</b> <b>8</b> <b>9</b>
+▁ ▁ der ▁ in ▁ von ▁ / ▁ und ▁ ( ▁ ) ▁ '' ▁ A
+<b>input_tokens</b>
+<b>count</b> 6066 1388 989 808 163 1171 246 246 2898 125
+<b>mean</b> 0.03 0.1 0.14 0.14 0.64 0.08 0.3 0.29 0.02 0.44
+<b>sum</b> 200.71 138.05 137.33 114.92 104.28 99.15 74.49 72.35 59.31 54.48
+We can observe several patterns in this list:
+• The whitespace token has the highest total loss, which is not surprising since it is
+also the most common token in the list. However, its mean loss is much lower
+than the other tokens in the list. This means that the model doesn’t struggle to
+classify it.
+• Words like “in”, “von”, “der”, and “und” appear relatively frequently. They often
+appear together with named entities and are sometimes part of them, which
+explains why the model might mix them up.
+• Parentheses, slashes, and capital letters at the beginning of words are rarer but
+have a relatively high average loss. We will investigate them further.
+We can also group the label IDs and look at the losses for each class:
+(
+df_tokens.groupby("labels")[["loss"]]
+.agg(["count", "mean", "sum"])
+.droplevel(level=0, axis=1)
+.sort_values(by="mean", ascending=False)
+.reset_index()
+.round(2)
+.T
+)
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b> <b>6</b>
+B-ORG I-LOC I-ORG B-LOC B-PER I-PER O
+<b>labels</b>
+<b>count</b> 2683 1462 3820 3172 2893 4139 43648
+<b>mean</b> 0.66 0.64 0.48 0.35 0.26 0.18 0.03
+<b>sum</b> 1769.47 930.94 1850.39 1111.03 760.56 750.91 1354.46

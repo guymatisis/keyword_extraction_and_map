@@ -1,0 +1,39 @@
+Here, the distance between this example and each centroid is quite large. We could
+then use these high-distance values to conclude that this data point might be an
+anomaly. This unsupervised clustering approach is especially useful if we don’t know
+the labels for our data in advance. Once we’ve generated cluster predictions on
+enough examples, we could then build a supervised learning model using the predic‐
+ted clusters as labels.
+<b>Numberofminorityclassexamplesavailable</b>
+While the minority class in our first fraud detection example only made up 0.1% of
+the data, the dataset was large enough that we still had 8,000 fraudulent data points to
+work with. For datasets with even fewer examples of the minority class, downsam‐
+pling may make the resulting dataset too small for a model to learn from. There isn’t
+a hard-and-fast rule for determining how many examples is too few to use downsam‐
+pling, since it largely depends on our problem and model architecture. A general rule
+of thumb is that if you only have hundreds of examples of the minority class, you
+might want to consider a solution other than downsampling for handling dataset
+imbalance.
+It’s also worth noting that the natural effect of removing a subset of our majority class
+is losing some information stored in those examples. This might slightly decrease our
+model’s ability to identify the majority class, but often the benefits of downsampling
+still outweigh this.
+<b>Combiningdifferenttechniques</b>
+The downsampling and class weight techniques described above can be combined for
+optimal results. To do this, we start by downsampling our data until we find a bal‐
+ance that works for our use case. Then, based on the label ratios for the rebalanced
+dataset, use the method described in the weighted classes section to pass new weights
+to our model. Combining these approaches can be especially useful when we have an
+anomaly detection problem and care most about predictions for our minority class.
+For example, if we’re building a fraud detection model, we’re likely much more con‐
+cerned about the transactions our model flags as “fraud” rather than the ones it flags
+as “nonfraud.” Additionally, as mentioned by SMOTE, the approach of generating
+synthetic examples from the minority class is often combined with removing a ran‐
+dom sample of examples from the minority class.
+Downsampling is also often combined with the Ensemble design pattern. Using this
+approach, instead of entirely removing a random sample of our majority class, we use
+different subsets of it to train multiple models and then ensemble those models. To
+illustrate this, let’s say we have a dataset with 100 minority class examples and 1,000
+majority examples. Rather than removing 900 examples from our majority class to
+perfectly balance the dataset, we’d randomly split the majority examples into 10
+groups with 100 examples each. We’d then train 10 classifiers, each with the same 100

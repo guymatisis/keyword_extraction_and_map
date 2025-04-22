@@ -1,0 +1,37 @@
+solution to the discrete problem on a spatio-temporal grid of the original domain.
+However, when the dimension of the problem becomes large, this mesh-based
+approach fails dramatically due to the curse of dimensionality because the mesh spac‐
+ing of the grid must be small enough to capture the smallest feature size of the solu‐
+tion. So, to achieve 10× higher resolution of an image requires 10,000× more
+compute power, because the mesh grid must be scaled in four dimensions accounting
+for space and time.
+However, it is possible to use machine learning (rather than Monte Carlo methods)
+to select the sampling points to create data-driven discretizations of PDEs. In the
+paper "Learning data-driven discretizations for PDEs,” Bar-Sinai et al. demonstrate
+the effectiveness of this approach. The authors use a low-resolution grid of fixed
+points to approximate a solution via a piecewise polynomial interpolation using stan‐
+dard finite-difference methods as well as one obtained from a neural network. The
+solution obtained from the neural network vastly outperforms the numeric simula‐
+tion in minimizing the absolute error, in some places achieving a 102 order of magni‐
+tude improvement. While increasing the resolution requires substantially more
+compute power using finite-difference methods, the neural network is able to main‐
+tain high performance with only marginal additional cost. Techniques like the Deep
+Galerkin Method can then use deep learning to provide a mesh-free approximation
+of the solution to the given PDE. In this way, solving the PDE is reduced to a chained
+optimization problem (see “Design Pattern 8: Cascade ” on page 108).
+<header><largefont><b>Deep</b></largefont> <largefont><b>Galerkin</b></largefont> <largefont><b>Method</b></largefont></header>
+The Deep Galerkin Method is a deep learning algorithm for solving partial differen‐
+tial equations. The algorithm is similar in spirit to Galerkin methods used in the field
+of numeric analysis, where the solution is approximated using a neural network
+instead of a linear combination of basis functions.
+<b>Unboundeddomains</b>
+The Monte Carlo and data-driven discretization methods both assume that sampling
+the entire input space, even if imperfectly, is possible. That’s why the ML model was
+treated as an interpolation between known points.
+Generalization and the concern of overfitting become difficult to ignore whenever we
+are unable to sample points in the full domain of the function—for example, for
+functions with unbounded domains or projections along a time axis into the future.
+In these settings, it is important to consider overfitting, underfitting, and
+generalization error. In fact, it’s been shown that although techniques like the Deep
+Galerkin Method do well on regions that are well sampled, a function that is learned
+this way does not generalize well on regions outside the domain that were not

@@ -1,0 +1,38 @@
+Another reason for a model’s performance to degrade over time is data drift. We
+introduced the problem of data drift in “Common Challenges in Machine Learning”
+on page 11 in Chapter 1. Data drift refers to any change that has occurred to the data
+being fed to your model for prediction as compared to the data that was used for
+training. Data drift can occur for a number of reasons: the input data schema changes
+at the source (for example, fields are added or deleted upstream), feature distribu‐
+tions change over time (for example, a hospital might start to see more younger
+adults because a ski resort opened nearby), or the meaning of the data changes even if
+the structure/schema hasn’t (for example, whether a patient is considered “over‐
+weight” may change over time). Software updates could introduce new bugs or the
+business scenario changes and creates a new product label previously not available in
+the training data. ETL pipelines for building, training, and predicting with ML mod‐
+els can be brittle and opaque, and any of these changes would have drastic effects on
+the performance of your model.
+Model deployment is a continuous process, and to solve for concept drift or data
+drift, it is necessary to update your training dataset and retrain your model with fresh
+data to improve predictions. But how do you know when retraining is necessary?
+And how often should you retrain? Data preprocessing and model training can be
+costly both in time and money and each step of the model development cycle adds
+additional overhead of development, monitoring, and maintenance.
+<header><largefont><b>Solution</b></largefont></header>
+The most direct way to identify model deterioration is to continuously monitor your
+model’s predictive performance over time, and assess that performance with the same
+evaluation metrics you used during development. This kind of continuous model
+evaluation and monitoring is how we determine whether the model, or any changes
+we’ve made to the model, are working as they should.
+<b>Concept</b>
+Continuous evaluation of this kind requires access to the raw prediction request data
+and the predictions the model generated as well as the ground truth, all in the same
+place. Google Cloud AI Platform provides the ability to configure the deployed
+model version so that the online prediction input and output are regularly sampled
+and saved to a table in BigQuery. In order to keep the service performant to a large
+number of requests per second, we can customize how much data is sampled by spec‐
+ifying a percentage of the number of input requests. In order to measure performance
+metrics, it is necessary to combine this saved sample of predictions against the
+ground truth.
+In most situations, it may take time before the ground truth labels become available.
+For example, for a churn model, it may not be known until the next subscription

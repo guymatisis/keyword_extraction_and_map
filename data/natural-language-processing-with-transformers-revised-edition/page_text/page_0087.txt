@@ -1,0 +1,26 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>4</b></largefont></header>
+<header><largefont><b>Multilingual</b></largefont> <largefont><b>Named</b></largefont> <largefont><b>Entity</b></largefont> <largefont><b>Recognition</b></largefont></header>
+So far in this book we have applied transformers to solve NLP tasks on English cor‐
+pora—but what do you do when your documents are written in Greek, Swahili, or
+Klingon? One approach is to search the Hugging Face Hub for a suitable pretrained
+language model and fine-tune it on the task at hand. However, these pretrained mod‐
+els tend to exist only for “high-resource” languages like German, Russian, or Man‐
+darin, where plenty of webtext is available for pretraining. Another common
+challenge arises when your corpus is multilingual: maintaining multiple monolingual
+models in production will not be any fun for you or your engineering team.
+Fortunately, there is a class of multilingual transformers that come to the rescue. Like
+BERT, these models use masked language modeling as a pretraining objective, but
+they are trained jointly on texts in over one hundred languages. By pretraining on
+huge corpora across many languages, these multilingual transformers enable <i>zero-</i>
+<i>shot</i> <i>cross-lingual</i> <i>transfer.</i> This means that a model that is fine-tuned on one language
+can be applied to others without any further training! This also makes these models
+well suited for “code-switching,” where a speaker alternates between two or more lan‐
+guages or dialects in the context of a single conversation.
+In this chapter we will explore how a single transformer model called XLM-RoBERTa
+(introduced in Chapter 3)1 can be fine-tuned to perform named entity recognition
+(NER) across several languages. As we saw in Chapter 1, NER is a common NLP task
+that identifies entities like people, organizations, or locations in text. These entities
+can be used for various applications such as gaining insights from company docu‐
+ments, augmenting the quality of search engines, or simply building a structured
+database from a corpus.
+1 A.Conneauetal.,“UnsupervisedCross-LingualRepresentationLearningatScale”,(2019).

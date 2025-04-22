@@ -1,0 +1,25 @@
+<header><largefont><b>Advanced</b></largefont> <largefont><b>Methods</b></largefont></header>
+Fine-tuning the language model before tuning the classification head is a simple yet
+reliable method to boost performance. However, there are sophisticated methods
+than can leverage unlabeled data even further. We summarize a few of these methods
+here, which should provide a good starting point if you need more performance.
+<b>Unsuperviseddataaugmentation</b>
+The key idea behind unsupervised data augmentation (UDA) is that a model’s predic‐
+tions should be consistent for an unlabeled example and a slightly distorted one. Such
+distortions are introduced with standard data augmentation strategies such as token
+replacement and back translation. Consistency is then enforced by minimizing the
+KL divergence between the predictions of the original and distorted examples. This
+process is illustrated in Figure 9-5, where the consistency requirement is incorporated
+by augmenting the cross-entropy loss with an additional term from the unlabeled
+examples. This means that one trains a model on the labeled data with the standard
+supervised approach, but constrains the model to make consistent predictions on the
+unlabeled data.
+<i>Figure</i> <i>9-5.</i> <i>Training</i> <i>a</i> <i>model</i> <i>M</i> <i>with</i> <i>UDA</i> <i>(courtesy</i> <i>of</i> <i>Qizhe</i> <i>Xie)</i>
+The performance of this approach is quite impressive: with a handful of labeled
+examples, BERT models trained with UDA get similar performance to models trained
+on thousands of examples. The downside is that you need a data augmentation pipe‐
+line, and training takes much longer since you need multiple forward passes to gener‐
+ate the predicted distributions on the unlabeled and augmented examples.
+<b>Uncertainty-awareself-training</b>
+Another promising method to leverage unlabeled data is uncertainty-aware self-
+training (UST). The idea here is to train a teacher model on the labeled data and then

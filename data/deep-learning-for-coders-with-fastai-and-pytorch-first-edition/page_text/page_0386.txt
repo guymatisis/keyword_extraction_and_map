@@ -1,0 +1,27 @@
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 3.103298 2.874341 0.212565 00:01
+1 2.231964 1.971280 0.462158 00:01
+2 1.711358 1.813547 0.461182 00:01
+3 1.448516 1.828176 0.483236 00:01
+4 1.288630 1.659564 0.520671 00:01
+5 1.161470 1.714023 0.554932 00:01
+6 1.055568 1.660916 0.575033 00:01
+7 0.960765 1.719624 0.591064 00:01
+8 0.870153 1.839560 0.614665 00:01
+9 0.808545 1.770278 0.624349 00:01
+10 0.758084 1.842931 0.610758 00:01
+11 0.719320 1.799527 0.646566 00:01
+12 0.683439 1.917928 0.649821 00:01
+13 0.660283 1.874712 0.628581 00:01
+14 0.646154 1.877519 0.640055 00:01
+We need to train for longer, since the task has changed a bit and is more complicated
+now. But we end up with a good result…at least, sometimes. If you run it a few times,
+you’ll see that you can get quite different results on different runs. That’s because
+effectively we have a very deep network here, which can result in very large or very
+small gradients. We’ll see in the next part of this chapter how to deal with this.
+Now, the obvious way to get a better model is to go deeper: we have only one linear
+layer between the hidden state and the output activations in our basic RNN, so maybe
+we’ll get better results with more.
+<header><largefont><b>Multilayer</b></largefont> <largefont><b>RNNs</b></largefont></header>
+In a multilayer RNN, we pass the activations from our recurrent neural network into
+a second recurrent neural network, as in Figure 12-6.

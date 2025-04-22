@@ -1,0 +1,38 @@
+Size of the vocabulary: 50257
+Running the full pipeline on our input code gives us the following output:
+<b>print(tokenizer(python_code).tokens())</b>
+['def', 'Ġsay', '_', 'hello', '():', 'Ċ', 'Ġ', 'Ġ', 'Ġ', 'Ġprint', '("',
+'Hello', ',', 'ĠWorld', '!"', ')', 'Ġ#', 'ĠPrint', 'Ġit', 'Ċ', 'Ċ', 'say', '_',
+'hello', '()', 'Ċ']
+As we can see, the BPE tokenizer keeps most of the words but will split the multiple
+spaces of our indentation into several consecutive spaces. This happens because this
+tokenizer is not specifically trained on code, but mostly on texts where consecutive
+spaces are rare. The BPE model thus doesn’t include a specific token in the vocabu‐
+lary for indentation. This is a case where the tokenizer model is poorly suited for the
+dataset’s domain. As we discussed earlier, the solution is to retrain the tokenizer on
+the target corpus. So let’s get to it!
+<header><largefont><b>Training</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Tokenizer</b></largefont></header>
+Let’s retrain our byte-level BPE tokenizer on a slice of our corpus to get a vocabulary
+better adapted to Python code. Retraining a tokenizer provided by Transformers is
+simple. We just need to:
+• Specify our target vocabulary size.
+• Prepare an iterator to supply lists of input strings to process to train the tokeniz‐
+er’s model.
+train_new_from_iterator()
+• Call the method.
+Unlike deep learning models, which are often expected to memorize a lot of specific
+details from the training corpus, tokenizers are really just trained to extract the main
+statistics. In a nutshell, the tokenizer is just trained to know which letter combina‐
+tions are the most frequent in our corpus.
+Therefore, you don’t necessarily need to train your tokenizer on a very large corpus;
+the corpus just needs to be representative of your domain and big enough for the
+tokenizer to extract statistically significant measures. But depending on the vocabu‐
+lary size and the exact texts in the corpus, the tokenizer can end up storing
+unexpected words. We can see this, for instance, when looking at the longest words in
+the vocabulary of the GPT-2 tokenizer:
+tokens = sorted(tokenizer.vocab.items(), key=lambda x: len(x[0]), reverse=True)
+<b>print([f'{tokenizer.convert_tokens_to_string(t)}'</b> <b>for</b> t, _ <b>in</b> tokens[:8]]);
+['ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ', '
+=================================================================', '
+----------------------------------------------------------------
+',

@@ -1,0 +1,45 @@
+There is nothing special about the implementation: just train an autoencoder using
+all the training data (labeled plus unlabeled), then reuse its encoder layers to create a
+new neural network (see the exercises at the end of this chapter for an example).
+Next, let’s look at a few techniques for training stacked autoencoders.
+<header><largefont><b>Tying</b></largefont> <largefont><b>Weights</b></largefont></header>
+When an autoencoder is neatly symmetrical, like the one we just built, a common
+technique is to <i>tie</i> the weights of the decoder layers to the weights of the encoder lay‐
+ers. This halves the number of weights in the model, speeding up training and limit‐
+ing the risk of overfitting. Specifically, if the autoencoder has a total of <i>N</i> layers (not
+counting the input layer), and <b>W</b> represents the connection weights of the <i>L</i> th layer
+<i>L</i>
+(e.g., layer 1 is the first hidden layer, layer <i>N/2</i> is the coding layer, and layer <i>N</i> is the
+⊺
+output layer), then the decoder layer weights can be defined simply as: <b>W</b> = <b>W</b>
+<i>N–L+1</i> <i>L</i>
+(with <i>L</i> = 1, 2, …, <i>N/2).</i>
+To tie weights between layers using Keras, let’s define a custom layer:
+<b>class</b> <b>DenseTranspose(keras.layers.Layer):</b>
+<b>def</b> <b>__init__(self,</b> dense, activation=None, **kwargs):
+self.dense = dense
+self.activation = keras.activations.get(activation)
+super().__init__(**kwargs)
+<b>def</b> build(self, batch_input_shape):
+self.biases = self.add_weight(name="bias", initializer="zeros",
+shape=[self.dense.input_shape[-1]])
+super().build(batch_input_shape)
+<b>def</b> call(self, inputs):
+z = tf.matmul(inputs, self.dense.weights[0], transpose_b=True)
+<b>return</b> self.activation(z + self.biases)
+This custom layer acts like a regular Dense layer, but it uses another Dense layer’s
+transpose_b=True
+weights, transposed (setting is equivalent to transposing the sec‐
+ond argument, but it’s more efficient as it performs the transposition on the fly within
+the matmul() operation). However, it uses its own bias vector. Next, we can build a
+Dense
+new stacked autoencoder, much like the previous one, but with the decoder’s
+Dense
+layers tied to the encoder’s layers:
+dense_1 = keras.layers.Dense(100, activation="selu")
+dense_2 = keras.layers.Dense(30, activation="selu")
+tied_encoder = keras.models.Sequential([
+keras.layers.Flatten(input_shape=[28, 28]),
+dense_1,
+dense_2
+])

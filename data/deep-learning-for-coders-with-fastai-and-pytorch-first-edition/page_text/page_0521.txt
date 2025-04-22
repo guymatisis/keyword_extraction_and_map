@@ -1,0 +1,25 @@
+We know 0 (for False ) is “dog,” because the classes are automatically sorted in fastai,
+but we can still double-check by looking at dls.vocab:
+dls.vocab
+(#2) [False,True]
+So, our model is very confident this was a picture of a cat.
+To do the dot product of our weight matrix (2 by number of activations) with the
+activations (batch size by activations by rows by cols), we use a custom einsum :
+x.shape
+torch.Size([1, 3, 224, 224])
+cam_map = torch.einsum('ck,kij->cij', learn.model[1][-1].weight, act)
+cam_map.shape
+torch.Size([2, 7, 7])
+For each image in our batch, and for each class, we get a 7×7 feature map that tells us
+where the activations were higher and where they were lower. This will let us see
+which areas of the pictures influenced the model’s decision.
+For instance, we can find out which areas made the model decide this animal was a
+cat (note that we need to decode the input x since it’s been normalized by the Data
+Loader , and we need to cast to TensorImage since at the time this book is written,
+PyTorch does not maintain types when indexing—this may be fixed by the time you
+are reading this):
+x_dec = TensorImage(dls.train.decode((x,))[0][0])
+_,ax = plt.subplots()
+x_dec.show(ctx=ax)
+ax.imshow(cam_map[1].detach().cpu(), alpha=0.6, extent=(0,224,224,0),
+interpolation='bilinear', cmap='magma');

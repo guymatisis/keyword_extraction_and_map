@@ -1,0 +1,35 @@
+Let’s create a mini-batch of size 4 for testing:
+batch = train_x[:4]
+batch.shape
+torch.Size([4, 784])
+preds = linear1(batch)
+preds
+tensor([[-11.1002],
+[ 5.9263],
+[ 9.9627],
+[ -8.1484]], grad_fn=<AddBackward0>)
+loss = mnist_loss(preds, train_y[:4])
+loss
+tensor(0.5006, grad_fn=<MeanBackward0>)
+Now we can calculate the gradients:
+loss.backward()
+weights.grad.shape,weights.grad.mean(),bias.grad
+(torch.Size([784, 1]), tensor(-0.0001), tensor([-0.0008]))
+Let’s put that all in a function:
+<b>def</b> calc_grad(xb, yb, model):
+preds = model(xb)
+loss = mnist_loss(preds, yb)
+loss.backward()
+And test it:
+calc_grad(batch, train_y[:4], linear1)
+weights.grad.mean(),bias.grad
+(tensor(-0.0002), tensor([-0.0015]))
+But look what happens if we call it twice:
+calc_grad(batch, train_y[:4], linear1)
+weights.grad.mean(),bias.grad
+(tensor(-0.0003), tensor([-0.0023]))
+The gradients have changed! The reason for this is that loss.backward <i>adds</i> the gra‐
+dients of loss to any gradients that are currently stored. So, we have to set the current
+gradients to 0 first:
+weights.grad.zero_()
+bias.grad.zero_();

@@ -1,0 +1,26 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>3</b></largefont></header>
+<header><largefont><b>Transformer</b></largefont> <largefont><b>Anatomy</b></largefont></header>
+In Chapter 2, we saw what it takes to fine-tune and evaluate a transformer. Now let’s
+take a look at how they work under the hood. In this chapter we’ll explore the main
+building blocks of transformer models and how to implement them using PyTorch.
+We’ll also provide guidance on how to do the same in TensorFlow. We’ll first focus on
+building the attention mechanism, and then add the bits and pieces necessary to
+make a transformer encoder work. We’ll also have a brief look at the architectural dif‐
+ferences between the encoder and decoder modules. By the end of this chapter you
+will be able to implement a simple transformer model yourself!
+While a deep technical understanding of the Transformer architecture is generally
+not necessary to use Transformers and fine-tune models for your use case, it can
+be helpful for comprehending and navigating the limitations of transformers and
+using them in new domains.
+This chapter also introduces a taxonomy of transformers to help you understand the
+zoo of models that have emerged in recent years. Before diving into the code, let’s
+start with an overview of the original architecture that kick-started the transformer
+revolution.
+<header><largefont><b>The</b></largefont> <largefont><b>Transformer</b></largefont> <largefont><b>Architecture</b></largefont></header>
+As we saw in Chapter 1, the original Transformer is based on the <i>encoder-decoder</i>
+architecture that is widely used for tasks like machine translation, where a sequence
+of words is translated from one language to another. This architecture consists of two
+components:
+<i>Encoder</i>
+Converts an input sequence of tokens into a sequence of embedding vectors,
+often called the <i>hidden</i> <i>state</i> or <i>context</i>

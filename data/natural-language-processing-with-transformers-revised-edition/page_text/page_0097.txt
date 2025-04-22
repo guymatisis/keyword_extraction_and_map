@@ -1,0 +1,22 @@
+BERT and other encoder-only transformers take a similar approach for NER, except
+that the representation of each individual input token is fed into the same fully
+connected layer to output the entity of the token. For this reason, NER is often
+framed as a <i>token</i> <i>classification</i> task. The process looks something like the diagram in
+Figure 4-3.
+<i>Figure</i> <i>4-3.</i> <i>Fine-tuning</i> <i>an</i> <i>encoder-based</i> <i>transformer</i> <i>for</i> <i>named</i> <i>entity</i> <i>recognition</i>
+So far, so good, but how should we handle subwords in a token classification task?
+For example, the first name “Christa” in Figure 4-3 is tokenized into the subwords
+B-PER
+“Chr” and “##ista”, so which one(s) should be assigned the label?
+In the BERT paper, 5 the authors assigned this label to the first subword (“Chr” in our
+example) and ignored the following subword (“##ista”). This is the convention we’ll
+adopt here, and we’ll indicate the ignored subwords with IGN . We can later easily
+propagate the predicted label of the first subword to the subsequent subwords in the
+postprocessing step. We could also have chosen to include the representation of the
+“##ista” subword by assigning it a copy of the B-LOC label, but this violates the IOB2
+format.
+Fortunately, all the architecture aspects we’ve seen in BERT carry over to XLM-R
+since its architecture is based on RoBERTa, which is identical to BERT! Next we’ll see
+how Transformers supports many other tasks with minor modifications.
+5 J.Devlinetal.,“BERT:Pre-TrainingofDeepBidirectionalTransformersforLanguageUnderstanding”,
+(2018).

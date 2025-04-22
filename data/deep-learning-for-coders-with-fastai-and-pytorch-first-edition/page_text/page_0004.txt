@@ -1,0 +1,37 @@
+Deep learning has power, flexibility, and simplicity. That’s why we believe it should be
+applied across many disciplines. These include the social and physical sciences, the
+arts, medicine, finance, scientific research, and many more. To give a personal exam‐
+ple, despite having no background in medicine, Jeremy started Enlitic, a company
+that uses deep learning algorithms to diagnose illness and disease. Within months of
+starting the company, it was announced that its algorithm could identify malignant
+tumors more accurately than radiologists.
+Here’s a list of some of the thousands of tasks in different areas for which deep learn‐
+ing, or methods heavily using deep learning, is now the best in the world:
+<i>Natural</i> <i>language</i> <i>processing</i> <i>(NLP)</i>
+Answering questions; speech recognition; summarizing documents; classifying
+documents; finding names, dates, etc. in documents; searching for articles men‐
+tioning a concept
+<i>Computer</i> <i>vision</i>
+Satellite and drone imagery interpretation (e.g., for disaster resilience), face rec‐
+ognition, image captioning, reading traffic signs, locating pedestrians and vehi‐
+cles in autonomous vehicles
+<i>Medicine</i>
+Finding anomalies in radiology images, including CT, MRI, and X-ray images;
+counting features in pathology slides; measuring features in ultrasounds; diag‐
+nosing diabetic retinopathy
+<i>Biology</i>
+Folding proteins; classifying proteins; many genomics tasks, such as tumor-
+normal sequencing and classifying clinically actionable genetic mutations; cell
+classification; analyzing protein/protein interactions
+<i>Image</i> <i>generation</i>
+Colorizing images, increasing image resolution, removing noise from images,
+converting images to art in the style of famous artists
+<i>Recommendation</i> <i>systems</i>
+Web search, product recommendations, home page layout
+<i>Playing</i> <i>games</i>
+Chess, Go, most Atari video games, and many real-time strategy games
+<i>Robotics</i>
+Handling objects that are challenging to locate (e.g., transparent, shiny, lacking
+texture) or hard to pick up
+<i>Other</i> <i>applications</i>
+Financial and logistical forecasting, text to speech, and much, much more…

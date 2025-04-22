@@ -1,0 +1,306 @@
+Hugging Face Transformers, release of, 9
+human reporting bias limitation, text and, 355
+hyperparameters, finding with Optuna, 226
+hyperparameter_search() method, 228
+iGPT model, 355
+ImageNet dataset, 7
+Imbalanced-learn library, 28
+IMDb, 8
+in-context learning, 288
+Inference API, 54, 350
+inference widget, 16
+InferKit, 124
+information bottleneck, 4
+infrastructure, as a challenge of scaling, 349
+init_weights() method, 100
+int2str() method, 26
+intent detection, 210
+intermediate representation, 237
+interoperability, between frameworks, 39
+ISO 639-1 language code, 89
+Issues tab, 251
+Issues Tagger, building, 251-259
+iter() function, 328
+iterative_train_test_split() function, 258, 259
+JAX library, 10
+Jira, 251
+JSON dataset, 25
+Jupyter Notebook, 47, 300, 363
+Karpathy, Andrej, 3, 27, 77
+Keras library, 50, 221
+kernel function, 354
+key, 62
+key/value pair, 215
+Kite, 299
+KL (Kullback-Leibler) divergence, 218
+labels, 249-296
+language models, fine-tuning, 289-292
+language, as a challenge with transformers, 19
+last hidden state, 3, 39
+latency, as a performance benchmark, 212
+layer normalization, 71
+LayoutLM model, 365
+LCS (longest common substring), 153
+learning rate warm-up, 71
+Libraries.io, 304
+linearized attention, 353
+list_datasets() function, 23
+log probability, 131
+logits, 75, 102, 125, 127, 131, 134, 176-178, 187, 218, 221, 240, 286
+long-form QA, 166
+Longformer model, 353
+lookup table, using embeddings as a, 275-282
+LSTM (long-short term memory) networks, 1
+Lucene, 186
+LXMERT model, 365
+M2M100 model, 84, 272, 284
+MAD-X library, 121
+magnitude pruning, 245
+mantissa, 231
+mAP (mean average precision), 190
+map() method, 35, 40, 51, 103, 260, 267, 273
+mask matrix, 76, 244
+masked multi-head self-attention, 76
+matrices, 66, 232, 244
+maximum content size, 28
+mean pooling, 276
+Meena (Google), 124
+memory mapping, 18, 306
+memory, as a performance benchmark, 212
+minGPT model, 77
+MiniLM model, 174
+MLM (masked language modeling), 9, 80, 324
+MNLI dataset, 265
+modality limitation, text and, 355
+model cards, 16
+model weights, 16
+model widgets, interacting with, 121
+ALBERT, 81, 174
+BART, 84, 145
+BERT, 1, 9, 79, 211, 217, 220, 224, 237, 260, 263
+BigBird, 84, 353
+CamemBERT, 310
+CLIP, 367
+CodeParrot, 299, 337, 342
+CTRL, 82
+DALL-E, 366
+DeBERTa, 81
+DistilBERT, 22, 28, 33, 36, 80
+DPR, 194
+ELECTRA, 81
+ELMO, 8, 61
+evaluation of, as a challenge of scaling, 349
+GPT, 1, 9, 82, 302
+GPT-2, 82, 276, 302, 313, 321, 330
+GPT-3, 83, 276, 346
+GPT-J, 83, 350
+GPT-Neo, 83, 350
+iGPT, 355
+initializing, 325
+LayoutLM, 365
+Longformer, 353
+LSTM, 1
+LXMERT, 365
+M2M100, 84, 272, 284
+Meena, 124
+minGPT, 77
+miniLM, 174
+Naive Bayes, 260-263
+PEGASUS, 145, 154, 158, 158-162
+RAG, 205
+Reformer, 353
+ResNet, 6, 365
+RNN, 2
+RoBERTa, 80, 174
+saving, 53
+sharing, 53
+T5, 83, 144, 310
+TAPAS, 166, 359
+training, 47
+types of, 221
+ULMFiT, 1, 8
+VisualBERT, 365
+ViT, 356
+model_init() method, 107
+movement pruning, 246
+multi-headed attention, 67
+multilabel text classification problem, 251
+multilingual named entity recognition, 87-121
+multilingual transformers, 92
+multimodal transformers, 361-364
+n-gram penalty, 133
+n-grams, 152
+Naive baseline, implementing, 260-263
+Naive Bayes classifier, 260
+named entities, 11
+neural network architecture, xii, 1, 4
+next token probability, 133
+NLI (natural language inference), 265-271
+NlpAug library, 272
+NLU (natural language understanding), 79
+noise, filtering, 306
+nonlocal keyword, 321
+normalization, 71, 94
+notebook_login() function, 309
+NQ dataset, 172
+NSP (next sentence prediction), 80
+nucleus sampling, 136-139
+numericalization, 29
+objective() function, 227
+offset tracking, 314
+one-hot encoding, 30, 65
+one-hot vectors, 30, 37
+one_hot() function, 30
+ONNX-ML, 237
+opacity, as a challenge with transformers, 19
+open source, 251, 304, 312, 350, 370
+open-domain QA, 168
+OpenAI, 8, 82, 123, 129, 276, 350
+OpenMP, 239
+operator sets, 240
+"Optimal Brain Surgeon" paper, 245
+Optuna, finding hyperparameters with, 226
+ORT (ONNX Runtime), 242
+OSCAR corpus, 310
+out-of-scope queries, 210
+PAN-X dataset, 88, 114
+pandas.Series.explode() function, 110
+partial hypotheses, 130
+Path.stat() function, 215
+perf_counter() function, 215
+permutation equivariant, 72
+plot_metrics() function, 229
+pooling, 276
+Popen() function, 183
+position-wise feed-forward layer, 70
+positional embeddings, 58, 73
+post layer normalization, 71
+postprocessing, 95
+pre layer normalization, 71
+predict() method, 48, 115
+prepare() function, 330
+pretokenization, 94
+pretrained models, 38, 46
+prompts, 288
+proportion, of continued words, 312
+pseudo-labels, 296
+push_to_hub() method, 53, 322
+Python, tokenizer for, 313-318
+QA (question answering), 165-207
+quality, of generated text, 148-154
+quantize_dynamic() function, 236, 242
+quantize_per_tensor() function, 233
+query, 62
+question-answer pair, 166, 191, 197, 199
+question-context pair, 179
+radix point, 231
+RAG (retrieval-augmented generation), 205
+RAG-Sequence models, 205
+RAG-Token models, 206
+random attention, 352
+reading comprehension models, 166
+README cards, 310
+recall, 189
+recv keyword, 320
+Reformer model, 353
+relative positional representations, 74
+ResNet model, 6, 365
+retrieve() method, 186
+retriever-reader architecture, 181
+review-based QA systems, building, 166-189
+RNNs (recurrent neural networks), 2
+RoBERTa model, 80, 174
+ROUGE score, 152
+run() method, 188, 190
+run_benchmark() method, 213
+Rust programming language, 17, 314
+SacreBLEU, 150
+sample efficiency, 348
+sample() method, 169
+sampling methods, 134-139
+SAMSum dataset, 157
+Samsung, 157
+scaled dot-product attention, 62-67
+scaling laws, 347
+Scikit-learn format, 41
+Scikit-multilearn library, 257
+select() method, 90
+self-attention, 6, 351
+SentencePiece tokenizer, 93, 95
+sentiment analysis, 10
+sent_tokenize() function, 146
+[SEP] token, 34, 35, 65, 70, 94, 95, 176, 180, 290
+seq2seq (sequence-to-sequence), 3, 324
+seqeval library, 105
+Sequence class, 90
+setup_logging() method, 331
+set_format() method, 26
+sharing models, 53
+shuffle() method, 90, 308
+sign, 231
+significand, 231
+silver standard, 114
+similarity function, 62
+skip connections, 71
+smooth power laws, 347
+softmax, 62, 66, 77, 81, 125, 127, 134, 178, 187, 218, 221
+SoundFile library, 363
+span classification task, 173
+sparse attention, scaling and, 352
+speech-to-text, 361-364
+speedup, 284
+split() function, 31
+Stack Overflow, 166, 212
+state of the art, 209
+static quantization, 235
+str2int() method, 214
+streaming datasets, 308
+subjectivity, 167
+SubjQA dataset, 167-172
+sublayer, 60, 70, 76
+subword fertility, 312
+subword tokenization, 33
+summarization, 141-163
+SUPERB dataset, 362
+SuperGLUE dataset, 81, 83
+Sutton, Richard, 345
+T5 model, 83, 144, 310
+Table QA, 359
+TabNine, 299
+TAPAS model, 166, 359
+task agnostic distillation, 223
+Tensor.masked_fill() function, 76
+Tensor.storage() function, 235
+TensorBoard, 331
+test_step() method, 221
+text classification, 21-55
+text dataset, 25
+text entailment, 265
+text generation, 123-140
+text summarization pipelines, 143-146
+TextAttack library, 272
+TimeSformer model, 358
+timestep, 4, 61, 76, 127, 130, 134
+time_pipeline() function, 215
+TLM (translation language modeling), 80
+token embeddings, 58, 61
+token perturbations, 272
+tokenizer model, 95, 312
+tokenizer pipeline, 94
+top-k sampling, 136-139
+top-p sampling, 136-139
+torch.bmm() function, 66
+torch.save() function, 214, 241
+torch.tril() function, 76
+to_tf_dataset() method, 50
+train() method, 199, 223
+training loop, defining, 330-337
+training run, 337
+training sets, 42, 257
+training slices, creating, 259
+training transformers from scratch, 299-343
+train_new_from_iterator() method, 318
+train_on_subset() function, 119
+train_step() method, 221
+TransCoder model, 304
+Transformer architecture, 57-84

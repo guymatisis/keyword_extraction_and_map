@@ -1,0 +1,26 @@
+<i>Table</i> <i>10-2.</i> <i>Configuration</i> <i>used</i> <i>to</i> <i>train</i> <i>the</i> <i>CodeParrot</i> <i>models</i>
+<b>Setting</b> <b>Value</b>
+Computeenvironment? multi-GPU
+Howmanymachines? 1
+DeepSpeed? No
+Howmanyprocesses? 16
+UseFP16? Yes
+Running the training script with these settings on that infrastructure takes about 24
+hours and 7 days for the small and large models, respectively. If you train your own
+custom model, make sure your code runs smoothly on smaller infrastructure in order
+to make sure that expensive long run goes smoothly as well. After the full training
+run completes successfully, you can merge the experiment branch on the Hub back
+into the main branch with the following commands:
+<b>$</b> <b>git</b> <b>checkout</b> <b>main</b>
+<b>$</b> <b>git</b> <b>merge</b> <b><RUN_NAME></b>
+<b>$</b> <b>git</b> <b>push</b>
+<i>RUN_NAME</i>
+Naturally, should be the name of the experiment branch on the Hub you
+would like to merge. Now that we have a trained model, let’s have a look at how we
+can investigate its performance.
+<header><largefont><b>Results</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Analysis</b></largefont></header>
+After anxiously monitoring the logs for a week, you will probably see loss and per‐
+plexity curves that look like those shown in Figure 10-7. The training loss and valida‐
+tion perplexity go down continuously, and the loss curve looks almost linear on the
+log-log scale. We also see that the large model converges faster in terms of processed
+tokens, although the overall training takes longer.

@@ -1,0 +1,39 @@
+<i>XRAI</i>
+This approach is built upon IG and applies smoothing to return region-based
+attributions. XRAI works only with image models deployed on AI Platform.
+In our gcloud command, we specify the explanation method we’d like to use along
+with the number of integral steps or paths we want the method to use when comput‐
+steps parameter
+ing attribution values. 6 The refers to the number of feature combi‐
+nations sampled for each output. In general, increasing this number will improve
+explanation accuracy:
+!gcloud beta ai-platform versions create $VERSION_NAME <b>\</b>
+--model $MODEL_NAME <b>\</b>
+--origin $GCS_VERSION_LOCATION <b>\</b>
+--runtime-version 2.1 <b>\</b>
+--framework TENSORFLOW <b>\</b>
+--python-version 3.7 <b>\</b>
+--machine-type n1-standard-4 <b>\</b>
+--explanation-method xrai <b>\</b>
+--num-integral-steps 25
+Once the model is deployed, we can get explanations using the Explainable AI SDK:
+model = explainable_ai_sdk.load_model_from_ai_platform(
+GCP_PROJECT,
+MODEL_NAME,
+VERSION_NAME
+)
+request = model.explain([test_img])
+<i>#</i> <i>Print</i> <i>image</i> <i>with</i> <i>pixel</i> <i>attributions</i>
+request[0].visualize_attributions()
+In Figure 7-5, we can see a comparison of the IG and XRAI explanations returned
+from Explainable AI for our ImageNet model. The highlighted pixel regions show the
+pixels that contributed most to our model’s prediction of “husky.”
+Typically, IG is recommended for “non-natural” images like those taken in a medical,
+factory, or lab environment. XRAI usually works best for images taken in natural
+environments like the one of this husky. To understand why IG is preferred for non-
+natural images, see the IG attributions for the diabetic retinopathy image in
+Figure 7-6. In cases like this medical one, it helps to see attributions at a fine-grained,
+pixel level. In the dog image, on the other hand, knowing the exact pixels that caused
+our model to predict “husky” is less important, and XRAI gives us a higher-level
+summary of the important regions.
+6 Formoredetailsontheseexplanationmethodsandtheirimplementation,seetheExplainableAIwhitepaper.

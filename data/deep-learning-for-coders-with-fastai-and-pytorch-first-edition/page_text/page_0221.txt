@@ -1,0 +1,44 @@
+You can get a DataFrame from a CSV file, a database table, Python dictionaries, and
+many other sources. In Jupyter, a DataFrame is output as a formatted table, as shown
+here.
+You can access rows and columns of a DataFrame with the iloc property, as if it were
+a matrix:
+df.iloc[:,0]
+0 000005.jpg
+1 000007.jpg
+2 000009.jpg
+3 000012.jpg
+4 000016.jpg
+...
+5006 009954.jpg
+5007 009955.jpg
+5008 009958.jpg
+5009 009959.jpg
+5010 009961.jpg
+Name: fname, Length: 5011, dtype: object
+df.iloc[0,:]
+<i>#</i> <i>Trailing</i> <i>:s</i> <i>are</i> <i>always</i> <i>optional</i> <i>(in</i> <i>numpy,</i> <i>pytorch,</i> <i>pandas,</i> <i>etc.),</i>
+<i>#</i> <i>so</i> <i>this</i> <i>is</i> <i>equivalent:</i>
+df.iloc[0]
+fname 000005.jpg
+labels chair
+is_valid True
+Name: 0, dtype: object
+You can also grab a column by name by indexing into a DataFrame directly:
+df['fname']
+0 000005.jpg
+1 000007.jpg
+2 000009.jpg
+3 000012.jpg
+4 000016.jpg
+...
+5006 009954.jpg
+5007 009955.jpg
+5008 009958.jpg
+5009 009959.jpg
+5010 009961.jpg
+Name: fname, Length: 5011, dtype: object
+You can create new columns and do calculations using columns:
+df1 = pd.DataFrame()
+df1['a'] = [1,2,3,4]
+df1

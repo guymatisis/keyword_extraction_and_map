@@ -1,0 +1,22 @@
+11-2.3
+in Figure Typical values for <i>α</i> lie in the 0.05–0.095 range, and one attrac‐
+<i>X</i>
+tive feature of these power laws is that the early part of a loss curve can be
+extrapolated to predict what the approximate loss would be if training was con‐
+ducted for much longer.
+<i>Sample</i> <i>efficiency</i>
+Large models are able to reach the same performance as smaller models with a
+smaller number of training steps. This can be seen by comparing the regions
+where a loss curve plateaus over some number of training steps, which indicates
+one gets diminishing returns in performance compared to simply scaling up the
+model.
+Somewhat surprisingly, scaling laws have also been observed for other modalities, like
+images, videos, and mathematical problem solving, as illustrated in Figure 11-3.
+<i>Figure</i> <i>11-3.</i> <i>Power-law</i> <i>scaling</i> <i>of</i> <i>test</i> <i>loss</i> <i>versus</i> <i>compute</i> <i>budget</i> <i>across</i> <i>a</i> <i>wide</i> <i>range</i> <i>of</i>
+<i>modalities</i> <i>(courtesy</i> <i>of</i> <i>Tom</i> <i>Henighan)</i>
+Whether power-law scaling is a universal property of transformer language models is
+currently unknown. For now, we can use scaling laws as a tool to extrapolate large,
+expensive models without having to explicitly train them. However, scaling isn’t quite
+as easy as it sounds. Let’s now look at a few challenges that crop up when charting this
+frontier.
+3 T.Henighanetal.,“ScalingLawsforAutoregressiveGenerativeModeling”,(2020).

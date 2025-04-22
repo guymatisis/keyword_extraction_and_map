@@ -1,0 +1,31 @@
+The departure time was an example of a skewed feature. In an imbalanced classifica‐
+tion problem (such as fraud detection, where the number of fraud examples is quite
+small), we might want to stratify the dataset by the label and split each stratification
+evenly. This is also important if we have a multilabel problem and some of the labels
+are rarer than others. These are discussed in “Design Pattern 10: Rebalancing ” on
+page 122 in Chapter 3.
+<b>Unstructureddata</b>
+Although we have focused in this section on structured data, the same principles
+apply to unstructured data such as images, video, audio, or free-form text as well. Just
+use the metadata to carry out the split. For example, if videos taken on the same day
+are correlated, use a video’s capture date from its metadata to split the videos among
+independent datasets. Similarly, if text reviews from the same person tend to be cor‐
+user_id
+related, use the Farm Fingerprint of the of the reviewer to repeatedly split
+reviews among the datasets. If the metadata is not available or there is no correlation
+between instances, encode the image or video using Base64 encoding and compute
+the fingerprint of the encoding.
+A natural way to split text datasets might be to use the hash of the text itself for split‐
+ting. However, this is akin to a random split and does not address the problem of cor‐
+relations between reviews. For example, if a person uses the word “stunning” a lot in
+their negative reviews or if a person rates all Star Wars movies as bad, their reviews
+are correlated. Similarly, a natural way to split image or audio datasets might be to
+use the hash of the filename for splitting, but it does not address the problem of
+correlations between images or videos. It is worth thinking carefully about the best
+way to split a dataset. In our experience, many problems with poor performance of
+ML can be addressed by designing the data split (and data collection) with potential
+correlations in mind.
+When computing embeddings or pre-training autoencoders, we should make sure to
+first split the data and perform these pre-computations on the training dataset only.
+Because of this, splitting should not be done on the embeddings of the images, vid‐
+eos, or text unless these embeddings were created on a completely separate dataset.

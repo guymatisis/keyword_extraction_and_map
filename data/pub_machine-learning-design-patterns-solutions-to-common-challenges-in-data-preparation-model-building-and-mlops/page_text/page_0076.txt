@@ -1,0 +1,18 @@
+data = {
+'time': [9,10,2],
+'visibility': [0.2, 0.5, 0.1],
+'inclement_weather': [[0,0,1], [0,0,1], [1,0,0]],
+'location': [[0,1,0,0,0], [0,0,0,1,0], [1,0,0,0,0]]
+}
+We could then combine these tabular features into a single array for each example, so
+that our model’s input shape would be 10. The input array for the first example
+would look like the following:
+[9, 0.2, 0, 0, 1, 0, 1, 0, 0, 0]
+We could feed this input into a Dense fully connected layer, and the output of our
+model would be a single value between 0 and 1 indicating whether or not the instance
+contains a traffic violation. To combine this with our image data, we’ll use a similar
+approach to what we discussed for text models. First, we’d define a convolution layer
+to handle our image data, then a Dense layer to handle our tabular data, and finally
+we’d concatenate both into a single output.
+This approach is outlined in Figure 2-25.
+<i>Figure</i> <i>2-25.</i> <i>Concatenating</i> <i>layers</i> <i>to</i> <i>handle</i> <i>image</i> <i>and</i> <i>tabular</i> <i>metadata</i> <i>features.</i>

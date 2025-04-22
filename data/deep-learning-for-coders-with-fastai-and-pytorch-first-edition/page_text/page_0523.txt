@@ -1,0 +1,34 @@
+calculated for us by PyTorch during the backward pass, but they’re not stored (except
+for tensors where requires_grad is True). We can, however, register a hook on the
+backward pass, which PyTorch will give the gradients to as a parameter, so we can
+store them there. For this, we will use a HookBwd class that works like Hook, but inter‐
+cepts and stores gradients instead of activations:
+<b>class</b> <b>HookBwd():</b>
+<b>def</b> <b>__init__(self,</b> m):
+self.hook = m.register_backward_hook(self.hook_func)
+<b>def</b> hook_func(self, m, gi, go): self.stored = go[0].detach().clone()
+<b>def</b> <b>__enter__(self,</b> *args): <b>return</b> self
+<b>def</b> <b>__exit__(self,</b> *args): self.hook.remove()
+Then for the class index 1 (for True, which is “cat”), we intercept the features of the
+last convolutional layer, as before, and compute the gradients of the output activa‐
+tions of our class. We can’t just call output.backward, because gradients make sense
+only with respect to a scalar (which is normally our loss), and output is a rank-2 ten‐
+sor. But if we pick a single image (we’ll use 0 ) and a single class (we’ll use 1 ), we <i>can</i>
+calculate the gradients of any weight or activation we like, with respect to that single
+value, using output[0,cls].backward. Our hook intercepts the gradients that we’ll
+use as weights:
+cls = 1
+<b>with</b> HookBwd(learn.model[0]) <b>as</b> hookg:
+<b>with</b> Hook(learn.model[0]) <b>as</b> hook:
+output = learn.model.eval()(x.cuda())
+act = hook.stored
+output[0,cls].backward()
+grad = hookg.stored
+The weights for Grad-CAM are given by the average of our gradients across the fea‐
+ture map. Then it’s exactly the same as before:
+w = grad[0].mean(dim=[1,2], keepdim=True)
+cam_map = (w * act[0]).sum(0)
+_,ax = plt.subplots()
+x_dec.show(ctx=ax)
+ax.imshow(cam_map.detach().cpu(), alpha=0.6, extent=(0,224,224,0),
+interpolation='bilinear', cmap='magma');

@@ -1,0 +1,28 @@
+<header><largefont><b>Training</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>from</b></largefont> <largefont><b>Scratch</b></largefont></header>
+Here’s the part you’ve probably been waiting for: the model training. In this section
+we’ll decide which architecture works best for the task, initialize a fresh model
+without pretrained weights, set up a custom data loading class, and create a scalable
+training loop. In the grand finale we will train small and large GPT-2 models with 111
+million and 1.5 billion parameters, respectively! But let’s not get ahead ourselves.
+First, we need to decide which architecture is best suited for code autocompletion.
+In this section we will implement a longer than usual script to train
+a model on a distributed infrastructure. Therefore, you should not
+run each code snippet independently, but instead download the
+script provided in the Transformers repository. Follow the
+accompanying instructions to execute the script with Accelerate
+on your hardware.
+<header><largefont><b>A</b></largefont> <largefont><b>Tale</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Pretraining</b></largefont> <largefont><b>Objectives</b></largefont></header>
+Now that we have access to a large-scale pretraining corpus and an efficient tokenizer,
+we can start thinking about how to pretrain a transformer model. With such a large
+codebase consisting of code snippets like the one shown in Figure 10-1, we can tackle
+several tasks. Which one we choose will influence our choice of pretraining objec‐
+tives. Let’s have a look at three common tasks.
+<i>Figure</i> <i>10-1.</i> <i>An</i> <i>example</i> <i>of</i> <i>a</i> <i>Python</i> <i>function</i> <i>that</i> <i>could</i> <i>be</i> <i>found</i> <i>in</i> <i>our</i> <i>dataset</i>
+<b>Causallanguagemodeling</b>
+A natural task with textual data is to provide a model with the beginning of a code
+sample and ask it to generate possible completions. This is a self-supervised training
+objective in which we can use the dataset without annotations. This should ring a
+bell: it’s the <i>causal</i> <i>language</i> <i>modeling</i> task we encountered in Chapter 5. A directly
+related downstream task is code autocompletion, so we’ll definitely put this model on
+the shortlist. A decoder-only architecture such as the GPT family of models is usually
+best suited for this task, as shown in Figure 10-2.

@@ -1,0 +1,36 @@
+It is extremely important to compare the performance of the newer
+model trained on bridged examples against the older, unchanged
+model on the evaluation dataset. It might be the case that the new
+information does not yet have adequate value.
+Because we will be using the evaluation dataset to test whether or
+not the bridged model has value, it is critical that the evaluation
+dataset not be used during training or hyperparameter tuning. So,
+techniques like early stopping or checkpoint selection must be
+avoided. Instead, use regularization to control overfitting. The
+training loss will have to serve as the hyperparameter tuning met‐
+ric. See the discussion of the Checkpoints design pattern in Chap‐
+ter 4 for more details on how to conserve data by using only two
+splits.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+Let’s look at a commonly proposed approach that doesn’t work, a complex alternative
+to bridging, and an extension of the solution to a similar problem.
+<b>Unionschema</b>
+It can be tempting to simply create a union of the older and newer schemas. For
+example, we could define the schema for the payment type as having five possible val‐
+ues: cash, card, gift card, debit card, and credit card. This will make both the histori‐
+cal data and the newer data valid and is the approach that we would take in data
+warehousing to deal with changes like this. This way, the old data and the new data
+are valid as is and without any changes.
+The backward-compatible, union-of-schemas approach doesn’t work for machine
+learning though.
+At prediction time, we will never get the value “card” for the payment type because
+the input providers have all been upgraded. Effectively, all those training instances
+will have been for nought. For reproducibility (this is the reason that this pattern is
+classified as a reproducibility pattern), we need to bridge the older schema into the
+newer schema and can’t do a union of the two schemas.
+<b>Cascademethod</b>
+Imputation in statistics is a set of techniques that can be used to replace missing data
+by some valid value. A common imputation technique is to replace a NULL value by
+the mean value of that column in the training data. Why do we choose the mean?
+Because, in the absence of any more information and assuming that the values are
+normally distributed, the most likely value is the mean.

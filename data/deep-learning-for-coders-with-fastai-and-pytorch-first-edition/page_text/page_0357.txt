@@ -1,0 +1,35 @@
+tok.decode(nums_dec)
+'xxbos xxmaj well , " cube " ( 1997 )'
+decode is used by fastai’s show_batch and show_results, as well as some other infer‐
+ence methods, to convert predictions and mini-batches into a human-understandable
+representation.
+For each of tok or num in the preceding examples, we created an object called the
+setup method (which trains the tokenizer if needed for tok and creates the vocab for
+num), applied it to our raw texts (by calling the object as a function), and then finally
+decoded the result back to an understandable representation. These steps are needed
+for most data preprocessing tasks, so fastai provides a class that encapsulates them.
+This is the Transform class. Both Tokenize and Numericalize are Transform s.
+In general, a Transform is an object that behaves like a function and has an optional
+setup method that will initialize an inner state (like the vocab inside num ) and an
+optional decode method that will reverse the function (this reversal may not be per‐
+fect, as we saw with tok).
+A good example of decode is found in the Normalize transform that we saw in Chap‐
+ter 7: to be able to plot the images, its decode method undoes the normalization
+(i.e., it multiplies by the standard deviation and adds back the mean). On the other
+hand, data augmentation transforms do not have a decode method, since we want to
+show the effects on images to make sure the data augmentation is working as we
+want.
+A special behavior of Transforms is that they always get applied over tuples. In gen‐
+eral, our data is always a tuple (input,target) (sometimes with more than one input
+or more than one target). When applying a transform on an item like this, such as
+Resize , we don’t want to resize the tuple as a whole; instead, we want to resize the
+input (if applicable) and the target (if applicable) separately. It’s the same for batch
+transforms that do data augmentation: when the input is an image and the target is a
+segmentation mask, the transform needs to be applied (the same way) to the input
+and the target.
+tok:
+We can see this behavior if we pass a tuple of texts to
+tok((txts[0], txts[1]))
+((#374) ['xxbos','xxmaj','well',',','"','cube','"','(','1997',')'...],
+(#207)
+> ['xxbos','xxmaj','conrad','xxmaj','hall','went','out','with','a','bang'...])

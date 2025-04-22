@@ -1,0 +1,41 @@
+array([[0, 0, 0, 1, 0, 0, 0, 1, 0],
+[0, 0, 0, 0, 0, 1, 0, 0, 0]])
+In this simple example we can see the first row has two ones corresponding to the
+tokenization new model
+and labels, while the second row has just one hit with
+pytorch.
+iterative_train_test_split()
+To create the splits we can use the function from
+Scikit-multilearn, which creates the train/test splits iteratively to achieve balanced
+labels. We wrap it in a function that we can apply to DataFrame s. Since the function
+expects a two-dimensional feature matrix, we need to add a dimension to the possible
+indices before making the split:
+<b>from</b> <b>skmultilearn.model_selection</b> <b>import</b> iterative_train_test_split
+<b>def</b> balanced_split(df, test_size=0.5):
+ind = np.expand_dims(np.arange(len(df)), axis=1)
+labels = mlb.transform(df["labels"])
+ind_train, _, ind_test, _ = iterative_train_test_split(ind, labels,
+test_size)
+<b>return</b> df.iloc[ind_train[:, 0]], df.iloc[ind_test[:,0]]
+Armed with the balanced_split() function, we can split the data into supervised
+and unsupervised datasets, and then create balanced training, validation, and test sets
+for the supervised part:
+<b>from</b> <b>sklearn.model_selection</b> <b>import</b> train_test_split
+df_clean = df_issues[["text", "labels", "split"]].reset_index(drop=True).copy()
+df_unsup = df_clean.loc[df_clean["split"] == "unlabeled", ["text", "labels"]]
+df_sup = df_clean.loc[df_clean["split"] == "labeled", ["text", "labels"]]
+np.random.seed(0)
+df_train, df_tmp = balanced_split(df_sup, test_size=0.5)
+df_valid, df_test = balanced_split(df_tmp, test_size=0.5)
+DatasetDict
+Finally, let’s create a with all the splits so that we can easily tokenize the
+dataset and integrate with the Trainer . Here we’ll use the nifty from_pandas()
+method to load each split directly from the corresponding Pandas DataFrame :
+<b>from</b> <b>datasets</b> <b>import</b> Dataset, DatasetDict
+ds = DatasetDict({
+"train": Dataset.from_pandas(df_train.reset_index(drop=True)),
+"valid": Dataset.from_pandas(df_valid.reset_index(drop=True)),
+"test": Dataset.from_pandas(df_test.reset_index(drop=True)),
+"unsup": Dataset.from_pandas(df_unsup.reset_index(drop=True))})
+This looks good, so the last thing to do is to create some training slices so that we can
+evaluate the performance of each classifier as a function of the training set size.

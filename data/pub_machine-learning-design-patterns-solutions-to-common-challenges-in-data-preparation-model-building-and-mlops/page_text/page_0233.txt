@@ -1,0 +1,20 @@
+net connectivity, it may be slow and expensive to continuously generate predictions
+from a model deployed in the cloud.
+To convert a trained model into a format that works on edge devices, models often go
+through a process known as <i>quantization,</i> where learned model weights are repre‐
+sented with fewer bytes. TensorFlow, for example, uses a format called TensorFlow
+Lite to convert saved models into a smaller format optimized for serving at the edge.
+In addition to quantization, models intended for edge devices may also start out
+smaller to fit into stringent memory and processor constraints.
+Quantization and other techniques employed by TF Lite significantly reduce the size
+and prediction latency of resulting ML models, but with that may come reduced
+model accuracy. Additionally, since we can’t consistently rely on edge devices having
+connectivity, deploying new model versions to these devices in a timely manner also
+presents a challenge.
+We can see how these trade-offs play out in practice by looking at the options for
+training edge models in Cloud AutoML Vision in Figure 5-9.
+<i>Figure</i> <i>5-9.</i> <i>Making</i> <i>trade-offs</i> <i>between</i> <i>accuracy,</i> <i>model</i> <i>size,</i> <i>and</i> <i>latency</i> <i>for</i> <i>models</i>
+<i>deployed</i> <i>at</i> <i>the</i> <i>edge</i> <i>in</i> <i>Cloud</i> <i>AutoML</i> <i>Vision.</i>
+To account for these trade-offs, we need a solution that balances the reduced size and
+latency of edge models against the added sophistication and accuracy of cloud
+models.

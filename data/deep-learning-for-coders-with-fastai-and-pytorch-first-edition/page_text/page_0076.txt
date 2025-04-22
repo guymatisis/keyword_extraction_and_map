@@ -1,0 +1,26 @@
+Now let’s see whether the mistakes the model is making are mainly thinking that griz‐
+zlies are teddies (that would be bad for safety!), or that grizzlies are black bears, or
+something else. To visualize this, we can create a <i>confusion</i> <i>matrix:</i>
+interp = ClassificationInterpretation.from_learner(learn)
+interp.plot_confusion_matrix()
+The rows represent all the black, grizzly, and teddy bears in our dataset, respectively.
+The columns represent the images that the model predicted as black, grizzly, and
+teddy bears, respectively. Therefore, the diagonal of the matrix shows the images that
+were classified correctly, and the off-diagonal cells represent those that were classified
+incorrectly. This is one of the many ways that fastai allows you to view the results of
+your model. It is (of course!) calculated using the validation set. With the color-
+coding, the goal is to have white everywhere except the diagonal, where we want dark
+blue. Our bear classifier isn’t making many mistakes!
+It’s helpful to see where exactly our errors are occurring, to see whether they’re due to
+a dataset problem (e.g., images that aren’t bears at all, or are labeled incorrectly) or a
+model problem (perhaps it isn’t handling images taken with unusual lighting, or from
+a different angle, etc.). To do this, we can sort our images by their loss.
+The <i>loss</i> is a number that is higher if the model is incorrect (especially if it’s also confi‐
+dent of its incorrect answer), or if it’s correct but not confident of its correct answer.
+In the beginning of Part II, we’ll learn in depth how loss is calculated and used in the
+plot_top_losses
+training process. For now, shows us the images with the highest
+loss in our dataset. As the title of the output says, each image is labeled with four
+things: prediction, actual (target label), loss, and probability. The <i>probability</i> here is
+the confidence level, from zero to one, that the model has assigned to its prediction:
+interp.plot_top_losses(5, nrows=1)

@@ -1,0 +1,37 @@
+Let’s consider another example: recommendation systems. The <i>objective</i> of a recom‐
+mendation engine is to drive additional sales by surprising and delighting the cus‐
+tomer with recommendations of items they would not have purchased without the
+recommendation. The <i>lever</i> is the ranking of the recommendations. New <i>data</i> must
+be collected to generate recommendations that will <i>cause</i> <i>new</i> <i>sales.</i> This will require
+conducting many randomized experiments in order to collect data about a wide
+range of recommendations for a wide range of customers. This is a step that few
+organizations take; but without it, you don’t have the information you need to opti‐
+mize recommendations based on your true objective (more sales!).
+Finally, you could build two <i>models</i> for purchase probabilities, conditional on seeing
+or not seeing a recommendation. The difference between these two probabilities is a
+utility function for a given recommendation to a customer. It will be low in cases
+where the algorithm recommends a familiar book that the customer has already
+rejected (both components are small) or a book that they would have bought even
+without the recommendation (both components are large and cancel each other out).
+As you can see, in practice often the practical implementation of your models will
+require a lot more than just training a model! You’ll often need to run experiments to
+collect more data, and consider how to incorporate your models into the overall sys‐
+tem you’re developing. Speaking of data, let’s now focus on how to find data for your
+project.
+<header><largefont><b>Gathering</b></largefont> <largefont><b>Data</b></largefont></header>
+For many types of projects, you may be able to find all the data you need online. The
+project we’ll be completing in this chapter is a <i>bear</i> <i>detector.</i> It will discriminate
+between three types of bear: grizzly, black, and teddy bears. There are many images
+on the internet of each type of bear that we can use. We just need a way to find them
+and download them.
+We’ve provided a tool you can use for this purpose, so you can follow along with this
+chapter and create your own image recognition application for whatever kinds of
+objects you’re interested in. In the fast.ai course, thousands of students have presen‐
+ted their work in the course forums, displaying everything from hummingbird variet‐
+ies in Trinidad to bus types in Panama—one student even created an application that
+would help his fiancée recognize his 16 cousins during Christmas vacation!
+At the time of writing, Bing Image Search is the best option we know of for finding
+and downloading images. It’s free for up to 1,000 queries per month, and each query
+can download up to 150 images. However, something better might have come along
+between when we wrote this and when you’re reading the book, so be sure to check
+out this book’s website for our current recommendation.

@@ -1,0 +1,44 @@
+(CNN) -- Usain Bolt rounded off the world championships Sunday by claiming his
+third gold in Moscow as he anchored Jamaica to victory in the men's 4x100m
+relay.
+The fastest man in the world charged clear of United States rival Justin Gatlin
+as the Jamaican quartet of Nesta Carter, Kemar Bailey-Cole, Nickel Ashmeade and
+Bolt won in 37.36 seconds.
+The U.S finished second in 37.56 seconds with Canada taking the bronze after
+Britain were disqualified for a faulty handover.
+GPT2
+Nesta, the fastest man in the world.
+Gatlin, the most successful Olympian ever.
+Kemar, a Jamaican legend.
+Shelly-Ann, the fastest woman ever.
+Bolt, the world's greatest athlete.
+The team sport of pole vaulting
+T5
+usain bolt wins his third gold medal of the world championships in the men's
+4x100m relay .
+the 26-year-old anchored Jamaica to victory in the event in the Russian capital
+.
+he has now collected eight gold medals at the championships, equaling the record
+.
+BART
+Usain Bolt wins his third gold of the world championships in Moscow.
+Bolt anchors Jamaica to victory in the men's 4x100m relay.
+The 26-year-old has now won eight gold medals at world championships.
+Jamaica's women also win gold in the relay, beating France in the process.
+PEGASUS
+Usain Bolt wins third gold of world championships.
+Anchors Jamaica to victory in men's 4x100m relay.
+Eighth gold at the championships for Bolt.
+Jamaica also win women's 4x100m relay .
+The first thing we notice by looking at the model outputs is that the summary gener‐
+ated by GPT-2 is quite different from the others. Instead of giving a summary of the
+text, it summarizes the characters. Often the GPT-2 model “hallucinates” or invents
+facts, since it was not explicitly trained to generate truthful summaries. For example,
+at the time of writing, Nesta is not the fastest man in the world, but sits in ninth place.
+Comparing the other three model summaries against the ground truth, we see that
+there is remarkable overlap, with PEGASUS’s output bearing the most striking
+resemblance.
+Now that we have inspected a few models, let’s try to decide which one we would use
+in a production setting. All four models seem to provide qualitatively reasonable
+results, and we could generate a few more examples to help us decide. However, this
+is not a systematic way of determining the best model! Ideally, we would define a

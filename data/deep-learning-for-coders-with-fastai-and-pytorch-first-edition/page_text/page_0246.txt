@@ -1,0 +1,31 @@
+As we can see, using TTA gives us good a boost in performance, with no additional
+training required. However, it does make inference slower—if you’re averaging five
+images for TTA, inference will be five times slower.
+We’ve seen a few examples of how data augmentation helps train better models. Let’s
+now focus on a new data augmentation technique called <i>Mixup.</i>
+<header><largefont><b>Mixup</b></largefont></header>
+Mixup, introduced in the 2017 paper "mixup: Beyond Empirical Risk Minimization”
+by Hongyi Zhang et al., is a powerful data augmentation technique that can provide
+dramatically higher accuracy, especially when you don’t have much data and don’t
+have a pretrained model that was trained on data similar to your dataset. The paper
+explains: “While data augmentation consistently leads to improved generalization, the
+procedure is dataset-dependent, and thus requires the use of expert knowledge.” For
+instance, it’s common to flip images as part of data augmentation, but should you flip
+only horizontally or also vertically? The answer is that it depends on your dataset. In
+addition, if flipping (for instance) doesn’t provide enough data augmentation for you,
+you can’t “flip more.” It’s helpful to have data augmentation techniques that “dial up”
+or “dial down” the amount of change, to see what works best for you.
+Mixup works as follows, for each image:
+1. Select another image from your dataset at random.
+2. Pick a weight at random.
+3. Take a weighted average (using the weight from step 2) of the selected image with
+your image; this will be your independent variable.
+4. Take a weighted average (with the same weight) of this image’s labels with your
+image’s labels; this will be your dependent variable.
+In pseudocode, we’re doing this (where t is the weight for our weighted average):
+image2,target2 = dataset[randint(0,len(dataset)]
+t = random_float(0.5,1.0)
+new_image = t * image1 + (1-t) * image2
+new_target = t * target1 + (1-t) * target2
+For this to work, our targets need to be one-hot encoded. The paper describes this
+using the equations in Figure 7-1 (where <i>λ</i> is the same as t in our pseudocode).

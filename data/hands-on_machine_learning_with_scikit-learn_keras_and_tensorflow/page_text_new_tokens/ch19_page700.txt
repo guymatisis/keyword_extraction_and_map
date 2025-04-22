@@ -1,0 +1,41 @@
+<i>thread</i> <i>pool</i> (shared by all multithreaded CPU kernels). In short, multiple operations
+and suboperations may be evaluated in parallel on different CPU cores.
+For the GPU, things are a bit simpler. Operations in a GPU’s evaluation queue are
+evaluated sequentially. However, most operations have multithreaded GPU kernels,
+typically implemented by libraries that TensorFlow depends on, such as CUDA and
+cuDNN. These implementations have their own thread pools, and they typically
+exploit as many GPU threads as they can (which is the reason why there is no need
+for an inter-op thread pool in GPUs: each operation already floods most GPU
+threads).
+For example, in Figure 19-14, operations A, B, and C are source ops, so they can
+immediately be evaluated. Operations A and B are placed on the CPU, so they are
+sent to the CPU’s evaluation queue, then they are dispatched to the inter-op thread
+pool and immediately evaluated in parallel. Operation A happens to have a multi‐
+threaded kernel; its computations are split into three parts, which are executed in par‐
+allel by the intra-op thread pool. Operation C goes to GPU 0’s evaluation queue, and
+in this example its GPU kernel happens to use cuDNN, which manages its own intra-
+op thread pool and runs the operation across many GPU threads in parallel. Suppose
+C finishes first. The dependency counters of D and E are decremented and they reach
+zero, so both operations are pushed to GPU 0’s evaluation queue, and they are exe‐
+cuted sequentially. Note that C only gets evaluated once, even though both D and E
+depend on it. Suppose B finishes next. Then F’s dependency counter is decremented
+from 4 to 3, and since that’s not 0, it does not run yet. Once A, D, and E are finished,
+then F’s dependency counter reaches 0, and it is pushed to the CPU’s evaluation
+queue and evaluated. Finally, TensorFlow returns the requested outputs.
+An extra bit of magic that TensorFlow performs is when the TF Function modifies a
+stateful resource, such as a variable: it ensures that the order of execution matches the
+order in the code, even if there is no explicit dependency between the statements. For
+example, if your TF Function contains v.assign_add(1) followed by v.assign(v *
+2)
+, TensorFlow will ensure that these operations are executed in that order.
+You can control the number of threads in the inter-op thread
+tf.config.threading.set_inter_op_parallel
+pool by calling
+ism_threads()
+. To set the number of intra-op threads, use
+tf.config.threading.set_intra_op_parallelism_threads()
+.
+This is useful if you want do not want TensorFlow to use all the
+single-threaded.16
+CPU cores or if you want it to be
+16 Thiscanbeusefulifyouwanttoguaranteeperfectreproducibility,asIexplaininthisvideo,basedonTF1.

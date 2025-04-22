@@ -1,0 +1,27 @@
+c3a_model = train_distance_model(ddlop,
+PROJECT_ID, c2a_input.outputs['created_table'], 'Typical')
+c3b_model = train_distance_model(ddlop,
+PROJECT_ID, c2b_input.outputs['created_table'], 'Long')
+...
+The entire pipeline can be submitted for running, and different runs of the experi‐
+ment tracked using the Pipelines framework.
+If we are using TFX as our pipeline framework (we can run TFX on
+Kubeflow Pipelines), then it is not necessary to deploy the
+upstream models in order to use their output predictions in down‐
+stream models. Instead, we can use the TensorFlow Transform
+method tft.apply_saved_model as part of our preprocessing
+operations. The Transform design pattern is discussed in
+Chapter 6.
+Use of a pipeline-experiment framework is strongly suggested whenever we will have
+chained ML models. Such a framework will ensure that downstream models are
+retrained whenever upstream models are revised and that we have a history of all the
+previous training runs.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+Don’t go overboard with the Cascade design pattern—unlike many of the design pat‐
+terns we cover in this book, Cascade is not necessarily a best practice. It adds quite a
+bit of complexity to your machine learning workflows and may actually result in
+poorer performance. Note that a pipeline-experiment framework is definitely best
+practice, but as much as possible, try to limit a pipeline to a single machine learning
+problem (ingest, preprocessing, data validation, transformation, training, evaluation,
+and deployment). Avoid having, as in the Cascade pattern, multiple machine learning
+models in the same pipeline.

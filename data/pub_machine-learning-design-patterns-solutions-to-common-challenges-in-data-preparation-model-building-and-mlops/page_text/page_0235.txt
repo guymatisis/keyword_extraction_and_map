@@ -1,0 +1,13 @@
+To illustrate the Two-Phase Predictions pattern, let’s employ a general-purpose audio
+recognition dataset from Kaggle. The dataset contains around 9,000 audio samples of
+familiar sounds with a total of 41 label categories, including “cello,” “knock,” “tele‐
+phone,” “trumpet,” and more. The first phase of our solution will be a model that
+predicts whether or not the given sound is a musical instrument. Then, for sounds
+that the first model predicts are an instrument, we’ll get a prediction from a model
+deployed in the cloud to predict the specific instrument from a total of 18 possible
+options. Figure 5-10 shows the two-phased flow for this example.
+<i>Figure</i> <i>5-10.</i> <i>Using</i> <i>the</i> <i>Two-Phase</i> <i>Predictions</i> <i>pattern</i> <i>to</i> <i>identify</i> <i>instrument</i> <i>sounds.</i>
+To build each of these models, we’ll convert the audio data to spectrograms, which
+are visual representations of sound. This will allow us to use common image model
+architectures along with the Transfer Learning design pattern to solve this problem.
+See Figure 5-11 for a spectrogram of a saxophone audio clip from our dataset.

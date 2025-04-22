@@ -1,0 +1,36 @@
+We need the <i>F</i> -score to choose the best model, so we need to make sure it is calcula‐
+1
+ted during the evaluation. Because the model returns the logits, we first need to nor‐
+malize the predictions with a sigmoid function and can then binarize them with a
+simple threshold. Then we return the scores we are interested in from the classifica‐
+tion report:
+<b>from</b> <b>scipy.special</b> <b>import</b> expit <b>as</b> sigmoid
+<b>def</b> compute_metrics(pred):
+y_true = pred.label_ids
+y_pred = sigmoid(pred.predictions)
+y_pred = (y_pred>0.5).astype(float)
+clf_dict = classification_report(y_true, y_pred, target_names=all_labels,
+zero_division=0, output_dict=True)
+<b>return</b> {"micro f1": clf_dict["micro avg"]["f1-score"],
+"macro f1": clf_dict["macro avg"]["f1-score"]}
+Now we are ready to rumble! For each training set slice we train a classifier from
+scratch, load the best model at the end of the training loop, and store the results on
+the test set:
+config = AutoConfig.from_pretrained(model_ckpt)
+config.num_labels = len(all_labels)
+config.problem_type = "multi_label_classification"
+<b>for</b> train_slice <b>in</b> train_slices:
+model = AutoModelForSequenceClassification.from_pretrained(model_ckpt,
+config=config)
+trainer = Trainer(
+model=model, tokenizer=tokenizer,
+args=training_args_fine_tune,
+compute_metrics=compute_metrics,
+train_dataset=ds_enc["train"].select(train_slice),
+eval_dataset=ds_enc["valid"],)
+trainer.train()
+pred = trainer.predict(ds_enc["test"])
+metrics = compute_metrics(pred)
+macro_scores["Fine-tune (vanilla)"].append(metrics["macro f1"])
+micro_scores["Fine-tune (vanilla)"].append(metrics["micro f1"])
+plot_metrics(micro_scores, macro_scores, train_samples, "Fine-tune (vanilla)")

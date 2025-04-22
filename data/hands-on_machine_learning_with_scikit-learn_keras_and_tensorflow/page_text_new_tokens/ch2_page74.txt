@@ -1,0 +1,44 @@
+Scikit-Learn’s cross-validation features expect a utility function
+(greater is better) rather than a cost function (lower is better), so
+the scoring function is actually the opposite of the MSE (i.e., a neg‐
+ative value), which is why the preceding code computes -scores
+before calculating the square root.
+Let’s look at the results:
+<b>>>></b> <b>def</b> display_scores(scores):
+<b>...</b> <b>print("Scores:",</b> scores)
+<b>...</b> <b>print("Mean:",</b> scores.mean())
+<b>...</b> <b>print("Standard</b> deviation:", scores.std())
+<b>...</b>
+<b>>>></b> display_scores(tree_rmse_scores)
+Scores: [70194.33680785 66855.16363941 72432.58244769 70758.73896782
+71115.88230639 75585.14172901 70262.86139133 70273.6325285
+75366.87952553 71231.65726027]
+Mean: 71407.68766037929
+Standard deviation: 2439.4345041191004
+Now the Decision Tree doesn’t look as good as it did earlier. In fact, it seems to per‐
+form worse than the Linear Regression model! Notice that cross-validation allows
+you to get not only an estimate of the performance of your model, but also a measure
+of how precise this estimate is (i.e., its standard deviation). The Decision Tree has a
+score of approximately 71,407, generally ±2,439. You would not have this information
+if you just used one validation set. But cross-validation comes at the cost of training
+the model several times, so it is not always possible.
+Let’s compute the same scores for the Linear Regression model just to be sure:
+<b>>>></b> lin_scores = cross_val_score(lin_reg, housing_prepared, housing_labels,
+<b>...</b> scoring="neg_mean_squared_error", cv=10)
+<b>...</b>
+<b>>>></b> lin_rmse_scores = np.sqrt(-lin_scores)
+<b>>>></b> display_scores(lin_rmse_scores)
+Scores: [66782.73843989 66960.118071 70347.95244419 74739.57052552
+68031.13388938 71193.84183426 64969.63056405 68281.61137997
+71552.91566558 67665.10082067]
+Mean: 69052.46136345083
+Standard deviation: 2731.674001798348
+That’s right: the Decision Tree model is overfitting so badly that it performs worse
+than the Linear Regression model.
+RandomForestRegressor
+Let’s try one last model now: the . As we will see in Chap‐
+ter 7, Random Forests work by training many Decision Trees on random subsets of
+the features, then averaging out their predictions. Building a model on top of many
+other models is called <i>Ensemble</i> <i>Learning,</i> and it is often a great way to push ML algo‐
+rithms even further. We will skip most of the code since it is essentially the same as
+for the other models:

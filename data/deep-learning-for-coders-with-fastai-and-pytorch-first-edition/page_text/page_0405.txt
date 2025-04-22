@@ -1,0 +1,16 @@
+path = untar_data(URLs.MNIST_SAMPLE)
+im3 = Image.open(path/'train'/'3'/'12.png')
+show_image(im3);
+Now we’re going to take the top 3×3-pixel square of our image, and multiply each of
+those values by each item in our kernel. Then we’ll add them up, like so:
+im3_t = tensor(im3)
+im3_t[0:3,0:3] * top_edge
+tensor([[-0., -0., -0.],
+[0., 0., 0.],
+[0., 0., 0.]])
+(im3_t[0:3,0:3] * top_edge).sum()
+tensor(0.)
+Not very interesting so far—all the pixels in the top-left corner are white. But let’s
+pick a couple of more interesting spots:
+df = pd.DataFrame(im3_t[:10,:20])
+df.style.set_properties(**{'font-size':'6pt'}).background_gradient('Greys')

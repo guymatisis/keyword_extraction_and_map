@@ -1,0 +1,36 @@
+the training GPUs busy, and providing less-correlated trajectories to the training
+algorithm.
+• What is a <i>trajectory?</i> It is a concise representation of a <i>transition</i> from one time
+step to the next, or a sequence of consecutive transitions from time step <i>n</i> to time
+step <i>n</i> + <i>t.</i> The trajectories collected by the driver are passed to the observer,
+which saves them in the replay buffer, and they are later sampled by the agent
+and used for training.
+• Why do we need an observer? Can’t the driver save the trajectories directly?
+Indeed, it could, but this would make the architecture less flexible. For example,
+what if you don’t want to use a replay buffer? What if you want to use the trajec‐
+tories for something else, like computing metrics? In fact, an observer is just any
+function that takes a trajectory as an argument. You can use an observer to save
+the trajectories to a replay buffer, or to save them to a TFRecord file (see Chap‐
+ter 13), or to compute metrics, or for anything else. Moreover, you can pass mul‐
+tiple observers to the driver, and it will broadcast the trajectories to all of them.
+Although this architecture is the most common, you can customize
+it as you please, and even replace some components with your own.
+In fact, unless you are researching new RL algorithms, you will
+most likely want to use a custom environment for your task. For
+this, you just need to create a custom class that inherits from the
+PyEnvironment class in the tf_agents.environments.py_environ
+ment package and overrides the appropriate methods, such as
+action_spec() , observation_spec() , _reset() , and _step() (see
+the “Creating a Custom TF_Agents Environment” section of the
+notebook for an example).
+Now we will create all these components: first the Deep Q-Network, then the DQN
+agent (which will take care of creating the collect policy), then the replay buffer and
+the observer to write to it, then a few training metrics, then the driver, and finally the
+dataset. Once we have all the components in place, we will populate the replay buffer
+with some initial trajectories, then we will run the main training loop. So, let’s start by
+creating the Deep Q-Network.
+<header><largefont><b>Creating</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Deep</b></largefont> <largefont><b>Q-Network</b></largefont></header>
+tf_agents.networks
+The TF-Agents library provides many networks in the package
+and its subpackages. We will use the tf_agents.networks.q_network.QNetwork
+class:

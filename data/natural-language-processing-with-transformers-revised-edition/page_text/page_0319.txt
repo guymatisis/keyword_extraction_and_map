@@ -1,0 +1,41 @@
+'................................................................',
+'ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ',
+'
+----------------------------------------------------------------
+',
+'================================================================',
+'________________________________________________________________']
+These tokens look like separator lines that are likely to be used on forums. This
+makes sense since GPT-2 was trained on a corpus centered around Reddit. Now let’s
+have a look at the last words that were added to the vocabulary, and thus the least
+frequent ones:
+tokens = sorted(tokenizer.vocab.items(), key=lambda x: x[1], reverse=True)
+<b>print([f'{tokenizer.convert_tokens_to_string(t)}'</b> <b>for</b> t, _ <b>in</b> tokens[:12]]);
+['<|endoftext|>', ' gazed', ' informants', ' Collider', ' regress', 'ominated',
+' amplification', 'Compar', '..."', ' (/', 'Commission', ' Hitman']
+The first token, <|endoftext|> , is the special token used to specify the end of a text
+sequence and was added after the BPE vocabulary was built. For each of these tokens
+our model will have to learn an associated word embedding, and we probably don’t
+want the embedding matrix to contain too many noisy words. Also note how some
+very time- and space-specific knowledge of the world (e.g., proper nouns like Hitman
+and Commission ) is embedded at a very low level in our modeling approach by these
+words being granted separate tokens with associated vectors in the vocabulary. The
+creation of such specific tokens by a BPE tokenizer can also be an indication that the
+target vocabulary size is too large or that the corpus contains idiosyncratic tokens.
+Let’s train a fresh tokenizer on our corpus and examine its learned vocabulary. Since
+we just need a corpus reasonably representative of our dataset statistics, let’s select
+about 1–2 GB of data, or about 100,000 documents from our corpus:
+<b>from</b> <b>tqdm.auto</b> <b>import</b> tqdm
+length = 100000
+dataset_name = 'transformersbook/codeparrot-train'
+dataset = load_dataset(dataset_name, split="train", streaming=True)
+iter_dataset = iter(dataset)
+<b>def</b> batch_iterator(batch_size=10):
+<b>for</b> _ <b>in</b> tqdm(range(0, length, batch_size)):
+<b>yield</b> [next(iter_dataset)['content'] <b>for</b> _ <b>in</b> range(batch_size)]
+new_tokenizer = tokenizer.train_new_from_iterator(batch_iterator(),
+vocab_size=12500,
+initial_alphabet=base_vocab)
+Let’s investigate the first and last words created by our BPE algorithm to see how rele‐
+vant our vocabulary is. We skip the 256 byte tokens and look at the first tokens added
+thereafter:

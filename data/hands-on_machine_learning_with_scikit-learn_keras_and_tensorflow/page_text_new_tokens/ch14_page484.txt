@@ -1,0 +1,39 @@
+predict the horizontal and vertical coordinates of the object’s center, as well as its
+height and width. This means we have four numbers to predict. It does not require
+much change to the model; we just need to add a second dense output layer with four
+units (typically on top of the global average pooling layer), and it can be trained using
+the MSE loss:
+base_model = keras.applications.xception.Xception(weights="imagenet",
+include_top=False)
+avg = keras.layers.GlobalAveragePooling2D()(base_model.output)
+class_output = keras.layers.Dense(n_classes, activation="softmax")(avg)
+loc_output = keras.layers.Dense(4)(avg)
+model = keras.Model(inputs=base_model.input,
+outputs=[class_output, loc_output])
+model.compile(loss=["sparse_categorical_crossentropy", "mse"],
+loss_weights=[0.8, 0.2], <i>#</i> <i>depends</i> <i>on</i> <i>what</i> <i>you</i> <i>care</i> <i>most</i> <i>about</i>
+optimizer=optimizer, metrics=["accuracy"])
+But now we have a problem: the flowers dataset does not have bounding boxes
+around the flowers. So, we need to add them ourselves. This is often one of the hard‐
+est and most costly parts of a Machine Learning project: getting the labels. It’s a good
+idea to spend time looking for the right tools. To annotate images with bounding
+boxes, you may want to use an open source image labeling tool like VGG Image
+Annotator, LabelImg, OpenLabeler, or ImgLab, or perhaps a commercial tool like
+LabelBox or Supervisely. You may also want to consider crowdsourcing platforms
+such as Amazon Mechanical Turk if you have a very large number of images to anno‐
+tate. However, it is quite a lot of work to set up a crowdsourcing platform, prepare the
+form to be sent to the workers, supervise them, and ensure that the quality of the
+bounding boxes they produce is good, so make sure it is worth the effort. If there are
+just a few thousand images to label, and you don’t plan to do this frequently, it may be
+preferable to do it yourself. Adriana Kovashka et al. wrote a very practical paper24
+about crowdsourcing in computer vision. I recommend you check it out, even if you
+do not plan to use crowdsourcing.
+Let’s suppose you’ve obtained the bounding boxes for every image in the flowers data‐
+set (for now we will assume there is a single bounding box per image). You then need
+to create a dataset whose items will be batches of preprocessed images along with
+their class labels and their bounding boxes. Each item should be a tuple of the form
+(images, (class_labels, bounding_boxes)).
+Then you are ready to train your
+model!
+24 AdrianaKovashkaetal.,“CrowdsourcinginComputerVision,”FoundationsandTrendsinComputerGraphics
+<i>andVision10,no.3(2014):177–243.</i>

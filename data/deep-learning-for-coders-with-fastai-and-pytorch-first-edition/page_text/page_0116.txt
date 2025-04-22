@@ -1,0 +1,33 @@
+• Algorithmic systems are cheap.
+Even in the absence of bias, algorithms (and deep learning especially, since it is such
+an effective and scalable algorithm) can lead to negative societal problems, such as
+when used for <i>disinformation.</i>
+<header><largefont><b>Disinformation</b></largefont></header>
+<i>Disinformation</i> has a history stretching back hundreds or even thousands of years. It
+is not necessarily about getting someone to believe something false, but rather often
+used to sow disharmony and uncertainty, and to get people to give up on seeking the
+truth. Receiving conflicting accounts can lead people to assume that they can never
+know whom or what to trust.
+Some people think disinformation is primarily about false information or <i>fake</i> <i>news,</i>
+but in reality, disinformation can often contain seeds of truth, or half-truths taken out
+of context. Ladislav Bittman was an intelligence officer in the USSR who later defec‐
+ted to the US and wrote some books in the 1970s and 1980s on the role of disinfor‐
+mation in Soviet propaganda operations. In <i>The</i> <i>KGB</i> <i>and</i> <i>Soviet</i> <i>Disinformation</i>
+(Pergamon), he wrote “Most campaigns are a carefully designed mixture of facts,
+half-truths, exaggerations, and deliberate lies.”
+In the US, this has hit close to home in recent years, with the FBI detailing a massive
+disinformation campaign linked to Russia in the 2016 election. Understanding the
+disinformation that was used in this campaign is very educational. For instance, the
+FBI found that the Russian disinformation campaign often organized two separate
+fake “grass roots” protests, one for each side of an issue, and got them to protest at the
+same time! The Houston Chronicle reported on one of these odd events
+(Figure 3-15):
+A group that called itself the “Heart of Texas” had organized it on social media—a pro‐
+test, they said, against the “Islamization” of Texas. On one side of Travis Street, I found
+about 10 protesters. On the other side, I found around 50 counterprotesters. But I
+couldn’t find the rally organizers. No “Heart of Texas.” I thought that was odd, and
+mentioned it in the article: What kind of group is a no-show at its own event? Now I
+know why. Apparently, the rally’s organizers were in Saint Petersburg, Russia, at the
+time. “Heart of Texas” is one of the internet troll groups cited in Special Prosecutor
+Robert Mueller’s recent indictment of Russians attempting to tamper with the US pres‐
+idential election.

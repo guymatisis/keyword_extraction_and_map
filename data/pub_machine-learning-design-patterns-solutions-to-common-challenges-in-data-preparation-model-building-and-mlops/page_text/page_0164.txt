@@ -1,0 +1,16 @@
+<i>Figure</i> <i>4-13.</i> <i>Transfer</i> <i>learning</i> <i>involves</i> <i>training</i> <i>a</i> <i>model</i> <i>on</i> <i>a</i> <i>large</i> <i>dataset.</i> <i>The</i> <i>“top”</i>
+<i>of</i> <i>the</i> <i>model</i> <i>(typically,</i> <i>just</i> <i>the</i> <i>output</i> <i>layer)</i> <i>is</i> <i>removed</i> <i>and</i> <i>the</i> <i>remaining</i> <i>layers</i> <i>have</i>
+<i>their</i> <i>weights</i> <i>frozen.</i> <i>The</i> <i>last</i> <i>layer</i> <i>of</i> <i>the</i> <i>remaining</i> <i>model</i> <i>is</i> <i>called</i> <i>the</i> <i>bottleneck</i> <i>layer.</i>
+<b>Bottlenecklayer</b>
+In relation to an entire model, the bottleneck layer represents the input (typically an
+image or text document) in the lowest-dimensionality space. More specifically, when
+we feed data into our model, the first layers see this data nearly in its original form.
+To see how this works, let’s continue with a medical imaging example, but this time
+we’ll build a model with a colorectal histology dataset to classify the histology images
+into one of eight categories.
+To explore the model we are going to use for transfer learning, let’s load the VGG
+model architecture pre-trained on the ImageNet dataset:
+vgg_model_withtop = tf.keras.applications.VGG19(
+include_top=True,
+weights='imagenet',
+)

@@ -1,0 +1,37 @@
+Within the discovery stage, it can be helpful to do a few modeling experiments to see
+if there really is “signal in the noise.” At this point, it could be beneficial to perform a
+machine learning feasibility study (Step 3). Just as it sounds, this is typically a short
+technical sprint spanning only a few weeks whose goal is to assess the viability of the
+data for solving the problem. This provides a chance to explore options for framing
+the machine learning problem, experiment with algorithm selection, and learn which
+feature engineering steps would be most beneficial. The feasibility study step in the
+discovery stage is also a good point at which to create a Heuristic Benchmark (see
+Chapter 7).
+<b>Development</b>
+After agreeing on key evaluation metrics and business KPIs, the development stage of
+the machine learning life cycle begins. The details of developing an ML model are
+covered in detail in many machine learning resources. Here, we highlight the key
+components.
+During the development stage, we begin by building data pipelines and engineering
+features (Step 4 of Figure 8-2) to process the data inputs that will be fed to the model.
+The data collected in real-world applications can have many issues such as missing
+values, invalid examples, or duplicate data points. Data pipelines are needed to pre‐
+process these data inputs so that they can be used by the model. Feature engineering
+is the process of transforming raw input data into features that are more closely
+aligned with the model’s learning objective and expressed in a format that can be fed
+to the model for training. Feature engineering techniques can involve bucketizing
+inputs, converting between data formats, tokenizing and stemming text, creating cat‐
+egorical features or one-hot encoding, hashing inputs, creating feature crosses and
+feature embeddings, and many others. Chapter 2 of this book discusses Data Repre‐
+sentation design patterns and covers many data aspects that arise during this stage of
+the ML life cycle. Chapter 5 and Chapter 6 describe patterns related to resilience and
+reproducibility in ML systems, which help in building data pipelines.
+This step may also involve engineering the labels for the problem and design deci‐
+sions related to how the problem is represented. For example, for time-series prob‐
+lems, this may involve creating feature windows and experimenting with lag times
+and the size of label intervals. Or perhaps it’s helpful to reframe a regression problem
+as a classification and change the representation of the labels entirely. Or maybe it is
+necessary to employ rebalancing techniques, if the distribution of output classes is
+overrepresented by a single class. Chapter 3 of this book is focused on problem repre‐
+sentation and addresses these and other important design patterns that are related to
+problem framing.

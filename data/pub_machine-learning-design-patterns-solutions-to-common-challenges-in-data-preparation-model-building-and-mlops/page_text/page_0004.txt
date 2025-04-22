@@ -1,0 +1,41 @@
+<header><largefont><b>Models</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Frameworks</b></largefont></header>
+At its core, <i>machine</i> <i>learning</i> is a process of building models that learn from data.
+This is in contrast to traditional programming where we write explicit rules that tell
+programs how to behave. Machine learning <i>models</i> are algorithms that learn patterns
+from data. To illustrate this point, imagine we are a moving company and need to
+estimate moving costs for potential customers. In traditional programming, we might
+solve this with an if statement:
+<b>if</b> num_bedrooms == 2 <b>and</b> num_bathrooms == 2:
+estimate = 1500
+<b>elif</b> num_bedrooms == 3 <b>and</b> sq_ft > 2000:
+estimate = 2500
+You can imagine how this will quickly get complicated as we add more variables
+(number of large furniture items, amount of clothing, fragile items, and so on) and
+try to handle edge cases. More to the point, asking for all this information ahead of
+time from customers can cause them to abandon the estimation process. Instead, we
+can train a machine learning model to estimate moving costs based on past data on
+previous households our company has moved.
+Throughout the book, we primarily use feed-forward neural network models in our
+examples, but we’ll also reference linear regression models, decision trees, clustering
+models, and others. <i>Feed-forward</i> <i>neural</i> <i>networks,</i> which we will commonly shorten
+as <i>neural</i> <i>networks,</i> are a type of machine learning algorithm whereby multiple layers,
+each with many neurons, analyze and process information and then send that infor‐
+mation to the next layer, resulting in a final layer that produces a prediction as out‐
+put. Though they are in no way identical, neural networks are often compared to the
+neurons in our brain because of the connectivity between nodes and the way they are
+able to generalize and form new predictions from the data they process. Neural net‐
+works with more than one <i>hidden</i> <i>layer</i> (layers other than the input and output layer)
+are classified as <i>deep</i> <i>learning</i> (see Figure 1-1).
+Machine learning models, regardless of how they are depicted visually, are mathe‐
+matical functions and can therefore be implemented from scratch using a numerical
+software package. However, ML engineers in industry tend to employ one of several
+open source frameworks designed to provide intuitive APIs for building models. The
+majority of our examples will use <i>TensorFlow,</i> an open source machine learning
+framework created by Google with a focus on deep learning models. Within the
+TensorFlow library, we’ll be using the <i>Keras</i> API in our examples, which can be
+imported through tensorflow.keras. Keras is a higher-level API for build
+ing neural networks
+. While Keras supports many backends, we’ll be using its
+TensorFlow backend. In other examples, we’ll be using <i>scikit-learn,</i> <i>XGBoost,</i> and
+<i>PyTorch,</i> which are other popular open source frameworks that provide utilities for
+preparing your data, along with APIs for building linear and deep models. Machine

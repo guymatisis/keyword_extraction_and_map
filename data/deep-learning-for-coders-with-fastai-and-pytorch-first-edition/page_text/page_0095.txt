@@ -1,0 +1,36 @@
+<i>Bias</i>
+When a traditionally African-American name is searched for on Google, it dis‐
+plays ads for criminal background checks.
+In fact, for every concept that we introduce in this chapter, we are going to provide at
+least one specific example. For each one, think about what you could have done in
+this situation, and what kinds of obstructions there might have been to you getting
+that done. How would you deal with them? What would you look out for?
+<header><largefont><b>Bugs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Recourse:</b></largefont> <largefont><b>Buggy</b></largefont> <largefont><b>Algorithm</b></largefont> <largefont><b>Used</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Healthcare</b></largefont> <largefont><b>Benefits</b></largefont></header>
+The Verge investigated software used in over half of the US states to determine how
+much healthcare people receive, and documented its findings in the article “What
+Happens When an Algorithm Cuts Your Healthcare”. After implementation of the
+algorithm in Arkansas, hundreds of people (many with severe disabilities) had their
+healthcare drastically cut.
+For instance, Tammy Dobbs, a woman with cerebral palsy who needs an aide to help
+her to get out of bed, to go to the bathroom, to get food, and more, had her hours of
+help suddenly reduced by 20 hours a week. She couldn’t get any explanation for why
+her healthcare was cut. Eventually, a court case revealed that there were mistakes in
+the software implementation of the algorithm, negatively impacting people with dia‐
+betes or cerebral palsy. However, Dobbs and many other people reliant on these
+health-care benefits live in fear that their benefits could again be cut suddenly and
+inexplicably.
+<header><largefont><b>Feedback</b></largefont> <largefont><b>Loops:</b></largefont> <largefont><b>YouTube’s</b></largefont> <largefont><b>Recommendation</b></largefont> <largefont><b>System</b></largefont></header>
+Feedback loops can occur when your model is controlling the next round of data you
+get. The data that is returned quickly becomes flawed by the software itself.
+For instance, YouTube has 1.9 billion users, who watch over 1 billion hours of You‐
+Tube videos a day. Its recommendation algorithm (built by Google), which was
+designed to optimize watch time, is responsible for around 70% of the content that is
+watched. But there was a problem: it led to out-of-control feedback loops, leading the
+<i>New</i> <i>York</i> <i>Times</i> to run the headline “YouTube Unleashed a Conspiracy Theory
+Boom. Can It Be Contained?” in February 2019. Ostensibly, recommendation systems
+are predicting what content people will like, but they also have a lot of power in deter‐
+mining what content people even see.
+<header><largefont><b>Bias:</b></largefont> <largefont><b>Professor</b></largefont> <largefont><b>Latanya</b></largefont> <largefont><b>Sweeney</b></largefont> <largefont><b>“Arrested”</b></largefont></header>
+Dr. Latanya Sweeney is a professor at Harvard and director of the university’s data
+privacy lab. In the paper “Discrimination in Online Ad Delivery” (see Figure 3-1), she
+describes her discovery that Googling her name resulted in advertisements saying

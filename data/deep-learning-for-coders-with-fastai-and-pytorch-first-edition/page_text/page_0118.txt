@@ -1,0 +1,30 @@
+that we need to act to make digital signatures de rigueur as a means of authentication
+of digital content.”
+While we can’t hope to discuss all the ethical issues that deep learning, and algorithms
+more generally, bring up, hopefully this brief introduction has been a useful starting
+point you can build on. We’ll now move on to the questions of how to identify ethical
+issues and what to do about them.
+<header><largefont><b>Identifying</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Addressing</b></largefont> <largefont><b>Ethical</b></largefont> <largefont><b>Issues</b></largefont></header>
+Mistakes happen. Finding out about them, and dealing with them, needs to be part of
+the design of any system that includes machine learning (and many other systems
+too). The issues raised within data ethics are often complex and interdisciplinary, but
+it is crucial that we work to address them.
+So what can we do? This is a big topic, but here are a few steps toward addressing
+ethical issues:
+• Analyze a project you are working on.
+• Implement processes at your company to find and address ethical risks.
+• Support good policy.
+• Increase diversity.
+Let’s walk through each step, starting with analyzing a project you are working on.
+<header><largefont><b>Analyze</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Project</b></largefont> <largefont><b>You</b></largefont> <largefont><b>Are</b></largefont> <largefont><b>Working</b></largefont> <largefont><b>On</b></largefont></header>
+It’s easy to miss important issues when considering ethical implications of your work.
+One thing that helps enormously is simply asking the right questions. Rachel Thomas
+recommends considering the following questions throughout the development of a
+data project:
+• Should we even be doing this?
+• What bias is in the data?
+• Can the code and data be audited?
+• What are the error rates for different subgroups?
+• What is the accuracy of a simple rule-based alternative?
+• What processes are in place to handle appeals or mistakes?
+• How diverse is the team that built it?

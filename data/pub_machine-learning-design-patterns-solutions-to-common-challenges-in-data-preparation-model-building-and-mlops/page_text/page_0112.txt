@@ -1,0 +1,41 @@
+<b>CREATE</b> <b>OR</b> <b>REPLACE</b> <b>TABLE</b> mlpatterns.Typical_trips <b>AS</b>
+<b>SELECT</b>
+* <b>EXCEPT(predicted_trip_type_probs,</b> predicted_trip_type)
+<b>FROM</b>
+ML.PREDICT(MODEL mlpatterns.classify_trips,
+(SELECT
+start_date, start_station_name, subscriber_type, ...,
+ST_Distance(start_station_geom, end_station_geom) <b>AS</b> distance
+<b>FROM</b> `bigquery-public-data.san_francisco_bikeshare.bikeshare_trips`)
+)
+<b>WHERE</b> predicted_trip_type = 'Typical' <b>AND</b> distance <b>IS</b> <b>NOT</b> <b>NULL</b>
+Then, we should use this dataset to train the model to predict distances:
+<b>CREATE</b> <b>OR</b> <b>REPLACE</b> MODEL mlpatterns.predict_distance_Typical
+<b>TRANSFORM(</b>
+distance,
+<b>EXTRACT</b> (HOUR <b>FROM</b> start_date) <b>AS</b> start_hour,
+<b>EXTRACT</b> (DAYOFWEEK <b>FROM</b> start_date) <b>AS</b> day_of_week,
+start_station_name,
+subscriber_type,
+...
+)
+<b>OPTIONS(model_type='linear_reg',</b> input_label_cols=['distance']) <b>AS</b>
+<b>SELECT</b>
+*
+<b>FROM</b>
+mlpatterns.Typical_trips
+Finally, our evaluation, prediction, etc. should take into account that we need to use
+three trained models, not just one. This is what we term the Cascade design pattern.
+In practice, it can become hard to keep a Cascade workflow straight. Rather than
+train the models individually, it is better to automate the entire workflow using the
+Workflow Pipelines pattern (Chapter 6) as shown in Figure 3-17. The key is to ensure
+that training datasets for the two downstream models are created each time the
+experiment is run based on the predictions of upstream models.
+Although we introduced the Cascade pattern as a way of predicting a value during
+both usual and unusual activity, the Cascade pattern’s solution is capable of address‐
+ing a more general situation. The pipeline framework allows us to handle any situa‐
+tion where a machine learning problem can be profitably broken into a series (or
+cascade) of ML problems. Whenever the output of a machine learning model needs
+to be fed as the input to another model, the second model needs to be trained on the
+predictions of the first model. In all such situations, a formal pipeline experimenta‐
+tion framework will be helpful.

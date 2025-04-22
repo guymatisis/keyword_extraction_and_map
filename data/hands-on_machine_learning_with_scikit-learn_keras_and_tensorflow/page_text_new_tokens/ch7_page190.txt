@@ -1,0 +1,10 @@
+<i>Figure</i> <i>7-1.</i> <i>Training</i> <i>diverse</i> <i>classifiers</i>
+A very simple way to create an even better classifier is to aggregate the predictions of
+each classifier and predict the class that gets the most votes. This majority-vote classi‐
+fier is called a <i>hard</i> <i>voting</i> classifier (see Figure 7-2).
+<i>Figure</i> <i>7-2.</i> <i>Hard</i> <i>voting</i> <i>classifier</i> <i>predictions</i>
+Somewhat surprisingly, this voting classifier often achieves a higher accuracy than the
+best classifier in the ensemble. In fact, even if each classifier is a <i>weak</i> <i>learner</i> (mean‐
+ing it does only slightly better than random guessing), the ensemble can still be a
+<i>strong</i> <i>learner</i> (achieving high accuracy), provided there are a sufficient number of
+weak learners and they are sufficiently diverse.

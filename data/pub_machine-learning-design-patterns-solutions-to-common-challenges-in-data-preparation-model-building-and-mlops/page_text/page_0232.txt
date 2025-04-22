@@ -1,0 +1,22 @@
+<i>Figure</i> <i>5-8.</i> <i>Training</i> <i>a</i> <i>model</i> <i>on</i> <i>stale</i> <i>data</i> <i>and</i> <i>evaluating</i> <i>on</i> <i>current</i> <i>data</i> <i>mimics</i> <i>the</i>
+<i>continued</i> <i>model</i> <i>evaluation</i> <i>process</i> <i>in</i> <i>an</i> <i>offline</i> <i>environment.</i>
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>19:</b></largefont> <largefont><b>Two-Phase</b></largefont> <largefont><b>Predictions</b></largefont></header>
+The Two-Phase Predictions design pattern provides a way to address the problem of
+keeping large, complex models performant when they have to be deployed on dis‐
+tributed devices by splitting the use cases into two phases, with only the simpler
+phase being carried out on the edge.
+<header><largefont><b>Problem</b></largefont></header>
+When deploying machine learning models, we cannot always rely on end users hav‐
+ing reliable internet connections. In such situations, models are deployed at the <i>edge</i>
+—meaning they are loaded on a user’s device and don’t require an internet connec‐
+tion to generate predictions. Given device constraints, models deployed on the edge
+typically need to be smaller than models deployed in the cloud, and consequently
+require balancing trade-offs between model complexity and size, update frequency,
+accuracy, and low latency.
+There are various scenarios where we’d want our model deployed on an edge device.
+One example is a fitness tracking device, where a model makes recommendations for
+users based on their activity, tracked through accelerometer and gyroscope move‐
+ment. It’s likely that a user could be exercising in a remote outdoor area without con‐
+nectivity. In these cases, we’d still want our application to work. Another example is
+an environmental application that uses temperature and other environmental data to
+make predictions on future trends. In both of these examples, even if we have inter‐

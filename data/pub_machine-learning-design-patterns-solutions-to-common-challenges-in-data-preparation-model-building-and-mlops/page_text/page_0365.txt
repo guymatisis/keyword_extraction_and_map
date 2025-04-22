@@ -1,0 +1,41 @@
+We also saw how the Rebalancing pattern could be approached by combining two
+other design patterns: Reframing and Cascade. Reframing would allow us to repre‐
+sent the imbalanced dataset as a classification of either “normal” or “outlier.” The
+output of that model would then be passed to a secondary regression model, which is
+optimized for prediction on either data distribution. These patterns will likely also
+lead to the Explainable Predictions pattern, since when dealing with imbalanced data,
+it is especially important to verify that the model is picking up on the right signals for
+prediction. In fact, it’s encouraged to consider the Explainable Predictions pattern
+when building a solution involving a cascade of multiple models, since this can limit
+model explainability. This trade-off of model explainability shows up again with the
+Ensemble and Multimodel Input patterns since these techniques also don’t lend
+themselves well to some explainability methods.
+The Cascade design pattern might also be helpful when using the Bridged Schema
+pattern and could be used as an alternative pattern by having a preliminary model
+that imputes missing values of the secondary schema. These two patterns might then
+be combined to save the resulting feature set for later use as described in the Feature
+Store pattern. This is another example which highlights the versatility of the Feature
+Store pattern and how it is often combined with other design patterns. For example, a
+feature store provides a convenient way to maintain and utilize streaming model fea‐
+tures that may arise through the Windowed Inference pattern. Feature stores also
+work hand in hand with managing different datasets that might arise in the Refram‐
+ing pattern, and provide a reusable version of the techniques that arise when using
+the Transform pattern. The feature versioning capability as discussed in the Feature
+Store pattern also plays a role with the Model Versioning design pattern.
+The Model Versioning pattern, on the other hand, is closely related to the Stateless
+Serving Function and Continued Model Evaluation patterns. In Continued Model
+Evaluation, different model versions may be used when assessing how a model’s per‐
+formance has degraded over time. Similarly, the different model signatures of the
+serving function provide an easy means of creating different model versions. This
+approach to model versioning via the Stateless Serving Function pattern can be con‐
+nected back to the Reframing pattern where two different model versions could pro‐
+vide their own REST API endpoints for the two different model output
+representations.
+We also discussed how, when using the Continued Model Evaluation pattern, it’s
+often advantageous to explore solutions presented in the Workflow Pipeline pattern
+as well, both to set up triggers that will initiate the retraining pipeline as well as main‐
+tain lineage tracking for various model versions that are created. Continued Model
+Evaluation is also closely connected to the Keyed Predictions pattern since this can
+provide a mechanism for easily joining ground truth to the model prediction outputs.
+In the same way, the Keyed Predictions pattern is also intertwined with the Batch
+Serving pattern. By the same token, the Batch Serving pattern is often used in

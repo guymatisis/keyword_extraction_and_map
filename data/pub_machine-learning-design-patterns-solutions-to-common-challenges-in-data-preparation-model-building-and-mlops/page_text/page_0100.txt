@@ -1,0 +1,38 @@
+No machine learning model is perfect. To better understand where and how our
+model is wrong, the error of an ML model can be broken down into three parts: the
+irreducible error, the error due to bias, and the error due to variance. The irreducible
+error is the inherent error in the model resulting from noise in the dataset, the fram‐
+ing of the problem, or bad training examples, like measurement errors or confound‐
+ing factors. Just as the name implies, we can’t do much about <i>irreducible</i> <i>error.</i>
+The other two, the bias and the variance, are referred to as the <i>reducible</i> <i>error,</i> and
+here is where we can influence our model’s performance. In short, the bias is the
+model’s inability to learn enough about the relationship between the model’s features
+and labels, while the variance captures the model’s inability to generalize on new,
+unseen examples. A model with high bias oversimplifies the relationship and is said
+to be <i>underfit.</i> A model with high variance has learned too much about the training
+data and is said to be <i>overfit.</i> Of course, the goal of any ML model is to have low bias
+and low variance, but in practice, it is hard to achieve both. This is known as the
+bias–variance trade-off. We can’t have our cake and eat it too. For example, increas‐
+ing model complexity decreases bias but increases variance, while decreasing model
+complexity decreases variance but introduces more bias.
+Recent work suggests that when using modern machine learning techniques such as
+large neural networks with high capacity, this behavior is valid only up to a point. In
+observed experiments, there is an “interpolation threshold” beyond which very high
+capacity models are able to achieve zero training error as well as low error on unseen
+data. Of course, we need much larger datasets in order to avoid overfitting on high-
+capacity models.
+Is there a way to mitigate this bias–variance trade-off on small- and medium-scale
+problems?
+<header><largefont><b>Solution</b></largefont></header>
+<i>Ensemble</i> <i>methods</i> are meta-algorithms that combine several machine learning mod‐
+els as a technique to decrease the bias and/or variance and improve model perfor‐
+mance. Generally speaking, the idea is that combining multiple models helps to
+improve the machine learning results. By building several models with different
+inductive biases and aggregating their outputs, we hope to get a model with better
+performance. In this section, we’ll discuss some commonly used ensemble methods,
+including bagging, boosting, and stacking.
+<b>Bagging</b>
+Bagging (short for bootstrap aggregating) is a type of parallel ensembling method and
+is used to address high variance in machine learning models. The bootstrap part of
+bagging refers to the datasets used for training the ensemble members. Specifically, if
+there are <i>k</i> submodels, then there are <i>k</i> separate datasets used for training each

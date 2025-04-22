@@ -1,0 +1,22 @@
+We’re now set to go! We can evaluate the dense retriever in the same way we did for
+BM25 and compare the top-k recall:
+dpr_topk_df = evaluate_retriever(dpr_retriever)
+plot_retriever_eval([es_topk_df, dpr_topk_df], ["BM25", "DPR"])
+Here we can see that DPR does not provide a boost in recall over BM25 and saturates
+around <i>k</i> = 3.
+Performing similarity search of the embeddings can be sped up by
+using Facebook’s FAISS library as the document store. Similarly, the
+performance of the DPR retriever can be improved by fine-tuning
+on the target domain. If you’d like to learn how to fine-tune DPR,
+check out the Haystack tutorial.
+Now that we’ve explored the evaluation of the retriever, let’s turn to evaluating the
+reader.
+<header><largefont><b>Evaluating</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Reader</b></largefont></header>
+In extractive QA, there are two main metrics that are used for evaluating readers:
+<i>Exact</i> <i>Match</i> <i>(EM)</i>
+A binary metric that gives EM = 1 if the characters in the predicted and ground
+truth answers match exactly, and EM = 0 otherwise. If no answer is expected, the
+model gets EM = 0 if it predicts any text at all.
+<i>F</i> <i>-score</i>
+<i>1</i>
+Measures the harmonic mean of the precision and recall.

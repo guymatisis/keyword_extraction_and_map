@@ -1,0 +1,30 @@
+For this chapter, we are going to work on this movie recommendation problem. We’ll
+start by getting some data suitable for a collaborative filtering model.
+<header><largefont><b>A</b></largefont> <largefont><b>First</b></largefont> <largefont><b>Look</b></largefont> <largefont><b>at</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Data</b></largefont></header>
+We do not have access to Netflix’s entire dataset of movie watching history, but there
+is a great dataset that we can use, called MovieLens. This dataset contains tens of mil‐
+lions of movie rankings (a combination of a movie ID, a user ID, and a numeric rat‐
+ing), although we will just use a subset of 100,000 of them for our example. If you’re
+interested, it would be a great learning project to try to replicate this approach on the
+full 25-million recommendation dataset, which you can get from their website.
+The dataset is available through the usual fastai function:
+<b>from</b> <b>fastai.collab</b> <b>import</b> *
+<b>from</b> <b>fastai.tabular.all</b> <b>import</b> *
+path = untar_data(URLs.ML_100k)
+According to the <i>README,</i> the main table is in the file <i>u.data.</i> It is tab-separated and
+the columns are, respectively, user, movie, rating, and timestamp. Since those names
+are not encoded, we need to indicate them when reading the file with Pandas. Here is
+a way to open this table and take a look:
+ratings = pd.read_csv(path/'u.data', delimiter='\t', header=None,
+names=['user','movie','rating','timestamp'])
+ratings.head()
+<b>user</b> <b>movie</b> <b>rating</b> <b>timestamp</b>
+<b>0</b> 196 242 3 881250949
+<b>1</b> 186 302 3 891717742
+<b>2</b> 22 377 1 878887116
+<b>3</b> 244 51 2 880606923
+<b>4</b>
+166 346 1 886397596
+Although this has all the information we need, it is not a particularly helpful way for
+humans to look at this data. Figure 8-1 shows the same data cross-tabulated into a
+human-friendly table.

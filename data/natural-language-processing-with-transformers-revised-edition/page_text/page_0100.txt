@@ -1,0 +1,45 @@
+labels=None, **kwargs):
+<i>#</i> <i>Use</i> <i>model</i> <i>body</i> <i>to</i> <i>get</i> <i>encoder</i> <i>representations</i>
+outputs = self.roberta(input_ids, attention_mask=attention_mask,
+token_type_ids=token_type_ids, **kwargs)
+<i>#</i> <i>Apply</i> <i>classifier</i> <i>to</i> <i>encoder</i> <i>representation</i>
+sequence_output = self.dropout(outputs[0])
+logits = self.classifier(sequence_output)
+<i>#</i> <i>Calculate</i> <i>losses</i>
+loss = None
+<b>if</b> labels <b>is</b> <b>not</b> None:
+loss_fct = nn.CrossEntropyLoss()
+loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
+<i>#</i> <i>Return</i> <i>model</i> <i>output</i> <i>object</i>
+<b>return</b> TokenClassifierOutput(loss=loss, logits=logits,
+hidden_states=outputs.hidden_states,
+attentions=outputs.attentions)
+The config_class ensures that the standard XLM-R settings are used when we initi‐
+alize a new model. If you want to change the default parameters, you can do this by
+super()
+overwriting the default settings in the configuration. With the method we
+call the initialization function of the RobertaPreTrainedModel class. This abstract
+class handles the initialization or loading of pretrained weights. Then we load our
+RobertaModel
+model body, which is , and extend it with our own classification head
+consisting of a dropout and a standard feed-forward layer. Note that we set add_
+pooling_layer=False
+to ensure all hidden states are returned and not only the one
+associated with the [CLS] token. Finally, we initialize all the weights by calling the
+init_weights() method we inherit from RobertaPreTrainedModel , which will load
+the pretrained weights for the model body and randomly initialize the weights of our
+token classification head.
+The only thing left to do is to define what the model should do in a forward pass with
+a forward() method. During the forward pass, the data is first fed through the model
+body. There are a number of input variables, but the only ones we need for now are
+input_ids and attention_mask . The hidden state, which is part of the model body
+output, is then fed through the dropout and classification layers. If we also provide
+labels in the forward pass, we can directly calculate the loss. If there is an attention
+mask we need to do a little bit more work to make sure we only calculate the loss of
+the unmasked tokens. Finally, we wrap all the outputs in a TokenClassifierOutput
+object that allows us to access elements in a the familiar named tuple from previous
+chapters.
+By just implementing two functions of a simple class, we can build our own custom
+transformer model. And since we inherit from a PreTrainedModel , we instantly get
+access to all the useful Transformer utilities, such as from_pretrained() ! Let’s
+have a look how we can load pretrained weights into our custom model.

@@ -1,0 +1,38 @@
+more productive than they would be with entirely manual methods, and result in
+more accurate processes than using a human alone.
+For instance, an automatic system can be used to identify potential stroke victims
+directly from CT scans, and send a high-priority alert to have those scans looked at
+quickly. There is only a three-hour window to treat strokes, so this fast feedback loop
+could save lives. At the same time, however, all scans could continue to be sent to
+radiologists in the usual way, so there would be no reduction in human input. Other
+deep learning models could automatically measure items seen on the scans and insert
+those measurements into reports, warning the radiologists about findings that they
+may have missed and telling them about other cases that might be relevant.
+<b>Tabulardata</b>
+For analyzing time series and tabular data, deep learning has recently been making
+great strides. However, deep learning is generally used as part of an ensemble of mul‐
+tiple types of model. If you already have a system that is using random forests or gra‐
+dient boosting machines (popular tabular modeling tools that you will learn about
+soon), then switching to or adding deep learning may not result in any dramatic
+improvement.
+Deep learning does greatly increase the variety of columns that you can include—for
+example, columns containing natural language (book titles, reviews, etc.) and high-
+cardinality categorical columns (i.e., something that contains a large number of dis‐
+crete choices, such as zip code or product ID). On the down side, deep learning
+models generally take longer to train than random forests or gradient boosting
+machines, although this is changing thanks to libraries such as RAPIDS, which pro‐
+vides GPU acceleration for the whole modeling pipeline. We cover the pros and cons
+of all these methods in detail in Chapter 9.
+<b>Recommendationsystems</b>
+Recommendation systems are really just a special type of tabular data. In particular,
+they generally have a high-cardinality categorical variable representing users, and
+another one representing products (or something similar). A company like Amazon
+represents every purchase that has ever been made by its customers as a giant sparse
+matrix, with customers as the rows and products as the columns. Once they have the
+data in this format, data scientists apply some form of collaborative filtering to <i>fill</i> <i>in</i>
+<i>the</i> <i>matrix.</i> For example, if customer A buys products 1 and 10, and customer B buys
+products 1, 2, 4, and 10, the engine will recommend that A buy 2 and 4.
+Because deep learning models are good at handling high-cardinality categorical vari‐
+ables, they are quite good at handling recommendation systems. They particularly
+come into their own, just like for tabular data, when combining these variables with
+other kinds of data, such as natural language or images. They can also do a good job

@@ -1,0 +1,14 @@
+the next pixel values. Pretraining on large image datasets enables iGPT to “autocom‐
+plete” partial images, as displayed in Figure 11-8. It also achieves performant results
+on classification tasks when a classification head is added to the model.
+<i>Figure</i> <i>11-8.</i> <i>Examples</i> <i>of</i> <i>image</i> <i>completions</i> <i>with</i> <i>iGPT</i> <i>(courtesy</i> <i>of</i> <i>Mark</i> <i>Chen)</i>
+<b>ViT</b>
+We saw that iGPT follows closely the GPT-style architecture and pretraining proce‐
+dure. Vision Transformer (ViT)11 is a BERT-style take on transformers for vision, as
+illustrated in Figure 11-9. First the image is split into smaller patches, and each of
+these patches is embedded with a linear projection. The results strongly resemble the
+token embeddings in BERT, and what follows is virtually identical. The patch embed‐
+dings are combined with position embeddings and then fed through an ordinary
+transformer encoder. During pretraining some of the patches are masked or distor‐
+ted, and the objective is to predict the average color of the masked patch.
+11 A.Dosovitskiyetal.,“AnImageIsWorth16x16Words:TransformersforImageRecognitionatScale”,(2020).

@@ -1,0 +1,41 @@
+<b>Creatingcustomcomponents</b>
+Instead of using pre-built or customizable TFX components to construct our pipe‐
+line, we can define our own containers to use as components, or convert a Python
+function to a component.
+To use the container-based components provided by TFX, we use the create_con
+tainer_component method, passing it the inputs and outputs for our component and
+a base Docker image along with any entrypoint commands for the container. For
+example, the following container-based component invokes the command-line tool
+bq to download a BigQuery dataset:
+component = create_container_component(
+name='DownloadBQData',
+parameters={
+'dataset_name': string,
+'storage_location': string
+},
+image='google/cloud-sdk:278.0.0',
+,
+command=[
+'bq', 'extract', '--compression=csv', '--field_delimiter=,',
+InputValuePlaceholder('dataset_name'),
+InputValuePlaceholder('storage_location'),
+]
+)
+It’s best to use a base image that already has most of the dependencies we need. We’re
+using the Google Cloud SDK image, which provides us the bq command-line tool.
+It is also possible to convert a custom Python function into a TFX component using
+the @component decorator. To demonstrate it, let’s say we have a step for preparing
+resources used throughout our pipeline where we create a Cloud Storage bucket. We
+can define this custom step using the following code:
+<b>from</b> <b>google.cloud</b> <b>import</b> storage
+client = storage.Client(project="your-cloud-project")
+@component
+<b>def</b> CreateBucketComponent(
+bucket_name: Parameter[string] = 'your-bucket-name',
+) -> OutputDict(bucket_info=string):
+client.create_bucket('gs://' + bucket_name)
+bucket_info = storage_client.get_bucket('gs://' + bucket_name)
+<b>return</b> {
+'bucket_info': bucket_info
+}
+We can then add this component to our pipeline definition:

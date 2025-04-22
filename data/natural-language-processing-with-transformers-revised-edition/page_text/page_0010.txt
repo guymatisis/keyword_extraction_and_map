@@ -1,0 +1,39 @@
+Each of these steps requires custom logic for each model and task. Traditionally (but
+not always!), when research groups publish a new article, they will also release the
+code along with the model weights. However, this code is rarely standardized and
+often requires days of engineering to adapt to new use cases.
+This is where Transformers comes to the NLP practitioner’s rescue! It provides a
+standardized interface to a wide range of transformer models as well as code and
+tools to adapt these models to new use cases. The library currently supports three
+major deep learning frameworks (PyTorch, TensorFlow, and JAX) and allows you to
+easily switch between them. In addition, it provides task-specific heads so you can
+easily fine-tune transformers on downstream tasks such as text classification, named
+entity recognition, and question answering. This reduces the time it takes a practi‐
+tioner to train and test a handful of models from a week to a single afternoon!
+You’ll see this for yourself in the next section, where we show that with just a few lines
+of code, Transformers can be applied to tackle some of the most common NLP
+applications that you’re likely to encounter in the wild.
+<header><largefont><b>A</b></largefont> <largefont><b>Tour</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Transformer</b></largefont> <largefont><b>Applications</b></largefont></header>
+Every NLP task starts with a piece of text, like the following made-up customer feed‐
+back about a certain online order:
+text = """Dear Amazon, last week I ordered an Optimus Prime action figure
+from your online store in Germany. Unfortunately, when I opened the package,
+I discovered to my horror that I had been sent an action figure of Megatron
+instead! As a lifelong enemy of the Decepticons, I hope you can understand my
+dilemma. To resolve the issue, I demand an exchange of Megatron for the
+Optimus Prime figure I ordered. Enclosed are copies of my records concerning
+this purchase. I expect to hear from you soon. Sincerely, Bumblebee."""
+Depending on your application, the text you’re working with could be a legal con‐
+tract, a product description, or something else entirely. In the case of customer feed‐
+back, you would probably like to know whether the feedback is positive or negative.
+This task is called <i>sentiment</i> <i>analysis</i> and is part of the broader topic of <i>text</i> <i>classifica‐</i>
+<i>tion</i> that we’ll explore in Chapter 2. For now, let’s have a look at what it takes to
+extract the sentiment from our piece of text using Transformers.
+<header><largefont><b>Text</b></largefont> <largefont><b>Classification</b></largefont></header>
+As we’ll see in later chapters, Transformers has a layered API that allows you to
+interact with the library at various levels of abstraction. In this chapter we’ll start with
+<i>pipelines,</i> which abstract away all the steps needed to convert raw text into a set of
+predictions from a fine-tuned model.
+pipeline()
+In Transformers, we instantiate a pipeline by calling the function and
+providing the name of the task we are interested in:

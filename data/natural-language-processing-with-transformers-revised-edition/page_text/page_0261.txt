@@ -1,0 +1,46 @@
+<b>for</b> train_slice <b>in</b> train_slices:
+<i>#</i> <i>Get</i> <i>training</i> <i>slice</i> <i>and</i> <i>test</i> <i>data</i>
+ds_train_sample = ds["train"].select(train_slice)
+y_train = np.array(ds_train_sample["label_ids"])
+y_test = np.array(ds["test"]["label_ids"])
+<i>#</i> <i>Use</i> <i>a</i> <i>simple</i> <i>count</i> <i>vectorizer</i> <i>to</i> <i>encode</i> <i>our</i> <i>texts</i> <i>as</i> <i>token</i> <i>counts</i>
+count_vect = CountVectorizer()
+X_train_counts = count_vect.fit_transform(ds_train_sample["text"])
+X_test_counts = count_vect.transform(ds["test"]["text"])
+<i>#</i> <i>Create</i> <i>and</i> <i>train</i> <i>our</i> <i>model!</i>
+classifier = BinaryRelevance(classifier=MultinomialNB())
+classifier.fit(X_train_counts, y_train)
+<i>#</i> <i>Generate</i> <i>predictions</i> <i>and</i> <i>evaluate</i>
+y_pred_test = classifier.predict(X_test_counts)
+clf_report = classification_report(
+y_test, y_pred_test, target_names=mlb.classes_, zero_division=0,
+output_dict=True)
+<i>#</i> <i>Store</i> <i>metrics</i>
+macro_scores["Naive Bayes"].append(clf_report["macro avg"]["f1-score"])
+micro_scores["Naive Bayes"].append(clf_report["micro avg"]["f1-score"])
+There’s quite a lot going on in this block of code, so let’s unpack it. First, we get the
+training slice and encode the labels. Then we use a count vectorizer to encode the
+texts by simply creating a vector of the size of the vocabulary where each entry corre‐
+sponds to the frequency with which a token appeared in the text. This is called a <i>bag-</i>
+<i>of-words</i> approach, since all information on the order of the words is lost. Then we
+train the classifier and use the predictions on the test set to get the micro and macro
+<i>F</i> -scores via the classification report.
+1
+With the following helper function we can plot the results of this experiment:
+<b>import</b> <b>matplotlib.pyplot</b> <b>as</b> <b>plt</b>
+<b>def</b> plot_metrics(micro_scores, macro_scores, sample_sizes, current_model):
+fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(10, 4), sharey=True)
+<b>for</b> run <b>in</b> micro_scores.keys():
+<b>if</b> run == current_model:
+ax0.plot(sample_sizes, micro_scores[run], label=run, linewidth=2)
+ax1.plot(sample_sizes, macro_scores[run], label=run, linewidth=2)
+<b>else:</b>
+ax0.plot(sample_sizes, micro_scores[run], label=run,
+linestyle="dashed")
+ax1.plot(sample_sizes, macro_scores[run], label=run,
+linestyle="dashed")
+ax0.set_title("Micro F1 scores")
+ax1.set_title("Macro F1 scores")
+ax0.set_ylabel("Test set F1 score")
+ax0.legend(loc="lower right")
+<b>for</b> ax <b>in</b> [ax0, ax1]:

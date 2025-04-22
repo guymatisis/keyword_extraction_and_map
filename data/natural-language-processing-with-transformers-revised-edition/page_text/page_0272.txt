@@ -1,0 +1,35 @@
+rotated cat is still a cat). For text, data augmentation is somewhat trickier because per‐
+turbing the words or characters can completely change the meaning. For example, the
+two questions “Are elephants heavier than mice?” and “Are mice heavier than ele‐
+phants?” differ by a single word swap, but have opposite answers. However, if the text
+consists of more than a few sentences (like our GitHub issues do), then the noise
+introduced by these types of transformations will generally not affect the label. In
+practice, there are two types of data augmentation techniques that are commonly
+used:
+<i>Back</i> <i>translation</i>
+Take a text in the source language, translate it into one or more target languages
+using machine translation, and then translate it back to the source language. Back
+translation tends to works best for high-resource languages or corpora that don’t
+contain too many domain-specific words.
+<i>Token</i> <i>perturbations</i>
+Given a text from the training set, randomly choose and perform simple trans‐
+formations like random synonym replacement, word insertion, swap, or
+4
+deletion.
+Examples of these transformations are shown in Table 9-2. For a detailed list of other
+data augmentation techniques for NLP, we recommend reading Amit Chaudhary’s
+blog post “A Visual Survey of Data Augmentation in NLP”.
+<i>Table</i> <i>9-2.</i> <i>Different</i> <i>types</i> <i>of</i> <i>data</i> <i>augmentation</i> <i>techniques</i> <i>for</i> <i>text</i>
+<b>Augmentation</b> <b>Sentence</b>
+None EvenifyoudefeatmeMegatron,otherswillrisetodefeatyourtyranny
+Synonymreplace EvenifyoukillmeMegatron,otherswillprovetodefeatyourtyranny
+Randominsert EvenifyoudefeatmeMegatron,othershumanitywillrisetodefeatyourtyranny
+Randomswap YouevenifdefeatmeMegatron,otherswillrisedefeattotyrannyyour
+Randomdelete EvenifyoumeMegatron,otherstodefeattyranny
+Backtranslate(German) Evenifyoudefeatme,otherswillriseuptodefeatyourtyranny
+You can implement back translation using machine translation models like M2M100,
+while libraries like <i>NlpAug</i> and <i>TextAttack</i> provide various recipes for token pertur‐
+bations. In this section, we’ll focus on using synonym replacement as it’s simple to
+implement and gets across the main idea behind data augmentation.
+4 J.WeiandK.Zou,“EDA:EasyDataAugmentationTechniquesforBoostingPerformanceonTextClassifica‐
+tionTasks”,(2019).

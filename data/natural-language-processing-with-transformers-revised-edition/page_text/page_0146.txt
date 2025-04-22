@@ -1,0 +1,26 @@
+<i>Figure</i> <i>6-2.</i> <i>Diagram</i> <i>of</i> <i>PEGASUS</i> <i>architecture</i> <i>(courtesy</i> <i>of</i> <i>Jingqing</i> <i>Zhang</i> <i>et</i> <i>al.)</i>
+This model has a special token for newlines, which is why we don’t need the
+sent_tokenize()
+function:
+pipe = pipeline("summarization", model="google/pegasus-cnn_dailymail")
+pipe_out = pipe(sample_text)
+summaries["pegasus"] = pipe_out[0]["summary_text"].replace(" .<n>", ".\n")
+<header><largefont><b>Comparing</b></largefont> <largefont><b>Different</b></largefont> <largefont><b>Summaries</b></largefont></header>
+Now that we have generated summaries with four different models, let’s compare the
+results. Keep in mind that one model has not been trained on the dataset at all
+(GPT-2), one model has been fine-tuned on this task among others (T5), and two
+models have exclusively been fine-tuned on this task (BART and PEGASUS). Let’s
+have a look at the summaries these models have generated:
+<b>print("GROUND</b> TRUTH")
+<b>print(dataset["train"][1]["highlights"])</b>
+<b>print("")</b>
+<b>for</b> model_name <b>in</b> summaries:
+<b>print(model_name.upper())</b>
+<b>print(summaries[model_name])</b>
+<b>print("")</b>
+GROUND TRUTH
+Usain Bolt wins third gold of world championship .
+Anchors Jamaica to 4x100m relay victory .
+Eighth gold at the championships for Bolt .
+Jamaica double up in women's 4x100m relay .
+BASELINE

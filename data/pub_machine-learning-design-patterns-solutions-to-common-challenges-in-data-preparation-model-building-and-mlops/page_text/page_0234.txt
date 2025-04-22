@@ -1,0 +1,39 @@
+<header><largefont><b>Solution</b></largefont></header>
+With the Two-Phase Predictions design pattern, we split our problem into two parts.
+We start with a smaller, cheaper model that can be deployed on-device. Because this
+model typically has a simpler task, it can accomplish this task on-device with rela‐
+tively high accuracy. This is followed by a second, more complex model deployed in
+the cloud and triggered only when needed. Of course, this design pattern requires
+you to have a problem that can be split into two parts with varying levels of complex‐
+ity. One example of such a problem is smart devices like Google Home, which are
+activated by a wake word and can then answer questions and respond to commands
+related to setting alarms, reading the news, and interacting with integrated devices
+like lights and thermostats. Google Home, for example, is activated by saying “OK
+Google” or “Hey Google.” Once the device recognizes a wake word, users can ask
+more complex questions like, “Can you schedule a meeting with Sara at 10 a.m.?”
+This problem can be broken into two distinct parts: an initial model that listens for a
+wake word, and a more complex model that can understand and respond to any
+other user query. Both models will perform audio recognition. The first model,
+however, will only need to perform binary classification: does the sound it just heard
+match the wake word or not? Although this model is simpler in complexity, it needs
+to be constantly running, which will be expensive if it’s deployed to the cloud. The
+second model will require audio recognition <i>and</i> natural language understanding in
+order to parse the user’s query. This model only needs to run when a user asks a
+question, but places more emphasis on high accuracy. The Two-Phase Predictions
+pattern can solve this by deploying the wake word model on-device and the more
+complex model in the cloud.
+In addition to this smart device use case, there are many other situations where the
+Two-Phase Predictions pattern can be employed. Let’s say you work on a factory
+floor where many different machines are running at a given time. When a machine
+stops working correctly, it typically makes a noise that can be associated with a mal‐
+function. There are different noises corresponding with each distinct machine and
+the different ways a machine could be broken. Ideally, you can build a model to flag
+problematic noises and identify what they mean. With Two-Phase Predictions, you
+could build one offline model to detect anomalous sounds. A second cloud model
+could then be used to identify whether the usual sound is indicative of some malfunc‐
+tioning condition.
+You could also use the Two-Phase Predictions pattern for an image-based scenario.
+Let’s say you have cameras deployed in the wild to identify and track endangered spe‐
+cies. You can have one model on the device that detects whether the latest image cap‐
+tured contains an endangered animal. If it does, this image can then be sent to a
+cloud model that determines the specific type of animal in the image.

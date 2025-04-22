@@ -1,0 +1,37 @@
+As we can see, the values of the weights are distributed in the small range [−0.1,0.1]
+around zero. Now, suppose we want to quantize this tensor as a signed 8-bit integer.
+In that case, the range of possible values for our integers is [q ,q ] = [−128,127].
+max min
+The zero point coincides with the zero of FP32 and the scale factor is calculated
+according to the previous equation:
+zero_point = 0
+scale = (weights.max() - weights.min()) / (127 - (-128))
+To obtain the quantized tensor, we just need to invert the mapping <i>q</i> = <i>f</i> /S + <i>Z,</i>
+clamp the values, round them to the nearest integer, and represent the result in the
+torch.int8 Tensor.char()
+data type using the function:
+(weights / scale + zero_point).clamp(-128, 127).round().char()
+tensor([[ -5, -8, 0, ..., -6, -4, 8],
+[ 8, 3, 1, ..., -4, 7, 0],
+[ -9, -6, 5, ..., 1, 5, -3],
+...,
+[ 6, 0, 12, ..., 0, 6, -1],
+[ 0, -2, -12, ..., 12, -7, -13],
+[-13, -1, -10, ..., 8, 2, -2]], dtype=torch.int8)
+Great, we’ve just quantized our first tensor! In PyTorch we can simplify the conver‐
+sion by using the quantize_per_tensor() function together with a quantized data
+torch.qint
+type, , that is optimized for integer arithmetic operations:
+<b>from</b> <b>torch</b> <b>import</b> quantize_per_tensor
+dtype = torch.qint8
+quantized_weights = quantize_per_tensor(weights, scale, zero_point, dtype)
+quantized_weights.int_repr()
+tensor([[ -5, -8, 0, ..., -6, -4, 8],
+[ 8, 3, 1, ..., -4, 7, 0],
+[ -9, -6, 5, ..., 1, 5, -3],
+...,
+[ 6, 0, 12, ..., 0, 6, -1],
+[ 0, -2, -12, ..., 12, -7, -13],
+[-13, -1, -10, ..., 8, 2, -2]], dtype=torch.int8)
+The plot in Figure 8-7 shows very clearly the discretization that’s induced by only
+mapping some of the weight values precisely and rounding the rest.

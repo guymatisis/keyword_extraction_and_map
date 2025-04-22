@@ -1,0 +1,35 @@
+<header><largefont><b>Conclusion</b></largefont></header>
+fastai provides a layered API. It takes one line of code to grab the data when it’s in one
+of the usual settings, making it easy for beginners to focus on training a model
+without spending too much time assembling the data. Then, the high-level data block
+API gives you more flexibility by allowing you to mix and match building blocks.
+Underneath it, the mid-level API gives you greater flexibility to apply transformations
+on your items. In your real-world problems, this is probably what you will need to
+use, and we hope it makes the step of data-munging as easy as possible.
+<header><largefont><b>Questionnaire</b></largefont></header>
+1. Why do we say that fastai has a “layered” API? What does it mean?
+2. Why does a Transform have a decode method? What does it do?
+3. Why does a Transform have a setup method? What does it do?
+4. How does a Transform work when called on a tuple?
+5. Which methods do you need to implement when writing your own Transform?
+6. Write a Normalize transform that fully normalizes items (subtract the mean and
+divide by the standard deviation of the dataset), and that can decode that behav‐
+ior. Try not to peek!
+Transform
+7. Write a that does the numericalization of tokenized texts (it should set
+its vocab automatically from the dataset seen and have a decode method). Look
+at the source code of fastai if you need help.
+8. What is a Pipeline?
+TfmdLists?
+9. What is a
+10. What is a Datasets? How is it different from a TfmdLists?
+11. Why are TfmdLists and Datasets named with an “s”?
+12. How can you build a DataLoaders from a TfmdLists or a Datasets ?
+item_tfms batch_tfms DataLoaders
+13. How do you pass and when building a from
+a TfmdLists or a Datasets?
+14. What do you need to do when you want to have your custom items work with
+methods like show_batch or show_results?
+SiamesePair
+15. Why can we easily apply fastai data augmentation transforms to the
+we built?

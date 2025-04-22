@@ -1,0 +1,38 @@
+image_generator
+approach above to feed our images to our model for training.
+Instead of exporting this as a TF Lite model, we can use model.save() to export our
+model for serving.
+To demonstrate deploying the phase 2 model to the cloud, we’ll use Cloud AI Plat‐
+form Prediction. We’ll need to upload our saved model assets to a Cloud Storage
+bucket, then deploy the model by specifying the framework and pointing AI Platform
+Prediction to our storage bucket.
+You can use any cloud-based custom model deployment tool for
+the second phase of the Two-Phase Predictions design pattern. In
+addition to Google Cloud’s AI Platform Prediction, AWS Sage‐
+Maker and Azure Machine Learning both offer services for deploy‐
+ing custom models.
+When we export our model as a TensorFlow SavedModel, we can pass a Cloud Stor‐
+age bucket URL directly to the save model method:
+model.save('gs://your_storage_bucket/path')
+This will export our model in the TF SavedModel format and upload it to our Cloud
+Storage bucket.
+In AI Platform, a model resource contains different versions of your model. Each
+model can have hundreds of versions. We’ll first create the model resource using
+gcloud, the Google Cloud CLI:
+gcloud ai-platform models create instrument_classification
+There are a few ways to deploy your model. We’ll use gcloud and point AI Platform
+at the storage subdirectory that contains our saved model assets:
+gcloud ai-platform versions create v1 <b>\</b>
+--model instrument_classification <b>\</b>
+--origin 'gs://your_storage_bucket/path/model_timestamp' <b>\</b>
+--runtime-version=2.1 <b>\</b>
+--framework='tensorflow' <b>\</b>
+--python-version=3.7
+We can now make prediction requests to our model via the AI Platform Prediction
+API, which supports online and batch prediction. Online prediction lets us get pre‐
+dictions in near real time on a few examples at once. If we have hundreds or thou‐
+sands of examples we want to send for prediction, we can create a batch prediction
+job that will run asynchronously in the background and output the prediction results
+to a file when complete.
+To handle cases where the device calling our model may not always be connected to
+the internet, we could store audio clips for instrument prediction on the device while

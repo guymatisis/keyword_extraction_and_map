@@ -1,0 +1,38 @@
+over that same rose overlaps a lot with the max bounding box, so we will get rid
+of it.
+3. Repeat step two until there are no more bounding boxes to get rid of.
+This simple approach to object detection works pretty well, but it requires running
+the CNN many times, so it is quite slow. Fortunately, there is a much faster way to
+slide a CNN across an image: using a <i>fully</i> <i>convolutional</i> <i>network</i> (FCN).
+<header><largefont><b>Fully</b></largefont> <largefont><b>Convolutional</b></largefont> <largefont><b>Networks</b></largefont></header>
+The idea of FCNs was first introduced in a 2015 paper25 by Jonathan Long et al., for
+semantic segmentation (the task of classifying every pixel in an image according to
+the class of the object it belongs to). The authors pointed out that you could replace
+the dense layers at the top of a CNN by convolutional layers. To understand this, let’s
+look at an example: suppose a dense layer with 200 neurons sits on top of a convolu‐
+tional layer that outputs 100 feature maps, each of size 7 × 7 (this is the feature map
+size, not the kernel size). Each neuron will compute a weighted sum of all 100 × 7 × 7
+activations from the convolutional layer (plus a bias term). Now let’s see what hap‐
+pens if we replace the dense layer with a convolutional layer using 200 filters, each of
+size 7 × 7, and with "valid" padding. This layer will output 200 feature maps, each 1
+× 1 (since the kernel is exactly the size of the input feature maps and we are using
+"valid" padding). In other words, it will output 200 numbers, just like the dense
+layer did; and if you look closely at the computations performed by a convolutional
+layer, you will notice that these numbers will be precisely the same as those the dense
+layer produced. The only difference is that the dense layer’s output was a tensor of
+shape [batch <i>size,</i> 200], while the convolutional layer will output a tensor of shape
+[batch <i>size,</i> 1, 1, 200].
+To convert a dense layer to a convolutional layer, the number of fil‐
+ters in the convolutional layer must be equal to the number of units
+in the dense layer, the filter size must be equal to the size of the
+"valid"
+input feature maps, and you must use padding. The stride
+may be set to 1 or more, as we will see shortly.
+Why is this important? Well, while a dense layer expects a specific input size (since it
+has one weight per input feature), a convolutional layer will happily process images of
+any size 26 (however, it does expect its inputs to have a specific number of channels,
+25 JonathanLongetal.,“FullyConvolutionalNetworksforSemanticSegmentation,”ProceedingsoftheIEEE
+<i>ConferenceonComputerVisionandPatternRecognition(2015):3431–3440.</i>
+"valid"
+26 Thereisonesmallexception:aconvolutionallayerusing paddingwillcomplainiftheinputsizeis
+smallerthanthekernelsize.

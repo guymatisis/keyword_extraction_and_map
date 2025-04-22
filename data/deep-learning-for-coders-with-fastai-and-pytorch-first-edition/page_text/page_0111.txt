@@ -1,0 +1,4 @@
+<i>Figure</i> <i>3-12.</i> <i>Object</i> <i>detection</i> <i>in</i> <i>action</i>
+In this example, we can see that the lower-income soap example is a very long way
+away from being accurate, with every commercial image recognition service predict‐
+ing “food” as the most likely answer!

@@ -1,0 +1,33 @@
+A closely related task is <i>novelty</i> <i>detection:</i> it differs from anomaly detection in that the
+algorithm is assumed to be trained on a “clean” dataset, uncontaminated by outliers,
+whereas anomaly detection does not make this assumption. Indeed, outlier detection
+is often used to clean up a dataset.
+Gaussian mixture models try to fit all the data, including the outli‐
+ers, so if you have too many of them, this will bias the model’s view
+of “normality,” and some outliers may wrongly be considered as
+normal. If this happens, you can try to fit the model once, use it to
+detect and remove the most extreme outliers, then fit the model
+again on the cleaned-up dataset. Another approach is to use robust
+EllipticEnvelope
+covariance estimation methods (see the class).
+GaussianMixture
+Just like K-Means, the algorithm requires you to specify the num‐
+ber of clusters. So, how can you find it?
+<header><largefont><b>Selecting</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Number</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Clusters</b></largefont></header>
+With K-Means, you could use the inertia or the silhouette score to select the appro‐
+priate number of clusters. But with Gaussian mixtures, it is not possible to use these
+metrics because they are not reliable when the clusters are not spherical or have dif‐
+ferent sizes. Instead, you can try to find the model that minimizes a <i>theoretical</i> <i>infor‐</i>
+<i>mation</i> <i>criterion,</i> such as the <i>Bayesian</i> <i>information</i> <i>criterion</i> (BIC) or the <i>Akaike</i>
+<i>information</i> <i>criterion</i> (AIC), defined in Equation 9-1.
+<i>Equation</i> <i>9-1.</i> <i>Bayesian</i> <i>information</i> <i>criterion</i> <i>(BIC)</i> <i>and</i> <i>Akaike</i> <i>information</i>
+<i>criterion</i> <i>(AIC)</i>
+<i>BIC</i> = log <i>m</i> <i>p</i> − 2 log <i>L</i>
+<i>AIC</i> = 2p − 2 log <i>L</i>
+In these equations:
+• <i>m</i> is the number of instances, as always.
+• <i>p</i> is the number of parameters learned by the model.
+• <i>L</i> is the maximized value of the <i>likelihood</i> <i>function</i> of the model.
+Both the BIC and the AIC penalize models that have more parameters to learn (e.g.,
+more clusters) and reward models that fit the data well. They often end up selecting
+the same model. When they differ, the model selected by the BIC tends to be simpler

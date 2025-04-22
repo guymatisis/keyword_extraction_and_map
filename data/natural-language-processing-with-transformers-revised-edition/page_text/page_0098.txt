@@ -1,0 +1,40 @@
+<header><largefont><b>The</b></largefont> <largefont><b>Anatomy</b></largefont> <largefont><b>of</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Transformers</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>Class</b></largefont></header>
+Transformers is organized around dedicated classes for each architecture and task.
+The model classes associated with different tasks are named according to a <Model
+Name>For<Task> AutoModelFor<Task> AutoModel
+convention, or when using the
+classes.
+However, this approach has its limitations, and to motivate going deeper into the
+Transformers API, consider the following scenario. Suppose you have a great idea
+to solve an NLP problem that has been on your mind for a long time with a trans‐
+former model. So you set up a meeting with your boss and, with an artfully crafted
+PowerPoint presentation, you pitch that you could increase the revenue of your
+department if you can finally solve the problem. Impressed with your colorful presen‐
+tation and talk of profits, your boss generously agrees to give you one week to build a
+proof-of-concept. Happy with the outcome, you start working straight away. You fire
+up your GPU and open a notebook. You execute from transformers import Bert
+ForTaskXY (note that TaskXY is the imaginary task you would like to solve) and color
+ImportError: cannot
+escapes your face as the dreaded red color fills your screen:
+import name <i>BertForTaskXY</i> . Oh no, there is no BERT model for your use case! How
+can you complete the project in one week if you have to implement the whole model
+yourself?! Where should you even start?
+<i>Don’t</i> <i>panic!</i> Transformers is designed to enable you to easily extend existing mod‐
+els for your specific use case. You can load the weights from pretrained models, and
+you have access to task-specific helper functions. This lets you build custom models
+for specific objectives with very little overhead. In this section, we’ll see how we can
+implement our own custom model.
+<header><largefont><b>Bodies</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Heads</b></largefont></header>
+The main concept that makes Transformers so versatile is the split of the architec‐
+ture into a <i>body</i> and <i>head</i> (as we saw in Chapter 1). We have already seen that when
+we switch from the pretraining task to the downstream task, we need to replace the
+last layer of the model with one that is suitable for the task. This last layer is called the
+model head; it’s the part that is <i>task-specific.</i> The rest of the model is called the body;
+it includes the token embeddings and transformer layers that are <i>task-agnostic.</i> This
+structure is reflected in the Transformers code as well: the body of a model is
+BertModel GPT2Model
+implemented in a class such as or that returns the hidden states
+BertForMaskedLM BertForSequence
+of the last layer. Task-specific models such as or
+Classification use the base model and add the necessary head on top of the hidden
+states, as shown in Figure 4-4.

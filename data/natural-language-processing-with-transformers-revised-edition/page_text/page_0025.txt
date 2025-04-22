@@ -1,0 +1,36 @@
+Now that we’ve seen how to load and inspect data with Datasets, let’s do a few
+checks about the content of our tweets.
+<header><largefont><b>What</b></largefont> <largefont><b>If</b></largefont> <largefont><b>My</b></largefont> <largefont><b>Dataset</b></largefont> <largefont><b>Is</b></largefont> <largefont><b>Not</b></largefont> <largefont><b>on</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Hub?</b></largefont></header>
+We’ll be using the Hugging Face Hub to download datasets for most of the examples
+in this book. But in many cases, you’ll find yourself working with data that is either
+stored on your laptop or on a remote server in your organization. Datasets pro‐
+vides several loading scripts to handle local and remote datasets. Examples for the
+most common data formats are shown in Table 2-1.
+<i>Table</i> <i>2-1.</i> <i>How</i> <i>to</i> <i>load</i> <i>datasets</i> <i>in</i> <i>various</i> <i>formats</i>
+<b>Dataformat</b> <b>Loadingscript</b> <b>Example</b>
+CSV csv load_dataset("csv", data_files="my_file.csv")
+Text text load_dataset("text", data_files="my_file.txt")
+JSON
+json load_dataset("json", data_files="my_file.jsonl")
+As you can see, for each data format, we just need to pass the relevant loading script
+load_dataset() data_files
+to the function, along with a argument that specifies the
+path or URL to one or more files. For example, the source files for the emotion dataset
+are actually hosted on Dropbox, so an alternative way to load the dataset is to first
+download one of the splits:
+dataset_url = "https://www.dropbox.com/s/1pzkadrvffbqw6o/train.txt"
+!wget {dataset_url}
+If you’re wondering why there’s a ! character in the preceding shell command, that’s
+because we’re running the commands in a Jupyter notebook. Simply remove the pre‐
+fix if you want to download and unzip the dataset within a terminal. Now, if we peek
+at the first row of the <i>train.txt</i> file:
+!head -n 1 train.txt
+i didnt feel humiliated;sadness
+we can see that here are no column headers and each tweet and emotion are separated
+by a semicolon. Nevertheless, this is quite similar to a CSV file, so we can load the
+dataset locally by using the csv script and pointing the data_files argument to the
+<i>train.txt</i> file:
+emotions_local = load_dataset("csv", data_files="train.txt", sep=";",
+names=["text", "label"])
+Here we’ve also specified the type of delimiter and the names of the columns. An even
+simpler approach is to just point the data_files argument to the URL itself:

@@ -1,0 +1,35 @@
+In “Creating a Random Forest” on page 299, we saw how to get predictions over the
+validation set, using a Python list comprehension to do this for each tree in the forest:
+preds = np.stack([t.predict(valid_xs) <b>for</b> t <b>in</b> m.estimators_])
+preds.shape
+(40, 7988)
+Now we have a prediction for every tree and every auction in the validation set (40
+trees and 7,988 auctions).
+Using this, we can get the standard deviation of the predictions over all the trees, for
+each auction:
+preds_std = preds.std(0)
+Here are the standard deviations for the predictions for the first five auctions—that is,
+the first five rows of the validation set:
+preds_std[:5]
+array([0.21529149, 0.10351274, 0.08901878, 0.28374773, 0.11977206])
+As you can see, the confidence in the predictions varies widely. For some auctions,
+there is a low standard deviation because the trees agree. For others, it’s higher, as the
+trees don’t agree. This is information that would be useful in a production setting; for
+instance, if you were using this model to decide which items to bid on at auction, a
+low-confidence prediction might cause you to look more carefully at an item before
+you made a bid.
+<header><largefont><b>Feature</b></largefont> <largefont><b>Importance</b></largefont></header>
+It’s not normally enough to just to know that a model can make accurate predictions
+—we also want to know <i>how</i> it’s making predictions. The <i>feature</i> <i>importances</i> give us
+this insight. We can get these directly from sklearn’s random forest by looking in the
+feature_importances_ attribute. Here’s a simple function we can use to pop them
+into a DataFrame and sort them:
+<b>def</b> rf_feat_importance(m, df):
+<b>return</b> pd.DataFrame({'cols':df.columns, 'imp':m.feature_importances_}
+).sort_values('imp', ascending=False)
+The feature importances for our model show that the first few most important col‐
+umns have much higher importance scores than the rest, with (not surprisingly) Year
+Made ProductSize
+and being at the top of the list:
+fi = rf_feat_importance(m, xs)
+fi[:10]

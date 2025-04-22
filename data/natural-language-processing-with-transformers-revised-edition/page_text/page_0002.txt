@@ -1,0 +1,23 @@
+<i>Figure</i> <i>1-1.</i> <i>The</i> <i>transformers</i> <i>timeline</i>
+But we’re getting ahead of ourselves. To understand what is novel about transformers,
+we first need to explain:
+• The encoder-decoder framework
+• Attention mechanisms
+• Transfer learning
+In this chapter we’ll introduce the core concepts that underlie the pervasiveness of
+transformers, take a tour of some of the tasks that they excel at, and conclude with a
+look at the Hugging Face ecosystem of tools and libraries.
+Let’s start by exploring the encoder-decoder framework and the architectures that
+preceded the rise of transformers.
+<header><largefont><b>The</b></largefont> <largefont><b>Encoder-Decoder</b></largefont> <largefont><b>Framework</b></largefont></header>
+Prior to transformers, recurrent architectures such as LSTMs were the state of the art
+in NLP. These architectures contain a feedback loop in the network connections that
+allows information to propagate from one step to another, making them ideal for
+modeling sequential data like text. As illustrated on the left side of Figure 1-2, an
+RNN receives some input (which could be a word or character), feeds it through the
+network, and outputs a vector called the <i>hidden</i> <i>state.</i> At the same time, the model
+feeds some information back to itself through the feedback loop, which it can then
+use in the next step. This can be more clearly seen if we “unroll” the loop as shown on
+the right side of Figure 1-2: the RNN passes information about its state at each step to
+the next operation in the sequence. This allows an RNN to keep track of information
+from previous steps, and use it for its output predictions.

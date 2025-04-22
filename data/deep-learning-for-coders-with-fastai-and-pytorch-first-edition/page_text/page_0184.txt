@@ -1,0 +1,7 @@
+<header><largefont><b>Further</b></largefont> <largefont><b>Research</b></largefont></header>
+1. Create your own implementation of Learner from scratch, based on the training
+loop shown in this chapter.
+2. Complete all the steps in this chapter using the full MNIST datasets (for all digits,
+not just 3s and 7s). This is a significant project and will take you quite a bit of
+time to complete! You’ll need to do some of your own research to figure out how
+to overcome obstacles you’ll meet on the way.

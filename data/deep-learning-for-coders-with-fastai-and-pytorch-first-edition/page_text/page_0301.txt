@@ -1,0 +1,20 @@
+Let’s see what happens to the RMSE as we add more and more trees. As you can see,
+the improvement levels off quite a bit after around 30 trees:
+plt.plot([r_mse(preds[:i+1].mean(0), valid_y) <b>for</b> i <b>in</b> range(40)]);
+The performance on our validation set is worse than on our training set. But is that
+because we’re overfitting, or because the validation set covers a different time period,
+or a bit of both? With the existing information we’ve seen, we can’t tell. However, ran‐
+dom forests have a very clever trick called <i>out-of-bag</i> (OOB) error that can help us
+with this (and more!).
+<header><largefont><b>Out-of-Bag</b></largefont> <largefont><b>Error</b></largefont></header>
+Recall that in a random forest, each tree is trained on a different subset of the training
+data. The OOB error is a way of measuring prediction error in the training dataset by
+including in the calculation of a row’s error trees only where that row was <i>not</i>
+included in training. This allows us to see whether the model is overfitting, without
+needing a separate validation set.
+<b>AlexisSays</b>
+My intuition for this is that, since every tree was trained with a dif‐
+ferent randomly selected subset of rows, out-of-bag error is a little
+like imagining that every tree therefore also has its own validation
+set. That validation set is simply the rows that were not selected for
+that tree’s training.

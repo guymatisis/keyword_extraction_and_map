@@ -1,0 +1,15 @@
+axes[0].set_ylabel("Count")
+axes[1].hist(s_len, bins=20, color="C0", edgecolor="C0")
+axes[1].set_title("Summary Token Length")
+axes[1].set_xlabel("Length")
+plt.tight_layout()
+plt.show()
+We see that most dialogues are much shorter than the CNN/DailyMail articles, with
+100–200 tokens per dialogue. Similarly, the summaries are much shorter, with around
+20–40 tokens (the average length of a tweet).
+Let’s keep those observations in mind as we build the data collator for the Trainer .
+First we need to tokenize the dataset. For now, we’ll set the maximum lengths to 1024
+and 128 for the dialogues and summaries, respectively:
+<b>def</b> convert_examples_to_features(example_batch):
+input_encodings = tokenizer(example_batch["dialogue"], max_length=1024,
+truncation=True)

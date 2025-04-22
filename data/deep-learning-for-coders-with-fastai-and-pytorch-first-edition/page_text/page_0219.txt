@@ -1,0 +1,23 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>6</b></largefont></header>
+<header><largefont><b>Other</b></largefont> <largefont><b>Computer</b></largefont> <largefont><b>Vision</b></largefont> <largefont><b>Problems</b></largefont></header>
+In the previous chapter, you learned some important practical techniques for training
+models in practice. Considerations like selecting learning rates and the number of
+epochs are very important to getting good results.
+In this chapter, we are going to look at two other types of computer vision problems:
+multi-label classification and regression. The first one occurs when you want to pre‐
+dict more than one label per image (or sometimes none at all), and the second occurs
+when your labels are one or several numbers—a quantity instead of a category.
+In the process, we will study more deeply the output activations, targets, and loss
+functions in deep learning models.
+<header><largefont><b>Classification</b></largefont></header>
+<header><largefont><b>Multi-Label</b></largefont></header>
+<i>Multi-label</i> <i>classification</i> refers to the problem of identifying the categories of objects
+in images that may not contain exactly one type of object. There may be more than
+one kind of object, or there may be no objects at all in the classes you are looking for.
+For instance, this would have been a great approach for our bear classifier. One prob‐
+lem with the bear classifier that we rolled out in Chapter 2 was that if a user uploaded
+something that wasn’t any kind of bear, the model would still say it was either a griz‐
+zly, black, or teddy bear—it had no ability to predict “not a bear at all.” In fact, after
+we have completed this chapter, it would be a great exercise for you to go back to your
+image classifier application and try to retrain it using the multi-label technique, and
+then test it by passing in an image that is not of any of your recognized classes.

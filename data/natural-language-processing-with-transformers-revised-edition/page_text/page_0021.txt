@@ -1,0 +1,13 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>2</b></largefont></header>
+<header><largefont><b>Text</b></largefont> <largefont><b>Classification</b></largefont></header>
+Text classification is one of the most common tasks in NLP; it can be used for a broad
+range of applications, such as tagging customer feedback into categories or routing
+support tickets according to their language. Chances are that your email program’s
+spam filter is using text classification to protect your inbox from a deluge of unwan‐
+ted junk!
+Another common type of text classification is sentiment analysis, which (as we saw in
+Chapter 1) aims to identify the polarity of a given text. For example, a company like
+Tesla might analyze Twitter posts like the one in Figure 2-1 to determine whether
+people like its new car roofs or not.
+<i>Figure</i> <i>2-1.</i> <i>Analyzing</i> <i>Twitter</i> <i>content</i> <i>can</i> <i>yield</i> <i>useful</i> <i>feedback</i> <i>from</i> <i>customers</i> <i>(cour‐</i>
+<i>tesy</i> <i>of</i> <i>Aditya</i> <i>Veluri)</i>

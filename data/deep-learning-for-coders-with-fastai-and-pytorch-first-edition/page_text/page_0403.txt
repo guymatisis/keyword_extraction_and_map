@@ -1,0 +1,24 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>13</b></largefont></header>
+<header><largefont><b>Convolutional</b></largefont> <largefont><b>Neural</b></largefont> <largefont><b>Networks</b></largefont></header>
+In Chapter 4, we learned how to create a neural network recognizing images. We
+were able to achieve a bit over 98% accuracy at distinguishing 3s from 7s—but we
+also saw that fastai’s built-in classes were able to get close to 100%. Let’s start trying to
+close the gap.
+In this chapter, we will begin by digging into what convolutions are and building a
+CNN from scratch. We will then study a range of techniques to improve training sta‐
+bility and learn all the tweaks the library usually applies for us to get great results.
+<header><largefont><b>The</b></largefont> <largefont><b>Magic</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Convolutions</b></largefont></header>
+One of the most powerful tools that machine learning practitioners have at their dis‐
+posal is <i>feature</i> <i>engineering.</i> A <i>feature</i> is a transformation of the data that is designed
+add_datepart
+to make it easier to model. For instance, the function that we used for
+our tabular dataset preprocessing in Chapter 9 added date features to the Bulldozers
+dataset. What kinds of features might we be able to create from images?
+<b>Jargon:FeatureEngineering</b>
+Creating new transformations of the input data in order to make it
+easier to model.
+In the context of an image, a feature is a visually distinctive attribute. For example,
+the number 7 is characterized by a horizontal edge near the top of the digit, and a
+top-right to bottom-left diagonal edge underneath that. On the other hand, the num‐
+ber 3 is characterized by a diagonal edge in one direction at the top left and bottom
+right of the digit, the opposite diagonal at the bottom left and top right, horizontal

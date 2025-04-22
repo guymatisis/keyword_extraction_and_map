@@ -1,0 +1,37 @@
+The static method discussed in the main solution, of assigning a priori frequencies, is
+also an imputation method. We assume that the categorical variable is distributed
+according to a frequency chart (that we estimate from the training data) and impute
+the mean one-hot encoded value (according to that frequency distribution) to the
+“missing” categorical variable.
+Do we know any other way to estimate unknown values given some examples? Of
+course! Machine learning. What we can do is to train a cascade of models (see
+“Design Pattern 8: Cascade ” on page 108 in Chapter 3). The first model uses what‐
+ever new examples we have to train a machine learning model to predict the card
+type. If the original tips model had five inputs, this model will have four inputs. The
+fifth input (the payment type) will be the label for this model. Then, the output of the
+first model will be used to train the second model.
+In practice, the Cascade pattern adds too much complexity for something that is
+meant to be a temporary workaround until you have enough new data. The static
+method is effectively the simplest machine learning model—it’s the model we would
+get if we had uninformative inputs. We recommend the static approach and to use
+Cascade only if the static method doesn’t do well enough.
+<b>Handlingnewfeatures</b>
+Another situation where bridging might be needed is when the input provider adds
+extra information to the input feed. For example, in our taxi fare example, we may
+start receiving data on whether the taxi’s wipers are on or whether the vehicle is mov‐
+ing. From this data, we can craft a feature on whether it was raining at the time the
+taxi trip started, the fraction of the trip time that the taxi is idle, and so on.
+If we have new input features we want to start using immediately, we should bridge
+the older data (where this new feature will be missing) by imputing a value for the
+new feature. Recommended choices for the imputation value are:
+• The mean value of the feature if the feature is numeric and normally distributed
+• The median value of the feature if the feature is numeric and skewed or has lots
+of outliers
+• The median value of the feature if the feature is categorical and sortable
+• The mode of the feature if the feature is categorical and not sortable
+• The frequency of the feature being true if it is boolean
+If the feature is whether or not it was raining, it is boolean, and so the imputed value
+would be something like 0.02 if it rains 2% of the time in the training dataset. If the
+feature is the proportion of idle minutes, we could use the median value. The Cascade
+pattern approach remains viable for all these cases, but a static imputation is simpler
+and often sufficient.

@@ -1,0 +1,30 @@
+to 95%. We then order all tokens in descending order by probability and add one
+token after another from the top of the list until the sum of the probabilities of the
+selected tokens is 95%. Returning to Figure 5-6, the value for <i>p</i> defines a horizontal
+line on the cumulative sum of probabilities plot, and we sample only from tokens
+below the line. Depending on the output distribution, this could be just one (very
+likely) token or a hundred (more equally likely) tokens. At this point, you are proba‐
+bly not surprised that the generate() function also provides an argument to activate
+top-p sampling. Let’s try it out:
+output_topp = model.generate(input_ids, max_length=max_length, do_sample=True,
+top_p=0.90)
+<b>print(tokenizer.decode(output_topp[0]))</b>
+In a shocking finding, scientist discovered a herd of unicorns living in a
+remote, previously unexplored valley, in the Andes Mountains. Even more
+surprising to the researchers was the fact that the unicorns spoke perfect
+English.
+The scientists studied the DNA of the animals and came to the conclusion that
+the herd are descendants of a prehistoric herd that lived in Argentina about
+50,000 years ago.
+According to the scientific analysis, the first humans who migrated to South
+America migrated into the Andes Mountains from South Africa and Australia, after
+the last ice age had ended.
+Since their migration, the animals have been adapting to
+Top-p sampling has also produced a coherent story, and this time with a new twist
+about migrations from Australia to South America. You can even combine the two
+sampling approaches to get the best of both worlds. Setting top_k=50 and top_p=0.9
+corresponds to the rule of choosing tokens with a probability mass of 90%, from a
+pool of at most 50 tokens.
+We can also apply beam search when we use sampling. Instead of
+selecting the next batch of candidate tokens greedily, we can sample
+them and build up the beams in the same way.

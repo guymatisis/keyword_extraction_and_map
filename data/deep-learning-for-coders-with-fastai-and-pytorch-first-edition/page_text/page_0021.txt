@@ -1,0 +1,30 @@
+solve it itself. This turned out to be very effective: by 1961, his checkers-playing pro‐
+gram had learned so much that it beat the Connecticut state champion! Here’s how he
+described his idea (from the same essay as noted previously):
+Suppose we arrange for some automatic means of testing the effectiveness of any cur‐
+rent weight assignment in terms of actual performance and provide a mechanism for
+altering the weight assignment so as to maximize the performance. We need not go
+into the details of such a procedure to see that it could be made entirely automatic and
+to see that a machine so programmed would “learn” from its experience.
+There are a number of powerful concepts embedded in this short statement:
+• The idea of a “weight assignment”
+• The fact that every weight assignment has some “actual performance”
+• The requirement that there be an “automatic means” of testing that performance
+• The need for a “mechanism” (i.e., another automatic process) for improving the
+performance by changing the weight assignments
+Let’s take these concepts one by one, in order to understand how they fit together in
+practice. First, we need to understand what Samuel means by a <i>weight</i> <i>assignment.</i>
+Weights are just variables, and a weight assignment is a particular choice of values for
+those variables. The program’s inputs are values that it processes in order to produce
+its results—for instance, taking image pixels as inputs, and returning the classification
+“dog” as a result. The program’s weight assignments are other values that define how
+the program will operate.
+Because they will affect the program, they are in a sense another kind of input. We
+will update our basic picture in Figure 1-4 and replace it with Figure 1-5 in order to
+take this into account.
+<i>Figure</i> <i>1-5.</i> <i>A</i> <i>program</i> <i>using</i> <i>weight</i> <i>assignment</i>
+We’ve changed the name of our box from <i>program</i> to <i>model.</i> This is to follow modern
+terminology and to reflect that the <i>model</i> is a special kind of program: it’s one that can
+do <i>many</i> <i>different</i> <i>things,</i> depending on the <i>weights.</i> It can be implemented in many
+different ways. For instance, in Samuel’s checkers program, different values of the
+weights would result in different checkers-playing strategies.

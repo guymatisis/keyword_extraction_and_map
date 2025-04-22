@@ -1,0 +1,33 @@
+<b>JeremySays</b>
+Don’t worry; neither SGD nor neural nets are mathematically com‐
+plex. Both nearly entirely rely on addition and multiplication to do
+their work (but they do a <i>lot</i> of addition and multiplication!). The
+main reaction we hear from students when they see the details is:
+“Is that all it is?”
+In other words, to recap, a neural network is a particular kind of machine learning
+model, which fits right in to Samuel’s original conception. Neural networks are spe‐
+cial because they are highly flexible, which means they can solve an unusually wide
+range of problems just by finding the right weights. This is powerful, because stochas‐
+tic gradient descent provides us a way to find those weight values automatically.
+Having zoomed out, let’s now zoom back in and revisit our image classification prob‐
+lem using Samuel’s framework.
+Our inputs are the images. Our weights are the weights in the neural net. Our model
+is a neural net. Our results are the values that are calculated by the neural net, like
+“dog” or “cat.”
+What about the next piece, an <i>automatic</i> <i>means</i> <i>of</i> <i>testing</i> <i>the</i> <i>effectiveness</i> <i>of</i> <i>any</i> <i>cur‐</i>
+<i>rent</i> <i>weight</i> <i>assignment</i> <i>in</i> <i>terms</i> <i>of</i> <i>actual</i> <i>performance?</i> Determining “actual perfor‐
+mance” is easy enough: we can simply define our model’s performance as its accuracy
+at predicting the correct answers.
+Putting this all together, and assuming that SGD is our mechanism for updating the
+weight assignments, we can see how our image classifier is a machine learning model,
+much like Samuel envisioned.
+<header><largefont><b>A</b></largefont> <largefont><b>Bit</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Deep</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>Jargon</b></largefont></header>
+Samuel was working in the 1960s, and since then terminology has changed. Here is
+the modern deep learning terminology for all the pieces we have discussed:
+• The functional form of the <i>model</i> is called its <i>architecture</i> (but be careful—some‐
+times people use <i>model</i> as a synonym of <i>architecture,</i> so this can get confusing).
+• The <i>weights</i> are called <i>parameters.</i>
+• The <i>predictions</i> are calculated from the <i>independent</i> <i>variable,</i> which is the <i>data</i>
+not including the <i>labels.</i>
+• The <i>results</i> of the model are called <i>predictions.</i>
+• The measure of <i>performance</i> is called the <i>loss.</i>

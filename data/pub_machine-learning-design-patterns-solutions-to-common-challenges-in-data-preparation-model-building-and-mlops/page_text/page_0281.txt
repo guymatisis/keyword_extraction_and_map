@@ -1,0 +1,40 @@
+For performance reasons, the translation model will be set up to be stateless and
+require the user to provide the context. For example, if the model is stateless, instan‐
+ces of the model can be autoscaled in response to increased traffic, and can be
+invoked in parallel to obtain faster translations. Thus, the translation of the famous
+soliloquy from Shakespeare’s Hamlet into German might follow these steps, picking
+off in the middle where the bolded word is the one to be translated:
+<b>Input(9words,4oneitherside)</b> <b>Output</b>
+Theundiscoveredcountry,fromwhosebournNotravellerreturns dessen
+undiscoveredcountry,fromwhosebournNotravellerreturns,puzzles Bourn
+country,fromwhosebournNotravellerreturns,puzzlesthe Kein
+fromwhosebournNotravellerreturns,puzzlesthewill, Reisender
+The client, therefore, will need a streaming pipeline. The pipeline could take the
+input English text, tokenize it, send along nine tokens at a time, collect the outputs,
+and concatenate them into German sentences and paragraphs.
+Most sequence models, such as recurrent neural networks and LSTMs, require
+streaming pipelines for high-performance inference.
+<b>Statefulfeatures</b>
+The Windowed Inference pattern can be useful if an input feature to the model
+requires state, even if the model itself is stateless. For example, suppose we are train‐
+ing a model to predict arrival delays, and one of the inputs to the model is the depar‐
+ture delay. We might want to include, as an input to the model, the average departure
+delay of flights from that airport in the past two hours.
+During training, we can create the dataset using a SQL window function:
+<b>WITH</b> <b>data</b> <b>AS</b> (
+<b>SELECT</b>
+SAFE.PARSE_DATETIME('%Y-%m-%d-%H%M',
+CONCAT(CAST(date <b>AS</b> STRING), '-',
+FORMAT('%04d', departure_schedule))
+) <b>AS</b> scheduled_depart_time,
+arrival_delay,
+departure_delay,
+departure_airport
+<b>FROM</b> `bigquery-samples.airline_ontime_data.flights`
+<b>WHERE</b> arrival_airport = 'DFW'
+),
+<b>SELECT</b>
+* <b>EXCEPT(scheduled_depart_time),</b>
+<b>EXTRACT(hour</b> <b>from</b> scheduled_depart_time) <b>AS</b> hour_of_day,
+<b>AVG(departure_delay)</b> OVER (depart_time_window) <b>AS</b> avg_depart_delay
+<b>FROM</b> <b>data</b>

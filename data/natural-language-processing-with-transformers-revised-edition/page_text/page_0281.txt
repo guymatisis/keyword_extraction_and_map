@@ -1,0 +1,5 @@
+clf_report = classification_report(test_labels, y_pred,
+target_names=mlb.classes_, zero_division=0, output_dict=True,)
+macro_scores["Embedding"].append(clf_report["macro avg"]["f1-score"])
+micro_scores["Embedding"].append(clf_report["micro avg"]["f1-score"])
+plot_metrics(micro_scores, macro_scores, train_samples, "Embedding")

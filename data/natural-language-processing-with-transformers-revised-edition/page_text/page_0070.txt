@@ -1,0 +1,41 @@
+This visualization shows the attention weights as lines connecting the token whose
+embedding is getting updated (left) with every word that is being attended to (right).
+The intensity of the lines indicates the strength of the attention weights, with dark
+lines representing values close to 1, and faint lines representing values close to 0.
+[CLS] [SEP]
+In this example, the input consists of two sentences and the and tokens
+are the special tokens in BERT’s tokenizer that we encountered in Chapter 2. One
+thing we can see from the visualization is that the attention weights are strongest
+between words that belong to the same sentence, which suggests BERT can tell that it
+should attend to words in the same sentence. However, for the word “flies” we can see
+that BERT has identified “arrow” as important in the first sentence and “fruit” and
+“banana” in the second. These attention weights allow the model to distinguish the
+use of “flies” as a verb or noun, depending on the context in which it occurs!
+Now that we’ve covered attention, let’s take a look at implementing the missing piece
+of the encoder layer: position-wise feed-forward networks.
+<header><largefont><b>The</b></largefont> <largefont><b>Feed-Forward</b></largefont> <largefont><b>Layer</b></largefont></header>
+The feed-forward sublayer in the encoder and decoder is just a simple two-layer fully
+connected neural network, but with a twist: instead of processing the whole sequence
+of embeddings as a single vector, it processes each embedding <i>independently.</i> For this
+reason, this layer is often referred to as a <i>position-wise</i> <i>feed-forward</i> <i>layer.</i> You may
+also see it referred to as a one-dimensional convolution with a kernel size of one, typ‐
+ically by people with a computer vision background (e.g., the OpenAI GPT codebase
+uses this nomenclature). A rule of thumb from the literature is for the hidden size of
+the first layer to be four times the size of the embeddings, and a GELU activation
+function is most commonly used. This is where most of the capacity and memoriza‐
+tion is hypothesized to happen, and it’s the part that is most often scaled when scaling
+nn.Module
+up the models. We can implement this as a simple as follows:
+<b>class</b> <b>FeedForward(nn.Module):</b>
+<b>def</b> __init__(self, config):
+super().__init__()
+self.linear_1 = nn.Linear(config.hidden_size, config.intermediate_size)
+self.linear_2 = nn.Linear(config.intermediate_size, config.hidden_size)
+self.gelu = nn.GELU()
+self.dropout = nn.Dropout(config.hidden_dropout_prob)
+<b>def</b> forward(self, x):
+x = self.linear_1(x)
+x = self.gelu(x)
+x = self.linear_2(x)
+x = self.dropout(x)
+<b>return</b> x

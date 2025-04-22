@@ -1,0 +1,27 @@
+<i>Figure</i> <i>3-6.</i> <i>Two</i> <i>common</i> <i>implementations</i> <i>of</i> <i>multitask</i> <i>learning</i> <i>are</i> <i>through</i> <i>hard</i>
+<i>parameter</i> <i>sharing</i> <i>and</i> <i>soft</i> <i>parameter</i> <i>sharing.</i>
+In this context, we could have two heads to our model: one to predict a regression
+output and another to predict classification output. For example, this paper trains a
+computer vision model using a classification output of softmax probabilities together
+with a regression output to predict bounding boxes. They show that this approach
+achieves better performance than related work that trains networks separately for the
+classification and localization tasks. The idea is that through parameter sharing, the
+tasks are learned simultaneously and the gradient updates from the two loss func‐
+tions inform both outputs and result in a more generalizable model.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>6:</b></largefont> <largefont><b>Multilabel</b></largefont></header>
+The Multilabel design pattern refers to problems where we can assign <i>more</i> <i>than</i> <i>one</i>
+label to a given training example. For neural networks, this design requires changing
+the activation function used in the final output layer of the model and choosing how
+our application will parse model output. Note that this is different from <i>multiclass</i>
+classification problems, where a single example is assigned exactly one label from a
+group of many (> 1) possible classes. You may also hear the Multilabel design pattern
+referred to as <i>multilabel,</i> <i>multiclass</i> <i>classification</i> since it involves choosing more than
+one label from a group of more than one possible class. When discussing this pattern,
+we’ll focus primarily on neural networks.
+<header><largefont><b>Problem</b></largefont></header>
+Often, model prediction tasks involve applying a single classification to a given train‐
+ing example. This prediction is determined from <i>N</i> possible classes where <i>N</i> is greater
+than 1. In this case, it’s common to use softmax as the activation function for the out‐
+put layer. Using softmax, the output of our model is an N-element array, where the
+sum of all the values adds up to 1. Each value indicates the probability that a particu‐
+lar training example is associated with the class at that index.

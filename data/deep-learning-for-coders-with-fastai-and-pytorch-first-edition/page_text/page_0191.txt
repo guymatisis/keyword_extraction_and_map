@@ -1,0 +1,25 @@
+To implement this process in fastai, you use Resize as an item transform with a large
+size, and RandomResizedCrop as a batch transform with a smaller size.
+RandomResizedCrop will be added for you if you include the min_scale parameter in
+your aug_transforms function, as was done in the DataBlock call in the previous sec‐
+tion. Alternatively, you can use pad or squish instead of crop (the default) for the ini‐
+tial Resize .
+Figure 5-2 shows the difference between an image that has been zoomed, interpola‐
+ted, rotated, and then interpolated again (which is the approach used by all other
+deep learning libraries), shown here on the right, and an image that has been zoomed
+and rotated as one operation and then interpolated once (the fastai approach), shown
+here on the left.
+<i>Figure</i> <i>5-2.</i> <i>A</i> <i>comparison</i> <i>of</i> <i>fastai’s</i> <i>data</i> <i>augmentation</i> <i>strategy</i> <i>(left)</i> <i>and</i> <i>the</i> <i>traditional</i>
+<i>approach</i> <i>(right)</i>
+You can see that the image on the right is less well defined and has reflection padding
+artifacts in the bottom-left corner; also, the grass at the top left has disappeared
+entirely. We find that, in practice, using presizing significantly improves the accuracy
+of models and often results in speedups too.
+The fastai library also provides simple ways to check how your data looks right before
+training your model, which is an extremely important step. We’ll look at those next.
+<header><largefont><b>Checking</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Debugging</b></largefont> <largefont><b>a</b></largefont> <largefont><b>DataBlock</b></largefont></header>
+We can never just assume that our code is working perfectly. Writing a DataBlock is
+like writing a blueprint. You will get an error message if you have a syntax error
+somewhere in your code, but you have no guarantee that your template is going to
+work on your data source as you intend. So, before training a model, you should
+always check your data.

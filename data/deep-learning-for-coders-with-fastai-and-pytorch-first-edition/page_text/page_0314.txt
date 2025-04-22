@@ -1,0 +1,16 @@
+The clearest way to display the contributions is with a <i>waterfall</i> <i>plot.</i> This shows how
+the positive and negative contributions from all the independent variables sum up to
+create the final prediction, which is the righthand column labeled “net” here:
+waterfall(valid_xs_final.columns, contributions[0], threshold=0.08,
+rotation_value=45,formatting='{:,.3f}');
+This kind of information is most useful in production, rather than during model
+development. You can use it to provide useful information to users of your data prod‐
+uct about the underlying reasoning behind the predictions.
+Now that we covered some classic machine learning techniques to solve this problem,
+let’s see how deep learning can help!
+<header><largefont><b>Extrapolation</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Neural</b></largefont> <largefont><b>Networks</b></largefont></header>
+A problem with random forests, like all machine learning or deep learning algo‐
+rithms, is that they don’t always generalize well to new data. We’ll see in which situa‐
+tions neural networks generalize better, but first, let’s look at the extrapolation
+problem that random forests have and how they can help identify out-of-domain
+data.

@@ -1,0 +1,36 @@
+<i>Table</i> <i>10-1.</i> <i>Examples</i> <i>of</i> <i>character</i> <i>mappings</i> <i>in</i> <i>BPE</i>
+<b>Description</b> <b>Character</b> <b>Bytes</b> <b>Mappedbytes</b>
+Regularcharacters `a`and`?` 97and63 `a`and`?`
+Anonprintablecontrolcharacter(carriagereturn) `U+000D` 13 `č`
+Aspace `` 32 `Ġ`
+Anonbreakablespace `\xa0` 160 `ł`
+Anewlinecharacter `\n` 10 `Ċ`
+We could have used a more explicit conversion, like mapping newlines to a NEWLINE
+string, but BPE algorithms are typically designed to work on characters. For this rea‐
+son, keeping one Unicode character for each byte character is easier to handle with an
+out-of-the-box BPE algorithm. Now that we have been introduced to the dark magic
+of Unicode encodings, we can understand our tokenization conversion a bit better:
+<b>print(tokenizer.backend_tokenizer.pre_tokenizer.pre_tokenize_str(python_code))</b>
+[('def', (0, 3)), ('Ġsay', (3, 7)), ('_', (7, 8)), ('hello', (8, 13)), ('():',
+(13, 16)), ('ĊĠĠĠ', (16, 20)), ('Ġprint', (20, 26)), ('("', (26, 28)), ('Hello',
+(28, 33)), (',', (33, 34)), ('ĠWorld', (34, 40)), ('!")', (40, 43)), ('Ġ#', (43,
+45)), ('ĠPrint', (45, 51)), ('Ġit', (51, 54)), ('Ċ', (54, 55)), ('Ċ', (55, 56)),
+('say', (56, 59)), ('_', (59, 60)), ('hello', (60, 65)), ('()', (65, 67)), ('Ċ',
+(67, 68))]
+We can recognize the newlines, which as we now know are mapped to Ċ , and the
+spaces, mapped to Ġ . We also see that:
+• Spaces, and in particular consecutive spaces, are conserved (for instance, the
+three spaces in 'ĊĠĠĠ' ).
+• Consecutive spaces are considered as a single word.
+• Each space preceding a word is attached to and considered a part of the subse‐
+'Ġsay'
+quent word (e.g., in ).
+Let’s now experiment with the BPE model. As we’ve mentioned, it’s in charge of split‐
+ting the words into subunits until all subunits belong to the predefined vocabulary.
+The vocabulary of our GPT-2 tokenizer comprises 50,257 words:
+• The base vocabulary with the 256 values of the bytes
+• 50,000 additional tokens created by repeatedly merging the most commonly co-
+occurring tokens
+• A special character added to the vocabulary to represent document boundaries
+We can easily check that by looking at the length attribute of the tokenizer:
+<b>print(f"Size</b> of the vocabulary: {len(tokenizer)}")

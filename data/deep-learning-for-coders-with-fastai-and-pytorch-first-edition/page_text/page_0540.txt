@@ -1,0 +1,38 @@
+<b>def</b> after_batch(self):
+xb,yb = self.batch
+acc = (self.preds.argmax(dim=1)==yb).float().sum()
+self.accs.append(acc)
+n = len(xb)
+self.losses.append(self.loss*n)
+self.ns.append(n)
+Now we’re ready to use our Learner for the first time!
+cbs = [SetupLearnerCB(),TrackResults()]
+learn = Learner(simple_cnn(), dls, cross_entropy, lr=0.1, cbs=cbs)
+learn.fit(1)
+0 True 2.1275552130636814 0.2314922378287042
+0 False 1.9942575636942674 0.2991082802547771
+It’s quite amazing to realize that we can implement all the key ideas from fastai’s
+Learner in so little code! Let’s now add some learning rate scheduling.
+<header><largefont><b>Scheduling</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>Rate</b></largefont></header>
+If we’re going to get good results, we’ll want an LR finder and 1cycle training. These
+are both <i>annealing</i> callbacks—that is, they are gradually changing hyperparameters as
+we train. Here’s LRFinder :
+<b>class</b> <b>LRFinder(Callback):</b>
+<b>def</b> before_fit(self):
+self.losses,self.lrs = [],[]
+self.learner.lr = 1e-6
+<b>def</b> before_batch(self):
+<b>if</b> <b>not</b> self.model.training: <b>return</b>
+self.opt.lr *= 1.2
+<b>def</b> after_batch(self):
+<b>if</b> <b>not</b> self.model.training: <b>return</b>
+<b>if</b> self.opt.lr>10 <b>or</b> torch.isnan(self.loss): <b>raise</b> CancelFitException
+self.losses.append(self.loss.item())
+self.lrs.append(self.opt.lr)
+This shows how we’re using CancelFitException , which is itself an empty class, used
+only to signify the type of exception. You can see in Learner that this exception is
+caught. (You should add and test CancelBatchException, CancelEpochException,
+etc. yourself.) Let’s try it out, by adding it to our list of callbacks:
+lrfind = LRFinder()
+learn = Learner(simple_cnn(), dls, cross_entropy, lr=0.1, cbs=cbs+[lrfind])
+learn.fit(2)

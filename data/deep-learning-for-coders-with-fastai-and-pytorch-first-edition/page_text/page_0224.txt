@@ -1,0 +1,41 @@
+As you can see, rather than defining a function in the usual way, we are using Python’s
+lambda keyword. This is just a shortcut for defining and then referring to a function.
+The following more verbose approach is identical:
+<b>def</b> get_x(r): <b>return</b> r['fname']
+<b>def</b> get_y(r): <b>return</b> r['labels']
+dblock = DataBlock(get_x = get_x, get_y = get_y)
+dsets = dblock.datasets(df)
+dsets.train[0]
+('002549.jpg', 'tvmonitor')
+Lambda functions are great for quickly iterating, but they are not compatible with
+serialization, so we advise you to use the more verbose approach if you want to export
+your Learner after training (lambdas are fine if you are just experimenting).
+We can see that the independent variable will need to be converted into a complete
+path so that we can open it as an image, and the dependent variable will need to be
+split on the space character (which is the default for Python’s split function) so that
+it becomes a list:
+<b>def</b> get_x(r): <b>return</b> path/'train'/r['fname']
+<b>def</b> get_y(r): <b>return</b> r['labels'].split(' ')
+dblock = DataBlock(get_x = get_x, get_y = get_y)
+dsets = dblock.datasets(df)
+dsets.train[0]
+(Path('/home/sgugger/.fastai/data/pascal_2007/train/008663.jpg'),
+['car', 'person'])
+To actually open the image and do the conversion to tensors, we will need to use a set
+of transforms; block types will provide us with those. We can use the same block
+types that we have used previously, with one exception: the ImageBlock will work fine
+again, because we have a path that points to a valid image, but the CategoryBlock is
+not going to work. The problem is that block returns a single integer, but we need to
+be able to have multiple labels for each item. To solve this, we use a MultiCategory
+Block . This type of block expects to receive a list of strings, as we have in this case, so
+let’s test it out:
+dblock = DataBlock(blocks=(ImageBlock, MultiCategoryBlock),
+get_x = get_x, get_y = get_y)
+dsets = dblock.datasets(df)
+dsets.train[0]
+(PILImage mode=RGB size=500x375,
+TensorMultiCategory([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0.,
+> 0., 0., 0., 0., 0., 0.]))
+As you can see, our list of categories is not encoded in the same way that it was for the
+regular CategoryBlock . In that case, we had a single integer representing which cate‐
+gory was present, based on its location in our vocab. In this case, however, we instead

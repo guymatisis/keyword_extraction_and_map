@@ -1,0 +1,35 @@
+Let’s hardcode a simple policy that accelerates left when the pole is leaning toward the
+left and accelerates right when the pole is leaning toward the right. We will run this
+policy to see the average rewards it gets over 500 episodes:
+<b>def</b> basic_policy(obs):
+angle = obs[2]
+<b>return</b> 0 <b>if</b> angle < 0 <b>else</b> 1
+totals = []
+<b>for</b> episode <b>in</b> range(500):
+episode_rewards = 0
+obs = env.reset()
+<b>for</b> step <b>in</b> range(200):
+action = basic_policy(obs)
+obs, reward, done, info = env.step(action)
+episode_rewards += reward
+<b>if</b> done:
+<b>break</b>
+totals.append(episode_rewards)
+This code is hopefully self-explanatory. Let’s look at the result:
+<b>>>></b> <b>import</b> <b>numpy</b> <b>as</b> <b>np</b>
+<b>>>></b> np.mean(totals), np.std(totals), np.min(totals), np.max(totals)
+(41.718, 8.858356280936096, 24.0, 68.0)
+Even with 500 tries, this policy never managed to keep the pole upright for more than
+68 consecutive steps. Not great. If you look at the simulation in the Jupyter note‐
+books, you will see that the cart oscillates left and right more and more strongly until
+the pole tilts too much. Let’s see if a neural network can come up with a better policy.
+<header><largefont><b>Neural</b></largefont> <largefont><b>Network</b></largefont> <largefont><b>Policies</b></largefont></header>
+Let’s create a neural network policy. Just like with the policy we hardcoded earlier, this
+neural network will take an observation as input, and it will output the action to be
+executed. More precisely, it will estimate a probability for each action, and then we
+will select an action randomly, according to the estimated probabilities (see
+Figure 18-5). In the case of the CartPole environment, there are just two possible
+actions (left or right), so we only need one output neuron. It will output the probabil‐
+ity <i>p</i> of action 0 (left), and of course the probability of action 1 (right) will be 1 – <i>p.</i>
+For example, if it outputs 0.7, then we will pick action 0 with 70% probability, or
+action 1 with 30% probability.

@@ -1,0 +1,47 @@
+script and define a few helper functions. First we set up the hyperparameters for
+training and wrap them in a Namespace for easy access:
+<b>from</b> <b>argparse</b> <b>import</b> Namespace
+<i>#</i> <i>Commented</i> <i>parameters</i> <i>correspond</i> <i>to</i> <i>the</i> <i>small</i> <i>model</i>
+config = {"train_batch_size": 2, <i>#</i> <i>12</i>
+"valid_batch_size": 2, <i>#</i> <i>12</i>
+"weight_decay": 0.1,
+"shuffle_buffer": 1000,
+"learning_rate": 2e-4, <i>#</i> <i>5e-4</i>
+"lr_scheduler_type": "cosine",
+"num_warmup_steps": 750, <i>#</i> <i>2000</i>
+"gradient_accumulation_steps": 16, <i>#</i> <i>1</i>
+"max_train_steps": 50000, <i>#</i> <i>150000</i>
+"max_eval_steps": -1,
+"seq_length": 1024,
+"seed": 1,
+"save_checkpoint_steps": 50000} <i>#</i> <i>15000</i>
+args = Namespace(**config)
+Next, we set up logging for training. Since we are training a model from scratch, the
+training run will take a while and require expensive infrastructure. Therefore, we
+want to make sure that all the relevant information is stored and easily accessible. The
+setup_logging() method sets up three levels of logging: using a standard Python
+Logger,
+TensorBoard, and Weights & Biases. Depending on your preferences and use
+case, you can add or remove logging frameworks here:
+<b>from</b> <b>torch.utils.tensorboard</b> <b>import</b> SummaryWriter
+<b>import</b> <b>logging</b>
+<b>import</b> <b>wandb</b>
+<b>def</b> setup_logging(project_name):
+logger = logging.getLogger(__name__)
+logging.basicConfig(
+format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+datefmt="%m/%d/%Y %H:%M:%S", level=logging.INFO, handlers=[
+logging.FileHandler(f"log/debug_{accelerator.process_index}.log"),
+logging.StreamHandler()])
+<b>if</b> accelerator.is_main_process: <i>#</i> <i>We</i> <i>only</i> <i>want</i> <i>to</i> <i>set</i> <i>up</i> <i>logging</i> <i>once</i>
+wandb.init(project=project_name, config=args)
+run_name = wandb.run.name
+tb_writer = SummaryWriter()
+tb_writer.add_hparams(vars(args), {'0': 0})
+logger.setLevel(logging.INFO)
+datasets.utils.logging.set_verbosity_debug()
+transformers.utils.logging.set_verbosity_info()
+<b>else:</b>
+tb_writer = None
+run_name = ''
+logger.setLevel(logging.ERROR)

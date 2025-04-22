@@ -1,0 +1,35 @@
+Another alternative is to use the agreement among human labelers as the weight of a
+pattern during training. Thus, if 5 experts agree on a diagnosis, the training pattern
+gets a weight of 1, while if the experts are split 3 to 2, the weight of the pattern might
+be only 0.6. This allows us to train a binary classifier, but overweight the classifier
+toward the “sure” cases. The drawback to this approach is that when the probability
+output by the model is 0.5, it is unclear whether it is because this reflects a situation
+where there was insufficient training data, or whether it is a situation where human
+experts disagree. Using a neutral class to capture areas of disagreement allows us to
+disambiguate the two situations.
+<b>Customersatisfaction</b>
+The need for a neutral class also arises with models that attempt to predict customer
+satisfaction. If the training data consists of survey responses where customers grade
+their experience on a scale of 1 to 10, it might be helpful to bucket the ratings into
+three categories: 1 to 4 as bad, 8 to 10 as good, and 5 to 7 is neutral. If, instead, we
+attempt to train a binary classifier by thresholding at 6, the model will spend too
+much effort trying to get essentially neutral responses correct.
+<b>Asawaytoimproveembeddings</b>
+Suppose we are creating a pricing model for flights and wish to predict whether or
+not a customer will buy a flight at a certain price. To do this, we can look at historical
+transactions of flight purchases and abandoned shopping carts. However, suppose
+many of our transactions also include purchases by consolidators and travel agents—
+these are people who have contracted fares, and so the fares for them were not
+actually set dynamically. In other words, they don’t pay the currently displayed price.
+We could throw away all the nondynamic purchases and train the model only on cus‐
+tomers who made the decision to buy or not buy based on the price being displayed.
+However, such a model will miss all the information held in the destinations that the
+consolidator or travel agent was interested in at various times—this will affect things
+like how airports and hotels are embedded. One way to retain that information while
+not affecting the pricing decision is to use a neutral class for these transactions.
+<b>Reframingwithneutralclass</b>
+Suppose we are training an automated trading system that makes trades based on
+whether it expects a security to go up or down in price. Because of stock market vola‐
+tility and the speed with which new information is reflected in stock prices, trying to
+trade on small predicted ups and downs is likely to lead to high trading costs and
+poor profits over time.

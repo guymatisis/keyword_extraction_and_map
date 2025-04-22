@@ -1,0 +1,38 @@
+This gives us all of the functions and classes we will need to create a wide variety of
+computer vision models.
+<b>JeremySays</b>
+A lot of Python coders recommend avoiding importing a whole
+import *
+library like this (using the syntax) because in large soft‐
+ware projects it can cause problems. However, for interactive work
+such as in a Jupyter notebook, it works great. The fastai library is
+specially designed to support this kind of interactive use, and it will
+import only the necessary pieces into your environment.
+The second line downloads a standard dataset from the fast.ai datasets collection (if
+not previously downloaded) to your server, extracts it (if not previously extracted),
+and returns a Path object with the extracted location:
+path = untar_data(URLs.PETS)/'images'
+<b>SylvainSays</b>
+Throughout my time studying at fast.ai, and even still today, I’ve
+learned a lot about productive coding practices. The fastai library
+and fast.ai notebooks are full of great little tips that have helped
+make me a better programmer. For instance, notice that the fastai
+library doesn’t just return a string containing the path to the data‐
+set, but a Path object. This is a really useful class from the Python 3
+standard library that makes accessing files and directories much
+easier. If you haven’t come across it before, be sure to check out its
+documentation or a tutorial and try it out. Note that the book’s
+website contains links to recommended tutorials for each chapter.
+I’ll keep letting you know about little coding tips I’ve found useful
+as we come across them.
+In the third line, we define a function, is_cat , that labels cats based on a filename
+rule provided by the dataset’s creators:
+<b>def</b> is_cat(x): <b>return</b> x[0].isupper()
+We use that function in the fourth line, which tells fastai what kind of dataset we have
+and how it is structured:
+dls = ImageDataLoaders.from_name_func(
+path, get_image_files(path), valid_pct=0.2, seed=42,
+label_func=is_cat, item_tfms=Resize(224))
+There are various classes for different kinds of deep learning datasets and problems—
+here we’re using ImageDataLoaders. The first part of the class name will generally be
+the type of data you have, such as image or text.

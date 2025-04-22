@@ -1,0 +1,28 @@
+<header><largefont><b>Where</b></largefont> <largefont><b>to</b></largefont> <largefont><b>from</b></largefont> <largefont><b>Here?</b></largefont></header>
+Well that’s the end of the ride; thanks for joining us on this journey through the trans‐
+formers landscape! Throughout this book we’ve explored how transformers can
+address a wide range of tasks and achieve state-of-the-art results. In this chapter we’ve
+seen how the current generation of models are being pushed to their limits with scal‐
+ing and how they are also branching out into new domains and modalities.
+If you want to reinforce the concepts and skills that you’ve learned in this book, here
+are a few ideas for where to go from here:
+<i>Join</i> <i>a</i> <i>Hugging</i> <i>Face</i> <i>community</i> <i>event</i>
+Hugging Face hosts short sprints focused on improving the libraries in the eco‐
+system, and these events are a great way to meet the community and get a taste
+for open source software development. So far there have been sprints on adding
+600+ datasets to Datasets, fine-tuning 300+ ASR models in various languages,
+and implementing hundreds of projects in JAX/Flax.
+<i>Build</i> <i>your</i> <i>own</i> <i>project</i>
+One very effective way to test your knowledge in machine learning is to build a
+project to solve a problem that interests you. You could reimplement a trans‐
+former paper, or apply transformers to a novel domain.
+<i>Contribute</i> <i>a</i> <i>model</i> <i>to</i> <i>Transformers</i>
+If you’re looking for something more advanced, then contributing a newly pub‐
+lished architecture to Transformers is a great way to dive into the nuts and
+bolts of the library. There is a detailed guide to help you get started in the
+Transformers documentation.
+<i>Blog</i> <i>about</i> <i>what</i> <i>you’ve</i> <i>learned</i>
+Teaching others what you’ve learned is a powerful test of your own knowledge,
+and in a sense this was one of the driving motivations behind us writing this
+book! There are great tools to help you get started with technical blogging; we
+recommend <i>fastpages</i> as you can easily use Jupyter notebooks for everything.

@@ -1,0 +1,25 @@
+Here’s an example of one row from the dependent variable:
+yb[0]
+tensor([[0.0111, 0.1810]], device='cuda:5')
+As you can see, we haven’t had to use a separate <i>image</i> <i>regression</i> application; all we’ve
+had to do is label the data and tell fastai what kinds of data the independent and
+dependent variables represent.
+It’s the same for creating our Learner. We will use the same function as before, with
+one new parameter, and we will be ready to train our model.
+<header><largefont><b>Training</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Model</b></largefont></header>
+cnn_learner Learner.
+As usual, we can use to create our Remember way back in
+Chapter 1 how we used y_range to tell fastai the range of our targets? We’ll do the
+same here (coordinates in fastai and PyTorch are always rescaled between –1 and +1):
+learn = cnn_learner(dls, resnet18, y_range=(-1,1))
+y_range is implemented in fastai using sigmoid_range, which is defined as follows:
+<b>def</b> sigmoid_range(x, lo, hi): <b>return</b> torch.sigmoid(x) * (hi-lo) + lo
+This is set as the final layer of the model, if y_range is defined. Take a moment to
+think about what this function does, and why it forces the model to output activa‐
+tions in the range (lo,hi) .
+Here’s what it looks like:
+plot_function(partial(sigmoid_range,lo=-1,hi=1), min=-4, max=4)
+We didn’t specify a loss function, which means we’re getting whatever fastai chooses
+as the default. Let’s see what it picked for us:
+dls.loss_func
+FlattenedLoss of MSELoss()

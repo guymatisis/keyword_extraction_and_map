@@ -1,0 +1,16 @@
+<i>Figure</i> <i>3-6.</i> <i>Bias</i> <i>in</i> <i>machine</i> <i>learning</i> <i>can</i> <i>come</i> <i>from</i> <i>multiple</i> <i>sources</i> <i>(courtesy</i> <i>of</i> <i>Harini</i>
+<i>Suresh</i> <i>and</i> <i>John</i> <i>V.</i> <i>Guttag)</i>
+We’ll discuss four of these types of bias, those that we’ve found most helpful in our
+own work (see the paper for details on the others).
+<b>Historicalbias</b>
+<i>Historical</i> <i>bias</i> comes from the fact that people are biased, processes are biased, and
+society is biased. Suresh and Guttag say: “Historical bias is a fundamental, structural
+issue with the first step of the data generation process and can exist even given perfect
+sampling and feature selection.”
+For instance, here are a few examples of historical <i>race</i> <i>bias</i> in the US, from the <i>New</i>
+<i>York</i> <i>Times</i> article “Racial Bias, Even When We Have Good Intentions” by the Univer‐
+sity of Chicago’s Sendhil Mullainathan:
+• When doctors were shown identical files, they were much less likely to recom‐
+mend cardiac catheterization (a helpful procedure) to Black patients.
+• When bargaining for a used car, Black people were offered initial prices $700
+higher and received far smaller concessions.

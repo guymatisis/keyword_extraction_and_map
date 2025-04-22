@@ -1,0 +1,37 @@
+us that overall, extreme weather is the most significant feature when predicting
+delays.
+The two feature attribution methods we’ll explore 5 are outlined in Table 7-2 and pro‐
+vide different approaches that can be used for both instance-level and global
+explanations.
+<i>Table</i> <i>7-2.</i> <i>Descriptions</i> <i>of</i> <i>different</i> <i>explanation</i> <i>methods</i> <i>and</i> <i>links</i> <i>to</i> <i>their</i> <i>research</i> <i>papers</i>
+<b>Name</b> <b>Description</b> <b>Paper</b>
+a
+SampledShapley BasedontheconceptofShapleyValue, thisapproach https://oreil.ly/ubEjW
+determinesafeature’smarginalcontributionbycalculatinghow
+muchaddingandremovingthatfeatureaffectsaprediction,
+analyzedovermultiplecombinationsoffeaturevalues.
+IntegratedGradients(IG) Usingapredefinedmodelbaseline,IGcalculatesthederivatives https://oreil.ly/sy8f8
+(gradients)alongthepathfromthisbaselinetoaspecificinput.
+a TheShapleyValuewasintroducedinapaperbyLloydShapleyin1951,andisbasedonconceptsfromgametheory.
+While we could implement these approaches from scratch, there is tooling designed
+to simplify the process of getting feature attributions. The available open source and
+cloud-based explainability tools let us focus on debugging, improving, and summa‐
+rizing our models.
+<b>Modelbaseline</b>
+In order to use these tools, we first need to understand the concept of a <i>baseline</i> as it
+applies to explaining models with feature attributions. The goal of any explainability
+method is to answer the question, “Why did the model predict X?” Feature attribu‐
+tions attempt to do this by providing numerical values for each feature indicating
+how much that feature contributed to the final output. Take for example a model
+predicting whether a patient has heart disease given some demographic and health
+data. For a single example in our test dataset, let’s imagine that the attribution value
+for a patient’s cholesterol feature is 0.4, and the attribution for their blood pressure is
+−0.2. Without context, these attribution values don’t mean much, and our first ques‐
+tion will likely be, “0.4 and −0.2 relative to what?” That “what” is the model’s <i>baseline.</i>
+Whenever we get feature attribution values, they are all relative to a predefined base‐
+line prediction value for our model. Baseline predictions can either be <i>informative</i> or
+<i>uninformative.</i> Uninformative baselines typically compare against some average case
+across a training dataset. In an image model, an uninformative baseline could be a
+5 We’refocusingonthesetwoexplainabilitymethodssincetheyarewidelyusedandcoveravarietyofmodel
+types,buttherearemanyothermethodsandframeworksnotincludedinthisanalysis,suchasLIMEand
+ELI5.

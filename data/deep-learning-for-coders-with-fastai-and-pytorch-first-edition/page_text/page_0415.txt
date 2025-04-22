@@ -1,0 +1,37 @@
+<header><largefont><b>Creating</b></largefont> <largefont><b>the</b></largefont> <largefont><b>CNN</b></largefont></header>
+Let’s go back to the basic neural network we had in Chapter 4. It was defined like this:
+simple_net = nn.Sequential(
+nn.Linear(28*28,30),
+nn.ReLU(),
+nn.Linear(30,1)
+)
+We can view a model’s definition:
+simple_net
+Sequential(
+(0): Linear(in_features=784, out_features=30, bias=True)
+(1): ReLU()
+(2): Linear(in_features=30, out_features=1, bias=True)
+)
+We now want to create a similar architecture to this linear model, but using convolu‐
+tional layers instead of linear. nn.Conv2d is the module equivalent of F.conv2d. It’s
+more convenient than F.conv2d when creating an architecture, because it creates the
+weight matrix for us automatically when we instantiate it.
+Here’s a possible architecture:
+broken_cnn = sequential(
+nn.Conv2d(1,30, kernel_size=3, padding=1),
+nn.ReLU(),
+nn.Conv2d(30,1, kernel_size=3, padding=1)
+)
+One thing to note here is that we didn’t need to specify 28*28 as the input size. That’s
+because a linear layer needs a weight in the weight matrix for every pixel, so it needs
+to know how many pixels there are, but a convolution is applied over each pixel auto‐
+matically. The weights depend only on the number of input and output channels and
+the kernel size, as we saw in the previous section.
+Think about what the output shape is going to be; then let’s try it and see:
+broken_cnn(xb).shape
+torch.Size([64, 1, 28, 28])
+This is not something we can use to do classification, since we need a single output
+activation per image, not a 28×28 map of activations. One way to deal with this is to
+use enough stride-2 convolutions such that the final layer is size 1. After one stride-2
+convolution, the size will be 14×14; after two, it will be 7×7; then 4×4, 2×2, and finally
+size 1.

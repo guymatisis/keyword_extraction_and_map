@@ -1,0 +1,26 @@
+We can also get a tensor’s rank directly with ndim :
+stacked_threes.ndim
+3
+Finally, we can compute what the ideal 3 looks like. We calculate the mean of all the
+image tensors by taking the mean along dimension 0 of our stacked, rank-3 tensor.
+This is the dimension that indexes over all the images.
+In other words, for every pixel position, this will compute the average of that pixel
+over all images. The result will be one value for every pixel position, or a single
+image. Here it is:
+mean3 = stacked_threes.mean(0)
+show_image(mean3);
+According to this dataset, this is the ideal number 3! (You may not like it, but this is
+what peak number 3 performance looks like.) You can see how it’s very dark where all
+the images agree it should be dark, but it becomes wispy and blurry where the images
+disagree.
+Let’s do the same thing for the 7s, but put all the steps together at once to save time:
+mean7 = stacked_sevens.mean(0)
+show_image(mean7);
+Let’s now pick an arbitrary 3 and measure its <i>distance</i> from our “ideal digits.”
+<b>StopandThink!</b>
+How would you calculate how similar a particular image is to each
+of our ideal digits? Remember to step away from this book and jot
+down some ideas before you move on! Research shows that recall
+and understanding improve dramatically when you are engaged
+with the learning process by solving problems, experimenting, and
+trying new ideas yourself.

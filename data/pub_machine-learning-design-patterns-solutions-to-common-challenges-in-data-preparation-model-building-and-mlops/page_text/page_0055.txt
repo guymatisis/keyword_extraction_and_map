@@ -1,0 +1,38 @@
+This dataset contains information on taxi rides in New York City with features such
+as the timestamp of pickup, the pickup and drop-off latitude and longitude, and
+number of passengers. The label here is fare_amount , the cost of the taxi ride. Which
+feature crosses might be relevant for this dataset?
+pickup_datetime
+There could be many. Let’s consider the . From this feature, we can
+use information about the ride’s hour and day of the week. Each of these is a categori‐
+cal variable, and certainly both contain predictive power in determining the price of a
+day_of_week
+taxi ride. For this dataset, it makes sense to consider a feature cross of
+and hour_of_day since it’s reasonable to assume that taxi rides at 5pm on Monday
+should be treated differently than taxi rides at 5 p.m. on Friday (see Table 2-9).
+<i>Table</i> <i>2-9.</i> <i>A</i> <i>preview</i> <i>of</i> <i>the</i> <i>data</i> <i>we’re</i> <i>using</i> <i>to</i> <i>create</i> <i>a</i> <i>feature</i> <i>cross:</i> <i>the</i> <i>day</i> <i>of</i> <i>week</i> <i>and</i>
+<i>hour</i> <i>of</i> <i>day</i> <i>columns</i>
+<b>day_of_week</b> <b>hour_of_day</b>
+Sunday 00
+Sunday 01
+... ...
+Saturday 23
+A feature cross of these two features would be a 168-dimensional one-hot encoded
+vector (24 hours × 7 days = 168) with the example “Monday at 5 p.m.” occupying a
+day_of_week hour_of_day
+single index denoting ( is Monday concatenated with
+is 17).
+While the two features are important on their own, allowing for a feature cross of
+hour_of_day and day_of_week makes it easier for a taxi fare prediction model to rec‐
+ognize that end-of-the-week rush hour influences the taxi ride duration and thus the
+taxi fare in its own way.
+<b>FeaturecrossinBigQueryML</b>
+ML.FEATURE_CROSS
+To create the feature cross in BigQuery, we can use the function
+and pass in a STRUCT of the features day_of_week and hour_of_day :
+ML.FEATURE_CROSS(STRUCT(day_of_week,hour_of_week)) AS day_X_hour
+The STRUCT clause creates an ordered pair of the two features. If our software frame‐
+work doesn’t support a feature cross function, we can get the same effect using string
+concatenation:
+CONCAT(CAST(day_of_week AS STRING),
+CAST(hour_of_week AS STRING)) AS day_X_hour

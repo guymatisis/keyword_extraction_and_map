@@ -1,0 +1,31 @@
+videos. A natural way to frame this problem is as a classification problem of predict‐
+ing whether a user is likely to watch a certain video. This framing, however, can lead
+to a recommendation system that prioritizes click bait. It might be better to reframe
+this into a regression problem of predicting the fraction of the video that will be
+watched.
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+Changing the context and reframing the task of a problem can help when building a
+machine learning solution. Instead of learning a single real number, we relax our pre‐
+diction target to be instead a discrete probability distribution. We lose a little preci‐
+sion due to bucketing, but gain the expressiveness of a full probability density
+function (PDF). The discretized predictions provided by the classification model are
+more adept at learning a complex target than the more rigid regression model.
+An added advantage of this classification framing is that we obtain posterior proba‐
+bility distribution of our predicted values, which provides more nuanced informa‐
+tion. For example, suppose the learned distribution is bimodal. By modeling a
+classification as a discrete probability distribution, the model is able to capture the
+bimodal structure of the predictions, as Figure 3-2 illustrates. Whereas, if only pre‐
+dicting a single numeric value, this information would be lost. Depending on the use
+case, this could make the task easier to learn and substantially more advantageous.
+<i>Figure</i> <i>3-2.</i> <i>Reframing</i> <i>a</i> <i>classification</i> <i>task</i> <i>to</i> <i>model</i> <i>a</i> <i>probability</i> <i>distribution</i> <i>allows</i>
+<i>the</i> <i>predictions</i> <i>to</i> <i>capture</i> <i>bimodal</i> <i>output.</i> <i>The</i> <i>prediction</i> <i>is</i> <i>not</i> <i>limited</i> <i>to</i> <i>a</i> <i>single</i>
+<i>value</i> <i>as</i> <i>in</i> <i>a</i> <i>regression.</i>
+<b>Capturinguncertainty</b>
+Let’s look again at the natality dataset and the task of predicting baby weight. Since
+baby weight is a positive real value, this is intuitively a regression problem. However,
+weight_pounds
+notice that for a given set of inputs, (the label) can take many differ‐
+ent values. We see that the distribution of babies’ weights for a specific set of input
+values (male babies born to 25-year-old mothers at 38 weeks) approximately follows
+a normal distribution centered at about 7.5 pounds. The code to produce the graph in
+Figure 3-3 can be found in the repository for this book.

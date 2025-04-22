@@ -1,0 +1,19 @@
+<i>Figure</i> <i>19-6.</i> <i>Creating</i> <i>a</i> <i>new</i> <i>model</i> <i>version</i> <i>on</i> <i>Google</i> <i>Cloud</i> <i>AI</i> <i>Platform</i>
+Congratulations, you have deployed your first model on the cloud! Because you
+selected automatic scaling, AI Platform will start more TF Serving containers when
+the number of queries per second increases, and it will load-balance the queries
+between them. If the QPS goes down, it will stop containers automatically. The cost is
+therefore directly linked to the QPS (as well as the type of machine you choose and
+the amount of data you store on GCS). This pricing model is particularly useful for
+occasional users and for services with important usage spikes, as well as for startups:
+the price remains low until the startup actually starts up.
+If you do not use the prediction service, AI Platform will stop all
+containers. This means you will only pay for the amount of storage
+you use (a few cents per gigabyte per month). Note that when you
+query the service, AI Platform will need to start up a TF Serving
+container, which will take a few seconds. If this delay is unaccepta‐
+ble, you will have to set the minimum number of TF Serving con‐
+tainers to 1 when creating the model version. Of course, this means
+at least one machine will run constantly, so the monthly fee will be
+higher.
+Now let’s query this prediction service!

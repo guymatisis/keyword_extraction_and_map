@@ -1,0 +1,24 @@
+We can see that questions beginning with “How”, “What”, and “Is” are the most com‐
+mon ones, so let’s have a look at some examples:
+<b>for</b> question_type <b>in</b> ["How", "What", "Is"]:
+<b>for</b> question <b>in</b> (
+dfs["train"][dfs["train"].question.str.startswith(question_type)]
+.sample(n=3, random_state=42)['question']):
+<b>print(question)</b>
+How is the camera?
+How do you like the control?
+How fast is the charger?
+What is direction?
+What is the quality of the construction of the bag?
+What is your impression of the product?
+Is this how zoom works?
+Is sound clear?
+Is it a wireless keyboard?
+<header><largefont><b>The</b></largefont> <largefont><b>Stanford</b></largefont> <largefont><b>Question</b></largefont> <largefont><b>Answering</b></largefont> <largefont><b>Dataset</b></largefont></header>
+The <i>(question,</i> <i>review,</i> <i>[answer</i> <i>sentences])</i> format of SubjQA is commonly used in
+extractive QA datasets, and was pioneered in the Stanford Question Answering Data‐
+set (SQuAD). 5 This is a famous dataset that is often used to test the ability of
+machines to read a passage of text and answer questions about it. The dataset was cre‐
+ated by sampling several hundred English articles from Wikipedia, partitioning each
+article into paragraphs, and then asking crowdworkers to generate a set of questions
+5 P.Rajpurkaretal.,“SQuAD:100,000+QuestionsforMachineComprehensionofText”,(2016).

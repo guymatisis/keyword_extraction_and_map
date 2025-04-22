@@ -1,0 +1,44 @@
+max_samples=1.0 bootstrap_features
+and ) but sampling features (by setting to
+True and/or max_features to a value smaller than 1.0 ) is called the <i>Random</i> <i>Subspa‐</i>
+<i>ces</i> method.8
+Sampling features results in even more predictor diversity, trading a bit more bias for
+a lower variance.
+<header><largefont><b>Random</b></largefont> <largefont><b>Forests</b></largefont></header>
+9
+As we have discussed, a Random Forest is an ensemble of Decision Trees, generally
+max_samples
+trained via the bagging method (or sometimes pasting), typically with
+set to the size of the training set. Instead of building a BaggingClassifier and pass‐
+DecisionTreeClassifier RandomForestClassifier
+ing it a , you can instead use the
+class, which is more convenient and optimized for Decision Trees10 (similarly, there is
+a RandomForestRegressor class for regression tasks). The following code uses all
+available CPU cores to train a Random Forest classifier with 500 trees (each limited
+to maximum 16 nodes):
+<b>from</b> <b>sklearn.ensemble</b> <b>import</b> RandomForestClassifier
+rnd_clf = RandomForestClassifier(n_estimators=500, max_leaf_nodes=16, n_jobs=-1)
+rnd_clf.fit(X_train, y_train)
+y_pred_rf = rnd_clf.predict(X_test)
+RandomForestClassifier
+With a few exceptions, a has all the hyperparameters of a
+DecisionTreeClassifier
+(to control how trees are grown), plus all the hyperpara‐
+meters of a BaggingClassifier to control the ensemble itself.11
+The Random Forest algorithm introduces extra randomness when growing trees;
+instead of searching for the very best feature when splitting a node (see Chapter 6), it
+searches for the best feature among a random subset of features. The algorithm
+results in greater tree diversity, which (again) trades a higher bias for a lower var‐
+iance, generally yielding an overall better model. The following BaggingClassifier
+RandomForestClassifier
+is roughly equivalent to the previous :
+8 TinKamHo,“TheRandomSubspaceMethodforConstructingDecisionForests,”IEEETransactionsonPat‐
+<i>ternAnalysisandMachineIntelligence20,no.8(1998):832–844.</i>
+9 TinKamHo,“RandomDecisionForests,”ProceedingsoftheThirdInternationalConferenceonDocument
+<i>AnalysisandRecognition1(1995):278.</i>
+10 TheBaggingClassifierclassremainsusefulifyouwantabagofsomethingotherthanDecisionTrees.
+splitter "random" presort
+11 Thereareafewnotableexceptions: isabsent(forcedto ), isabsent(forcedto
+False),max_samplesisabsent(forcedto1.0),andbase_estimatorisabsent(forcedtoDecisionTreeClassi
+fier
+withtheprovidedhyperparameters).

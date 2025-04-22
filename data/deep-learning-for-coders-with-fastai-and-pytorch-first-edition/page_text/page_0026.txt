@@ -1,0 +1,35 @@
+<i>recommendation</i> <i>system</i> that can predict what products a user might purchase. This is
+often used in ecommerce, such as to customize products shown on a home page by
+showing the highest-ranked items. But such a model is generally created by looking at
+a user and their buying history (inputs) and what they went on to buy or look at
+(labels), which means that the model is likely to tell you about products the user
+already has, or already knows about, rather than new products that they are most
+likely to be interested in hearing about. That’s very different from what, say, an expert
+at your local bookseller might do, where they ask questions to figure out your taste,
+and then tell you about authors or series that you’ve never heard of before.
+Another critical insight comes from considering how a model interacts with its envi‐
+ronment. This can create <i>feedback</i> <i>loops,</i> as described here:
+1. A <i>predictive</i> <i>policing</i> model is created based on where arrests have been made in
+the past. In practice, this is not actually predicting crime, but rather predicting
+arrests, and is therefore partially simply reflecting biases in existing policing
+processes.
+2. Law enforcement officers then might use that model to decide where to focus
+their policing activity, resulting in increased arrests in those areas.
+3. Data on these additional arrests would then be fed back in to retrain future ver‐
+sions of the model.
+This is a <i>positive</i> <i>feedback</i> <i>loop:</i> the more the model is used, the more biased the data
+becomes, making the model even more biased, and so forth.
+Feedback loops can also create problems in commercial settings. For instance, a video
+recommendation system might be biased toward recommending content consumed
+by the biggest watchers of video (e.g., conspiracy theorists and extremists tend to
+watch more online video content than the average), resulting in those users increas‐
+ing their video consumption, resulting in more of those kinds of videos being recom‐
+mended. We’ll consider this topic in more detail in Chapter 3.
+Now that you have seen the base of the theory, let’s go back to our code example and
+see in detail how the code corresponds to the process we just described.
+<header><largefont><b>How</b></largefont> <largefont><b>Our</b></largefont> <largefont><b>Image</b></largefont> <largefont><b>Recognizer</b></largefont> <largefont><b>Works</b></largefont></header>
+Let’s see just how our image recognizer code maps to these ideas. We’ll put each line
+into a separate cell, and look at what each one is doing (we won’t explain every detail
+of every parameter yet, but will give a description of the important bits; full details
+will come later in the book). The first line imports all of the fastai.vision library:
+<b>from</b> <b>fastai.vision.all</b> <b>import</b> *

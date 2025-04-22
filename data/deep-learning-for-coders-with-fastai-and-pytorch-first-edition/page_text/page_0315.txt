@@ -1,0 +1,22 @@
+<header><largefont><b>The</b></largefont> <largefont><b>Extrapolation</b></largefont> <largefont><b>Problem</b></largefont></header>
+Let’s consider the simple task of making predictions from 40 data points showing a
+slightly noisy linear relationship:
+x_lin = torch.linspace(0,20, steps=40)
+y_lin = x_lin + torch.randn_like(x_lin)
+plt.scatter(x_lin, y_lin);
+Although we have only a single independent variable, sklearn expects a matrix of
+independent variables, not a single vector. So we have to turn our vector into a matrix
+with one column. In other words, we have to change the <i>shape</i> from [40] to [40,1].
+unsqueeze
+One way to do that is with the method, which adds a new unit axis to a
+tensor at the requested dimension:
+xs_lin = x_lin.unsqueeze(1)
+x_lin.shape,xs_lin.shape
+(torch.Size([40]), torch.Size([40, 1]))
+A more flexible approach is to slice an array or tensor with the special value None,
+which introduces an additional unit axis at that location:
+x_lin[:,None].shape
+torch.Size([40, 1])
+We can now create a random forest for this data. We’ll use only the first 30 rows to
+train the model:
+m_lin = RandomForestRegressor().fit(xs_lin[:30],y_lin[:30])

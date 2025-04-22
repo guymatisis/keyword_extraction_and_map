@@ -1,0 +1,40 @@
+Another reason to use a framework like Apache Beam is if the client code needs to
+maintain state. A common reason that the client needs to maintain state is if one of
+the inputs to the ML model is a time-windowed average. In that case, the client code
+has to carry out moving averages of the incoming stream of data and supply the mov‐
+ing average to the ML model.
+Imagine that we are building a comment moderation system and we wish to reject
+people who comment more than two times a day about a specific person. For exam‐
+ple, the first two times that a commenter writes something about President Obama,
+we will let it go but block all attempts by that commenter to mention President
+Obama for the rest of the day. This is an example of postprocessing that needs to
+maintain state because we need a counter of the number of times that each com‐
+menter has mentioned a particular celebrity. Moreover, this counter needs to be over
+a rotating time period of 24 hours.
+We can do this using a distributed data processing framework that can maintain
+state. Enter Apache Beam. Invoking an ML model to identify mentions of a celebrity
+and tying them to a canonical knowledge graph (so that a mention of Obama and a
+mention of President Obama both tie to <i>en.wikipedia.org/wiki/Barack_Obama)</i> from
+Apache Beam can be accomplished using the following (see this notebook in GitHub
+for complete code):
+| beam.Map(lambda x : nlp.Document(x, type='PLAIN_TEXT'))
+| nlp.AnnotateText(features)
+| beam.Map(parse_nlp_result)
+parse_nlp_result Annotate
+where parses the JSON request that goes through the
+Text transform which, beneath the covers, invokes an NLP API.
+<b>Cachedresultsofbatchserving</b>
+We discussed batch serving as a way to invoke a model over millions of items when
+the model is normally served online using the Stateless Serving Function design pat‐
+tern. Of course, it is possible for batch serving to work even if the model does not
+support online serving. What matters is that the machine learning framework doing
+inference is capable of taking advantage of embarrassingly parallel processing.
+Recommendation engines, for example, need to fill out a sparse matrix consisting of
+every user–item pair. A typical business might have 10 million all-time users and
+10,000 items in the product catalog. In order to make a recommendation for a user,
+recommendation scores have to be computed for each of the 10,000 items, ranked,
+and the top 5 presented to the user. This is not feasible to do in near real time off a
+serving function. Yet, the near real-time requirement means that simply using batch
+serving will not work either.
+In such cases, use batch serving to precompute recommendations for all 10 million
+users:

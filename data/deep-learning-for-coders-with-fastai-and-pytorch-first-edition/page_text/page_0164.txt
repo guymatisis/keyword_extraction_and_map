@@ -1,0 +1,36 @@
+A Dataset in PyTorch is required to return a tuple of (x,y) when indexed. Python
+provides a zip function that, when combined with list, provides a simple way to get
+this functionality:
+dset = list(zip(train_x,train_y))
+x,y = dset[0]
+x.shape,y
+(torch.Size([784]), tensor([1]))
+valid_x = torch.cat([valid_3_tens, valid_7_tens]).view(-1, 28*28)
+valid_y = tensor([1]*len(valid_3_tens) + [0]*len(valid_7_tens)).unsqueeze(1)
+valid_dset = list(zip(valid_x,valid_y))
+Now we need an (initially random) weight for every pixel (this is the <i>initialize</i> step in
+our seven-step process):
+<b>def</b> init_params(size, std=1.0): <b>return</b> (torch.randn(size)*std).requires_grad_()
+weights = init_params((28*28,1))
+The function weights*pixels won’t be flexible enough—it is always equal to 0 when
+the pixels are equal to 0 (i.e., its <i>intercept</i> is 0). You might remember from high school
+math that the formula for a line is y=w*x+b ; we still need the b . We’ll initialize it to a
+random number too:
+bias = init_params(1)
+In neural networks, the w in the equation y=w*x+b is called the <i>weights,</i> and the b is
+called the <i>bias.</i> Together, the weights and bias make up the <i>parameters.</i>
+<b>Jargon:Parameters</b>
+w
+The <i>weights</i> and <i>biases</i> of a model. The weights are the in the
+w*x+b, b
+equation and the biases are the in that equation.
+We can now calculate a prediction for one image:
+(train_x[0]*weights.T).sum() + bias
+tensor([20.2336], grad_fn=<AddBackward0>)
+While we could use a Python for loop to calculate the prediction for each image, that
+would be very slow. Because Python loops don’t run on the GPU, and because Python
+is a slow language for loops in general, we need to represent as much of the computa‐
+tion in a model as possible using higher-level functions.
+In this case, there’s an extremely convenient mathematical operation that calculates
+w*x for every row of a matrix—it’s called <i>matrix</i> <i>multiplication.</i> Figure 4-6 shows what
+matrix multiplication looks like.

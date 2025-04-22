@@ -1,0 +1,27 @@
+<i>Figure</i> <i>16-4.</i> <i>Feeding</i> <i>the</i> <i>previous</i> <i>output</i> <i>word</i> <i>as</i> <i>input</i> <i>at</i> <i>inference</i> <i>time</i>
+OK, now you have the big picture. Still, there are a few more details to handle if you
+implement this model:
+• So far we have assumed that all input sequences (to the encoder and to the
+decoder) have a constant length. But obviously sentence lengths vary. Since regu‐
+lar tensors have fixed shapes, they can only contain sentences of the same length.
+You can use masking to handle this, as discussed earlier. However, if the senten‐
+ces have very different lengths, you can’t just crop them like we did for sentiment
+analysis (because we want full translations, not cropped translations). Instead,
+group sentences into buckets of similar lengths (e.g., a bucket for the 1- to 6-
+word sentences, another for the 7- to 12-word sentences, and so on), using pad‐
+ding for the shorter sequences to ensure all sentences in a bucket have the same
+tf.data.experimental.bucket_by_sequence_length()
+length (check out the
+function for this). For example, “I drink milk” becomes “<pad> <pad> <pad>
+milk drink I.”
+• We want to ignore any output past the EOS token, so these tokens should not
+contribute to the loss (they must be masked out). For example, if the model out‐
+puts “Je bois du lait <eos> oui,” the loss for the last word should be ignored.
+• When the output vocabulary is large (which is the case here), outputting a proba‐
+bility for each and every possible word would be terribly slow. If the target
+vocabulary contains, say, 50,000 French words, then the decoder would output
+50,000-dimensional vectors, and then computing the softmax function over such
+a large vector would be very computationally intensive. To avoid this, one solu‐
+tion is to look only at the logits output by the model for the correct word and for
+a random sample of incorrect words, then compute an approximation of the loss
+based only on these logits. This <i>sampled</i> <i>softmax</i> technique was introduced in

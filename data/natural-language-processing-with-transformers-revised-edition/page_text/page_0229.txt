@@ -1,0 +1,30 @@
+<b>Epoch</b> <b>TrainingLoss</b> <b>ValidationLoss</b> <b>Accuracy</b>
+1 0.9031 0.574540 0.736452
+2 0.4481 0.285621 0.874839
+3 0.2528 0.179766 0.918710
+4 0.1760 0.139828 0.929355
+5 0.1416 0.121053 0.934839
+6 0.1243 0.111640 0.934839
+7 0.1133 0.106174 0.937742
+8 0.1075 0.103526 0.938710
+9 0.1039 0.101432 0.938065
+10 0.1018 0.100493 0.939355
+Remarkably, we’ve been able to train the student to match the accuracy of the teacher,
+despite it having almost half the number of parameters! Let’s push the model to the
+Hub for future use:
+distil_trainer.push_to_hub("Training complete")
+<header><largefont><b>Benchmarking</b></largefont> <largefont><b>Our</b></largefont> <largefont><b>Distilled</b></largefont> <largefont><b>Model</b></largefont></header>
+Now that we have an accurate student, let’s create a pipeline and redo our benchmark
+to see how we perform on the test set:
+distilled_ckpt = "transformersbook/distilbert-base-uncased-distilled-clinc"
+pipe = pipeline("text-classification", model=distilled_ckpt)
+optim_type = "Distillation"
+pb = PerformanceBenchmark(pipe, clinc["test"], optim_type=optim_type)
+perf_metrics.update(pb.run_benchmark())
+Model size (MB) - 255.89
+Average latency (ms) - 25.96 +\- 1.63
+Accuracy on test set - 0.868
+plot_metrics()
+To put these results in context, let’s also visualize them with our
+function:
+plot_metrics(perf_metrics, optim_type)

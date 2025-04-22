@@ -1,0 +1,33 @@
+<header><largefont><b>Refactoring</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Model</b></largefont></header>
+The three functions we used have two associated functions: a forward pass and a
+backward pass. Instead of writing them separately, we can create a class to wrap them
+together. That class can also store the inputs and outputs for the backward pass. This
+way, we will just have to call backward:
+<b>class</b> <b>Relu():</b>
+<b>def</b> <b>__call__(self,</b> inp):
+self.inp = inp
+self.out = inp.clamp_min(0.)
+<b>return</b> self.out
+<b>def</b> backward(self): self.inp.g = (self.inp>0).float() * self.out.g
+__call__ is a magic name in Python that will make our class callable. This is what
+will be executed when we type y = Relu()(x). We can do the same for our linear
+layer and the MSE loss:
+<b>class</b> <b>Lin():</b>
+<b>def</b> <b>__init__(self,</b> w, b): self.w,self.b = w,b
+<b>def</b> <b>__call__(self,</b> inp):
+self.inp = inp
+self.out = inp@self.w + self.b
+<b>return</b> self.out
+<b>def</b> backward(self):
+self.inp.g = self.out.g @ self.w.t()
+self.w.g = self.inp.t() @ self.out.g
+self.b.g = self.out.g.sum(0)
+<b>class</b> <b>Mse():</b>
+<b>def</b> <b>__call__(self,</b> inp, targ):
+self.inp = inp
+self.targ = targ
+self.out = (inp.squeeze() - targ).pow(2).mean()
+<b>return</b> self.out
+<b>def</b> backward(self):
+x = (self.inp.squeeze()-self.targ).unsqueeze(-1)
+self.inp.g = 2.*x/self.targ.shape[0]

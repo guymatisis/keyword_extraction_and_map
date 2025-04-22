@@ -1,0 +1,37 @@
+received a particular score. Was it a late payment? Too many lines of credit? Short
+credit history? Maybe the model is relying solely on demographic data to make its
+predictions, and subsequently introducing bias into the model without our knowl‐
+edge. With only the score, there is no way to know how the model arrived at its
+prediction.
+In addition to model end users, another group of stakeholders are those involved
+with regulatory and compliance standards for ML models, since models in certain
+industries may require auditing or additional transparency. Stakeholders involved in
+auditing models will likely need a higher-level summary of how the model is arriving
+at its predictions in order to justify its use and impact. Metrics like accuracy are not
+useful in this case—without insight into <i>why</i> a model makes the predictions it does,
+its use may become problematic.
+Finally, as data scientists and ML engineers, we can only improve our model quality
+to a certain degree without an understanding of the features it’s relying on to make
+predictions. We need a way to verify that models are performing in the way we
+expect. For example, let’s say we are training a model on tabular data to predict
+whether a flight will be delayed. The model is trained on 20 features. Under the hood,
+maybe it’s relying only on 2 of those 20 features, and if we removed the rest, we could
+significantly improve our system’s performance. Or maybe each of those 20 features
+is necessary to achieve the degree of accuracy we need. Without more details on what
+the model is using, it’s difficult to know.
+<header><largefont><b>Solution</b></largefont></header>
+To handle the inherent unknowns in ML, we need a way to understand how models
+work under the hood. Techniques for understanding and communicating how and
+why an ML model makes predictions is an area of active research. Also called inter‐
+pretability or model understanding, explainability is a new and rapidly evolving field
+within ML, and can take a variety of forms depending on a model’s architecture and
+the type of data it is trained on. Explainability can also help reveal bias in ML models,
+which we cover when discussing the Fairness Lens pattern in this chapter. Here, we’ll
+focus on explaining deep neural networks using feature attributions. To understand
+this in context, first we’ll look at explainability for models with less complex
+architectures.
+Simpler models like decision trees are more straightforward to explain than deep
+models since they are often <i>interpretable</i> <i>by</i> <i>design.</i> This means that their learned
+weights provide direct insight into how the model is making predictions. If we have a
+linear regression model with independent, numeric input features, the weights may
+sometimes be interpretable. Take for example a linear regression model that predicts

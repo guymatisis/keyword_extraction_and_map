@@ -1,0 +1,30 @@
+We can apply this function to a single column of activations from a neural network
+and get back a column of numbers between 0 and 1, so it’s a very useful activation
+function for our final layer.
+Now think about what happens if we want to have more categories in our target (such
+as our 37 pet breeds). That means we’ll need more activations than just a single col‐
+umn: we need an activation <i>per</i> <i>category.</i> We can create, for instance, a neural net that
+predicts 3s and 7s that returns two activations, one for each class—this will be a good
+first step toward creating the more general approach. Let’s just use some random
+numbers with a standard deviation of 2 (so we multiply randn by 2) for this example,
+assuming we have six images and two possible categories (where the first column rep‐
+resents 3s and the second is 7s):
+acts = torch.randn((6,2))*2
+acts
+tensor([[ 0.6734, 0.2576],
+[ 0.4689, 0.4607],
+[-2.2457, -0.3727],
+[ 4.4164, -1.2760],
+[ 0.9233, 0.5347],
+[ 1.0698, 1.6187]])
+We can’t just take the sigmoid of this directly, since we don’t get rows that add to 1
+(we want the probability of being a 3 plus the probability of being a 7 to add up to 1):
+acts.sigmoid()
+tensor([[0.6623, 0.5641],
+[0.6151, 0.6132],
+[0.0957, 0.4079],
+[0.9881, 0.2182],
+[0.7157, 0.6306],
+[0.7446, 0.8346]])
+In Chapter 4, our neural net created a single activation per image, which we passed
+through the sigmoid function. That single activation represented the model’s

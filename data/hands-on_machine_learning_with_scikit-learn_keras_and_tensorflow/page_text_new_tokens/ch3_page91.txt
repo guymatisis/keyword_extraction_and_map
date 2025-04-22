@@ -1,0 +1,37 @@
+<b>>>></b> <b>from</b> <b>sklearn.metrics</b> <b>import</b> confusion_matrix
+<b>>>></b> confusion_matrix(y_train_5, y_train_pred)
+array([[53057, 1522],
+[ 1325, 4096]])
+Each row in a confusion matrix represents an <i>actual</i> <i>class,</i> while each column repre‐
+sents a <i>predicted</i> <i>class.</i> The first row of this matrix considers non-5 images (the <i>nega‐</i>
+<i>tive</i> <i>class):</i> 53,057 of them were correctly classified as non-5s (they are called <i>true</i>
+<i>negatives),</i> while the remaining 1,522 were wrongly classified as 5s (false <i>positives).</i>
+The second row considers the images of 5s (the <i>positive</i> <i>class):</i> 1,325 were wrongly
+classified as non-5s (false <i>negatives),</i> while the remaining 4,096 were correctly classi‐
+fied as 5s (true <i>positives).</i> A perfect classifier would have only true positives and true
+negatives, so its confusion matrix would have nonzero values only on its main diago‐
+nal (top left to bottom right):
+<b>>>></b> y_train_perfect_predictions = y_train_5 <i>#</i> <i>pretend</i> <i>we</i> <i>reached</i> <i>perfection</i>
+<b>>>></b> confusion_matrix(y_train_5, y_train_perfect_predictions)
+array([[54579, 0],
+[ 0, 5421]])
+The confusion matrix gives you a lot of information, but sometimes you may prefer a
+more concise metric. An interesting one to look at is the accuracy of the positive pre‐
+dictions; this is called the <i>precision</i> of the classifier (Equation 3-1).
+<i>Equation</i> <i>3-1.</i> <i>Precision</i>
+<i>TP</i>
+precision =
+<i>TP</i> + <i>FP</i>
+<i>TP</i> is the number of true positives, and <i>FP</i> is the number of false positives.
+A trivial way to have perfect precision is to make one single positive prediction and
+ensure it is correct (precision = 1/1 = 100%). But this would not be very useful, since
+the classifier would ignore all but one positive instance. So precision is typically used
+along with another metric named <i>recall,</i> also called <i>sensitivity</i> or the <i>true</i> <i>positive</i> <i>rate</i>
+(TPR): this is the ratio of positive instances that are correctly detected by the classifier
+(Equation 3-2).
+<i>Equation</i> <i>3-2.</i> <i>Recall</i>
+<i>TP</i>
+recall =
+<i>TP</i> + <i>FN</i>
+<i>FN</i> is, of course, the number of false negatives.
+If you are confused about the confusion matrix, Figure 3-2 may help.

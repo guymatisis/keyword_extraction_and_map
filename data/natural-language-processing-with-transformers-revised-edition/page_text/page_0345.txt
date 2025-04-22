@@ -1,0 +1,26 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>11</b></largefont></header>
+<header><largefont><b>Future</b></largefont> <largefont><b>Directions</b></largefont></header>
+Throughout this book we’ve explored the powerful capabilities of transformers across
+a wide range of NLP tasks. In this final chapter, we’ll shift our perspective and look at
+some of the current challenges with these models and the research trends that are try‐
+ing to overcome them. In the first part we explore the topic of scaling up transform‐
+ers, both in terms of model and corpus size. Then we turn our attention toward
+various techniques that have been proposed to make the self-attention mechanism
+more efficient. Finally, we explore the emerging and exciting field of <i>multimodal</i>
+<i>transformers,</i> which can model inputs across multiple domains like text, images, and
+audio.
+<header><largefont><b>Scaling</b></largefont> <largefont><b>Transformers</b></largefont></header>
+In 2019, the researcher Richard Sutton wrote a provocative essay entitled “The Bitter
+Lesson” in which he argued that:
+The biggest lesson that can be read from 70 years of AI research is that general meth‐
+ods that leverage computation are ultimately the most effective, and by a large mar‐
+gin…. Seeking an improvement that makes a difference in the shorter term,
+researchers seek to leverage their human knowledge of the domain, but the only thing
+that matters in the long run is the leveraging of computation. These two need not run
+counter to each other, but in practice they tend to…. And the human-knowledge
+approach tends to complicate methods in ways that make them less suited to taking
+advantage of general methods leveraging computation.
+The essay provides several historical examples, such as playing chess or Go, where the
+approach of encoding human knowledge within AI systems was ultimately outdone
+by increased computation. Sutton calls this the “bitter lesson” for the AI research
+field:

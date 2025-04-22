@@ -1,0 +1,37 @@
+for every number of repetitions of every punctuation mark. Similarly, a capitalized
+word will be replaced with a special capitalization token, followed by the lowercase
+version of the word. This way, the embedding matrix needs only the lowercase ver‐
+sions of the words, saving compute and memory resources, but can still learn the
+concept of capitalization.
+Here are some of the main special tokens you’ll see:
+xxbos
+Indicates the beginning of a text (here, a review)
+xxmaj
+Indicates the next word begins with a capital (since we lowercased everything)
+xxunk
+Indicates the next word is unknown
+To see the rules that were used, you can check the default rules:
+defaults.text_proc_rules
+[<function fastai.text.core.fix_html(x)>,
+<function fastai.text.core.replace_rep(t)>,
+<function fastai.text.core.replace_wrep(t)>,
+<function fastai.text.core.spec_add_spaces(t)>,
+<function fastai.text.core.rm_useless_spaces(t)>,
+<function fastai.text.core.replace_all_caps(t)>,
+<function fastai.text.core.replace_maj(t)>,
+<function fastai.text.core.lowercase(t, add_bos=True, add_eos=False)>]
+As always, you can look at the source code for each of them in a notebook by typing
+the following:
+??replace_rep
+Here is a brief summary of what each does:
+fix_html
+Replaces special HTML characters with a readable version (IMDb reviews have
+quite a few of these)
+replace_rep
+Replaces any character repeated three times or more with a special token for rep‐
+etition (xxrep), the number of times it’s repeated, then the character
+replace_wrep
+Replaces any word repeated three times or more with a special token for word
+repetition (xxwrep), the number of times it’s repeated, then the word
+spec_add_spaces
+Adds spaces around / and #

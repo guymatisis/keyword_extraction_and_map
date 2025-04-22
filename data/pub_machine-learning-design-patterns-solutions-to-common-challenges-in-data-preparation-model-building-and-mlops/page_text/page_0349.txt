@@ -1,0 +1,15 @@
+<i>Figure</i> <i>7-11.</i> <i>A</i> <i>subset</i> <i>of</i> <i>the</i> <i>US</i> <i>mortgage</i> <i>dataset,</i> <i>binned</i> <i>by</i> <i>the</i> <i>agency_code</i> <i>column</i> <i>in</i>
+<i>the</i> <i>dataset.</i>
+We can repeat this analysis across other columns in our data and use our conclusions
+to add examples and improve our data. There are many other options for creating
+custom visualizations in the What-If Tool—see the full code on GitHub for more
+ideas.
+Another way to understand our data using the What-If Tool is through the Features
+tab, shown in Figure 7-12. This shows how our data is balanced across each column
+in our dataset. From this we can see where we need to add or remove data, or change
+our prediction task. 9 For example, maybe we want to limit our model to making pre‐
+dictions only on refinancing or home purchase loans since there may not be enough
+loan_purpose
+data available for other possible values in the column.
+9 Tolearnmoreaboutchangingapredictiontask,see“DesignPattern5:Reframing”onpage80and“Design
+Pattern9:NeutralClass”onpage117inChapter3.

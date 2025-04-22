@@ -1,0 +1,36 @@
+In a shocking finding, scientist discovered a herd of unicorns living in a
+remote, previously unexplored valley, in the Andes Mountains. Even more
+surprising to the researchers was the fact that the unicorns spoke perfect
+English.
+The researchers, from the University of California, Davis, and the University of
+Colorado, Boulder, were conducting a study on the Andean cloud forest, which is
+home to the rare species of cloud forest trees.
+The researchers were surprised to find that the unicorns were able to
+communicate with each other, and even with humans.
+The researchers were surprised to find that the unicorns were able
+Well, the first few sentences are quite different from the OpenAI example and amus‐
+ingly involve different universities being credited with the discovery! We can also see
+one of the main drawbacks with greedy search decoding: it tends to produce repeti‐
+tive output sequences, which is certainly undesirable in a news article. This is a com‐
+mon problem with greedy search algorithms, which can fail to give you the optimal
+solution; in the context of decoding, they can miss word sequences whose overall
+probability is higher just because high-probability words happen to be preceded by
+low-probability ones.
+Fortunately, we can do better—let’s examine a popular method known as <i>beam</i> <i>search</i>
+<i>decoding.</i>
+Although greedy search decoding is rarely used for text generation
+tasks that require diversity, it can be useful for producing short
+sequences like arithmetic where a deterministic and factually cor‐
+preferred.4
+rect output is For these tasks, you can condition GPT-2
+"5 + 8
+by providing a few line-separated examples in the format
+=> 13 \n 7 + 2 => 9 \n 1 + 0 =>"
+as the input prompt.
+<header><largefont><b>Beam</b></largefont> <largefont><b>Search</b></largefont> <largefont><b>Decoding</b></largefont></header>
+Instead of decoding the token with the highest probability at each step, beam search
+keeps track of the top-b most probable next tokens, where <i>b</i> is referred to as the num‐
+ber of <i>beams</i> or <i>partial</i> <i>hypotheses.</i> The next set of beams are chosen by considering
+all possible next-token extensions of the existing set and selecting the <i>b</i> most likely
+extensions. The process is repeated until we reach the maximum length or an EOS
+4 N.S.Keskaretal.,“CTRL:AConditionalTransformerLanguageModelforControllableGeneration”,(2019).

@@ -1,0 +1,35 @@
+So, now you’ve seen what an image looks like to a computer, let’s recall our goal: cre‐
+ate a model that can recognize 3s and 7s. How might you go about getting a computer
+to do that?
+<b>StopandThink!</b>
+Before you read on, take a moment to think about how a computer
+might be able to recognize these two digits. What kinds of features
+might it be able to look at? How might it be able to identify these
+features? How could it combine them? Learning works best when
+you try to solve problems yourself, rather than just reading some‐
+body else’s answers; so step away from this book for a few minutes,
+grab a piece of paper and pen, and jot some ideas down.
+<header><largefont><b>First</b></largefont> <largefont><b>Try:</b></largefont> <largefont><b>Pixel</b></largefont> <largefont><b>Similarity</b></largefont></header>
+So, here is a first idea: how about we find the average pixel value for every pixel of the
+3s, then do the same for the 7s. This will give us two group averages, defining what
+we might call the “ideal” 3 and 7. Then, to classify an image as one digit or the other,
+we see which of these two ideal digits the image is most similar to. This certainly
+seems like it should be better than nothing, so it will make a good baseline.
+<b>Jargon:Baseline</b>
+A simple model that you are confident should perform reasonably
+well. It should be simple to implement and easy to test, so that you
+can then test each of your improved ideas and make sure they are
+always better than your baseline. Without starting with a sensible
+baseline, it is difficult to know whether your super-fancy models
+are any good. One good approach to creating a baseline is doing
+what we have done here: think of a simple, easy-to-implement
+model. Another good approach is to search around to find other
+people who have solved problems similar to yours, and download
+and run their code on your dataset. Ideally, try both of these!
+Step 1 for our simple model is to get the average of pixel values for each of our two
+groups. In the process of doing this, we will learn a lot of neat Python numeric pro‐
+gramming tricks!
+Let’s create a tensor containing all of our 3s stacked together. We already know how to
+create a tensor containing a single image. To create a tensor containing all the images
+in a directory, we will first use a Python list comprehension to create a plain list of the
+single image tensors.

@@ -1,0 +1,34 @@
+2010-02-03 08:45:00,19.0
+Given that the flight above (at 08:45 on February 3) is 19 minutes late, is that unusual
+or not? Commonly, to carry out ML inference on a flight, we only need the features
+of that flight. In this case, however, the model requires information about all flights
+to DFW airport between 06:45 and 08:45:
+2010-02-03 06:45:00,?
+2010-02-03 06:?:00,?
+...
+2010-02-03 08:45:00,19.0
+It is not possible to carry out inference one flight at a time. We need to somehow pro‐
+vide the model information about all the previous flights.
+How do we carry out inference when the model requires not just one instance, but a
+sequence of instances?
+<header><largefont><b>Solution</b></largefont></header>
+The solution is to carry out stateful stream processing—that is, stream processing
+that keeps track of the model state through time:
+• A sliding window is applied to flight arrival data. The sliding window will be over
+2 hours, but the window can be closed more often, such as every 10 minutes. In
+such a case, aggregate values will be calculated every 10 minutes over the previ‐
+ous 2 hours.
+• The internal model state (this could be the list of flights) is updated with flight
+information every time a new flight arrives, thus building a 2-hour historical
+record of flight data.
+• Every time the window is closed (every 10 minutes in our example), a time-series
+ML model is trained on the 2-hour list of flights. This model is then used to pre‐
+dict future flight delays and the confidence bounds of such predictions.
+• The time-series model parameters are externalized into a state variable. We could
+use a time-series model such as autoregressive integrated moving average
+(ARIMA) or long short-term memory (LSTMs), in which case, the model
+parameters would be the ARIMA model coefficients or the LSTM model weights.
+To keep the code understandable, we will use a zero-order regression model,2
+and so our model parameters will be the average flight delay and the variance of
+the flight delays over the two-hour window.
+2 Inotherwords,wearecomputingtheaverage.

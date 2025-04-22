@@ -30,7 +30,6 @@ class KeyphraseTrainer:
         self.model.to(self.device)
         self.model.resize_token_embeddings(len(self.tokenizer))
 
-        return self.model, self.tokenizer
     
     def set_tokenizer(self):
         self.tokenizer = AutoTokenizer.from_pretrained(self.config.model.name)
@@ -92,9 +91,8 @@ class KeyphraseTrainer:
             output_dir=self.config.output.dir,
             eval_strategy="epoch",
             save_strategy="epoch",
-            logging_stategy='epoch',
+            logging_strategy='epoch',
             save_total_limit=self.config.output.save_total_limit,
-            logging_strategy="epoch",
             num_train_epochs=self.config.training.num_epochs,
             per_device_train_batch_size=self.config.training.batch_size,
             per_device_eval_batch_size=self.config.training.batch_size,

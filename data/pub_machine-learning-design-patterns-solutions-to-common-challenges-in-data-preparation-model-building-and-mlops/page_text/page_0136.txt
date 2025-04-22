@@ -1,0 +1,34 @@
+Regardless of the data modality we’re working with, it’s useful to experiment with dif‐
+ferent model architectures to see which performs best on our imbalanced data.
+<b>Importanceofexplainability</b>
+When building models for flagging rare occurrences in data such as anomalies, it’s
+especially important to understand how our model is making predictions. This can
+both verify that the model is picking up on the correct signals to make its predictions
+and help explain the model’s behavior to end users. There are a few tools available to
+help us interpret models and explain predictions, including the open source frame‐
+work SHAP, the What-If Tool, and Explainable AI on Google Cloud.
+Model explanations can take many forms, one of which is called <i>attribution</i> <i>values.</i>
+Attribution values tell us how much each feature in our model influenced the model’s
+prediction. Positive attribution values mean a particular feature pushed our
+model’s prediction up, and negative attribution values mean the feature pushed our
+model’s prediction down. The higher the absolute value of an attribution, the bigger
+impact it had on our model’s prediction. In image and text models, attributions can
+show you the pixels or words that signaled your model’s prediction most. For tabular
+models, attributions provide numerical values for each feature, indicating its overall
+effect on the model’s prediction.
+After training a TensorFlow model on the synthetic fraud detection dataset from
+Kaggle and deploying it to Explainable AI on Google Cloud, let’s take a look at some
+examples of instance-level attributions. In Figure 3-21, we see two example transac‐
+tions that our model correctly identified as fraud, along with their feature
+attributions.
+In the first example where the model predicted a 99% chance of fraud, the old bal‐
+ance at the origin account before the transaction was made was the biggest indicator
+of fraud. In the second example, our model was 89% confident in its prediction of
+fraud with the amount of the transaction identified as the biggest signal of fraud.
+However, the balance at the origin account made our model <i>less</i> <i>confident</i> in its pre‐
+diction of fraud and explains <i>why</i> the prediction confidence is slightly <i>lower</i> by 10
+percentage points.
+Explanations are important for any type of machine learning model, but we can see
+how they are especially useful for models following the Rebalancing design pattern.
+When dealing with imbalanced data, it’s important to look beyond our model’s accu‐
+racy and error metrics to verify that it’s picking up on meaningful signals in our data.

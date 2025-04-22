@@ -1,0 +1,30 @@
+sampled in the training phase. This can be problematic for using ML to solve PDEs
+that are defined on unbounded domains, since it would be impossible to capture a
+representative sample for training.
+<b>Distillingknowledgeofneuralnetwork</b>
+Another situation where overfitting is warranted is in distilling, or transferring
+knowledge, from a large machine learning model into a smaller one. Knowledge dis‐
+tillation is useful when the learning capacity of the large model is not fully utilized. If
+that is the case, the computational complexity of the large model may not be neces‐
+sary. However, it is also the case that training smaller models is harder. While the
+smaller model has enough capacity to represent the knowledge, it may not have
+enough capacity to learn the knowledge efficiently.
+The solution is to train the smaller model on a large amount of generated data that is
+labeled by the larger model. The smaller model learns the soft output of the larger
+model, instead of actual labels on real data. This is a simpler problem that can be
+learned by the smaller model. As with approximating a numerical function by a
+machine learning model, the aim is for the smaller model to faithfully represent the
+predictions of the larger machine learning model. This second training step can
+employ Useful Overfitting.
+<b>Overfittingabatch</b>
+In practice, training neural networks requires a lot of experimentation, and a practi‐
+tioner must make many choices, from the size and architecture of the network to the
+choice of the learning rate, weight initializations, or other hyperparameters.
+Overfitting on a small batch is a good sanity check both for the model code as well as
+the data input pipeline. Just because the model compiles and the code runs without
+errors doesn’t mean you’ve computed what you think you have or that the training
+objective is configured correctly. A complex enough model <i>should</i> be able to overfit
+on a small enough batch of data, assuming everything is set up correctly. So, if you’re
+not able to overfit a small batch with any model, it’s worth rechecking your model
+code, input pipeline, and loss function for any errors or simple bugs. Overfitting on a
+batch is a useful technique when training and troubleshooting neural networks.

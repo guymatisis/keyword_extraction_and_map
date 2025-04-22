@@ -1,0 +1,39 @@
+<b>ORG</b> <b>LOC</b> <b>PER</b>
+<b>test</b> 2573 3180 3071
+5366 6186 5810
+<b>train</b>
+PER LOC ORG
+This looks good—the distributions of the , , and frequencies are roughly
+the same for each split, so the validation and test sets should provide a good measure
+of our NER tagger’s ability to generalize. Next, let’s look at a few popular multilingual
+transformers and how they can be adapted to tackle our NER task.
+<header><largefont><b>Multilingual</b></largefont> <largefont><b>Transformers</b></largefont></header>
+Multilingual transformers involve similar architectures and training procedures as
+their monolingual counterparts, except that the corpus used for pretraining consists
+of documents in many languages. A remarkable feature of this approach is that
+despite receiving no explicit information to differentiate among the languages, the
+resulting linguistic representations are able to generalize well <i>across</i> languages for a
+variety of downstream tasks. In some cases, this ability to perform cross-lingual
+transfer can produce results that are competitive with those of monolingual models,
+which circumvents the need to train one model per language!
+To measure the progress of cross-lingual transfer for NER, the CoNLL-2002 and
+CoNLL-2003 datasets are often used as a benchmark for English, Dutch, Spanish, and
+German. This benchmark consists of news articles annotated with the same LOC , PER ,
+ORG MISC
+and categories as PAN-X, but it contains an additional label for miscellane‐
+ous entities that do not belong to the previous three groups. Multilingual transformer
+models are usually evaluated in three different ways:
+en
+Fine-tune on the English training data and then evaluate on each language’s test
+set.
+each
+Fine-tune and evaluate on monolingual test data to measure per-language
+performance.
+all
+Fine-tune on all the training data to evaluate on all on each language’s test set.
+We will adopt a similar evaluation strategy for our NER task, but first we need to
+select a model to evaluate. One of the first multilingual transformers was mBERT,
+which uses the same architecture and pretraining objective as BERT but adds Wikipe‐
+dia articles from many languages to the pretraining corpus. Since then, mBERT has
+been superseded by XLM-RoBERTa (or XLM-R for short), so that’s the model we’ll
+consider in this chapter.

@@ -1,0 +1,25 @@
+<i>Figure</i> <i>1-2.</i> <i>There</i> <i>are</i> <i>many</i> <i>different</i> <i>job</i> <i>roles</i> <i>related</i> <i>to</i> <i>data</i> <i>and</i> <i>machine</i> <i>learning,</i>
+<i>and</i> <i>these</i> <i>roles</i> <i>collaborate</i> <i>on</i> <i>the</i> <i>ML</i> <i>workflow,</i> <i>from</i> <i>data</i> <i>ingestion</i> <i>to</i> <i>model</i> <i>serving</i>
+<i>and</i> <i>the</i> <i>end</i> <i>user</i> <i>interface.</i> <i>For</i> <i>example,</i> <i>the</i> <i>data</i> <i>engineer</i> <i>works</i> <i>on</i> <i>data</i> <i>ingestion</i> <i>and</i>
+<i>data</i> <i>validation</i> <i>and</i> <i>collaborates</i> <i>closely</i> <i>with</i> <i>data</i> <i>scientists.</i>
+<header><largefont><b>Common</b></largefont> <largefont><b>Challenges</b></largefont> <largefont><b>in</b></largefont> <largefont><b>Machine</b></largefont> <largefont><b>Learning</b></largefont></header>
+Why do we need a book about machine learning design patterns? The process of
+building out ML systems presents a variety of unique challenges that influence ML
+design. Understanding these challenges will help you, an ML practitioner, develop a
+frame of reference for the solutions introduced throughout the book.
+<header><largefont><b>Data</b></largefont> <largefont><b>Quality</b></largefont></header>
+Machine learning models are only as reliable as the data used to train them. If you
+train a machine learning model on an incomplete dataset, on data with poorly
+selected features, or on data that doesn’t accurately represent the population using
+the model, your model’s predictions will be a direct reflection of that data. As a result,
+machine learning models are often referred to as “garbage in, garbage out.” Here we’ll
+highlight four important components of data quality: accuracy, completeness, consis‐
+tency, and timeliness.
+Data <i>accuracy</i> refers to both your training data’s features and the ground truth labels
+corresponding with those features. Understanding where your data came from and
+any potential errors in the data collection process can help ensure feature accuracy.
+After your data has been collected, it’s important to do a thorough analysis to screen
+for typos, duplicate entries, measurement inconsistencies in tabular data, missing fea‐
+tures, and any other errors that may affect data quality. Duplicates in your training
+dataset, for example, can cause your model to incorrectly assign more weight to these
+data points.

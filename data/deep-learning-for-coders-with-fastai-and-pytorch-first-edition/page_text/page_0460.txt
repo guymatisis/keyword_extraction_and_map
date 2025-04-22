@@ -1,0 +1,42 @@
+onward. The reason for this will become clear in just a moment. Since different archi‐
+tectures might use different types of pooling layers, or even completely different kinds
+of <i>heads,</i> we don’t just search for the adaptive pooling layer to decide where to cut the
+pretrained model. Instead, we have a dictionary of information that is used for each
+model to determine where its body ends and its head starts. We call this model_meta
+—here it is for resnet50 :
+model_meta[resnet50]
+{'cut': -2,
+'split': <function fastai.vision.learner._resnet_split(m)>,
+'stats': ([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])}
+<b>Jargon:BodyandHead</b>
+The head of a neural net is the part that is specialized for a particu‐
+lar task. For a CNN, it’s generally the part after the adaptive average
+pooling layer. The body is everything else, and includes the stem
+(which we learned about in Chapter 14).
+If we take all of the layers prior to the cut point of -2, we get the part of the model
+that fastai will keep for transfer learning. Now, we put on our new head. This is cre‐
+create_head:
+ated using the function
+create_head(20,2)
+Sequential(
+(0): AdaptiveConcatPool2d(
+(ap): AdaptiveAvgPool2d(output_size=1)
+(mp): AdaptiveMaxPool2d(output_size=1)
+)
+(1): Flatten()
+(2): BatchNorm1d(20, eps=1e-05, momentum=0.1, affine=True)
+(3): Dropout(p=0.25, inplace=False)
+(4): Linear(in_features=20, out_features=512, bias=False)
+(5): ReLU(inplace=True)
+(6): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True)
+(7): Dropout(p=0.5, inplace=False)
+(8): Linear(in_features=512, out_features=2, bias=False)
+)
+With this function, you can choose how many additional linear layers are added to
+the end, how much dropout to use after each one, and what kind of pooling to use. By
+default, fastai will apply both average pooling and max pooling, and will concatenate
+AdaptiveConcatPool2d
+the two together (this is the layer). This is not a particularly
+common approach, but it was developed independently at fastai and other research
+labs in recent years and tends to provide a small improvement over using just average
+pooling.

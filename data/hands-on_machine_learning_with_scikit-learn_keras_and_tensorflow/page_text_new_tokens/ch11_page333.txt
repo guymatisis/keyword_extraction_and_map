@@ -1,0 +1,24 @@
+<i>Figure</i> <i>11-1.</i> <i>Logistic</i> <i>activation</i> <i>function</i> <i>saturation</i>
+<header><largefont><b>Glorot</b></largefont> <largefont><b>and</b></largefont> <largefont><b>He</b></largefont> <largefont><b>Initialization</b></largefont></header>
+In their paper, Glorot and Bengio propose a way to significantly alleviate the unstable
+gradients problem. They point out that we need the signal to flow properly in both
+directions: in the forward direction when making predictions, and in the reverse
+direction when backpropagating gradients. We don’t want the signal to die out, nor
+do we want it to explode and saturate. For the signal to flow properly, the authors
+argue that we need the variance of the outputs of each layer to be equal to the var‐
+iance of its inputs,2 and we need the gradients to have equal variance before and after
+flowing through a layer in the reverse direction (please check out the paper if you are
+interested in the mathematical details). It is actually not possible to guarantee both
+unless the layer has an equal number of inputs and neurons (these numbers are called
+the <i>fan-in</i> and <i>fan-out</i> of the layer), but Glorot and Bengio proposed a good compro‐
+mise that has proven to work very well in practice: the connection weights of each
+layer must be initialized randomly as described in Equation 11-1, where <i>fan</i> = (fan
+avg in
++ <i>fan</i> )/2. This initialization strategy is called <i>Xavier</i> <i>initialization</i> or <i>Glorot</i> <i>initiali‐</i>
+out
+<i>zation,</i> after the paper’s first author.
+2 Here’sananalogy:ifyousetamicrophoneamplifier’sknobtooclosetozero,peoplewon’thearyourvoice,but
+ifyousetittooclosetothemax,yourvoicewillbesaturatedandpeoplewon’tunderstandwhatyouaresay‐
+ing.Nowimagineachainofsuchamplifiers:theyallneedtobesetproperlyinorderforyourvoicetocome
+outloudandclearattheendofthechain.Yourvoicehastocomeoutofeachamplifieratthesameamplitude
+asitcamein.

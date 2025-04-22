@@ -1,0 +1,38 @@
+When we deploy updates to our model, we’ll also likely want a way to track how the
+model is performing in production and compare this with previous iterations. We
+may also want a way to test a new model with only a subset of our users. Both perfor‐
+mance monitoring and split testing, along with other possible model changes, will be
+difficult to solve by replacing a single production model each time we make updates.
+Doing this will break applications that are relying on our model output to match a
+specific format. To handle this, we’ll need a solution that allows us to continuously
+update our model without breaking existing users.
+<header><largefont><b>Solution</b></largefont></header>
+To gracefully handle updates to a model, deploy multiple model versions with differ‐
+ent REST endpoints. This ensures backward compatibility—by keeping multiple ver‐
+sions of a model deployed at a given time, those users relying on older versions will
+still be able to use the service. Versioning also allows for fine-grained performance
+monitoring and analytics tracking across versions. We can compare accuracy and
+usage statistics, and use this to determine when to take a particular version offline. If
+we have a model update that we want to test with only a small subset of users, the
+Model Versioning design pattern makes it possible to perform A/B testing.
+Additionally, with model versioning, each deployed version of our model is a micro‐
+service—thus decoupling changes to our model from our application frontend. To
+add support for a new version, our team’s application developers only need to change
+the name of the API endpoint pointing to the model. Of course, if a new model ver‐
+sion introduces changes to the model’s response format, we’ll need to make changes
+to our app to accommodate this, but the model and application code are still sepa‐
+rate. Data scientists or ML engineers can therefore deploy and test a new model ver‐
+sion on our own without worrying about breaking our production app.
+<b>Typesofmodelusers</b>
+When we refer to “end users” of our model, this includes two different groups of peo‐
+ple. If we’re making our model API endpoint available to application developers out‐
+side our organization, these developers can be thought of as one type of model user.
+They are building applications that rely on our model for serving predictions to oth‐
+ers. The backward compatibility benefit that comes with model versioning is most
+important for these users. If the format of our model’s response changes, application
+developers may want to use an older model version until they’ve updated their appli‐
+cation code to support the latest response format.
+The other group of end users refers to those using an application that calls our
+deployed model. This could be a doctor relying on our model to predict the presence
+of disease in an image, someone using our book recommendation app, our organiza‐
+tion’s business unit analyzing the output of a revenue prediction model we built, and

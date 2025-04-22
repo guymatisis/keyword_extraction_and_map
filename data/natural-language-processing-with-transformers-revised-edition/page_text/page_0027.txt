@@ -1,0 +1,24 @@
+<b>text</b> <b>label</b> <b>label_name</b>
+<b>2</b> imgrabbingaminutetopostifeelgreedywrong 3 anger
+iameverfeelingnostalgicaboutthefireplac... 2 love
+<b>3</b>
+iamfeelinggrouchy 3 anger
+<b>4</b>
+Before diving into building a classifier, let’s take a closer look at the dataset. As Andrej
+Karpathy notes in his famous blog post “A Recipe for Training Neural Networks”,
+becoming “one with the data” is an essential step for training great models!
+<header><largefont><b>Looking</b></largefont> <largefont><b>at</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Class</b></largefont> <largefont><b>Distribution</b></largefont></header>
+Whenever you are working on text classification problems, it is a good idea to exam‐
+ine the distribution of examples across the classes. A dataset with a skewed class dis‐
+tribution might require a different treatment in terms of the training loss and
+evaluation metrics than a balanced one.
+With Pandas and Matplotlib, we can quickly visualize the class distribution as follows:
+<b>import</b> <b>matplotlib.pyplot</b> <b>as</b> <b>plt</b>
+df["label_name"].value_counts(ascending=True).plot.barh()
+plt.title("Frequency of Classes")
+plt.show()
+joy sadness
+In this case, we can see that the dataset is heavily imbalanced; the and
+love surprise
+classes appear frequently, whereas and are about 5–10 times rarer.
+There are several ways to deal with imbalanced data, including:

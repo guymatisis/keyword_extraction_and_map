@@ -1,0 +1,27 @@
+batch_size=BATCH_SIZE,
+callbacks=[cp_callback])
+<i>Figure</i> <i>4-12.</i> <i>Defining</i> <i>a</i> <i>virtual</i> <i>epoch</i> <i>in</i> <i>terms</i> <i>of</i> <i>the</i> <i>desired</i> <i>number</i> <i>of</i> <i>steps</i> <i>between</i>
+<i>checkpoints.</i>
+When you get more data, first train it with the old settings, then increase the number
+of examples to reflect the new data, and finally change the STOP_POINT to reflect the
+number of times you have to traverse the data to attain convergence.
+This is now safe even with hyperparameter tuning (discussed later in this chapter)
+and retains all the advantages of keeping the number of steps constant.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>13:</b></largefont> <largefont><b>Transfer</b></largefont> <largefont><b>Learning</b></largefont></header>
+In Transfer Learning, we take part of a previously trained model, freeze the weights,
+and incorporate these nontrainable layers into a new model that solves a similar
+problem, but on a smaller dataset.
+<header><largefont><b>Problem</b></largefont></header>
+Training custom ML models on unstructured data requires extremely large datasets,
+which are not always readily available. Consider the case of a model identifying
+whether an x-ray of an arm contains a broken bone. To achieve high accuracy, you’ll
+need hundreds of thousands of images, if not more. Before your model learns what a
+broken bone looks like, it needs to first learn to make sense of the pixels, edges, and
+shapes that are part of the images in your dataset. The same is true for models trained
+on text data. Let’s say we’re building a model that takes descriptions of patient symp‐
+toms and predicts the possible conditions associated with those symptoms. In addi‐
+tion to learning which words differentiate a cold from pneumonia, the model also
+needs to learn basic language semantics and how the sequence of words creates
+meaning. For example, the model would need to not only learn to detect the presence
+of the word <i>fever,</i> but that the sequence <i>no</i> <i>fever</i> carries a very different meaning than
+<i>high</i> <i>fever.</i>

@@ -1,0 +1,16 @@
+<i>Figure</i> <i>8-8.</i> <i>A</i> <i>section</i> <i>of</i> <i>the</i> <i>ONNX</i> <i>graph</i> <i>for</i> <i>BERT-base,</i> <i>visualized</i> <i>in</i> <i>Netron</i>
+By exposing a graph with standardized operators and data types, ONNX makes it
+easy to switch between frameworks. For example, a model trained in PyTorch can be
+exported to ONNX format and then imported in TensorFlow (and vice versa).
+Where ONNX really shines is when it is coupled with a dedicated accelerator like
+ONNX Runtime, or ORT for short.15 ORT provides tools to optimize the ONNX
+graph through techniques like operator fusion and constant folding,16 and defines an
+interface to <i>execution</i> <i>providers</i> that allow you to run the model on different types of
+hardware. This is a powerful abstraction. Figure 8-9 shows the high-level architecture
+of the ONNX and ORT ecosystem.
+15 OtherpopularacceleratorsincludeNVIDIA’sTensorRTandApacheTVM.
+16 Afusedoperationinvolvesmergingoneoperator(usuallyanactivationfunction)intoanothersothatthey
+canbeexecutedtogether.Forexample,supposewewanttoapplyanactivationftoamatrixproductA×B.
+NormallytheresultoftheproductneedstobewrittenbacktotheGPUmemorybeforetheactivationiscom‐
+puted.Operatorfusionallowsastocompute <i>f</i> <i>A×B</i> inasinglestep.Constantfoldingreferstotheprocess
+ofevaluatingconstantexpressionsatcompiletimeinsteadofruntime.

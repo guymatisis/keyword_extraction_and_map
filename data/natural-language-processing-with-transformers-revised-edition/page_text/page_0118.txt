@@ -1,0 +1,24 @@
+plt.legend(["Zero-shot from de", "Fine-tuned on fr"], loc="lower right")
+plt.ylim((0, 1))
+plt.xlabel("Number of Training Samples")
+plt.ylabel("F1 Score")
+plt.show()
+From the plot we can see that zero-shot transfer remains competitive until about 750
+training examples, after which fine-tuning on French reaches a similar level of perfor‐
+mance to what we obtained when fine-tuning on German. Nevertheless, this result is
+not to be sniffed at! In our experience, getting domain experts to label even hundreds
+of documents can be costly, especially for NER, where the labeling process is fine-
+grained and time-consuming.
+There is one final technique we can try to evaluate multilingual learning: fine-tuning
+on multiple languages at once! Let’s see how we can do this.
+<header><largefont><b>Fine-Tuning</b></largefont> <largefont><b>on</b></largefont> <largefont><b>Multiple</b></largefont> <largefont><b>Languages</b></largefont> <largefont><b>at</b></largefont> <largefont><b>Once</b></largefont></header>
+So far we’ve seen that zero-shot cross-lingual transfer from German to French or Ital‐
+ian produces a drop of around 15 points in performance. One way to mitigate this is
+by fine-tuning on multiple languages at the same time. To see what type of gains we
+can get, let’s first use the concatenate_datasets() function from Datasets to con‐
+catenate the German and French corpora together:
+<b>from</b> <b>datasets</b> <b>import</b> concatenate_datasets
+<b>def</b> concatenate_splits(corpora):
+multi_corpus = DatasetDict()
+<b>for</b> split <b>in</b> corpora[0].keys():
+multi_corpus[split] = concatenate_datasets(

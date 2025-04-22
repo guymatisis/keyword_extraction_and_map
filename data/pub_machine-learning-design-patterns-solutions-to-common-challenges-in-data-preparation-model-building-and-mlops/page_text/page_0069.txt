@@ -1,0 +1,29 @@
+Note that the 1s in this array correspond with the indices of <i>dataframe,</i> <i>graph,</i> and
+<i>plot,</i> respectively. To summarize, Figure 2-21 shows how we transformed our input
+from raw text to a BOW-encoded array based on our vocabulary.
+Keras has some utility methods for encoding text as a bag of words, so we don’t need
+to write the code for identifying the top words from our text corpus and encoding
+raw text into multi-hot arrays from scratch.
+<i>Figure</i> <i>2-21.</i> <i>Raw</i> <i>input</i> <i>text</i> <i>→</i> <i>identifying</i> <i>words</i> <i>present</i> <i>in</i> <i>this</i> <i>text</i> <i>from</i> <i>our</i> <i>vocabu‐</i>
+<i>lary</i> <i>→</i> <i>transforming</i> <i>to</i> <i>a</i> <i>multi-hot</i> <i>BOW</i> <i>encoding.</i>
+Given that there are two different approaches for representing text (Embedding and
+BOW), which approach should we choose for a given task? As with many aspects of
+machine learning, this depends on our dataset, the nature of our prediction task, and
+the type of model we’re planning to use.
+Embeddings add an extra layer to our model and provide extra information about
+word meaning that is not available from the BOW encoding. However, embeddings
+require training (unless we can use a pre-trained embedding for our problem). While
+a deep learning model may achieve higher accuracy, we can also try using BOW
+encoding in a linear regression or decision-tree model using frameworks like scikit-
+learn or XGBoost. Using BOW encoding with a simpler model type can be useful for
+fast prototyping or to verify that the prediction task we’ve chosen will work on our
+dataset. Unlike embeddings, BOW doesn’t take into account the order or meaning of
+words in a text document. If either of these are important to our prediction task,
+embeddings may be the best approach.
+There may also be benefits to building a deep model that combines <i>both</i> bag of words
+<i>and</i> text embedding representations to extract more patterns from our data. To do
+this, we can use the Multimodal Input approach, except that instead of concatenating
+text and tabular features, we can concatenate the Embedding and BOW representa‐
+tions (see code on GitHub). Here, the shape of our Input layer would be the vocabu‐
+lary size of the BOW representation. Some benefits of representing text in multiple
+ways include:

@@ -1,0 +1,41 @@
+But then we end up with two separate objects for our inputs and targets, which is not
+what we want. This is where Datasets comes to the rescue.
+<header><largefont><b>Datasets</b></largefont></header>
+Datasets will apply two (or more) pipelines in parallel to the same raw object and
+build a tuple with the result. Like TfmdLists , it will automatically do the setup for us,
+and when we index into a Datasets, it will return us a tuple with the results of each
+pipeline:
+x_tfms = [Tokenizer.from_folder(path), Numericalize]
+y_tfms = [parent_label, Categorize()]
+dsets = Datasets(files, [x_tfms, y_tfms])
+x,y = dsets[0]
+x[:20],y
+Like a TfmdLists , we can pass along splits to a Datasets to split our data between
+training and validation sets:
+x_tfms = [Tokenizer.from_folder(path), Numericalize]
+y_tfms = [parent_label, Categorize()]
+dsets = Datasets(files, [x_tfms, y_tfms], splits=splits)
+x,y = dsets.valid[0]
+x[:20],y
+(tensor([ 2, 8, 20, 30, 87, 510, 1570, 12, 408, 379,
+> 4196, 10, 8, 20, 30, 16, 13, 12216, 202, 509]),
+TensorCategory(0))
+It can also decode any processed tuple or show it directly:
+t = dsets.valid[0]
+dsets.decode(t)
+('xxbos xxmaj this movie had horrible lighting and terrible camera movements .
+> xxmaj this movie is a jumpy horror flick with no meaning at all . xxmaj the
+> slashes are totally fake looking . xxmaj it looks like some 17 year - old
+> idiot wrote this movie and a 10 year old kid shot it . xxmaj with the worst
+> acting you can ever find . xxmaj people are tired of knives . xxmaj at least
+> move on to guns or fire . xxmaj it has almost exact lines from " when a xxmaj
+> stranger xxmaj calls " . xxmaj with gruesome killings , only crazy people
+> would enjoy this movie . xxmaj it is obvious the writer does n\'t have kids
+> or even care for them . i mean at show some mercy . xxmaj just to sum it up ,
+> this movie is a " b " movie and it sucked . xxmaj just for your own sake , do
+> n\'t even think about wasting your time watching this crappy movie .',
+'neg')
+The last step is to convert our Datasets object to a DataLoaders, which can be done
+with the dataloaders method. Here we need to pass along a special argument to take
+care of the padding problem (as we saw in the preceding chapter). This needs to hap‐
+pen just before we batch the elements, so we pass it to before_batch :

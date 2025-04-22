@@ -1,0 +1,38 @@
+To deploy a model to AI Platform with explanations, we first need to create a meta‐
+data file that will be used by the explanation service to calculate feature attributions.
+This metadata is provided in a JSON file and includes information on the baseline
+we’d like to use and the parts of the model we want to explain. To simplify this
+process, Explainable AI provides an SDK that will generate metadata via the follow‐
+ing code:
+<b>from</b> <b>explainable_ai_sdk.metadata.tf.v2</b> <b>import</b> SavedModelMetadataBuilder
+model_dir = 'path/to/savedmodel/dir'
+model_builder = SavedModelMetadataBuilder(model_dir)
+model_builder.set_image_metadata('input_tensor_name')
+model_builder.save_metadata(model_dir)
+This code didn’t specify a model baseline, which means it’ll use the default (for image
+models, this is a black and white image). We can optionally add an input_baselines
+parameter to set_image_metadata to specify a custom baseline. Running the
+save_metadata
+method above creates an <i>explanation_metadata.json</i> file in a
+model directory (the full code is in the GitHub repository).
+When using this SDK via AI Platform Notebooks, we also have the option to generate
+explanations locally within a notebook instance without deploying our model to the
+load_model_from_local_path method
+cloud. We can do this via the .
+With our exported model and the <i>explanation_metadata.json</i> file in a Storage bucket,
+we’re ready to create a new model version. When we do this, we specify the explana‐
+tion method we’d like to use.
+To deploy our model to AI Platform, we can copy our model directory to a Cloud
+Storage bucket and use the gcloud CLI to create a model version. AI Platform has
+three possible explanation methods to choose from:
+<i>Integrated</i> <i>Gradients</i> <i>(IG)</i>
+This implements the method introduced in the IG paper and works with any dif‐
+ferentiable TensorFlow model—image, text, or tabular. For image models
+deployed on AI Platform, IG returns an image with highlighted pixels, indicating
+the regions that signaled the models prediction.
+<i>Sampled</i> <i>Shapley</i>
+Based on the Sampled Shapley paper, this uses an approach similar to the open
+source SHAP library. On AI Platform, we can use this method with tabular and
+text TensorFlow models. Because IG works only with differentiable models,
+AutoML Tables uses Sampled Shapley to calculate feature attributions for all
+models.

@@ -1,0 +1,31 @@
+discriminator = keras.models.Sequential([
+keras.layers.Flatten(input_shape=[28, 28]),
+keras.layers.Dense(150, activation="selu"),
+keras.layers.Dense(100, activation="selu"),
+keras.layers.Dense(1, activation="sigmoid")
+])
+gan = keras.models.Sequential([generator, discriminator])
+Next, we need to compile these models. As the discriminator is a binary classifier, we
+can naturally use the binary cross-entropy loss. The generator will only be trained
+through the gan model, so we do not need to compile it at all. The gan model is also a
+binary classifier, so it can use the binary cross-entropy loss. Importantly, the discrimi‐
+nator should not be trained during the second phase, so we make it non-trainable
+gan
+before compiling the model:
+discriminator.compile(loss="binary_crossentropy", optimizer="rmsprop")
+discriminator.trainable = False
+gan.compile(loss="binary_crossentropy", optimizer="rmsprop")
+The trainable attribute is taken into account by Keras only when
+compiling a model, so after running this code, the discriminator
+<i>is</i> trainable if we call its fit() method or its train_on_batch()
+method (which we will be using), while it is <i>not</i> trainable when we
+call these methods on the gan model.
+Since the training loop is unusual, we cannot use the regular fit() method. Instead,
+Dataset
+we will write a custom training loop. For this, we first need to create a to
+iterate through the images:
+batch_size = 32
+dataset = tf.data.Dataset.from_tensor_slices(X_train).shuffle(1000)
+dataset = dataset.batch(batch_size, drop_remainder=True).prefetch(1)
+train_gan()
+We are now ready to write the training loop. Let’s wrap it in a function:

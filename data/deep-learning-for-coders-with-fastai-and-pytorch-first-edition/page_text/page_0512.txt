@@ -1,0 +1,35 @@
+Then we can put everything in a model that we initiate with our tensors w1 , b1 , w2 ,
+and b2:
+<b>class</b> <b>Model():</b>
+<b>def</b> <b>__init__(self,</b> w1, b1, w2, b2):
+self.layers = [Lin(w1,b1), Relu(), Lin(w2,b2)]
+self.loss = Mse()
+<b>def</b> <b>__call__(self,</b> x, targ):
+<b>for</b> l <b>in</b> self.layers: x = l(x)
+<b>return</b> self.loss(x, targ)
+<b>def</b> backward(self):
+self.loss.backward()
+<b>for</b> l <b>in</b> reversed(self.layers): l.backward()
+What is nice about this refactoring and registering things as layers of our model is
+that the forward and backward passes are now really easy to write. If we want to
+instantiate our model, we just need to write this:
+model = Model(w1, b1, w2, b2)
+The forward pass can then be executed as follows:
+loss = model(x, y)
+And the backward pass with this:
+model.backward()
+<header><largefont><b>Going</b></largefont> <largefont><b>to</b></largefont> <largefont><b>PyTorch</b></largefont></header>
+The Lin, Mse, and Relu classes we wrote have a lot in common, so we could make
+them all inherit from the same base class:
+<b>class</b> <b>LayerFunction():</b>
+<b>def</b> <b>__call__(self,</b> *args):
+self.args = args
+self.out = self.forward(*args)
+<b>return</b> self.out
+<b>def</b> forward(self): <b>raise</b> <b>Exception('not</b> implemented')
+<b>def</b> bwd(self): <b>raise</b> <b>Exception('not</b> implemented')
+<b>def</b> backward(self): self.bwd(self.out, *self.args)
+Then we just need to implement forward and bwd in each of our subclasses:
+<b>class</b> <b>Relu(LayerFunction):</b>
+<b>def</b> forward(self, inp): <b>return</b> inp.clamp_min(0.)
+<b>def</b> bwd(self, out, inp): inp.g = (inp>0).float() * out.g

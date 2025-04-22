@@ -1,0 +1,15 @@
+<i>Figure</i> <i>1-10.</i> <i>Activations</i> <i>of</i> <i>the</i> <i>first</i> <i>layer</i> <i>of</i> <i>a</i> <i>CNN</i> <i>(courtesy</i> <i>of</i> <i>Matthew</i> <i>D.</i> <i>Zeiler</i> <i>and</i>
+<i>Rob</i> <i>Fergus)</i>
+This picture requires some explanation. For each layer, the image part with the light
+gray background shows the reconstructed weights, and the larger section at the bot‐
+tom shows the parts of the training images that most strongly matched each set of
+weights. For layer 1, what we can see is that the model has discovered weights that
+represent diagonal, horizontal, and vertical edges, as well as various gradients. (Note
+that for each layer, only a subset of the features is shown; in practice there are thou‐
+sands across all of the layers.)
+These are the basic building blocks that the model has learned for computer vision.
+They have been widely analyzed by neuroscientists and computer vision researchers,
+and it turns out that these learned building blocks are very similar to the basic visual
+machinery in the human eye, as well as the handcrafted computer vision features that
+were developed prior to the days of deep learning. The next layer is represented in
+Figure 1-11.

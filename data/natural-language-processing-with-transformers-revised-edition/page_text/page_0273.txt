@@ -1,0 +1,35 @@
+ContextualWordEmbsAug
+We’ll use the augmenter from NlpAug to leverage the con‐
+textual word embeddings of DistilBERT for our synonym replacements. Let’s start
+with a simple example:
+<b>from</b> <b>transformers</b> <b>import</b> set_seed
+<b>import</b> <b>nlpaug.augmenter.word</b> <b>as</b> <b>naw</b>
+set_seed(3)
+aug = naw.ContextualWordEmbsAug(model_path="distilbert-base-uncased",
+device="cpu", action="substitute")
+text = "Transformers are the most popular toys"
+<b>print(f"Original</b> text: {text}")
+<b>print(f"Augmented</b> text: {aug.augment(text)}")
+Original text: Transformers are the most popular toys
+Augmented text: transformers'the most popular toys
+Here we can see how the word “are” has been replaced with an apostrophe to generate
+a new synthetic training example. We can wrap this augmentation in a simple func‐
+tion as follows:
+<b>def</b> augment_text(batch, transformations_per_example=1):
+text_aug, label_ids = [], []
+<b>for</b> text, labels <b>in</b> zip(batch["text"], batch["label_ids"]):
+text_aug += [text]
+label_ids += [labels]
+<b>for</b> _ <b>in</b> range(transformations_per_example):
+text_aug += [aug.augment(text)]
+label_ids += [labels]
+<b>return</b> {"text": text_aug, "label_ids": label_ids}
+map()
+Now when we pass this function to the method, we can generate any number
+of new examples with the transformations_per_example argument. We can use this
+function in our code to train the Naive Bayes classifier by simply adding one line after
+we select the slice:
+ds_train_sample = ds_train_sample.map(augment_text, batched=True,
+remove_columns=ds_train_sample.column_names).shuffle(seed=42)
+Including this and rerunning the analysis produces the plot shown here:
+plot_metrics(micro_scores, macro_scores, train_samples, "Naive Bayes + Aug")

@@ -1,0 +1,38 @@
+We also saw that the model in a Learner is generally an object of a class inheriting
+from nn.Module, and that we can call it using parentheses and it will return the acti‐
+vations of a model. You should pass it your independent variable, as a mini-batch. We
+can try it out by grabbing a mini-batch from our DataLoader and then passing it to
+the model:
+x,y = dls.train.one_batch()
+activs = learn.model(x)
+activs.shape
+torch.Size([64, 20])
+Think about why activs has this shape—we have a batch size of 64, and we need to
+calculate the probability of each of 20 categories. Here’s what one of those activations
+looks like:
+activs[0]
+tensor([ 2.0258, -1.3543, 1.4640, 1.7754, -1.2820, -5.8053, 3.6130, 0.7193,
+> -4.3683, -2.5001, -2.8373, -1.8037, 2.0122, 0.6189, 1.9729, 0.8999,
+> -2.6769, -0.3829, 1.2212, 1.6073],
+device='cuda:0', grad_fn=<SelectBackward>)
+<b>GettingModelActivations</b>
+Knowing how to manually get a mini-batch and pass it into a
+model, and look at the activations and loss, is really important for
+debugging your model. It is also very helpful for learning, so that
+you can see exactly what is going on.
+They aren’t yet scaled to between 0 and 1, but we learned how to do that in Chapter 4,
+using the sigmoid function. We also saw how to calculate a loss based on this—this is
+our loss function from Chapter 4, with the addition of log as discussed in the preced‐
+ing chapter:
+<b>def</b> binary_cross_entropy(inputs, targets):
+inputs = inputs.sigmoid()
+<b>return</b> -torch.where(targets==1, inputs, 1-inputs).log().mean()
+Note that because we have a one-hot-encoded dependent variable, we can’t directly
+use nll_loss or softmax (and therefore we can’t use cross_entropy ):
+• softmax, as we saw, requires that all predictions sum to 1, and tends to push one
+exp);
+activation to be much larger than the others (because of the use of however,
+we may well have multiple objects that we’re confident appear in an image, so
+restricting the maximum sum of activations to 1 is not a good idea. By the same
+reasoning, we may want the sum to be <i>less</i> than 1, if we don’t think <i>any</i> of the
+categories appear in an image.

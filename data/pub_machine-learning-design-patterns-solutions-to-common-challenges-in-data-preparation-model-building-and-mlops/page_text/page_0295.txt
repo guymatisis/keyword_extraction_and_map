@@ -1,0 +1,37 @@
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>26:</b></largefont> <largefont><b>Feature</b></largefont> <largefont><b>Store</b></largefont></header>
+The <i>Feature</i> <i>Store</i> design pattern simplifies the management and reuse of features
+across projects by decoupling the feature creation process from the development of
+models using those features.
+<header><largefont><b>Problem</b></largefont></header>
+Good feature engineering is crucial for the success of many machine learning solu‐
+tions. However, it is also one of the most time-consuming parts of model develop‐
+ment. Some features require significant domain knowledge to calculate correctly, and
+changes in the business strategy can affect how a feature should be computed. To
+ensure such features are computed in a consistent way, it’s better for these features to
+be under the control of domain experts rather than ML engineers. Some input fields
+might allow for different choices of data representations (see Chapter 2) to make
+them more amenable for machine learning. An ML engineer or data scientist will
+typically experiment with multiple different transformations to determine which are
+helpful and which aren’t, before deciding which features will be used in the final
+model. Many times, the data used for the ML model isn’t drawn from a single source.
+Some data may come from a data warehouse, some data may sit in a storage bucket as
+unstructured data, and other data may be collected in real time through streaming.
+The structure of the data may also vary between each of these sources, requiring each
+input to have its own feature engineering steps before it can be fed into a model. This
+development is often done on a VM or personal machine, causing the feature cre‐
+ation to be tied to the software environment where the model is built, and the more
+complex the model gets, the more complicated these data pipelines become.
+An ad hoc approach where features are created as needed by ML projects may work
+for one-off model development and training, but as organizations scale, this method
+of feature engineering becomes impractical and significant problems arise:
+• Ad hoc features aren’t easily reused. Features are re-created over and over again,
+either by individual users or within teams, or never leave the pipelines (or note‐
+books) in which they are created. This is particularly problematic for higher-level
+features that are complex to calculate. This could be because they are derived
+through expensive processes, such as pre-trained user or catalog item embed‐
+dings. Other times, it could be because the features are captured from upstream
+processes such as business priorities, availability of contracting, or market seg‐
+mentations. Another source of complexity is when higher-level features, such as
+the number of orders by a customer in the past month, involve aggregations over
+time. Effort and time are wasted creating the same features from scratch for each
+new project.

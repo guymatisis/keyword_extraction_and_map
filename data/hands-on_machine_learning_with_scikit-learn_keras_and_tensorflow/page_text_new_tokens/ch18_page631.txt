@@ -1,0 +1,39 @@
+accurate Q-Value estimates (or close enough), then the optimal policy is choosing the
+action that has the highest Q-Value (i.e., the greedy policy).
+<i>Equation</i> <i>18-5.</i> <i>Q-Learning</i> <i>algorithm</i>
+<i>Q</i> <i>s,a</i> <i>r</i> + <i>γ</i> · max <i>Q</i> <i>s′,a′</i>
+<i>α</i> <i>a′</i>
+For each state-action pair (s, <i>a),</i> this algorithm keeps track of a running average of the
+rewards <i>r</i> the agent gets upon leaving the state <i>s</i> with action <i>a,</i> plus the sum of dis‐
+counted future rewards it expects to get. To estimate this sum, we take the maximum
+of the Q-Value estimates for the next state <i>s′,</i> since we assume that the target policy
+would act optimally from then on.
+Let’s implement the Q-Learning algorithm. First, we will need to make an agent
+explore the environment. For this, we need a step function so that the agent can exe‐
+cute one action and get the resulting state and reward:
+<b>def</b> step(state, action):
+probas = transition_probabilities[state][action]
+next_state = np.random.choice([0, 1, 2], p=probas)
+reward = rewards[state][action][next_state]
+<b>return</b> next_state, reward
+Now let’s implement the agent’s exploration policy. Since the state space is pretty
+small, a simple random policy will be sufficient. If we run the algorithm for long
+enough, the agent will visit every state many times, and it will also try every possible
+action many times:
+<b>def</b> exploration_policy(state):
+<b>return</b> np.random.choice(possible_actions[state])
+Next, after we initialize the Q-Values just like earlier, we are ready to run the Q-
+Learning algorithm with learning rate decay (using power scheduling, introduced in
+Chapter 11):
+alpha0 = 0.05 <i>#</i> <i>initial</i> <i>learning</i> <i>rate</i>
+decay = 0.005 <i>#</i> <i>learning</i> <i>rate</i> <i>decay</i>
+gamma = 0.90 <i>#</i> <i>discount</i> <i>factor</i>
+state = 0 <i>#</i> <i>initial</i> <i>state</i>
+<b>for</b> iteration <b>in</b> range(10000):
+action = exploration_policy(state)
+next_state, reward = step(state, action)
+next_value = np.max(Q_values[next_state])
+alpha = alpha0 / (1 + iteration * decay)
+Q_values[state, action] *= 1 - alpha
+Q_values[state, action] += alpha * (reward + gamma * next_value)
+state = next_state

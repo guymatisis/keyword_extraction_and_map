@@ -1,0 +1,40 @@
+We can see that this dataset provides us with <i>images</i> and <i>annotations</i> directories. The
+website for the dataset tells us that the <i>annotations</i> directory contains information
+about where the pets are rather than what they are. In this chapter, we will be doing
+classification, not localization, which is to say that we care about what the pets are,
+not where they are. Therefore, we will ignore the <i>annotations</i> directory for now. So,
+let’s have a look inside the <i>images</i> directory:
+(path/"images").ls()
+(#7394) [Path('images/great_pyrenees_173.jpg'),Path('images/wheaten_terrier_46.j
+> pg'),Path('images/Ragdoll_262.jpg'),Path('images/german_shorthaired_3.jpg'),P
+> ath('images/american_bulldog_196.jpg'),Path('images/boxer_188.jpg'),Path('ima
+> ges/staffordshire_bull_terrier_173.jpg'),Path('images/basset_hound_71.jpg'),P
+> ath('images/staffordshire_bull_terrier_37.jpg'),Path('images/yorkshire_terrie
+> r_18.jpg')...]
+Most functions and methods in fastai that return a collection use a class called L. This
+class can be thought of as an enhanced version of the ordinary Python list type,
+with added conveniences for common operations. For instance, when we display an
+object of this class in a notebook, it appears in the format shown here. The first thing
+that is shown is the number of items in the collection, prefixed with a #. You’ll also
+see in the preceding output that the list is suffixed with an ellipsis. This means that
+only the first few items are displayed—which is a good thing, because we would not
+want more than 7,000 filenames on our screen!
+By examining these filenames, we can see how they appear to be structured. Each file‐
+name contains the pet breed, then an underscore (_), a number, and finally the file
+extension. We need to create a piece of code that extracts the breed from a single
+Path . Jupyter notebooks make this easy, because we can gradually build up something
+that works, and then use it for the entire dataset. We do have to be careful to not
+make too many assumptions at this point. For instance, if you look carefully, you may
+notice that some of the pet breeds contain multiple words, so we cannot simply break
+at the first _ character that we find. To allow us to test our code, let’s pick out one of
+these filenames:
+fname = (path/"images").ls()[0]
+The most powerful and flexible way to extract information from strings like this is to
+use a <i>regular</i> <i>expression,</i> also known as a <i>regex.</i> A regular expression is a special string,
+written in the regular expression language, which specifies a general rule for deciding
+whether another string passes a test (i.e., “matches” the regular expression), and also
+possibly for plucking a particular part or parts out of that other string. In this case, we
+need a regular expression that extracts the pet breed from the filename.
+We do not have the space to give you a complete regular expression tutorial here, but
+many excellent ones are online, and we know that many of you will already be famil‐
+iar with this wonderful tool. If you’re not, that is totally fine—this is a great

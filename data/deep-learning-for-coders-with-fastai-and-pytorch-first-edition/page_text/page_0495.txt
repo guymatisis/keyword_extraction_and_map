@@ -1,0 +1,38 @@
+<header><largefont><b>Matrix</b></largefont> <largefont><b>Multiplication</b></largefont> <largefont><b>from</b></largefont> <largefont><b>Scratch</b></largefont></header>
+Let’s write a function that computes the matrix product of two tensors, before we
+allow ourselves to use the PyTorch version of it. We will use only the indexing in
+PyTorch tensors:
+<b>import</b> <b>torch</b>
+<b>from</b> <b>torch</b> <b>import</b> tensor
+We’ll need three nested for loops: one for the row indices, one for the column indi‐
+ces, and one for the inner sum. ac and ar stand for number of columns of a and
+number of rows of a , respectively (the same convention is followed for b ), and we
+make sure calculating the matrix product is possible by checking that a has as many
+columns as b has rows:
+<b>def</b> matmul(a,b):
+ar,ac = a.shape <i>#</i> <i>n_rows</i> <i>*</i> <i>n_cols</i>
+br,bc = b.shape
+<b>assert</b> ac==br
+c = torch.zeros(ar, bc)
+<b>for</b> i <b>in</b> range(ar):
+<b>for</b> j <b>in</b> range(bc):
+<b>for</b> k <b>in</b> range(ac): c[i,j] += a[i,k] * b[k,j]
+<b>return</b> c
+To test this out, we’ll pretend (using random matrices) that we’re working with a
+small batch of 5 MNIST images, flattened into 28*28 vectors, with a linear model to
+turn them into 10 activations:
+m1 = torch.randn(5,28*28)
+m2 = torch.randn(784,10)
+Let’s time our function, using the Jupyter “magic” command %time :
+%time t1=matmul(m1, m2)
+CPU times: user 1.15 s, sys: 4.09 ms, total: 1.15 s
+Wall time: 1.15 s
+And see how that compares to PyTorch’s built-in @ ?
+%timeit -n 20 t2=m1@m2
+14 µs ± 8.95 µs per loop (mean ± std. dev. of 7 runs, 20 loops each)
+As we can see, in Python three nested loops is a bad idea! Python is a slow language,
+and this isn’t going to be efficient. We see here that PyTorch is around 100,000 times
+faster than Python—and that’s before we even start using the GPU!
+Where does this difference come from? PyTorch didn’t write its matrix multiplication
+in Python, but rather in C++ to make it fast. In general, whenever we do computa‐
+tions on tensors, we will need to <i>vectorize</i> them so that we can take advantage of the

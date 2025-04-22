@@ -1,0 +1,27 @@
+<i>Figure</i> <i>2-3.</i> <i>For</i> <i>each</i> <i>batch,</i> <i>the</i> <i>input</i> <i>sequences</i> <i>are</i> <i>padded</i> <i>to</i> <i>the</i> <i>maximum</i> <i>sequence</i>
+<i>length</i> <i>in</i> <i>the</i> <i>batch;</i> <i>the</i> <i>attention</i> <i>mask</i> <i>is</i> <i>used</i> <i>in</i> <i>the</i> <i>model</i> <i>to</i> <i>ignore</i> <i>the</i> <i>padded</i> <i>areas</i> <i>of</i>
+<i>the</i> <i>input</i> <i>tensors</i>
+Once we’ve defined a processing function, we can apply it across all the splits in the
+corpus in a single line of code:
+emotions_encoded = emotions.map(tokenize, batched=True, batch_size=None)
+map()
+By default, the method operates individually on every example in the corpus,
+so setting batched=True will encode the tweets in batches. Because we’ve set
+batch_size=None tokenize()
+, our function will be applied on the full dataset as a
+single batch. This ensures that the input tensors and attention masks have the same
+shape globally, and we can see that this operation has added new input_ids and
+attention_mask
+columns to the dataset:
+<b>print(emotions_encoded["train"].column_names)</b>
+['attention_mask', 'input_ids', 'label', 'text']
+In later chapters, we’ll see how <i>data</i> <i>collators</i> can be used to dynam‐
+ically pad the tensors in each batch. Padding globally will come in
+handy in the next section, where we extract a feature matrix from
+the whole corpus.
+<header><largefont><b>Training</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Text</b></largefont> <largefont><b>Classifier</b></largefont></header>
+As discussed in Chapter 1, models like DistilBERT are pretrained to predict masked
+words in a sequence of text. However, we can’t use these language models directly for
+text classification; we need to modify them slightly. To understand what modifica‐
+tions are necessary, let’s take a look at the architecture of an encoder-based model like
+DistilBERT, which is depicted in Figure 2-4.

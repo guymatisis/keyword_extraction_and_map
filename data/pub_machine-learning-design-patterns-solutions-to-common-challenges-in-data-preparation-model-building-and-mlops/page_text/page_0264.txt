@@ -1,0 +1,41 @@
+<b>def</b> read_dataset(client, <b>row_restriction,</b> batch_size=2048):
+...
+bqsession = client.read_session(
+...
+row_restriction=row_restriction)
+dataset = bqsession.parallel_read_rows()
+<b>return</b> (dataset.prefetch(1).map(features_and_labels)
+.shuffle(batch_size*10).batch(batch_size))
+client = BigQueryClient()
+<b>train_df</b> = read_dataset(client, <b>'Time</b> <b><=</b> <b>144803',</b> 2048)
+eval_df = read_dataset(client, <b>'Time</b> <b>></b> <b>144803',</b> 2048)
+Another instance where a sequential split of data is needed is when there are high
+correlations between successive times. For example, in weather forecasting, the
+weather on consecutive days is highly correlated. Therefore, it is not reasonable to
+put October 12 in the training dataset and October 13 in the testing dataset because
+there will be considerable leakage (imagine, for example, that there is a hurricane on
+October 12). Further, weather is highly seasonal, and so it is necessary to have days
+from all seasons in all three splits. One way to properly evaluate the performance of a
+forecasting model is to use a sequential split but take seasonality into account by
+using the first 20 days of every month in the training dataset, the next 5 days in the
+validation dataset, and the last 5 days in the testing dataset.
+In all these instances, repeatable splitting requires only that we place the logic used to
+create the split into version control and ensure that the model version is updated
+whenever this logic is changed.
+<b>Stratifiedsplit</b>
+The example above of how weather patterns are different between different seasons is
+an example of a situation where the splitting needs to happen after the dataset is
+<i>stratified.</i> We needed to ensure that there were examples of all seasons in each split,
+and so we stratified the dataset in terms of months before carrying out the split. We
+used the first 20 days of every month in the training dataset, the next 5 days in the
+validation dataset, and the last 5 days in the testing dataset. Had we not been con‐
+cerned with the correlation between successive days, we could have randomly split
+the dates within each month.
+The larger the dataset, the less concerned we have to be with stratification. On very
+large datasets, the odds are very high that the feature values will be well distributed
+among all the splits. Therefore, in large-scale machine learning, the need to stratify
+happens quite commonly only in the case of skewed datasets. For example, in the
+flights dataset, less than 1% of flights take off before 6 a.m., and so the number of
+flights that meet this criterion may be quite small. If it is critical for our business use
+case to get the behavior of these flights correct, we should stratify the dataset based
+on departure hour and split each stratification evenly.

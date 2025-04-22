@@ -1,0 +1,33 @@
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 1.902943 2.447006 0.401419 00:30
+1 1.315203 1.572992 0.525765 00:30
+2 1.001199 0.767886 0.759149 00:30
+3 0.765864 0.665562 0.797984 00:30
+Then you can replace the DataLoaders inside the Learner , and fine-tune:
+learn.dls = get_dls(64, 224)
+learn.fine_tune(5, 1e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.985213 1.654063 0.565721 01:06
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.706869 0.689622 0.784541 01:07
+1 0.739217 0.928541 0.712472 01:07
+2 0.629462 0.788906 0.764003 01:07
+3 0.491912 0.502622 0.836445 01:06
+4 0.414880 0.431332 0.863331 01:06
+As you can see, we’re getting much better performance, and the initial training on
+small images was much faster on each epoch.
+You can repeat the process of increasing size and training more epochs as many times
+as you like, for as big an image as you wish—but of course, you will not get any bene‐
+fit by using an image size larger than the size of your images on disk.
+Note that for transfer learning, progressive resizing may actually hurt performance.
+This is most likely to happen if your pretrained model was quite similar to your
+transfer learning task and the dataset and was trained on similar-sized images, so the
+weights don’t need to be changed much. In that case, training on smaller images may
+damage the pretrained weights.
+On the other hand, if the transfer learning task is going to use images that are of dif‐
+ferent sizes, shapes, or styles than those used in the pretraining task, progressive
+resizing will probably help. As always, the answer to “Will it help?” is “Try it!”
+Another thing we could try is applying data augmentation to the validation set. Up
+until now, we have applied it only on the training set; the validation set always gets
+the same images. But maybe we could try to make predictions for a few augmented
+versions of the validation set and average them. We’ll consider this approach next.

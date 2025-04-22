@@ -1,0 +1,35 @@
+Much better! Now we just have to bring these ideas together, and we have Adam, fas‐
+tai’s default optimizer.
+<header><largefont><b>Adam</b></largefont></header>
+Adam mixes the ideas of SGD with momentum and RMSProp together: it uses the
+moving average of the gradients as a direction and divides by the square root of the
+moving average of the gradients squared to give an adaptive learning rate to each
+parameter.
+There is one other difference in how Adam calculates moving averages. It takes the
+<i>unbiased</i> moving average, which is
+w.avg = beta * w.avg + (1-beta) * w.grad
+unbias_avg = w.avg / (1 - (beta**(i+1)))
+if we are the i-th iteration (starting at 0 as Python does). This divisor of
+1 - (beta**(i+1)) makes sure the unbiased average looks more like the gradients at
+the beginning (since beta < 1, the denominator is very quickly close to 1).
+Putting everything together, our update step looks like this:
+w.avg = beta1 * w.avg + (1-beta1) * w.grad
+unbias_avg = w.avg / (1 - (beta1**(i+1)))
+w.sqr_avg = beta2 * w.sqr_avg + (1-beta2) * (w.grad ** 2)
+new_w = w - lr * unbias_avg / sqrt(w.sqr_avg + eps)
+As for RMSProp, eps is usually set to 1e-8, and the default for (beta1,beta2) sug‐
+gested by the literature is (0.9,0.999).
+In fastai, Adam is the default optimizer we use since it allows faster training, but
+we’ve found that beta2=0.99 is better suited to the type of schedule we are using.
+beta1 is the momentum parameter, which we specify with the argument moms in our
+call to fit_one_cycle. As for eps, fastai uses a default of 1e-5. eps is not just useful
+eps
+for numerical stability. A higher limits the maximum value of the adjusted learn‐
+ing rate. To take an extreme example, if eps is 1, then the adjusted learning will never
+be higher than the base learning rate.
+Rather than show all the code for this in the book, we’ll let you look at the optimizer
+notebook in fastai’s <i>https://oreil.ly/24_O[GitHub</i> <i>repository]</i> <i>(browse</i> <i>the</i> <i>_nbs</i> folder
+and search for the notebook called <i>optimizer).</i> You’ll see all the code we’ve shown so
+far, along with Adam and other optimizers, and lots of examples and tests.
+One thing that changes when we go from SGD to Adam is the way we apply weight
+decay, and it can have important consequences.

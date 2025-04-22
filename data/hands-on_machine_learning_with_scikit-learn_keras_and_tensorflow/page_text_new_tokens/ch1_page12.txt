@@ -1,0 +1,28 @@
+A related task is <i>dimensionality</i> <i>reduction,</i> in which the goal is to simplify the data
+without losing too much information. One way to do this is to merge several correla‐
+ted features into one. For example, a car’s mileage may be strongly correlated with its
+age, so the dimensionality reduction algorithm will merge them into one feature that
+represents the car’s wear and tear. This is called <i>feature</i> <i>extraction.</i>
+It is often a good idea to try to reduce the dimension of your train‐
+ing data using a dimensionality reduction algorithm before you
+feed it to another Machine Learning algorithm (such as a super‐
+vised learning algorithm). It will run much faster, the data will take
+up less disk and memory space, and in some cases it may also per‐
+form better.
+Yet another important unsupervised task is <i>anomaly</i> <i>detection—for</i> example, detect‐
+ing unusual credit card transactions to prevent fraud, catching manufacturing defects,
+or automatically removing outliers from a dataset before feeding it to another learn‐
+ing algorithm. The system is shown mostly normal instances during training, so it
+learns to recognize them; then, when it sees a new instance, it can tell whether it looks
+like a normal one or whether it is likely an anomaly (see Figure 1-10). A very similar
+task is <i>novelty</i> <i>detection:</i> it aims to detect new instances that look different from all
+instances in the training set. This requires having a very “clean” training set, devoid of
+any instance that you would like the algorithm to detect. For example, if you have
+thousands of pictures of dogs, and 1% of these pictures represent Chihuahuas, then a
+novelty detection algorithm should not treat new pictures of Chihuahuas as novelties.
+On the other hand, anomaly detection algorithms may consider these dogs as so rare
+and so different from other dogs that they would likely classify them as anomalies (no
+offense to Chihuahuas).
+<i>Figure</i> <i>1-10.</i> <i>Anomaly</i> <i>detection</i>
+Finally, another common unsupervised task is <i>association</i> <i>rule</i> <i>learning,</i> in which the
+goal is to dig into large amounts of data and discover interesting relations between

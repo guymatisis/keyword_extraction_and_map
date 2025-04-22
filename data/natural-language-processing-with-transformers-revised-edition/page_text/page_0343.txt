@@ -1,0 +1,28 @@
+and classes, and the success of a program does not depend on the naming scheme as
+long as it is consistent. However, the BLEU score would punish a generation that
+deviates from the reference naming, which might in fact be almost impossible to pre‐
+dict (even for a human coder).
+In software development there are much better and more reliable ways to measure
+the quality of code, such as unit tests. This is how all the OpenAI Codex models were
+evaluated: by running several code generations for coding tasks through a set of unit
+tests and calculating the fraction of generations that pass the tests.10 For a proper per‐
+formance measure we should apply the same evaluation regimen to our models but
+this is beyond the scope of this chapter. You can find details on how CodeParrot per‐
+forms on the HumanEval benchmark in the model’s accompanying blog post.
+<header><largefont><b>Conclusion</b></largefont></header>
+Let’s take a step back for a moment and contemplate what we have achieved in this
+chapter. We set out to create a code autocomplete function for Python. First we built a
+custom, large-scale dataset suitable for pretraining a large language model. Then we
+created a custom tokenizer that is able to efficiently encode Python code with that
+dataset. Finally, with the help of Accelerate we put everything together and wrote a
+training script to train small and large versions of a GPT-2 model from scratch on a
+multi-GPU infrastructure, in under two hundred lines of code. Investigating the
+model outputs, we saw that it can generate reasonable code continuations, and we
+discussed how the model could be systematically evaluated.
+You now not only know how to fine-tune any of the many pretrained models on the
+Hub, but also how to pretrain a custom model from scratch when you have enough
+data and compute resources available. You are now prepared to tackle almost any
+NLP use case with transformers. So the question is: where to next? In the next and
+last chapter, we’ll have a look at where the field is currently moving and what new
+exciting applications and domains beyond NLP transformer models can tackle.
+10 M.Chenetal.,“EvaluatingLargeLanguageModelsTrainedonCode”,(2021).

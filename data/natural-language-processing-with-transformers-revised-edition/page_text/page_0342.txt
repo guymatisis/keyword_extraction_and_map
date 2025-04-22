@@ -1,0 +1,34 @@
+Setting `pad_token_id` to `eos_token_id`:0 for open-end generation.
+return np.mean(a)
+================================================================================
+return np.mean(a)
+================================================================================
+return np.mean(a)
+================================================================================
+return np.mean(a)
+That worked! Let’s see if we can also use the CodeParrot model to help us build a
+Scikit-learn model:
+prompt = '''X = np.random.randn(100, 100)
+y = np.random.randint(0, 1, 100)
+# fit random forest classifier with 20 estimators'''
+complete_code(generation, prompt, max_length=96)
+Setting `pad_token_id` to `eos_token_id`:0 for open-end generation.
+reg = DummyRegressor()
+forest = RandomForestClassifier(n_estimators=20)
+forest.fit(X, y)
+================================================================================
+clf = ExtraTreesClassifier(n_estimators=100, max_features='sqrt')
+clf.fit(X, y)
+================================================================================
+clf = RandomForestClassifier(n_estimators=20, n_jobs=n_jobs, random_state=1)
+clf.fit(X, y)
+================================================================================
+clf = RandomForestClassifier(n_estimators=20)
+clf.fit(X, y)
+Although in the second attempt it tried to train an extra-trees classifier, it generated
+what we asked in the other cases.
+In Chapter 5 we explored a few metrics to measure the quality of generated text.
+Among these was the BLEU score, which is frequently used for that purpose. While
+this metric has limitations in general, it is particularly badly suited for our use case.
+The BLEU score measures the overlap of <i>n-grams</i> between the reference texts and the
+generated texts. When writing code we have a lot of freedom in terms of variables

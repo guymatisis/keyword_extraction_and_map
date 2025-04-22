@@ -1,0 +1,37 @@
+<header><largefont><b>Scale</b></largefont></header>
+The challenge of scaling is present throughout many stages of a typical machine
+learning workflow. You’ll likely encounter scaling challenges in data collection and
+preprocessing, training, and serving. When ingesting and preparing data for a
+machine learning model, the size of the dataset will dictate the tooling required for
+your solution. It is often the job of data engineers to build out data pipelines that can
+scale to handle datasets with millions of rows.
+For model training, ML engineers are responsible for determining the necessary
+infrastructure for a specific training job. Depending on the type and size of the data‐
+set, model training can be time consuming and computationally expensive, requiring
+infrastructure (like GPUs) designed specifically for ML workloads. Image models, for
+instance, typically require much more training infrastructure than models trained
+entirely on tabular data.
+In the context of model serving, the infrastructure required to support a team of data
+scientists getting predictions from a model prototype is entirely different from the
+infrastructure necessary to support a production model getting millions of prediction
+requests every hour. Developers and ML engineers are typically responsible for han‐
+dling the scaling challenges associated with model deployment and serving prediction
+requests.
+Most of the ML patterns in this book are useful without regard to organizational
+maturity. However, several of the patterns in Chapters 6 and 7 address resilience and
+reproducibility challenges in different ways, and the choice between them will often
+come down to the use case and the ability of your organization to absorb complexity.
+<header><largefont><b>Multiple</b></largefont> <largefont><b>Objectives</b></largefont></header>
+Though there is often a single team responsible for building a machine learning
+model, many teams across an organization will make use of the model in some way.
+Inevitably, these teams may have different ideas of what defines a successful model.
+To understand how this may play out in practice, let’s say you’re building a model to
+identify defective products from images. As a data scientist, your goal may be to min‐
+imize your model’s cross-entropy loss. The product manager, on the other hand, may
+want to reduce the number of defective products that are misclassified and sent to
+customers. Finally, the executive team’s goal might be to increase revenue by 30%.
+Each of these goals vary in what they are optimizing for, and balancing these differing
+needs within an organization can present a challenge.
+As a data scientist, you could translate the product team’s needs into the context of
+your model by saying false negatives are five times more costly than false positives.
+Therefore, you should optimize for recall over precision to satisfy this when

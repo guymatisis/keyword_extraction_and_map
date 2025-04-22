@@ -1,0 +1,41 @@
+tf.transform
+The library (which is part of TensorFlow Extended) provides an effi‐
+cient way of carrying out transformations over a preprocessing pass through the data
+and saving the resulting features and transformation artifacts so that the transforma‐
+tions can be applied by TensorFlow Serving during prediction time.
+The first step is to define the transformation function. For example, to scale all the
+inputs to be zero mean and unit variance and bucketize them, we would create this
+preprocessing function (see the full code on GitHub):
+<b>def</b> preprocessing_fn(inputs):
+outputs = {}
+<b>for</b> key <b>in</b> ...:
+outputs[key + '_z'] = tft.scale_to_z_score(inputs[key])
+outputs[key + '_bkt'] = tft.bucketize(inputs[key], 5)
+<b>return</b> outputs
+Before training, the raw data is read and transformed using the prior function in
+Apache Beam:
+transformed_dataset, transform_fn = (raw_dataset |
+beam_impl.AnalyzeAndTransformDataset(preprocessing_fn))
+transformed_data, transformed_metadata = transformed_dataset
+The transformed data is then written out in a format suitable for reading by the train‐
+ing pipeline:
+transformed_data | tfrecordio.WriteToTFRecord(
+PATH_TO_TFT_ARTIFACTS,
+coder=example_proto_coder.ExampleProtoCoder(
+transformed_metadata.schema))
+The Beam pipeline also stores the preprocessing function that needs to be run, along
+with any artifacts the function needs, into an artifact in TensorFlow graph format. In
+the case above, for example, this artifact would include the mean and variance for
+scaling the numbers, and the bucket boundaries for bucketizing numbers. The
+training function reads transformed data and, therefore, the transformations do not
+have to be repeated within the training loop.
+The serving function needs to load in these artifacts and create a Transform layer:
+tf_transform_output = tft.TFTransformOutput(PATH_TO_TFT_ARTIFACTS)
+tf_transform_layer = tf_transform_output.transform_features_layer()
+Then, the serving function can apply the Transform layer to the parsed input features
+and invoke the model with the transformed data to calculate the model output:
+@tf.function
+<b>def</b> serve_tf_examples_fn(serialized_tf_examples):
+feature_spec = tf_transform_output.raw_feature_spec()
+feature_spec.pop(_LABEL_KEY)
+parsed_features = tf.io.parse_example(serialized_tf_examples, feature_spec)

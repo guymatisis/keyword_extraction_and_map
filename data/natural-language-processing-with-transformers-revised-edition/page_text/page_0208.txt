@@ -1,0 +1,26 @@
+<i>Figure</i> <i>7-14.</i> <i>The</i> <i>QA</i> <i>hierarchy</i> <i>of</i> <i>needs</i>
+Looking ahead, one exciting research area is <i>multimodal</i> <i>QA,</i> which involves QA over
+multiple modalities like text, tables, and images. As described in the MultiModalQA
+benchmark, 17 such systems could enable users to answer complex questions that inte‐
+grate information across different modalities, like “When was the famous painting
+with two touching fingers completed?” Another area with practical business applica‐
+tions is QA over a <i>knowledge</i> <i>graph,</i> where the nodes of the graph correspond to real-
+world entities and their relations are defined by the edges. By encoding factoids as
+(subject, <i>predicate,</i> <i>object)</i> triples, one can use the graph to answer questions about a
+missing element. For an example that combines transformers with knowledge graphs,
+see the Haystack tutorials. One more promising direction is <i>automatic</i> <i>question</i> <i>gener‐</i>
+<i>ation</i> as a way to do some form of unsupervised/weakly supervised training using
+unlabeled data or data augmentation. Two recent examples include the papers on the
+Probably Answered Questions (PAQ) benchmark and synthetic data augmentation
+for cross-lingual settings.18
+In this chapter we’ve seen that in order to successfully use QA models for real-world
+use cases we need to apply a few tricks, such as implementing a fast retrieval pipeline
+to make predictions in near real time. Still, applying a QA model to a handful of pre‐
+selected documents can take a couple of seconds on production hardware. Although
+this may not sound like much, imagine how different your experience would be if you
+had to wait a few seconds to get the results of a Google search—a few seconds of wait
+time can decide the fate of your transformer-powered application. In the next chapter
+we’ll have a look at a few methods to accelerate model predictions further.
+17 A.Talmoretal.,“MultiModalQA:ComplexQuestionAnsweringoverText,TablesandImages”,(2021).
+18 P.Lewisetal.,“PAQ:65MillionProbably-AskedQuestionsandWhatYouCanDowithThem”,(2021);A.
+Riabietal.,“SyntheticDataAugmentationforZero-ShotCross-LingualQuestionAnswering”,(2020).

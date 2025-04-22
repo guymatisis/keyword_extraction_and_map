@@ -1,0 +1,25 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>15</b></largefont></header>
+<header><largefont><b>Application</b></largefont> <largefont><b>Architectures</b></largefont> <largefont><b>Deep</b></largefont> <largefont><b>Dive</b></largefont></header>
+We are now in the exciting position that we can fully understand the architectures
+that we have been using for our state-of-the-art models for computer vision, natural
+language processing, and tabular analysis. In this chapter, we’re going to fill in all the
+missing details on how fastai’s application models work and show you how to build
+them.
+We will also go back to the custom data preprocessing pipeline we saw in Chapter 11
+for Siamese networks and show you how to use the components in the fastai library
+to build custom pretrained models for new tasks.
+We’ll start with computer vision.
+<header><largefont><b>Computer</b></largefont> <largefont><b>Vision</b></largefont></header>
+cnn_learner
+For computer vision applications, we use the functions and
+unet_learner to build our models, depending on the task. In this section, we’ll
+explore how to build the Learner objects we used in Parts I and II of this book.
+<header><largefont><b>cnn_learner</b></largefont></header>
+Let’s take a look at what happens when we use the cnn_learner function. We begin by
+passing this function an architecture to use for the <i>body</i> of the network. Most of the
+time, we use a ResNet, which you already know how to create, so we don’t need to
+delve into that any further. Pretrained weights are downloaded as required and
+loaded into the ResNet.
+Then, for transfer learning, the network needs to be <i>cut.</i> This refers to slicing off the
+final layer, which is responsible only for ImageNet-specific categorization. In fact, we
+do not slice off only this layer, but everything from the adaptive average pooling layer

@@ -1,0 +1,42 @@
+We can see that the model is very confident that this text is about a new model, but it
+also produces relatively high scores for the other labels. An important aspect for zero-
+shot classification is the domain we’re operating in. The texts we are dealing with here
+are very technical and mostly about coding, which makes them quite different from
+the original text distribution in the MNLI dataset. Thus, it is not surprising that this is
+a challenging task for the model; it might work much better for some domains than
+others, depending on how close they are to the training data.
+Let’s write a function that feeds a single example through the zero-shot pipeline, and
+then scale it out to the whole validation set by running map() :
+<b>def</b> zero_shot_pipeline(example):
+output = pipe(example["text"], all_labels, multi_label=True)
+example["predicted_labels"] = output["labels"]
+example["scores"] = output["scores"]
+<b>return</b> example
+ds_zero_shot = ds["valid"].map(zero_shot_pipeline)
+Now that we have our scores, the next step is to determine which set of labels should
+be assigned to each example. There are a few options we can experiment with:
+• Define a threshold and select all labels above the threshold.
+• Pick the top <i>k</i> labels with the <i>k</i> highest scores.
+To help us determine which method is best, let’s write a get_preds() function that
+applies one of the approaches to retrieve the predictions:
+<b>def</b> get_preds(example, threshold=None, topk=None):
+preds = []
+<b>if</b> threshold:
+<b>for</b> label, score <b>in</b> zip(example["predicted_labels"], example["scores"]):
+<b>if</b> score >= threshold:
+preds.append(label)
+<b>elif</b> topk:
+<b>for</b> i <b>in</b> range(topk):
+preds.append(example["predicted_labels"][i])
+<b>else:</b>
+<b>raise</b> <b>ValueError("Set</b> either `threshold` or `topk`.")
+<b>return</b> {"pred_label_ids": list(np.squeeze(mlb.transform([preds])))}
+get_clf_report()
+Next, let’s write a second function, , that returns the Scikit-learn
+classification report from a dataset with the predicted labels:
+<b>def</b> get_clf_report(ds):
+y_true = np.array(ds["label_ids"])
+y_pred = np.array(ds["pred_label_ids"])
+<b>return</b> classification_report(
+y_true, y_pred, target_names=mlb.classes_, zero_division=0,
+output_dict=True)

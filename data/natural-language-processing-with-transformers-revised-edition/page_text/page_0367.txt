@@ -1,0 +1,16 @@
+<i>Figure</i> <i>11-16.</i> <i>Generation</i> <i>examples</i> <i>with</i> <i>DALL·E</i> <i>(courtesy</i> <i>of</i> <i>Aditya</i> <i>Ramesh)</i>
+<b>CLIP</b>
+CLIP,19
+Finally, let’s have a look at which also combines text and vision but is designed
+for supervised tasks. Its creators constructed a dataset with 400 million image/caption
+pairs and used contrastive learning to pretrain the model. The CLIP architecture con‐
+sists of a text and an image encoder (both transformers) that create embeddings of
+the captions and images. A batch of images with captions is sampled, and the contras‐
+tive objective is to maximize the similarity of the embeddings (as measured by the dot
+product) of the corresponding pair while minimizing the similarity of the rest, as
+illustrated in Figure 11-17.
+In order to use the pretrained model for classification the possible classes are embed‐
+ded with the text encoder, similar to how we used the zero-shot pipeline. Then the
+embeddings of all the classes are compared to the image embedding that we want to
+classify, and the class with the highest similarity is chosen.
+19 A.Radfordetal.,“LearningTransferableVisualModelsfromNaturalLanguageSupervision”,(2021).

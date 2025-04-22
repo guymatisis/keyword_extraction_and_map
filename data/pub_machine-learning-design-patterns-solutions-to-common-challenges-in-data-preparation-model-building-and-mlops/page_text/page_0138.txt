@@ -1,0 +1,27 @@
+reformatting the label column in your data. Next we explored the <i>Multilabel</i> design
+pattern, which addresses cases where an input to your model can be associated with
+more than one label. To handle this case, use the sigmoid activation function on your
+output layer with binary cross entropy loss.
+Whereas the Reframing and Multilabel patterns focus on formatting model <i>output,</i>
+the <i>Ensemble</i> design pattern addresses model <i>architecture</i> and includes various meth‐
+ods for combining multiple models to improve upon machine learning results from a
+single model. Specifically, the Ensemble pattern includes bagging, boosting, and
+stacking—all different techniques for aggregating multiple models into one ML sys‐
+tem. The <i>Cascade</i> design pattern is also a model-level approach, and involves break‐
+ing a machine learning problem into several smaller problems. Unlike ensemble
+models, the Cascade pattern requires outputs from an initial model to be inputs into
+downstream models. Because of the complexity cascade models can create, you
+should only use them when you have a scenario where the initial classification labels
+are disparate and equally important.
+Next, we looked at the <i>Neutral</i> <i>Class</i> design pattern, which addresses problem repre‐
+sentation at the output level. This pattern improves a binary classifier by adding a
+third “neutral” class. This is useful in cases where you want to capture arbitrary or
+less-polarizing classifications that don’t fall into either of the distinct binary cate‐
+gories. Finally, the <i>Rebalancing</i> design pattern provides solutions for cases where you
+have an inherently imbalanced dataset. This pattern proposes using downsampling,
+weighted classes, or specific reframing techniques to solve for datasets with imbal‐
+anced label classes.
+Chapters 2 and 3 focused on the initial steps for structuring your machine learning
+problem, specifically formatting input data, model architecture options, and model
+output representation. In the next chapter, we’ll navigate the next step in the machine
+learning workflow—design patterns for training models.

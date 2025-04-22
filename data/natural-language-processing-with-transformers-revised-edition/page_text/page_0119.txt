@@ -1,0 +1,40 @@
+[corpus[split] <b>for</b> corpus <b>in</b> corpora]).shuffle(seed=42)
+<b>return</b> multi_corpus
+panx_de_fr_encoded = concatenate_splits([panx_de_encoded, panx_fr_encoded])
+For training, we’ll again use the same hyperparameters from the previous sections, so
+we can simply update the logging steps, model, and datasets in the trainer:
+training_args.logging_steps = len(panx_de_fr_encoded["train"]) // batch_size
+training_args.push_to_hub = True
+training_args.output_dir = "xlm-roberta-base-finetuned-panx-de-fr"
+trainer = Trainer(model_init=model_init, args=training_args,
+data_collator=data_collator, compute_metrics=compute_metrics,
+tokenizer=xlmr_tokenizer, train_dataset=panx_de_fr_encoded["train"],
+eval_dataset=panx_de_fr_encoded["validation"])
+trainer.train()
+trainer.push_to_hub(commit_message="Training completed!")
+Let’s have a look at how the model performs on the test set of each language:
+<b>for</b> lang <b>in</b> langs:
+f1 = evaluate_lang_performance(lang, trainer)
+<b>print(f"F1-score</b> of [de-fr] model on [{lang}] dataset: {f1:.3f}")
+F1-score of [de-fr] model on [de] dataset: 0.866
+F1-score of [de-fr] model on [fr] dataset: 0.868
+F1-score of [de-fr] model on [it] dataset: 0.815
+F1-score of [de-fr] model on [en] dataset: 0.677
+It performs much better on the French split than before, matching the performance
+on the German test set. Interestingly, its performance on the Italian and English splits
+also improves by roughly 10 points! So, even adding training data in another lan‐
+guage improves the performance of the model on unseen languages.
+Let’s round out our analysis by comparing the performance of fine-tuning on each
+language separately against multilingual learning on all the corpora. Since we have
+already fine-tuned on the German corpus, we can fine-tune on the remaining lan‐
+guages with our train_on_subset() function, with num_samples equal to the num‐
+ber of examples in the training set:
+corpora = [panx_de_encoded]
+<i>#</i> <i>Exclude</i> <i>German</i> <i>from</i> <i>iteration</i>
+<b>for</b> lang <b>in</b> langs[1:]:
+training_args.output_dir = f"xlm-roberta-base-finetuned-panx-{lang}"
+<i>#</i> <i>Fine-tune</i> <i>on</i> <i>monolingual</i> <i>corpus</i>
+ds_encoded = encode_panx_dataset(panx_ch[lang])
+metrics = train_on_subset(ds_encoded, ds_encoded["train"].num_rows)
+<i>#</i> <i>Collect</i> <i>F1-scores</i> <i>in</i> <i>common</i> <i>dict</i>
+f1_scores[lang][lang] = metrics["f1_score"][0]

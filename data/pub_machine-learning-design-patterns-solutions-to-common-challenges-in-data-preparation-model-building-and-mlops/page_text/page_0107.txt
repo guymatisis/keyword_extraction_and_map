@@ -1,0 +1,38 @@
+Netflix Prize. There is also a lot of theoretical evidence to back up the success demon‐
+strated on these real-world challenges.
+<b>Increasedtraininganddesigntime</b>
+One downside to ensemble learning is increased training and design time. For exam‐
+ple, for a stacked ensemble model, choosing the ensemble member models can
+require its own level of expertise and poses its own questions: Is it best to reuse the
+same architectures or encourage diversity? If we do use different architectures, which
+ones should we use? And how many? Instead of developing a single ML model
+(which can be a lot of work on its own!), we are now developing <i>k</i> models. We’ve
+introduced an additional amount of overhead in our model development, not to
+mention maintenance, inference complexity, and resource usage if the ensemble
+model is to go into production. This can quickly become impractical as the number
+of models in the ensemble increases.
+Popular machine learning libraries, like scikit-learn and TensorFlow, provide easy-
+to-use implementations for many common bagging and boosting methods, like ran‐
+dom forest, AdaBoost, gradient boosting, and XGBoost. However, we should
+carefully consider whether the increased overhead associated with an ensemble
+method is worth it. Always compare accuracy and resource usage against a linear or
+DNN model. Note that distilling (see “Design Pattern 11: Useful Overfitting” on page
+141) an ensemble of neural networks can often reduce complexity and improve
+performance.
+<b>Dropoutasbagging</b>
+Techniques like dropout provide a powerful and effective alternative. Dropout is
+known as a regularization technique in deep learning but can be also understood as
+an approximation to bagging. Dropout in a neural network randomly (with a prescri‐
+bed probability) “turns off” neurons of the network for each mini-batch of training,
+essentially evaluating a bagged ensemble of exponentially many neural networks.
+That being said, training a neural network with dropout is not exactly the same as
+bagging. There are two notable differences. First, in the case of bagging, the models
+are independent, while when training with dropout, the models share parameters.
+Second, in bagging, the models are trained to convergence on their respective train‐
+ing set. However, when training with dropout, the ensemble member models would
+only be trained for a single training step because different nodes are dropped out in
+each iteration of the training loop.
+<b>Decreasedmodelinterpretability</b>
+Another point to keep in mind is model interpretability. Already in deep learning,
+effectively explaining why our model makes the predictions it does can be difficult.
+This problem is compounded with ensemble models. Consider, for example, decision

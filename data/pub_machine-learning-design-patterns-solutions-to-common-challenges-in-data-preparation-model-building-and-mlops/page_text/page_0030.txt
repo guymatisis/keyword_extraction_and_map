@@ -1,0 +1,34 @@
+In some circumstances, it can be helpful to treat a numeric input as categorical and
+map it to a one-hot encoded column:
+<i>When</i> <i>the</i> <i>numeric</i> <i>input</i> <i>is</i> <i>an</i> <i>index</i>
+For example, if we are trying to predict traffic levels and one of our inputs is the
+day of the week, we could treat the day of the week as numeric (1, 2, 3, …, 7), but
+it is helpful to recognize that the day of the week here is not a continuous scale
+but really just an index. It is better to treat it as categorical (Sunday, Monday, …,
+Saturday) because the indexing is arbitrary. Should the week start on Sunday (as
+in the USA), Monday (as in France), or Saturday (as in Egypt)?
+<i>When</i> <i>the</i> <i>relationship</i> <i>between</i> <i>input</i> <i>and</i> <i>label</i> <i>is</i> <i>not</i> <i>continuous</i>
+What should tip the scale toward treating day of the week as a categorical feature
+is that traffic levels on Friday are not affected by those on Thursday and
+Saturday.
+<i>When</i> <i>it</i> <i>is</i> <i>advantageous</i> <i>to</i> <i>bucket</i> <i>the</i> <i>numeric</i> <i>variable</i>
+In most cities, traffic levels depend on whether it is the weekend, and this can
+vary by location (Saturday and Sunday in most of the world, Thursday and Fri‐
+day in some Islamic countries). It would be helpful to then treat day of the week
+as a boolean feature (weekend or weekday). Such a mapping where the number
+of distinct inputs (here, seven) is greater than the number of distinct feature val‐
+ues (here, two) is called bucketing. Commonly, bucketing is done in terms of
+mother_age
+ranges—for example, we might bucket into ranges that break at 20,
+25, 30, etc. and treat each of these bins as categorical, but it should be realized
+that this loses the ordinal nature of mother_age .
+<i>When</i> <i>we</i> <i>want</i> <i>to</i> <i>treat</i> <i>different</i> <i>values</i> <i>of</i> <i>the</i> <i>numeric</i> <i>input</i> <i>as</i> <i>being</i> <i>independent</i>
+<i>when</i> <i>it</i> <i>comes</i> <i>to</i> <i>their</i> <i>effect</i> <i>on</i> <i>the</i> <i>label</i>
+For example, the weight of a baby depends on the plurality2 of the delivery since
+twins and triplets tend to weigh less than single births. So, a lower-weight baby, if
+part of a triplet, might be healthier than a twin baby with the same weight. In this
+case, we might map the plurality to a categorical variable, since a categorical vari‐
+able allows the model to learn independent tunable parameters for the different
+values of plurality. Of course, we can do this only if we have enough examples of
+twins and triplets in our dataset.
+2 Iftwins,thepluralityis2.Iftriplets,thepluralityis3.

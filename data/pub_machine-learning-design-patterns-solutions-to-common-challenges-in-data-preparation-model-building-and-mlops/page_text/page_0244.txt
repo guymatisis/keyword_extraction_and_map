@@ -1,0 +1,35 @@
+advantageous for your model to also pass through a client-supplied key. This is called
+the Keyed Predictions design pattern, and it is a necessity to scalably implement sev‐
+eral of the design patterns discussed in this chapter.
+<header><largefont><b>Problem</b></largefont></header>
+If your model is deployed as a web service and accepts a single input, then it is quite
+clear which output corresponds to which input. But what if your model accepts a file
+with a million inputs and sends back a file with a million output predictions?
+You might think that it should be obvious that the first output instance corresponds
+to the first input instance, the second output instance to the second input instance,
+etc. However, with a 1:1 relationship, it is necessary for each server node to process
+the full set of inputs serially. It would be much more advantageous if you use a dis‐
+tributed data processing system and farm out instances to multiple machines, collect
+all the resulting outputs, and send them back. The problem with this approach is that
+the outputs are going to be jumbled. Requiring that the outputs be ordered the same
+way poses scalability challenges, and providing the outputs in an unordered manner
+requires the clients to somehow know which output corresponds to which input.
+This same problem occurs if your online serving system accepts an array of instances
+as discussed in the Stateless Serving Function pattern. The problem is that processing
+a large number of instances locally will lead to hot spots. Server nodes that receive
+only a few requests will be able to keep up, but any server node that receives a partic‐
+ularly large array will start to fall behind. These hot spots will force you to make your
+server machines more powerful than they need to be. Therefore, many online serving
+systems will impose a limit on the number of instances that can be sent in one
+request. If there is no such limit, or if the model is so computationally expensive that
+requests with fewer instances than this limit can overload the server, you will run into
+the problem of hot spots. Therefore, any solution to the batch serving problem will
+also address the problem of hot spots in online serving.
+<header><largefont><b>Solution</b></largefont></header>
+The solution is to use pass-through keys. Have the client supply a key associated with
+each input. For example (see Figure 5-13), suppose your model is trained with three
+inputs (a, b, c), shown on the left, to produce the output d, shown on the right. Make
+your clients supply (k, a, b, c) to your model where k is a key with a unique identifier.
+The key could be as simple as numbering the input instances 1, 2, 3, …, etc. Your
+model will then return (k, d), and so the client will be able to figure out which output
+instance corresponds to which input instance.

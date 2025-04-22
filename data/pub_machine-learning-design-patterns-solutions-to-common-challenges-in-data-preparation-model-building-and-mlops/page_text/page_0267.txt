@@ -1,0 +1,39 @@
+<b>Bridgedschema</b>
+Consider the case where the older data has two categories (cash and card). In the new
+schema, the card category is now much more granular (gift card, debit card, credit
+card). What we do know is that a transaction coded as “card” in the old data would
+have been one of these types but the actual type was not recorded. It’s possible to
+bridge the schema probabilistically or statically. The static method is what we recom‐
+mend, but it is easier to understand if we walk through the probabilistic method first.
+<b>Probabilisticmethod.</b> Imagine that we estimate from the newer training data that of
+the card transactions, 10% are gift cards, 30% are debit cards, and 60% are credit
+cards. Each time an older training example is loaded into the trainer program, we
+could choose the card type by generating a uniformly distributed random number in
+the range [0, 100) and choosing a gift card when the random number is less than 10, a
+debit card if it is in [10, 40), and a credit card otherwise. Provided we train for
+enough epochs, any training example would be presented as all three categories, but
+proportional to the actual frequency of occurrence. The newer training examples, of
+course, would always have the actually recorded category.
+The justification for the probabilistic approach is that we treat each older example as
+having happened hundreds of times. As the trainer goes through the data, in each
+epoch, we simulate one of those instances. In the simulation, we expect that 10% of
+the time that a card was used, the transaction would have occurred with a gift card.
+That’s why we pick “gift card” for the value of the categorical input 10% of the time.
+This is, of course, simplistic—just because gift cards are used 10% of the time overall,
+it is not the case that gift cards will be used 10% of the time for any specific transac‐
+tion. As an extreme example, maybe taxi companies disallow use of gift cards on air‐
+port trips, and so a gift card is not even a legal value for some historical examples.
+However, in the absence of any extra information, we will assume that the frequency
+distribution is the same for all the historical examples.
+<b>Staticmethod.</b> Categorical variables are usually one-hot encoded. If we follow the
+probabilistic approach above and train long enough, the average one-hot encoded
+value presented to the training program of a “card” in the older data will be [0, 0.1,
+0.3, 0.6]. The first 0 corresponds to the cash category. The second number is 0.1
+because 10% of the time, on card transactions, this number will be 1 and it will be
+zero in all other cases. Similarly, we have 0.3 for debit cards and 0.6 for credit cards.
+To bridge the older data into the newer schema, we can transform the older categori‐
+cal data into this representation where we insert the a priori probability of the new
+classes as estimated from the training data. The newer data, on the other hand, will
+have [0, 0, 1, 0] for a transaction that is known to have been paid by a debit card.
+We recommend the static method over the probabilistic method because it is effec‐
+tively what happens if the probabilistic method runs for long enough. It is also much

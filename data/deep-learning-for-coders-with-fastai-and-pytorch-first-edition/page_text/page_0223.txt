@@ -1,0 +1,39 @@
+On top of these, fastai provides two classes for bringing your training and validation
+sets together:
+Datasets
+Dataset Dataset
+An iterator that contains a training and a validation
+DataLoaders
+An object that contains a training DataLoader and a validation DataLoader
+Since a DataLoader builds on top of a Dataset and adds additional functionality to it
+(collating multiple items into a mini-batch), it’s often easiest to start by creating and
+testing Datasets , and then look at DataLoaders after that’s working.
+When we create a DataBlock, we build up gradually, step by step, and use the note‐
+book to check our data along the way. This is a great way to make sure that you main‐
+tain momentum as you are coding, and that you keep an eye out for any problems. It’s
+easy to debug, because you know that if a problem arises, it is in the line of code you
+just typed!
+Let’s start with the simplest case, which is a data block created with no parameters:
+dblock = DataBlock()
+We can create a Datasets object from this. The only thing needed is a source—in this
+case, our DataFrame:
+dsets = dblock.datasets(df)
+This contains a train and a valid dataset, which we can index into:
+dsets.train[0]
+(fname 008663.jpg
+labels car person
+is_valid False
+Name: 4346, dtype: object,
+fname 008663.jpg
+labels car person
+is_valid False
+Name: 4346, dtype: object)
+As you can see, this simply returns a row of the DataFrame, twice. This is because by
+default, the data block assumes we have two things: input and target. We are going to
+need to grab the appropriate fields from the DataFrame, which we can do by passing
+get_x get_y
+and functions:
+dblock = DataBlock(get_x = <b>lambda</b> r: r['fname'], get_y = <b>lambda</b> r: r['labels'])
+dsets = dblock.datasets(df)
+dsets.train[0]
+('005620.jpg', 'aeroplane')

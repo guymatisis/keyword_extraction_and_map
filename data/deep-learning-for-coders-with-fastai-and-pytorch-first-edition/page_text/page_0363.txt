@@ -1,0 +1,37 @@
+dls = dsets.dataloaders(bs=64, before_batch=pad_input)
+dataloaders directly calls DataLoader on each subset of our Datasets. fastai’s
+DataLoader expands the PyTorch class of the same name and is responsible for collat‐
+ing the items from our datasets into batches. It has a lot of points of customization,
+but the most important ones that you should know are as follows:
+after_item
+Applied on each item after grabbing it inside the dataset. This is the equivalent of
+item_tfms in DataBlock.
+before_batch
+Applied on the list of items before they are collated. This is the ideal place to pad
+items to the same size.
+after_batch
+Applied on the batch as a whole after its construction. This is the equivalent of
+batch_tfms in DataBlock .
+As a conclusion, here is the full code necessary to prepare the data for text
+classification:
+tfms = [[Tokenizer.from_folder(path), Numericalize], [parent_label, Categorize]]
+files = get_text_files(path, folders = ['train', 'test'])
+splits = GrandparentSplitter(valid_name='test')(files)
+dsets = Datasets(files, tfms, splits=splits)
+dls = dsets.dataloaders(dl_type=SortedDL, before_batch=pad_input)
+The two differences from the previous code are the use of GrandparentSplitter to
+split our training and validation data, and the dl_type argument. This is to tell
+dataloaders to use the SortedDL class of DataLoader , and not the usual one. Sor
+tedDL constructs batches by putting samples of roughly the same lengths into
+batches.
+This does the exact same thing as our previous DataBlock:
+path = untar_data(URLs.IMDB)
+dls = DataBlock(
+blocks=(TextBlock.from_folder(path),CategoryBlock),
+get_y = parent_label,
+get_items=partial(get_text_files, folders=['train', 'test']),
+splitter=GrandparentSplitter(valid_name='test')
+).dataloaders(path)
+But now you know how to customize every single piece of it!
+Let’s practice what we just learned about using this mid-level API for data preprocess‐
+ing on a computer vision example now.

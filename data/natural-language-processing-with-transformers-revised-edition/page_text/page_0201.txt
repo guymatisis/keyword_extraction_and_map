@@ -1,0 +1,48 @@
+<b>for</b> qid, question <b>in</b> id2question.items():
+<i>#</i> <i>Filter</i> <i>for</i> <i>a</i> <i>single</i> <i>question</i> <i>ID</i>
+question_df = df.query(f"id == '{qid}'").to_dict(orient="list")
+ans_start_idxs = question_df["answers.answer_start"][0].tolist()
+ans_text = question_df["answers.text"][0].tolist()
+<i>#</i> <i>Fill</i> <i>answerable</i> <i>questions</i>
+<b>if</b> len(ans_start_idxs):
+answers = [
+{"text": text, "answer_start": answer_start}
+<b>for</b> text, answer_start <b>in</b> zip(ans_text, ans_start_idxs)]
+is_impossible = False
+<b>else:</b>
+answers = []
+is_impossible = True
+<i>#</i> <i>Add</i> <i>question-answer</i> <i>pairs</i> <i>to</i> <i>qas</i>
+qas.append({"question": question, "id": qid,
+"is_impossible": is_impossible, "answers": answers})
+<i>#</i> <i>Add</i> <i>context</i> <i>and</i> <i>question-answer</i> <i>pairs</i> <i>to</i> <i>paragraphs</i>
+paragraphs.append({"qas": qas, "context": review})
+<b>return</b> paragraphs
+DataFrame
+Now, when we apply to the rows of a associated with a single product ID,
+we get the SQuAD format:
+product = dfs["train"].query("title == 'B00001P4ZH'")
+create_paragraphs(product)
+[{'qas': [{'question': 'How is the bass?',
+'id': '2543d296da9766d8d17d040ecc781699',
+'is_impossible': True,
+'answers': []}],
+'context': 'I have had Koss headphones ...',
+'id': 'd476830bf9282e2b9033e2bb44bbb995',
+'is_impossible': False,
+'answers': [{'text': 'Bass is weak as expected', 'answer_start': 1302},
+{'text': 'Bass is weak as expected, even with EQ adjusted up',
+'answer_start': 1302}]}],
+'context': 'To anyone who hasn\'t tried all ...'},
+{'qas': [{'question': 'How is the bass?',
+'id': '455575557886d6dfeea5aa19577e5de4',
+'is_impossible': False,
+'answers': [{'text': 'The only fault in the sound is the bass',
+'answer_start': 650}]}],
+'context': "I have had many sub-$100 headphones ..."}]
+The final step is to then apply this function to each product ID in the DataFrame of
+each split. The following convert_to_squad() function does this trick and stores the
+result in an <i>electronics-{split}.json</i> file:
+<b>import</b> <b>json</b>
+<b>def</b> convert_to_squad(dfs):
+<b>for</b> split, df <b>in</b> dfs.items():

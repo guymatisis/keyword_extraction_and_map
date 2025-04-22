@@ -1,0 +1,23 @@
+action movies but the movie isn’t an action film, or the user doesn’t like action movies
+and it is one), the product will be very low.
+<i>Figure</i> <i>8-2.</i> <i>Latent</i> <i>factors</i> <i>with</i> <i>crosstab</i>
+Step 3 is to calculate our loss. We can use any loss function that we wish; let’s pick
+mean squared error for now, since that is one reasonable way to represent the accu‐
+racy of a prediction.
+That’s all we need. With this in place, we can optimize our parameters (the latent fac‐
+tors) using stochastic gradient descent, such as to minimize the loss. At each step, the
+stochastic gradient descent optimizer will calculate the match between each movie
+and each user using the dot product, and will compare it to the actual rating that each
+user gave to each movie. It will then calculate the derivative of this value and step the
+weights by multiplying this by the learning rate. After doing this lots of times, the loss
+will get better and better, and the recommendations will also get better and better.
+To use the usual Learner.fit function, we will need to get our data into a DataLoad
+ers,
+so let’s focus on that now.
+<header><largefont><b>Creating</b></largefont> <largefont><b>the</b></largefont> <largefont><b>DataLoaders</b></largefont></header>
+When showing the data, we would rather see movie titles than their IDs. The table
+u.item
+contains the correspondence of IDs to titles:
+movies = pd.read_csv(path/'u.item', delimiter='|', encoding='latin-1',
+usecols=(0,1), names=('movie','title'), header=None)
+movies.head()

@@ -1,0 +1,43 @@
+[-3.6809e-02, 5.6848e-02, -2.6544e-02, ..., -4.0114e-02,
+6.7487e-03, 1.0511e-03],
+[-2.4961e-02, 1.4747e-03, -5.4271e-02, ..., 2.0004e-02,
+2.3981e-02, -4.2880e-02]]))
+We can clearly see that each key/value pair corresponds to a specific layer and tensor
+in BERT. So if we save our model with:
+torch.save(pipe.model.state_dict(), "model.pt")
+we can then use the Path.stat() function from Python’s pathlib module to get
+Path("model.pt").stat().
+information about the underlying files. In particular,
+st_size will give us the model size in bytes. Let’s put this all together in the compute_
+size() function and add it to PerformanceBenchmark :
+<b>import</b> <b>torch</b>
+<b>from</b> <b>pathlib</b> <b>import</b> Path
+<b>def</b> compute_size(self):
+<i>"""This</i> <i>overrides</i> <i>the</i> <i>PerformanceBenchmark.compute_size()</i> <i>method"""</i>
+state_dict = self.pipeline.model.state_dict()
+tmp_path = Path("model.pt")
+torch.save(state_dict, tmp_path)
+<i>#</i> <i>Calculate</i> <i>size</i> <i>in</i> <i>megabytes</i>
+size_mb = Path(tmp_path).stat().st_size / (1024 * 1024)
+<i>#</i> <i>Delete</i> <i>temporary</i> <i>file</i>
+tmp_path.unlink()
+<b>print(f"Model</b> size (MB) - {size_mb:.2f}")
+<b>return</b> {"size_mb": size_mb}
+PerformanceBenchmark.compute_size = compute_size
+Finally let’s implement the time_pipeline() function so that we can time the average
+latency per query. For this application, latency refers to the time it takes to feed a text
+query to the pipeline and return the predicted intent from the model. Under the hood
+the pipeline also tokenizes the text, but this is around one thousand times faster than
+generating the predictions and thus adds a negligible contribution to the overall
+latency. A simple way to measure the execution time of a code snippet is to use the
+perf_counter() time
+function from Python’s module. This function has a better time
+resolution than the time.time() function and is well suited for getting precise
+results.
+perf_counter()
+We can use to time our pipeline by passing our test query and calcu‐
+lating the time difference in milliseconds between the start and end:
+<b>from</b> <b>time</b> <b>import</b> perf_counter
+<b>for</b> _ <b>in</b> range(3):
+start_time = perf_counter()
+_ = pipe(query)

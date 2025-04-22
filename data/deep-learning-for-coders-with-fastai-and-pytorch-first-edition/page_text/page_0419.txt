@@ -1,0 +1,25 @@
+because we’re decreasing the number of activations in the activation map by a factor
+of 4; we don’t want to decrease the capacity of a layer by too much at a time.”
+There is one bias for each channel. (Sometimes channels are called <i>features</i> or <i>filters</i>
+when they are not input channels.) The output shape is 64x4x14x14 , and this will
+therefore become the input shape to the next layer. The next layer, according to
+summary , has 296 parameters. Let’s ignore the batch axis to keep things simple. So, for
+each of 14*14=196 locations, we are multiplying 296-8=288 weights (ignoring the bias
+for simplicity), so that’s 196*288=56_448 multiplications at this layer. The next layer
+will have 7*7*(1168-16)=56_448 multiplications.
+What happened here is that our stride-2 convolution halved the <i>grid</i> <i>size</i> from 14x14
+to 7x7 , and we doubled the <i>number</i> <i>of</i> <i>filters</i> from 8 to 16, resulting in no overall
+change in the amount of computation. If we left the number of channels the same in
+each stride-2 layer, the amount of computation being done in the net would get less
+and less as it gets deeper. But we know that the deeper layers have to compute seman‐
+tically rich features (such as eyes or fur), so we wouldn’t expect that doing <i>less</i> compu‐
+tation would make sense.
+Another way to think of this is based on receptive fields.
+<header><largefont><b>Receptive</b></largefont> <largefont><b>Fields</b></largefont></header>
+The <i>receptive</i> <i>field</i> is the area of an image that is involved in the calculation of a layer.
+On the book’s website, you’ll find an Excel spreadsheet called <i>conv-example.xlsx</i> that
+shows the calculation of two stride-2 convolutional layers using an MNIST digit.
+Each layer has a single kernel. Figure 13-10 shows what we see if we click one of the
+cells in the <i>conv2</i> section, which shows the output of the second convolutional layer,
+and click <i>trace</i> <i>precedents.</i>
+<i>Figure</i> <i>13-10.</i> <i>Immediate</i> <i>precedents</i> <i>of</i> <i>Conv2</i> <i>layer</i>

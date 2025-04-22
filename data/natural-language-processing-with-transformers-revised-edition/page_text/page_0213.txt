@@ -1,0 +1,41 @@
+self.dataset = dataset
+self.optim_type = optim_type
+<b>def</b> compute_accuracy(self):
+<i>#</i> <i>We'll</i> <i>define</i> <i>this</i> <i>later</i>
+<b>pass</b>
+<b>def</b> compute_size(self):
+<i>#</i> <i>We'll</i> <i>define</i> <i>this</i> <i>later</i>
+<b>pass</b>
+<b>def</b> time_pipeline(self):
+<i>#</i> <i>We'll</i> <i>define</i> <i>this</i> <i>later</i>
+<b>pass</b>
+<b>def</b> run_benchmark(self):
+metrics = {}
+metrics[self.optim_type] = self.compute_size()
+metrics[self.optim_type].update(self.time_pipeline())
+metrics[self.optim_type].update(self.compute_accuracy())
+<b>return</b> metrics
+We’ve defined an optim_type parameter to keep track of the different optimization
+run_benchmark()
+techniques that we’ll cover in this chapter. We’ll use the method to
+collect all the metrics in a dictionary, with keys given by optim_type .
+Let’s now put some flesh on the bones of this class by computing the model accuracy
+on the test set. First we need some data to test on, so let’s download the CLINC150
+dataset that was used to fine-tune our baseline model. We can get the dataset from the
+Hub with Datasets as follows:
+<b>from</b> <b>datasets</b> <b>import</b> load_dataset
+clinc = load_dataset("clinc_oos", "plus")
+plus
+Here, the configuration refers to the subset that contains the out-of-scope train‐
+text
+ing examples. Each example in the CLINC150 dataset consists of a query in the
+column and its corresponding intent. We’ll use the test set to benchmark our models,
+so let’s take a look at one of the dataset’s examples:
+sample = clinc["test"][42]
+sample
+{'intent': 133, 'text': 'transfer $100 from my checking to saving account'}
+The intents are provided as IDs, but we can easily get the mapping to strings (and
+vice versa) by accessing the features attribute of the dataset:
+intents = clinc["test"].features["intent"]
+intents.int2str(sample["intent"])
+'transfer'

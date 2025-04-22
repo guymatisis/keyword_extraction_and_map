@@ -1,0 +1,40 @@
+A window will pop up with this:
+Signature: verify_images(fns)
+Source:
+def verify_images(fns):
+"Find images in `fns` that can't be opened"
+return L(fns[i] for i,o in
+enumerate(parallel(verify_image, fns)) if not o)
+File: ~/git/fastai/fastai/vision/utils.py
+Type: function
+This tells us what argument the function accepts ( fns ), and then shows us the source
+code and the file it comes from. Looking at that source code, we can see it applies the
+function verify_image in parallel and keeps only the image files for which the result
+of that function is False, which is consistent with the doc string: it finds the images in
+fns that can’t be opened.
+Here are some other features that are very useful in Jupyter notebooks:
+• At any point, if you don’t remember the exact spelling of a function or argument
+name, you can press Tab to get autocompletion suggestions.
+• When inside the parentheses of a function, pressing Shift and Tab simultaneously
+will display a window with the signature of the function and a short description.
+Pressing these keys twice will expand the documentation, and pressing them
+three times will open a full window with the same information at the bottom of
+your screen.
+? <i>func_name</i>
+• In a cell, typing and executing will open a window with the signa‐
+ture of the function and a short description.
+• In a cell, typing ??func_name and executing will open a window with the signa‐
+ture of the function, a short description, and the source code.
+• If you are using the fastai library, we added a doc function for you: executing
+doc(func_name) in a cell will open a window with the signature of the function,
+a short description, and links to the source code on GitHub and the full docu‐
+mentation of the function in the library docs.
+• Unrelated to the documentation but still very useful: to get help at any point if
+%debug
+you get an error, type in the next cell and execute to open the Python
+debugger, which will let you inspect the content of every variable.
+One thing to be aware of in this process: as we discussed in Chapter 1, models can
+reflect only the data used to train them. And the world is full of biased data, which
+ends up reflected in, for example, Bing Image Search (which we used to create our
+dataset). For instance, let’s say you were interested in creating an app that could help
+users figure out whether they had healthy skin, so you trained a model on the results

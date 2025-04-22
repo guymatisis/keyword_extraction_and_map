@@ -1,0 +1,41 @@
+input to the neural network. We might use them as is, one-hot encode them, or
+choose to bucketize the numbers. For simplicity, let’s just use them all as is:
+feature_columns = {
+colname: tf.feature_column.numeric_column(colname)
+<b>for</b> colname <b>in</b> ['pickup_longitude', 'pickup_latitude',
+'dropoff_longitude', 'dropoff_latitude']
+}
+feature_columns['euclidean'] = \
+tf.feature_column.numeric_column('euclidean')
+Once we have a DenseFeatures input layer, we can build the rest of our Keras model
+as usual:
+h1 = tf.keras.layers.Dense(32, activation='relu', name='h1')(dnn_inputs)
+h2 = tf.keras.layers.Dense(8, activation='relu', name='h2')(h1)
+output = tf.keras.layers.Dense(1, name='fare')(h2)
+model = tf.keras.models.Model(inputs, output)
+model.compile(optimizer='adam', loss='mse', metrics=['mse'])
+The complete example is on GitHub.
+Inputs
+Notice how we set things up so that the first layer of the Keras model was .
+The second layer was the Transform layer. The third layer was the DenseFeatures
+layer that combined them. After this sequence of layers, the usual model architecture
+Transform
+starts. Because the layer is part of the model graph, the usual Serving
+Function and Batch Serving solutions (see Chapter 5) will work as is.
+<b>Efficienttransformationswithtf.transform</b>
+One drawback to the above approach is that the transformations will be carried out
+during each iteration of training. This is not such a big deal if all we are doing is scal‐
+ing by known constants. But what if our transformations are more computationally
+expensive? What if we want to scale using the mean and variance, in which case, we
+need to pass through all the data first to compute these variables?
+It is helpful to differentiate between <i>instance-level</i> transformations
+that can be part of the model directly (where the only drawback is
+applying them on each training iteration) and <i>dataset-level</i> trans‐
+formations, where we need a full pass to compute overall statistics
+or the vocabulary of a categorical variable. Such dataset-level trans‐
+formations cannot be part of the model and have to be applied as a
+scalable preprocessing step, which produces the Transform, cap‐
+turing the logic and the artifacts (mean, variance, vocabulary, and
+so on) to be attached to the model. For dataset-level transforma‐
+tf.transform.
+tions, use

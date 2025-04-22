@@ -1,0 +1,28 @@
+Let’s add a batchnorm layer to conv :
+<b>def</b> conv(ni, nf, ks=3, act=True):
+layers = [nn.Conv2d(ni, nf, stride=2, kernel_size=ks, padding=ks//2)]
+layers.append(nn.BatchNorm2d(nf))
+<b>if</b> act: layers.append(nn.ReLU())
+<b>return</b> nn.Sequential(*layers)
+and fit our model:
+learn = fit()
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.130036 0.055021 0.986400 00:10
+That’s a great result! Let’s take a look at color_dim:
+learn.activation_stats.color_dim(-4)
+This is just what we hope to see: a smooth development of activations, with no
+“crashes.” Batchnorm has really delivered on its promise here! In fact, batchnorm has
+been so successful that we see it (or something very similar) in nearly all modern
+neural networks.
+An interesting observation about models containing batch normalization layers is
+that they tend to generalize better than models that don’t contain them. Although we
+haven’t as yet seen a rigorous analysis of what’s going on here, most researchers
+believe that the reason is that batch normalization adds some extra randomness to the
+training process. Each mini-batch will have a somewhat different mean and standard
+deviation than other mini-batches. Therefore, the activations will be normalized by
+different values each time. In order for the model to make accurate predictions, it will
+have to learn to become robust to these variations. In general, adding additional ran‐
+domization to the training process often helps.
+Since things are going so well, let’s train for a few more epochs and see how it goes. In
+fact, let’s <i>increase</i> the learning rate, since the abstract of the batchnorm paper claimed
+we should be able to “train at much higher learning rates”:

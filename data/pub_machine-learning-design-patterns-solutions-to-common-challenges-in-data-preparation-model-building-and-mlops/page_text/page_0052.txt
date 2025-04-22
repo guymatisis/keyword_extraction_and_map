@@ -1,0 +1,33 @@
+bucket. In these cases, it simplifies later machine learning to additionally store the
+embeddings of the text columns or of the images as array-type columns. Doing so
+will enable the easy incorporation of such unstructured data into machine learning
+models.
+To create text embeddings, we can load a pre-trained model such as Swivel from
+TensorFlow Hub into BigQuery. The full code is on GitHub:
+CREATE OR REPLACE MODEL advdata.swivel_text_embed
+OPTIONS(model_type='tensorflow', model_path='gs://BUCKET/swivel/*')
+Then, use the model to transform the natural language text column into an embed‐
+ding array and store the embedding lookup into a new table:
+CREATE OR REPLACE TABLE advdata.comments_embedding AS
+SELECT
+output_0 <b>as</b> comments_embedding,
+comments
+FROM ML.PREDICT(MODEL advdata.swivel_text_embed,(
+SELECT comments, LOWER(comments) AS sentences
+FROM `bigquery-public-data.noaa_preliminary_severe_storms.wind_reports`
+))
+It is now possible to join against this table to get the text embedding for any com‐
+ment. For image embeddings, we can similarly transform image URLs into embed‐
+dings and load them into the data warehouse.
+Precomputing features in this manner is an example of the “Design Pattern 26: Fea‐
+ture Store” on page 295 (see Chapter 6).
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>3:</b></largefont> <largefont><b>Feature</b></largefont> <largefont><b>Cross</b></largefont></header>
+The Feature Cross design pattern helps models learn relationships between inputs
+faster by explicitly making each combination of input values a separate feature.
+<header><largefont><b>Problem</b></largefont></header>
+Consider the dataset in Figure 2-14 and the task of creating a binary classifier that
+separates the + and − labels.
+Using only the <i>x_1</i> and <i>x_2</i> coordinates, it is not possible to find a linear boundary
+that separates the + and − classes.
+This means that to solve this problem, we have to make the model more complex,
+perhaps by adding more layers to the model. However, a simpler solution exists.

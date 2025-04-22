@@ -1,0 +1,34 @@
+<b>Multimodalfeaturerepresentationsandmodelinterpretability</b>
+Deep learning models are inherently difficult to explain. If we build a model that ach‐
+ieves 99% accuracy, we still don’t know exactly <i>how</i> our model is making predictions
+and consequently, if the way it’s making those predictions is correct. For example,
+let’s say we train a model on images of petri dishes taken in a lab that achieves a high
+accuracy score. These images also contain annotations from the scientist who took
+the pictures. What we don’t know is that the model is incorrectly using the annota‐
+tions to make its predictions, rather than the contents of the petri dishes.
+There are several techniques for explaining image models that can highlight the pix‐
+els that signaled a model’s prediction. When we combine multiple data representa‐
+tions in a single model, however, these features become dependent on one another.
+As a result, it can be difficult to explain how the model is making predictions.
+Explainability is covered in Chapter 7.
+<header><largefont><b>Summary</b></largefont></header>
+In this chapter, we learned different approaches to representing data for our model.
+We started by looking at how to handle numerical inputs, and how scaling these
+inputs can speed up model training time and improve accuracy. Then we explored
+how to do feature engineering on categorical inputs, specifically with one-hot encod‐
+ing and using arrays of categorical values.
+Throughout the rest of the chapter, we discussed four design patterns for represent‐
+ing data. The first was the <i>Hashed</i> <i>Feature</i> design pattern, which involves encoding
+categorical inputs as unique strings. We explored a few different approaches to hash‐
+ing using the airport dataset in BigQuery. The second pattern we looked at in this
+chapter was <i>Embeddings,</i> a technique for representing high-cardinality data such as
+inputs with many possible categories or text data. Embeddings represent data in mul‐
+tidimensional space, where the dimension is dependent on our data and prediction
+task. Next we looked at <i>Feature</i> <i>Crosses,</i> an approach that joins two features to extract
+relationships that may not have been easily captured by encoding the features on
+their own. Finally, we looked at <i>Multimodal</i> <i>Input</i> representations by addressing the
+problem of how to combine inputs of different types into the same model, and how a
+single feature can be represented multiple ways.
+This chapter focused on preparing <i>input</i> data for our models. In the next chapter,
+we’ll focus on model <i>output</i> by diving into different approaches for representing our
+prediction task.

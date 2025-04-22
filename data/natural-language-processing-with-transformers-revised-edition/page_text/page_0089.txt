@@ -1,0 +1,42 @@
+<b>from</b> <b>datasets</b> <b>import</b> get_dataset_config_names
+xtreme_subsets = get_dataset_config_names("xtreme")
+<b>print(f"XTREME</b> has {len(xtreme_subsets)} configurations")
+XTREME has 183 configurations
+Whoa, that’s a lot of configurations! Let’s narrow the search by just looking for the
+configurations that start with “PAN”:
+panx_subsets = [s <b>for</b> s <b>in</b> xtreme_subsets <b>if</b> s.startswith("PAN")]
+panx_subsets[:3]
+['PAN-X.af', 'PAN-X.ar', 'PAN-X.bg']
+OK, it seems we’ve identified the syntax of the PAN-X subsets: each one has a two-
+letter suffix that appears to be an ISO 639-1 language code. This means that to load
+de name load_dataset()
+the German corpus, we pass the code to the argument of as
+follows:
+<b>from</b> <b>datasets</b> <b>import</b> load_dataset
+load_dataset("xtreme", name="PAN-X.de")
+(de), (fr),
+To make a realistic Swiss corpus, we’ll sample the German French Italian
+( it ), and English ( en ) corpora from PAN-X according to their spoken proportions.
+This will create a language imbalance that is very common in real-world datasets,
+where acquiring labeled examples in a minority language can be expensive due to the
+lack of domain experts who are fluent in that language. This imbalanced dataset will
+simulate a common situation when working on multilingual applications, and we’ll
+see how we can build a model that works on all languages.
+To keep track of each language, let’s create a Python defaultdict that stores the lan‐
+DatasetDict
+guage code as the key and a PAN-X corpus of type as the value:
+<b>from</b> <b>collections</b> <b>import</b> defaultdict
+<b>from</b> <b>datasets</b> <b>import</b> DatasetDict
+langs = ["de", "fr", "it", "en"]
+fracs = [0.629, 0.229, 0.084, 0.059]
+<i>#</i> <i>Return</i> <i>a</i> <i>DatasetDict</i> <i>if</i> <i>a</i> <i>key</i> <i>doesn't</i> <i>exist</i>
+panx_ch = defaultdict(DatasetDict)
+<b>for</b> lang, frac <b>in</b> zip(langs, fracs):
+<i>#</i> <i>Load</i> <i>monolingual</i> <i>corpus</i>
+ds = load_dataset("xtreme", name=f"PAN-X.{lang}")
+<i>#</i> <i>Shuffle</i> <i>and</i> <i>downsample</i> <i>each</i> <i>split</i> <i>according</i> <i>to</i> <i>spoken</i> <i>proportion</i>
+<b>for</b> split <b>in</b> ds:
+panx_ch[lang][split] = (
+ds[split]
+.shuffle(seed=0)
+.select(range(int(frac * ds[split].num_rows))))

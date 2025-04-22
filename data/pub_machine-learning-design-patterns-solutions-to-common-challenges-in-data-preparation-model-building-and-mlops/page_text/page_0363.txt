@@ -1,0 +1,40 @@
+<b>Chapter</b> <b>Designpattern</b> <b>Problemsolved</b> <b>Solution</b>
+ResponsibleAI Heuristic Explainingmodelperformanceusing CompareanMLmodelagainstasimple,
+Benchmark complicatedevaluationmetricsdoes easy-to-understandheuristic.
+notprovidetheintuitionthatbusiness
+decisionmakersneed.
+Explainable Sometimesitisnecessarytoknow Applymodelexplainabilitytechniquesto
+Predictions whyamodelmakescertain understandhowandwhymodelsmake
+predictionseitherfordebuggingorfor predictionsandimproveusertrustinML
+regulatoryandcompliancestandards. systems.
+FairnessLens Biascancausemachinelearning Usetoolstoidentifybiasindatasetsbefore
+modelstonottreatallusersequally trainingandevaluatetrainedmodels
+andcanhaveadverseeffectsonsome throughafairnesslenstoensuremodel
+populations. predictionsareequitableacrossdifferent
+groupsofusersanddifferentscenarios.
+<header><largefont><b>Pattern</b></largefont> <largefont><b>Interactions</b></largefont></header>
+Design patterns don’t exist in isolation. Many of them are closely related to one
+another either directly or indirectly and often complement one another. The interac‐
+tion diagram in Figure 8-1 summarizes the interdependencies and some relationships
+between different design patterns. If you find yourself using a pattern, you might
+benefit from thinking how you could incorporate other patterns that are related to it.
+Here, we’ll highlight some of the ways in which these patterns are related and how
+they can be used together when developing a full solution. For example, when work‐
+ing with categorical features, the Hashed Feature design pattern may be combined
+with the Embeddings design pattern. These two patterns work together to address
+high-cardinality model inputs, such as working with text. In TensorFlow, this is
+categorical_column_with_hash_bucket
+demonstrated by wrapping a feature col‐
+umn with an embedding feature column to convert the sparse, categorical text input
+to a dense representation:
+<b>import</b> <b>tensorflow.feature_column</b> <b>as</b> <b>fc</b>
+keywords = fc.categorical_column_with_hash_bucket("keywords",
+hash_bucket_size=10K)
+keywords_embedded = fc.embedding_column(keywords, num_buckets=16)
+We saw when discussing Embeddings that this technique is recommended when
+using the Feature Cross design pattern. Hashed Features go hand in hand with the
+Repeatable Splitting design pattern since the Farm Fingerprint hashing algorithm can
+be used for data splitting. And, when using the Hashed Features or Embeddings
+design pattern, it’s common to turn to concepts within Hyperparameter Tuning to
+determine the optimal number of hash buckets or the right embedding dimension to
+use.

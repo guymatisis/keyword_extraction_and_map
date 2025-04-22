@@ -1,0 +1,49 @@
+It is a bit ugly due to all the different indices, but all it does is calculate the weighted
+sum of all the inputs, plus the bias term.
+<i>Equation</i> <i>14-1.</i> <i>Computing</i> <i>the</i> <i>output</i> <i>of</i> <i>a</i> <i>neuron</i> <i>in</i> <i>a</i> <i>convolutional</i> <i>layer</i>
+<i>f</i> −1 <i>f</i> −1 <i>f</i> −1 ′
+<i>h</i> <i>w</i> <i>n</i> ′ <i>i</i> = <i>i</i> × <i>s</i> + <i>u</i>
+<i>h</i>
+<i>z</i> = <i>b</i> + <largefont>∑</largefont> <largefont>∑</largefont> <largefont>∑</largefont> <i>x</i> .w with
+<i>i,</i> <i>j,k</i> <i>k</i> <i>i,</i> ′ <i>j,k</i> ′ ′ <i>u,v,k,k</i> ′ ′
+<i>u</i> = 0 <i>v</i> = 0 <i>k</i> ′ = 0 <i>j</i> = <i>j</i> × <i>s</i> + <i>v</i>
+<i>w</i>
+In this equation:
+• <i>z</i> is the output of the neuron located in row <i>i,</i> column <i>j</i> in feature map <i>k</i> of the
+<i>i,j,k</i>
+convolutional layer (layer <i>l).</i>
+• As explained earlier, <i>s</i> and <i>s</i> are the vertical and horizontal strides, <i>f</i> and <i>f</i> are
+<i>h</i> <i>w</i> <i>h</i> <i>w</i>
+the height and width of the receptive field, and <i>f</i> is the number of feature maps
+<i>n′</i>
+in the previous layer (layer <i>l</i> – 1).
+<i>i′,</i> <i>j′,</i>
+• <i>x</i> is the output of the neuron located in layer <i>l</i> – 1, row column feature
+<i>i,j,k</i> ′ ′ ′
+′ ′
+map <i>k</i> (or channel <i>k</i> if the previous layer is the input layer).
+• <i>b</i> is the bias term for feature map <i>k</i> (in layer <i>l).</i> You can think of it as a knob that
+<i>k</i>
+tweaks the overall brightness of the feature map <i>k.</i>
+• <i>w</i> is the connection weight between any neuron in feature map <i>k</i> of the layer
+<i>u,v,k′,k</i>
+<i>l</i> and its input located at row <i>u,</i> column <i>v</i> (relative to the neuron’s receptive field),
+<i>k′.</i>
+and feature map
+<header><largefont><b>TensorFlow</b></largefont> <largefont><b>Implementation</b></largefont></header>
+In TensorFlow, each input image is typically represented as a 3D tensor of shape
+[height, <i>width,</i> <i>channels].</i> A mini-batch is represented as a 4D tensor of shape [mini-
+<i>batch</i> <i>size,</i> <i>height,</i> <i>width,</i> <i>channels].</i> The weights of a convolutional layer are repre‐
+sented as a 4D tensor of shape [f , <i>f</i> , <i>f</i> , <i>f</i> ]. The bias terms of a convolutional layer
+<i>h</i> <i>w</i> <i>n′</i> <i>n</i>
+are simply represented as a 1D tensor of shape [f ].
+<i>n</i>
+Let’s look at a simple example. The following code loads two sample images, using
+Scikit-Learn’s load_sample_image() (which loads two color images, one of a Chinese
+temple, and the other of a flower), then it creates two filters and applies them to both
+images, and finally it displays one of the resulting feature maps. Note that you must
+pip install the Pillow package to use load_sample_image().
+<b>from</b> <b>sklearn.datasets</b> <b>import</b> load_sample_image
+<i>#</i> <i>Load</i> <i>sample</i> <i>images</i>
+china = load_sample_image("china.jpg") / 255
+flower = load_sample_image("flower.jpg") / 255

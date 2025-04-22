@@ -1,0 +1,29 @@
+Another, more sophisticated approach is to use a framework like TensorFlow Proba‐
+bility to carry out regression. However, we have to explicitly model the distribution of
+the output. For example, if the output is expected to be normally distributed around a
+mean that’s dependent on the inputs, the model’s output layer would be:
+tfp.layers.DistributionLambda(lambda t: tfd.Normal(loc=t, scale=1))
+On the other hand, if we know the variance increases with the mean, we might be
+able to model it using the lambda function. Reframing, on the other hand, doesn’t
+require us to model the posterior distribution.
+When training any machine learning model, the data is key. More
+complex relationships typically require more training data exam‐
+ples to find those elusive patterns. With that in mind, it is impor‐
+tant to consider how data requirements compare for regression or
+classification models. A common rule of thumb for classification
+tasks is that we should have 10 times the number of model features
+for each label category. For a regression model, the rule of thumb is
+50 times the number of model features. Of course, these numbers
+are just rough heuristics and not precise. However, the intuition is
+that regression tasks typically require more training examples. Fur‐
+thermore, this need for massive data only increases with the com‐
+plexity of the task. Thus, there could be data limitations that should
+be considered when considering the type of model used or, in the
+case of classification, the number of label categories.
+<b>Precisionofpredictions</b>
+When thinking of reframing a regression model as a multiclass classification, the
+width of the bins for the output label governs the precision of the classification
+model. In the case of our baby weight example, if we needed more precise informa‐
+tion from the discrete probability density function, we would need to increase the
+number of bins of our categorical model. Figure 3-4 shows how the discrete probabil‐
+ity distributions would look as either a 4-way or 10-way classification.

@@ -1,0 +1,35 @@
+pattern solves a problem by training multiple models and aggregating their respon‐
+ses. The <i>Neutral</i> <i>Class</i> design pattern looks at how to handle situations where experts
+disagree. The <i>Rebalancing</i> design pattern recommends approaches to handle highly
+skewed or imbalanced data.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>5:</b></largefont> <largefont><b>Reframing</b></largefont></header>
+The Reframing design pattern refers to changing the representation of the output of a
+machine learning problem. For example, we could take something that is intuitively a
+regression problem and instead pose it as a classification problem (and vice versa).
+<header><largefont><b>Problem</b></largefont></header>
+The first step of building any machine learning solution is framing the problem. Is
+this a supervised learning problem? Or unsupervised? What are the features? If it is a
+supervised problem, what are the labels? What amount of error is acceptable? Of
+course, the answers to these questions must be considered in context with the train‐
+ing data, the task at hand, and the metrics for success.
+For example, suppose we wanted to build a machine learning model to predict future
+rainfall amounts in a given location. Starting broadly, would this be a regression or
+classification task? Well, since we’re trying to predict rainfall amount (for example,
+0.3 cm), it makes sense to consider this as a time-series forecasting problem: given
+the current and historical climate and weather patterns, what amount of rainfall
+should we expect in a given area in the next 15 minutes? Alternately, because the
+label (the amount of rainfall) is a real number, we could build a regression model. As
+we start to develop and train our model, we find (perhaps not surprisingly) that
+weather prediction is harder than it sounds. Our predicted rainfall amounts are all off
+because, for the same set of features, it sometimes rains 0.3 cm and other times it
+rains 0.5 cm. What should we do to improve our predictions? Should we add more
+layers to our network? Or engineer more features? Perhaps more data will help?
+Maybe we need a different loss function?
+Any of these adjustments could improve our model. But wait. Is regression the only
+way we can pose this task? Perhaps we can reframe our machine learning objective in
+a way that improves our task performance.
+<header><largefont><b>Solution</b></largefont></header>
+The core issue here is that rainfall is probabilistic. For the same set of features, it
+sometimes rains 0.3 cm and other times it rains 0.5 cm. Yet, even if a regression
+model were able to learn the two possible amounts, it is limited to predicting only a
+single number.

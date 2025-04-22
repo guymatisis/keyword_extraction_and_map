@@ -1,0 +1,43 @@
+a new process. While we’re at it, let’s also run the subprocess in the background using
+the chown shell command:
+<b>import</b> <b>os</b>
+<b>from</b> <b>subprocess</b> <b>import</b> Popen, PIPE, STDOUT
+<i>#</i> <i>Run</i> <i>Elasticsearch</i> <i>as</i> <i>a</i> <i>background</i> <i>process</i>
+!chown -R daemon:daemon elasticsearch-7.9.2
+es_server = Popen(args=['elasticsearch-7.9.2/bin/elasticsearch'],
+stdout=PIPE, stderr=STDOUT, preexec_fn=lambda: os.setuid(1))
+<i>#</i> <i>Wait</i> <i>until</i> <i>Elasticsearch</i> <i>has</i> <i>started</i>
+!sleep 30
+In the Popen() function, the args specify the program we wish to execute, while
+stdout=PIPE creates a new pipe for the standard output and stderr=STDOUT collects
+preexec_fn
+the errors in the same pipe. The argument specifies the ID of the subpro‐
+cess we wish to use. By default, Elasticsearch runs locally on port 9200, so we can test
+the connection by sending an HTTP request to localhost :
+!curl -X GET "localhost:9200/?pretty"
+{
+"name" : "96938eee37cd",
+"cluster_name" : "docker-cluster",
+"cluster_uuid" : "ABGDdvbbRWmMb9Umz79HbA",
+"version" : {
+"number" : "7.9.2",
+"build_flavor" : "default",
+"build_type" : "docker",
+"build_hash" : "d34da0ea4a966c4e49417f2da2f244e3e97b4e6e",
+"build_date" : "2020-09-23T00:45:33.626720Z",
+"build_snapshot" : false,
+"lucene_version" : "8.6.2",
+"minimum_wire_compatibility_version" : "6.8.0",
+"minimum_index_compatibility_version" : "6.0.0-beta1"
+},
+"tagline" : "You Know, for Search"
+}
+Now that our Elasticsearch server is up and running, the next thing to do is instanti‐
+ate the document store:
+<b>from</b> <b>haystack.document_store.elasticsearch</b> <b>import</b> ElasticsearchDocumentStore
+<i>#</i> <i>Return</i> <i>the</i> <i>document</i> <i>embedding</i> <i>for</i> <i>later</i> <i>use</i> <i>with</i> <i>dense</i> <i>retriever</i>
+document_store = ElasticsearchDocumentStore(return_embedding=True)
+By default, ElasticsearchDocumentStore creates two indices on Elasticsearch: one
+called document for (you guessed it) storing documents, and another called label for
+document
+storing the annotated answer spans. For now, we’ll just populate the index

@@ -1,0 +1,36 @@
+classification problems, this is a natural extension of the labeling phase because the
+labels for eye disease are created through human labeling.
+It is sometimes advantageous to use human experts even if we have actual ground
+truth. For example, when building a model to predict the cost of auto repair after an
+accident, we can look at historical data and find the actual cost of the repair. We will
+not typically use human experts for this problem because the ground truth is directly
+available from the historical dataset. However, for the purposes of communicating
+the benchmark, it can be helpful to have insurance agents assess the cars for a damage
+estimate, and compare our model’s estimates to those of the agents.
+Using human experts need not be limited to unstructured data as with eye disease or
+damage cost estimation. For example, if we are building a model to predict whether
+or not a loan will get refinanced within a year, the data will be tabular and the ground
+truth will be available in the historical data. However, even in this case, we might ask
+human experts to identify loans that will get refinanced for the purposes of commu‐
+nicating how often loan agents in the field would get it right.
+<b>Utilityvalue</b>
+Even if we have an operational model or excellent heuristic to compare against, we
+will still have to explain the impact of the improvement that our model offers. Com‐
+municating that the MAE is 30 seconds lower or that the MAP is 1% higher might
+not be enough. The next question might very well be, “Is a 1% improvement good? Is
+it worth the hassle of putting an ML model into production rather than the simple
+heuristic rule?”
+If you can, it is important to translate the improvement in model performance into
+the model’s utility value. This value could be monetary, but it could also correspond
+with other measures of utility, like better search results, earlier disease detection, or
+less waste resulting from improved manufacturing efficiency. This utility value is use‐
+ful in deciding whether or not to deploy this model, since deploying or changing a
+production model always carries a certain cost in terms of reliability and error budg‐
+ets. For example, if the image classification model is used to pre-fill an order form, we
+can calculate that a 1% improvement will translate to 20 fewer abandoned orders per
+day, and is therefore worth a certain amount of money. If this is more than the thres‐
+hold set by our Site Reliability Engineering team, we’d deploy the model.
+In our bicycle rental problem, it might be possible to measure the impact on the busi‐
+ness by using this model. For example, we might be able to calculate the increased
+availability of bicycles or the increased profits based on using the model in a dynamic
+pricing solution.

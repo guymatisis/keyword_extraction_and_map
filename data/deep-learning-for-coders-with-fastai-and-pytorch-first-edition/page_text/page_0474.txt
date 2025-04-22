@@ -1,0 +1,27 @@
+Let’s see if this trains:
+learn = get_learner(opt_func=opt_func)
+learn.fit(3, 0.03)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 2.730918 2.009971 0.332739 00:09
+1 2.204893 1.747202 0.441529 00:09
+2 1.875621 1.684515 0.445350 00:09
+It’s working! So that’s how we create SGD from scratch in fastai. Now let’s see what
+this “momentum” is.
+<header><largefont><b>Momentum</b></largefont></header>
+As described in Chapter 4, SGD can be thought of as standing at the top of a moun‐
+tain and working your way down by taking a step in the direction of the steepest
+slope at each point in time. But what if we have a ball rolling down the mountain? It
+won’t, at each given point, exactly follow the direction of the gradient, as it will have
+<i>momentum.</i> A ball with more momentum (for instance, a heavier ball) will skip over
+little bumps and holes, and be more likely to get to the bottom of a bumpy mountain.
+A ping pong ball, on the other hand, will get stuck in every little crevice.
+So how can we bring this idea over to SGD? We can use a moving average, instead of
+only the current gradient, to make our step:
+weight.avg = beta * weight.avg + (1-beta) * weight.grad
+new_weight = weight - lr * weight.avg
+Here beta is some number we choose that defines how much momentum to use. If
+beta is 0, the first equation becomes weight.avg = weight.grad , so we end up with
+plain SGD. But if it’s a number close to 1, the main direction chosen is an average of
+the previous steps. (If you have done a bit of statistics, you may recognize in the first
+equation an <i>exponentially</i> <i>weighted</i> <i>moving</i> <i>average,</i> which is often used to denoise
+data and get the underlying tendency.)

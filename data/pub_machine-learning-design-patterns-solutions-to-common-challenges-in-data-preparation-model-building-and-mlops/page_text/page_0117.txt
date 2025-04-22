@@ -1,0 +1,29 @@
+pixels, it doesn’t rain. In such a case, it can be helpful to create a stacked classification
+model followed by a regression model:
+1. First, predict whether or not it is going to rain.
+2. For pixels where the model predicts rain is not likely, predict a rainfall amount of
+zero.
+3. Train a regression model to predict the rainfall amount on pixels where the
+model predicts that rain is likely.
+It is critical to realize that the classification model is not perfect, and so the regression
+model has to be trained on the pixels that the classification model predicts as likely to
+be raining (and not just on pixels that correspond to rain in the labeled dataset). For
+complementary solutions to this problem, also see the discussions on “Design Pattern
+10: Rebalancing ” on page 122 and “Design Pattern 5: Reframing ” on page 80.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>9:</b></largefont> <largefont><b>Neutral</b></largefont> <largefont><b>Class</b></largefont></header>
+In many classification situations, creating a neutral class can be helpful. For example,
+instead of training a binary classifier that outputs the probability of an event, train a
+three-class classifier that outputs disjoint probabilities for Yes, No, and Maybe. Dis‐
+joint here means that the classes do not overlap. A training pattern can belong to only
+one class, and so there is no overlap between Yes and Maybe, for example. The
+Maybe in this case is the neutral class.
+<header><largefont><b>Problem</b></largefont></header>
+Imagine that we are trying to create a model that provides guidance on pain relievers.
+There are two choices, ibuprofen and acetaminophen, 2 and it turns out in our histori‐
+cal dataset that acetaminophen tends to be prescribed preferentially to patients at risk
+of stomach problems, and ibuprofen tends to be prescribed preferentially to patients
+at risk of liver damage. Beyond that, things tend to be quite random; some physicians
+default to acetaminophen and others to ibuprofen.
+Training a binary classifier on such a dataset will lead to poor accuracy because the
+model will need to get the essentially arbitrary cases correct.
+2 Thisisjustanexamplebeingusedforillustrativepurposes;pleasedon’ttakethisasmedicaladvice!

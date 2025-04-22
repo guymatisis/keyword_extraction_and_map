@@ -1,0 +1,36 @@
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 0.738273 0.541828 0.150880 00:24
+1 0.401544 0.266623 0.081867 00:24
+<b>LogarithmicScale</b>
+The learning rate finder plot has a logarithmic scale, which is why
+the middle point between 1e-3 and 1e-2 is between 3e-3 and 4e-3.
+This is because we care mostly about the order of magnitude of the
+learning rate.
+It’s interesting that the learning rate finder was discovered only in 2015, while neural
+networks have been under development since the 1950s. Throughout that time, find‐
+ing a good learning rate has been, perhaps, the most important and challenging issue
+for practitioners. The solution does not require any advanced math, giant computing
+resources, huge datasets, or anything else that would make it inaccessible to any curi‐
+ous researcher. Furthermore, Smith was not part of some exclusive Silicon Valley lab,
+but was working as a naval researcher. All of this is to say: breakthrough work in deep
+learning absolutely does not require access to vast resources, elite teams, or advanced
+mathematical ideas. Lots of work remains to be done that requires just a bit of com‐
+mon sense, creativity, and tenacity.
+Now that we have a good learning rate to train our model, let’s look at how we can
+fine-tune the weights of a pretrained model.
+<header><largefont><b>Unfreezing</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Transfer</b></largefont> <largefont><b>Learning</b></largefont></header>
+We discussed briefly in Chapter 1 how transfer learning works. We saw that the basic
+idea is that a pretrained model, trained potentially on millions of data points (such as
+ImageNet), is fine-tuned for another task. But what does this really mean?
+We now know that a convolutional neural network consists of many linear layers with
+a nonlinear activation function between each pair, followed by one or more final lin‐
+ear layers with an activation function such as softmax at the very end. The final linear
+layer uses a matrix with enough columns such that the output size is the same as the
+number of classes in our model (assuming that we are doing classification).
+This final linear layer is unlikely to be of any use for us when we are fine-tuning in a
+transfer learning setting, because it is specifically designed to classify the categories in
+the original pretraining dataset. So when we do transfer learning, we remove it, throw
+it away, and replace it with a new linear layer with the correct number of outputs for
+our desired task (in this case, there would be 37 activations).
+This newly added linear layer will have entirely random weights. Therefore, our
+model prior to fine-tuning has entirely random outputs. But that does not mean that

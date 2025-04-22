@@ -1,0 +1,24 @@
+The bounding boxes should be normalized so that the horizontal
+and vertical coordinates, as well as the height and width, all range
+from 0 to 1. Also, it is common to predict the square root of the
+height and width rather than the height and width directly: this
+way, a 10-pixel error for a large bounding box will not be penalized
+as much as a 10-pixel error for a small bounding box.
+The MSE often works fairly well as a cost function to train the model, but it is not a
+great metric to evaluate how well the model can predict bounding boxes. The most
+common metric for this is the <i>Intersection</i> <i>over</i> <i>Union</i> (IoU): the area of overlap
+between the predicted bounding box and the target bounding box, divided by the
+area of their union (see Figure 14-23). In tf.keras, it is implemented by the
+tf.keras.metrics.MeanIoU
+class.
+<i>Figure</i> <i>14-23.</i> <i>Intersection</i> <i>over</i> <i>Union</i> <i>(IoU)</i> <i>metric</i> <i>for</i> <i>bounding</i> <i>boxes</i>
+Classifying and localizing a single object is nice, but what if the images contain multi‐
+ple objects (as is often the case in the flowers dataset)?
+<header><largefont><b>Object</b></largefont> <largefont><b>Detection</b></largefont></header>
+The task of classifying and localizing multiple objects in an image is called <i>object</i>
+<i>detection.</i> Until a few years ago, a common approach was to take a CNN that was
+trained to classify and locate a single object, then slide it across the image, as shown
+in Figure 14-24. In this example, the image was chopped into a 6 × 8 grid, and we
+show a CNN (the thick black rectangle) sliding across all 3 × 3 regions. When the
+CNN was looking at the top left of the image, it detected part of the leftmost rose, and
+then it detected that same rose again when it was first shifted one step to the right. At

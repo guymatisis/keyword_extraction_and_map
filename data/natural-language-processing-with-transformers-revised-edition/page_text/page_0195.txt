@@ -1,0 +1,21 @@
+<i>Figure</i> <i>7-10.</i> <i>DPR’s</i> <i>bi-encoder</i> <i>architecture</i> <i>for</i> <i>computing</i> <i>the</i> <i>relevance</i> <i>of</i> <i>a</i> <i>document</i>
+<i>and</i> <i>query</i>
+In Haystack, we can initialize a retriever for DPR in a similar way to what we did for
+BM25. In addition to specifying the document store, we also need to pick the BERT
+encoders for the question and passage. These encoders are trained by giving them
+questions with relevant (positive) passages and irrelevant (negative) passages, where
+the goal is to learn that relevant question-passage pairs have a higher similarity. For
+our use case, we’ll use encoders that have been fine-tuned on the NQ corpus in this
+way:
+<b>from</b> <b>haystack.retriever.dense</b> <b>import</b> DensePassageRetriever
+dpr_retriever = DensePassageRetriever(document_store=document_store,
+query_embedding_model="facebook/dpr-question_encoder-single-nq-base",
+passage_embedding_model="facebook/dpr-ctx_encoder-single-nq-base",
+embed_title=False)
+embed_title=False
+Here we’ve also set since concatenating the document’s title (i.e.,
+item_id ) doesn’t provide any additional information because we filter per product.
+Once we’ve initialized the dense retriever, the next step is to iterate over all the
+indexed documents in our Elasticsearch index and apply the encoders to update the
+embedding representation. This can be done as follows:
+document_store.update_embeddings(retriever=dpr_retriever)

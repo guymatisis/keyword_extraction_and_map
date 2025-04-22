@@ -1,0 +1,35 @@
+learn = Learner(dls, nn.Linear(28*28,1), opt_func=SGD,
+loss_func=mnist_loss, metrics=batch_accuracy)
+Now we can call fit:
+learn.fit(10, lr=lr)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>batch_accuracy</b> <b>time</b>
+0 0.636857 0.503549 0.495584 00:00
+1 0.545725 0.170281 0.866045 00:00
+2 0.199223 0.184893 0.831207 00:00
+3 0.086580 0.107836 0.911187 00:00
+4 0.045185 0.078481 0.932777 00:00
+5 0.029108 0.062792 0.946516 00:00
+6 0.022560 0.053017 0.955348 00:00
+7 0.019687 0.046500 0.962218 00:00
+8 0.018252 0.041929 0.965162 00:00
+9 0.017402 0.038573 0.967615 00:00
+As you can see, there’s nothing magic about the PyTorch and fastai classes. They are
+just convenient prepackaged pieces that make your life a bit easier! (They also pro‐
+vide a lot of extra functionality we’ll be using in future chapters.)
+With these classes, we can now replace our linear model with a neural network.
+<header><largefont><b>Adding</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Nonlinearity</b></largefont></header>
+So far, we have a general procedure for optimizing the parameters of a function, and
+we have tried it out on a boring function: a simple linear classifier. A linear classifier
+is constrained in terms of what it can do. To make it a bit more complex (and able to
+handle more tasks), we need to add something nonlinear (i.e., different from ax+b)
+between two linear classifiers—this is what gives us a neural network.
+Here is the entire definition of a basic neural network:
+<b>def</b> simple_net(xb):
+res = xb@w1 + b1
+res = res.max(tensor(0.0))
+res = res@w2 + b2
+<b>return</b> res
+That’s it! All we have in simple_net is two linear classifiers with a max function
+between them.
+Here, w1 and w2 are weight tensors, and b1 and b2 are bias tensors; that is, parameters
+that are initially randomly initialized, just as we did in the previous section:

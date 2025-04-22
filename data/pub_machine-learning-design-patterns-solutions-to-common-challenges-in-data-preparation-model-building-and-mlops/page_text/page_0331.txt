@@ -1,0 +1,37 @@
+solid black or white image. In a text model, an uninformative baseline could be 0 val‐
+ues for the model’s embedding matrices or stop words like “the,” “is,” or “and.” In a
+model with numerical inputs, a common approach to choosing a baseline is to gener‐
+ate a prediction using the median value for each feature in the model.
+<header><largefont><b>Determining</b></largefont> <largefont><b>Baselines</b></largefont></header>
+The way we think about a baseline will differ depending on whether our model is per‐
+forming a regression or classification task. For a regression task, a model will have
+<i>exactly</i> <i>one</i> numerical baseline prediction value. In our car mileage example, let’s
+imagine we decide to use the median approach for calculating our baseline. The
+median for the eight features in our dataset is the following array:
+[151.0, 93.5, 2803.5, 15.5, 76.0, 1.0, 0.0, 0.0]
+When we send this to our model, the predicted MPG is 22.9. Consequently, for every
+prediction we make to this model, we’ll use 22.9 MPG as the baseline to compare
+predictions.
+Let’s now imagine that we follow the Reframing pattern to change this from a regres‐
+sion to a classification problem. To do this, we’ll define “low,” “medium,” and “high”
+buckets for fuel efficiency, and our model will therefore output a three-element soft‐
+max array indicating the probability a given car corresponds with each class. Taking
+the same median baseline input as above, our classification model now returns the
+following as our baseline prediction:
+[0.1, 0.7, 0.2]
+With this, we now have a <i>different</i> baseline prediction value for each class. Let’s say
+we generate a new prediction on an example from our test set, and our model outputs
+the following array, predicting a 90% probability that this car has “low” fuel
+efficiency:
+[0.9, 0.06, 0.04]
+The resulting feature attribution values should explain why the model predicted 0.9
+compared to the baseline prediction value of 0.1 for the “low” class. We can also look
+at feature attribution values for the other classes to understand, for example, why our
+model predicted the same car had a 6% chance of belonging to our “medium” fuel
+efficiency class.
+Figure 7-2 shows instance-level feature attributions for a model that predicts the
+duration of a bike trip. The uninformative baseline for this model is a trip duration of
+13.6 minutes, which we get by generating a prediction using the median value for
+each feature in our dataset. When a model’s prediction is <i>less</i> <i>than</i> the baseline pre‐
+diction value, we should expect most attribution values to be negative, and vice versa.
+In this example, we get a predicted duration of 10.71, which is less than the model’s

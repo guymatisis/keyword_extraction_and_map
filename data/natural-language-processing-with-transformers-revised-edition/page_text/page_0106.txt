@@ -1,0 +1,40 @@
+metrics during training, we need a function that can take the outputs of the model
+and convert them into the lists that <i>seqeval</i> expects. The following does the trick by
+ensuring we ignore the label IDs associated with subsequent subwords:
+<b>import</b> <b>numpy</b> <b>as</b> <b>np</b>
+<b>def</b> align_predictions(predictions, label_ids):
+preds = np.argmax(predictions, axis=2)
+batch_size, seq_len = preds.shape
+labels_list, preds_list = [], []
+<b>for</b> batch_idx <b>in</b> range(batch_size):
+example_labels, example_preds = [], []
+<b>for</b> seq_idx <b>in</b> range(seq_len):
+<i>#</i> <i>Ignore</i> <i>label</i> <i>IDs</i> <i>=</i> <i>-100</i>
+<b>if</b> label_ids[batch_idx, seq_idx] != -100:
+example_labels.append(index2tag[label_ids[batch_idx][seq_idx]])
+example_preds.append(index2tag[preds[batch_idx][seq_idx]])
+labels_list.append(example_labels)
+preds_list.append(example_preds)
+<b>return</b> preds_list, labels_list
+Equipped with a performance metric, we can move on to actually training the model.
+<header><largefont><b>Fine-Tuning</b></largefont> <largefont><b>XLM-RoBERTa</b></largefont></header>
+We now have all the ingredients to fine-tune our model! Our first strategy will be to
+fine-tune our base model on the German subset of PAN-X and then evaluate its zero-
+shot cross-lingual performance on French, Italian, and English. As usual, we’ll use the
+Transformers Trainer to handle our training loop, so first we need to define the
+TrainingArguments
+training attributes using the class:
+<b>from</b> <b>transformers</b> <b>import</b> TrainingArguments
+num_epochs = 3
+batch_size = 24
+logging_steps = len(panx_de_encoded["train"]) // batch_size
+model_name = f"{xlmr_model_name}-finetuned-panx-de"
+training_args = TrainingArguments(
+output_dir=model_name, log_level="error", num_train_epochs=num_epochs,
+per_device_train_batch_size=batch_size,
+per_device_eval_batch_size=batch_size, evaluation_strategy="epoch",
+save_steps=1e6, weight_decay=0.01, disable_tqdm=False,
+logging_steps=logging_steps, push_to_hub=True)
+Here we evaluate the model’s predictions on the validation set at the end of every
+epoch, tweak the weight decay, and set save_steps to a large number to disable
+checkpointing and thus speed up training.

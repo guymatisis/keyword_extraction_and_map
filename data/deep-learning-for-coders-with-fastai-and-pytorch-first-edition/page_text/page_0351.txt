@@ -1,0 +1,20 @@
+Kao estimated that “less than 800,000 of the 22M+ comments…could be considered
+truly unique” and that “more than 99% of the truly unique comments were in favor of
+keeping net neutrality.”
+Given advances in language modeling that have occurred since 2017, such fraudulent
+campaigns could be nearly impossible to catch now. You now have all the necessary
+tools at your disposal to create a compelling language model—something that can
+generate context-appropriate, believable text. It won’t necessarily be perfectly accurate
+or correct, but it will be plausible. Think about what this technology would mean
+when put together with the kinds of disinformation campaigns we have learned about
+in recent years. Take a look at the Reddit dialogue shown in Figure 10-3, where a lan‐
+guage model based on OpenAI’s GPT-2 algorithm is having a conversation with itself
+about whether the US government should cut defense spending.
+<i>Figure</i> <i>10-3.</i> <i>An</i> <i>algorithm</i> <i>talking</i> <i>to</i> <i>itself</i> <i>on</i> <i>Reddit</i>
+In this case, it was explained that an algorithm was being used to generate the dia‐
+logue. But imagine what would happen if a bad actor decided to release such an algo‐
+rithm across social networks—they could do it slowly and carefully, allowing the
+algorithm to gradually develop followers and trust over time. It would not take many
+resources to have literally millions of accounts doing this. In such a situation, we
+could easily imagine getting to a point where the vast majority of discourse online
+was from bots, and nobody would have any idea that it was happening.

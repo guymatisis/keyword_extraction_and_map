@@ -1,0 +1,16 @@
+<i>Figure</i> <i>7-11.</i> <i>Visualization</i> <i>of</i> <i>the</i> <i>SQuAD</i> <i>JSON</i> <i>format</i>
+This is quite a complex data format, so we’ll need a few functions and some Pandas
+magic to help us do the conversion. The first thing we need to do is implement a
+function that can create the paragraphs array associated with each product ID. Each
+qas
+element in this array contains a single context (i.e., review) and a array of
+question-answer pairs. Here’s a function that builds up the paragraphs array:
+<b>def</b> create_paragraphs(df):
+paragraphs = []
+id2context = dict(zip(df["review_id"], df["context"]))
+<b>for</b> review_id, review <b>in</b> id2context.items():
+qas = []
+<i>#</i> <i>Filter</i> <i>for</i> <i>all</i> <i>question-answer</i> <i>pairs</i> <i>about</i> <i>a</i> <i>specific</i> <i>context</i>
+review_df = df.query(f"review_id == '{review_id}'")
+id2question = dict(zip(review_df["id"], review_df["question"]))
+<i>#</i> <i>Build</i> <i>up</i> <i>the</i> <i>qas</i> <i>array</i>

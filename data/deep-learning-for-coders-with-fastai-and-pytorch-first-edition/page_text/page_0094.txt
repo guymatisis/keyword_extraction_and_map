@@ -1,0 +1,33 @@
+<b>JeremySays</b>
+At university, philosophy of ethics was my main thing (it would
+have been the topic of my thesis, if I’d finished it, instead of drop‐
+ping out to join the real world). Based on the years I spent studying
+ethics, I can tell you this: no one really agrees on what right and
+wrong are, whether they exist, how to spot them, which people are
+good and which bad, or pretty much anything else. So don’t expect
+too much from the theory! We’re going to focus on examples and
+thought starters here, not theory.
+In answering the question “What Is Ethics?” the Markkula Center for Applied Ethics
+says that the term refers to the following:
+• Well-founded standards of right and wrong that prescribe what humans should
+do
+• The study and development of one’s ethical standards
+There is no list of right answers. There is no list of dos and don’ts. Ethics is compli‐
+cated and context-dependent. It involves the perspectives of many stakeholders. Eth‐
+ics is a muscle that you have to develop and practice. In this chapter, our goal is to
+provide some signposts to help you on that journey.
+Spotting ethical issues is best to do as part of a collaborative team. This is the only
+way you can really incorporate different perspectives. Different people’s backgrounds
+will help them to see things that may not be obvious to you. Working with a team is
+helpful for many “muscle-building” activities, including this one.
+This chapter is certainly not the only part of the book where we talk about data ethics,
+but it’s good to have a place where we focus on it for a while. To get oriented, it’s per‐
+haps easiest to look at a few examples. So, we picked out three that we think illustrate
+effectively some of the key topics.
+<header><largefont><b>Key</b></largefont> <largefont><b>Examples</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>Ethics</b></largefont></header>
+We are going to start with three specific examples that illustrate three common ethi‐
+cal issues in tech (we’ll study these issues in more depth later in the chapter):
+<i>Recourse</i> <i>processes</i>
+Arkansas’s buggy healthcare algorithms left patients stranded.
+<i>Feedback</i> <i>loops</i>
+YouTube’s recommendation system helped unleash a conspiracy theory boom.

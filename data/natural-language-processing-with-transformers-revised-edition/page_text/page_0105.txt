@@ -1,0 +1,41 @@
+<b>if</b> word_idx <b>is</b> None <b>or</b> word_idx == previous_word_idx:
+label_ids.append(-100)
+<b>else:</b>
+label_ids.append(label[word_idx])
+previous_word_idx = word_idx
+labels.append(label_ids)
+tokenized_inputs["labels"] = labels
+<b>return</b> tokenized_inputs
+We now have all the ingredients we need to encode each split, so let’s write a function
+we can iterate over:
+<b>def</b> encode_panx_dataset(corpus):
+<b>return</b> corpus.map(tokenize_and_align_labels, batched=True,
+remove_columns=['langs', 'ner_tags', 'tokens'])
+DatasetDict Dataset
+By applying this function to a object, we get an encoded object
+per split. Let’s use this to encode our German corpus:
+panx_de_encoded = encode_panx_dataset(panx_ch["de"])
+Now that we have a model and a dataset, we need to define a performance metric.
+<header><largefont><b>Performance</b></largefont> <largefont><b>Measures</b></largefont></header>
+Evaluating a NER model is similar to evaluating a text classification model, and it is
+common to report results for precision, recall, and <i>F</i> -score. The only subtlety is that
+1
+<i>all</i> words of an entity need to be predicted correctly in order for a prediction to be
+counted as correct. Fortunately, there is a nifty library called <i>seqeval</i> that is designed
+for these kinds of tasks. For example, given some placeholder NER tags and model
+predictions, we can compute the metrics via seqeval’s classification_report()
+function:
+<b>from</b> <b>seqeval.metrics</b> <b>import</b> classification_report
+y_true = [["O", "O", "O", "B-MISC", "I-MISC", "I-MISC", "O"],
+["B-PER", "I-PER", "O"]]
+y_pred = [["O", "O", "B-MISC", "I-MISC", "I-MISC", "I-MISC", "O"],
+["B-PER", "I-PER", "O"]]
+<b>print(classification_report(y_true,</b> y_pred))
+precision recall f1-score support
+MISC 0.00 0.00 0.00 1
+PER 1.00 1.00 1.00 1
+micro avg 0.50 0.50 0.50 2
+macro avg 0.50 0.50 0.50 2
+weighted avg 0.50 0.50 0.50 2
+As we can see, <i>seqeval</i> expects the predictions and labels as lists of lists, with each list
+corresponding to a single example in our validation or test sets. To integrate these

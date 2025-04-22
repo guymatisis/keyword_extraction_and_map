@@ -1,0 +1,24 @@
+standard approach is to treat a small loss as good and a large loss as bad, although
+this is just a convention).
+<i>Step</i>
+A simple way to figure out whether a weight should be increased a bit or
+decreased a bit would be just to try it: increase the weight by a small amount, and
+see if the loss goes up or down. Once you find the correct direction, you could
+then change that amount by a bit more, or a bit less, until you find an amount
+that works well. However, this is slow! As we will see, the magic of calculus allows
+us to directly figure out in which direction, and by roughly how much, to change
+each weight, without having to try all these small changes. The way to do this is
+by calculating <i>gradients.</i> This is just a performance optimization; we would get
+exactly the same results by using the slower manual process as well.
+<i>Stop</i>
+Once we’ve decided how many epochs to train the model for (a few suggestions
+for this were given in the earlier list), we apply that decision. For our digit classi‐
+fier, we would keep training until the accuracy of the model started getting worse,
+or we ran out of time.
+Before applying these steps to our image classification problem, let’s illustrate what
+they look like in a simpler case. First we will define a very simple function, the quad‐
+ratic—let’s pretend that this is our loss function, and x is a weight parameter of the
+function:
+<b>def</b> f(x): <b>return</b> x**2
+Here is a graph of that function:
+plot_function(f, 'x', 'x**2')

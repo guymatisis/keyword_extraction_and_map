@@ -1,0 +1,25 @@
+<b>Boosting</b>
+Boosting is another Ensemble technique. However, unlike bagging, boosting ulti‐
+mately constructs an ensemble model with <i>more</i> capacity than the individual member
+models. For this reason, boosting provides a more effective means of reducing bias
+than variance. The idea behind boosting is to iteratively build an ensemble of models
+where each successive model focuses on learning the examples the previous model
+got wrong. In short, boosting iteratively improves upon a sequence of weak learners
+taking a weighted average to ultimately yield a strong learner.
+f_0
+At the start of the boosting procedure, a simple base model is selected. For a
+regression task, the base model could just be the average target value: f_0 =
+np.mean(Y_train) delta_1
+. For the first iteration step, the residuals are measured
+and approximated via a separate model. This residual model can be anything, but
+typically it isn’t very sophisticated; we’d often use a weak learner like a decision tree.
+The approximation provided by the residual model is then added to the current pre‐
+diction, and the process continues.
+After many iterations, the residuals tend toward zero and the prediction gets better
+and better at modeling the original training dataset. Notice that in Figure 3-12 the
+residuals for each element of the dataset decrease with each successive iteration.
+<i>Figure</i> <i>3-12.</i> <i>Boosting</i> <i>converts</i> <i>weak</i> <i>learners</i> <i>into</i> <i>strong</i> <i>learners</i> <i>by</i> <i>iteratively</i> <i>improv‐</i>
+<i>ing</i> <i>the</i> <i>model</i> <i>prediction.</i>
+Some of the more well-known boosting algorithms are AdaBoost, Gradient Boosting
+Machines, and XGBoost, and they have easy-to-use implementations in popular
+machine learning frameworks like scikit-learn or TensorFlow.

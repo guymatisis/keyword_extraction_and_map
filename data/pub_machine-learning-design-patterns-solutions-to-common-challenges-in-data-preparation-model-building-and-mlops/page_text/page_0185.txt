@@ -1,0 +1,33 @@
+all-reduce. TPU pods have high-speed interconnect, so we tend to not worry about
+communication overhead within a pod (a pod consists of thousands of TPUs). In
+addition, there is lots of memory available on-disk, which means that it is possible to
+preemptively fetch data and make less-frequent calls to the CPU. As a result, you
+should use much higher batch sizes to take full advantage of high-memory, high-
+interconnect chips like TPUs.
+In terms of distributed training, TPUStrategy allows you to run distributed training
+jobs on TPUs. Under the hood, TPUStrategy is the same as MirroredStrategy
+although TPUs have their own implementation of the all-reduce algorithm.
+Using TPUStrategy is similar to using the other distribution strategies in Tensor‐
+Flow. One difference is you must first set up a TPUClusterResolver , which points to
+the location of the TPUs. TPUs are currently available to use for free in Google
+Colab, and there you don’t need to specify any arguments for tpu_address :
+cluster_resolver = tf.distribute.cluster_resolver.TPUClusterResolver(
+tpu=tpu_address)
+tf.config.experimental_connect_to_cluster(cluster_resolver)
+tf.tpu.experimental.initialize_tpu_system(cluster_resolver)
+tpu_strategy = tf.distribute.experimental.TPUStrategy(cluster_resolver)
+<b>Choosingabatchsize</b>
+Another important factor to consider is batch size. Particular to synchronous data
+parallelism, when the model is particularly large, it’s better to decrease the total num‐
+ber of training iterations because each training step requires the updated model to be
+shared among different workers, causing a slowdown for transfer time. Thus, it’s
+important to increase the mini-batch size as much as possible so that the same per‐
+formance can be met with fewer steps.
+However, it has been shown that very large batch sizes adversely affect the rate at
+which stochastic gradient descent converges as well as the quality of the final solu‐
+tion.8 Figure 4-20 shows that increasing the batch size alone ultimately causes the
+top-1 validation error to increase. In fact, they argue that linearly scaling the learning
+rate as a function of the large batch size is necessary to maintain a low validation
+error while decreasing the time of distributed training.
+8 PriyaGoyaletal.,“Accurate,LargeMinibatchSGD:TrainingImageNetin1Hour”(2017),arXiv:
+1706.02677v2[cs.CV].

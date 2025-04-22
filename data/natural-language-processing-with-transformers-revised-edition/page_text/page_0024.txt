@@ -1,0 +1,41 @@
+Dataset Dataset
+which returns an instance of the class. The object is one of the core
+data structures in Datasets, and we’ll be exploring many of its features throughout
+the course of this book. For starters, it behaves like an ordinary Python array or list,
+so we can query its length:
+len(train_ds)
+16000
+or access a single example by its index:
+train_ds[0]
+{'label': 0, 'text': 'i didnt feel humiliated'}
+Here we see that a single row is represented as a dictionary, where the keys corre‐
+spond to the column names:
+train_ds.column_names
+['text', 'label']
+and the values are the tweet and the emotion. This reflects the fact that Datasets is
+based on <i>Apache</i> <i>Arrow,</i> which defines a typed columnar format that is more memory
+efficient than native Python. We can see what data types are being used under the
+features Dataset
+hood by accessing the attribute of a object:
+<b>print(train_ds.features)</b>
+{'text': Value(dtype='string', id=None), 'label': ClassLabel(num_classes=6,
+names=['sadness', 'joy', 'love', 'anger', 'fear', 'surprise'], names_file=None,
+id=None)}
+text string, label
+In this case, the data type of the column is while the column is a
+ClassLabel
+special object that contains information about the class names and their
+mapping to integers. We can also access several rows with a slice:
+<b>print(train_ds[:5])</b>
+{'text': ['i didnt feel humiliated', 'i can go from feeling so hopeless to so
+damned hopeful just from being around someone who cares and is awake', 'im
+grabbing a minute to post i feel greedy wrong', 'i am ever feeling nostalgic
+about the fireplace i will know that it is still on the property', 'i am feeling
+grouchy'], 'label': [0, 0, 3, 2, 3]}
+Note that in this case, the dictionary values are now lists instead of individual ele‐
+ments. We can also get the full column by name:
+<b>print(train_ds["text"][:5])</b>
+['i didnt feel humiliated', 'i can go from feeling so hopeless to so damned
+hopeful just from being around someone who cares and is awake', 'im grabbing a
+minute to post i feel greedy wrong', 'i am ever feeling nostalgic about the
+fireplace i will know that it is still on the property', 'i am feeling grouchy']

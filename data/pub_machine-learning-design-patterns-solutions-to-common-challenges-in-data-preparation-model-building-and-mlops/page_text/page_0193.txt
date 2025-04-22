@@ -1,0 +1,39 @@
+<b>Nonlinearoptimization</b>
+The hyperparameters that need to be tuned fall into two groups: those related to
+model <i>architecture</i> and those related to model <i>training.</i> Model architecture hyper‐
+parameters, like the number of layers in your model or the number of neurons per
+layer, control the mathematical function that underlies the machine learning model.
+Parameters related to model training, like the number of epochs, learning rate, and
+batch size, control the training loop and often have to do with the way that the gradi‐
+ent descent optimizer works. Taking both these types of parameters into considera‐
+tion, it is clear that the overall model function with respect to these hyperparameters
+is, in general, not differentiable.
+The inner training loop is differentiable, and the search for optimal parameters can
+be carried out through stochastic gradient descent. A single step of a machine learn‐
+ing model trained through stochastic gradient might take only a few milliseconds. On
+the other hand, a single trial in the hyperparameter tuning problem involves training
+a complete model on the training dataset and might take several hours. Moreover, the
+optimization problem for the hyperparameters will have to be solved through nonlin‐
+ear optimization methods that apply to nondifferentiable problems.
+Once we decide that we are going to use nonlinear optimization methods, our choice
+of metric becomes wider. This metric will be evaluated on the validation dataset and
+does not have to be the same as the training loss. For a classification model, your
+optimization metric might be accuracy, and you’d therefore want to find the combi‐
+nation of hyperparameters that leads to the highest model accuracy even if the loss is
+binary cross entropy. For a regression model, you might want to optimize median
+absolute error even if the loss is squared error. In that case, you’d want to find the
+hyperparameters that yield the <i>lowest</i> mean squared error. This metric can even be
+chosen based on business goals. For example, we might choose to maximize expected
+revenue or minimize losses due to fraud.
+<b>Bayesianoptimization</b>
+Bayesian optimization is a technique for optimizing black-box functions, originally
+developed in the 1970s by Jonas Mockus. The technique has been applied to many
+domains and was first applied to hyperparameter tuning in 2012. Here, we’ll focus on
+Bayesian optimization as it relates to hyperparameter tuning. In this context, a
+machine learning model is our <i>black-box</i> <i>function,</i> since ML models produce a set of
+outputs from inputs we provide without requiring us to know the internal details of
+the model itself. The process of training our ML model is referred to as calling the
+<i>objective</i> <i>function.</i>
+The goal of Bayesian optimization is to directly train our model as few times as possi‐
+ble since doing so is costly. Remember that each time we try a new combination of
+hyperparameters on our model, we need to run through our model’s entire training

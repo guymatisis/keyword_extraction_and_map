@@ -1,0 +1,36 @@
+<b>from</b> <b>transformers</b> <b>import</b> pipeline
+classifier = pipeline("text-classification")
+The first time you run this code you’ll see a few progress bars appear because the
+pipeline automatically downloads the model weights from the Hugging Face Hub.
+The second time you instantiate the pipeline, the library will notice that you’ve
+already downloaded the weights and will use the cached version instead. By default,
+text-classification
+the pipeline uses a model that’s designed for sentiment analy‐
+sis, but it also supports multiclass and multilabel classification.
+Now that we have our pipeline, let’s generate some predictions! Each pipeline takes a
+string of text (or a list of strings) as input and returns a list of predictions. Each pre‐
+diction is a Python dictionary, so we can use Pandas to display them nicely as a
+DataFrame :
+<b>import</b> <b>pandas</b> <b>as</b> <b>pd</b>
+outputs = classifier(text)
+pd.DataFrame(outputs)
+<b>label</b> <b>score</b>
+<b>0</b> NEGATIVE 0.901546
+In this case the model is very confident that the text has a negative sentiment, which
+makes sense given that we’re dealing with a complaint from an angry customer! Note
+POSITIVE NEG
+that for sentiment analysis tasks the pipeline only returns one of the or
+ATIVE labels, since the other can be inferred by computing 1-score .
+Let’s now take a look at another common task, identifying named entities in text.
+<header><largefont><b>Named</b></largefont> <largefont><b>Entity</b></largefont> <largefont><b>Recognition</b></largefont></header>
+Predicting the sentiment of customer feedback is a good first step, but you often want
+to know if the feedback was about a particular item or service. In NLP, real-world
+objects like products, places, and people are called <i>named</i> <i>entities,</i> and extracting
+them from text is called <i>named</i> <i>entity</i> <i>recognition</i> (NER). We can apply NER by load‐
+ing the corresponding pipeline and feeding our customer review to it:
+ner_tagger = pipeline("ner", aggregation_strategy="simple")
+outputs = ner_tagger(text)
+pd.DataFrame(outputs)
+<b>entity_group</b> <b>score</b> <b>word</b> <b>start</b> <b>end</b>
+<b>0</b> ORG 0.879010 Amazon 5 11
+<b>1</b> MISC 0.990859 OptimusPrime 36 49

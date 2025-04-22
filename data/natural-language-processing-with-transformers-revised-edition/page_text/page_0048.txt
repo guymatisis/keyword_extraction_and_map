@@ -1,0 +1,44 @@
+<b>from</b> <b>transformers</b> <b>import</b> Trainer, TrainingArguments
+batch_size = 64
+logging_steps = len(emotions_encoded["train"]) // batch_size
+model_name = f"{model_ckpt}-finetuned-emotion"
+training_args = TrainingArguments(output_dir=model_name,
+num_train_epochs=2,
+learning_rate=2e-5,
+per_device_train_batch_size=batch_size,
+per_device_eval_batch_size=batch_size,
+weight_decay=0.01,
+evaluation_strategy="epoch",
+disable_tqdm=False,
+logging_steps=logging_steps,
+push_to_hub=True,
+log_level="error")
+Here we also set the batch size, learning rate, and number of epochs, and specify to
+load the best model at the end of the training run. With this final ingredient, we can
+Trainer:
+instantiate and fine-tune our model with the
+<b>from</b> <b>transformers</b> <b>import</b> Trainer
+trainer = Trainer(model=model, args=training_args,
+compute_metrics=compute_metrics,
+train_dataset=emotions_encoded["train"],
+eval_dataset=emotions_encoded["validation"],
+tokenizer=tokenizer)
+trainer.train();
+<b>Epoch</b> <b>TrainingLoss</b> <b>ValidationLoss</b> <b>Accuracy</b> <b>F1</b>
+1 0.840900 0.327445 0.896500 0.892285
+2 0.255000 0.220472 0.922500 0.922550
+Looking at the logs, we can see that our model has an <i>F</i> -score on the validation set of
+1
+around 92%—this is a significant improvement over the feature-based approach!
+We can take a more detailed look at the training metrics by calculating the confusion
+matrix. To visualize the confusion matrix, we first need to get the predictions on the
+predict() Trainer
+validation set. The method of the class returns several useful
+objects we can use for evaluation:
+preds_output = trainer.predict(emotions_encoded["validation"])
+predict() PredictionOutput
+The output of the method is a object that contains
+predictions label_ids,
+arrays of and along with the metrics we passed to the
+trainer. For example, the metrics on the validation set can be accessed as follows:
+preds_output.metrics

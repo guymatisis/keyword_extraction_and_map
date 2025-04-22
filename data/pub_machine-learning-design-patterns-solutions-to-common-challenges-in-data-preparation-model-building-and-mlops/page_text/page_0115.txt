@@ -1,0 +1,37 @@
+<b>Deterministicinputs</b>
+Splitting an ML problem is usually a bad idea, since an ML model can/should learn
+combinations of multiple factors. For example:
+• If a condition can be known deterministically from the input (holiday shopping
+versus weekday shopping), we should just add the condition as one more input
+to the model.
+• If the condition involves an extrema in just one input (some customers who live
+nearby versus far away, with the meaning of near/far needing to be learned from
+the data), we can use Mixed Input Representation to handle it.
+The Cascade design pattern addresses an unusual scenario for which we do not have
+a categorical input, and for which extreme values need to be learned from multiple
+inputs.
+<b>Singlemodel</b>
+The Cascade design pattern should not be used for common scenarios where a single
+model will suffice. For example, suppose we are trying to learn a customer’s propen‐
+sity to buy. We may think we need to learn different models for people who have
+been comparison shopping versus those who aren’t. We don’t really know who has
+been comparison shopping, but we can make an educated guess based on the number
+of visits, how long the item has been in the cart, and so on. This problem does not
+need the Cascade design pattern because it is common enough (a large fraction of
+customers will be comparison shopping) that the machine learning model should be
+able to learn it implicitly in the course of training. For common scenarios, train a sin‐
+gle model.
+<b>Internalconsistency</b>
+The Cascade is needed when we need to maintain internal consistency amongst the
+predictions of multiple models. Note that we are trying to do more than just predict
+the unusual activity. We are trying to predict returns, considering that there will be
+some reseller activity also. If the task is only to predict whether or not a sale is by a
+reseller, we’d use the Rebalancing pattern. The reason to use Cascade is that the
+imbalanced label output is needed as an input to subsequent models and is useful in
+and of itself.
+Similarly, suppose that the reason we are training the model to predict a customer’s
+propensity to buy is to make a discounted offer. Whether or not we make the dis‐
+counted offer, and the amount of discount, will very often depend on whether this
+customer is comparison shopping or not. Given this, we need internal consistency
+between the two models (the model for comparison shoppers and the model for pro‐
+pensity to buy). In this case, the Cascade design pattern might be needed.

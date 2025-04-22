@@ -1,0 +1,45 @@
+# New model addition
+My teammates and I (including @ice-americano) would like to use efficient self
+attention methods such as Linformer, Performer and [...]
+==================================================
+Retrieved documents:
+==================================================
+TEXT:
+Add Linformer model
+# New model addition
+## Model description
+### Linformer: Self-Attention with Linear Complexity
+Paper published June 9th on ArXiv: https://arxiv.org/abs/2006.04768
+La [...]
+SCORE: 54.92
+LABELS: ['new model']
+==================================================
+TEXT:
+Add FAVOR+ / Performer attention
+# FAVOR+ / Performer attention addition
+Are there any plans to add this new attention approximation block to
+Transformers library?
+## Model description
+The n [...]
+SCORE: 57.90
+LABELS: ['new model']
+==================================================
+TEXT:
+Implement DeLighT: Very Deep and Light-weight Transformers
+# New model addition
+## Model description
+DeLight, that delivers similar or better performance than transformer-based
+models with sign [...]
+SCORE: 60.12
+LABELS: ['new model']
+Nice! This is exactly what we hoped for: the three retrieved documents that we got via
+embedding lookup all have the same labels and we can already see from the titles that
+they are all very similar. The query as well as the retrieved documents revolve around
+adding new and efficient transformer models. The question remains, however, what
+is the best value for <i>k?</i> Similarly, how we should then aggregate the labels of the
+retrieved documents? Should we, for example, retrieve three documents and assign all
+labels that occurred at least twice? Or should we go for 20 and use all labels that
+appeared at least 5 times? Let’s investigate this systematically: we’ll try several values
+for <i>k</i> and then vary the threshold <i>m</i> < <i>k</i> for label assignment with a helper function.
+We’ll record the macro and micro performance for each setting so we can decide later
+which run performed best. Instead of looping over each sample in the validation set

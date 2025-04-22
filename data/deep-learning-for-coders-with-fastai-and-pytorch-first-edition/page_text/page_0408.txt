@@ -1,0 +1,25 @@
+We can try the same thing for left edges:
+left_edge = tensor([[-1,1,0],
+[-1,1,0],
+[-1,1,0]]).float()
+left_edge3 = tensor([[apply_kernel(i,j,left_edge) <b>for</b> j <b>in</b> rng] <b>for</b> i <b>in</b> rng])
+show_image(left_edge3);
+As we mentioned before, a convolution is the operation of applying such a kernel
+over a grid. Vincent Dumoulin and Francesco Visin’s paper “A Guide to Convolution
+Arithmetic for Deep Learning” has many great diagrams showing how image kernels
+can be applied. Figure 13-3 is an example from the paper showing (at the bottom) a
+light blue 4×4 image with a dark blue 3×3 kernel being applied, creating a 2×2 green
+output activation map at the top.
+<i>Figure</i> <i>13-3.</i> <i>Result</i> <i>of</i> <i>applying</i> <i>a</i> <i>3×3</i> <i>kernel</i> <i>to</i> <i>a</i> <i>4×4</i> <i>image</i> <i>(courtesy</i> <i>of</i> <i>Vincent</i>
+<i>Dumoulin</i> <i>and</i> <i>Francesco</i> <i>Visin)</i>
+h w,
+Look at the shape of the result. If the original image has a height of and a width of
+how many 3×3 windows can we find? As you can see from the example, there are h-2
+by w-2 windows, so the image we get as a result has a height of h-2 and a width of
+w-2.
+We won’t implement this convolution function from scratch, but use PyTorch’s imple‐
+mentation instead (it is way faster than anything we could do in Python).
+<header><largefont><b>Convolutions</b></largefont> <largefont><b>in</b></largefont> <largefont><b>PyTorch</b></largefont></header>
+Convolution is such an important and widely used operation that PyTorch has it built
+in. It’s called F.conv2d (recall that F is a fastai import from torch.nn.functional, as
+recommended by PyTorch). PyTorch docs tell us that it includes these parameters:

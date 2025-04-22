@@ -1,0 +1,22 @@
+OK, it seems that the fine-tuned model performs significantly worse on SubjQA than
+on SQuAD 2.0, where MiniLM achieves EM and <i>F</i> scores of 76.1 and 79.5, respec‐
+1
+tively. One reason for the performance drop is that customer reviews are quite differ‐
+ent from the Wikipedia articles the SQuAD 2.0 dataset is generated from, and the
+language they use is often informal. Another factor is likely the inherent subjectivity
+of our dataset, where both questions and answers differ from the factual information
+contained in Wikipedia. Let’s look at how to fine-tune a model on a dataset to get bet‐
+ter results with domain adaptation.
+<header><largefont><b>Domain</b></largefont> <largefont><b>Adaptation</b></largefont></header>
+Although models that are fine-tuned on SQuAD will often generalize well to other
+domains, we’ve seen that for SubjQA the EM and <i>F</i> scores of our model were much
+1
+worse than for SQuAD. This failure to generalize has also been observed in other
+extractive QA datasets and is understood as evidence that transformer models are
+SQuAD.15
+particularly adept at overfitting to The most straightforward way to
+improve the reader is by fine-tuning our MiniLM model further on the SubjQA train‐
+ing set. The FARMReader has a train() method that is designed for this purpose and
+expects the data to be in SQuAD JSON format, where all the question-answer pairs
+are grouped together for each item as illustrated in Figure 7-11.
+15 D.Yogatamaetal.,“LearningandEvaluatingGeneralLinguisticIntelligence”,(2019).

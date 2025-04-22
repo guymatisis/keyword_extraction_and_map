@@ -1,0 +1,38 @@
+In addition to these features extracted directly from a question’s title, we could also
+represent <i>metadata</i> about the question as features. For example, we could add fea‐
+tures representing the number of tags the question had and the day of the week it was
+posted. We could then combine these tabular features with our encoded text and feed
+both representations into our model using Keras’s Concatenate layer to combine the
+BOW-encoded text array with the tabular metadata describing our text.
+<b>Multimodalrepresentationofimages</b>
+Similar to our analysis of embeddings and BOW encoding for text, there are many
+ways to represent image data when preparing it for an ML model. Like raw text,
+images cannot be fed directly into a model and need to be transformed into a numer‐
+ical format that the model can understand. We’ll start by discussing some common
+approaches to representing image data: as pixel values, as sets of tiles, and as sets of
+windowed sequences. The Multimodal Input design pattern provides a way to use
+more than one representation of an image in our model.
+<b>Imagesaspixelvalues.</b>
+At their core, images are arrays of pixel values. A black and
+white image, for example, contains pixel values ranging from 0 to 255. We could
+therefore represent a 28×28-pixel black-and-white image in a model as a 28×28 array
+with integer values ranging from 0 to 255. In this section, we’ll be referencing the
+MNIST dataset, a popular ML dataset that includes images of handwritten digits.
+With the Sequential API, we can represent our MNIST images of pixel values using
+a Flatten layer, which flattens the image into a one-dimensional 784 (28 * 28) element
+array:
+layers.Flatten(input_shape=(28, 28))
+For color images, this gets more complex. Each pixel in an RGB color image has three
+values—one for red, green, and blue. If our images in the example above were instead
+input_shape
+color, we’d add a third dimension to the model’s such that it would be:
+layers.Flatten(input_shape=(28, 28, 3))
+While representing images as arrays of pixel values works well for simple images like
+the grayscale ones in the MNIST dataset, it starts to break down when we introduce
+images with more edges and shapes throughout. When a network is fed with all of the
+pixels in an image at once, it’s hard for it to focus on smaller areas of adjacent pixels
+that contain important information.
+<b>Imagesastiledstructures.</b> We need a way to represent more complex, real-world
+images that will enable our model to extract meaningful details and understand pat‐
+terns. If we feed the network only small pieces of an image at a time, it’ll be more
+likely to identify things like spatial gradients and edges present in neighboring pixels.

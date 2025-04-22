@@ -1,0 +1,37 @@
+<b>Triggersforretraining</b>
+Model performance will usually degrade over time. Continuous evaluation allows you
+to measure precisely how much in a structured way and provides a trigger to retrain
+the model. So, does that mean you should retrain your model as soon as performance
+starts to dip? It depends. The answer to this question is heavily tied to the business
+use case and should be discussed alongside evaluation metrics and model assessment.
+Depending on the complexity of the model and ETL pipelines, the cost of retraining
+could be expensive. The trade-off to consider is what amount of deterioration of per‐
+formance is acceptable in relation to this cost.
+<header><largefont><b>Serverless</b></largefont> <largefont><b>Triggers</b></largefont></header>
+Cloud Functions, AWS Lambda, and Azure Functions provide serverless ways to
+automate retraining via triggers. The trigger type determines how and when your
+function executes. These triggers could be messages published to a message queue, a
+change notification from a cloud storage bucket indicating a new file has been added,
+changes to data in a database, or even an HTTPS request. Once the event has fired,
+the function code is executed.
+In the context of retraining, the cloud event trigger would be a significant change or
+dip in model accuracy. The function, or action taken, would be to invoke the training
+pipeline to retrain the model and deploy the new version. “Design Pattern 25: Work‐
+flow Pipeline” on page 282 describes how this can be accomplished. Workflow pipelines
+containerize and orchestrate the end-to-end machine learning workflow from data
+collection and validation to model building, training, and deployment. Once the new
+model version has been deployed, it can then be compared against the current version
+to determine if it should be replaced.
+The threshold itself could be set as an absolute value; for example, model retraining
+occurs once model accuracy falls below 95%. Or the threshold could be set as a rate of
+change of performance, for example, once performance begins to experience a down‐
+ward trajectory. Whichever approach, the philosophy for choosing the threshold is
+similar to that for checkpointing models during training. With a higher, more sensi‐
+tive threshold, models in production remain fresh, but there is a higher cost for fre‐
+quent retraining as well as technical overhead of maintaining and switching between
+different model versions. With a lower threshold, training costs decrease but models
+in production are more stale. Figure 5-5 shows this trade-off between the perfor‐
+mance threshold and how it affects the number of model retraining jobs.
+If the model retraining pipeline is automatically triggered by such a threshold, it is
+important to track and validate the triggers as well. Not knowing when your model
+has been retrained inevitably leads to issues. Even if the process is automated, you

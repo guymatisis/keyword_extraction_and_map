@@ -1,0 +1,21 @@
+<i>Figure</i> <i>8-7.</i> <i>Effect</i> <i>of</i> <i>quantization</i> <i>on</i> <i>a</i> <i>transformer’s</i> <i>weights</i>
+To round out our little analysis, let’s compare how long it takes to compute the multi‐
+plication of two weight tensors with FP32 and INT8 values. For the FP32 tensors, we
+can multiply them using PyTorch’s nifty @ operator:
+%%timeit
+weights @ weights
+393 µs ± 3.84 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+For the quantized tensors we need the QFunctional wrapper class so that we can per‐
+form operations with the special torch.qint8 data type:
+<b>from</b> <b>torch.nn.quantized</b> <b>import</b> QFunctional
+q_fn = QFunctional()
+This class supports various elementary operations, like addition, and in our case we
+can time the multiplication of our quantized tensors as follows:
+%%timeit
+q_fn.mul(quantized_weights, quantized_weights)
+23.3 µs ± 298 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+Compared to our FP32 computation, using the INT8 tensors is almost 100 times
+faster! Even larger gains can be obtained by using dedicated backends for running
+quantized operators efficiently. As of this book’s writing, PyTorch supports:
+• x86 CPUs with AVX2 support or higher
+• ARM CPUs (typically found in mobile/embedded devices)

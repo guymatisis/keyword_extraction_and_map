@@ -1,0 +1,7 @@
+<i>Figure</i> <i>6-16.</i> <i>A</i> <i>feature</i> <i>store</i> <i>ensures</i> <i>the</i> <i>feature</i> <i>engineering</i> <i>pipelines</i> <i>are</i> <i>consistent</i>
+<i>between</i> <i>model</i> <i>training</i> <i>and</i> <i>serving.</i> <i>See</i> <i>also</i> <i>https://docs.feast.dev/.</i>
+<i>Figure</i> <i>6-17.</i> <i>Feast</i> <i>uses</i> <i>Beam</i> <i>on</i> <i>the</i> <i>backend</i> <i>for</i> <i>feature</i> <i>ingestion</i> <i>and</i> <i>Redis</i> <i>and</i> <i>Big‐</i>
+<i>Query</i> <i>for</i> <i>online</i> <i>and</i> <i>offline</i> <i>feature</i> <i>retrieval.</i>
+Different systems may produce data at different rates, and a feature store is flexible
+enough to handle those different cadences, both for ingestion and during retrieval
+(Figure 6-18). For example, sensor data could be produced in real time, arriving every

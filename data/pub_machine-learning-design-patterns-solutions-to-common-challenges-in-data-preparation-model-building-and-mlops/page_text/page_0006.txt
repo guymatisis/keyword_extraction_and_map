@@ -1,0 +1,38 @@
+<i>unsupervised</i> <i>learning,</i> you do not know the labels for your data in advance, and the
+goal is to build a model that can find natural groupings of your data (called <i>cluster‐</i>
+<i>ing),</i> compress the information content (dimensionality <i>reduction),</i> or find associa‐
+tion rules. The majority of this book will focus on supervised learning because the
+vast majority of machine learning models used in production are supervised.
+With supervised learning, problems can typically be defined as either classification or
+regression. <i>Classification</i> models assign your input data a label (or labels) from a dis‐
+crete, predefined set of categories. Examples of classification problems include deter‐
+mining the type of pet breed in an image, tagging a document, or predicting whether
+or not a transaction is fraudulent. <i>Regression</i> models assign continuous, numerical
+values to your inputs. Examples of regression models include predicting the duration
+of a bike trip, a company’s future revenue, or the price of a product.
+<header><largefont><b>Data</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Feature</b></largefont> <largefont><b>Engineering</b></largefont></header>
+Data is at the heart of any machine learning problem. When we talk about <i>datasets,</i>
+we’re referring to the data used for training, validating, and testing a machine learn‐
+ing model. The bulk of your data will be <i>training</i> <i>data:</i> the data fed to your model
+during the training process. <i>Validation</i> <i>data</i> is data that is held out from your train‐
+ing set and used to evaluate how the model is performing after each training <i>epoch</i>
+(or pass through the training data). The performance of the model on the validation
+data is used to decide when to stop the training run, and to choose <i>hyperparameters,</i>
+such as the number of trees in a random forest model. <i>Test</i> <i>data</i> is data that is not
+used in the training process at all and is used to evaluate how the trained model per‐
+forms. Performance reports of the machine learning model must be computed on the
+independent test data, rather than the training or validation tests. It’s also important
+that the data be split in such a way that all three datasets (training, test, validation)
+have similar statistical properties.
+The data you use to train your model can take many forms depending on the model
+type. We define <i>structured</i> <i>data</i> as numerical and categorical data. Numerical data
+includes integer and float values, and categorical data includes data that can be divi‐
+ded into a finite set of groups, like type of car or education level. You can also think
+of structured data as data you would commonly find in a spreadsheet. Throughout
+the book, we’ll use the term <i>tabular</i> <i>data</i> interchangeably with structured data.
+<i>Unstructured</i> <i>data,</i> on the other hand, includes data that cannot be represented as
+neatly. This typically includes free-form text, images, video, and audio.
+Numeric data can often be fed directly to a machine learning model, where other data
+requires various <i>data</i> <i>preprocessing</i> before it’s ready to be sent to a model. This pre‐
+processing step typically includes scaling numerical values, or converting nonnumer‐
+ical data into a numerical format that can be understood by your model. Another

@@ -1,0 +1,36 @@
+For instance, let’s talk about something that is critically important for autonomous
+vehicles: localizing objects in a picture. If a self-driving car doesn’t know where a
+pedestrian is, then it doesn’t know how to avoid one! Creating a model that can rec‐
+ognize the content of every individual pixel in an image is called <i>segmentation.</i> Here
+is how we can train a segmentation model with fastai, using a subset of the <i>CamVid</i>
+dataset from the paper “Semantic Object Classes in Video: A High-Definition
+Ground Truth Database” by Gabriel J. Brostow et al.:
+path = untar_data(URLs.CAMVID_TINY)
+dls = SegmentationDataLoaders.from_label_func(
+path, bs=8, fnames = get_image_files(path/"images"),
+label_func = <b>lambda</b> o: path/'labels'/f'{o.stem}_P{o.suffix}',
+codes = np.loadtxt(path/'codes.txt', dtype=str)
+)
+learn = unet_learner(dls, resnet34)
+learn.fine_tune(8)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 2.906601 2.347491 00:02
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 1.988776 1.765969 00:02
+1 1.703356 1.265247 00:02
+2 1.591550 1.309860 00:02
+3 1.459745 1.102660 00:02
+4 1.324229 0.948472 00:02
+5 1.205859 0.894631 00:02
+6 1.102528 0.809563 00:02
+7 1.020853 0.805135 00:02
+We are not even going to walk through this code line by line, because it is nearly iden‐
+tical to our previous example! (We will be doing a deep dive into segmentation mod‐
+els in Chapter 15, along with all of the other models that we are briefly introducing in
+this chapter and many, many more.)
+We can visualize how well it achieved its task by asking the model to color-code each
+pixel of an image. As you can see, it nearly perfectly classifies every pixel in every
+object. For instance, notice that all of the cars are overlaid with the same color, and all
+of the trees are overlaid with the same color (in each pair of images, the lefthand
+image is the ground truth label, and the right is the prediction from the model):
+learn.show_results(max_n=6, figsize=(7,8))

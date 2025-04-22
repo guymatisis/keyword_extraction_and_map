@@ -1,0 +1,36 @@
+You need an API key to use the Kaggle API; to get one, click your profile picture on
+the Kaggle website and choose My Account; then click Create New API Token. This
+will save a file called <i>kaggle.json</i> to your PC. You need to copy this key on your GPU
+server. To do so, open the file you downloaded, copy the contents, and paste them
+inside the single quotes in the following cell in the notebook associated with this
+chapter (e.g., creds = '{"username":"xxx","key":"xxx"}'):
+creds = ''
+Then execute this cell (this needs to be run only once):
+cred_path = Path('~/.kaggle/kaggle.json').expanduser()
+<b>if</b> <b>not</b> cred_path.exists():
+cred_path.parent.mkdir(exist_ok=True)
+cred_path.write(creds)
+cred_path.chmod(0o600)
+Now you can download datasets from Kaggle! Pick a path to download the dataset to:
+path = URLs.path('bluebook')
+path
+Path('/home/sgugger/.fastai/archive/bluebook')
+And use the Kaggle API to download the dataset to that path and extract it:
+<b>if</b> <b>not</b> path.exists():
+path.mkdir()
+api.competition_download_cli('bluebook-for-bulldozers', path=path)
+file_extract(path/'bluebook-for-bulldozers.zip')
+path.ls(file_type='text')
+(#7) [Path('Valid.csv'),Path('Machine_Appendix.csv'),Path('ValidSolution.csv'),P
+> ath('TrainAndValid.csv'),Path('random_forest_benchmark_test.csv'),Path('Test.
+> csv'),Path('median_benchmark.csv')]
+Now that we have downloaded our dataset, let’s take a look at it!
+<header><largefont><b>Look</b></largefont> <largefont><b>at</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Data</b></largefont></header>
+Kaggle provides information about some of the fields of our dataset. The Data page
+explains that the key fields in <i>train.csv</i> are as follows:
+SalesID
+The unique identifier of the sale.
+MachineID
+The unique identifier of a machine. A machine can be sold multiple times.
+saleprice
+What the machine sold for at auction (provided only in <i>train.csv).</i>

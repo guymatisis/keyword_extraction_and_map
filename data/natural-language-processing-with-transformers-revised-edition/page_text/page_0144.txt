@@ -1,0 +1,39 @@
+<header><largefont><b>GPT-2</b></largefont></header>
+We’ve already seen in Chapter 5 how GPT-2 can generate text given some prompt.
+One of the model’s surprising features is that we can also use it to generate summaries
+by simply appending “TL;DR” at the end of the input text. The expression “TL;DR”
+(too long; didn’t read) is often used on platforms like Reddit to indicate a short ver‐
+sion of a long post. We will start our summarization experiment by re-creating the
+pipeline()
+procedure of the original paper with the function from Transformers.1
+We create a text generation pipeline and load the large GPT-2 model:
+<b>from</b> <b>transformers</b> <b>import</b> pipeline, set_seed
+set_seed(42)
+pipe = pipeline("text-generation", model="gpt2-xl")
+gpt2_query = sample_text + "\nTL;DR:\n"
+pipe_out = pipe(gpt2_query, max_length=512, clean_up_tokenization_spaces=True)
+summaries["gpt2"] = "\n".join(
+sent_tokenize(pipe_out[0]["generated_text"][len(gpt2_query) :]))
+Here we just store the summaries of the generated text by slicing off the input query
+and keep the result in a Python dictionary for later comparison.
+<header><largefont><b>T5</b></largefont></header>
+Next let’s try the T5 transformer. As we saw in Chapter 3, the developers of this
+model performed a comprehensive study of transfer learning in NLP and found they
+could create a universal transformer architecture by formulating all tasks as text-to-
+text tasks. The T5 checkpoints are trained on a mixture of unsupervised data (to
+reconstruct masked words) and supervised data for several tasks, including summari‐
+zation. These checkpoints can thus be directly used to perform summarization
+without fine-tuning by using the same prompts used during pretraining. In this
+framework, the input format for the model to summarize a document is "summarize:
+<ARTICLE>" "translate English to German:
+, and for translation it looks like
+<TEXT>" . As shown in Figure 6-1, this makes T5 extremely versatile and allows you to
+solve many tasks with a single model.
+pipeline()
+We can directly load T5 for summarization with the function, which also
+takes care of formatting the inputs in the text-to-text format so we don’t need to pre‐
+pend them with "summarize" :
+pipe = pipeline("summarization", model="t5-large")
+pipe_out = pipe(sample_text)
+summaries["t5"] = "\n".join(sent_tokenize(pipe_out[0]["summary_text"]))
+1 A.Radfordetal.,“LanguageModelsAreUnsupervisedMultitaskLearners”,OpenAI(2019).

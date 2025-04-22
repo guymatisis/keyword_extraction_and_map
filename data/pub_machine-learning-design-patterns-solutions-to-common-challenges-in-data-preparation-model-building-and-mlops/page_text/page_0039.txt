@@ -1,0 +1,38 @@
+ABS(FARM_FINGERPRINT(airport))
+we would run into a rare and likely unreproducible overflow error if the
+FARM_FINGERPRINT operation happened to return –9,223,372,036,854,775,808
+INT64!
+since its absolute value can not be represented using an
+<b>Emptyhashbuckets</b>
+Although unlikely, there is a remote possibility that even if we choose 10 hash buck‐
+ets to represent 347 airports, one of the hash buckets will be empty. Therefore, when
+using hashed feature columns, it may be beneficial to also use L2 regularization so
+that the weights associated with an empty bucket will be driven to near-zero. This
+way, if an out-of-vocabulary airport does fall into an empty bucket, it will not cause
+the model to become numerically unstable.
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>2:</b></largefont> <largefont><b>Embeddings</b></largefont></header>
+Embeddings are a learnable data representation that map high-cardinality data into a
+lower-dimensional space in such a way that the information relevant to the learning
+problem is preserved. Embeddings are at the heart of modern-day machine learning
+and have various incarnations throughout the field.
+<header><largefont><b>Problem</b></largefont></header>
+Machine learning models systematically look for patterns in data that capture how
+the properties of the model’s input features relate to the output label. As a result, the
+data representation of the input features directly affects the quality of the final model.
+While handling structured, numeric input is fairly straightforward, the data needed
+to train a machine learning model can come in myriad varieties, such as categorical
+features, text, images, audio, time series, and many more. For these data representa‐
+tions, we need a meaningful numeric value to supply our machine learning model so
+these features can fit within the typical training paradigm. Embeddings provide a way
+to handle some of these disparate data types in a way that preserves similarity
+between items and thus improves our model’s ability to learn those essential patterns.
+One-hot encoding is a common way to represent categorical input variables. For
+dataset.3
+example, consider the plurality input in the natality This is a categorical
+['Single(1)', 'Multiple(2+)', 'Twins(2)',
+input that has six possible values:
+'Triplets(3)' , 'Quadruplets(4)' , 'Quintuplets(5)'] . We can handle this
+categorical input using a one-hot encoding that maps each potential input string
+6
+value to a unit vector in R , as shown in Table 2-3.
+3 ThisdatasetisavailableinBigQuery:bigquery-public-data.samples.natality.

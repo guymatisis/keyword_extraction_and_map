@@ -1,0 +1,36 @@
+REGEXP_CONTAINS(tags,
+r"(?:keras|tensorflow|matplotlib|pandas|scikit-learn)")
+The output layer of our model would look like the following (full code for this section
+is available in the GitHub repository):
+keras.layers.Dense(5, activation='sigmoid')
+Let’s take the Stack Overflow question <i>“What</i> is the definition of a non-trainable
+parameter?” as an input example. Assuming our output indices correspond with the
+order of tags in our query, an output for that question might look like this:
+[.95, .83, .02, .08, .65]
+Our model is 95% confident this question should be tagged Keras, and 83% confident
+it should be tagged TensorFlow. When evaluating model predictions, we’ll need to
+iterate over every element in the output array and determine how we want to display
+those results to our end users. If 80% is our threshold for all tags, we’d show Keras
+<i>and</i> TensorFlow associated with this question. Alternatively, maybe we want to
+encourage users to add as many tags as possible and we want to show options for any
+tag with prediction confidence above 50%.
+For examples like this one, where the goal is primarily to suggest possible tags
+with less emphasis on getting the tag <i>exactly</i> right, a typical rule of thumb is to
+n_specific_tag n_total_examples
+use / as a threshold for each class. Here,
+n_specific_tag is the number of examples with one tag in the dataset (for example,
+“pandas”), and n_total_examples is the total number of examples in the training set
+across all tags. This ensures that the model is doing better than guessing a certain
+label based on its occurrence in the training dataset.
+For a more precise approach to thresholding, consider using S-Cut
+or optimizing for your model’s F-measure. Details on both can be
+found in this paper. Calibrating the per-label probabilities is often
+helpful as well, especially when there are thousands of labels and
+you want to consider the top K of them (this is common in search
+and ranking problems).
+As you’ve seen, multilabel models provide more flexibility in how we parse predic‐
+tions and require us to think carefully about the output for each class.
+<b>Datasetconsiderations</b>
+When dealing with single-label classification tasks, we can ensure our dataset is bal‐
+anced by aiming for a relatively equal number of training examples for each class.
+Building a balanced dataset is more nuanced for the Multilabel design pattern.

@@ -1,0 +1,38 @@
+We just completed various mathematical operations on PyTorch tensors. If you’ve
+done numeric programming in PyTorch before, you may recognize these as being
+similar to NumPy arrays. Let’s have a look at those two important data structures.
+<header><largefont><b>NumPy</b></largefont> <largefont><b>Arrays</b></largefont> <largefont><b>and</b></largefont> <largefont><b>PyTorch</b></largefont> <largefont><b>Tensors</b></largefont></header>
+NumPy is the most widely used library for scientific and numeric programming in
+Python. It provides similar functionality and a similar API to that provided by
+PyTorch; however, it does not support using the GPU or calculating gradients, which
+are both critical for deep learning. Therefore, in this book, we will generally use
+PyTorch tensors instead of NumPy arrays, where possible.
+(Note that fastai adds some features to NumPy and PyTorch to make them a bit more
+similar to each other. If any code in this book doesn’t work on your computer, it’s pos‐
+sible that you forgot to include a line like this at the start of your notebook: from
+fastai.vision.all import *.)
+But what are arrays and tensors, and why should you care?
+Python is slow compared to many languages. Anything fast in Python, NumPy, or
+PyTorch is likely to be a wrapper for a compiled object written (and optimized) in
+another language—specifically, C. In fact, <i>NumPy</i> <i>arrays</i> <i>and</i> <i>PyTorch</i> <i>tensors</i> <i>can</i> <i>fin‐</i>
+<i>ish</i> <i>computations</i> <i>many</i> <i>thousands</i> <i>of</i> <i>times</i> <i>faster</i> <i>than</i> <i>using</i> <i>pure</i> <i>Python.</i>
+A NumPy array is a multidimensional table of data, with all items of the same type.
+Since that can be any type at all, they can even be arrays of arrays, with the innermost
+arrays potentially being different sizes—this is called a <i>jagged</i> <i>array.</i> By “multidimen‐
+sional table,” we mean, for instance, a list (dimension of one), a table or matrix
+(dimension of two), a table of tables or cube (dimension of three), and so forth. If the
+items are all of simple type such as integer or float, NumPy will store them as a com‐
+pact C data structure in memory. This is where NumPy shines. NumPy has a wide
+variety of operators and methods that can run computations on these compact struc‐
+tures at the same speed as optimized C, because they are written in optimized C.
+A PyTorch tensor is nearly the same thing as a NumPy array, but with an additional
+restriction that unlocks additional capabilities. It’s the same in that it, too, is a multi‐
+dimensional table of data, with all items of the same type. However, the restriction is
+that a tensor cannot use just any old type—it has to use a single basic numeric type
+for all components. As a result, a tensor is not as flexible as a genuine array of arrays.
+For example, a PyTorch tensor cannot be jagged. It is always a regularly shaped multi‐
+dimensional rectangular structure.
+The vast majority of methods and operators supported by NumPy on these structures
+are also supported by PyTorch, but PyTorch tensors have additional capabilities. One
+major capability is that these structures can live on the GPU, in which case their com‐
+putation will be optimized for the GPU and can run much faster (given lots of values

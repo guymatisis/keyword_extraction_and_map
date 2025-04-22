@@ -1,0 +1,27 @@
+of combining all of these types of information with additional metadata represented
+as tables, such as user information, previous transactions, and so forth.
+However, nearly all machine learning approaches have the downside that they tell you
+only which products a particular user might like, rather than what recommendations
+would be helpful for a user. Many kinds of recommendations for products a user
+might like may not be at all helpful—for instance, if the user is already familiar with
+the products, or if they are simply different packagings of products they have already
+purchased (such as a boxed set of novels, when they already have each of the items in
+that set). Jeremy likes reading books by Terry Pratchett, and for a while Amazon was
+recommending nothing but Terry Pratchett books to him (see Figure 2-1), which
+really wasn’t helpful because he was already aware of these books!
+<i>Figure</i> <i>2-1.</i> <i>A</i> <i>not-so-useful</i> <i>recommendation</i>
+<b>Otherdatatypes</b>
+Often you will find that domain-specific data types fit very nicely into existing cate‐
+gories. For instance, protein chains look a lot like natural language documents, in that
+they are long sequences of discrete tokens with complex relationships and meaning
+throughout the sequence. And indeed, it does turn out that using NLP deep learning
+methods is the current state-of-the-art approach for many types of protein analysis.
+As another example, sounds can be represented as spectrograms, which can be
+treated as images; standard deep learning approaches for images turn out to work
+really well on spectrograms.
+<header><largefont><b>The</b></largefont> <largefont><b>Drivetrain</b></largefont> <largefont><b>Approach</b></largefont></header>
+Many accurate models are of no use to anyone, and many inaccurate models are
+highly useful. To ensure that your modeling work is useful in practice, you need to
+consider how your work will be used. In 2012, Jeremy, along with Margit Zwemer and
+Mike Loukides, introduced a method called <i>the</i> <i>Drivetrain</i> <i>Approach</i> for thinking
+about this issue.

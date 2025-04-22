@@ -1,0 +1,24 @@
+3e-3 is often a good learning rate for CNNs, and that appears to be the case here too,
+so let’s try that:
+learn.fit_one_cycle(5, 3e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 1.901582 2.155090 0.325350 00:07
+1 1.559855 1.586795 0.507771 00:07
+2 1.296350 1.295499 0.571720 00:07
+3 1.144139 1.139257 0.639236 00:07
+4 1.049770 1.092619 0.659108 00:07
+That’s a pretty good start, considering we have to pick the correct one of 10 cate‐
+gories, and we’re training from scratch for just 5 epochs! We can do way better than
+this using a deeper model, but just stacking new layers won’t really improve our
+results (you can try and see for yourself!). To work around this problem, ResNets
+introduce the idea of <i>skip</i> <i>connections.</i> We’ll explore those and other aspects of
+ResNets in the next section.
+<header><largefont><b>Building</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Modern</b></largefont> <largefont><b>CNN:</b></largefont> <largefont><b>ResNet</b></largefont></header>
+We now have all the pieces we need to build the models we have been using in our
+computer vision tasks since the beginning of this book: ResNets. We’ll introduce the
+main idea behind them and show how it improves accuracy on Imagenette compared
+to our previous model, before building a version with all the recent tweaks.
+<header><largefont><b>Skip</b></largefont> <largefont><b>Connections</b></largefont></header>
+In 2015, the authors of the ResNet paper noticed something that they found curious.
+Even after using batchnorm, they saw that a network using more layers was doing less
+well than a network using fewer layers—and there were no other differences between

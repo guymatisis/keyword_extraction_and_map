@@ -1,0 +1,32 @@
+learn = cnn_learner(dls, resnet34, metrics=error_rate)
+learn.fine_tune(1)
+<i>Table</i> <i>1-2.</i> <i>Results</i> <i>from</i> <i>the</i> <i>first</i> <i>training</i>
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 0.169390 0.021388 0.005413 00:14
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 0.058748 0.009240 0.002706 00:19
+You will probably not see exactly the same results shown here. A lot of sources of
+small random variation are involved in training models. We generally see an error
+rate of well less than 0.02 in this example, however.
+<b>TrainingTime</b>
+Depending on your network speed, it might take a few minutes to
+download the pretrained model and dataset. Running fine_tune
+might take a minute or so. Often models in this book take a few
+minutes to train, as will your own models, so it’s a good idea to
+come up with good techniques to make the most of this time. For
+instance, keep reading the next section while your model trains, or
+open up another notebook and use it for some coding experiments.
+<header><largefont><b>This</b></largefont> <largefont><b>Book</b></largefont> <largefont><b>Was</b></largefont> <largefont><b>Written</b></largefont> <largefont><b>in</b></largefont> <largefont><b>Jupyter</b></largefont> <largefont><b>Notebooks</b></largefont></header>
+We wrote this book using Jupyter notebooks, so for nearly every chart, table, and cal‐
+culation in this book, we’ll be showing you the exact code required to replicate it
+yourself. That’s why very often in this book, you will see some code immediately fol‐
+lowed by a table, a picture, or just some text. If you go on the book’s website, you will
+find all the code, and you can try running and modifying every example yourself.
+You just saw how a cell that outputs a table looks in the book. Here is an example of a
+cell that outputs text:
+1+1
+2
+Jupyter will always print or show the result of the last line (if there is one). For
+instance, here is an example of a cell that outputs an image:
+img = PILImage.create('images/chapter1_cat_example.jpg')
+img.to_thumb(192)

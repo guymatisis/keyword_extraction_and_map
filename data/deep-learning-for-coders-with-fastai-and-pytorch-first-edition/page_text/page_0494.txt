@@ -1,0 +1,37 @@
+if we name our inputs <i>x</i> ,⋯,x , our weights <i>w</i> ,⋯,w , and our bias <i>b.</i> In code
+1 <i>n</i> 1 <i>n</i>
+this translates into the following:
+output = sum([x*w <b>for</b> x,w <b>in</b> zip(inputs,weights)]) + bias
+This output is then fed into a nonlinear function called an <i>activation</i> <i>function</i> before
+being sent to another neuron. In deep learning, the most common of these is the <i>rec‐</i>
+<i>tified</i> <i>linear</i> <i>unit,</i> or <i>ReLU,</i> which, as we’ve seen, is a fancy way of saying this:
+<b>def</b> relu(x): <b>return</b> x <b>if</b> x >= 0 <b>else</b> 0
+A deep learning model is then built by stacking a lot of those neurons in successive
+layers. We create a first layer with a certain number of neurons (known as the <i>hidden</i>
+<i>size)</i> and link all the inputs to each of those neurons. Such a layer is often called a
+<i>fully</i> <i>connected</i> <i>layer</i> or a <i>dense</i> <i>layer</i> (for densely connected), or a <i>linear</i> <i>layer.</i>
+input weight,
+It requires you to compute, for each and each neuron with a given the
+dot product:
+sum([x*w <b>for</b> x,w <b>in</b> zip(input,weight)])
+If you have done a little bit of linear algebra, you may remember that having a lot of
+those dot products happens when you do a <i>matrix</i> <i>multiplication.</i> More precisely, if
+our inputs are in a matrix x with a size of batch_size by n_inputs, and if we have
+grouped the weights of our neurons in a matrix w of size n_neurons by n_inputs
+(each neuron must have the same number of weights as it has inputs) as well as all the
+biases in a vector b of size n_neurons , then the output of this fully connected layer is
+y = x @ w.t() + b
+where @ represents the matrix product and w.t() is the transpose matrix of w. The
+output y is then of size batch_size by n_neurons, and in position (i,j) we have this
+(for the mathy folks out there):
+<i>n</i>
+<i>y</i> = <largefont>∑</largefont> <i>x</i> <i>w</i> + <i>b</i>
+<i>i,</i> <i>j</i> <i>i,k</i> <i>k,</i> <i>j</i> <i>j</i>
+<i>k</i> = 1
+Or in code:
+y[i,j] = sum([a * b <b>for</b> a,b <b>in</b> zip(x[i,:],w[j,:])]) + b[j]
+The transpose is necessary because in the mathematical definition of the matrix prod‐
+uct m @ n , the coefficient (i,j) is as follows:
+sum([a * b <b>for</b> a,b <b>in</b> zip(m[i,:],n[:,j])])
+So the very basic operation we need is a matrix multiplication, as it’s what is hidden in
+the core of a neural net.

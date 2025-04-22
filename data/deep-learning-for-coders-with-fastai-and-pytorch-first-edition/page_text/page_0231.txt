@@ -1,0 +1,27 @@
+We can now use this approach to find the best threshold level:
+xs = torch.linspace(0.05,0.95,29)
+accs = [accuracy_multi(preds, targs, thresh=i, sigmoid=False) <b>for</b> i <b>in</b> xs]
+plt.plot(xs,accs);
+In this case, we’re using the validation set to pick a hyperparameter (the threshold),
+which is the purpose of the validation set. Sometimes students have expressed their
+concern that we might be <i>overfitting</i> to the validation set, since we’re trying lots of
+values to see which is the best. However, as you see in the plot, changing the thres‐
+hold in this case results in a smooth curve, so we’re clearly not picking an inappropri‐
+ate outlier. This is a good example of where you have to be careful of the difference
+between theory (don’t try lots of hyperparameter values or you might overfit the vali‐
+dation set) versus practice (if the relationship is smooth, it’s fine to do this).
+This concludes the part of this chapter dedicated to multi-label classification. Next,
+we’ll take a look at a regression problem.
+<header><largefont><b>Regression</b></largefont></header>
+It’s easy to think of deep learning models as being classified into domains, like <i>com‐</i>
+<i>puter</i> <i>vision,</i> <i>NLP,</i> and so forth. And indeed, that’s how fastai classifies its applications
+—largely because that’s how most people are used to thinking of things.
+But really, that’s hiding a more interesting and deeper perspective. A model is defined
+by its independent and dependent variables, along with its loss function. That means
+that there’s really a far wider array of models than just the simple domain-based split.
+Perhaps we have an independent variable that’s an image, and a dependent that’s text
+(e.g., generating a caption from an image); or perhaps we have an independent vari‐
+able that’s text and a dependent that’s an image (e.g., generating an image from a cap‐
+tion—which is actually possible for deep learning to do!); or perhaps we’ve got
+images, texts, and tabular data as independent variables, and we’re trying to predict
+product purchases…the possibilities really are endless.

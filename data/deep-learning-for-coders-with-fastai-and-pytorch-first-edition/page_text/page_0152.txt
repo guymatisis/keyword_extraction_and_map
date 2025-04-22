@@ -1,0 +1,6 @@
+The sequence of steps we described earlier starts by picking a random value for a
+parameter, and calculating the value of the loss:
+plot_function(f, 'x', 'x**2')
+plt.scatter(-1.5, f(-1.5), color='red');
+Now we look to see what would happen if we increased or decreased our parameter
+by a little bit—the <i>adjustment.</i> This is simply the slope at a particular point:

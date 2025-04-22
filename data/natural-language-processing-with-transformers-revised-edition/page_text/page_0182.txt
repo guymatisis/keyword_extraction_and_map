@@ -1,0 +1,21 @@
+As illustrated in Figure 7-9, there can also be other components that apply post-
+processing to the documents fetched by the retriever or to the answers extracted by
+the reader. For example, the retrieved documents may need reranking to eliminate
+noisy or irrelevant ones that can confuse the reader. Similarly, postprocessing of the
+reader’s answers is often needed when the correct answer comes from various pas‐
+sages in a long document.
+<i>Figure</i> <i>7-9.</i> <i>The</i> <i>retriever-reader</i> <i>architecture</i> <i>for</i> <i>modern</i> <i>QA</i> <i>systems</i>
+To build our QA system, we’ll use the <i>Haystack</i> library developed by deepset, a Ger‐
+man company focused on NLP. Haystack is based on the retriever-reader architec‐
+ture, abstracts much of the complexity involved in building these systems, and
+integrates tightly with Transformers.
+In addition to the retriever and reader, there are two more components involved
+when building a QA pipeline with Haystack:
+<i>Document</i> <i>store</i>
+A document-oriented database that stores documents and metadata which are
+provided to the retriever at query time
+<i>Pipeline</i>
+Combines all the components of a QA system to enable custom query flows,
+merging documents from multiple retrievers, and more
+In this section we’ll look at how we can use these components to quickly build a pro‐
+totype QA pipeline. Later, we’ll examine how we can improve its performance.

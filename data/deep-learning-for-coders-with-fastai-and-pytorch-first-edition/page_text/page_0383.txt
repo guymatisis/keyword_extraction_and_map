@@ -1,0 +1,37 @@
+To do this, we are going to rearrange our dataset. First we divide the samples into
+m = len(dset) // bs groups (this is the equivalent of splitting the whole concaten‐
+ated dataset into, for example, 64 equally sized pieces, since we’re using bs=64 here). m
+is the length of each of these pieces. For instance, if we’re using our whole dataset
+(although we’ll actually split it into train versus valid in a moment), we have this:
+m = len(seqs)//bs
+m,bs,len(seqs)
+(328, 64, 21031)
+The first batch will be composed of the samples
+(0, m, 2*m, ..., (bs-1)*m)
+the second batch of the samples
+(1, m+1, 2*m+1, ..., (bs-1)*m+1)
+and so forth. This way, at each epoch, the model will see a chunk of contiguous text of
+size 3*m (since each text is of size 3) on each line of the batch.
+The following function does that reindexing:
+<b>def</b> group_chunks(ds, bs):
+m = len(ds) // bs
+new_ds = L()
+<b>for</b> i <b>in</b> range(m): new_ds += L(ds[i + m*j] <b>for</b> j <b>in</b> range(bs))
+<b>return</b> new_ds
+Then we just pass drop_last=True when building our DataLoaders to drop the last
+batch that does not have a shape of bs. We also pass shuffle=False to make sure the
+texts are read in order:
+cut = int(len(seqs) * 0.8)
+dls = DataLoaders.from_dsets(
+group_chunks(seqs[:cut], bs),
+group_chunks(seqs[cut:], bs),
+bs=bs, drop_last=True, shuffle=False)
+The last thing we add is a little tweak of the training loop via a Callback . We will talk
+more about callbacks in Chapter 16; this one will call the reset method of our model
+at the beginning of each epoch and before each validation phase. Since we imple‐
+mented that method to set the hidden state of the model to zero, this will make sure
+we start with a clean state before reading those continuous chunks of text. We can
+also start training a bit longer:
+learn = Learner(dls, LMModel3(len(vocab), 64), loss_func=F.cross_entropy,
+metrics=accuracy, cbs=ModelResetter)
+learn.fit_one_cycle(10, 3e-3)

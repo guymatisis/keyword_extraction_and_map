@@ -1,0 +1,26 @@
+In practice, there are different techniques to maximize the ELBO. In <i>mean</i> <i>field</i> <i>varia‐</i>
+<i>tional</i> <i>inference,</i> it is necessary to pick the family of distributions <i>q(z;</i> <b>λ)</b> and the prior
+<i>p(z)</i> very carefully to ensure that the equation for the ELBO simplifies to a form that
+can be computed. Unfortunately, there is no general way to do this. Picking the right
+family of distributions and the right prior depends on the task and requires some
+mathematical skills. For example, the distributions and lower-bound equations used
+in Scikit-Learn’s BayesianGaussianMixture class are presented in the documenta‐
+tion. From these equations it is possible to derive update equations for the cluster
+parameters and assignment variables: these are then used very much like in the
+Expectation-Maximization algorithm. In fact, the computational complexity of the
+BayesianGaussianMixture class is similar to that of the GaussianMixture class (but
+generally significantly slower). A simpler approach to maximizing the ELBO is called
+<i>black</i> <i>box</i> <i>stochastic</i> <i>variational</i> <i>inference</i> (BBSVI): at each iteration, a few samples are
+drawn from <i>q,</i> and they are used to estimate the gradients of the ELBO with regard to
+the variational parameters <b>λ,</b> which are then used in a gradient ascent step. This
+approach makes it possible to use Bayesian inference with any kind of model (pro‐
+vided it is differentiable), even deep neural networks; using Bayesian inference with
+deep neural networks is called Bayesian Deep Learning.
+If you want to dive deeper into Bayesian statistics, check out the
+book <i>Bayesian</i> <i>Data</i> <i>Analysis</i> by Andrew Gelman et al. (Chapman
+& Hall).
+Gaussian mixture models work great on clusters with ellipsoidal shapes, but if you try
+to fit a dataset with different shapes, you may have bad surprises. For example, let’s
+see what happens if we use a Bayesian Gaussian mixture model to cluster the moons
+dataset (see Figure 9-24).
+<i>Figure</i> <i>9-24.</i> <i>Fitting</i> <i>a</i> <i>Gaussian</i> <i>mixture</i> <i>to</i> <i>nonellipsoidal</i> <i>clusters</i>

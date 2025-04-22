@@ -1,0 +1,37 @@
+Rosenblatt further developed the artificial neuron to give it the ability to learn. Even
+more importantly, he worked on building the first device that used these principles,
+the Mark I Perceptron. In “The Design of an Intelligent Automaton,” Rosenblatt
+wrote about this work: “We are now about to witness the birth of such a machine—a
+machine capable of perceiving, recognizing and identifying its surroundings without
+any human training or control.” The perceptron was built and was able to successfully
+recognize simple shapes.
+An MIT professor named Marvin Minsky (who was a grade behind Rosenblatt at the
+same high school!), along with Seymour Papert, wrote a book called <i>Perceptrons</i> (MIT
+Press) about Rosenblatt’s invention. They showed that a single layer of these devices
+was unable to learn some simple but critical mathematical functions (such as XOR).
+In the same book, they also showed that using multiple layers of the devices would
+allow these limitations to be addressed. Unfortunately, only the first of these insights
+was widely recognized. As a result, the global academic community nearly entirely
+gave up on neural networks for the next two decades.
+Perhaps the most pivotal work in neural networks in the last 50 years was the multi-
+volume <i>Parallel</i> <i>Distributed</i> <i>Processing</i> (PDP) by David Rumelhart, James McClelland,
+and the PDP Research Group, released in 1986 by MIT Press. Chapter 1 lays out a
+similar hope to that shown by Rosenblatt:
+People are smarter than today’s computers because the brain employs a basic computa‐
+tional architecture that is more suited to deal with a central aspect of the natural infor‐
+mation processing tasks that people are so good at.…We will introduce a
+computational framework for modeling cognitive processes that seems…closer than
+other frameworks to the style of computation as it might be done by the brain.
+The premise that PDP is using here is that traditional computer programs work very
+differently from brains, and that might be why computer programs had been (at that
+point) so bad at doing things that brains find easy (such as recognizing objects in pic‐
+tures). The authors claimed that the PDP approach was “closer than other frame‐
+works” to how the brain works, and therefore it might be better able to handle these
+kinds of tasks.
+In fact, the approach laid out in PDP is very similar to the approach used in today’s
+neural networks. The book defined parallel distributed processing as requiring the
+following:
+• A set of <i>processing</i> <i>units</i>
+• A <i>state</i> <i>of</i> <i>activation</i>
+• An <i>output</i> <i>function</i> for each unit
+• A <i>pattern</i> <i>of</i> <i>connectivity</i> among units

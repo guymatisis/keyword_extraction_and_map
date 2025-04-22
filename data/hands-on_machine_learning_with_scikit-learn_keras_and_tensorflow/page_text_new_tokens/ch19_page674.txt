@@ -1,0 +1,39 @@
+<b>>>></b> y_proba = np.array(response["predictions"])
+<b>>>></b> y_proba.round(2)
+array([[0. , 0. , 0. , 0. , 0. , 0. , 0. , 1. , 0. , 0. ],
+[0. , 0. , 0.99, 0.01, 0. , 0. , 0. , 0. , 0. , 0. ],
+[0. , 0.96, 0.01, 0. , 0. , 0. , 0. , 0.01, 0.01, 0. ]])
+Hurray, we have the predictions! The model is close to 100% confident that the first
+image is a 7, 99% confident that the second image is a 2, and 96% confident that the
+third image is a 1.
+The REST API is nice and simple, and it works well when the input and output data
+are not too large. Moreover, just about any client application can make REST queries
+without additional dependencies, whereas other protocols are not always so readily
+available. However, it is based on JSON, which is text-based and fairly verbose. For
+example, we had to convert the NumPy array to a Python list, and every float ended
+up represented as a string. This is very inefficient, both in terms of serialization/
+deserialization time (to convert all the floats to strings and back) and in terms of pay‐
+load size: many floats end up being represented using over 15 characters, which
+translates to over 120 bits for 32-bit floats! This will result in high latency and band‐
+width usage when transferring large NumPy arrays.4 So let’s use gRPC instead.
+When transferring large amounts of data, it is much better to use
+the gRPC API (if the client supports it), as it is based on a compact
+binary format and an efficient communication protocol (based on
+HTTP/2 framing).
+<b>QueryingTFServingthroughthegRPCAPI</b>
+PredictRequest
+The gRPC API expects a serialized protocol buffer as input, and it
+outputs a serialized PredictResponse protocol buffer. These protobufs are part of the
+tensorflow-serving-api
+library, which you must install (e.g., using pip). First, let’s
+create the request:
+<b>from</b> <b>tensorflow_serving.apis.predict_pb2</b> <b>import</b> PredictRequest
+request = PredictRequest()
+request.model_spec.name = model_name
+request.model_spec.signature_name = "serving_default"
+input_name = model.input_names[0]
+request.inputs[input_name].CopyFrom(tf.make_tensor_proto(X_new))
+This code creates a PredictRequest protocol buffer and fills in the required fields,
+including the model name (defined earlier), the signature name of the function we
+4 Tobefair,thiscanbemitigatedbyserializingthedatafirstandencodingittoBase64beforecreatingtheREST
+request.Moreover,RESTrequestscanbecompressedusinggzip,whichreducesthepayloadsizesignificantly.

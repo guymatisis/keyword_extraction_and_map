@@ -1,0 +1,29 @@
+<b>RunningthepipelineonCloudAIPlatform</b>
+We can run the TFX pipeline on Cloud AI Platform Pipelines, which will manage
+low-level details of the infrastructure for us. To deploy a pipeline to AI Platform, we
+package our pipeline code as a Docker container and host it on Google Container
+Registry (GCR).6 Once our containerized pipeline code has been pushed to GCR,
+we’ll create the pipeline using the TFX CLI:
+tfx pipeline create \
+--pipeline-path=kubeflow_dag_runner.py \
+--endpoint='your-pipelines-dashboard-url' \
+--build-target-image='gcr.io/your-pipeline-container-url'
+In the command above, endpoint corresponds with the URL of our AI Platform Pipe‐
+lines dashboard. When that completes, we’ll see the pipeline we just created in our
+pipelines dashboard. The create command creates a pipeline <i>resource</i> that we can
+invoke by creating a run:
+tfx run create --pipeline-name='your-pipeline-name' --endpoint='pipeline-url'
+After running this command, we’ll be able to see a graph that updates in real time as
+our pipeline moves through each step. From the Pipelines dashboard, we can further
+examine individual steps to see any artifacts they generate, metadata, and more. We
+can see an example of the output for an individual step in Figure 6-8.
+We could train our model directly in our containerized pipeline on GKE, but TFX
+provides a utility for using Cloud AI Platform Training as part of our process. TFX
+also has an extension for deploying our trained model to AI Platform Prediction.
+We’ll utilize both of these integrations in our pipeline. AI Platform Training lets us
+take advantage of specialized hardware for training our models, such as GPUs or
+TPUs, in a cost-effective way. It also provides an option to use distributed training,
+which can accelerate training time and minimize training cost. We can track individ‐
+ual training jobs and their output within the AI Platform console.
+6 NotethatinordertorunTFXpipelinesonAIPlatform,youcurrentlyneedtohostyourcodeonGCRand
+can’tuseanothercontainerregistryservicelikeDockerHub.

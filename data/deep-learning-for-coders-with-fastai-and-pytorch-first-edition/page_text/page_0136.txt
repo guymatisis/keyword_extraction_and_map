@@ -1,0 +1,30 @@
+array(im3)[4:10,4:10]
+array([[ 0, 0, 0, 0, 0, 0],
+[ 0, 0, 0, 0, 0, 29],
+[ 0, 0, 0, 48, 166, 224],
+[ 0, 93, 244, 249, 253, 187],
+[ 0, 107, 253, 253, 230, 48],
+[ 0, 3, 20, 20, 15, 0]], dtype=uint8)
+The 4:10 indicates we requested the rows from index 4 (inclusive) to 10 (noninclu‐
+sive), and the same for the columns. NumPy indexes from top to bottom and from
+left to right, so this section is located near the top-left corner of the image. Here’s the
+same thing as a PyTorch tensor:
+tensor(im3)[4:10,4:10]
+tensor([[ 0, 0, 0, 0, 0, 0],
+[ 0, 0, 0, 0, 0, 29],
+[ 0, 0, 0, 48, 166, 224],
+[ 0, 93, 244, 249, 253, 187],
+[ 0, 107, 253, 253, 230, 48],
+[ 0, 3, 20, 20, 15, 0]], dtype=torch.uint8)
+We can slice the array to pick just the part with the top of the digit in it, and then use
+a Pandas DataFrame to color-code the values using a gradient, which shows us clearly
+how the image is created from the pixel values:
+im3_t = tensor(im3)
+df = pd.DataFrame(im3_t[4:15,4:22])
+df.style.set_properties(**{'font-size':'6pt'}).background_gradient('Greys')
+You can see that the background white pixels are stored as the number 0, black is the
+number 255, and shades of gray are between the two. The entire image contains 28
+pixels across and 28 pixels down, for a total of 768 pixels. (This is much smaller than
+an image that you would get from a phone camera, which has millions of pixels, but
+is a convenient size for our initial learning and experiments. We will build up to big‐
+ger, full-color images soon.)

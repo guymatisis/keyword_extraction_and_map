@@ -1,0 +1,38 @@
+Let’s now take a look at an example:
+<b>for</b> column <b>in</b> ["title", "body", "labels"]:
+<b>print(f"{column}:</b> {df_issues[column].iloc[26][:500]}\n")
+title: Add new CANINE model
+body: # New model addition
+## Model description
+Google recently proposed a new **C**haracter **A**rchitecture with **N**o
+tokenization **I**n **N**eural **E**ncoders architecture (CANINE). Not only
+the title is exciting:
+Pipelined NLP systems have largely been superseded by end-to-end neural
+modeling, yet nearly all commonly-used models still require an explicit
+tokenization step. While recent tokenization approaches based on data-derived
+subword lexicons are less brittle than manually en
+labels: ['new model']
+In this example a new model architecture is proposed, so the new model tag makes
+title
+sense. We can also see that the contains information that will be useful for our
+classifier, so let’s concatenate it with the issue’s description in the body field:
+df_issues["text"] = (df_issues
+.apply(lambda x: x["title"] + "\n\n" + x["body"], axis=1))
+Before we look at the rest of the data, let’s check for any duplicates in the data and
+drop them with the drop_duplicates() method:
+len_before = len(df_issues)
+df_issues = df_issues.drop_duplicates(subset="text")
+<b>print(f"Removed</b> {(len_before-len(df_issues))/len_before:.2%} duplicates.")
+Removed 1.88% duplicates.
+We can see that there were a few duplicate issues in our dataset, but they only repre‐
+sented a small percentage. As we’ve done in other chapters, it’s also a good idea to
+have a quick look at the number of words in our texts to see if we’ll lose much infor‐
+mation when we truncate to each model’s context size:
+<b>import</b> <b>numpy</b> <b>as</b> <b>np</b>
+<b>import</b> <b>matplotlib.pyplot</b> <b>as</b> <b>plt</b>
+(df_issues["text"].str.split().apply(len)
+.hist(bins=np.linspace(0, 500, 50), grid=False, edgecolor="C0"))
+plt.title("Words per issue")
+plt.xlabel("Number of words")
+plt.ylabel("Number of issues")
+plt.show()

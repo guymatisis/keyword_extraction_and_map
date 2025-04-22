@@ -1,0 +1,33 @@
+This looks identical to our original diagram in Figure 1-4, just with the word <i>program</i>
+replaced with <i>model.</i> This is an important insight: <i>a</i> <i>trained</i> <i>model</i> <i>can</i> <i>be</i> <i>treated</i> <i>just</i>
+<i>like</i> <i>a</i> <i>regular</i> <i>computer</i> <i>program.</i>
+<b>Jargon:MachineLearning</b>
+The training of programs developed by allowing a computer to
+learn from its experience, rather than through manually coding the
+individual steps.
+<header><largefont><b>What</b></largefont> <largefont><b>Is</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Neural</b></largefont> <largefont><b>Network?</b></largefont></header>
+It’s not too hard to imagine what the model might look like for a checkers program.
+There might be a range of checkers strategies encoded, and some kind of search
+mechanism, and then the weights could vary how strategies are selected, what parts of
+the board are focused on during a search, and so forth. But it’s not at all obvious what
+the model might look like for an image recognition program, or for understanding
+text, or for many other interesting problems we might imagine.
+What we would like is some kind of function that is so flexible that it could be used to
+solve any given problem, just by varying its weights. Amazingly enough, this function
+actually exists! It’s the neural network, which we already discussed. That is, if you
+regard a neural network as a mathematical function, it turns out to be a function that
+is extremely flexible depending on its weights. A mathematical proof called the <i>uni‐</i>
+<i>versal</i> <i>approximation</i> <i>theorem</i> shows that this function can solve any problem to any
+level of accuracy, in theory. The fact that neural networks are so flexible means that,
+in practice, they are often a suitable kind of model, and you can focus your effort on
+the process of training them—that is, of finding good weight assignments.
+But what about that process? One could imagine that you might need to find a new
+“mechanism” for automatically updating weight for every problem. This would be
+laborious. What we’d like here as well is a completely general way to update the
+weights of a neural network, to make it improve at any given task. Conveniently, this
+also exists!
+This is called <i>stochastic</i> <i>gradient</i> <i>descent</i> (SGD). We’ll see how neural networks and
+SGD work in detail in Chapter 4, as well as explaining the universal approximation
+theorem. For now, however, we will instead use Samuel’s own words: <i>We</i> <i>need</i> <i>not</i> <i>go</i>
+<i>into</i> <i>the</i> <i>details</i> <i>of</i> <i>such</i> <i>a</i> <i>procedure</i> <i>to</i> <i>see</i> <i>that</i> <i>it</i> <i>could</i> <i>be</i> <i>made</i> <i>entirely</i> <i>automatic</i> <i>and</i> <i>to</i>
+<i>see</i> <i>that</i> <i>a</i> <i>machine</i> <i>so</i> <i>programmed</i> <i>would</i> <i>“learn”</i> <i>from</i> <i>its</i> <i>experience.</i>

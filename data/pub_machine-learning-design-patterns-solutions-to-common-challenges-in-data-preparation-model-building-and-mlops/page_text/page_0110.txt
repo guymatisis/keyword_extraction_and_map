@@ -1,0 +1,34 @@
+based on predictions. And predictions have errors. So, the second and third models
+will be required to make predictions on data that they might have never seen during
+training.
+As an extreme example, assume that the address that resellers provide is always in an
+industrial area of the city, whereas retail buyers can live anywhere. If the first (classifi‐
+cation) model makes a mistake and a retail buyer is wrongly identified as a reseller,
+the cancellation prediction model that is invoked will not have the neighborhood
+where the customer lives in its vocabulary.
+How do we train a cascade of models where the output of one model is an input to
+the following model or determines the selection of subsequent models?
+<header><largefont><b>Solution</b></largefont></header>
+Any machine learning problem where the output of the one model is an input to the
+following model or determines the selection of subsequent models is called a <i>cascade.</i>
+Special care has to be taken when training a cascade of ML models.
+For example, a machine learning problem that sometimes involves unusual circum‐
+stances can be solved by treating it as a cascade of four machine learning problems:
+1. A classification model to identify the circumstance
+2. One model trained on unusual circumstances
+3. A separate model trained on typical circumstances
+4. A model to combine the output of the two separate models, because the output is
+a probabilistic combination of the two outputs
+This appears, at first glance, to be a specific case of the Ensemble design pattern, but
+is considered separately because of the special experiment design required when
+doing a cascade.
+As an example, assume that, in order to estimate the cost of stocking bicycles at sta‐
+tions, we wish to predict the distance between rental and return stations for bicycles
+in San Francisco. The goal of the model, in other words, is to predict the distance we
+need to transport the bicycle back to the rental location given features such as the
+time of day the rental starts, where the bicycle is being rented from, whether the
+renter is a subscriber or not, etc. The problem is that rentals that are longer than four
+hours involve extremely different renter behavior than shorter rentals, and the stock‐
+ing algorithm requires both outputs (the probability that the rental is longer than
+four hours and the likely distance the bicycle needs to be transported). However, only
+a very small fraction of rentals involve such abnormal trips.

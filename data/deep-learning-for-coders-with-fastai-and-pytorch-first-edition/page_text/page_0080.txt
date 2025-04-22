@@ -1,0 +1,27 @@
+<header><largefont><b>Creating</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Notebook</b></largefont> <largefont><b>App</b></largefont> <largefont><b>from</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Model</b></largefont></header>
+To use our model in an application, we can simply treat the predict method as a reg‐
+ular function. Therefore, creating an app from the model can be done using any of
+the myriad of frameworks and techniques available to application developers.
+However, most data scientists are not familiar with the world of web application
+development. So let’s try using something that you do, at this point, know: it turns out
+that we can create a complete working web application using nothing but Jupyter
+notebooks! The two things we need to make this happen are as follows:
+• IPython widgets (ipywidgets)
+• Voilà
+<i>IPython</i> <i>widgets</i> are GUI components that bring together JavaScript and Python func‐
+tionality in a web browser, and can be created and used within a Jupyter notebook.
+For instance, the image cleaner that we saw earlier in this chapter is entirely written
+with IPython widgets. However, we don’t want to require users of our application to
+run Jupyter themselves.
+That is why <i>Voilà</i> exists. It is a system for making applications consisting of IPython
+widgets available to end users, without them having to use Jupyter at all. Voilà is tak‐
+ing advantage of the fact that a notebook <i>already</i> <i>is</i> a kind of web application, just a
+rather complex one that depends on another web application: Jupyter itself. Essen‐
+tially, it helps us automatically convert the complex web application we’ve already
+implicitly made (the notebook) into a simpler, easier-to-deploy web application,
+which functions like a normal web application rather than like a notebook.
+But we still have the advantage of developing in a notebook, so with ipywidgets, we
+can build up our GUI step by step. We will use this approach to create a simple image
+classifier. First, we need a file upload widget:
+btn_upload = widgets.FileUpload()
+btn_upload

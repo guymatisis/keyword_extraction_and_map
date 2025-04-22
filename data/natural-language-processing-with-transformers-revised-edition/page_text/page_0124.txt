@@ -1,0 +1,17 @@
+What makes this example so remarkable is that it was generated without any explicit
+supervision! By simply learning to predict the next word in the text of millions of web
+pages, GPT-2 and its more powerful descendants like GPT-3 are able to acquire a
+broad set of skills and pattern recognition abilities that can be activated with different
+kinds of input prompts. Figure 5-1 shows how language models are sometimes
+exposed during pretraining to sequences of tasks where they need to predict the fol‐
+lowing tokens based on the context alone, like addition, unscrambling words, and
+translation. This allows them to transfer this knowledge effectively during fine-tuning
+or (if the model is large enough) at inference time. These tasks are not chosen ahead
+of time, but occur naturally in the huge corpora used to train billion-parameter lan‐
+guage models.
+<i>Figure</i> <i>5-1.</i> <i>During</i> <i>pretraining,</i> <i>language</i> <i>models</i> <i>are</i> <i>exposed</i> <i>to</i> <i>sequences</i> <i>of</i> <i>tasks</i> <i>that</i>
+<i>can</i> <i>be</i> <i>adapted</i> <i>during</i> <i>inference</i> <i>(courtesy</i> <i>of</i> <i>Tom</i> <i>B.</i> <i>Brown)</i>
+The ability of transformers to generate realistic text has led to a diverse range of
+applications, like InferKit, Write With Transformer, AI Dungeon, and conversational
+agents like Google’s Meena that can even tell corny jokes, as shown in Figure 5-2! 2
+2 However,asDelipRaopointsout,whetherMeenaintendstotellcornyjokesisasubtlequestion.

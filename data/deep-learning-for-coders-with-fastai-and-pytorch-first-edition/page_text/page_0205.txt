@@ -1,0 +1,33 @@
+We seem to have a good baseline. What can we do now to make it even better?
+<header><largefont><b>Improving</b></largefont> <largefont><b>Our</b></largefont> <largefont><b>Model</b></largefont></header>
+We will now look at a range of techniques to improve the training of our model and
+make it better. While doing so, we will explain a little bit more about transfer learning
+and how to fine-tune our pretrained model as best as possible, without breaking the
+pretrained weights.
+The first thing we need to set when training a model is the learning rate. We saw in
+the previous chapter that it needs to be just right to train as efficiently as possible, so
+how do we pick a good one? fastai provides a tool for this.
+<header><largefont><b>The</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>Rate</b></largefont> <largefont><b>Finder</b></largefont></header>
+One of the most important things we can do when training a model is to make sure
+that we have the right learning rate. If our learning rate is too low, it can take many,
+many epochs to train our model. Not only does this waste time, but it also means that
+we may have problems with overfitting, because every time we do a complete pass
+through the data, we give our model a chance to memorize it.
+So let’s just make our learning rate really high, right? Sure, let’s try that and see what
+happens:
+learn = cnn_learner(dls, resnet34, metrics=error_rate)
+learn.fine_tune(1, base_lr=0.1)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 8.946717 47.954632 0.893775 00:20
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+0 7.231843 4.119265 0.954668 00:24
+That doesn’t look good. Here’s what happened. The optimizer stepped in the correct
+direction, but it stepped so far that it totally overshot the minimum loss. Repeating
+that multiple times makes it get further and further away, not closer and closer!
+What do we do to find the perfect learning rate—not too high and not too low? In
+2015, researcher Leslie Smith came up with a brilliant idea, called the <i>learning</i> <i>rate</i>
+<i>finder.</i> His idea was to start with a very, very small learning rate, something so small
+that we would never expect it to be too big to handle. We use that for one mini-batch,
+find what the losses are afterward, and then increase the learning rate by a certain
+percentage (e.g., doubling it each time). Then we do another mini-batch, track the
+loss, and double the learning rate again. We keep doing this until the loss gets worse,

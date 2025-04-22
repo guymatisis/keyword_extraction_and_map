@@ -1,0 +1,30 @@
+<i>Figure</i> <i>6-15.</i> <i>Feature</i> <i>data</i> <i>can</i> <i>be</i> <i>retrieved</i> <i>either</i> <i>offline,</i> <i>using</i> <i>historical</i> <i>features</i> <i>for</i>
+<i>model</i> <i>training,</i> <i>or</i> <i>online,</i> <i>for</i> <i>serving.</i>
+These deployments are accessed via a separate online and batch client:
+_feast_online_client = Client(serving_url='localhost:6566')
+_feast_batch_client = Client(serving_url='localhost:6567',
+core_url='localhost:6565')
+<b>Batchserving.</b>
+For training a model, historical feature retrieval is backed by BigQuery
+.get_batch_features(...)
+and accessed using with the batch serving client. In this
+case, we provide Feast with a pandas dataframe containing the entities and time‐
+stamps that feature data will be joined to. This allows Feast to produce a point-in-
+time correct dataset based on the features that have been requested:
+<i>#</i> <i>Create</i> <i>a</i> <i>entity</i> <i>df</i> <i>of</i> <i>all</i> <i>entities</i> <i>and</i> <i>timestamps</i>
+<b>entity_df</b> = pd.DataFrame(
+{
+"datetime": taxi_df.datetime,
+"taxi_id": taxi_df.taxi_id,
+}
+)
+To retrieve historical features, the features in the feature set are referenced by the fea‐
+ture set name and the feature name, separated by a colon—for example,
+taxi_rides:pickup_lat
+:
+FS_NAME = taxi_rides
+model_features = ['pickup_lat',
+'pickup_lon',
+'dropoff_lat',
+'dropoff_lon',
+'num_pass',

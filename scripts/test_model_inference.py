@@ -5,7 +5,7 @@ import argparse
 from transformers import BartForConditionalGeneration, AutoTokenizer, AutoModelForSeq2SeqLM
 import pandas as pd
 import json
-from evaluate_model import get_bertscore, sbert_soft_f1, f1_score
+from evaluate_model import get_bertscore, accuracy_score, calc_f1_score, compute_rouge_scores
 import torch
 
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,10 +29,11 @@ def main(model_path):
     # Initialize metrics dictionary
     metrics = {
         'bertscore': [],
-        'f1_at_1': [],
-        'f1_at_2': [],
-        'f1_at_3': [],
-        'sbert_soft_f1': []
+        'accuracy': [],
+        'f1': [],
+        'rouge1': [],
+        'rouge2': [],
+        'rougeL': []
     }
 
     # infer keywords from text
@@ -58,27 +59,28 @@ def main(model_path):
 
         # Calculate and store metrics
         bertscore = get_bertscore(predicted_phrases, gt_keyphrases)
-        f1_1 = f1_score(predicted_phrases, gt_keyphrases, 1)[2]
-        f1_2 = f1_score(predicted_phrases, gt_keyphrases, 2)[2]
-        f1_3 = f1_score(predicted_phrases, gt_keyphrases, 3)[2]
-        sbert_f1 = sbert_soft_f1(predicted_phrases, gt_keyphrases)
+        accuracy = accuracy_score(predicted_phrases, gt_keyphrases)
+        f1 = calc_f1_score(predicted_phrases, gt_keyphrases)
+        rouge1, rouge2, rougeL = compute_rouge_scores(predicted_phrases, gt_keyphrases)
 
         metrics['bertscore'].append(bertscore)
-        metrics['f1_at_1'].append(f1_1)
-        metrics['f1_at_2'].append(f1_2)
-        metrics['f1_at_3'].append(f1_3)
-        metrics['sbert_soft_f1'].append(sbert_f1)
+        metrics['accuracy'].append(accuracy)
+        metrics['f1'].append(f1)
+        metrics['rouge1'].append(rouge1)
+        metrics['rouge2'].append(rouge2)
+        metrics['rougeL'].append(rougeL)
 
         # Print ground truth and predicted keywords
         print('Ground Truth Keyphrases:', gt_keyphrases)
         print('Predicted Keyphrases:', predicted_phrases)
         
         # Print individual results
-        print('bertscore:', bertscore)
-        print('f1 at 1:', f1_1)
-        print('f1 at 2:', f1_2)
-        print('f1 at 3:', f1_3)
-        print('sbert soft f1:', sbert_f1)
+        print('BERTScore:', bertscore)
+        print('Accuracy:', accuracy)
+        print('F1 Score:', f1)
+        print('ROUGE-1:', rouge1)
+        print('ROUGE-2:', rouge2)
+        print('ROUGE-L:', rougeL)
         print('-' * 50)
 
     # Calculate averages

@@ -1,0 +1,17 @@
+the cumulative probability distribution of the model’s outputs at <i>T</i> = 1 as seen in
+Figure 5-6.
+Let’s tease apart these plots, since they contain a lot of information. In the upper plot
+−8
+we can see a histogram of the token probabilities. It has a peak around 10 and a
+−4
+second, smaller peak around 10 , followed by a sharp drop with just a handful of
+−2 −1
+tokens occurring with probability between 10 and 10 . Looking at this diagram,
+we can see that the probability of picking the token with the highest probability (the
+−1
+isolated bar at 10 ) is 1 in 10.
+<i>Figure</i> <i>5-6.</i> <i>Probability</i> <i>distribution</i> <i>of</i> <i>next</i> <i>token</i> <i>prediction</i> <i>(upper)</i> <i>and</i> <i>cumulative</i> <i>dis‐</i>
+<i>tribution</i> <i>of</i> <i>descending</i> <i>token</i> <i>probabilities</i> <i>(lower)</i>
+In the lower plot, we’ve ordered the tokens by descending probability and calculated
+the cumulative sum of the first 10,000 tokens (in total, there are 50,257 tokens in
+GPT-2’s vocabulary). The curved line represents the probability of picking any of the

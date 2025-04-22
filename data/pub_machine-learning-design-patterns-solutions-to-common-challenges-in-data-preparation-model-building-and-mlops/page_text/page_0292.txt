@@ -1,0 +1,22 @@
+If we want to trigger our pipeline based on changes to source code, a managed CI/CD
+service like Cloud Build can help. When Cloud Build executes our code, it is run as a
+series of containerized steps. This approach fits well within the context of pipelines.
+We can connect Cloud Build to GitHub Actions or GitLab Triggers on the repository
+where our pipeline code is located. When the code is committed, Cloud Build will
+then build the containers associated with our pipeline based on the new code and cre‐
+ate a run.
+<b>ApacheAirflowandKubeflowPipelines</b>
+In addition to TFX, Apache Airflow and Kubeflow Pipelines are both alternatives for
+implementing the Workflow Pipeline pattern. Like TFX, both Airflow and KFP treat
+pipelines as a DAG where the workflow for each step is defined in a Python script.
+They then take this script and provide APIs to handle scheduling and orchestrating
+the graph on the specified infrastructure. Both Airflow and KFP are open source and
+can therefore run on-premises or in the cloud.
+It’s common to use Airflow for data engineering, so it’s worth considering for an
+organization’s data ETL tasks. However, while Airflow provides robust tooling for
+running jobs, it was built as a general-purpose solution and wasn’t designed with ML
+workloads in mind. KFP, on the other hand, was designed specifically for ML and
+operates at a lower level than TFX, providing more flexibility in how pipeline steps
+are defined. While TFX implements its own approach to orchestration, KFP lets us
+choose how to orchestrate our pipelines through its API. The relationship between
+TFX, KFP, and Kubeflow is summarized in Figure 6-10.

@@ -1,0 +1,48 @@
+1s with 1 −  + . This way, we don’t encourage the model to predict something over‐
+<i>N</i>
+confidently. In our Imagenette example that has 10 classes, the targets become some‐
+thing like this (here for a target that corresponds to the index 3):
+[0.01, 0.01, 0.01, 0.91, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
+In practice, we don’t want to one-hot encode the labels, and fortunately we won’t need
+to (the one-hot encoding is just good to explain label smoothing and visualize it).
+<header><largefont><b>Label</b></largefont> <largefont><b>Smoothing,</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Paper</b></largefont></header>
+Here is how the reasoning behind label smoothing was explained in the paper by
+Christian Szegedy et al.:
+This maximum is not achievable for finite <i>z</i> but is approached if <i>z</i> ≫ <i>z</i> for all
+<i>k</i> <i>y</i> <i>k</i>
+<i>k</i> ≠ <i>y</i>
+—that is, if the logit corresponding to the ground-truth label is much [greater]
+than all other logits. This, however, can cause two problems. First, it may result in
+over-fitting: if the model learns to assign full probability to the ground-truth label for
+each training example, it is not guaranteed to generalize. Second, it encourages the
+differences between the largest logit and all others to become large, and this, com‐
+∂ℓ
+bined with the bounded gradient , reduces the ability of the model to adapt. Intui‐
+∂z
+<i>k</i>
+tively, this happens because the model becomes too confident about its predictions.
+Let’s practice our paper-reading skills to try to interpret this. “This maximum” is
+referring to the previous part of the paragraph, which talked about the fact that 1 is
+the value of the label for the positive class. So, it’s not possible for any value (except
+infinity) to result in 1 after sigmoid or softmax. In a paper, you won’t normally see
+“any value” written; instead, it will get a symbol, which in this case is <i>z</i> . This short‐
+<i>k</i>
+hand is helpful in a paper, because it can be referred to again later, and the reader will
+know which value is being discussed.
+Then it says: “if <i>z</i> ≫ <i>z</i> for all <i>k</i> ≠ <i>y.”</i> In this case, the paper immediately follows the
+<i>y</i> <i>k</i>
+math with an English description, which is handy because you can just read that. In
+the math, the <i>y</i> is referring to the target (y is defined earlier in the paper; sometimes
+it’s hard to find where symbols are defined, but nearly all papers will define all their
+symbols somewhere), and <i>z</i> is the activation corresponding to the target. So to get
+<i>y</i>
+close to 1, this activation needs to be much higher than all the others for that
+prediction.
+Next, consider the statement “if the model learns to assign full probability to the
+ground-truth label for each training example, it is not guaranteed to generalize.” This
+is saying that making <i>z</i> really big means we’ll need large weights and large activations
+<i>y</i>
+throughout our model. Large weights lead to “bumpy” functions, where a small
+change in input results in a big change to predictions. This is really bad for
+generalization, because it means just one pixel changing a bit could change our pre‐
+diction entirely!

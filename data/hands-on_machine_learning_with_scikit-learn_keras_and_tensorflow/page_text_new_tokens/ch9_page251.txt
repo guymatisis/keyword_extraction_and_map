@@ -1,0 +1,21 @@
+<i>Figure</i> <i>9-12.</i> <i>Image</i> <i>segmentation</i> <i>using</i> <i>K-Means</i> <i>with</i> <i>various</i> <i>numbers</i> <i>of</i> <i>color</i> <i>clusters</i>
+That wasn’t too hard, was it? Now let’s look at another application of clustering: pre‐
+processing.
+<header><largefont><b>Using</b></largefont> <largefont><b>Clustering</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Preprocessing</b></largefont></header>
+Clustering can be an efficient approach to dimensionality reduction, in particular as a
+preprocessing step before a supervised learning algorithm. As an example of using
+clustering for dimensionality reduction, let’s tackle the digits dataset, which is a sim‐
+ple MNIST-like dataset containing 1,797 grayscale 8 × 8 images representing the dig‐
+its 0 to 9. First, load the dataset:
+<b>from</b> <b>sklearn.datasets</b> <b>import</b> load_digits
+X_digits, y_digits = load_digits(return_X_y=True)
+Now, split it into a training set and a test set:
+<b>from</b> <b>sklearn.model_selection</b> <b>import</b> train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X_digits, y_digits)
+Next, fit a Logistic Regression model:
+<b>from</b> <b>sklearn.linear_model</b> <b>import</b> LogisticRegression
+log_reg = LogisticRegression()
+log_reg.fit(X_train, y_train)
+Let’s evaluate its accuracy on the test set:
+<b>>>></b> log_reg.score(X_test, y_test)
+0.9688888888888889

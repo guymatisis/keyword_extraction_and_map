@@ -1,0 +1,20 @@
+<b>FullandStrippedNotebooks</b>
+There are two folders containing different versions of the note‐
+books. The <i>full</i> folder contains the exact notebooks used to create
+the book you’re reading now, with all the prose and outputs. The
+<i>stripped</i> version has the same headings and code cells, but all out‐
+puts and prose have been removed. After reading a section of the
+book, we recommend working through the stripped notebooks,
+with the book closed, and seeing if you can figure out what each
+cell will show before you execute it. Also try to recall what the code
+is demonstrating.
+To open a notebook, just click it. The notebook will open, and it will look something
+like Figure 1-3 (note that there may be slight differences in details across different
+platforms; you can ignore those differences).
+<i>Figure</i> <i>1-3.</i> <i>A</i> <i>Jupyter</i> <i>notebook</i>
+A notebook consists of <i>cells.</i> There are two main types of cell:
+• Cells containing formatted text, images, and so forth. These use a format called
+<i>Markdown,</i> which you will learn about soon.
+• Cells containing code that can be executed, and outputs will appear immediately
+underneath (which could be plain text, tables, images, animations, sounds, or
+even interactive applications).

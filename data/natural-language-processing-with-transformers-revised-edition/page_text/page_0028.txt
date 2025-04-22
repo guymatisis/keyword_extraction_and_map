@@ -1,0 +1,22 @@
+• Randomly oversample the minority class.
+• Randomly undersample the majority class.
+• Gather more labeled data from the underrepresented classes.
+To keep things simple in this chapter, we’ll work with the raw, unbalanced class fre‐
+quencies. If you want to learn more about these sampling techniques, we recommend
+checking out the Imbalanced-learn library. Just make sure that you don’t apply sam‐
+pling methods <i>before</i> creating your train/test splits, or you’ll get plenty of leakage
+between them!
+Now that we’ve looked at the classes, let’s take a look at the tweets themselves.
+<header><largefont><b>How</b></largefont> <largefont><b>Long</b></largefont> <largefont><b>Are</b></largefont> <largefont><b>Our</b></largefont> <largefont><b>Tweets?</b></largefont></header>
+Transformer models have a maximum input sequence length that is referred to as the
+<i>maximum</i> <i>context</i> <i>size.</i> For applications using DistilBERT, the maximum context size
+is 512 tokens, which amounts to a few paragraphs of text. As we’ll see in the next sec‐
+tion, a token is an atomic piece of text; for now, we’ll treat a token as a single word.
+We can get a rough estimate of tweet lengths per emotion by looking at the distribu‐
+tion of words per tweet:
+df["Words Per Tweet"] = df["text"].str.split().apply(len)
+df.boxplot("Words Per Tweet", by="label_name", grid=False,
+showfliers=False, color="black")
+plt.suptitle("")
+plt.xlabel("")
+plt.show()

@@ -1,0 +1,41 @@
+ntrain = 8*len(df)//10 <i>#</i> <i>80%</i> <i>of</i> <i>data</i> <i>for</i> <i>training</i>
+lm = linear_model.LogisticRegression()
+lm = lm.fit(df.loc[:ntrain-1, ['jaundice', 'ulcers']],
+df[label][:ntrain])
+acc = lm.score(df.loc[ntrain:, ['jaundice', 'ulcers']],
+df[label][ntrain:])
+If we create three classes, and put all the randomly assigned prescriptions into that
+class, we get, as expected, perfect (100%) accuracy. The purpose of the synthetic data
+was to illustrate that, provided there is random assignment at work, the Neutral Class
+design pattern can help us avoid losing model accuracy because of arbitrarily labeled
+data.
+<b>Intherealworld</b>
+In real-world situations, things may not be precisely random as in the synthetic data‐
+set, but the arbitrary assignment paradigm still holds. For example, one minute after
+a baby is born, the baby is assigned an “Apgar score,” a number between 1 and 10,
+with 10 being a baby that has come through the birthing process perfectly.
+Consider a model that is trained to predict whether or not a baby will come through
+the birthing process healthily, or will require immediate attention (the full code is on
+GitHub):
+CREATE OR REPLACE MODEL mlpatterns.neutral_2classes
+OPTIONS(model_type='logistic_reg', input_label_cols=['health']) AS
+SELECT
+IF(apgar_1min >= 9, 'Healthy', 'NeedsAttention') AS health,
+plurality,
+mother_age,
+gestation_weeks,
+ever_born
+FROM `bigquery-public-data.samples.natality`
+WHERE apgar_1min <= 10
+We are thresholding the Apgar score at 9 and treating babies whose Apgar score is 9
+or 10 as healthy, and babies whose Apgar score is 8 or lower as requiring attention.
+The accuracy of this binary classification model when trained on the natality dataset
+and evaluated on held-out data is 0.56.
+Yet, assigning an Apgar score involves a number of relatively subjective assessments,
+and whether a baby is assigned 8 or 9 often reduces to matters of physician prefer‐
+ence. Such babies are neither perfectly healthy, nor do they need serious medical
+intervention. What if we create a neutral class to hold these “marginal” scores? This
+requires creating three classes, with an Apgar score of 10 defined as healthy, scores of
+8 to 9 defined as neutral, and lower scores defined as requiring attention:
+CREATE OR REPLACE MODEL mlpatterns.neutral_3classes
+OPTIONS(model_type='logistic_reg', input_label_cols=['health']) AS

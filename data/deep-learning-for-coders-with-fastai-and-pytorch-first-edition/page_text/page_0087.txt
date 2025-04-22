@@ -1,0 +1,37 @@
+In this section, we will give an overview of some of the most important issues to con‐
+sider; for a more detailed discussion of deployment issues, we refer you to the excel‐
+lent <i>Building</i> <i>Machine</i> <i>Learning</i> <i>Powered</i> <i>Applications</i> by Emmanuel Ameisin
+(O’Reilly).
+One of the biggest issues to consider is that understanding and testing the behavior of
+a deep learning model is much more difficult than with most other code you write.
+With normal software development, you can analyze the exact steps that the software
+is taking, and carefully study which of these steps match the desired behavior that you
+are trying to create. But with a neural network, the behavior emerges from the mod‐
+el’s attempt to match the training data, rather than being exactly defined.
+This can result in disaster! For instance, let’s say we really were rolling out a bear
+detection system that will be attached to video cameras around campsites in national
+parks and will warn campers of incoming bears. If we used a model trained with the
+dataset we downloaded, there would be all kinds of problems in practice, such as
+these:
+• Working with video data instead of images
+• Handling nighttime images, which may not appear in this dataset
+• Dealing with low-resolution camera images
+• Ensuring results are returned fast enough to be useful in practice
+• Recognizing bears in positions that are rarely seen in photos that people post
+online (for example from behind, partially covered by bushes, or a long way away
+from the camera)
+A big part of the issue is that the kinds of photos that people are most likely to upload
+to the internet are the kinds of photos that do a good job of clearly and artistically
+displaying their subject matter—which isn’t the kind of input this system is going to
+be getting. So, we may need to do a lot of our own data collection and labeling to cre‐
+ate a useful system.
+This is just one example of the more general problem of <i>out-of-domain</i> data. That is
+to say, there may be data that our model sees in production that is very different from
+what it saw during training. There isn’t a complete technical solution to this problem;
+instead, we have to be careful about our approach to rolling out the technology.
+There are other reasons we need to be careful too. One very common problem is
+<i>domain</i> <i>shift,</i> whereby the type of data that our model sees changes over time. For
+instance, an insurance company may use a deep learning model as part of its pricing
+and risk algorithm, but over time the types of customers the company attracts and the
+types of risks it represents may change so much that the original training data is no
+longer relevant.

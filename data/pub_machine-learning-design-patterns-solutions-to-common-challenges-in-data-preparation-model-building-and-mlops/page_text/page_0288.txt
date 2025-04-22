@@ -1,0 +1,28 @@
+<i>Figure</i> <i>6-8.</i> <i>Output</i> <i>of</i> <i>the</i> <i>schema_gen</i> <i>component</i> <i>for</i> <i>an</i> <i>ML</i> <i>pipeline.</i> <i>The</i> <i>top</i> <i>menu</i>
+<i>bar</i> <i>shows</i> <i>the</i> <i>data</i> <i>available</i> <i>for</i> <i>each</i> <i>individual</i> <i>pipeline</i> <i>step.</i>
+One advantage of building a pipeline with TFX or Kubeflow Pipe‐
+lines is that we are not locked into Google Cloud. We can run the
+same code we’re demonstrating here with Google’s AI Platform
+Pipelines on Azure ML Pipelines, Amazon SageMaker, or on-
+premises.
+To implement a training step in TFX, we’ll use the Trainer component and pass it
+information on the training data to use as model input, along with our model train‐
+ing code. TFX provides an extension for running the training step on AI Platform
+tfx.extensions.google_cloud_ai_platform.trainer
+that we can use by importing
+and providing details on our AI Platform training configuration. This includes our
+project name, region, and GCR location of the container with training code.
+Pusher
+Similarly, TFX also has an AI Platform component for deploying trained
+models to AI Platform Prediction. In order to use the Pusher component with AI
+Platform, we provide details on the name and version of our model, along with a
+serving function that tells AI Platform the format of input data it should expect for
+our model. With that, we have a complete pipeline that ingests data, analyzes it, runs
+data transformation, and finally trains and deploys the model using AI Platform.
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+Without running our ML code as a pipeline, it would be difficult for others to reliably
+reproduce our work. They’d need to take our preprocessing, model development,
+training, and serving code and try to replicate the same environment where we ran it
+while taking into account library dependencies, authentication, and more. If there is
+logic controlling the selection of downstream components based on the output of
+upstream components, that logic will also have to be reliably replicated. The Work‐

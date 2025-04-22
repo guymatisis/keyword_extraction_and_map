@@ -1,0 +1,35 @@
+called Accelerate. We’ll end up touching on some of the largest NLP models in use
+today—but first, we need to find a sufficiently large dataset.
+Unlike the code in the others in this book (which can be run with a
+Jupyter notebook on a single GPU), the training code in this chap‐
+ter is designed to be run as a script with multiple GPUs. If you want
+to train your own version of CodeParrot, we recommend running
+the script provided in the Transformers repository.
+<header><largefont><b>Large</b></largefont> <largefont><b>Datasets</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Where</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Find</b></largefont> <largefont><b>Them</b></largefont></header>
+There are many domains where you may actually have a large amount of data at
+hand, ranging from legal documents to biomedical datasets to programming codeba‐
+ses. In most cases, these datasets are unlabeled, and their large size means that they
+can usually only be labeled through the use of heuristics, or by using accompanying
+metadata that is stored during the gathering process.
+Nevertheless, a very large corpus can be useful even when it is unlabeled or only heu‐
+ristically labeled. We saw an example of this in Chapter 9, where we used the unla‐
+beled part of a dataset to fine-tune a language model for domain adaptation. This
+approach typically yields a performance gain when limited data is available. The deci‐
+sion to train from scratch rather than fine-tune an existing model is mostly dictated
+by the size of your fine-tuning corpus and the domain differences between the avail‐
+able pretrained models and the corpus.
+Using a pretrained model forces you to use the model’s corresponding tokenizer, but
+using a tokenizer that is trained on a corpus from another domain is typically subop‐
+timal. For example, using GPT’s pretrained tokenizer on legal documents, other lan‐
+guages, or even completely different sequences such as musical notes or DNA
+sequences will result in poor tokenization (as we will see shortly).
+As the amount of training data you have access to gets closer to the amount of data
+used for pretraining, it thus becomes interesting to consider training the model and
+the tokenizer from scratch, provided the necessary computational resources are avail‐
+able. Before we discuss the different pretraining objectives further, we first need to
+build a large corpus suitable for pretraining. Building such a corpus comes with its
+own set of challenges, which we’ll explore in the next section.
+<header><largefont><b>Challenges</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Building</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Large-Scale</b></largefont> <largefont><b>Corpus</b></largefont></header>
+The quality of a model after pretraining largely reflects the quality of the pretraining
+corpus. In particular, the model will inherit any defects in the pretraining corpus.
+Thus, before we attempt to create one of our own it’s good to be aware of some of the

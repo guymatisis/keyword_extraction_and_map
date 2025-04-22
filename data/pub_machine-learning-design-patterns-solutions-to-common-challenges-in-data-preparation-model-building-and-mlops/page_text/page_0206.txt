@@ -1,0 +1,43 @@
+The given SavedModel SignatureDef contains the following input(s):
+inputs['full_text_input'] tensor_info:
+dtype: DT_STRING
+shape: (-1)
+name: serving_default_full_text_input:0
+The given SavedModel SignatureDef contains the following output(s):
+outputs['positive_review_logits'] tensor_info:
+dtype: DT_FLOAT
+shape: (-1, 1)
+name: StatefulPartitionedCall_2:0
+Method name is: tensorflow/serving/predict
+The signature specifies that the prediction method takes a one-element array as input
+full_text_input
+(called ) that is a string, and outputs one floating point number
+whose name is positive_review_logits. These names come from the names that we
+assigned to the Keras layers:
+hub_layer = hub.KerasLayer(..., name='full_text')
+...
+model.add(tf.keras.layers.Dense(1, name='positive_review_logits'))
+Here is how we can obtain the serving function and use it for inference:
+serving_fn = tf.keras.models.load_model(export_path). \
+signatures['serving_default']
+outputs = serving_fn(full_text_input=
+tf.constant([review1, review2, review3]))
+logit = outputs['positive_review_logits']
+Note how we are using the input and output names from the serving function in the
+code.
+<b>Createwebendpoint</b>
+The code above can be put into a web application or serverless framework such as
+Google App Engine, Heroku, AWS Lambda, Azure Functions, Google Cloud Func‐
+tions, Cloud Run, and so on. What all these frameworks have in common is that they
+allow the developer to specify a function that needs to be executed. The frameworks
+take care of autoscaling the infrastructure so as to handle large numbers of prediction
+requests per second at low latency.
+For example, we can invoke the serving function from within Cloud Functions as
+follows:
+serving_fn = None
+<b>def</b> handler(request):
+<b>global</b> serving_fn
+<b>if</b> serving_fn <b>is</b> None:
+serving_fn = (tf.keras.models.load_model(export_path)
+.signatures['serving_default'])
+request_json = request.get_json(silent=True)

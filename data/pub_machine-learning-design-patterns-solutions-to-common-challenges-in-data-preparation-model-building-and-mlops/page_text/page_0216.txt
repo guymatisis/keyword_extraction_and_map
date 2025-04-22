@@ -1,0 +1,20 @@
+Looking at the execution details in the BigQuery web console, we see that the entire
+query took 35 seconds (see the box marked #1 in Figure 5-1).
+<i>Figure</i> <i>5-1.</i> <i>The</i> <i>first</i> <i>two</i> <i>steps</i> <i>of</i> <i>a</i> <i>query</i> <i>to</i> <i>find</i> <i>the</i> <i>five</i> <i>most</i> <i>“positive”</i> <i>complaints</i> <i>in</i>
+<i>the</i> <i>Consumer</i> <i>Financial</i> <i>Protection</i> <i>Bureau</i> <i>dataset</i> <i>of</i> <i>consumer</i> <i>complaints.</i>
+consumer_complaint_narrative
+The first step (see box #2 in Figure 5-1) reads the
+column from the BigQuery public dataset where the complaint narrative is not NULL .
+From the number of rows highlighted in box #3, we learn that this involves reading
+1,582,045 values. The output of this step is written into 10 shards (see box #4 of
+Figure 5-1).
+The second step reads the data from this shard (note the $12:shard in the query), but
+also obtains the file_path and file_contents of the machine learning model
+imdb_sentiment
+and applies the model to the data in each shard. The way Map‐
+Reduce works is that each shard is processed by a worker, so the fact that there are 10
+shards indicates that the second step is being done by 10 workers. The original 1.5
+million rows would have been stored over many files, and so the first step was likely
+to have been processed by as many workers as the number of files that comprised that
+dataset.
+The remaining steps are shown in Figure 5-2.

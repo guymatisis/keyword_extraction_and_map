@@ -1,0 +1,26 @@
+parameters—such as a neural net. Let’s find the parameters for f first, and then we’ll
+come back and do the same thing for the MNIST dataset with a neural net.
+We need to define first what we mean by “best.” We define this precisely by choosing
+a <i>loss</i> <i>function,</i> which will return a value based on a prediction and a target, where
+lower values of the function correspond to “better” predictions. For continuous data,
+it’s common to use <i>mean</i> <i>squared</i> <i>error:</i>
+<b>def</b> mse(preds, targets): <b>return</b> ((preds-targets)**2).mean()
+Now, let’s work through our seven-step process.
+<b>Step1:Initializetheparameters</b>
+First, we initialize the parameters to random values and tell PyTorch that we want to
+requires_grad_:
+track their gradients using
+params = torch.randn(3).requires_grad_()
+<b>Step2:Calculatethepredictions</b>
+Next, we calculate the predictions:
+preds = f(time, params)
+Let’s create a little function to see how close our predictions are to our targets, and
+take a look:
+<b>def</b> show_preds(preds, ax=None):
+<b>if</b> ax <b>is</b> None: ax=plt.subplots()[1]
+ax.scatter(time, speed)
+ax.scatter(time, to_np(preds), color='red')
+ax.set_ylim(-300,100)
+show_preds(preds)
+This doesn’t look very close—our random parameters suggest that the roller coaster
+will end up going backward, since we have negative speeds!

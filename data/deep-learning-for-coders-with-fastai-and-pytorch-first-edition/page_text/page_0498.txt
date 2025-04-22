@@ -1,0 +1,37 @@
+<b>Broadcastingwithascalar</b>
+Broadcasting with a scalar is the easiest type of broadcasting. When we have a tensor
+a and a scalar, we just imagine a tensor of the same shape as a filled with that scalar
+and perform the operation:
+a = tensor([10., 6, -4])
+a > 0
+tensor([ True, True, False])
+How are we able to do this comparison? 0 is being <i>broadcast</i> to have the same dimen‐
+sions as a. Note that this is done without creating a tensor full of zeros in memory
+(that would be inefficient).
+This is useful if you want to normalize your dataset by subtracting the mean (a scalar)
+from the entire dataset (a matrix) and dividing by the standard deviation (another
+scalar):
+m = tensor([[1., 2, 3], [4,5,6], [7,8,9]])
+(m - 5) / 2.73
+tensor([[-1.4652, -1.0989, -0.7326],
+[-0.3663, 0.0000, 0.3663],
+[ 0.7326, 1.0989, 1.4652]])
+What if you have different means for each row of the matrix? In that case, you will
+need to broadcast a vector to a matrix.
+<b>Broadcastingavectortoamatrix</b>
+We can broadcast a vector to a matrix as follows:
+c = tensor([10.,20,30])
+m = tensor([[1., 2, 3], [4,5,6], [7,8,9]])
+m.shape,c.shape
+(torch.Size([3, 3]), torch.Size([3]))
+m + c
+tensor([[11., 22., 33.],
+[14., 25., 36.],
+[17., 28., 39.]])
+Here the elements of c are expanded to make three rows that match, making the
+operation possible. Again, PyTorch doesn’t actually create three copies of c in mem‐
+ory. This is done by the expand_as method behind the scenes:
+c.expand_as(m)
+tensor([[10., 20., 30.],
+[10., 20., 30.],
+[10., 20., 30.]])

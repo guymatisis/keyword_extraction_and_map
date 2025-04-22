@@ -1,0 +1,41 @@
+<b>"default":false,</b>
+<b>"description":""</b>
+}
+]
+For our purposes, we’re only interested in the name field of each label object, so let’s
+labels
+overwrite the column with just the label names:
+df_issues["labels"] = (df_issues["labels"]
+.apply(lambda x: [meta["name"] <b>for</b> meta <b>in</b> x]))
+df_issues[["labels"]].head()
+<b>labels</b>
+[]
+<b>0</b>
+[]
+<b>1</b>
+[DeepSpeed]
+<b>2</b>
+<b>3</b> []
+<b>4</b> []
+Now each row in the labels column is a list of GitHub labels, so we can compute the
+length of each row to find the number of labels per issue:
+df_issues["labels"].apply(lambda x : len(x)).value_counts().to_frame().T
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b>
+6440 3057 305 100 25 3
+<b>labels</b>
+This shows that the majority of issues have zero or one label, and much fewer have
+more than one. Next let’s take a look at the top 10 most frequent labels in the dataset.
+labels
+In Pandas we can do this by “exploding” the column so that each label in the
+list becomes a row, and then simply counting the occurrences of each label:
+df_counts = df_issues["labels"].explode().value_counts()
+<b>print(f"Number</b> of labels: {len(df_counts)}")
+<i>#</i> <i>Display</i> <i>the</i> <i>top-8</i> <i>label</i> <i>categories</i>
+df_counts.to_frame().head(8).T
+Number of labels: 65
+<b>wontfix</b> <b>model</b> <b>Core:</b> <b>New</b> <b>Core:</b> <b>Help</b> <b>GoodFirst</b> <b>Usage</b>
+<b>card</b> <b>Tokenization</b> <b>model</b> <b>Modeling</b> <b>wanted</b> <b>Issue</b>
+<b>labels</b> 2284 649 106 98 64 52 50 46
+We can see that there are 65 unique labels in the dataset and that the classes are very
+imbalanced, with wontfix and model card being the most common labels. To make
+the classification problem more tractable, we’ll focus on building a tagger for a subset

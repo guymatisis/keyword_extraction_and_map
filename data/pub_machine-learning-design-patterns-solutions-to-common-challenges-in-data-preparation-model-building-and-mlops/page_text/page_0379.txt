@@ -1,0 +1,33 @@
+appointment. Other examples include energy forecasting, customer churn prediction,
+financial modeling, weather prediction, and predictive maintenance.
+• Feature Store
+• Feature Cross
+• Embeddings
+• Ensemble
+• Transform
+• Reframing
+• Cascade
+• Multilabel
+• Neutral Class
+• Windowed Inference
+• Batch Serving
+IoT analytics is also a broad category that sits within predictive analytics. IoT models
+rely on data collected by internet-connected sensors called IoT devices. Consider a
+commercial aircraft that has thousands of sensors on it collecting more than 2 TB of
+data per day. Machine learning of IoT sensor device data can provide predictive
+models to warn against equipment failure before it happens.
+• Feature Store
+• Transform
+• Reframing
+• Hashed Feature
+• Cascade
+• Neutral Class
+• Two-Phase Predictions
+• Stateless Serving Function
+• Windowed Inference
+<header><largefont><b>Recommendation</b></largefont> <largefont><b>Systems</b></largefont></header>
+Recommender systems are one of the most widespread applications of machine
+learning in business and they often arise whenever users interact with items. Recom‐
+mender systems capture features of past behavior and similar users and recommend
+items most relevant for a given user. Think of how YouTube will recommend a series
+of videos for you to watch based on your watch history, or Amazon may recommend

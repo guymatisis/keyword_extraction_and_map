@@ -1,0 +1,30 @@
+And this phenomenon was not contained to this particular type of content. In June
+2019, the <i>New</i> <i>York</i> <i>Times</i> published an article on YouTube’s recommendation system
+titled “On YouTube’s Digital Playground, an Open Gate for Pedophiles”. The article
+started with this chilling story:
+Christiane C. didn’t think anything of it when her 10-year-old daughter and a friend
+uploaded a video of themselves playing in a backyard pool…A few days later…the
+video had thousands of views. Before long, it had ticked up to 400,000…“I saw the
+video again and I got scared by the number of views,” Christiane said. She had reason
+to be. YouTube’s automated recommendation system…had begun showing the video to
+users who watched other videos of prepubescent, partially clothed children, a team of
+researchers has found.
+On its own, each video might be perfectly innocent, a home movie, say, made by a
+child. Any revealing frames are fleeting and appear accidental. But, grouped together,
+their shared features become unmistakable.
+YouTube’s recommendation algorithm had begun curating playlists for pedophiles,
+picking out innocent home videos that happened to contain prepubescent, partially
+clothed children.
+No one at Google planned to create a system that turned family videos into porn for
+pedophiles. So what happened?
+Part of the problem here is the centrality of metrics in driving a financially important
+system. When an algorithm has a metric to optimize, as you have seen, it will do
+everything it can to optimize that number. This tends to lead to all kinds of edge
+cases, and humans interacting with a system will search for, find, and exploit these
+edge cases and feedback loops for their advantage.
+There are signs that this is exactly what has happened with YouTube’s recommenda‐
+tion system in 2018. <i>The</i> <i>Guardian</i> ran an article called “How an Ex-YouTube Insider
+Investigated Its Secret Algorithm” about Guillaume Chaslot, an ex-YouTube engineer
+who created a website that tracks these issues. Chaslot published the chart in
+Figure 3-5 following the release of Robert Mueller’s “Report on the Investigation Into
+Russian Interference in the 2016 Presidential Election.”

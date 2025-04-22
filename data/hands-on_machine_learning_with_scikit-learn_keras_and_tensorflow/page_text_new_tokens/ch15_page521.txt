@@ -1,0 +1,27 @@
+time steps in the targets (since the kernel’s size is 4, the first output of the convolu‐
+tional layer will be based on the input time steps 0 to 3), and downsample the targets
+by a factor of 2:
+model = keras.models.Sequential([
+keras.layers.Conv1D(filters=20, kernel_size=4, strides=2, padding="valid",
+input_shape=[None, 1]),
+keras.layers.GRU(20, return_sequences=True),
+keras.layers.GRU(20, return_sequences=True),
+keras.layers.TimeDistributed(keras.layers.Dense(10))
+])
+model.compile(loss="mse", optimizer="adam", metrics=[last_time_step_mse])
+history = model.fit(X_train, Y_train[:, 3::2], epochs=20,
+validation_data=(X_valid, Y_valid[:, 3::2]))
+If you train and evaluate this model, you will find that it is the best model so far. The
+convolutional layer really helps. In fact, it is actually possible to use only 1D convolu‐
+tional layers and drop the recurrent layers entirely!
+<b>WaveNet</b>
+In a 2016 paper, 13 Aaron van den Oord and other DeepMind researchers introduced
+an architecture called <i>WaveNet.</i> They stacked 1D convolutional layers, doubling the
+dilation rate (how spread apart each neuron’s inputs are) at every layer: the first con‐
+volutional layer gets a glimpse of just two time steps at a time, while the next one sees
+four time steps (its receptive field is four time steps long), the next one sees eight time
+steps, and so on (see Figure 15-11). This way, the lower layers learn short-term pat‐
+terns, while the higher layers learn long-term patterns. Thanks to the doubling dila‐
+tion rate, the network can process extremely large sequences very efficiently.
+13 AaronvandenOordetal.,“WaveNet:AGenerativeModelforRawAudio,”arXivpreprintarXiv:1609.03499
+(2016).

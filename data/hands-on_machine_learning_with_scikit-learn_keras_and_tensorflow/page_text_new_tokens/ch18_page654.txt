@@ -1,0 +1,37 @@
+<header><largefont><b>Creating</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Replay</b></largefont> <largefont><b>Buffer</b></largefont> <largefont><b>and</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Corresponding</b></largefont> <largefont><b>Observer</b></largefont></header>
+The TF-Agents library provides various replay buffer implementations in the
+tf_agents.replay_buffers package. Some are purely written in Python (their mod‐
+ule names start with py_ ), and others are written based on TensorFlow (their module
+tf_ TFUniformReplayBuffer
+names start with ). We will use the class in the
+tf_agents.replay_buffers.tf_uniform_replay_buffer package. It provides a
+high-performance implementation of a replay buffer with uniform sampling:21
+<b>from</b> <b>tf_agents.replay_buffers</b> <b>import</b> tf_uniform_replay_buffer
+replay_buffer = tf_uniform_replay_buffer.TFUniformReplayBuffer(
+data_spec=agent.collect_data_spec,
+batch_size=tf_env.batch_size,
+max_length=1000000)
+Let’s look at each of these arguments:
+data_spec
+The specification of the data that will be saved in the replay buffer. The DQN
+agent knowns what the collected data will look like, and it makes the data spec
+collect_data_spec
+available via its attribute, so that’s what we give the replay
+buffer.
+batch_size
+The number of trajectories that will be added at each step. In our case, it will be
+one, since the driver will just execute one action per step and collect one trajec‐
+tory. If the environment were a <i>batched</i> <i>environment,</i> meaning an environment
+that takes a batch of actions at each step and returns a batch of observations, then
+the driver would have to save a batch of trajectories at each step. Since we are
+using a TensorFlow replay buffer, it needs to know the size of the batches it will
+handle (to build the computation graph). An example of a batched environment
+is the ParallelPyEnvironment (from the tf_agents.environments.paral
+lel_py_environment
+package): it runs multiple environments in parallel in sepa‐
+rate processes (they can be different as long as they have the same action and
+observation specs), and at each step it takes a batch of actions and executes them
+in the environments (one action per environment), then it returns all the result‐
+ing observations.
+21 Atthetimeofthiswriting,thereisnoprioritizedexperiencereplaybufferyet,butonewilllikelybeopen
+sourcedsoon.

@@ -1,0 +1,41 @@
+df["labels"] = df["labels"].apply(
+<b>lambda</b> x: [index2tag[i] <b>for</b> i <b>in</b> x])
+df['loss'] = df.apply(
+<b>lambda</b> x: x['loss'][:len(x['input_ids'])], axis=1)
+df['predicted_label'] = df.apply(
+<b>lambda</b> x: x['predicted_label'][:len(x['input_ids'])], axis=1)
+df.head(1)
+<b>attention_mask</b> <b>input_ids</b> <b>labels</b> <b>loss</b> <b>predicted_label</b> <b>input_tokens</b>
+<b>0</b> [1,1,1,1,1,1,1] [0,10699,11, [IGN,B- [0.0, [I-ORG,B-ORG,I-ORG, [<s>,▁Ham,a,▁(,
+15,16104, ORG,IGN,I- 0.014679872,0.0, I-ORG,I-ORG,I-ORG,I- ▁Unternehmen,▁),
+1388,2] ORG,I-ORG, 0.009469474, ORG] </s>]
+I-ORG,IGN] 0.010393422,
+0.01293836,0.0]
+Each column contains a list of tokens, labels, predicted labels, and so on for each
+sample. Let’s have a look at the tokens individually by unpacking these lists. The
+pandas.Series.explode() function allows us to do exactly that in one line by creat‐
+ing a row for each element in the original rows list. Since all the lists in one row have
+the same length, we can do this in parallel for all columns. We also drop the padding
+tokens we named IGN, since their loss is zero anyway. Finally, we cast the losses, which
+numpy.Array
+are still objects, to standard floats:
+df_tokens = df.apply(pd.Series.explode)
+df_tokens = df_tokens.query("labels != 'IGN'")
+df_tokens["loss"] = df_tokens["loss"].astype(float).round(2)
+df_tokens.head(7)
+<b>attention_mask</b> <b>input_ids</b> <b>labels</b> <b>loss</b> <b>predicted_label</b> <b>input_tokens</b>
+1 10699 B-ORG 0.01 B-ORG ▁ Ham
+1 15 I-ORG 0.01 I-ORG ▁(
+1 16104 I-ORG 0.01 I-ORG ▁Unternehmen
+1 1388 I-ORG 0.01 I-ORG ▁)
+1 56530 O 0.00 O ▁WE
+1 83982 B-ORG 0.34 B-ORG ▁Luz
+1 10 I-ORG 0.45 I-ORG ▁a
+With the data in this shape, we can now group it by the input tokens and aggregate
+the losses for each token with the count, mean, and sum. Finally, we sort the
+aggregated data by the sum of the losses and see which tokens have accumulated the
+most loss in the validation set:
+(
+df_tokens.groupby("input_tokens")[["loss"]]
+.agg(["count", "mean", "sum"])
+.droplevel(level=0, axis=1) <i>#</i> <i>Get</i> <i>rid</i> <i>of</i> <i>multi-level</i> <i>columns</i>

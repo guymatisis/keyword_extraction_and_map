@@ -1,0 +1,25 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>7</b></largefont></header>
+<header><largefont><b>Responsible</b></largefont> <largefont><b>AI</b></largefont></header>
+Until this point, we’ve focused on patterns designed to help data and engineering
+teams prepare, build, train, and scale models for production use. These patterns
+mainly addressed teams directly involved in the ML model development process.
+Once a model is in production, its impact extends far beyond the teams who built it.
+In this chapter, we’ll discuss the other <i>stakeholders</i> of a model, both those within and
+outside of an organization. Stakeholders could include executives whose business
+objectives dictate a model’s goals, the end users of a model, auditors, and compliance
+regulators.
+There are several groups of model stakeholders we’ll be referring to in this chapter:
+<i>Model</i> <i>builders</i>
+Data scientists and ML researchers directly involved in building ML models.
+<i>ML</i> <i>engineers</i>
+Members of ML Ops teams directly involved in deploying ML models.
+<i>Business</i> <i>decision</i> <i>makers</i>
+Decide whether or not to incorporate the ML model into their business processes
+or customer-facing applications and will need to evaluate whether the model is
+fit for this purpose.
+<i>End</i> <i>users</i> <i>of</i> <i>ML</i> <i>systems</i>
+Make use of predictions from an ML model. There are many different types of
+model end users: customers, employees, and hybrids of these. Examples include a
+customer getting a movie recommendation from a model, an employee on a fac‐
+tory floor using a visual inspection model to determine whether a product is bro‐
+ken, or a medical practitioner using a model to aid in patient diagnosis.

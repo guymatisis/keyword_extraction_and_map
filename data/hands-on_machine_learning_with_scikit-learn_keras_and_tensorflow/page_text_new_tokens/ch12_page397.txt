@@ -1,0 +1,38 @@
+at: first, how to define losses or metrics based on model internals, and second, how to
+build a custom training loop.
+<header><largefont><b>Losses</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Metrics</b></largefont> <largefont><b>Based</b></largefont> <largefont><b>on</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>Internals</b></largefont></header>
+The custom losses and metrics we defined earlier were all based on the labels and the
+predictions (and optionally sample weights). There will be times when you want to
+define losses based on other parts of your model, such as the weights or activations of
+its hidden layers. This may be useful for regularization purposes or to monitor some
+internal aspect of your model.
+To define a custom loss based on model internals, compute it based on any part of the
+model you want, then pass the result to the add_loss() method.For example, let’s
+build a custom regression MLP model composed of a stack of five hidden layers plus
+an output layer. This custom model will also have an auxiliary output on top of the
+upper hidden layer. The loss associated to this auxiliary output will be called the
+<i>reconstruction</i> <i>loss</i> (see Chapter 17): it is the mean squared difference between the
+reconstruction and the inputs. By adding this reconstruction loss to the main loss, we
+will encourage the model to preserve as much information as possible through the
+hidden layers—even information that is not directly useful for the regression task
+itself. In practice, this loss sometimes improves generalization (it is a regularization
+loss). Here is the code for this custom model with a custom reconstruction loss:
+<b>class</b> <b>ReconstructingRegressor(keras.Model):</b>
+<b>def</b> <b>__init__(self,</b> output_dim, **kwargs):
+super().__init__(**kwargs)
+self.hidden = [keras.layers.Dense(30, activation="selu",
+kernel_initializer="lecun_normal")
+<b>for</b> _ <b>in</b> range(5)]
+self.out = keras.layers.Dense(output_dim)
+<b>def</b> build(self, batch_input_shape):
+n_inputs = batch_input_shape[-1]
+self.reconstruct = keras.layers.Dense(n_inputs)
+super().build(batch_input_shape)
+<b>def</b> call(self, inputs):
+Z = inputs
+<b>for</b> layer <b>in</b> self.hidden:
+Z = layer(Z)
+reconstruction = self.reconstruct(Z)
+recon_loss = tf.reduce_mean(tf.square(reconstruction - inputs))
+self.add_loss(0.05 * recon_loss)
+<b>return</b> self.out(Z)

@@ -1,0 +1,22 @@
+Let’s check that we get the same results using this refactoring:
+learn = Learner(dls, LMModel2(len(vocab), 64), loss_func=F.cross_entropy,
+metrics=accuracy)
+learn.fit_one_cycle(4, 1e-3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 1.816274 1.964143 0.460185 00:02
+1 1.423805 1.739964 0.473259 00:02
+2 1.430327 1.685172 0.485382 00:02
+3 1.388390 1.657033 0.470406 00:02
+We can also refactor our pictorial representation in exactly the same way, as shown in
+Figure 12-4 (we’re also removing the details of activation sizes here, and using the
+same arrow colors as in Figure 12-3).
+<i>Figure</i> <i>12-4.</i> <i>Basic</i> <i>recurrent</i> <i>neural</i> <i>network</i>
+You will see that a set of activations is being updated each time through the loop,
+h—this
+stored in the variable is called the <i>hidden</i> <i>state.</i>
+<b>Jargon:HiddenState</b>
+The activations that are updated at each step of a recurrent neural
+network.
+A neural network that is defined using a loop like this is called a <i>recurrent</i> <i>neural</i> <i>net‐</i>
+<i>work</i> (RNN). It is important to realize that an RNN is not a complicated new architec‐
+ture, but simply a refactoring of a multilayer neural network using a for loop.

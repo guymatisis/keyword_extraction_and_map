@@ -1,0 +1,36 @@
+The score <i>t</i> is often called the <i>logit.</i> The name comes from the fact
+that the logit function, defined as logit(p) = log(p / (1 – <i>p)),</i> is the
+inverse of the logistic function. Indeed, if you compute the logit of
+the estimated probability <i>p,</i> you will find that the result is <i>t.</i> The
+logit is also called the <i>log-odds,</i> since it is the log of the ratio
+between the estimated probability for the positive class and the
+estimated probability for the negative class.
+<header><largefont><b>Training</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Cost</b></largefont> <largefont><b>Function</b></largefont></header>
+Now you know how a Logistic Regression model estimates probabilities and makes
+predictions. But how is it trained? The objective of training is to set the parameter
+vector <b>θ</b> so that the model estimates high probabilities for positive instances (y = 1)
+and low probabilities for negative instances (y = 0). This idea is captured by the cost
+function shown in Equation 4-16 for a single training instance <b>x.</b>
+<i>Equation</i> <i>4-16.</i> <i>Cost</i> <i>function</i> <i>of</i> <i>a</i> <i>single</i> <i>training</i> <i>instance</i>
+−log <i>p</i> if <i>y</i> = 1
+<i>c</i> <b>θ</b> =
+−log 1 − <i>p</i> if <i>y</i> = 0
+This cost function makes sense because –log(t) grows very large when <i>t</i> approaches 0,
+so the cost will be large if the model estimates a probability close to 0 for a positive
+instance, and it will also be very large if the model estimates a probability close to 1
+for a negative instance. On the other hand, –log(t) is close to 0 when <i>t</i> is close to 1, so
+the cost will be close to 0 if the estimated probability is close to 0 for a negative
+instance or close to 1 for a positive instance, which is precisely what we want.
+The cost function over the whole training set is the average cost over all training
+instances. It can be written in a single expression called the <i>log</i> <i>loss,</i> shown in Equa‐
+tion 4-17.
+<i>Equation</i> <i>4-17.</i> <i>Logistic</i> <i>Regression</i> <i>cost</i> <i>function</i> <i>(log</i> <i>loss)</i>
+1
+<i>m</i> <i>i</i> <i>i</i> <i>i</i> <i>i</i>
+<i>J</i> <b>θ</b> = − ∑ <i>y</i> <i>log</i> <i>p</i> + 1 − <i>y</i> <i>log</i> 1 − <i>p</i>
+<i>i</i> = 1
+<i>m</i>
+The bad news is that there is no known closed-form equation to compute the value of
+<b>θ</b> that minimizes this cost function (there is no equivalent of the Normal Equation).
+The good news is that this cost function is convex, so Gradient Descent (or any other
+optimization algorithm) is guaranteed to find the global minimum (if the learning

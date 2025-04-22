@@ -1,0 +1,45 @@
+word_ids
+Here we can see that has mapped each subword to the corresponding index
+in the words sequence, so the first subword, “ ▁ 2.000”, is assigned the index 0, while
+“ ▁ Einwohner” and “n” are assigned the index 1 (since “Einwohnern” is the second
+words <s> <\s>
+word in ). We can also see that special tokens like and are mapped to
+None. Let’s set –100 as the label for these special tokens and the subwords we wish to
+mask during training:
+previous_word_idx = None
+label_ids = []
+<b>for</b> word_idx <b>in</b> word_ids:
+<b>if</b> word_idx <b>is</b> None <b>or</b> word_idx == previous_word_idx:
+label_ids.append(-100)
+<b>elif</b> word_idx != previous_word_idx:
+label_ids.append(labels[word_idx])
+previous_word_idx = word_idx
+labels = [index2tag[l] <b>if</b> l != -100 <b>else</b> "IGN" <b>for</b> l <b>in</b> label_ids]
+index = ["Tokens", "Word IDs", "Label IDs", "Labels"]
+pd.DataFrame([tokens, word_ids, label_ids, labels], index=index)
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b> <b>...</b> <b>19</b> <b>20</b> <b>21</b> <b>22</b> <b>23</b> <b>24</b>
+<s> ▁2.000 ▁Einwohner n ▁an ▁der ... ▁Po mmer n . </s>
+<b>Tokens</b> ▁
+None 0 1 1 2 3 ... 10 10 10 11 11 None
+<b>WordIDs</b>
+-100 0 0 -100 0 0 ... 6 -100 -100 0 -100 -100
+<b>LabelIDs</b>
+<b>Labels</b> IGN O O IGN O O ... I-LOC IGN IGN O IGN IGN
+Why did we choose –100 as the ID to mask subword representa‐
+tions? The reason is that in PyTorch the cross-entropy loss class
+torch.nn.CrossEntropyLoss ignore_index
+has an attribute called
+whose value is –100. This index is ignored during training, so we
+can use it to ignore the tokens associated with consecutive
+subwords.
+And that’s it! We can clearly see how the label IDs align with the tokens, so let’s scale
+this out to the whole dataset by defining a single function that wraps all the logic:
+<b>def</b> tokenize_and_align_labels(examples):
+tokenized_inputs = xlmr_tokenizer(examples["tokens"], truncation=True,
+is_split_into_words=True)
+labels = []
+<b>for</b> idx, label <b>in</b> enumerate(examples["ner_tags"]):
+word_ids = tokenized_inputs.word_ids(batch_index=idx)
+previous_word_idx = None
+label_ids = []
+<b>for</b> word_idx <b>in</b> word_ids:

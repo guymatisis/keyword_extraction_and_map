@@ -1,0 +1,37 @@
+• nll_loss , as we saw, returns the value of just one activation: the single activation
+corresponding with the single label for an item. This doesn’t make sense when we
+have multiple labels.
+binary_cross_entropy mnist_loss
+On the other hand, the function, which is just
+along with log , provides just what we need, thanks to the magic of PyTorch’s element‐
+wise operations. Each activation will be compared to each target for each column, so
+we don’t have to do anything to make this function work for multiple columns.
+<b>JeremySays</b>
+One of the things I really like about working with libraries like
+PyTorch, with broadcasting and elementwise operations, is that
+quite frequently I find I can write code that works equally well for a
+single item or a batch of items, without changes.
+binary_cross_entropy is a great example of this. By using these
+operations, we don’t have to write loops ourselves, and can rely on
+PyTorch to do the looping we need as appropriate for the rank of
+the tensors we’re working with.
+PyTorch already provides this function for us. In fact, it provides a number of ver‐
+sions, with rather confusing names!
+F.binary_cross_entropy and its module equivalent nn.BCELoss calculate cross
+entropy on a one-hot-encoded target, but do not include the initial sigmoid. Nor‐
+mally, for one-hot-encoded targets you’ll want F.binary_cross_entropy_with_log
+its (or nn.BCEWithLogitsLoss), which do both sigmoid and binary cross entropy in
+a single function, as in the preceding example.
+The equivalent for single-label datasets (like MNIST or the Pet dataset), where the
+target is encoded as a single integer, is F.nll_loss or nn.NLLLoss for the version
+without the initial softmax, and F.cross_entropy or nn.CrossEntropyLoss for the
+version with the initial softmax.
+Since we have a one-hot-encoded target, we will use BCEWithLogitsLoss:
+loss_func = nn.BCEWithLogitsLoss()
+loss = loss_func(activs, y)
+loss
+tensor(1.0082, device='cuda:5', grad_fn=<BinaryCrossEntropyWithLogitsBackward>)
+We don’t need to tell fastai to use this loss function (although we can if we want) since
+it will be automatically chosen for us. fastai knows that the DataLoaders has multiple
+nn.BCEWithLogitsLoss
+category labels, so it will use by default.

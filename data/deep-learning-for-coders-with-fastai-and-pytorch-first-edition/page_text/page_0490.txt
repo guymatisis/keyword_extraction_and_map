@@ -1,0 +1,29 @@
+27. How do you make sure your callback runs after or before another callback?
+<header><largefont><b>Further</b></largefont> <largefont><b>Research</b></largefont></header>
+1. Look up the “Rectified Adam” paper, implement it using the general optimizer
+framework, and try it out. Search for other recent optimizers that work well in
+practice and pick one to implement.
+2. Look at the mixed-precision callback inside the documentation. Try to under‐
+stand what each event and line of code does.
+3. Implement your own version of the learning rate finder from scratch. Compare it
+with fastai’s version.
+4. Look at the source code of the callbacks that ship with fastai. See if you can find
+one that’s similar to what you’re looking to do, to get some inspiration.
+<header><largefont><b>Foundations</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Deep</b></largefont> <largefont><b>Learning:</b></largefont> <largefont><b>Wrap</b></largefont> <largefont><b>Up</b></largefont></header>
+Congratulations—you have made it to the end of the “foundations of deep learning”
+section of the book! You now understand how all of fastai’s applications and most
+important architectures are built, and the recommended ways to train them—and
+you have all the information you need to build these from scratch. While you proba‐
+bly won’t need to create your own training loop or batchnorm layer, for instance,
+knowing what is going on behind the scenes is very helpful for debugging, profiling,
+and deploying your solutions.
+Since you understand the foundations of fastai’s applications now, be sure to spend
+some time digging through the source notebooks and running and experimenting
+with parts of them. This will give you a better idea of exactly how everything in fastai
+is developed.
+In the next section, we will be looking even further under the covers: we’ll explore
+how the actual forward and backward passes of a neural network are done, and we
+will see what tools are at our disposal to get better performance. We will then con‐
+tinue with a project that brings together all the material in the book, which we will
+use to build a tool for interpreting convolutional neural networks. Last but not least,
+we’ll finish by building fastai’s Learner class from scratch.

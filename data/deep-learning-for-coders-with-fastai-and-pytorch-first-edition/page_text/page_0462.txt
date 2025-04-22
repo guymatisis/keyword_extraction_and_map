@@ -1,0 +1,29 @@
+value—this is known as <i>nearest</i> <i>neighbor</i> <i>interpolation.</i> PyTorch provides a layer that
+does this for us, so one option is to create a head that contains stride-1 convolutional
+layers (along with batchnorm and ReLU layers as usual) interspersed with 2×2 near‐
+est neighbor interpolation layers. In fact, you can try this now! See if you can create a
+custom head designed like this, and try it on the CamVid segmentation task. You
+should find that you get some reasonable results, although they won’t be as good as
+our Chapter 1 results.
+Another approach is to replace the nearest neighbor and convolution combination
+with a <i>transposed</i> <i>convolution,</i> otherwise known as a <i>stride</i> <i>half</i> <i>convolution.</i> This is
+identical to a regular convolution, but first zero padding is inserted between all the
+pixels in the input. This is easiest to see with a picture—Figure 15-1 shows a diagram
+from the excellent convolutional arithmetic paper we discussed in Chapter 13, show‐
+ing a 3×3 transposed convolution applied to a 3×3 image.
+<i>Figure</i> <i>15-1.</i> <i>A</i> <i>transposed</i> <i>convolution</i> <i>(courtesy</i> <i>of</i> <i>Vincent</i> <i>Dumoulin</i> <i>and</i> <i>Francesco</i>
+<i>Visin)</i>
+As you see, the result is to increase the size of the input. You can try this out now by
+using fastai’s ConvLayer class; pass the parameter transpose=True to create a trans‐
+posed convolution, instead of a regular one, in your custom head.
+Neither of these approaches, however, works really well. The problem is that our 7×7
+grid simply doesn’t have enough information to create a 224×224-pixel output. It’s
+asking an awful lot of the activations of each of those grid cells to have enough infor‐
+mation to fully regenerate every pixel in the output.
+The solution is to use <i>skip</i> <i>connections,</i> as in a ResNet, but skipping from the activa‐
+tions in the body of the ResNet all the way over to the activations of the transposed
+convolution on the opposite side of the architecture. This approach, illustrated in
+Figure 15-2, was developed by Olaf Ronneberger et al. in the 2015 paper “U-Net:
+Convolutional Networks for Biomedical Image Segmentation”. Although the paper
+focused on medical applications, the U-Net has revolutionized all kinds of generative
+vision models.

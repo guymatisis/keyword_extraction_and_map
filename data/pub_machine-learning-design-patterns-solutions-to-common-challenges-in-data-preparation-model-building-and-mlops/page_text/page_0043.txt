@@ -1,0 +1,29 @@
+<i>Figure</i> <i>2-6.</i> <i>The</i> <i>tokenizer</i> <i>creates</i> <i>a</i> <i>lookup</i> <i>table</i> <i>that</i> <i>maps</i> <i>each</i> <i>word</i> <i>to</i> <i>an</i> <i>index.</i>
+The tokenization is a lookup table that maps each word in our vocabulary to an
+index. We can think of this as a one-hot encoding of each word where the tokenized
+index is the location of the nonzero element in the one-hot encoding. This requires a
+full pass over the entire dataset (let’s assume these consist of titles of articles 4 ) to cre‐
+ate the lookup table and can be done in Keras. The complete code can be found in the
+repository for this book:
+<b>from</b> <b>tensorflow.keras.preprocessing.text</b> <b>import</b> Tokenizer
+tokenizer = Tokenizer()
+tokenizer.fit_on_texts(titles_df.title)
+Here we can use the Tokenizer class in the <i>keras.preprocessing.text</i> library. The call to
+fit_on_texts
+creates a lookup table that maps each of the words found in our titles
+to an index. By calling tokenizer.index_word, we can examine this lookup table
+directly:
+tokenizer.index_word
+{1: 'the',
+2: 'a',
+3: 'to',
+4: 'for',
+5: 'in',
+6: 'of',
+7: 'and',
+8: 's',
+9: 'on',
+10: 'with',
+11: 'show',
+...
+4 ThisdatasetisavailableinBigQuery:bigquery-public-data.hacker_news.stories.

@@ -1,0 +1,38 @@
+<b>if</b> k <b>in</b> tokenizer.model_input_names}
+<i>#</i> <i>Extract</i> <i>last</i> <i>hidden</i> <i>states</i>
+<b>with</b> torch.no_grad():
+last_hidden_state = model(**inputs).last_hidden_state
+<i>#</i> <i>Return</i> <i>vector</i> <i>for</i> <i>[CLS]</i> <i>token</i>
+<b>return</b> {"hidden_state": last_hidden_state[:,0].cpu().numpy()}
+The only difference between this function and our previous logic is the final step
+where we place the final hidden state back on the CPU as a NumPy array. The map()
+method requires the processing function to return Python or NumPy objects when
+we’re using batched inputs.
+Since our model expects tensors as inputs, the next thing to do is convert the
+input_ids and attention_mask columns to the "torch" format, as follows:
+emotions_encoded.set_format("torch",
+columns=["input_ids", "attention_mask", "label"])
+We can then go ahead and extract the hidden states across all splits in one go:
+emotions_hidden = emotions_encoded.map(extract_hidden_states, batched=True)
+Notice that we did not set batch_size=None in this case, which means the default
+batch_size=1000 extract_ hidden_
+is used instead. As expected, applying the
+states() function has added a new hidden_state column to our dataset:
+emotions_hidden["train"].column_names
+['attention_mask', 'hidden_state', 'input_ids', 'label', 'text']
+Now that we have the hidden states associated with each tweet, the next step is to
+train a classifier on them. To do that, we’ll need a feature matrix—let’s take a look.
+<b>Creatingafeaturematrix</b>
+The preprocessed dataset now contains all the information we need to train a classi‐
+fier on it. We will use the hidden states as input features and the labels as targets. We
+can easily create the corresponding arrays in the well-known Scikit-learn format as
+follows:
+<b>import</b> <b>numpy</b> <b>as</b> <b>np</b>
+X_train = np.array(emotions_hidden["train"]["hidden_state"])
+X_valid = np.array(emotions_hidden["validation"]["hidden_state"])
+y_train = np.array(emotions_hidden["train"]["label"])
+y_valid = np.array(emotions_hidden["validation"]["label"])
+X_train.shape, X_valid.shape
+((16000, 768), (2000, 768))
+Before we train a model on the hidden states, it’s good practice to perform a quick
+check to ensure that they provide a useful representation of the emotions we want to

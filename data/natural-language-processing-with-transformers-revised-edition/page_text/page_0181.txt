@@ -1,0 +1,35 @@
+after listening to music with them on all day. the sound is night and day better
+than any ear - bud could be and are almost as good as the pro 4aa. they are "
+open air " headphones so you cannot match the bass to the sealed types, but it
+comes close. for $ 32, you cannot go wrong. [SEP]
+Now that we have some intuition about how QA models can extract answers from
+text, let’s look at the other components we need to build an end-to-end QA pipeline.
+<header><largefont><b>Using</b></largefont> <largefont><b>Haystack</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Build</b></largefont> <largefont><b>a</b></largefont> <largefont><b>QA</b></largefont> <largefont><b>Pipeline</b></largefont></header>
+In our simple answer extraction example, we provided both the question and the con‐
+text to the model. However, in reality our system’s users will only provide a question
+about a product, so we need some way of selecting relevant passages from among all
+the reviews in our corpus. One way to do this would be to concatenate all the reviews
+of a given product together and feed them to the model as a single, long context.
+Although simple, the drawback of this approach is that the context can become
+extremely long and thereby introduce an unacceptable latency for our users’ queries.
+For example, let’s suppose that on average, each product has 30 reviews and each
+review takes 100 milliseconds to process. If we need to process all the reviews to get
+an answer, this would result in an average latency of 3 seconds per user query—much
+too long for ecommerce websites!
+To handle this, modern QA systems are typically based on the <i>retriever-reader</i> archi‐
+tecture, which has two main components:
+<i>Retriever</i>
+Responsible for retrieving relevant documents for a given query. Retrievers are
+usually categorized as <i>sparse</i> or <i>dense.</i> Sparse retrievers use word frequencies to
+represent each document and query as a sparse vector. 11 The relevance of a query
+and a document is then determined by computing an inner product of the vec‐
+tors. On the other hand, dense retrievers use encoders like transformers to repre‐
+sent the query and document as contextualized embeddings (which are dense
+vectors). These embeddings encode semantic meaning, and allow dense retriev‐
+ers to improve search accuracy by understanding the content of the query.
+<i>Reader</i>
+Responsible for extracting an answer from the documents provided by the
+retriever. The reader is usually a reading comprehension model, although at the
+end of the chapter we’ll see examples of models that can generate free-form
+answers.
+11 Avectorissparseifmostofitselementsarezero.

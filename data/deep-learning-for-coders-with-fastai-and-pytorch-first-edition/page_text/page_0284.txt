@@ -1,0 +1,32 @@
+We don’t have time to do a deep dive into all these libraries in this book, so we’ll just
+be touching on some of the main parts of each. For a far more in-depth discussion,
+we strongly suggest Wes McKinney’s <i>Python</i> <i>for</i> <i>Data</i> <i>Analysis</i> (O’Reilly). McKinney
+is the creator of Pandas, so you can be sure that the information is accurate!
+First, let’s gather the data we will use.
+<header><largefont><b>The</b></largefont> <largefont><b>Dataset</b></largefont></header>
+The dataset we use in this chapter is from the Blue Book for Bulldozers Kaggle com‐
+petition, which has the following description: “The goal of the contest is to predict
+the sale price of a particular piece of heavy equipment at auction based on its usage,
+equipment type, and configuration. The data is sourced from auction result postings
+and includes information on usage and equipment configurations.”
+This is a very common type of dataset and prediction problem, similar to what you
+may see in your project or workplace. The dataset is available for download on Kag‐
+gle, a website that hosts data science competitions.
+<header><largefont><b>Kaggle</b></largefont> <largefont><b>Competitions</b></largefont></header>
+Kaggle is an awesome resource for aspiring data scientists or anyone looking to
+improve their machine learning skills. There is nothing like getting hands-on practice
+and receiving real-time feedback to help you improve your skills.
+Kaggle provides the following:
+• Interesting datasets
+• Feedback on how you’re doing
+• A leaderboard to see what’s good, what’s possible, and what’s state-of-the-art
+• Blog posts by winning contestants sharing useful tips and techniques
+Until now, all our datasets have been available to download through fastai’s integrated
+dataset system. However, the dataset we will be using in this chapter is available only
+from Kaggle. Therefore, you will need to register on the site, then go to the page for
+the competition. On that page click Rules, and then I Understand and Accept.
+(Although the competition has finished, and you will not be entering it, you still have
+to agree to the rules to be allowed to download the data.)
+The easiest way to download Kaggle datasets is to use the Kaggle API. You can install
+this by using pip and running this in a notebook cell:
+!pip install kaggle

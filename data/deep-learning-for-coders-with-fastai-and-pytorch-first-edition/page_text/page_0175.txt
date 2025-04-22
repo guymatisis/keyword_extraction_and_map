@@ -1,0 +1,36 @@
+<b>def</b> zero_grad(self, *args, **kwargs):
+<b>for</b> p <b>in</b> self.params: p.grad = None
+We can create our optimizer by passing in the model’s parameters:
+opt = BasicOptim(linear_model.parameters(), lr)
+Our training loop can now be simplified:
+<b>def</b> train_epoch(model):
+<b>for</b> xb,yb <b>in</b> dl:
+calc_grad(xb, yb, model)
+opt.step()
+opt.zero_grad()
+Our validation function doesn’t need to change at all:
+validate_epoch(linear_model)
+0.4157
+Let’s put our little training loop in a function, to make things simpler:
+<b>def</b> train_model(model, epochs):
+<b>for</b> i <b>in</b> range(epochs):
+train_epoch(model)
+<b>print(validate_epoch(model),</b> end=' ')
+The results are the same as in the previous section:
+train_model(linear_model, 20)
+0.4932 0.8618 0.8203 0.9102 0.9331 0.9468 0.9555 0.9629 0.9658 0.9673 0.9687
+> 0.9707 0.9726 0.9751 0.9761 0.9761 0.9775 0.978 0.9785 0.9785
+fastai provides the SGD class that, by default, does the same thing as our BasicOptim:
+linear_model = nn.Linear(28*28,1)
+opt = SGD(linear_model.parameters(), lr)
+train_model(linear_model, 20)
+0.4932 0.852 0.8335 0.9116 0.9326 0.9473 0.9555 0.9624 0.9648 0.9668 0.9692
+> 0.9712 0.9731 0.9746 0.9761 0.9765 0.9775 0.978 0.9785 0.9785
+fastai also provides Learner.fit, which we can use instead of train_model. To create
+a Learner , we first need to create a DataLoaders , by passing in our training and vali‐
+dation DataLoaders:
+dls = DataLoaders(dl, valid_dl)
+To create a Learner without using an application (such as cnn_learner), we need to
+pass in all the elements that we’ve created in this chapter: the DataLoaders , the
+model, the optimization function (which will be passed the parameters), the loss
+function, and optionally any metrics to print:

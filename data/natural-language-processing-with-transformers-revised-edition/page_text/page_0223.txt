@@ -1,0 +1,40 @@
+Next, we’ll define the metrics to track during training. As we did in the performance
+benchmark, we’ll use accuracy as the main metric. This means we can reuse our
+accuracy_score() function in the compute_metrics() function that we’ll include in
+DistillationTrainer:
+<b>def</b> compute_metrics(pred):
+predictions, labels = pred
+predictions = np.argmax(predictions, axis=1)
+<b>return</b> accuracy_score.compute(predictions=predictions, references=labels)
+In this function, the predictions from the sequence modeling head come in the form
+np.argmax()
+of logits, so we use the function to find the most confident class predic‐
+tion and compare that against the ground truth label.
+Next we need to define the training arguments. To warm up, we’ll set <i>α</i> = 1 to see how
+well DistilBERT performs without any signal from the teacher. 11 Then we will push
+distilbert-base-uncased-
+our fine-tuned model to a new repository called
+finetuned-clinc , so we just need to specify that in the output_dir argument of
+DistillationTrainingArguments:
+batch_size = 48
+finetuned_ckpt = "distilbert-base-uncased-finetuned-clinc"
+student_training_args = DistillationTrainingArguments(
+output_dir=finetuned_ckpt, evaluation_strategy = "epoch",
+num_train_epochs=5, learning_rate=2e-5,
+per_device_train_batch_size=batch_size,
+per_device_eval_batch_size=batch_size, alpha=1, weight_decay=0.01,
+push_to_hub=True)
+We’ve also tweaked a few of the default hyperparameter values, like the number of
+epochs, the weight decay, and the learning rate. The next thing to do is initialize a
+student model. Since we will be doing multiple runs with the trainer, we’ll create a
+student_init() function to initialize the model with each new run. When we pass
+DistillationTrainer,
+this function to the this will ensure we initialize a new model
+each time we call the train() method.
+One other thing we need to do is provide the student model with the mappings
+between each intent and label ID. These mappings can be obtained from our BERT-
+base model that we downloaded in the pipeline:
+id2label = pipe.model.config.id2label
+label2id = pipe.model.config.label2id
+11 Thisapproachoffine-tuningageneral-purpose,distilledlanguagemodelissometimesreferredtoas“task-
+agnostic”distillation.

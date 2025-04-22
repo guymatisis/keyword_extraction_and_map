@@ -1,0 +1,8 @@
+This might be easier to represent in pictorial form, so let’s define a simple pictorial
+representation of basic neural networks. Figure 12-1 shows how we’re going to repre‐
+sent a neural net with one hidden layer.
+<i>Figure</i> <i>12-1.</i> <i>Pictorial</i> <i>representation</i> <i>of</i> <i>a</i> <i>simple</i> <i>neural</i> <i>network</i>
+Each shape represents activations: rectangle for input, circle for hidden (inner) layer
+activations, and triangle for output activations. We will use those shapes (summarized
+in Figure 12-2) in all the diagrams in this chapter.
+<i>Figure</i> <i>12-2.</i> <i>Shapes</i> <i>used</i> <i>in</i> <i>our</i> <i>pictorial</i> <i>representations</i>

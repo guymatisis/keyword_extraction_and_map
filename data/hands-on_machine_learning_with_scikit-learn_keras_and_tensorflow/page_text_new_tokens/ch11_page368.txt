@@ -1,0 +1,37 @@
+Dropout does tend to significantly slow down convergence, but it usually results in a
+much better model when tuned properly. So, it is generally well worth the extra time
+and effort.
+If you want to regularize a self-normalizing network based on the
+SELU activation function (as discussed earlier), you should use
+<i>alpha</i> <i>dropout:</i> this is a variant of dropout that preserves the mean
+and standard deviation of its inputs (it was introduced in the same
+paper as SELU, as regular dropout would break self-normalization).
+<header><largefont><b>Monte</b></largefont> <largefont><b>Carlo</b></largefont> <largefont><b>(MC)</b></largefont> <largefont><b>Dropout</b></largefont></header>
+In 2016, a paper25 by Yarin Gal and Zoubin Ghahramani added a few more good rea‐
+sons to use dropout:
+• First, the paper established a profound connection between dropout networks
+Dropout
+(i.e., neural networks containing a layer before every weight layer) and
+approximate Bayesian inference, 26 giving dropout a solid mathematical justifica‐
+tion.
+• Second, the authors introduced a powerful technique called <i>MC</i> <i>Dropout,</i> which
+can boost the performance of any trained dropout model without having to
+retrain it or even modify it at all, provides a much better measure of the model’s
+uncertainty, and is also amazingly simple to implement.
+If this all sounds like a “one weird trick” advertisement, then take a look at the follow‐
+ing code. It is the full implementation of <i>MC</i> <i>Dropout,</i> boosting the dropout model
+we trained earlier without retraining it:
+y_probas = np.stack([model(X_test_scaled, training=True)
+<b>for</b> sample <b>in</b> range(100)])
+y_proba = y_probas.mean(axis=0)
+training=True
+We just make 100 predictions over the test set, setting to ensure that
+the Dropout layer is active, and stack the predictions. Since dropout is active, all the
+predictions will be different. Recall that predict() returns a matrix with one row per
+instance and one column per class. Because there are 10,000 instances in the test set
+and 10 classes, this is a matrix of shape [10000, 10]. We stack 100 such matrices, so
+y_probas is an array of shape [100, 10000, 10]. Once we average over the first
+25 YarinGalandZoubinGhahramani,“DropoutasaBayesianApproximation:RepresentingModelUncertainty
+inDeepLearning,”Proceedingsofthe33rdInternationalConferenceonMachineLearning(2016):1050–1059.
+26 Specifically,theyshowthattrainingadropoutnetworkismathematicallyequivalenttoapproximateBayesian
+inferenceinaspecifictypeofprobabilisticmodelcalledaDeepGaussianProcess.

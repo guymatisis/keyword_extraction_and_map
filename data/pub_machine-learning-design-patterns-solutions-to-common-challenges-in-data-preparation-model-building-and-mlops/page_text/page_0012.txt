@@ -1,0 +1,38 @@
+Accurate data labels are just as important as feature accuracy. Your model relies
+solely on the ground truth labels in your training data to update its weights and mini‐
+mize loss. As a result, incorrectly labeled training examples can cause misleading
+model accuracy. For example, let’s say you’re building a sentiment analysis model
+and 25% of your “positive” training examples have been incorrectly labeled as “nega‐
+tive.” Your model will have an inaccurate picture of what should be considered nega‐
+tive sentiment, and this will be directly reflected in its predictions.
+To understand data <i>completeness,</i> let’s say you’re training a model to identify cat
+breeds. You train the model on an extensive dataset of cat images, and the resulting
+model is able to classify images into 1 of 10 possible categories (“Bengal,” “Siamese,”
+and so forth) with 99% accuracy. When you deploy your model to production, how‐
+ever, you find that in addition to uploading cat photos for classification, many of
+your users are uploading photos of dogs and are disappointed with the model’s
+results. Because the model was trained only to identify 10 different cat breeds, this is
+all it knows how to do. These 10 breed categories are, essentially, the model’s entire
+“world view.” No matter what you send the model, you can expect it to slot it into
+one of these 10 categories. It may even do so with high confidence for an image that
+looks nothing like a cat. Additionally, there’s no way your model will be able to
+return “not a cat” if this data and label weren’t included in the training dataset.
+Another aspect of data completeness is ensuring your training data contains a varied
+representation of each label. In the cat breed detection example, if all of your images
+are close-ups of a cat’s face, your model won’t be able to correctly identify an image
+of a cat from the side, or a full-body cat image. To look at a tabular data example, if
+you are building a model to predict the price of real estate in a specific city but only
+include training examples of houses larger than 2,000 square feet, your resulting
+model will perform poorly on smaller houses.
+The third aspect of data quality is data <i>consistency.</i> For large datasets, it’s common to
+divide the work of data collection and labeling among a group of people. Developing
+a set of standards for this process can help ensure consistency across your dataset,
+since each person involved in this will inevitably bring their own biases to the pro‐
+cess. Like data completeness, data inconsistencies can be found in both data features
+and labels. For an example of inconsistent features, let’s say you’re collecting
+atmospheric data from temperature sensors. If each sensor has been calibrated to dif‐
+ferent standards, this will result in inaccurate and unreliable model predictions.
+Inconsistencies can also refer to data format. If you’re capturing location data, some
+people may write out a full street address as “Main Street” and others may abbreviate
+it as “Main St.” Measurement units, like miles and kilometers, can also differ around
+the world.

@@ -1,0 +1,24 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>3</b></largefont></header>
+<header><largefont><b>Data</b></largefont> <largefont><b>Ethics</b></largefont></header>
+<header><largefont><b>Acknowledgment:</b></largefont> <largefont><b>Dr.</b></largefont> <largefont><b>Rachel</b></largefont> <largefont><b>Thomas</b></largefont></header>
+This chapter was coauthored by Dr. Rachel Thomas, the cofounder of fast.ai and
+founding director of the Center for Applied Data Ethics at the University of San Fran‐
+cisco. It largely follows a subset of the syllabus she developed for the Introduction to
+Data Ethics course.
+As we discussed in Chapters 1 and 2, sometimes machine learning models can go
+wrong. They can have bugs. They can be presented with data that they haven’t seen
+before and behave in ways we don’t expect. Or they could work exactly as designed,
+but be used for something that we would much prefer they were never, ever used for.
+Because deep learning is such a powerful tool and can be used for so many things, it
+becomes particularly important that we consider the consequences of our choices.
+The philosophical study of <i>ethics</i> is the study of right and wrong, including how we
+can define those terms, recognize right and wrong actions, and understand the con‐
+nection between actions and consequences. The field of <i>data</i> <i>ethics</i> has been around
+for a long time, and many academics are focused on this field. It is being used to help
+define policy in many jurisdictions; it is being used in companies big and small to
+consider how best to ensure good societal outcomes from product development; and
+it is being used by researchers who want to make sure that the work they are doing is
+used for good, and not for bad.
+As a deep learning practitioner, therefore, you will likely at some point be put in a
+situation requiring you to consider data ethics. So what is data ethics? It’s a subfield of
+ethics, so let’s start there.

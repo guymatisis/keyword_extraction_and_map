@@ -1,0 +1,22 @@
+The loss is going down, just as we hoped! But looking only at these loss numbers dis‐
+guises the fact that each iteration represents an entirely different quadratic function
+being tried, on the way to finding the best possible quadratic function. We can see
+this process visually if, instead of printing out the loss function, we plot the function
+at every step. Then we can see how the shape is approaching the best possible quad‐
+ratic function for our data:
+_,axs = plt.subplots(1,4,figsize=(12,3))
+<b>for</b> ax <b>in</b> axs: show_preds(apply_step(params, False), ax)
+plt.tight_layout()
+<b>Step7:Stop</b>
+We just decided to stop after 10 epochs arbitrarily. In practice, we would watch the
+training and validation losses and our metrics to decide when to stop, as we’ve
+discussed.
+<header><largefont><b>Summarizing</b></largefont> <largefont><b>Gradient</b></largefont> <largefont><b>Descent</b></largefont></header>
+Now that you’ve seen what happens in each step, let’s take another look at our graphi‐
+cal representation of the gradient descent process (Figure 4-5) and do a quick recap.
+<i>Figure</i> <i>4-5.</i> <i>The</i> <i>gradient</i> <i>descent</i> <i>process</i>
+At the beginning, the weights of our model can be random (training <i>from</i> <i>scratch)</i> or
+come from a pretrained model (transfer <i>learning).</i> In the first case, the output we will
+get from our inputs won’t have anything to do with what we want, and even in the
+second case, it’s likely the pretrained model won’t be very good at the specific task we
+are targeting. So the model will need to <i>learn</i> better weights.

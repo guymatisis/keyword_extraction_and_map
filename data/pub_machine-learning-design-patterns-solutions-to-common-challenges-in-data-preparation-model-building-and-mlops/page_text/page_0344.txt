@@ -1,0 +1,38 @@
+mind. Is it a tennis shoe? Loafer? Flip flop? What about a stiletto? Let’s imagine that
+we live in a climate that is warm year-round and most of the people we know wear
+sandals all the time. When we think of a shoe, a sandal is the first thing that comes to
+mind. As a result, we collect a diverse representation of sandal images with different
+types of straps, sole thicknesses, colors, and more. We contribute these to the larger
+clothing dataset, and when we test the model on a test set of images of our friend’s
+shoes, it reaches 95% accuracy on the “shoe” label. The model looks promising, but
+problems arise when our colleagues from different locations test the model on images
+of their heels and sneakers. For their images, the label “shoe” is not returned at all.
+This shoe example demonstrates bias in the training data distribution, and although
+it may seem oversimplified, this type of bias occurs frequently in production settings.
+Data distribution bias happens when the data we collect doesn’t accurately reflect the
+entire population who will use our model. If our dataset is human-centered, this type
+of bias can be especially evident if our dataset fails to include an equal representation
+of ages, races, genders, religions, sexual orientations, and other identity characteris‐
+tics.8
+Even when our dataset does appear balanced with respect to these identity character‐
+istics, it is still subject to bias in the way these groups are represented in the data.
+Suppose we are training a sentiment analysis model to classify restaurant reviews on a
+scale of 1 (extremely negative) to 5 (extremely positive). We’ve taken care to get a bal‐
+anced representation of different types of restaurants in the data. However, it turns
+out that the majority of reviews for seafood restaurants are positive, whereas most of
+the vegetarian restaurant reviews are negative. This data representation bias will be
+directly represented by our model. Whenever new reviews are added for vegetarian
+restaurants, they’ll have a much higher chance of being classified as negative, which
+could then influence someone’s likelihood to visit one of these restaurants in the
+future. This is also known as <i>reporting</i> <i>bias,</i> since the dataset (here, the “reported”
+data) doesn’t accurately reflect the real world.
+A common fallacy when dealing with data bias issues is that removing the areas of
+bias from a dataset will fix the problem. Let’s say we’re building a model to predict
+the likelihood someone will default on a loan. If we find the model is treating people
+of different races unfairly, we might assume this could be fixed by simply removing
+race as a feature from the dataset. The problem with this is that, due to systemic bias,
+characteristics like race and gender are often reflected implicitly in other features like
+zip code or income. This is known as <i>implicit</i> or <i>proxy</i> <i>bias.</i> Removing obvious fea‐
+8 Foramoredetailedlookonhowraceandgenderbiascanfindtheirwayintoimageclassificationmodels,see
+JoyBuolamwiniandTimmitGebru,“GenderShades:IntersectionalAccuracyDisparitiesinCommercial
+GenderClassification”,ProceedingsofMachineLearningResearch81(2018):1-15.

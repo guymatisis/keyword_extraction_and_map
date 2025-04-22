@@ -1,0 +1,32 @@
+We’re using **kwargs in EmbeddingNN to avoid having to write all the arguments to
+TabularModel a second time, and keep them in sync. However, this makes our API
+quite difficult to work with, because now Jupyter Notebook doesn’t know what
+parameters are available. Consequently, things like tab completion of parameter
+names and pop-up lists of signatures won’t work.
+fastai resolves this by providing a special @delegates decorator, which automatically
+changes the signature of the class or function ( EmbeddingNN in this case) to insert all
+of its keyword arguments into the signature.
+Although the results of EmbeddingNN are a bit worse than the dot product approach
+(which shows the power of carefully constructing an architecture for a domain), it
+does allow us to do something very important: we can now directly incorporate other
+user and movie information, date and time information, or any other information
+that may be relevant to the recommendation. That’s exactly what TabularModel does.
+In fact, we’ve now seen that EmbeddingNN is just a TabularModel , with n_cont=0 and
+out_sz=1. So, we’d better spend some time learning about TabularModel, and how to
+use it to get great results! We’ll do that in the next chapter.
+<header><largefont><b>Conclusion</b></largefont></header>
+For our first non–computer vision application, we looked at recommendation sys‐
+tems and saw how gradient descent can learn intrinsic factors or biases about items
+from a history of ratings. Those can then give us information about the data.
+We also built our first model in PyTorch. We will do a lot more of this in the next
+section of the book, but first, let’s finish our dive into the other general applications of
+deep learning, continuing with tabular data.
+<header><largefont><b>Questionnaire</b></largefont></header>
+1. What problem does collaborative filtering solve?
+2. How does it solve it?
+3. Why might a collaborative filtering predictive model fail to be a very useful rec‐
+ommendation system?
+4. What does a crosstab representation of collaborative filtering data look like?
+5. Write the code to create a crosstab representation of the MovieLens data (you
+might need to do some web searching!).
+6. What is a latent factor? Why is it “latent”?

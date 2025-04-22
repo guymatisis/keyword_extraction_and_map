@@ -1,0 +1,25 @@
+This makes sense, since when coordinates are used as the dependent variable, most of
+the time we’re likely to be trying to predict something as close as possible; that’s basi‐
+cally what MSELoss (mean squared error loss) does. If you want to use a different loss
+function, you can pass it to cnn_learner by using the loss_func parameter.
+Note also that we didn’t specify any metrics. That’s because the MSE is already a use‐
+ful metric for this task (although it’s probably more interpretable after we take the
+square root).
+We can pick a good learning rate with the learning rate finder:
+learn.lr_find()
+We’ll try an LR of 2e-2:
+lr = 2e-2
+learn.fit_one_cycle(5, lr)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 0.045840 0.012957 00:36
+1 0.006369 0.001853 00:36
+2 0.003000 0.000496 00:37
+3 0.001963 0.000360 00:37
+4 0.001584 0.000116 00:36
+Generally, when we run this, we get a loss of around 0.0001, which corresponds to
+this average coordinate prediction error:
+math.sqrt(0.0001)
+0.01
+This sounds very accurate! But it’s important to take a look at our results with
+Learner.show_results . The left side has the actual (ground <i>truth)</i> coordinates and
+the right side has our model’s predictions:

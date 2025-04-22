@@ -1,0 +1,38 @@
+requires a forward pass through the model; generating just 100 tokens for each sam‐
+ple will thus require 1 million forward passes, and if we use beam search this number
+is multiplied by the number of beams. For the purpose of keeping the calculations rel‐
+atively fast, we’ll subsample the test set and run the evaluation on 1,000 samples
+instead. This should give us a much more stable score estimation while completing in
+less than one hour on a single GPU for the PEGASUS model:
+test_sampled = dataset["test"].shuffle(seed=42).select(range(1000))
+score = evaluate_summaries_baseline(test_sampled, rouge_metric)
+rouge_dict = dict((rn, score[rn].mid.fmeasure) <b>for</b> rn <b>in</b> rouge_names)
+pd.DataFrame.from_dict(rouge_dict, orient="index", columns=["baseline"]).T
+<b>rouge1</b> <b>rouge2</b> <b>rougeL</b> <b>rougeLsum</b>
+<b>baseline</b> 0.396061 0.173995 0.245815 0.361158
+The scores are mostly worse than on the previous example, but still better than those
+achieved by GPT-2! Now let’s implement the same evaluation function for evaluating
+the PEGASUS model:
+<b>from</b> <b>tqdm</b> <b>import</b> tqdm
+<b>import</b> <b>torch</b>
+device = "cuda" <b>if</b> torch.cuda.is_available() <b>else</b> "cpu"
+<b>def</b> chunks(list_of_elements, batch_size):
+<i>"""Yield</i> <i>successive</i> <i>batch-sized</i> <i>chunks</i> <i>from</i> <i>list_of_elements."""</i>
+<b>for</b> i <b>in</b> range(0, len(list_of_elements), batch_size):
+<b>yield</b> list_of_elements[i : i + batch_size]
+<b>def</b> evaluate_summaries_pegasus(dataset, metric, model, tokenizer,
+batch_size=16, device=device,
+column_text="article",
+column_summary="highlights"):
+article_batches = list(chunks(dataset[column_text], batch_size))
+target_batches = list(chunks(dataset[column_summary], batch_size))
+<b>for</b> article_batch, target_batch <b>in</b> tqdm(
+zip(article_batches, target_batches), total=len(article_batches)):
+inputs = tokenizer(article_batch, max_length=1024, truncation=True,
+padding="max_length", return_tensors="pt")
+summaries = model.generate(input_ids=inputs["input_ids"].to(device),
+attention_mask=inputs["attention_mask"].to(device),
+length_penalty=0.8, num_beams=8, max_length=128)
+decoded_summaries = [tokenizer.decode(s, skip_special_tokens=True,
+clean_up_tokenization_spaces=True)
+<b>for</b> s <b>in</b> summaries]

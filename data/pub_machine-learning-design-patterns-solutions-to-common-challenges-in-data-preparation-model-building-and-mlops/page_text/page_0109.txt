@@ -1,0 +1,38 @@
+For example, suppose we are trying to train a model to predict the likelihood that a
+customer will return an item that they have purchased. If we train a single model, the
+resellers’ return behavior will be lost because there are millions of retail buyers (and
+retail transactions) and only a few thousand resellers. We don’t really know at the
+time that a purchase is being made whether this is a retail buyer or a reseller. How‐
+ever, by monitoring other marketplaces, we have identified when items bought from
+us are subsequently being resold, and so our training dataset has a label that identifies
+a purchase as having been done by a reseller.
+One way to solve this problem is to overweight the reseller instances when training
+the model. This is suboptimal because we need to get the more common retail buyer
+use case as correct as possible. We do not want to trade off a lower accuracy on the
+retail buyer use case for a higher accuracy on the reseller use case. However, retail
+buyers and resellers behave very differently; for example, while retail buyers return
+items within a week or so, resellers return items only if they are unable to sell them,
+and so the returns may take place after several months. The business decision of
+stocking inventory is different for likely returns from retail buyers versus resellers.
+Therefore, it is necessary to get both types of returns as accurate as possible. Simply
+overweighting the reseller instances will not work.
+An intuitive way to address this problem is by using the Cascade design pattern. We
+break the problem into four parts:
+1. Predicting whether a specific transaction is by a reseller
+2. Training one model on sales to retail buyers
+3. Training the second model on sales to resellers
+4. In production, combining the output of the three separate models to predict
+return likelihood for every item purchased and the probability that the transac‐
+tion is by a reseller
+This allows for the possibility of different decisions on items likely to be returned
+depending on the type of buyer and ensures that the models in steps 2 and 3 are as
+accurate as possible on their segment of the training data. Each of these models is rel‐
+atively easy to train. The first is simply a classifier, and if the unusual activity is
+extremely rare, we can use the Rebalancing pattern to address it. The next two mod‐
+els are essentially classification models trained on different segments of the training
+data. The combination is deterministic since we choose which model to run based on
+whether the activity belonged to a reseller.
+The problem comes during prediction. At prediction time, we don’t have true labels,
+just the output of the first classification model. Based on the output of the first model,
+we will have to determine which of the two sales models we invoke. The problem is
+that we are training on labels, but at inference time, we will have to make decisions

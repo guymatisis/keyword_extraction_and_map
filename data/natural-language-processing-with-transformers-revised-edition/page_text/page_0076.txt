@@ -1,0 +1,38 @@
+This concludes our analysis of the encoder and how we can combine it with a task-
+specific head. Let’s now cast our attention (pun intended!) to the decoder.
+<header><largefont><b>The</b></largefont> <largefont><b>Decoder</b></largefont></header>
+As illustrated in Figure 3-7, the main difference between the decoder and encoder is
+that the decoder has <i>two</i> attention sublayers:
+<i>Masked</i> <i>multi-head</i> <i>self-attention</i> <i>layer</i>
+Ensures that the tokens we generate at each timestep are only based on the past
+outputs and the current token being predicted. Without this, the decoder could
+cheat during training by simply copying the target translations; masking the
+inputs ensures the task is not trivial.
+<i>Encoder-decoder</i> <i>attention</i> <i>layer</i>
+Performs multi-head attention over the output key and value vectors of the
+encoder stack, with the intermediate representations of the decoder acting as the
+queries.6 This way the encoder-decoder attention layer learns how to relate
+tokens from two different sequences, such as two different languages. The
+decoder has access to the encoder keys and values in each block.
+Let’s take a look at the modifications we need to make to include masking in our self-
+attention layer, and leave the implementation of the encoder-decoder attention layer
+as a homework problem. The trick with masked self-attention is to introduce a <i>mask</i>
+<i>matrix</i> with ones on the lower diagonal and zeros above:
+seq_len = inputs.input_ids.size(-1)
+mask = torch.tril(torch.ones(seq_len, seq_len)).unsqueeze(0)
+mask[0]
+tensor([[1., 0., 0., 0., 0.],
+[1., 1., 0., 0., 0.],
+[1., 1., 1., 0., 0.],
+[1., 1., 1., 1., 0.],
+[1., 1., 1., 1., 1.]])
+tril()
+Here we’ve used PyTorch’s function to create the lower triangular matrix.
+Once we have this mask matrix, we can prevent each attention head from peeking at
+Tensor.masked_fill()
+future tokens by using to replace all the zeros with negative
+infinity:
+scores.masked_fill(mask == 0, -float("inf"))
+6 Notethatunliketheself-attentionlayer,thekeyandqueryvectorsinencoder-decoderattentioncanhavedif‐
+ferentlengths.Thisisbecausetheencoderanddecoderinputswillgenerallyinvolvesequencesofdiffering
+length.Asaresult,thematrixofattentionscoresinthislayerisrectangular,notsquare.

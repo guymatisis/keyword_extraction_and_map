@@ -1,0 +1,39 @@
+<header><largefont><b>Double</b></largefont> <largefont><b>DQN</b></largefont></header>
+paper,14
+In a 2015 DeepMind researchers tweaked their DQN algorithm, increasing
+its performance and somewhat stabilizing training. They called this variant <i>Double</i>
+<i>DQN.</i> The update was based on the observation that the target network is prone to
+overestimating Q-Values. Indeed, suppose all actions are equally good: the Q-Values
+estimated by the target model should be identical, but since they are approximations,
+some may be slightly greater than others, by pure chance. The target model will
+always select the largest Q-Value, which will be slightly greater than the mean Q-
+Value, most likely overestimating the true Q-Value (a bit like counting the height of
+the tallest random wave when measuring the depth of a pool). To fix this, they pro‐
+posed using the online model instead of the target model when selecting the best
+actions for the next states, and using the target model only to estimate the Q-Values
+for these best actions. Here is the updated training_step() function:
+<b>def</b> training_step(batch_size):
+experiences = sample_experiences(batch_size)
+states, actions, rewards, next_states, dones = experiences
+next_Q_values = model.predict(next_states)
+best_next_actions = np.argmax(next_Q_values, axis=1)
+next_mask = tf.one_hot(best_next_actions, n_outputs).numpy()
+next_best_Q_values = (target.predict(next_states) * next_mask).sum(axis=1)
+target_Q_values = (rewards +
+(1 - dones) * discount_factor * next_best_Q_values)
+mask = tf.one_hot(actions, n_outputs)
+[...] <i>#</i> <i>the</i> <i>rest</i> <i>is</i> <i>the</i> <i>same</i> <i>as</i> <i>earlier</i>
+Just a few months later, another improvement to the DQN algorithm was proposed.
+<header><largefont><b>Prioritized</b></largefont> <largefont><b>Experience</b></largefont> <largefont><b>Replay</b></largefont></header>
+Instead of sampling experiences <i>uniformly</i> from the replay buffer, why not sample
+important experiences more frequently? This idea is called <i>importance</i> <i>sampling</i> (IS)
+or <i>prioritized</i> <i>experience</i> <i>replay</i> (PER), and it was introduced in a 2015 paper 15 by
+DeepMind researchers (once again!).
+More specifically, experiences are considered “important” if they are likely to lead to
+fast learning progress. But how can we estimate this? One reasonable approach is to
+′
+measure the magnitude of the TD error <i>δ</i> = <i>r</i> + <i>γ·V(s</i> ) – <i>V(s).</i> A large TD error indi‐
+cates that a transition (s, <i>r,</i> <i>s′)</i> is very surprising, and thus probably worth learning
+14 HadovanHasseltetal.,“DeepReinforcementLearningwithDoubleQ-Learning,”Proceedingsofthe30th
+<i>AAAIConferenceonArtificialIntelligence(2015):2094–2100.</i>
+15 TomSchauletal.,“PrioritizedExperienceReplay,”arXivpreprintarXiv:1511.05952(2015).

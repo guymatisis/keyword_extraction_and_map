@@ -1,0 +1,35 @@
+represents. Our goal is to produce a program, called a <i>model,</i> that, given a new image,
+will make an accurate <i>prediction</i> regarding what that new image represents.
+Every model starts with a choice of <i>architecture,</i> a general template for how that kind
+of model works internally. The process of <i>training</i> (or <i>fitting)</i> the model is the process
+of finding a set of <i>parameter</i> <i>values</i> (or <i>weights)</i> that specialize that general architec‐
+ture into a model that works well for our particular kind of data. To define how well a
+model does on a single prediction, we need to define a <i>loss</i> <i>function,</i> which deter‐
+mines how we score a prediction as good or bad.
+To make the training process go faster, we might start with a <i>pretrained</i> <i>model—a</i>
+model that has already been trained on someone else’s data. We can then adapt it to
+our data by training it a bit more on our data, a process called <i>fine-tuning.</i>
+When we train a model, a key concern is to ensure that our model <i>generalizes:</i> it
+learns general lessons from our data that also apply to new items it will encounter, so
+it can make good predictions on those items. The risk is that if we train our model
+badly, instead of learning general lessons, it effectively memorizes what it has already
+seen, and then it will make poor predictions about new images. Such a failure is
+called <i>overfitting.</i>
+To avoid this, we always divide our data into two parts, the <i>training</i> <i>set</i> and the <i>valida‐</i>
+<i>tion</i> <i>set.</i> We train the model by showing it only the training set, and then we evaluate
+how well the model is doing by seeing how well it performs on items from the valida‐
+tion set. In this way, we check if the lessons the model learns from the training set are
+lessons that generalize to the validation set. In order for a person to assess how well
+the model is doing on the validation set overall, we define a <i>metric.</i> During the train‐
+ing process, when the model has seen every item in the training set, we call that an
+<i>epoch.</i>
+All these concepts apply to machine learning in general. They apply to all sorts of
+schemes for defining a model by training it with data. What makes deep learning dis‐
+tinctive is a particular class of architectures: the architectures based on <i>neural</i> <i>net‐</i>
+<i>works.</i> In particular, tasks like image classification rely heavily on <i>convolutional</i> <i>neural</i>
+<i>networks,</i> which we will discuss shortly.
+<header><largefont><b>Deep</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>Is</b></largefont> <largefont><b>Not</b></largefont> <largefont><b>Just</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Image</b></largefont> <largefont><b>Classification</b></largefont></header>
+Deep learning’s effectiveness for classifying images has been widely discussed in
+recent years, even showing <i>superhuman</i> results on complex tasks like recognizing
+malignant tumors in CT scans. But it can do a lot more than this, as we will show
+here.

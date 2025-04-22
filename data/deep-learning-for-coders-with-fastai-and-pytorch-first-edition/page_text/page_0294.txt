@@ -1,0 +1,24 @@
+decision that separated high-value from low-value auction results. Asking only about
+coupler_system predicts an average value of 9.21 versus 10.1.
+Returning back to the top node after the first decision point, we can see that a second
+binary decision split has been made, based on asking whether YearMade is less than or
+equal to 1991.5. For the group where this is true (remember, this is now following
+two binary decisions, based on coupler_system and YearMade), the average value is
+9.97, and there are 155,724 auction records in this group. For the group of auctions
+where this decision is false, the average value is 10.4, and there are 205,123 records.
+So again, we can see that the decision tree algorithm has successfully split our more
+expensive auction records into two more groups that differ in value significantly.
+We can show the same information using Terence Parr’s powerful dtreeviz library:
+samp_idx = np.random.permutation(len(y))[:500]
+dtreeviz(m, xs.iloc[samp_idx], y.iloc[samp_idx], xs.columns, dep_var,
+fontname='DejaVu Sans', scale=1.6, label_fontsize=10,
+orientation='LR')
+This shows a chart of the distribution of the data for each split point. We can clearly
+see that there’s a problem with our YearMade data: there are bulldozers made in the
+year 1000, apparently! Presumably, this is just a missing value code (a value that
+doesn’t otherwise appear in the data and that is used as a placeholder in cases where a
+value is missing). For modeling purposes, 1000 is fine, but as you can see, this outlier
+makes visualizing the values we are interested in more difficult. So, let’s replace it with
+1950:
+xs.loc[xs['YearMade']<1900, 'YearMade'] = 1950
+valid_xs.loc[valid_xs['YearMade']<1900, 'YearMade'] = 1950

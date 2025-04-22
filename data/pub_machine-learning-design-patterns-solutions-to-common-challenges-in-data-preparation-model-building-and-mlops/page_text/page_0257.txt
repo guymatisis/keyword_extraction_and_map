@@ -1,0 +1,37 @@
+transformed_features = tf_transform_layer(parsed_features)
+<b>return</b> model(transformed_features)
+In this way, we are making sure to insert the transformations into the model graph
+for serving. At the same time, because the model training happens on the trans‐
+formed data, our training loop does not have to carry out these transformations dur‐
+ing each epoch.
+<b>Textandimagetransformations</b>
+In text models, it is common to preprocess input text (such as to remove punctua‐
+tion, stop words, capitalization, stemming, and so on) before providing the cleaned
+text as a feature to the model. Other common feature engineering on text inputs
+includes tokenization and regular expression matching. It is essential that the same
+cleanup or extraction steps be carried out at inference time.
+The need to capture transformations is important even if there is no explicit feature
+engineering as when using deep learning with images. Image models usually have an
+Input layer that accepts images of a specific size. Image inputs of a different size will
+have to be cropped, padded, or resampled to this fixed size before being fed into the
+model. Other common transformations in image models include color manipulations
+(gamma correction, grayscale conversion, and so on) and orientation correction. It is
+essential that such transformations be identical between what was carried out on the
+training dataset and what will be carried out during inference. The Transform pattern
+helps ensure this reproducibility.
+With image models, there are some transformations (such as data augmentation by
+random cropping and zooming) that are applied only during training. These trans‐
+formations do not need to be captured during inference. Such transformations will
+not be part of the Transform pattern.
+<b>Alternatepatternapproaches</b>
+An alternative approach to solving the training-serving skew problem is to employ
+the Feature Store pattern. The feature store comprises a coordinated computation
+engine and repository of transformed feature data. The computation engine supports
+low-latency access for inference and batch creation of transformed features while the
+data repository provides quick access to transformed features for model training. The
+advantage of a feature store is there is no requirement for the transformation opera‐
+tions to fit into the model graph. For example, as long as the feature store supports
+Java, the preprocessing operations could be carried out in Java while the model itself
+could be written in PyTorch. The disadvantage of a feature store is that it makes the
+model dependent on the feature store and makes the serving infrastructure much
+more complex.

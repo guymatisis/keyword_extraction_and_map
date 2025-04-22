@@ -1,0 +1,38 @@
+your model architecture. Once you are happy with your model’s performance during
+evaluation, you’ll likely want to serve your model so that others can access it to make
+predictions. We use the term <i>serving</i> to refer to accepting incoming requests and
+sending back predictions by deploying the model as a microservice. The serving
+infrastructure could be in the cloud, on-premises, or on-device.
+The process of sending new data to your model and making use of its output is called
+<i>prediction.</i> This can refer both to generating predictions from local models that have
+not yet been deployed as well as getting predictions from deployed models. For
+deployed models, we’ll refer both to online and batch prediction. <i>Online</i> <i>prediction</i> is
+used when you want to get predictions on a few examples in near real time. With
+online prediction, the emphasis is on low latency. <i>Batch</i> <i>prediction,</i> on the other
+hand, refers to generating predictions on a large set of data offline. Batch prediction
+jobs take longer than online prediction and are useful for precomputing predictions
+(such as in recommendation systems) and in analyzing your model’s predictions
+across a large sample of new data.
+The word <i>prediction</i> is apt when it comes to forecasting future values, such as in pre‐
+dicting the duration of a bicycle ride or predicting whether a shopping cart will be
+abandoned. It is less intuitive in the case of image and text classification models. If an
+ML model looks at a text review and outputs that the sentiment is positive, it’s not
+really a “prediction” (there is no future outcome). Hence, you will also see word <i>infer‐</i>
+<i>ence</i> being used to refer to predictions. The statistical term inference is being repur‐
+posed here, but it’s not really about reasoning.
+Often, the processes of collecting training data, feature engineering, training, and
+evaluating your model are handled separately from the production pipeline. When
+this is the case, you’ll reevaluate your solution whenever you decide you have enough
+additional data to train a new version of your model. In other situations, you may
+have new data being ingested continuously and need to process this data immediately
+before sending it to your model for training or prediction. This is known as <i>stream‐</i>
+<i>ing.</i> To handle streaming data, you’ll need a multistep solution for performing feature
+engineering, training, evaluation, and predictions. Such multistep solutions are called
+<i>ML</i> <i>pipelines.</i>
+<header><largefont><b>Data</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>Tooling</b></largefont></header>
+There are various Google Cloud products we’ll be referencing that provide tooling for
+solving data and machine learning problems. These products are merely one option
+for implementing the design patterns referenced in this book and are not meant to be
+an exhaustive list. All of the products included here are serverless, allowing us to
+focus more on implementing machine learning design patterns instead of the infra‐
+structure behind them.

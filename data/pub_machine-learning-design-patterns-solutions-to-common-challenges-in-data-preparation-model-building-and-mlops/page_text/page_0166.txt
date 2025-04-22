@@ -1,0 +1,38 @@
+The histology dataset comes with images as (150,150,3) dimensional arrays. This
+150×150×3 representation is the <i>highest</i> dimensionality. To use the VGG model with
+our image data, we can load it with the following:
+vgg_model = tf.keras.applications.VGG19(
+include_top=False,
+weights='imagenet',
+input_shape=((150,150,3))
+)
+vgg_model.trainable = False
+By setting include_top=False , we’re specifying that the last layer of VGG we want to
+input_shape
+load is the bottleneck layer. The we passed in matches the input shape
+of our histology images. A summary of the last few layers of this updated VGG model
+looks like the following:
+block5_conv3 (Conv2D) (None, 9, 9, 512) 2359808
+_________________________________________________________________
+block5_conv4 (Conv2D) (None, 9, 9, 512) 2359808
+_________________________________________________________________
+block5_pool (MaxPooling2D) (None, 4, 4, 512) 0
+=================================================================
+Total params: 20,024,384
+Trainable params: 0
+Non-trainable params: 20,024,384
+_________________________________________________________________
+The last layer is now our bottleneck layer. You may notice that the size of
+block5_pool
+is (4,4,512), whereas before, it was (7,7,512). This is because we instanti‐
+ated VGG with an input_shape parameter to account for the size of the images in
+our dataset. It’s also worth noting that setting include_top=False is hardcoded to
+block5_pool
+use as the bottleneck layer, but if you want to customize this, you can
+load the full model and delete any additional layers you don’t want to use.
+Before this model is ready to be trained, we’ll need to add a few layers on top, specific
+to our data and classification task. It’s also important to note that because we’ve set
+trainable=False
+, there are 0 trainable parameters in the current model.
+As a general rule of thumb, the bottleneck layer is typically the last,
+lowest-dimensionality, flattened layer before a flattening operation.

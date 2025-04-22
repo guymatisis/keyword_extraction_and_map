@@ -1,0 +1,42 @@
+invariant to the position of the tokens. Since the multi-head attention layer is effec‐
+tively a fancy weighted sum, the information on token position is lost.4
+Luckily, there is an easy trick to incorporate positional information using positional
+embeddings. Let’s take a look.
+<header><largefont><b>Positional</b></largefont> <largefont><b>Embeddings</b></largefont></header>
+Positional embeddings are based on a simple, yet very effective idea: augment the
+token embeddings with a position-dependent pattern of values arranged in a vector.
+If the pattern is characteristic for each position, the attention heads and feed-forward
+layers in each stack can learn to incorporate positional information into their trans‐
+formations.
+There are several ways to achieve this, and one of the most popular approaches is to
+use a learnable pattern, especially when the pretraining dataset is sufficiently large.
+This works exactly the same way as the token embeddings, but using the position
+index instead of the token ID as input. With that approach, an efficient way of encod‐
+ing the positions of tokens is learned during pretraining.
+Embeddings
+Let’s create a custom module that combines a token embedding layer that
+input_ids
+projects the to a dense hidden state together with the positional embed‐
+ding that does the same for position_ids . The resulting embedding is simply the
+sum of both embeddings:
+<b>class</b> <b>Embeddings(nn.Module):</b>
+<b>def</b> __init__(self, config):
+super().__init__()
+self.token_embeddings = nn.Embedding(config.vocab_size,
+config.hidden_size)
+self.position_embeddings = nn.Embedding(config.max_position_embeddings,
+config.hidden_size)
+self.layer_norm = nn.LayerNorm(config.hidden_size, eps=1e-12)
+self.dropout = nn.Dropout()
+<b>def</b> forward(self, input_ids):
+<i>#</i> <i>Create</i> <i>position</i> <i>IDs</i> <i>for</i> <i>input</i> <i>sequence</i>
+seq_length = input_ids.size(1)
+position_ids = torch.arange(seq_length, dtype=torch.long).unsqueeze(0)
+<i>#</i> <i>Create</i> <i>token</i> <i>and</i> <i>position</i> <i>embeddings</i>
+token_embeddings = self.token_embeddings(input_ids)
+position_embeddings = self.position_embeddings(position_ids)
+<i>#</i> <i>Combine</i> <i>token</i> <i>and</i> <i>position</i> <i>embeddings</i>
+embeddings = token_embeddings + position_embeddings
+embeddings = self.layer_norm(embeddings)
+4 Infancierterminology,theself-attentionandfeed-forwardlayersaresaidtobepermutationequivariant—if
+theinputispermutedthenthecorrespondingoutputofthelayerispermutedinexactlythesameway.

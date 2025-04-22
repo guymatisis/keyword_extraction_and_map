@@ -1,0 +1,23 @@
+Then let’s test the pipeline with a sample tweet:
+custom_tweet = "I saw a movie today and it was really good."
+preds = classifier(custom_tweet, return_all_scores=True)
+Finally, we can plot the probability for each class in a bar plot. Clearly, the model esti‐
+mates that the most likely class is joy , which appears to be reasonable given the tweet:
+preds_df = pd.DataFrame(preds[0])
+plt.bar(labels, 100 * preds_df["score"], color='C0')
+plt.title(f'"{custom_tweet}"')
+plt.ylabel("Class probability (%)")
+plt.show()
+<header><largefont><b>Conclusion</b></largefont></header>
+Congratulations, you now know how to train a transformer model to classify the
+emotions in tweets! We have seen two complementary approaches based on features
+and fine-tuning, and investigated their strengths and weaknesses.
+However, this is just the first step in building a real-world application with trans‐
+former models, and we have a lot more ground to cover. Here’s a list of challenges
+you’re likely to experience in your NLP journey:
+<i>My</i> <i>boss</i> <i>wants</i> <i>my</i> <i>model</i> <i>in</i> <i>production</i> <i>yesterday!</i>
+In most applications, your model doesn’t just sit somewhere gathering dust—you
+want to make sure it’s serving predictions! When a model is pushed to the Hub,
+an inference endpoint is automatically created that can be called with HTTP
+requests. We recommend checking out the documentation of the Inference API if
+you want to learn more.

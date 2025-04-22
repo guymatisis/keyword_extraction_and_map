@@ -1,0 +1,25 @@
+<b>Supervisedlearning</b>
+In <i>supervised</i> <i>learning,</i> the training set you feed to the algorithm includes the desired
+solutions, called <i>labels</i> (Figure 1-5).
+<i>Figure</i> <i>1-5.</i> <i>A</i> <i>labeled</i> <i>training</i> <i>set</i> <i>for</i> <i>spam</i> <i>classification</i> <i>(an</i> <i>example</i> <i>of</i> <i>supervised</i>
+<i>learning)</i>
+A typical supervised learning task is <i>classification.</i> The spam filter is a good example
+of this: it is trained with many example emails along with their <i>class</i> (spam or ham),
+and it must learn how to classify new emails.
+Another typical task is to predict a <i>target</i> numeric value, such as the price of a car,
+given a set of <i>features</i> (mileage, age, brand, etc.) called <i>predictors.</i> This sort of task is
+called <i>regression</i> (Figure 1-6). 1 To train the system, you need to give it many examples
+of cars, including both their predictors and their labels (i.e., their prices).
+In Machine Learning an <i>attribute</i> is a data type (e.g., “mileage”),
+while a <i>feature</i> has several meanings, depending on the context, but
+generally means an attribute plus its value (e.g., “mileage =
+15,000”). Many people use the words <i>attribute</i> and <i>feature</i> inter‐
+changeably.
+Note that some regression algorithms can be used for classification as well, and vice
+versa. For example, <i>Logistic</i> <i>Regression</i> is commonly used for classification, as it can
+output a value that corresponds to the probability of belonging to a given class (e.g.,
+20% chance of being spam).
+1 Funfact:thisodd-soundingnameisastatisticstermintroducedbyFrancisGaltonwhilehewasstudyingthe
+factthatthechildrenoftallpeopletendtobeshorterthantheirparents.Sincethechildrenwereshorter,he
+calledthisregressiontothemean.Thisnamewasthenappliedtothemethodsheusedtoanalyzecorrelations
+betweenvariables.

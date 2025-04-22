@@ -1,0 +1,17 @@
+One other area where deep learning has dramatically improved in the last couple of
+years is natural language processing (NLP). Computers can now generate text, trans‐
+late automatically from one language to another, analyze comments, label words in
+sentences, and much more. Here is all of the code necessary to train a model that can
+classify the sentiment of a movie review better than anything that existed in the world
+just five years ago:
+<b>from</b> <b>fastai.text.all</b> <b>import</b> *
+dls = TextDataLoaders.from_folder(untar_data(URLs.IMDB), valid='test')
+learn = text_classifier_learner(dls, AWD_LSTM, drop_mult=0.5, metrics=accuracy)
+learn.fine_tune(4, 1e-2)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.594912 0.407416 0.823640 01:35
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.268259 0.316242 0.876000 03:03
+1 0.184861 0.246242 0.898080 03:10
+2 0.136392 0.220086 0.918200 03:16
+3 0.106423 0.191092 0.931360 03:15

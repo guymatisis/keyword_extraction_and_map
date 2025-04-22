@@ -1,0 +1,41 @@
+Amanda: Don't be shy, he's very nice
+Hannah: If you say so..
+Hannah: I'd rather you texted him
+Amanda: Just text him
+Hannah: Urgh.. Alright
+Hannah: Bye
+Amanda: Bye bye
+Reference Summary:
+Hannah needs Betty's number but Amanda doesn't have it. She needs to contact
+Larry.
+Model Summary:
+Amanda can't find Betty's number. Larry called Betty last time they were at the
+park together. Hannah wants Amanda to text Larry instead of calling Betty.
+That looks much more like the reference summary. It seems the model has learned to
+synthesize the dialogue into a summary without just extracting passages. Now, the
+ultimate test: how well does the model work on a custom input?
+custom_dialogue = """\
+Thom: Hi guys, have you heard of transformers?
+Lewis: Yes, I used them recently!
+Leandro: Indeed, there is a great library by Hugging Face.
+Thom: I know, I helped build it ;)
+Lewis: Cool, maybe we should write a book about it. What do you think?
+Leandro: Great idea, how hard can it be?!
+Thom: I am in!
+Lewis: Awesome, let's do it together!
+"""
+<b>print(pipe(custom_dialogue,</b> **gen_kwargs)[0]["summary_text"])
+Thom, Lewis and Leandro are going to write a book about transformers. Thom
+helped build a library by Hugging Face. They are going to do it together.
+The generated summary of the custom dialogue makes sense. It summarizes well that
+all the people in the discussion want to write the book together and does not simply
+extract single sentences. For example, it synthesizes the third and fourth lines into a
+logical combination.
+<header><largefont><b>Conclusion</b></largefont></header>
+Text summarization poses some unique challenges compared to other tasks that can
+be framed as classification tasks, like sentiment analysis, named entity recognition, or
+question answering. Conventional metrics such as accuracy do not reflect the quality
+of the generated text. As we saw, the BLEU and ROUGE metrics can better evaluate
+generated texts; however, human judgment remains the best measure.
+A common question when working with summarization models is how we can sum‐
+marize documents where the texts are longer than the model’s context length.

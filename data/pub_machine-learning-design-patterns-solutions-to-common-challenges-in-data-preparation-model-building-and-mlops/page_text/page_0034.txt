@@ -1,0 +1,36 @@
+<i>Table</i> <i>2-1.</i> <i>The</i> <i>FarmHash</i> <i>of</i> <i>some</i> <i>IATA</i> <i>airport</i> <i>codes</i> <i>when</i> <i>hashed</i> <i>into</i> <i>different</i>
+<i>numbers</i> <i>of</i> <i>buckets</i>
+<b>Row</b> <b>departure_airport</b> <b>hash3</b> <b>hash10</b> <b>hash1000</b>
+1 DTW 1 3 543
+2 LBB 2 9 709
+3 SNA 2 7 587
+4 MSO 2 7 737
+5 ANC 0 8 508
+6 PIT 1 7 267
+7 PWM 1 9 309
+8 BNA 1 4 744
+9 SAF 1 2 892
+10 IPL 2 1 591
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+Assume that we have chosen to hash the airport code using 10 buckets (hash10 in
+Table 2-1). How does this address the problems we identified?
+<b>Out-of-vocabularyinput</b>
+Even if an airport with a handful of flights is not part of the training dataset, its
+hashed feature value will be in the range [0–9]. Therefore, there is no resilience prob‐
+lem during serving—the unknown airport will get the predictions corresponding
+with other airports in the hash bucket. The model will not error out.
+If we have 347 airports, an average of 35 airports will get the same hash bucket code if
+we hash it into 10 buckets. An airport that is missing from the training dataset will
+“borrow” its characteristics from the other similar ~35 airports in the hash bucket. Of
+course, the prediction for a missing airport won’t be accurate (it is unreasonable to
+expect accurate predictions for unknown inputs), but it will be in the right range.
+Choose the number of hash buckets by balancing the need to handle out-of-
+vocabulary inputs reasonably and the need to have the model accurately reflect the
+categorical input. With 10 hash buckets, ~35 airports get commingled. A good rule of
+thumb is to choose the number of hash buckets such that each bucket gets about five
+entries. In this case, that would mean that 70 hash buckets is a good compromise.
+<b>Highcardinality</b>
+It’s easy to see that the high cardinality problem is addressed as long as we choose a
+small enough number of hash buckets. Even if we have millions of airports or hospi‐
+tals or physicians, we can hash them into a few hundred buckets, thus keeping the
+system’s memory and model size requirements practical.

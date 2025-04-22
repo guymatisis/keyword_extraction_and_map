@@ -1,0 +1,21 @@
+We can load them back later:
+xs_final = (path/'xs_final.pkl').load()
+valid_xs_final = (path/'valid_xs_final.pkl').load()
+Now we can check our RMSE again, to confirm that the accuracy hasn’t substantially
+changed:
+m = rf(xs_final, y)
+m_rmse(m, xs_final, y), m_rmse(m, valid_xs_final, valid_y)
+(0.183263, 0.233846)
+By focusing on the most important variables and removing some redundant ones,
+we’ve greatly simplified our model. Now, let’s see how those variables affect our pre‐
+dictions using partial dependence plots.
+<header><largefont><b>Partial</b></largefont> <largefont><b>Dependence</b></largefont></header>
+ProductSize YearMade.
+As we’ve seen, the two most important predictors are and
+We’d like to understand the relationship between these predictors and sale price. It’s a
+good idea to first check the count of values per category (provided by the Pandas
+value_counts method), to see how common each category is:
+p = valid_xs_final['ProductSize'].value_counts(sort=False).plot.barh()
+c = to.classes['ProductSize']
+plt.yticks(range(len(c)), c);
+The largest group is #na#, which is the label fastai applies to missing values.

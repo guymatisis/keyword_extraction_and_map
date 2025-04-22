@@ -1,0 +1,41 @@
+<b>with</b> tokenizer.as_target_tokenizer():
+target_encodings = tokenizer(example_batch["summary"], max_length=128,
+truncation=True)
+<b>return</b> {"input_ids": input_encodings["input_ids"],
+"attention_mask": input_encodings["attention_mask"],
+"labels": target_encodings["input_ids"]}
+dataset_samsum_pt = dataset_samsum.map(convert_examples_to_features,
+batched=True)
+columns = ["input_ids", "labels", "attention_mask"]
+dataset_samsum_pt.set_format(type="torch", columns=columns)
+A new thing in the use of the tokenization step is the tokenizer.as_target_token
+izer() context. Some models require special tokens in the decoder inputs, so it’s
+important to differentiate between the tokenization of encoder and decoder inputs. In
+the with statement (called a <i>context</i> <i>manager),</i> the tokenizer knows that it is tokeniz‐
+ing for the decoder and can process sequences accordingly.
+Trainer
+Now, we need to create the data collator. This function is called in the just
+before the batch is fed through the model. In most cases we can use the default colla‐
+tor, which collects all the tensors from the batch and simply stacks them. For the
+summarization task we need to not only stack the inputs but also prepare the targets
+on the decoder side. PEGASUS is an encoder-decoder transformer and thus has the
+classic seq2seq architecture. In a seq2seq setup, a common approach is to apply
+“teacher forcing” in the decoder. With this strategy, the decoder receives input tokens
+(like in decoder-only models such as GPT-2) that consists of the labels shifted by one
+in addition to the encoder output; so, when making the prediction for the next token
+the decoder gets the ground truth shifted by one as an input, as illustrated in the fol‐
+lowing table:
+<b>decoder_input</b> <b>label</b>
+<b>step</b>
+<b>1</b> [PAD] Transformers
+<b>2</b> [PAD,Transformers] are
+<b>3</b> [PAD,Transformers,are] awesome
+[PAD,Transformers,are,awesome] for
+<b>4</b>
+[PAD,Transformers,are,awesome,for] text
+<b>5</b>
+[PAD,Transformers,are,awesome,for,text] summarization
+<b>6</b>
+We shift it by one so that the decoder only sees the previous ground truth labels and
+not the current or future ones. Shifting alone suffices since the decoder has masked
+self-attention that masks all inputs at present and in the future.

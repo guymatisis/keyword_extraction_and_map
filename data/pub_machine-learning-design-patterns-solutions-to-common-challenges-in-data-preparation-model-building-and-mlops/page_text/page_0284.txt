@@ -1,0 +1,39 @@
+<header><largefont><b>Solution</b></largefont></header>
+To handle the problems that come with scaling machine learning processes, we can
+make each step in our ML workflow a separate, containerized service. Containers
+guarantee that we’ll be able to run the same code in different environments, and that
+we’ll see consistent behavior between runs. These individual containerized steps
+together are then chained together to make a <i>pipeline</i> that can be run with a REST
+API call. Because pipeline steps run in containers, we can run them on a development
+laptop, with on-premises infrastructure, or with a hosted cloud service. This pipeline
+workflow allows team members to build out pipeline steps independently. Containers
+also provide a reproducible way to run an entire pipeline end to end, since they guar‐
+antee consistency among library dependency versions and runtime environments.
+Additionally, because containerizing pipeline steps allows for a separation of con‐
+cerns, individual steps can use different runtimes and language versions.
+There are many tools for creating pipelines with both on-premise and cloud options
+available, including Cloud AI Platform Pipelines, TensorFlow Extended (TFX),
+Kubeflow Pipelines (KFP), MLflow, and Apache Airflow. To demonstrate the Work‐
+flow Pipeline design pattern here, we’ll define our pipeline with TFX and run it on
+Cloud AI Platform Pipelines, a hosted service for running ML pipelines on Google
+Cloud using Google Kubernetes Engine (GKE) as the underlying container infra‐
+structure.
+Steps in TFX pipelines are known as <i>components,</i> and both pre-built and customiza‐
+ble components are available. Typically, the first component in a TFX pipeline is one
+that ingests data from an external source. This is referred to as an ExampleGen com‐
+ponent where example refers to the machine learning terminology for a labeled
+ExampleGen
+instance used for training. components allow you to source data from
+CSV files, TFRecords, BigQuery, or a custom source. The BigQueryExampleGen com‐
+ponent, for example, lets us connect data stored in BigQuery to our pipeline by speci‐
+fying a query that will fetch the data. Then it will store that data as TFRecords in a
+GCS bucket so that it can be used by the next component. This is a component we
+customize by passing it a query. These ExampleGen components address the data col‐
+lection phase of an ML workflow outlined in Figure 6-6.
+The next step of this workflow is data validation. Once we’ve ingested data, we can
+pass it to other components for transformation or analysis before training a model.
+The StatisticsGen component takes data ingested from an ExampleGen step and
+generates summary statistics on the provided data. The SchemaGen outputs the infer‐
+SchemaGen
+red schema from our ingested data. Utilizing the output of , the
+ExampleValidator performs anomaly detection on our dataset and checks for signs

@@ -1,0 +1,31 @@
+For the identifier columns, a partial dependence plot showed that when the informa‐
+tion was missing, the application was almost always rejected. It turned out that in
+practice, the university filled out much of this information only <i>after</i> a grant applica‐
+tion was accepted. Often, for applications that were not accepted, it was just left
+blank. Therefore, this information was not something that was available at the time
+that the application was received, and it would not be available for a predictive model
+—it was data leakage.
+In the same way, the final processing of successful applications was often done auto‐
+matically as a batch at the end of the week, or the end of the year. It was this final
+processing date that ended up in the data, so again, this information, while predictive,
+was not actually available at the time that the application was received.
+This example showcases the most practical and simple approaches to identifying data
+leakage, which are to build a model and then do the following:
+• Check whether the accuracy of the model is <i>too</i> <i>good</i> <i>to</i> <i>be</i> <i>true.</i>
+• Look for important predictors that don’t make sense in practice.
+• Look for partial dependence plot results that don’t make sense in practice.
+Thinking back to our bear detector, this mirrors the advice that we provided in Chap‐
+ter 2—it is often a good idea to build a model first and then do your data cleaning,
+rather than vice versa. The model can help you identify potentially problematic data
+issues.
+It can also help you identify which factors influence specific predictions, with tree
+interpreters.
+<header><largefont><b>Tree</b></largefont> <largefont><b>Interpreter</b></largefont></header>
+At the start of this section, we said that we wanted to be able to answer five questions:
+• How confident are we in our predictions using a particular row of data?
+• For predicting with a particular row of data, what were the most important fac‐
+tors, and how did they influence that prediction?
+• Which columns are the strongest predictors?
+• Which columns are effectively redundant with each other, for purposes of
+prediction?
+• How do predictions vary as we vary these columns?

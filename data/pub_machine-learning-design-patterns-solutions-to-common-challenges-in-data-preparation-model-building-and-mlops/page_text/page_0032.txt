@@ -1,0 +1,33 @@
+<header><largefont><b>Design</b></largefont> <largefont><b>Pattern</b></largefont> <largefont><b>1:</b></largefont> <largefont><b>Hashed</b></largefont> <largefont><b>Feature</b></largefont></header>
+The Hashed Feature design pattern addresses three possible problems associated with
+categorical features: incomplete vocabulary, model size due to cardinality, and cold
+start. It does so by grouping the categorical features and accepting the trade-off of
+collisions in the data representation.
+<header><largefont><b>Problem</b></largefont></header>
+One-hot encoding a categorical input variable requires knowing the vocabulary
+beforehand. This is not a problem if the input variable is something like the language
+a book is written in or the day of the week that traffic level is being predicted.
+What if the categorical variable in question is something like the hospital_id of
+physician_id
+where the baby is born or the of the person delivering the baby? Cate‐
+gorical variables like these pose a few problems:
+• Knowing the vocabulary requires extracting it from the training data. Due to
+random sampling, it is possible that the training data does not contain all the
+possible hospitals or physicians. The vocabulary might be <i>incomplete.</i>
+• The categorical variables have <i>high</i> <i>cardinality.</i> Instead of having feature vectors
+with three languages or seven days, we have feature vectors whose length is in the
+thousands to millions. Such feature vectors pose several problems in practice.
+They involve so many weights that the training data may be insufficient. Even if
+we can train the model, the trained model will require a lot of space to store
+because the entire vocabulary is needed at serving time. Thus, we may not be able
+to deploy the model on smaller devices.
+• After the model is placed into production, new hospitals might be built and new
+physicians hired. The model will be unable to make predictions for these, and so
+a separate serving infrastructure will be required to handle such <i>cold-start</i>
+problems.
+Even with simple representations like one-hot encoding, it is worth
+anticipating the cold-start problem and explicitly reserving all
+zeros for out-of-vocabulary inputs.
+As a concrete example, let’s take the problem of predicting the arrival delay of a
+flight. One of the inputs to the model is the departure airport. There were, at the time
+the dataset was collected, 347 airports in the United States:

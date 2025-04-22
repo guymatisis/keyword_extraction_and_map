@@ -1,0 +1,38 @@
+• The paper only guarantees self-normalization if all layers are dense, but some
+researchers have noted that the SELU activation function can improve perfor‐
+mance in convolutional neural nets as well (see Chapter 14).
+So, which activation function should you use for the hidden layers
+of your deep neural networks? Although your mileage will vary, in
+general SELU > ELU > leaky ReLU (and its variants) > ReLU > tanh
+> logistic. If the network’s architecture prevents it from self-
+normalizing, then ELU may perform better than SELU (since SELU
+is not smooth at <i>z</i> = 0). If you care a lot about runtime latency, then
+you may prefer leaky ReLU. If you don’t want to tweak yet another
+hyperparameter, you may use the default <i>α</i> values used by Keras
+(e.g., 0.3 for leaky ReLU). If you have spare time and computing
+power, you can use cross-validation to evaluate other activation
+functions, such as RReLU if your network is overfitting or PReLU
+if you have a huge training set. That said, because ReLU is the most
+used activation function (by far), many libraries and hardware
+accelerators provide ReLU-specific optimizations; therefore, if
+speed is your priority, ReLU might still be the best choice.
+To use the leaky ReLU activation function, create a LeakyReLU layer and add it to your
+model just after the layer you want to apply it to:
+model = keras.models.Sequential([
+[...]
+keras.layers.Dense(10, kernel_initializer="he_normal"),
+keras.layers.LeakyReLU(alpha=0.2),
+[...]
+])
+For PReLU, replace LeakyRelu(alpha=0.2) with PReLU() . There is currently no offi‐
+cial implementation of RReLU in Keras, but you can fairly easily implement your own
+(to learn how to do that, see the exercises at the end of Chapter 12).
+For SELU activation, set activation="selu" and kernel_initializer="lecun_nor
+mal"
+when creating a layer:
+layer = keras.layers.Dense(10, activation="selu",
+kernel_initializer="lecun_normal")
+<header><largefont><b>Batch</b></largefont> <largefont><b>Normalization</b></largefont></header>
+Although using He initialization along with ELU (or any variant of ReLU) can signifi‐
+cantly reduce the danger of the vanishing/exploding gradients problems at the begin‐
+ning of training, it doesn’t guarantee that they won’t come back during training.

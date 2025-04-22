@@ -1,0 +1,29 @@
+<b>from</b> <b>sklearn.model_selection</b> <b>import</b> StratifiedShuffleSplit
+split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+<b>for</b> train_index, test_index <b>in</b> split.split(housing, housing["income_cat"]):
+strat_train_set = housing.loc[train_index]
+strat_test_set = housing.loc[test_index]
+Let’s see if this worked as expected. You can start by looking at the income category
+proportions in the test set:
+<b>>>></b> strat_test_set["income_cat"].value_counts() / len(strat_test_set)
+3 0.350533
+2 0.318798
+4 0.176357
+5 0.114583
+1 0.039729
+Name: income_cat, dtype: float64
+With similar code you can measure the income category proportions in the full data‐
+set. Figure 2-10 compares the income category proportions in the overall dataset, in
+the test set generated with stratified sampling, and in a test set generated using purely
+random sampling. As you can see, the test set generated using stratified sampling has
+income category proportions almost identical to those in the full dataset, whereas the
+test set generated using purely random sampling is skewed.
+<i>Figure</i> <i>2-10.</i> <i>Sampling</i> <i>bias</i> <i>comparison</i> <i>of</i> <i>stratified</i> <i>versus</i> <i>purely</i> <i>random</i> <i>sampling</i>
+Now you should remove the income_cat attribute so the data is back to its original
+state:
+<b>for</b> set_ <b>in</b> (strat_train_set, strat_test_set):
+set_.drop("income_cat", axis=1, inplace=True)
+We spent quite a bit of time on test set generation for a good reason: this is an often
+neglected but critical part of a Machine Learning project. Moreover, many of these
+ideas will be useful later when we discuss cross-validation. Now it’s time to move on
+to the next stage: exploring the data.

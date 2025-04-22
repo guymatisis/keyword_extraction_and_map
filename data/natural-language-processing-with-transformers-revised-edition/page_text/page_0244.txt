@@ -1,0 +1,28 @@
+<header><largefont><b>Sparsity</b></largefont> <largefont><b>in</b></largefont> <largefont><b>Deep</b></largefont> <largefont><b>Neural</b></largefont> <largefont><b>Networks</b></largefont></header>
+As shown in Figure 8-10, the main idea behind pruning is to gradually remove weight
+connections (and potentially neurons) during training such that the model becomes
+progressively sparser. The resulting pruned model has a smaller number of nonzero
+parameters, which can then be stored in a compact sparse matrix format. Pruning can
+be also combined with quantization to obtain further compression.
+<i>Figure</i> <i>8-10.</i> <i>Weights</i> <i>and</i> <i>neurons</i> <i>before</i> <i>and</i> <i>after</i> <i>pruning</i> <i>(courtesy</i> <i>of</i> <i>Song</i> <i>Han)</i>
+<header><largefont><b>Weight</b></largefont> <largefont><b>Pruning</b></largefont> <largefont><b>Methods</b></largefont></header>
+
+Mathematically, the way most weight pruning methods work is to calculate a matrix
+of <i>importance</i> <i>scores</i> and then select the top <i>k</i> percent of weights by importance:
+1 if <i>S</i> intopk%
+<i>ij</i>
+Top =
+<i>k</i> <i>ij</i>
+0 otherwise
+In effect, <i>k</i> acts as a new hyperparameter to control the amount of sparsity in the
+model—that is, the proportion of weights that are zero-valued. Lower values of <i>k</i> cor‐
+
+respond to sparser matrices. From these scores we can then define a <i>mask</i> <i>matrix</i>
+that masks the weights <i>W</i> during the forward pass with some input <i>x</i> and effectively
+<i>ij</i> <i>i</i>
+creates a sparse network of activations <i>a</i> :
+<i>i</i>
+<largefont>∑</largefont>
+<i>a</i> = <i>W</i> <i>M</i> <i>x</i>
+<i>i</i> <i>ik</i> <i>ik</i> <i>k</i>
+<i>k</i>

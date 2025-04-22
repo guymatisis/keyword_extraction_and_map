@@ -1,0 +1,25 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>4</b></largefont></header>
+<header><largefont><b>Under</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Hood:</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Digit</b></largefont> <largefont><b>Classifier</b></largefont></header>
+Having seen what it looks like to train a variety of models in Chapter 2, let’s now look
+under the hood and see exactly what is going on. We’ll start by using computer vision
+to introduce fundamental tools and concepts for deep learning.
+To be exact, we’ll discuss the roles of arrays and tensors and of broadcasting, a power‐
+ful technique for using them expressively. We’ll explain stochastic gradient descent
+(SGD), the mechanism for learning by updating weights automatically. We’ll discuss
+the choice of a loss function for our basic classification task, and the role of mini-
+batches. We’ll also describe the math that a basic neural network is doing. Finally,
+we’ll put all these pieces together.
+In future chapters, we’ll do deep dives into other applications as well, and see how
+these concepts and tools generalize. But this chapter is about laying foundation
+stones. To be frank, that also makes this one of the hardest chapters, because of how
+these concepts all depend on each other. Like an arch, all the stones need to be in
+place for the structure to stay up. Also like an arch, once that happens, it’s a powerful
+structure that can support other things. But it requires some patience to assemble.
+Let’s begin. The first step is to consider how images are represented in a computer.
+<header><largefont><b>Pixels:</b></largefont> <largefont><b>The</b></largefont> <largefont><b>Foundations</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Computer</b></largefont> <largefont><b>Vision</b></largefont></header>
+To understand what happens in a computer vision model, we first have to understand
+how computers handle images. We’ll use one of the most famous datasets in com‐
+puter vision, MNIST, for our experiments. MNIST contains images of handwritten
+digits, collected by the National Institute of Standards and Technology and collated
+into a machine learning dataset by Yann Lecun and his colleagues. Lecun used
+MNIST in 1998 in LeNet-5, the first computer system to demonstrate practically use‐

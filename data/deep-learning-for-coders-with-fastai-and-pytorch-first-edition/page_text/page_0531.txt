@@ -1,0 +1,35 @@
+<b>class</b> <b>Normalize:</b>
+<b>def</b> <b>__init__(self,</b> stats): self.stats=stats
+<b>def</b> <b>__call__(self,</b> x):
+<b>if</b> x.device != self.stats[0].device:
+self.stats = to_device(self.stats, x.device)
+<b>return</b> (x-self.stats[0])/self.stats[1]
+We always like to test everything we build in a notebook, as soon as we build it:
+norm = Normalize(stats)
+<b>def</b> tfm_x(x): <b>return</b> norm(x).permute((0,3,1,2))
+t = tfm_x(x)
+t.mean((0,2,3)),t.std((0,2,3))
+(tensor([0.3732, 0.4907, 0.5633]), tensor([1.0212, 1.0311, 1.0131]))
+Here tfm_x isn’t just applying Normalize, but is also permuting the axis order from
+NHWC to NCHW (see Chapter 13 if you need a reminder of what these acronyms refer to).
+PIL uses HWC axis order, which we can’t use with PyTorch, hence the need for this
+permute.
+That’s all we need for the data for our model. So now we need the model itself!
+<header><largefont><b>Module</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Parameter</b></largefont></header>
+To create a model, we’ll need Module . To create Module , we’ll need Parameter , so let’s
+start there. Recall that in Chapter 8 we said that the Parameter class “doesn’t add any
+functionality (other than automatically calling requires_grad_ for us). It’s used only
+parameters.”
+as a ‘marker’ to show what to include in Here’s a definition that does
+exactly that:
+<b>class</b> <b>Parameter(Tensor):</b>
+<b>def</b> <b>__new__(self,</b> x): <b>return</b> Tensor._make_subclass(Parameter, x, True)
+<b>def</b> <b>__init__(self,</b> *args, **kwargs): self.requires_grad_()
+The implementation here is a bit awkward: we have to define the special __new__
+Python method and use the internal PyTorch method _make_subclass because, at the
+time of writing, PyTorch doesn’t otherwise work correctly with this kind of subclass‐
+ing or provide an officially supported API to do this. This may have been fixed by the
+time you read this, so look on the book’s website to see if there are updated details.
+Our Parameter now behaves just like a tensor, as we wanted:
+Parameter(tensor(3.))
+tensor(3., requires_grad=True)

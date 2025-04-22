@@ -1,0 +1,37 @@
+<b>Streaming</b>
+Some datasets (reaching up to 1 TB or more) will be difficult to fit even on a standard
+hard drive. In this case, an alternative to scaling up the server you are using is to
+<i>stream</i> the dataset. This is also possible with Datasets for a number of compressed
+or uncompressed file formats that can be read line by line, like JSON Lines, CSV, or
+text (either raw or zip, gzip, or zstandard compressed). Let’s load our dataset directly
+from the compressed JSON files instead of creating a cache file from them:
+streamed_dataset = load_dataset('./codeparrot', split="train", streaming=True)
+As you’ll see, loading the dataset is instantaneous! In streaming mode, the com‐
+pressed JSON files will be opened and read on the fly. Our dataset is now an Iterable
+Dataset
+object. This means that we cannot access random elements of it, like
+streamed_dataset[1264] , but we need to read it in order, for instance with
+next(iter(streamed_dataset)) . It’s still possible to use methods like shuffle() , but
+these will operate by fetching a buffer of examples and shuffling within this buffer
+(the size of the buffer is adjustable). When several files are provided as raw files (like
+our 184 files here), shuffle() will also randomize the order of files for the iteration.
+The samples of a streamed dataset are identical to the samples of a nonstreamed data‐
+set, as we can see:
+iterator = iter(streamed_dataset)
+<b>print(dataset[0]</b> == next(iterator))
+<b>print(dataset[1]</b> == next(iterator))
+True
+True
+The main interest of using a streaming dataset is that loading this dataset will not cre‐
+ate a cache file on the drive or require any (significant) RAM memory. The original
+raw files are extracted and read on the fly when a new batch of examples is requested,
+and only that batch is loaded in memory. This reduces the memory footprint of our
+dataset from 180 GB to 50 GB. But we can take this one step further—instead of
+pointing to the local dataset we can reference the dataset on the Hub, and then
+directly download samples without downloading the raw files locally:
+remote_dataset = load_dataset('transformersbook/codeparrot', split="train",
+streaming=True)
+This dataset behaves exactly like the previous one, but behind the scenes downloads
+the examples on the fly. With such a setup, we can then use arbitrarily large datasets
+on an (almost) arbitrarily small server. Let’s push our dataset with a train and valida‐
+tion split to the Hugging Face Hub and access it with streaming.

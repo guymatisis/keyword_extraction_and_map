@@ -1,0 +1,39 @@
+<i>Quantization-aware</i> <i>training</i>
+The effect of quantization can be effectively simulated during training by “fake”
+quantization of the FP32 values. Instead of using INT8 values during training,
+the FP32 values are rounded to mimic the effect of quantization. This is done
+during both the forward and the backward pass and improves performance in
+terms of model metrics over static and dynamic quantization.
+The main bottleneck for running inference with transformers is the compute and
+memory bandwidth associated with the enormous numbers of weights in these mod‐
+els. For this reason, dynamic quantization is currently the best approach for
+transformer-based models in NLP. In smaller computer vision models the limiting
+factor is the memory bandwidth of the activations, which is why static quantization is
+generally used (or quantization-aware training in cases where the performance drops
+are too significant).
+Implementing dynamic quantization in PyTorch is quite simple and can be done with
+a single line of code:
+<b>from</b> <b>torch.quantization</b> <b>import</b> quantize_dynamic
+model_ckpt = "transformersbook/distilbert-base-uncased-distilled-clinc"
+tokenizer = AutoTokenizer.from_pretrained(model_ckpt)
+model = (AutoModelForSequenceClassification
+.from_pretrained(model_ckpt).to("cpu"))
+model_quantized = quantize_dynamic(model, {nn.Linear}, dtype=torch.qint8)
+Here we pass to quantize_dynamic() the full-precision model and specify the set of
+PyTorch layer classes in that model that we want to quantize. The dtype argument
+fp16 qint8
+specifies the target precision and can be or . A good practice is to pick the
+lowest precision that you can tolerate with respect to your evaluation metrics. In this
+chapter we’ll use INT8, which as we’ll soon see has little impact on our model’s
+accuracy.
+<header><largefont><b>Benchmarking</b></largefont> <largefont><b>Our</b></largefont> <largefont><b>Quantized</b></largefont> <largefont><b>Model</b></largefont></header>
+With our model now quantized, let’s pass it through the benchmark and visualize the
+results:
+pipe = pipeline("text-classification", model=model_quantized,
+tokenizer=tokenizer)
+optim_type = "Distillation + quantization"
+pb = PerformanceBenchmark(pipe, clinc["test"], optim_type=optim_type)
+perf_metrics.update(pb.run_benchmark())
+Model size (MB) - 132.40
+Average latency (ms) - 12.54 +\- 0.73
+Accuracy on test set - 0.876

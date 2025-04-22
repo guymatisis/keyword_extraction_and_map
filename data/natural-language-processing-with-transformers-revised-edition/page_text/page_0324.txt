@@ -1,0 +1,29 @@
+<i>Figure</i> <i>10-2.</i> <i>In</i> <i>causal</i> <i>language</i> <i>modeling,</i> <i>the</i> <i>future</i> <i>tokens</i> <i>are</i> <i>masked</i> <i>and</i> <i>the</i> <i>model</i>
+<i>has</i> <i>to</i> <i>predict</i> <i>them;</i> <i>typically</i> <i>a</i> <i>decoder</i> <i>model</i> <i>such</i> <i>as</i> <i>GPT</i> <i>is</i> <i>used</i> <i>for</i> <i>such</i> <i>a</i> <i>task</i>
+<b>Maskedlanguagemodeling</b>
+A related but slightly different task is to provide a model with a noisy code sample,
+for instance with a code instruction replaced by a random or masked word, and ask it
+to reconstruct the original clean sample, as illustrated in Figure 10-3. This is also a
+self-supervised training objective and is commonly called <i>masked</i> <i>language</i> <i>modeling</i>
+or the <i>denoising</i> <i>objective.</i> It’s harder to think about a downstream task directly related
+to denoising, but denoising is generally a good pretraining task to learn general rep‐
+resentations for later downstream tasks. Many of the models that we have used in the
+previous chapters (like BERT and XLM-RoBERTa) are pretrained in that way. Train‐
+ing a masked language model on a large corpus can thus be combined with fine-
+tuning the model on a downstream task with a limited number of labeled examples.
+<i>Figure</i> <i>10-3.</i> <i>In</i> <i>masked</i> <i>language</i> <i>modeling</i> <i>some</i> <i>of</i> <i>the</i> <i>input</i> <i>tokens</i> <i>are</i> <i>either</i> <i>masked</i> <i>or</i>
+<i>replaced,</i> <i>and</i> <i>the</i> <i>model’s</i> <i>task</i> <i>is</i> <i>to</i> <i>predict</i> <i>the</i> <i>original</i> <i>tokens;</i> <i>this</i> <i>is</i> <i>the</i> <i>architecture</i>
+<i>underlying</i> <i>the</i> <i>encoder</i> <i>branch</i> <i>of</i> <i>transformer</i> <i>models</i>
+<b>Sequence-to-sequencetraining</b>
+An alternative task is to use a heuristic like regular expressions to separate comments
+or docstrings from code and build a large-scale dataset of (code, comments) pairs that
+can be used as an annotated dataset. The training task is then a supervised training
+objective in which one category (code or comment) is used as input for the model
+and the other category (comment or code) is used as labels. This is a case of <i>super‐</i>
+<i>vised</i> <i>learning</i> with (input, labels) pairs, as highlighted in Figure 10-4. With a large,
+clean, and diverse dataset as well as a model with sufficient capacity, we can try to
+train a model that learns to transcript comments in code or vice versa. A downstream
+task directly related to this supervised training task is then documentation generation
+from code or code generation from documentation, depending on how we set our
+input/outputs. In this setting a sequence is translated into another sequence, which is
+where encoder-decoder architectures such as T5, BART, and PEGASUS shine.

@@ -1,0 +1,38 @@
+Great, it worked! In Transformers, all of these preprocessing and postprocessing
+steps are conveniently wrapped in a dedicated pipeline. We can instantiate the pipe‐
+line by passing our tokenizer and fine-tuned model as follows:
+<b>from</b> <b>transformers</b> <b>import</b> pipeline
+pipe = pipeline("question-answering", model=model, tokenizer=tokenizer)
+pipe(question=question, context=context, topk=3)
+[{'score': 0.26516005396842957,
+'start': 38,
+'end': 48,
+'answer': '6000 hours'},
+{'score': 0.2208300083875656,
+'start': 16,
+'end': 48,
+'answer': '1 MB/minute, so about 6000 hours'},
+{'score': 0.10253632068634033,
+'start': 16,
+'end': 27,
+'answer': '1 MB/minute'}]
+In addition to the answer, the pipeline also returns the model’s probability estimate in
+the score field (obtained by taking a softmax over the logits). This is handy when we
+want to compare multiple answers within a single context. We’ve also shown that we
+topk
+can have the model predict multiple answers by specifying the parameter. Some‐
+times, it is possible to have questions for which no answer is possible, like the empty
+answers.answer_start examples in SubjQA. In these cases the model will assign a
+[CLS]
+high start and end score to the token, and the pipeline maps this output to an
+empty string:
+pipe(question="Why is there no data?", context=context,
+handle_impossible_answer=True)
+{'score': 0.9068416357040405, 'start': 0, 'end': 0, 'answer': ''}
+In our simple example, we obtained the start and end indices by
+taking the argmax of the corresponding logits. However, this heu‐
+ristic can produce out-of-scope answers by selecting tokens that
+belong to the question instead of the context. In practice, the pipe‐
+line computes the best combination of start and end indices subject
+to various constraints such as being in-scope, requiring the start
+indices to precede the end indices, and so on.

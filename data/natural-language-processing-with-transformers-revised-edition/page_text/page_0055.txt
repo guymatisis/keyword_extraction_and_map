@@ -1,0 +1,16 @@
+<i>My</i> <i>users</i> <i>want</i> <i>faster</i> <i>predictions!</i>
+We’ve already seen one approach to this problem: using DistilBERT. In Chapter 8
+we’ll dive into knowledge distillation (the process by which DistilBERT was cre‐
+ated), along with other tricks to speed up your transformer models.
+<i>Can</i> <i>your</i> <i>model</i> <i>also</i> <i>do</i> <i>X?</i>
+As we’ve alluded to in this chapter, transformers are extremely versatile. In the
+rest of the book we will be exploring a range of tasks, like question answering and
+named entity recognition, all using the same basic architecture.
+<i>None</i> <i>of</i> <i>my</i> <i>texts</i> <i>are</i> <i>in</i> <i>English!</i>
+It turns out that transformers also come in a multilingual variety, and we’ll use
+them in Chapter 4 to tackle several languages at once.
+<i>I</i> <i>don’t</i> <i>have</i> <i>any</i> <i>labels!</i>
+If there is very little labeled data available, fine-tuning may not be an option. In
+Chapter 9, we’ll explore some techniques to deal with this situation.
+Now that we’ve seen what’s involved in training and sharing a transformer, in the next
+chapter we’ll explore implementing our very own transformer model from scratch.

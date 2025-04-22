@@ -1,0 +1,15 @@
+examples from the training dataset. In Figure 7-8, we can see the example-based
+explanations for a drawing of french fries that the model successfully recognized.
+<i>Figure</i> <i>7-8.</i> <i>Example-based</i> <i>explanations</i> <i>from</i> <i>the</i> <i>game</i> <i>Quick,</i> <i>Draw!</i> <i>showing</i> <i>how</i> <i>the</i>
+<i>model</i> <i>correctly</i> <i>predicted</i> <i>“french</i> <i>fries”</i> <i>for</i> <i>the</i> <i>given</i> <i>drawing</i> <i>through</i> <i>examples</i> <i>from</i>
+<i>the</i> <i>training</i> <i>dataset.</i>
+<b>Limitationsofexplanations</b>
+Explainability represents a significant improvement in understanding and interpret‐
+ing models, but we should be cautious about placing too much trust in our model’s
+explanations, or assuming they provide perfect insight into a model. Explanations in
+any form are a direct reflection of our training data, model, and selected baseline.
+That is to say, we can’t expect our explanations to be high quality if our training data‐
+set is an inaccurate representation of the groups reflected by our model, or if the
+baseline we’ve chosen doesn’t work well for the problem we’re solving.
+Additionally, the relationship that explanations can identify between a model’s fea‐
+tures and output is representative only of our data and model, and not necessarily the

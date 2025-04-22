@@ -1,0 +1,26 @@
+epochs when training large distributed jobs instead of epochs; see “Design Pattern 12:
+Checkpoints” on page 149 for a discussion of virtual epochs.
+<i>Figure</i> <i>4-16.</i> <i>In</i> <i>asynchronous</i> <i>training,</i> <i>each</i> <i>worker</i> <i>performs</i> <i>a</i> <i>gradient</i> <i>descent</i> <i>step</i>
+<i>with</i> <i>a</i> <i>split</i> <i>of</i> <i>the</i> <i>mini-batch.</i> <i>No</i> <i>one</i> <i>worker</i> <i>waits</i> <i>for</i> <i>updates</i> <i>to</i> <i>the</i> <i>model</i> <i>from</i> <i>any</i>
+<i>of</i> <i>the</i> <i>other</i> <i>workers.</i>
+In addition, since there is no synchronization between the weight updates, it is possi‐
+ble that one worker updates the model weights based on stale model state. However,
+in practice, this doesn’t seem to be a problem. Typically, large neural networks are
+trained for multiple epochs, and these small discrepancies become negligible in the
+end.
+ParameterServerStrategy
+In Keras, implements asynchronous parameter server
+training on multiple machines. When using this distribution, some machines are des‐
+ignated as workers and some are held as parameter servers. The parameter servers
+hold each variable of the model, and computation is performed on the workers, typi‐
+cally GPUs.
+The implementation is similar to that of other distribution strategies in Keras. For
+example, in your code, you would just replace MirroredStrategy() with
+ParameterServerStrategy()
+.
+Another distribution strategy supported in Keras worth mention‐
+OneDeviceStrategy
+ing is . This strategy will place any variables
+created in its scope on the specified device. This strategy is particu‐
+larly useful as a way to test your code before switching to other
+strategies that actually distribute to multiple devices/machines.

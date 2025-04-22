@@ -1,0 +1,10 @@
+39. What is weight tying in a language model?
+<header><largefont><b>Further</b></largefont> <largefont><b>Research</b></largefont></header>
+1. In LMModel2, why can forward start with h=0? Why don’t we need to say
+h=torch.zeros(...)?
+2. Write the code for an LSTM from scratch (you may refer to Figure 12-9).
+3. Search the internet for the GRU architecture and implement it from scratch, and
+try training a model. See if you can get results similar to those we saw in this
+chapter. Compare your results to the results of PyTorch’s built-in GRU module.
+4. Take a look at the source code for AWD-LSTM in fastai, and try to map each of
+the lines of code to the concepts shown in this chapter.

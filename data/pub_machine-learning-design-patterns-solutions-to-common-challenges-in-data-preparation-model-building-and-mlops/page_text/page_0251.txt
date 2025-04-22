@@ -1,0 +1,35 @@
+<i>Figure</i> <i>6-1.</i> <i>The</i> <i>model</i> <i>has</i> <i>three</i> <i>features</i> <i>computed</i> <i>from</i> <i>two</i> <i>inputs.</i>
+But the SQL code above mixes up the inputs and features and doesn’t keep track of
+the transformations that were carried out. This comes back to bite when we try to
+predict with this model. Because the model was trained on three features, this is what
+the prediction signature has to look like:
+<b>SELECT</b> * <b>FROM</b> ML.PREDICT(MODEL ch09eu.bicycle_model,(
+'Kings Cross' <b>AS</b> start_station_name
+, '3' <b>as</b> dayofweek
+, '18' <b>as</b> hourofday
+))
+Note that, at inference time, we have to know what features the model was trained
+on, how they should be interpreted, and the details of the transformations that were
+'3' '3'
+applied. We have to know that we need to send in for dayofweek. That …is
+that Tuesday or Wednesday? Depends on which library was used by the model, or
+what we consider the start of a week!
+<i>Training-serving</i> <i>skew,</i> caused by differences in any of these factors between the train‐
+ing and serving environments, is one of the key reasons why productionization of ML
+models is so hard.
+<header><largefont><b>Solution</b></largefont></header>
+The solution is to explicitly capture the transformations applied to convert the model
+inputs into features. In BigQuery ML, this is done using the TRANSFORM clause. Using
+TRANSFORM
+ensures that these transformations are automatically applied during
+ML.PREDICT
+.
+Given the support for TRANSFORM, the model above should be rewritten as:
+<b>CREATE</b> <b>OR</b> <b>REPLACE</b> MODEL ch09eu.bicycle_model
+<b>OPTIONS(input_label_cols=['duration'],</b>
+model_type='linear_reg')
+<b>TRANSFORM(</b>
+<b>SELECT</b> * <b>EXCEPT(start_date)</b>
+, <b>CAST(EXTRACT(dayofweek</b> <b>from</b> start_date) <b>AS</b> STRING)
+<b>as</b> dayofweek <i>--</i> <i>feature1</i>
+, <b>CAST(EXTRACT(hour</b> <b>from</b> start_date) <b>AS</b> STRING)

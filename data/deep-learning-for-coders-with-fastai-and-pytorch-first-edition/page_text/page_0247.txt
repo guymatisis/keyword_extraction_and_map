@@ -1,0 +1,21 @@
+<i>Figure</i> <i>7-1.</i> <i>An</i> <i>excerpt</i> <i>from</i> <i>the</i> <i>Mixup</i> <i>paper</i>
+<header><largefont><b>Papers</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Math</b></largefont></header>
+We’re going to be looking at more and more research papers from here on in the
+book. Now that you have the basic jargon, you might be surprised to discover how
+much of them you can understand, with a little practice! One issue you’ll notice is
+that Greek letters, such as <i>λ,</i> appear in most papers. It’s a good idea to learn the names
+of all the Greek letters, since otherwise it’s hard to read the papers to yourself and
+remember them (or to read code based on them, since code often uses the names of
+the Greek letters spelled out, such as lambda).
+The bigger issue with papers is that they use math, instead of code, to explain what’s
+going on. If you don’t have much of a math background, this will likely be intimidat‐
+ing and confusing at first. But remember: what is being shown in the math is some‐
+thing that will be implemented in code. It’s just another way of talking about the same
+thing! After reading a few papers, you’ll pick up more and more of the notation. If
+you don’t know what a symbol is, try looking it up in Wikipedia’s list of mathematical
+symbols or drawing it in Detexify, which (using machine learning!) will find the
+name of your hand-drawn symbol. Then you can search online for that name to find
+out what it’s for.
+Figure 7-2 shows what it looks like when we take a <i>linear</i> <i>combination</i> of images, as
+done in Mixup.
+<i>Figure</i> <i>7-2.</i> <i>Mixing</i> <i>a</i> <i>church</i> <i>and</i> <i>a</i> <i>gas</i> <i>station</i>

@@ -1,0 +1,40 @@
+What's the topic in chapter 4?
+Predicted answer: Summarization
+==================================================
+What is the total number of pages?
+Predicted answer: SUM > 10, 36, 24, 46, 19, 3
+==================================================
+On which page does the chapter about question-answering start?
+Predicted answer: AVERAGE > 74
+==================================================
+How many chapters have more than 20 pages?
+Predicted answer: COUNT > 1, 2, 3
+==================================================
+For the first chapter, the model predicted exactly one cell with no aggregation. If we
+look at the table, we see that the answer is in fact correct. In the next example the
+model predicted all the cells containing the number of pages in combination with the
+sum aggregator, which again is the correct way of calculating the total number of
+pages. The answer to question three is also correct; the average aggregation is not
+necessary in that case, but it doesn’t make a difference. Finally, we have a question
+that is a little bit more complex. To determine how many chapters have more than 20
+pages we first need to find out which chapters satisfy that criterion and then count
+them. It seem that TAPAS again got it right and correctly determined that chapters 1,
+2, and 3 have more than 20 pages, and added a count aggregator to the cells.
+The kinds of questions we asked can also be solved with a few simple Pandas com‐
+mands; however, the ability to ask questions in natural language instead of Python
+code allows a much wider audience to query the data to answer specific questions.
+Imagine such tools in the hands of business analysts or managers who are able verify
+their own hypotheses about the data!
+<header><largefont><b>Multimodal</b></largefont> <largefont><b>Transformers</b></largefont></header>
+So far we’ve looked at extending transformers to a single new modality. TAPAS is
+arguably multimodal since it combines text and tables, but the table is also treated as
+text. In this section we examine transformers that combine two modalities at once:
+audio plus text and vision plus text.
+<header><largefont><b>Speech-to-Text</b></largefont></header>
+Although being able to use text to interface with a computer is a huge step forward,
+using spoken language is an even more natural way for us to communicate. You can
+see this trend in industry, where applications such as Siri and Alexa are on the rise
+and becoming progressively more useful. Also, for a large fraction of the population,
+writing and reading are more challenging than speaking. So, being able to process
+and understand audio is not only convenient, but can help many people access more
+information. A common task in this domain is <i>automatic</i> <i>speech</i> <i>recognition</i> (ASR),

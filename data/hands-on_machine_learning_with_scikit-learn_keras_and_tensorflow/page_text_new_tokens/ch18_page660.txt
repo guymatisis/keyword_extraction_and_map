@@ -1,0 +1,25 @@
+<i>Figure</i> <i>18-16.</i> <i>Trajectories,</i> <i>transitions,</i> <i>time</i> <i>steps,</i> <i>and</i> <i>action</i> <i>steps</i>
+So if you have a batch of trajectories where each trajectory has <i>t</i> + 1 steps (from time
+step <i>n</i> to time step <i>n</i> + <i>t),</i> then it contains all the data from time step <i>n</i> to time step <i>n</i>
++ <i>t,</i> except for the reward and discount from time step <i>n</i> (but it contains the reward
+and discount of time step <i>n</i> + <i>t</i> + 1). This represents <i>t</i> transitions (n to <i>n</i> + 1, <i>n</i> + 1 to
+<i>n</i> + 2, …, <i>n</i> + <i>t</i> – 1 to <i>n</i> + <i>t).</i>
+The to_transition() function in the tf_agents.trajectories.trajectory mod‐
+ule converts a batched trajectory into a list containing a batched time_step , a batched
+action_step next_time_step
+, and a batched . Notice that the second dimension is 2
+instead of 3, since there are <i>t</i> transitions between <i>t</i> + 1 time steps (don’t worry if
+you’re a bit confused; you’ll get the hang of it):
+<b>>>></b> <b>from</b> <b>tf_agents.trajectories.trajectory</b> <b>import</b> to_transition
+<b>>>></b> time_steps, action_steps, next_time_steps = to_transition(trajectories)
+<b>>>></b> time_steps.observation.shape
+TensorShape([2, 2, 84, 84, 4]) # 3 time steps = 2 transitions
+A sampled trajectory may actually overlap two (or more) episodes!
+In this case, it will contain <i>boundary</i> <i>transitions,</i> meaning transi‐
+step_type next_step_type
+tions with a equal to 2 (end) and a
+equal to 0 (start). Of course, TF-Agents properly handles such tra‐
+jectories (e.g., by resetting the policy state when encountering a
+is_boundary()
+boundary). The trajectory’s method returns a ten‐
+sor indicating whether each step is a boundary or not.

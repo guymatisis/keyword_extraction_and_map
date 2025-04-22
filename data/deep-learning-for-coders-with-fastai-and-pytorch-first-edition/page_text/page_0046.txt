@@ -1,0 +1,36 @@
+As you see, we had to tell fastai which columns are <i>categorical</i> (contain values that are
+one of a discrete set of choices, such as occupation) versus <i>continuous</i> (contain a
+number that represents a quantity, such as age ).
+There is no pretrained model available for this task (in general, pretrained models are
+not widely available for any tabular modeling tasks, although some organizations
+have created them for internal use), so we don’t use fine_tune in this case. Instead,
+we use fit_one_cycle, the most commonly used method for training fastai models
+<i>from</i> <i>scratch</i> (i.e., without transfer learning):
+learn.fit_one_cycle(3)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>accuracy</b> <b>time</b>
+0 0.359960 0.357917 0.831388 00:11
+1 0.353458 0.349657 0.837991 00:10
+2 0.338368 0.346997 0.843213 00:10
+This model is using the <i>Adult</i> dataset from the paper “Scaling Up the Accuracy of
+Naive-Bayes Classifiers: a Decision-Tree Hybrid” by Ron Kohavi, which contains
+some demographic data about individuals (like their education, marital status, race,
+sex and whether they have an annual income greater than $50k). The model is over
+80% accurate and took around 30 seconds to train.
+Let’s look at one more. Recommendation systems are important, particularly in
+ecommerce. Companies like Amazon and Netflix try hard to recommend products or
+movies that users might like. Here’s how to train a model that will predict movies
+people might like based on their previous viewing habits, using the MovieLens
+dataset:
+<b>from</b> <b>fastai.collab</b> <b>import</b> *
+path = untar_data(URLs.ML_SAMPLE)
+dls = CollabDataLoaders.from_csv(path/'ratings.csv')
+learn = collab_learner(dls, y_range=(0.5,5.5))
+learn.fine_tune(10)
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 1.554056 1.428071 00:01
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>time</b>
+0 1.393103 1.361342 00:01
+1 1.297930 1.159169 00:00
+2 1.052705 0.827934 00:01
+3 0.810124 0.668735 00:01
+4 0.711552 0.627836 00:01

@@ -1,0 +1,45 @@
+model.compile(optimizer='adam',
+loss=tf.keras.losses.BinaryCrossentropy(
+from_logits=True),
+metrics=['accuracy'])
+When we use the model for prediction, the model naturally returns what it was
+trained to predict and outputs the logits. What clients expect, however, is the proba‐
+bility that the review is positive. To solve this, we need to return the sigmoid output
+of the model.
+We can do this by writing a custom serving function and exporting it instead. Here is
+a custom serving function in Keras that adds a probability and returns a dictionary
+that contains both the logits and the probabilities for each of the reviews provided as
+input:
+@tf.function(input_signature=[tf.TensorSpec([None],
+dtype=tf.string)])
+<b>def</b> add_prob(reviews):
+logits = model(reviews, training=False) <i>#</i> <i>call</i> <i>model</i>
+probs = tf.sigmoid(logits)
+<b>return</b> {
+'positive_review_logits' : logits,
+'positive_review_probability' : probs
+}
+We can then export the above function as the serving default:
+model.save(export_path,
+signatures={'serving_default': add_prob})
+add_prob
+The method definition is saved in the export_path and will be invoked in
+response to a client request.
+The serving signature of the exported model reflects the new input name (note the
+name of the input parameter to add_prob ) and the output dictionary keys and data
+types:
+The given SavedModel SignatureDef contains the following input(s):
+inputs['reviews'] tensor_info:
+dtype: DT_STRING
+shape: (-1)
+name: serving_default_reviews:0
+The given SavedModel SignatureDef contains the following output(s):
+outputs['positive_review_logits'] tensor_info:
+dtype: DT_FLOAT
+shape: (-1, 1)
+name: StatefulPartitionedCall_2:0
+outputs['positive_review_probability'] tensor_info:
+dtype: DT_FLOAT
+shape: (-1, 1)
+name: StatefulPartitionedCall_2:1
+Method name <b>is:</b> tensorflow/serving/predict

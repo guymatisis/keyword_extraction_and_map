@@ -1,0 +1,41 @@
+windowed = (data
+| 'window' >> beam.WindowInto(
+beam.window.SlidingWindows(2 * 60 * 60, 10*60))
+model_state = (windowed
+| 'model' >> beam.transforms.CombineGlobally(ModelFn()))
+There are meaningful differences between the rolling window in pandas and the slid‐
+ing window in Apache Beam because of how often the is_anomaly function is called
+and how often the model parameters (mean and standard deviation) need to be com‐
+puted. These are discussed below.
+<b>Perelementversusoveratimeinterval.</b> is_anomaly
+In the pandas code, the function is
+being called on every instance in the dataset. The anomaly detection code computes
+the model parameters and applies it immediately to the last item in the window. In
+the Beam pipeline, the model state is also created on every sliding window, but the
+sliding window in this case is based on time. Therefore, the model parameters are
+computed just once every 10 minutes.
+The anomaly detection itself is carried out on every instance:
+anomalies = (windowed
+| 'latest_slice' >> beam.FlatMap(is_latest_slice)
+| 'find_anomaly' >> beam.Map(is_anomaly, model_external))
+Notice that this carefully separates out computationally expensive training from com‐
+putationally cheap inference. The computationally expensive part is carried out only
+once every 10 minutes while allowing every instance to be classified as being an
+anomaly or not.
+<b>High-throughputdatastreams.</b>
+Data volumes keep increasing, and much of that
+increase in data volume is due to real-time data. Consequently, this pattern has to be
+applied to high-throughput data streams—streams where the number of elements
+can be in excess of thousands of items per second. Think, for example, of click‐
+streams from websites or streams of machine activity from computers, wearable devi‐
+ces, or cars.
+The suggested solution using a streaming pipeline is advantageous in that it avoids
+retraining the model at every instance, something that the pandas code in the Prob‐
+lem statement does. However, the suggested solution gives back those gains by creat‐
+ing an in-memory dataframe of all the records received. If we receive 5,000 items a
+second, then the in-memory dataframe over 10 minutes will contain 3 million
+records. Because there are 12 sliding windows that will need to be maintained at any
+point in time (10-minute windows, each over 2 hours), the memory requirements can
+become considerable.
+Storing all the received records in order to compute the model parameters at the end
+of the window can become problematic. When the data stream is high throughput, it

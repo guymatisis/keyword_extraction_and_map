@@ -1,0 +1,29 @@
+approach to approximate the precise solution, and concepts like overfitting must be
+reevaluated.
+For example, a ray-tracing approach is used to simulate the satellite imagery that
+would result from the output of numerical weather prediction models. This involves
+calculating how much of a solar ray gets absorbed by the predicted hydrometeors
+(rain, snow, hail, ice pellets, and so on) at each atmospheric level. There is a finite
+number of possible hydrometeor types and a finite number of heights that the
+numerical model predicts. So the ray-tracing model has to apply optical equations to
+a large but finite set of inputs.
+The equations of radiative transfer govern the complex dynamical system of how
+electromagnetic radiation propagates in the atmosphere, and forward radiative trans‐
+fer models are an effective means of inferring the future state of satellite images.
+However, classical numerical methods to compute the solutions to these equations
+can take tremendous computational effort and are too slow to use in practice.
+Enter machine learning. It is possible to use machine learning to build a model that
+approximates solutions to the forward radiative transfer model (see Figure 4-3). This
+ML approximation can be made close enough to the solution of the model that was
+originally achieved by using more classical methods. The advantage is that inference
+using the learned ML approximation (which needs to just calculate a closed formula)
+takes only a fraction of the time required to carry out ray tracing (which would
+require numerical methods). At the same time, the training dataset is too large (mul‐
+tiple terabytes) and too unwieldy to use as a lookup table in production.
+<i>Figure</i> <i>4-3.</i> <i>Architecture</i> <i>for</i> <i>using</i> <i>a</i> <i>neural</i> <i>network</i> <i>to</i> <i>model</i> <i>the</i> <i>solution</i> <i>of</i> <i>a</i> <i>partial</i>
+<i>differential</i> <i>equation</i> <i>to</i> <i>solve</i> <i>for</i> <i>I(r,t,n).</i>
+There is an important difference between training an ML model to approximate the
+solution to a dynamical system like this and training an ML model to predict baby
+weight based on natality data collected over the years. Namely, the dynamical system
+is a set of equations governed by the laws of electromagnetic radiation—there is no
+unobserved variable, no noise, and no statistical variability. For a given set of inputs,

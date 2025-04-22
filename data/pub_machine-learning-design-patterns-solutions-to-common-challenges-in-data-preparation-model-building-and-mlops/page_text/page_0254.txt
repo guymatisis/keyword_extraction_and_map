@@ -1,0 +1,46 @@
+dropoff_latitude dropoff_longitude
+In Figure 6-2, these are the boxes marked , ,
+and so on.
+Second, maintain a dictionary of transformed features, and make every transforma‐
+Lambda
+tion either a Keras Preprocessing layer or a layer. Here, we scale the inputs
+using Lambda layers:
+transformed = {}
+<b>for</b> lon_col <b>in</b> ['pickup_longitude', 'dropoff_longitude']:
+transformed[lon_col] = tf.keras.layers.Lambda(
+<b>lambda</b> x: (x+78)/8.0,
+name='scale_{}'.format(lon_col)
+)(inputs[lon_col])
+<b>for</b> lat_col <b>in</b> ['pickup_latitude', 'dropoff_latitude']:
+transformed[lat_col] = tf.keras.layers.Lambda(
+<b>lambda</b> x: (x-37)/8.0,
+name='scale_{}'.format(lat_col)
+)(inputs[lat_col])
+scale_dropoff_latitude scale_drop
+In Figure 6-2, these are the boxes marked ,
+off_longitude, and so on.
+Lambda
+We will also have one layer for the Euclidean distance, which is computed
+from four of the Input layers (see Figure 6-2):
+<b>def</b> euclidean(params):
+lon1, lat1, lon2, lat2 = params
+londiff = lon2 - lon1
+latdiff = lat2 - lat1
+<b>return</b> tf.sqrt(londiff*londiff + latdiff*latdiff)
+transformed['euclidean'] = tf.keras.layers.Lambda(euclidean, name='euclidean')([
+inputs['pickup_longitude'],
+inputs['pickup_latitude'],
+inputs['dropoff_longitude'],
+inputs['dropoff_latitude']
+])
+Lambda
+Similarly, the column to create the hour of day from the timestamp is a layer:
+transformed['hourofday'] = tf.keras.layers.Lambda(
+<b>lambda</b> x: tf.strings.to_number(tf.strings.substr(x, 11, 2),
+out_type=tf.dtypes.int32),
+name='hourofday'
+)(inputs['pickup_datetime'])
+Third, all these transformed layers will be concatenated into a DenseFeatures layer:
+dnn_inputs = tf.keras.layers.DenseFeatures(feature_columns.values())(transformed)
+Because the constructor for DenseFeatures requires a set of feature columns, we will
+have to specify how to take each of the transformed values and convert them into an

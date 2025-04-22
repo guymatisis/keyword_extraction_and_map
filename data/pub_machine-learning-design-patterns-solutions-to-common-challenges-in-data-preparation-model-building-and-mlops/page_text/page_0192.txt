@@ -1,0 +1,21 @@
+hp.Choice()
+For more complex models, this parameter could be used to experiment
+with different types of layers, like BasicLSTMCell and BasicRNNCell . keras-tuner
+runs in any environment where you can train a Keras model.
+<header><largefont><b>Why</b></largefont> <largefont><b>It</b></largefont> <largefont><b>Works</b></largefont></header>
+Although grid and random search are more efficient than a trial-and-error approach
+to hyperparameter tuning, they quickly become expensive for models requiring sig‐
+nificant training time or having a large hyperparameter search space.
+Since both machine learning models themselves and the process of hyperparameter
+search are optimization problems, it would follow that we would be able to use an
+approach that <i>learns</i> to find the optimal hyperparameter combination within a given
+range of possible values just like our models learn from training data.
+We can think of hyperparameter tuning as an outer optimization loop (see
+Figure 4-24) where the inner loop consists of typical model training. Even though we
+depict neural networks as the model whose parameters are being optimized, this sol‐
+ution is applicable to other types of machine learning models. Also, although the
+more common use case is to choose a single best model from all potential hyperpara‐
+meters, in some cases, the hyperparameter framework can be used to generate a fam‐
+ily of models that can act as an ensemble (see the discussion of the Ensembles pattern
+in Chapter 3).
+<i>Figure</i> <i>4-24.</i> <i>Hyperparameter</i> <i>tuning</i> <i>can</i> <i>be</i> <i>thought</i> <i>of</i> <i>as</i> <i>an</i> <i>outer</i> <i>optimization</i> <i>loop.</i>

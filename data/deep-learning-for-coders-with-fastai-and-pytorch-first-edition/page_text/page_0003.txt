@@ -1,0 +1,23 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>1</b></largefont></header>
+<header><largefont><b>Your</b></largefont> <largefont><b>Deep</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>Journey</b></largefont></header>
+Hello, and thank you for letting us join you on your deep learning journey, however
+far along that you may be! In this chapter, we will tell you a little bit more about what
+to expect in this book, introduce the key concepts behind deep learning, and train our
+first models on different tasks. It doesn’t matter if you don’t come from a technical or
+a mathematical background (though it’s OK if you do too!); we wrote this book to
+make deep learning accessible to as many people as possible.
+<header><largefont><b>Deep</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>Is</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Everyone</b></largefont></header>
+A lot of people assume that you need all kinds of hard-to-find stuff to get great results
+with deep learning, but as you’ll see in this book, those people are wrong. Table 1-1
+lists a few things you <i>absolutely</i> <i>don’t</i> <i>need</i> for world-class deep learning.
+<i>Table</i> <i>1-1.</i> <i>What</i> <i>you</i> <i>don’t</i> <i>need</i> <i>for</i> <i>deep</i> <i>learning</i>
+<b>Myth(don’tneed)</b> <b>Truth</b>
+Lotsofmath Highschoolmathissufficient.
+Lotsofdata We’veseenrecord-breakingresultswith<50itemsofdata.
+Lotsofexpensivecomputers Youcangetwhatyouneedforstate-of-the-artworkforfree.
+<i>Deep</i> <i>learning</i> is a computer technique to extract and transform data—with use cases
+ranging from human speech recognition to animal imagery classification—by using
+multiple layers of neural networks. Each of these layers takes its inputs from previous
+layers and progressively refines them. The layers are trained by algorithms that mini‐
+mize their errors and improve their accuracy. In this way, the network learns to per‐
+form a specified task. We will discuss training algorithms in detail in the next section.

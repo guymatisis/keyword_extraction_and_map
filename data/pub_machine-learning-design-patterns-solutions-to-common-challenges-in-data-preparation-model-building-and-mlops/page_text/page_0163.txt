@@ -1,0 +1,33 @@
+do image classification. We’ll then remove the last layer from that model, freeze the
+weights of that model, and continue training using our 400 x-ray images. We’d ide‐
+ally find a model trained on a dataset with similar images to our x-rays, like images
+taken in a lab or another controlled condition. However, we can still utilize transfer
+learning if the datasets are different, so long as the prediction task is the same. In this
+case we’re doing image classification.
+You can use transfer learning for many prediction tasks in addition to image classifi‐
+cation, so long as there is an existing pre-trained model that matches the task you’d
+like to perform on your dataset. For example, transfer learning is also frequently
+applied in image object detection, image style transfer, image generation, text classifi‐
+cation, machine translation, and more.
+Transfer learning works because it lets us stand on the shoulders of
+giants, utilizing models that have already been trained on
+extremely large, labeled datasets. We’re able to use transfer learn‐
+ing thanks to years of research and work others have put into creat‐
+ing these datasets for us, which has advanced the state-of-the-art in
+transfer learning. One example of such a dataset is the ImageNet
+project, started in 2006 by Fei-Fei Li and published in 2009. Image‐
+Net3
+has been essential to the development of transfer learning and
+paved the way for other large datasets like COCO and Open
+Images.
+The idea behind transfer learning is that you can utilize the weights and layers from a
+model trained in the same domain as your prediction task. In most deep learning
+models, the final layer contains the classification label or output specific to your pre‐
+diction task. With transfer learning, we remove this layer, freeze the model’s trained
+weights, and replace the final layer with the output for our specialized prediction task
+before continuing to train. We can see how this works in Figure 4-13.
+Typically, the penultimate layer of the model (the layer before the model’s output
+layer) is chosen as the <i>bottleneck</i> <i>layer.</i> Next, we’ll explain the bottleneck layer, along
+with different ways to implement transfer learning in TensorFlow.
+3 JiaDengetal.,“ImageNet:ALarge-ScaleHierarchicalImageDatabase,”IEEEComputerSocietyConference
+onComputerVisionandPatternRecognition(CVPR)(2009):248–255.

@@ -1,0 +1,23 @@
+axes[i].set_title(label)
+axes[i].set_xticks([]), axes[i].set_yticks([])
+plt.tight_layout()
+plt.show()
+These are only projections onto a lower-dimensional space. Just
+because some categories overlap does not mean that they are not
+separable in the original space. Conversely, if they are separable in
+the projected space they will be separable in the original space.
+From this plot we can see some clear patterns: the negative feelings such as sadness ,
+anger , and fear all occupy similar regions with slightly varying distributions. On the
+joy love
+other hand, and are well separated from the negative emotions and also
+share a similar space. Finally, surprise is scattered all over the place. Although we
+may have hoped for some separation, this is in no way guaranteed since the model
+was not trained to know the difference between these emotions. It only learned them
+implicitly by guessing the masked words in texts.
+Now that we’ve gained some insight into the features of our dataset, let’s finally train a
+model on it!
+<b>Trainingasimpleclassifier</b>
+We’ve seen that the hidden states are somewhat different between the emotions,
+although for several of them there is no obvious boundary. Let’s use these hidden
+states to train a logistic regression model with Scikit-learn. Training such a simple
+model is fast and does not require a GPU:

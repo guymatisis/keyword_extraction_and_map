@@ -1,0 +1,36 @@
+layers are that of a simple neural network with one hidden layer and an output logits
+layer. This model can then be trained on the dataset of movie reviews to learn to pre‐
+dict whether or not a review is positive or negative.
+Once the model has been trained, we can use it to carry out inferences on how posi‐
+tive a review is:
+review1 = 'The film is based on a prize-winning novel.'
+review2 = 'The film is fast moving and has several great action scenes.'
+review3 = 'The film was very boring. I walked out half-way.'
+logits = <b>model.predict(x=tf.constant([review1,</b> review2, review3]))
+The result is a 2D array that might be something like:
+[[ 0.6965847]
+[ 1.61773 ]
+[-0.7543597]]
+model.predict()
+There are several problems with carrying out inferences by calling
+on an in-memory object (or a trainable object loaded into memory) as described in
+the preceding code snippet:
+• We have to load the entire Keras model into memory. The text embedding layer,
+which was set up to be trainable, can be quite large because it needs to store
+embeddings for the full vocabulary of English words. Deep learning models with
+many layers can also be quite large.
+• The preceding architecture imposes limits on the latency that can be achieved
+because calls to the predict() method have to be sent one by one.
+• Even though the data scientist’s programming language of choice is Python,
+model inference is likely to be invoked by programs written by developers who
+prefer other languages, or on mobile platforms like Android or iOS that require
+different languages.
+• The model input and output that is most effective for training may not be user
+friendly. In our example, the model output was logits because it is better for gra‐
+dient descent. This is why the second number in the output array is greater than
+1. What clients will typically want is the sigmoid of this so that the output range
+is 0 to1 and can be interpreted in a more user-friendly format as a probability.
+We will want to carry out this postprocessing on the server so that the client code
+is as simple as possible. Similarly, the model may have been trained from com‐
+pressed, binary records, whereas during production, we might want to be able to
+handle self-descriptive input formats like JSON.

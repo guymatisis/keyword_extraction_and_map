@@ -1,0 +1,36 @@
+When computing the similarity of plurality categories as one-hot encoded vectors, we
+obtain the identity matrix since each category is treated as a distinct feature (see
+Table 2-6).
+<i>Table</i> <i>2-6.</i> <i>When</i> <i>features</i> <i>are</i> <i>one-hot</i> <i>encoded,</i> <i>the</i> <i>similarity</i> <i>matrix</i> <i>is</i> <i>just</i> <i>the</i>
+<i>identity</i> <i>matrix</i>
+<b>Single(1)</b> <b>Multiple(2+)</b> <b>Twins(2)</b> <b>Triplets(3)</b> <b>Quadruplets(4)</b> <b>Quintuplets(5)</b>
+<b>Single(1)</b> 1 0 0 0 0 0
+<b>Multiple(2+)</b> - 1 0 0 0 0
+<b>Twins(2)</b> - - 1 0 0 0
+<b>Triplets(3)</b> - - - 1 0 0
+<b>Quadruplets(4)</b> - - - - 1 0
+<b>Quintuplets(5)</b> - - - - - 1
+However, once the plurality is embedded into two dimensions, the similarity measure
+becomes nontrivial, and important relationships between the different categories
+emerge (see Table 2-7).
+<i>Table</i> <i>2-7.</i> <i>When</i> <i>the</i> <i>features</i> <i>are</i> <i>embedded</i> <i>in</i> <i>two</i> <i>dimensions,</i> <i>the</i> <i>similarity</i> <i>matrix</i> <i>gives</i>
+<i>us</i> <i>more</i> <i>information</i>
+<b>Single(1)</b> <b>Multiple(2+)</b> <b>Twins(2)</b> <b>Triplets(3)</b> <b>Quadruplets(4)</b> <b>Quintuplets(5)</b>
+<b>Single(1)</b> 1 0.92 0.61 0.57 0.06 0.1
+<b>Multiple(2+)</b> - 1 0.86 0.83 0.43 0.48
+<b>Twins(2)</b> - 1 0.99 0.82 0.85
+<b>Triplets(3)</b> - 1 0.85 0.88
+<b>Quadruplets(4)</b> - 1 0.99
+<b>Quintuplets(5)</b> - - - - - 1
+Thus, a learned embedding allows us to extract inherent similarities between two sep‐
+arate categories and, given there is a numeric vector representation, we can precisely
+quantify the similarity between two categorical features.
+This is easy to visualize with the natality dataset, but the same principle applies when
+customer_ids
+dealing with embedded into 20-dimensional space. When applied to
+our customer dataset, embeddings allow us to retrieve similar customers to a given
+customer_id and make suggestions based on similarity, such as which videos they are
+likely to watch, as shown in Figure 2-10. Furthermore, these user and item embed‐
+dings can be combined with other features when training a separate machine learning
+model. Using pre-trained embeddings in machine learning models is referred to as
+<i>transfer</i> <i>learning.</i>

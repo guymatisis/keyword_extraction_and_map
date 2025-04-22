@@ -1,0 +1,8 @@
+<header><largefont><b>Further</b></largefont> <largefont><b>Research</b></largefont></header>
+1. See what you can learn about language models and disinformation. What are the
+best language models today? Take a look at some of their outputs. Do you find
+them convincing? How could a bad actor best use such a model to create conflict
+and uncertainty?
+2. Given the limitation that models are unlikely to be able to consistently recognize
+machine-generated texts, what other approaches may be needed to handle large-
+scale disinformation campaigns that leverage deep learning?

@@ -1,0 +1,39 @@
+list_physical_devices()
+run on this GPU. The function returns the list of all avail‐
+able GPU devices (just one in this example). 11
+Now, what if you don’t want to invest time and money in getting your own GPU
+card? Just use a GPU VM on the cloud!
+<header><largefont><b>Using</b></largefont> <largefont><b>a</b></largefont> <largefont><b>GPU-Equipped</b></largefont> <largefont><b>Virtual</b></largefont> <largefont><b>Machine</b></largefont></header>
+All major cloud platforms now offer GPU VMs, some preconfigured with all the driv‐
+ers and libraries you need (including TensorFlow). Google Cloud Platform enforces
+various GPU quotas, both worldwide and per region: you cannot just create thou‐
+sands of GPU VMs without prior authorization from Google. 12 By default, the world‐
+wide GPU quota is zero, so you cannot use any GPU VMs. Therefore, the very first
+thing you need to do is to request a higher worldwide quota. In the GCP console,
+open the navigation menu and go to IAM & admin → Quotas. Click Metric, click
+None to uncheck all locations, then search for “GPU” and select “GPUs (all regions)”
+to see the corresponding quota. If this quota’s value is zero (or just insufficient for
+your needs), then check the box next to it (it should be the only selected one) and
+click “Edit quotas.” Fill in the requested information, then click “Submit request.” It
+may take a few hours (or up to a few days) for your quota request to be processed and
+(generally) accepted. By default, there is also a quota of one GPU per region and per
+GPU type. You can request to increase these quotas too: click Metric, select None to
+uncheck all metrics, search for “GPU,” and select the type of GPU you want (e.g.,
+NVIDIA P4 GPUs). Then click the Location drop-down menu, click None to
+uncheck all metrics, and click the location you want; check the boxes next to the
+quota(s) you want to change, and click “Edit quotas” to file a request.
+Once your GPU quota requests are approved, you can in no time create a VM equip‐
+ped with one or more GPUs by using Google Cloud AI Platform’s <i>Deep</i> <i>Learning</i> <i>VM</i>
+<i>Images:</i> go to <i>https://homl.info/dlvm,</i> click View Console, then click “Launch on Com‐
+pute Engine” and fill in the VM configuration form. Note that some locations do not
+have all types of GPUs, and some have no GPUs at all (change the location to see the
+types of GPUs available, if any). Make sure to select TensorFlow 2.0 as the framework,
+and check “Install NVIDIA GPU driver automatically on first startup.” It is also a
+good idea to check “Enable access to JupyterLab via URL instead of SSH”: this will
+make it very easy to start a Jupyter notebook running on this GPU VM, powered by
+11 ManycodeexamplesinthischapteruseexperimentalAPIs.TheyareverylikelytobemovedtothecoreAPI
+infutureversions.Soifanexperimentalfunctionfails,trysimplyremovingthewordexperimental,and
+hopefullyitwillwork.Ifnot,thenperhapstheAPIhaschangedabit;pleasechecktheJupyternotebook,asI
+willensureitcontainsthecorrectcode.
+12 Presumably,thesequotasaremeanttostopbadguyswhomightbetemptedtouseGCPwithstolencredit
+cardstominecryptocurrencies.

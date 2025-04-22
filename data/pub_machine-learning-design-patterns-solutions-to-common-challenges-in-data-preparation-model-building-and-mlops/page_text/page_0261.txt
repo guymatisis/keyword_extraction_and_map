@@ -1,0 +1,42 @@
+<b>CASE(ABS(MOD(FARM_FINGERPRINT(date),</b> 10)))
+<b>WHEN</b> 9 <b>THEN</b> 'test'
+<b>WHEN</b> 8 <b>THEN</b> 'validation'
+<b>ELSE</b> 'training' <b>END</b> <b>AS</b> split_col
+<b>FROM</b>
+`bigquery-samples`.airline_ontime_data.flights
+We can then use the split_col column to decide which of three datasets any partic‐
+ular row falls in. Using a single query decreases computational time but requires cre‐
+split_col
+ating a new table or modifying the source table to add the extra column.
+<b>Randomsplit</b>
+What if the rows are not correlated? In that case, we want a random, repeatable split
+but do not have a natural column to split by. We can hash the entire row of data by
+converting it to a string and hashing that string:
+<b>SELECT</b>
+airline,
+departure_airport,
+departure_schedule,
+arrival_airport,
+arrival_delay
+<b>FROM</b>
+`bigquery-samples`.airline_ontime_data.flights f
+<b>WHERE</b>
+<b>ABS(MOD(FARM_FINGERPRINT(TO_JSON_STRING(f),</b> 10)) < 8
+Note that if we have duplicate rows, they will always end up in the same split. This
+might be exactly what we desire. If not, then we will have to add a unique ID column
+to the SELECT query.
+<b>Splitonmultiplecolumns</b>
+We have talked about a single column that captures the correlation between rows.
+What if it is a combination of columns that capture when two rows are correlated? In
+such cases, simply concatenate the fields (this is a feature cross) before computing the
+hash. For example, suppose we only wish to ensure that flights from the same airport
+on the same day do not show up in different splits. In that case, we’d do the
+following:
+<b>SELECT</b>
+airline,
+departure_airport,
+departure_schedule,
+arrival_airport,
+arrival_delay
+<b>FROM</b>
+`bigquery-samples`.airline_ontime_data.flights

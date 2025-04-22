@@ -1,0 +1,21 @@
+use that model to create pseudo-labels on the unlabeled data. Then a student is
+trained on the pseudo-labeled data, and after training it becomes the teacher for the
+next iteration.
+One interesting aspect of this method is how the pseudo-labels are generated: to get
+an uncertainty measure of the model’s predictions the same input is fed several times
+through the model with dropout turned on. Then the variance in the predictions
+gives a proxy for the certainty of the model on a specific sample. With that uncer‐
+tainty measure the pseudo-labels are then sampled using a method called Bayesian
+Active Learning by Disagreement (BALD). The full training pipeline is illustrated in
+Figure 9-6.
+<i>Figure</i> <i>9-6.</i> <i>The</i> <i>UST</i> <i>method</i> <i>consists</i> <i>of</i> <i>a</i> <i>teacher</i> <i>that</i> <i>generates</i> <i>pseudo-labels</i> <i>and</i> <i>a</i> <i>stu‐</i>
+<i>dent</i> <i>that</i> <i>is</i> <i>subsequently</i> <i>trained</i> <i>on</i> <i>those</i> <i>labels;</i> <i>after</i> <i>the</i> <i>student</i> <i>is</i> <i>trained</i> <i>it</i> <i>becomes</i>
+<i>the</i> <i>teacher</i> <i>and</i> <i>the</i> <i>step</i> <i>is</i> <i>repeated</i> <i>(courtesy</i> <i>of</i> <i>Subhabrata</i> <i>Mukherjee)9</i>
+With this iteration scheme the teacher continuously gets better at creating pseudo-
+labels, and thus the model’s performance improves. In the end this approach gets
+within a few percent of models trained on the full training data with thousands of
+samples and even beats UDA on several datasets.
+Now that we’ve seen a few advanced methods, let’s take a step back and summarize
+what we’ve learned in this chapter.
+9 S.MukherjeeandA.H.Awadallah,“Uncertainty-AwareSelf-TrainingforFew-ShotTextClassification”,
+(2020).

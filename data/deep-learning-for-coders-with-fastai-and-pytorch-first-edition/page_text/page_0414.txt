@@ -1,0 +1,23 @@
+Notice that the bias term, <i>b,</i> is the same for each section of the image. You can con‐
+sider the bias as part of the filter, just as the weights (α, β, γ, δ) are part of the filter.
+Here’s an interesting insight—a convolution can be represented as a special kind of
+matrix multiplication, as illustrated in Figure 13-9. The weight matrix is just like the
+ones from traditional neural networks. However, this weight matrix has two special
+properties:
+1. The zeros shown in gray are untrainable. This means that they’ll stay zero
+throughout the optimization process.
+2. Some of the weights are equal, and while they are trainable (i.e., changeable),
+they must remain equal. These are called <i>shared</i> <i>weights.</i>
+The zeros correspond to the pixels that the filter can’t touch. Each row of the weight
+matrix corresponds to one application of the filter.
+<i>Figure</i> <i>13-9.</i> <i>Convolution</i> <i>as</i> <i>matrix</i> <i>multiplication</i>
+Now that we understand what convolutions are, let’s use them to build a neural net.
+<header><largefont><b>Our</b></largefont> <largefont><b>First</b></largefont> <largefont><b>Convolutional</b></largefont> <largefont><b>Neural</b></largefont> <largefont><b>Network</b></largefont></header>
+There is no reason to believe that some particular edge filters are the most useful ker‐
+nels for image recognition. Furthermore, we’ve seen that in later layers, convolutional
+kernels become complex transformations of features from lower levels, but we don’t
+have a good idea of how to manually construct these.
+Instead, it would be best to learn the values of the kernels. We already know how to
+do this—SGD! In effect, the model will learn the features that are useful for classifica‐
+tion. When we use convolutions instead of (or in addition to) regular linear layers, we
+create a <i>convolutional</i> <i>neural</i> <i>network</i> (CNN).

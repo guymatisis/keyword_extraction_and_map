@@ -1,0 +1,26 @@
+<b>epoch</b> <b>train_loss</b> <b>valid_loss</b> <b>error_rate</b> <b>time</b>
+5 0.169985 0.187885 0.056157 00:25
+6 0.153205 0.186145 0.058863 00:25
+7 0.141480 0.185316 0.053451 00:25
+8 0.128564 0.180999 0.051421 00:25
+9 0.126941 0.186288 0.054127 00:25
+10 0.130064 0.181764 0.054127 00:25
+11 0.124281 0.181855 0.054127 00:25
+Now the fine-tuning is working great!
+fastai can show us a graph of the training and validation loss:
+learn.recorder.plot_loss()
+As you can see, the training loss keeps getting better and better. But notice that even‐
+tually the validation loss improvement slows and sometimes even gets worse! This is
+the point at which the model is starting to overfit. In particular, the model is becom‐
+ing overconfident of its predictions. But this does <i>not</i> mean that it is getting less accu‐
+rate, necessarily. Take a look at the table of training results per epoch, and you will
+often see that the accuracy continues improving, even as the validation loss gets
+worse. In the end, what matters is your accuracy, or more generally your chosen met‐
+rics, not the loss. The loss is just the function we’ve given the computer to help us to
+optimize.
+Another decision you have to make when training the model is how long to train for.
+We’ll consider that next.
+<header><largefont><b>Selecting</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Number</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Epochs</b></largefont></header>
+Often you will find that you are limited by time, rather than generalization and accu‐
+racy, when choosing how many epochs to train for. So your first approach to training
+should be to simply pick a number of epochs that will train in the amount of time that

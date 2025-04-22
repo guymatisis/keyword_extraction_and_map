@@ -1,0 +1,36 @@
+Reinforcement Learning is and what it’s good at, then present two of the most impor‐
+tant techniques in Deep Reinforcement Learning: <i>policy</i> <i>gradients</i> and <i>deep</i> <i>Q-</i>
+<i>networks</i> (DQNs), including a discussion of <i>Markov</i> <i>decision</i> <i>processes</i> (MDPs). We
+will use these techniques to train models to balance a pole on a moving cart; then I’ll
+introduce the TF-Agents library, which uses state-of-the-art algorithms that greatly
+simplify building powerful RL systems, and we will use the library to train an agent to
+play <i>Breakout,</i> the famous Atari game. I’ll close the chapter by taking a look at some
+of the latest advances in the field.
+<header><largefont><b>Learning</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Optimize</b></largefont> <largefont><b>Rewards</b></largefont></header>
+In Reinforcement Learning, a software <i>agent</i> makes <i>observations</i> and takes <i>actions</i>
+within an <i>environment,</i> and in return it receives <i>rewards.</i> Its objective is to learn to act
+in a way that will maximize its expected rewards over time. If you don’t mind a bit of
+anthropomorphism, you can think of positive rewards as pleasure, and negative
+rewards as pain (the term “reward” is a bit misleading in this case). In short, the agent
+acts in the environment and learns by trial and error to maximize its pleasure and
+minimize its pain.
+This is quite a broad setting, which can apply to a wide variety of tasks. Here are a few
+examples (see Figure 18-1):
+a. The agent can be the program controlling a robot. In this case, the environment
+is the real world, the agent observes the environment through a set of <i>sensors</i>
+such as cameras and touch sensors, and its actions consist of sending signals to
+activate motors. It may be programmed to get positive rewards whenever it
+approaches the target destination, and negative rewards whenever it wastes time
+or goes in the wrong direction.
+b. The agent can be the program controlling <i>Ms.</i> <i>Pac-Man.</i> In this case, the environ‐
+ment is a simulation of the Atari game, the actions are the nine possible joystick
+positions (upper left, down, center, and so on), the observations are screenshots,
+and the rewards are just the game points.
+c. Similarly, the agent can be the program playing a board game such as Go.
+d. The agent does not have to control a physically (or virtually) moving thing. For
+example, it can be a smart thermostat, getting positive rewards whenever it is
+close to the target temperature and saves energy, and negative rewards when
+humans need to tweak the temperature, so the agent must learn to anticipate
+human needs.
+e. The agent can observe stock market prices and decide how much to buy or sell
+every second. Rewards are obviously the monetary gains and losses.

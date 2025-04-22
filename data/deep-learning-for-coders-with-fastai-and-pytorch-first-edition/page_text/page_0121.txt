@@ -1,0 +1,38 @@
+<header><largefont><b>The</b></largefont> <largefont><b>Power</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Diversity</b></largefont></header>
+Currently, less than 12% of AI researchers are women, according to a study from Ele‐
+ment AI. The statistics are similarly dire when it comes to race and age. When every‐
+body on a team has similar backgrounds, they are likely to have similar blind spots
+around ethical risks. The <i>Harvard</i> <i>Business</i> <i>Review</i> (HBR) has published a number of
+studies showing many benefits of diverse teams, including the following:
+• “How Diversity Can Drive Innovation”
+• “Teams Solve Problems Faster When They’re More Cognitively Diverse”
+• “Why Diverse Teams Are Smarter”
+• “Defend Your Research: What Makes a Team Smarter? More Women”
+Diversity can lead to problems being identified earlier, and a wider range of solutions
+being considered. For instance, Tracy Chou was an early engineer at Quora. She
+wrote of her experiences, describing how she advocated internally for adding a fea‐
+ture that would allow trolls and other bad actors to be blocked. Chou recounts, “I was
+eager to work on the feature because I personally felt antagonized and abused on the
+site (gender isn’t an unlikely reason as to why)…But if I hadn’t had that personal per‐
+spective, it’s possible that the Quora team wouldn’t have prioritized building a block
+button so early in its existence.” Harassment often drives people from marginalized
+groups off online platforms, so this functionality has been important for maintaining
+the health of Quora’s community.
+A crucial aspect to understand is that women leave the tech industry at over twice the
+rate that men do. According to the Harvard Business Review, 41% of women working
+in tech leave, compared to 17% of men. An analysis of over 200 books, whitepapers,
+and articles found that the reason they leave is that “they’re treated unfairly; under‐
+paid, less likely to be fast-tracked than their male colleagues, and unable to advance.”
+Studies have confirmed a number of the factors that make it harder for women to
+advance in the workplace. Women receive more vague feedback and personality criti‐
+cism in performance evaluations, whereas men receive actionable advice tied to busi‐
+ness outcomes (which is more useful). Women frequently experience being excluded
+from more creative and innovative roles, and not receiving high-visibility “stretch”
+assignments that are helpful in getting promoted. One study found that men’s voices
+are perceived as more persuasive, fact-based, and logical than women’s voices, even
+when reading identical scripts.
+Receiving mentorship has been statistically shown to help men advance, but not
+women. The reason behind this is that when women receive mentorship, it’s advice
+on how they should change and gain more self-knowledge. When men receive men‐
+torship, it’s public endorsement of their authority. Guess which is more useful in get‐
+ting promoted?

@@ -1,0 +1,36 @@
+dataset, retraining the model, and analyzing the new errors until we were satisfied
+with the performance.
+Here we analyzed the errors on a single language, but we are also interested in the
+performance across languages. In the next section we’ll perform some experiments to
+see how well the cross-lingual transfer in XLM-R works.
+<header><largefont><b>Cross-Lingual</b></largefont> <largefont><b>Transfer</b></largefont></header>
+Now that we have fine-tuned XLM-R on German, we can evaluate its ability to trans‐
+predict() Trainer
+fer to other languages via the method of the . Since we plan to
+evaluate multiple languages, let’s create a simple function that does this for us:
+<b>def</b> get_f1_score(trainer, dataset):
+<b>return</b> trainer.predict(dataset).metrics["test_f1"]
+We can use this function to examine the performance on the test set and keep track of
+our scores in a dict :
+f1_scores = defaultdict(dict)
+f1_scores["de"]["de"] = get_f1_score(trainer, panx_de_encoded["test"])
+<b>print(f"F1-score</b> of [de] model on [de] dataset: {f1_scores['de']['de']:.3f}")
+F1-score of [de] model on [de] dataset: 0.868
+These are pretty good results for a NER task. Our metrics are in the ballpark of 85%,
+and we can see that the model seems to struggle the most on the ORG entities, proba‐
+bly because these are the least common in the training data and many organization
+names are rare in XLM-R’s vocabulary. How about the other languages? To warm up,
+let’s see how our model fine-tuned on German fares on French:
+text_fr = "Jeff Dean est informaticien chez Google en Californie"
+tag_text(text_fr, tags, trainer.model, xlmr_tokenizer)
+<b>0</b> <b>1</b> <b>2</b> <b>3</b> <b>4</b> <b>5</b> <b>6</b> <b>7</b> <b>8</b> <b>9</b> <b>10</b> <b>11</b> <b>12</b> <b>13</b>
+<b>Tokens</b> <s> ▁Jeff ▁De an ▁est ▁informatic ien ▁chez ▁Google ▁en ▁Cali for nie </s>
+<b>Tags</b> O B-PER I- I- O O O O B-ORG O B-LOC I- I- O
+PER PER LOC LOC
+Not bad! Although the name and organization are the same in both languages, the
+model did manage to correctly label the French translation of “Kalifornien”. Next, let’s
+quantify how well our German model fares on the whole French test set by writing a
+simple function that encodes a dataset and generates the classification report on it:
+<b>def</b> evaluate_lang_performance(lang, trainer):
+panx_ds = encode_panx_dataset(panx_ch[lang])
+<b>return</b> get_f1_score(trainer, panx_ds["test"])

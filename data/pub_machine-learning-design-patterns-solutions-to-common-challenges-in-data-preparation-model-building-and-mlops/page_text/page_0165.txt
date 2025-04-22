@@ -1,0 +1,47 @@
+include_top=True
+Notice that we’ve set , which means we’re loading the full VGG
+model, including the output layer. For ImageNet, the model classifies images into
+1,000 different classes, so the output layer is a 1,000-element array. Let’s look at the
+model.summary()
+output of to understand which layer will be used as the bottleneck.
+For brevity, we’ve left out some of the middle layers here:
+Model: "vgg19"
+_________________________________________________________________
+Layer (type) Output Shape Param <i>#</i>
+=================================================================
+input_3 (InputLayer) [(None, 224, 224, 3)] 0
+_________________________________________________________________
+block1_conv1 (Conv2D) (None, 224, 224, 64) 1792
+...more layers here...
+_________________________________________________________________
+block5_conv3 (Conv2D) (None, 14, 14, 512) 2359808
+_________________________________________________________________
+block5_conv4 (Conv2D) (None, 14, 14, 512) 2359808
+_________________________________________________________________
+block5_pool (MaxPooling2D) (None, 7, 7, 512) 0
+_________________________________________________________________
+flatten (Flatten) (None, 25088) 0
+_________________________________________________________________
+fc1 (Dense) (None, 4096) 102764544
+_________________________________________________________________
+fc2 (Dense) (None, 4096) 16781312
+_________________________________________________________________
+predictions (Dense) (None, 1000) 4097000
+=================================================================
+Total params: 143,667,240
+Trainable params: 143,667,240
+Non-trainable params: 0
+_________________________________________________________________
+As you can see, the VGG model accepts images as a 224×224×3-pixel array. This 128-
+element array is then passed through successive layers (each of which may change the
+dimensionality of the array) until it is flattened into a 25,088×1-dimensional array in
+flatten
+the layer called . Finally, it is fed into the output layer, which returns a 1,000-
+element array (for each class in ImageNet). In this example, we’ll choose the
+block5_pool layer as the bottleneck layer when we adapt this model to be trained on
+our medical histology images. The bottleneck layer produces a 7×7×512-dimensional
+array, which is a low-dimensional representation of the input image. It has retained
+enough of the information from the input image to be able to classify it. When we
+apply this model to our medical image classification task, we hope that the informa‐
+tion distillation will be sufficient to successfully carry out classification on our
+dataset.

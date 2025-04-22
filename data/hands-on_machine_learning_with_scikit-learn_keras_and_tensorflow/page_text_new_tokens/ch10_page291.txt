@@ -1,0 +1,36 @@
+• The algorithm then measures how much of these error contributions came from
+each connection in the layer below, again using the chain rule, working backward
+until the algorithm reaches the input layer. As explained earlier, this reverse pass
+efficiently measures the error gradient across all the connection weights in the
+network by propagating the error gradient backward through the network (hence
+the name of the algorithm).
+• Finally, the algorithm performs a Gradient Descent step to tweak all the connec‐
+tion weights in the network, using the error gradients it just computed.
+This algorithm is so important that it’s worth summarizing it again: for each training
+instance, the backpropagation algorithm first makes a prediction (forward pass) and
+measures the error, then goes through each layer in reverse to measure the error con‐
+tribution from each connection (reverse pass), and finally tweaks the connection
+weights to reduce the error (Gradient Descent step).
+It is important to initialize all the hidden layers’ connection weights
+randomly, or else training will fail. For example, if you initialize all
+weights and biases to zero, then all neurons in a given layer will be
+perfectly identical, and thus backpropagation will affect them in
+exactly the same way, so they will remain identical. In other words,
+despite having hundreds of neurons per layer, your model will act
+as if it had only one neuron per layer: it won’t be too smart. If
+instead you randomly initialize the weights, you <i>break</i> <i>the</i> <i>symme‐</i>
+<i>try</i> and allow backpropagation to train a diverse team of neurons.
+In order for this algorithm to work properly, its authors made a key change to the
+MLP’s architecture: they replaced the step function with the logistic (sigmoid) func‐
+tion, <i>σ(z)</i> = 1 / (1 + exp(–z)). This was essential because the step function contains
+only flat segments, so there is no gradient to work with (Gradient Descent cannot
+move on a flat surface), while the logistic function has a well-defined nonzero deriva‐
+tive everywhere, allowing Gradient Descent to make some progress at every step. In
+fact, the backpropagation algorithm works well with many other activation functions,
+not just the logistic function. Here are two other popular choices:
+<i>The</i> <i>hyperbolic</i> <i>tangent</i> <i>function:</i> <i>tanh(z)</i> <i>=</i> <i>2σ(2z)</i> <i>–</i> <i>1</i>
+Just like the logistic function, this activation function is <i>S-shaped,</i> continuous,
+and differentiable, but its output value ranges from –1 to 1 (instead of 0 to 1 in
+the case of the logistic function). That range tends to make each layer’s output
+more or less centered around 0 at the beginning of training, which often helps
+speed up convergence.

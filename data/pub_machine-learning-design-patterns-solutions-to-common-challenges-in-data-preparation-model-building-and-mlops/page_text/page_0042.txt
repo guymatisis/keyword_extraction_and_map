@@ -1,0 +1,30 @@
+<i>Table</i> <i>2-5.</i> <i>One-hot</i> <i>and</i> <i>learned</i> <i>encodings</i> <i>for</i> <i>the</i> <i>plurality</i> <i>column</i> <i>in</i> <i>the</i> <i>natality</i> <i>dataset</i>
+<b>Plurality</b> <b>One-hotencoding</b> <b>Learnedencoding</b>
+Single(1) [1,0,0,0,0,0] [0.4,0.6]
+Multiple(2+) [0,1,0,0,0,0] [0.1,0.5]
+Twins(2) [0,0,1,0,0,0] [-0.1,0.3]
+Triplets(3) [0,0,0,1,0,0] [-0.2,0.5]
+Quadruplets(4) [0,0,0,0,1,0] [-0.4,0.3]
+Quintuplets(5) [0,0,0,0,0,1] [-0.6,0.5]
+The embedding maps a sparse, one-hot encoded vector to a dense vector in R2.
+In TensorFlow, we first construct a categorical feature column for the feature, then
+wrap that in an embedding feature column. For example, for our plurality feature, we
+would have:
+plurality = tf.feature_column.categorical_column_with_vocabulary_list(
+'plurality', ['Single(1)', 'Multiple(2+)', 'Twins(2)',
+'Triplets(3)', 'Quadruplets(4)', 'Quintuplets(5)'])
+plurality_embed = tf.feature_column.embedding_column(plurality, dimension=2)
+The resulting feature column ( plurality_embed ) is used as input to the downstream
+nodes of the neural network instead of the one-hot encoded feature column
+( plurality ).
+<b>Textembeddings</b>
+Text provides a natural setting where it is advantageous to use an embedding layer.
+Given the cardinality of a vocabulary (often on the order of tens of thousands of
+words), one-hot encoding each word isn’t practical. This would create an incredibly
+large (high-dimensional) and sparse matrix for training. Also, we’d like similar words
+to have embeddings close by and unrelated words to be far away in embedding space.
+Therefore, we use a dense word embedding to vectorize the discrete text input before
+passing to our model.
+To implement a text embedding in Keras, we first create a tokenization for each word
+in our vocabulary, as shown in Figure 2-6. Then we use this tokenization to map to
+an embedding layer, similar to how it was done for the plurality column.

@@ -1,0 +1,21 @@
+should always have control of the retraining of your model to better understand and
+debug the model in the production.
+<i>Figure</i> <i>5-5.</i> <i>Setting</i> <i>a</i> <i>higher</i> <i>threshold</i> <i>for</i> <i>model</i> <i>performance</i> <i>ensures</i> <i>a</i> <i>higher-quality</i>
+<i>model</i> <i>in</i> <i>production</i> <i>but</i> <i>will</i> <i>require</i> <i>more</i> <i>frequent</i> <i>retraining</i> <i>jobs,</i> <i>which</i> <i>can</i> <i>be</i> <i>costly.</i>
+<b>Scheduledretraining</b>
+Continuous evaluation provides a crucial signal for knowing when it’s necessary to
+retrain your model. This process of retraining is often carried out by fine-tuning the
+previous model using any newly collected training data. Where continued evaluation
+may happen every day, scheduled retraining jobs may occur only every week or every
+month (Figure 5-6).
+Once a new version of the model is trained, its performance is compared against the
+current model version. The updated model is deployed as a replacement only if it
+outperforms the previous model with respect to a test set of current data.
+<i>Figure</i> <i>5-6.</i> <i>Continuous</i> <i>evaluation</i> <i>provides</i> <i>model</i> <i>evaluation</i> <i>each</i> <i>day</i> <i>as</i> <i>new</i> <i>data</i> <i>is</i>
+<i>collected.</i> <i>Periodic</i> <i>retraining</i> <i>and</i> <i>model</i> <i>comparison</i> <i>provides</i> <i>evaluation</i> <i>at</i> <i>discrete</i>
+<i>time</i> <i>points.</i>
+So how often should you schedule retraining? The timeline for retraining will depend
+on the business use case, prevalence of new data, and the cost (in time and money) of
+executing the retraining pipeline. Sometimes, the time horizon of the model naturally
+determines when to schedule retraining jobs. For example, if the goal of the model is
+to predict next quarter’s earnings, since you will get new ground truth labels only

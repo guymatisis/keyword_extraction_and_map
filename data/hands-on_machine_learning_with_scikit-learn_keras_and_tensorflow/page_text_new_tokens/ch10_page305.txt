@@ -1,0 +1,20 @@
+<b>import</b> <b>pandas</b> <b>as</b> <b>pd</b>
+<b>import</b> <b>matplotlib.pyplot</b> <b>as</b> <b>plt</b>
+pd.DataFrame(history.history).plot(figsize=(8, 5))
+plt.grid(True)
+plt.gca().set_ylim(0, 1) <i>#</i> <i>set</i> <i>the</i> <i>vertical</i> <i>range</i> <i>to</i> <i>[0-1]</i>
+plt.show()
+<i>Figure</i> <i>10-12.</i> <i>Learning</i> <i>curves:</i> <i>the</i> <i>mean</i> <i>training</i> <i>loss</i> <i>and</i> <i>accuracy</i> <i>measured</i> <i>over</i> <i>each</i>
+<i>epoch,</i> <i>and</i> <i>the</i> <i>mean</i> <i>validation</i> <i>loss</i> <i>and</i> <i>accuracy</i> <i>measured</i> <i>at</i> <i>the</i> <i>end</i> <i>of</i> <i>each</i> <i>epoch</i>
+You can see that both the training accuracy and the validation accuracy steadily
+increase during training, while the training loss and the validation loss decrease.
+Good! Moreover, the validation curves are close to the training curves, which means
+that there is not too much overfitting. In this particular case, the model looks like it
+performed better on the validation set than on the training set at the beginning of
+training. But that’s not the case: indeed, the validation error is computed at the <i>end</i> of
+each epoch, while the training error is computed using a running mean <i>during</i> each
+epoch. So the training curve should be shifted by half an epoch to the left. If you do
+that, you will see that the training and validation curves overlap almost perfectly at
+the beginning of training.
+When plotting the training curve, it should be shifted by half an
+epoch to the left.

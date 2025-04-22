@@ -1,0 +1,35 @@
+builder, can control. They include values like learning rate, number of epochs, num‐
+ber of layers in your model, and more.
+<b>Manualtuning</b>
+Because you can manually select the values for different hyperparameters, your first
+instinct might be a trial-and-error approach to finding the optimal combination of
+hyperparameter values. This might work for models that train in seconds or minutes,
+but it can quickly get expensive on larger models that require significant training
+time and infrastructure. Imagine you are training an image classification model that
+takes hours to train on GPUs. You settle on a few hyperparameter values to try and
+then wait for the results of the first training run. Based on these results, you tweak the
+hyperparameters, train the model again, compare the results with the first run, and
+then settle on the best hyperparameter values by looking at the training run with the
+best metrics.
+There are a few problems with this approach. First, you’ve spent nearly a day and
+many compute hours on this task. Second, there’s no way of knowing if you’ve
+arrived at the optimal combination of hyperparameter values. You’ve only tried two
+different combinations, and because you changed multiple values at once, you don’t
+know which parameter had the biggest influence on performance. Even with addi‐
+tional trials, using this approach will quickly use up your time and compute resources
+and may not yield the most optimal hyperparameter values.
+We’re using the term <i>trial</i> here to refer to a single training run with
+a set of hyperparameter values.
+<b>Gridsearchandcombinatorialexplosion</b>
+A more structured version of the trial-and-error approach described earlier is known
+as <i>grid</i> <i>search.</i> When implementing hyperparameter tuning with grid search, we
+choose a list of possible values we’d like to try for each hyperparameter we want to
+RandomForestRegressor()
+optimize. For example, in scikit-learn’s model, let’s say
+max_depth
+we want to try the following combination of values for the model’s and
+n_estimators hyperparameters:
+grid_values = {
+'max_depth': [5, 10, 100],
+'n_estimators': [100, 150, 200]
+}

@@ -1,0 +1,42 @@
+We instantiate our tokenizer, passing in the size of the vocab we want to create, and
+then we need to “train” it. That is, we need to have it read our documents and find the
+common sequences of characters to create the vocab. This is done with setup. As
+we’ll see shortly, setup is a special fastai method that is called automatically in our
+usual data processing pipelines. Since we’re doing everything manually at the
+moment, however, we have to call it ourselves. Here’s a function that does these steps
+for a given vocab size and shows an example output:
+<b>def</b> subword(sz):
+sp = SubwordTokenizer(vocab_sz=sz)
+sp.setup(txts)
+<b>return</b> ' '.join(first(sp([txt]))[:40])
+Let’s try it out:
+subword(1000)
+' This movie , which I just dis c over ed at the video st or e , has
+▁ ▁ ▁ ▁ ▁ ▁ ▁ ▁ ▁ ▁ ▁
+> ▁ a p par ent ly ▁ s it ▁ around ▁ for ▁ a ▁ couple ▁ of ▁ years ▁ without ▁ a ▁ dis t
+> ri but or . It'
+▁
+When using fastai’s subword tokenizer, the special character ▁ represents a space
+character in the original text.
+If we use a smaller vocab, each token will represent fewer characters, and it will take
+more tokens to represent a sentence:
+subword(200)
+'▁ T h i s ▁movie , ▁w h i ch ▁I ▁ j us t ▁ d i s c o ver ed ▁a t ▁the ▁ v id e
+> o st or e , h a s'
+▁ ▁
+On the other hand, if we use a larger vocab, most common English words will end up
+in the vocab themselves, and we will not need as many to represent a sentence:
+subword(10000)
+"▁This ▁movie , ▁which ▁I ▁just ▁discover ed ▁at ▁the ▁video ▁store , ▁has
+> ▁apparently ▁sit ▁around ▁for ▁a ▁couple ▁of ▁years ▁without ▁a ▁distributor
+> . It ' s easy to see why . The story of two friends living"
+▁ ▁ ▁ ▁ ▁ ▁ ▁ ▁ ▁ ▁ ▁
+Picking a subword vocab size represents a compromise: a larger vocab means fewer
+tokens per sentence, which means faster training, less memory, and less state for the
+model to remember; but on the downside, it means larger embedding matrices,
+which require more data to learn.
+Overall, subword tokenization provides a way to easily scale between character toke‐
+nization (i.e., using a small subword vocab) and word tokenization (i.e., using a large
+subword vocab), and handles every human language without needing language-
+specific algorithms to be developed. It can even handle other “languages” such as
+genomic sequences or MIDI music notation! For this reason, in the last year its

@@ -1,0 +1,36 @@
+<header><largefont><b>Test</b></largefont> <largefont><b>Time</b></largefont> <largefont><b>Augmentation</b></largefont></header>
+We have been using random cropping as a way to get some useful data augmentation,
+which leads to better generalization, and results in a need for less training data. When
+we use random cropping, fastai will automatically use center-cropping for the valida‐
+tion set—that is, it will select the largest square area it can in the center of the image,
+without going past the image’s edges.
+This can often be problematic. For instance, in a multi-label dataset, sometimes there
+are small objects toward the edges of an image; these could be entirely cropped out by
+center cropping. Even for problems such as our pet breed classification example, it’s
+possible that a critical feature necessary for identifying the correct breed, such as the
+color of the nose, could be cropped out.
+One solution to this problem is to avoid random cropping entirely. Instead, we could
+simply squish or stretch the rectangular images to fit into a square space. But then we
+miss out on a very useful data augmentation, and we also make the image recognition
+more difficult for our model, because it has to learn how to recognize squished and
+squeezed images, rather than just correctly proportioned images.
+Another solution is to not center crop for validation, but instead to select a number of
+areas to crop from the original rectangular image, pass each of them through our
+model, and take the maximum or average of the predictions. In fact, we could do this
+not just for different crops, but for different values across all of our test time augmen‐
+tation parameters. This is known as <i>test</i> <i>time</i> <i>augmentation</i> (TTA).
+<b>Jargon:TestTimeAugmentation(TTA)</b>
+During inference or validation, creating multiple versions of each
+image using data augmentation, and then taking the average or
+maximum of the predictions for each augmented version of the
+image.
+Depending on the dataset, test time augmentation can result in dramatic improve‐
+ments in accuracy. It does not change the time required to train at all, but will
+increase the amount of time required for validation or inference by the number of
+test-time-augmented images requested. By default, fastai will use the unaugmented
+center crop image plus four randomly augmented images.
+You can pass any DataLoader to fastai’s tta method; by default, it will use your vali‐
+dation set:
+preds,targs = learn.tta()
+accuracy(preds, targs).item()
+0.8737863898277283

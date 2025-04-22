@@ -1,0 +1,42 @@
+The first gate (looking from left to right) is called the <i>forget</i> <i>gate.</i> Since it’s a linear
+layer followed by a sigmoid, its output will consist of scalars between 0 and 1. We
+multiply this result by the cell state to determine which information to keep and
+which to throw away: values closer to 0 are discarded, and values closer to 1 are kept.
+This gives the LSTM the ability to forget things about its long-term state. For
+instance, when crossing a period or an xxbos token, we would expect it to (have
+learned to) reset its cell state.
+The second gate is called the <i>input</i> <i>gate.</i> It works with the third gate (which doesn’t
+really have a name but is sometimes called the <i>cell</i> <i>gate)</i> to update the cell state. For
+instance, we may see a new gender pronoun, in which case we’ll need to replace the
+information about gender that the forget gate removed. Similar to the forget gate, the
+input gate decides which elements of the cell state to update (values close to 1) or not
+(values close to 0). The third gate determines what those updated values are, in the
+range of –1 to 1 (thanks to the tanh function). The result is added to the cell state.
+The last gate is the <i>output</i> <i>gate.</i> It determines which information from the cell state to
+use to generate the output. The cell state goes through a tanh before being combined
+with the sigmoid output from the output gate, and the result is the new hidden state.
+In terms of code, we can write the same steps like this:
+<b>class</b> <b>LSTMCell(Module):</b>
+<b>def</b> <b>__init__(self,</b> ni, nh):
+self.forget_gate = nn.Linear(ni + nh, nh)
+self.input_gate = nn.Linear(ni + nh, nh)
+self.cell_gate = nn.Linear(ni + nh, nh)
+self.output_gate = nn.Linear(ni + nh, nh)
+<b>def</b> forward(self, input, state):
+h,c = state
+h = torch.stack([h, input], dim=1)
+forget = torch.sigmoid(self.forget_gate(h))
+c = c * forget
+inp = torch.sigmoid(self.input_gate(h))
+cell = torch.tanh(self.cell_gate(h))
+c = c + inp * cell
+out = torch.sigmoid(self.output_gate(h))
+h = outgate * torch.tanh(c)
+<b>return</b> h, (h,c)
+In practice, we can then refactor the code. Also, in terms of performance, it’s better to
+do one big matrix multiplication than four smaller ones (that’s because we launch the
+special fast kernel on the GPU only once, and it gives the GPU more work to do in
+parallel). The stacking takes a bit of time (since we have to move one of the tensors
+around on the GPU to have it all in a contiguous array), so we use two separate layers
+for the input and the hidden state. The optimized and refactored code then looks like
+this:

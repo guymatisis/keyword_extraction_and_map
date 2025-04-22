@@ -1,0 +1,37 @@
+able to flow through the network and reach the final layers of the generator: this
+seems like an unnecessary constraint that probably slowed down training. And
+finally, some visual artifacts may appear because the same noise was used at different
+levels. If instead the generator tried to produce its own pseudorandom noise, this
+noise might not look very convincing, leading to more visual artifacts. Plus, part of
+the generator’s weights would be dedicated to generating pseudorandom noise, which
+again seems wasteful. By adding extra noise inputs, all these issues are avoided; the
+GAN is able to use the provided noise to add the right amount of stochasticity to each
+part of the image.
+The added noise is different for each level. Each noise input consists of a single fea‐
+ture map full of Gaussian noise, which is broadcast to all feature maps (of the given
+level) and scaled using learned per-feature scaling factors (this is represented by the
+“B” boxes in Figure 17-20) before it is added.
+Finally, StyleGAN uses a technique called <i>mixing</i> <i>regularization</i> (or <i>style</i> <i>mixing),</i>
+where a percentage of the generated images are produced using two different codings.
+Specifically, the codings <b>c</b> and <b>c</b> are sent through the mapping network, giving two
+1 2
+style vectors <b>w</b> and <b>w</b> . Then the synthesis network generates an image based on the
+1 2
+styles <b>w</b> for the first levels and the styles <b>w</b> for the remaining levels. The cutoff level
+1 2
+is picked randomly. This prevents the network from assuming that styles at adjacent
+levels are correlated, which in turn encourages locality in the GAN, meaning that
+each style vector only affects a limited number of traits in the generated image.
+There is such a wide variety of GANs out there that it would require a whole book to
+cover them all. Hopefully this introduction has given you the main ideas, and most
+importantly the desire to learn more. If you’re struggling with a mathematical con‐
+cept, there are probably blog posts out there that will help you understand it better.
+Then go ahead and implement your own GAN, and do not get discouraged if it has
+trouble learning at first: unfortunately, this is normal, and it will require quite a bit of
+patience before it works, but the result is worth it. If you’re struggling with an imple‐
+mentation detail, there are plenty of Keras or TensorFlow implementations that you
+can look at. In fact, if all you want is to get some amazing results quickly, then you
+can just use a pretrained model (e.g., there are pretrained StyleGAN models available
+for Keras).
+In the next chapter we will move to an entirely different branch of Deep Learning:
+Deep Reinforcement Learning.

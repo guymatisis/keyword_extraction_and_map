@@ -1,0 +1,43 @@
+ActionDiscretizeWrapper
+Quantizes a continuous action space to a discrete action space. For example, if
+the original environment’s action space is the continuous range from –1.0 to
++1.0, but you want to use an algorithm that only supports discrete action spaces,
+discrete_env =
+such as a DQN, then you can wrap the environment using
+ActionDiscretizeWrapper(env, num_actions=5), and the new discrete_env
+will have a discrete action space with five possible actions: 0, 1, 2, 3, 4. These
+actions correspond to the actions –1.0, –0.5, 0.0, 0.5, and 1.0 in the original envi‐
+ronment.
+ActionRepeat
+Repeats each action over <i>n</i> steps, while accumulating the rewards. In many envi‐
+ronments, this can speed up training significantly.
+RunStats
+Records environment statistics such as the number of steps and the number of
+episodes.
+TimeLimit
+Interrupts the environment if it runs for longer than a maximum number of
+steps.
+VideoWrapper
+Records a video of the environment.
+To create a wrapped environment, you must create a wrapper, passing the wrapped
+environment to the constructor. That’s all! For example, the following code will wrap
+ActionRepeat
+our environment in an wrapper so that every action is repeated four
+times:
+<b>from</b> <b>tf_agents.environments.wrappers</b> <b>import</b> ActionRepeat
+repeating_env = ActionRepeat(env, times=4)
+gym.wrappers
+OpenAI Gym has some environment wrappers of its own in the pack‐
+age. They are meant to wrap Gym environments, though, not TF-Agents environ‐
+ments, so to use them you must first wrap the Gym environment with a Gym
+wrapper, then wrap the resulting environment with a TF-Agents wrapper. The
+suite_gym.wrap_env()
+function will do this for you, provided you give it a Gym
+environment and a list of Gym wrappers and/or a list of TF-Agents wrappers. Alter‐
+natively, the suite_gym.load() function will both create the Gym environment and
+wrap it for you, if you give it some wrappers. Each wrapper will be created without
+lambda.
+any arguments, so if you want to set some arguments, you must pass a For
+example, the following code creates a Breakout environment that will run for a maxi‐
+mum of 10,000 steps during each episode, and each action will be repeated four
+times:

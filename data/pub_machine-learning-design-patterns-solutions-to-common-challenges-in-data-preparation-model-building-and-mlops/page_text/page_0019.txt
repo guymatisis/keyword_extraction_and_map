@@ -1,0 +1,15 @@
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>2</b></largefont></header>
+<header><largefont><b>Data</b></largefont> <largefont><b>Representation</b></largefont> <largefont><b>Design</b></largefont> <largefont><b>Patterns</b></largefont></header>
+At the heart of any machine learning model is a mathematical function that is defined
+to operate on specific types of data only. At the same time, real-world machine learn‐
+ing models need to operate on data that may not be directly pluggable into the math‐
+ematical function. The mathematical core of a decision tree, for example, operates on
+boolean variables. Note that we are talking here about the mathematical core of a
+decision tree—decision tree machine learning software will typically also include
+functions to learn an optimal tree from data and ways to read in and process different
+types of numeric and categorical data. The mathematical function (see Figure 2-1)
+that underpins a decision tree, however, operates on boolean variables and uses oper‐
+ations such as AND (&& in Figure 2-1) and OR (+ in Figure 2-1).
+<i>Figure</i> <i>2-1.</i> <i>The</i> <i>heart</i> <i>of</i> <i>a</i> <i>decision</i> <i>tree</i> <i>machine</i> <i>learning</i> <i>model</i> <i>to</i> <i>predict</i> <i>whether</i> <i>or</i>
+<i>not</i> <i>a</i> <i>baby</i> <i>requires</i> <i>intensive</i> <i>care</i> <i>is</i> <i>a</i> <i>mathematical</i> <i>model</i> <i>that</i> <i>operates</i> <i>on</i> <i>boolean</i>
+<i>variables.</i>

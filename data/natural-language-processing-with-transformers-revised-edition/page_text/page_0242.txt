@@ -1,0 +1,26 @@
+Model size (MB) - 255.88
+Average latency (ms) - 21.02 +\- 0.55
+Accuracy on test set - 0.868
+plot_metrics(perf_metrics, optim_type)
+Remarkably, converting to the ONNX format and using the ONNX Runtime has
+given our distilled model (i.e. the “Distillation” circle in the plot) a boost in latency!
+Let’s see if we can squeeze out a bit more performance by adding quantization to the
+mix.
+Similar to PyTorch, ORT offers three ways to quantize a model: dynamic, static, and
+quantization-aware training. As we did with PyTorch, we’ll apply dynamic quantiza‐
+tion to our distilled model. In ORT, the quantization is applied through the
+quantize_dynamic()
+function, which requires a path to the ONNX model to quan‐
+tize, a target path to save the quantized model to, and the data type to reduce the
+weights to:
+<b>from</b> <b>onnxruntime.quantization</b> <b>import</b> quantize_dynamic, QuantType
+model_input = "onnx/model.onnx"
+model_output = "onnx/model.quant.onnx"
+quantize_dynamic(model_input, model_output, weight_type=QuantType.QInt8)
+Now that the model is quantized, let’s run it through our benchmark:
+onnx_quantized_model = create_model_for_provider(model_output)
+pipe = OnnxPipeline(onnx_quantized_model, tokenizer)
+optim_type = "Distillation + ORT (quantized)"
+pb = OnnxPerformanceBenchmark(pipe, clinc["test"], optim_type,
+model_path=model_output)
+perf_metrics.update(pb.run_benchmark())

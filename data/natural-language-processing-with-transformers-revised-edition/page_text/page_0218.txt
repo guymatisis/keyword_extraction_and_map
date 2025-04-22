@@ -1,0 +1,37 @@
+Mathematically, the way this works is as follows. Suppose we feed an input sequence <i>x</i>
+
+to the teacher to generate a vector of logits <i>x</i> = [z <i>x</i> ,...,z <i>x</i> ]. We can convert
+1 <i>N</i>
+these logits into probabilities by applying a softmax function:
+exp <i>z</i> <i>x</i>
+<i>i</i>
+∑ exp <i>z</i> <i>x</i>
+<i>j</i> <i>i</i>
+This isn’t quite what we want, though, because in many cases the teacher will assign a
+high probability to one class, with all other class probabilities close to zero. When that
+happens, the teacher doesn’t provide much additional information beyond the
+ground truth labels, so instead we “soften” the probabilities by scaling the logits with
+a temperature hyperparameter <i>T</i> before applying the softmax: 7
+exp <i>z</i> <i>x</i> /T
+<i>i</i>
+<i>p</i> <i>x</i> =
+<i>i</i>
+∑ exp <i>z</i> <i>x</i> /T
+<i>j</i> <i>i</i>
+As shown in Figure 8-3, higher values of <i>T</i> produce a softer probability distribution
+over the classes and reveal much more information about the decision boundary that
+the teacher has learned for each training example. When <i>T</i> = 1 we recover the origi‐
+nal softmax distribution.
+<i>Figure</i> <i>8-3.</i> <i>Comparison</i> <i>of</i> <i>a</i> <i>hard</i> <i>label</i> <i>that</i> <i>is</i> <i>one-hot</i> <i>encoded</i> <i>(left),</i> <i>softmax</i> <i>probabili‐</i>
+<i>ties</i> <i>(middle),</i> <i>and</i> <i>softened</i> <i>class</i> <i>probabilities</i> <i>(right)</i>
+Since the student also produces softened probabilities <i>q</i> <i>x</i> of its own, we can use the
+<i>i</i>
+Kullback–Leibler (KL) divergence to measure the difference between the two proba‐
+bility distributions:
+<i>p</i> <i>x</i>
+<largefont>∑</largefont> <i>i</i>
+<i>D</i> <i>p,q</i> = <i>p</i> <i>x</i> log
+<i>KL</i> <i>i</i> <i>q</i> <i>x</i>
+<i>i</i>
+<i>i</i>
+7 WealsoencounteredtemperatureinthecontextoftextgenerationinChapter5.

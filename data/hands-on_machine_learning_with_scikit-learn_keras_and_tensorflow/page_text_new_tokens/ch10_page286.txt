@@ -1,0 +1,26 @@
+<i>Figure</i> <i>10-5.</i> <i>Architecture</i> <i>of</i> <i>a</i> <i>Perceptron</i> <i>with</i> <i>two</i> <i>input</i> <i>neurons,</i> <i>one</i> <i>bias</i> <i>neuron,</i> <i>and</i>
+<i>three</i> <i>output</i> <i>neurons</i>
+Thanks to the magic of linear algebra, Equation 10-2 makes it possible to efficiently
+compute the outputs of a layer of artificial neurons for several instances at once.
+<i>Equation</i> <i>10-2.</i> <i>Computing</i> <i>the</i> <i>outputs</i> <i>of</i> <i>a</i> <i>fully</i> <i>connected</i> <i>layer</i>
+<i>h</i> <b>X</b> = <i>ϕ</i> <b>XW</b> + <b>b</b>
+<b>W,b</b>
+In this equation:
+• As always, <b>X</b> represents the matrix of input features. It has one row per instance
+and one column per feature.
+• The weight matrix <b>W</b> contains all the connection weights except for the ones
+from the bias neuron. It has one row per input neuron and one column per artifi‐
+cial neuron in the layer.
+• The bias vector <b>b</b> contains all the connection weights between the bias neuron
+and the artificial neurons. It has one bias term per artificial neuron.
+• The function ϕ is called the <i>activation</i> <i>function:</i> when the artificial neurons are
+TLUs, it is a step function (but we will discuss other activation functions shortly).
+So, how is a Perceptron trained? The Perceptron training algorithm proposed by
+Rosenblatt was largely inspired by <i>Hebb’s</i> <i>rule.</i> In his 1949 book <i>The</i> <i>Organization</i> <i>of</i>
+<i>Behavior</i> (Wiley), Donald Hebb suggested that when a biological neuron triggers
+another neuron often, the connection between these two neurons grows stronger. Sie‐
+grid Löwel later summarized Hebb’s idea in the catchy phrase, “Cells that fire
+together, wire together”; that is, the connection weight between two neurons tends to
+increase when they fire simultaneously. This rule later became known as Hebb’s rule
+(or <i>Hebbian</i> <i>learning).</i> Perceptrons are trained using a variant of this rule that takes
+into account the error made by the network when it makes a prediction; the

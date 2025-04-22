@@ -1,0 +1,40 @@
+Perfect! Not only is the result accurate (the precision is only limited by the floating-
+point errors), but the gradient() method only goes through the recorded computa‐
+tions once (in reverse order), no matter how many variables there are, so it is
+incredibly efficient. It’s like magic!
+tf.Gra
+To save memory, only put the strict minimum inside the
+dientTape()
+block. Alternatively, pause recording by creating a
+with tape.stop_recording() tf.Gradient
+block inside the
+Tape()
+block.
+gradient()
+The tape is automatically erased immediately after you call its method, so
+you will get an exception if you try to call gradient() twice:
+<b>with</b> tf.GradientTape() <b>as</b> tape:
+z = f(w1, w2)
+dz_dw1 = tape.gradient(z, w1) <i>#</i> <i>=></i> <i>tensor</i> <i>36.0</i>
+dz_dw2 = tape.gradient(z, w2) <i>#</i> <i>RuntimeError!</i>
+If you need to call gradient() more than once, you must make the tape persistent
+resources:12
+and delete it each time you are done with it to free
+<b>with</b> tf.GradientTape(persistent=True) <b>as</b> tape:
+z = f(w1, w2)
+dz_dw1 = tape.gradient(z, w1) <i>#</i> <i>=></i> <i>tensor</i> <i>36.0</i>
+dz_dw2 = tape.gradient(z, w2) <i>#</i> <i>=></i> <i>tensor</i> <i>10.0,</i> <i>works</i> <i>fine</i> <i>now!</i>
+<b>del</b> tape
+By default, the tape will only track operations involving variables, so if you try to
+z
+compute the gradient of with regard to anything other than a variable, the result
+will be None :
+c1, c2 = tf.constant(5.), tf.constant(3.)
+<b>with</b> tf.GradientTape() <b>as</b> tape:
+z = f(c1, c2)
+gradients = tape.gradient(z, [c1, c2]) <i>#</i> <i>returns</i> <i>[None,</i> <i>None]</i>
+However, you can force the tape to watch any tensors you like, to record every opera‐
+tion that involves them. You can then compute gradients with regard to these tensors,
+as if they were variables:
+12 Ifthetapegoesoutofscope,forexamplewhenthefunctionthatuseditreturns,Python’sgarbagecollector
+willdeleteitforyou.

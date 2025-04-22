@@ -1,0 +1,35 @@
+benchmark,16
+beat the human baseline on the SuperGLUE a more difficult ver‐
+sion of GLUE consisting of several subtasks used to measure NLU performance.
+Now that we’ve highlighted some of the major encoder-only architectures, let’s take a
+look at the decoder-only models.
+<header><largefont><b>The</b></largefont> <largefont><b>Decoder</b></largefont> <largefont><b>Branch</b></largefont></header>
+The progress on transformer decoder models has been spearheaded to a large extent
+by OpenAI. These models are exceptionally good at predicting the next word in a
+sequence and are thus mostly used for text generation tasks (see Chapter 5 for more
+details). Their progress has been fueled by using larger datasets and scaling the lan‐
+guage models to larger and larger sizes. Let’s have a look at the evolution of these fas‐
+cinating generation models:
+<i>GPT</i>
+The introduction of GPT combined two key ideas in NLP:17 the novel and effi‐
+cient transformer decoder architecture, and transfer learning. In that setup, the
+model was pretrained by predicting the next word based on the previous ones.
+The model was trained on the BookCorpus and achieved great results on down‐
+stream tasks such as classification.
+<i>GPT-2</i>
+Inspired by the success of the simple and scalable pretraining approach, the origi‐
+nal model and training set were upscaled to produce GPT-2. 18 This model is able
+to produce long sequences of coherent text. Due to concerns about possible mis‐
+use, the model was released in a staged fashion, with smaller models being pub‐
+lished first and the full model later.
+<i>CTRL</i>
+Models like GPT-2 can continue an input sequence (also called a <i>prompt).</i> How‐
+ever, the user has little control over the style of the generated sequence. The
+Conditional Transformer Language (CTRL) model addresses this issue by adding
+“control tokens” at the beginning of the sequence. 19 These allow the style of the
+generated text to be controlled, which allows for diverse generation.
+16 A.Wangetal.,“SuperGLUE:AStickierBenchmarkforGeneral-PurposeLanguageUnderstandingSystems”,
+(2019).
+17 A.Radfordetal.,“ImprovingLanguageUnderstandingbyGenerativePre-Training”,OpenAI(2018).
+18 A.Radfordetal.,“LanguageModelsAreUnsupervisedMultitaskLearners”,OpenAI(2019).
+19 N.S.Keskaretal.,“CTRL:AConditionalTransformerLanguageModelforControllableGeneration”,(2019).

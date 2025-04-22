@@ -1,0 +1,28 @@
+rate is not too large and you wait long enough). The partial derivatives of the cost
+function with regard to the <i>jth</i> model parameter <i>θ</i> are given by Equation 4-18.
+<i>j</i>
+<i>Equation</i> <i>4-18.</i> <i>Logistic</i> <i>cost</i> <i>function</i> <i>partial</i> <i>derivatives</i>
+<i>m</i>
+∂ 1 ⊺
+<largefont>∑</largefont> <i>i</i> <i>i</i> <i>i</i>
+J <b>θ</b> = <i>σ</i> <b>θ</b> <b>x</b> − <i>y</i> <i>x</i>
+<i>j</i>
+∂θ <i>m</i>
+<i>j</i> <i>i</i> = 1
+This equation looks very much like Equation 4-5: for each instance it computes the
+th
+prediction error and multiplies it by the <i>j</i> feature value, and then it computes the
+average over all training instances. Once you have the gradient vector containing all
+the partial derivatives, you can use it in the Batch Gradient Descent algorithm. That’s
+it: you now know how to train a Logistic Regression model. For Stochastic GD you
+would take one instance at a time, and for Mini-batch GD you would use a mini-
+batch at a time.
+<header><largefont><b>Decision</b></largefont> <largefont><b>Boundaries</b></largefont></header>
+Let’s use the iris dataset to illustrate Logistic Regression. This is a famous dataset that
+contains the sepal and petal length and width of 150 iris flowers of three different
+species: <i>Iris</i> <i>setosa,</i> <i>Iris</i> <i>versicolor,</i> and <i>Iris</i> <i>virginica</i> (see Figure 4-22).
+<i>species14</i>
+<i>Figure</i> <i>4-22.</i> <i>Flowers</i> <i>of</i> <i>three</i> <i>iris</i> <i>plant</i>
+14 PhotosreproducedfromthecorrespondingWikipediapages.IrisvirginicaphotobyFrankMayfield(Creative
+CommonsBY-SA2.0),IrisversicolorphotobyD.GordonE.Robertson(CreativeCommonsBY-SA3.0),Iris
+<i>setosaphotopublicdomain.</i>

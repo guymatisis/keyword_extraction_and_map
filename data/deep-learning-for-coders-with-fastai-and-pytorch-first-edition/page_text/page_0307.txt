@@ -1,0 +1,36 @@
+called <i>R2,</i> although the details aren’t important for this explanation.) We don’t need it
+to be very accurate—we’re just going to use it to compare different models, based on
+removing some of the possibly redundant columns:
+<b>def</b> get_oob(df):
+m = RandomForestRegressor(n_estimators=40, min_samples_leaf=15,
+max_samples=50000, max_features=0.5, n_jobs=-1, oob_score=True)
+m.fit(df, y)
+<b>return</b> m.oob_score_
+Here’s our baseline:
+get_oob(xs_imp)
+0.8771039618198545
+Now we try removing each of our potentially redundant variables, one at a time:
+{c:get_oob(xs_imp.drop(c, axis=1)) <b>for</b> c <b>in</b> (
+'saleYear', 'saleElapsed', 'ProductGroupDesc','ProductGroup',
+'fiModelDesc', 'fiBaseModel',
+'Hydraulics_Flow','Grouser_Tracks', 'Coupler_System')}
+{'saleYear': 0.8759666979317242,
+'saleElapsed': 0.8728423449081594,
+'ProductGroupDesc': 0.877877012281002,
+'ProductGroup': 0.8772503407182847,
+'fiModelDesc': 0.8756415073829513,
+'fiBaseModel': 0.8765165299438019,
+'Hydraulics_Flow': 0.8778545895742573,
+'Grouser_Tracks': 0.8773718142788077,
+'Coupler_System': 0.8778016988955392}
+Now let’s try dropping multiple variables. We’ll drop one from each of the tightly
+aligned pairs we noticed earlier. Let’s see what that does:
+to_drop = ['saleYear', 'ProductGroupDesc', 'fiBaseModel', 'Grouser_Tracks']
+get_oob(xs_imp.drop(to_drop, axis=1))
+0.8739605718147015
+Looking good! This is really not much worse than the model with all the fields. Let’s
+create DataFrames without these columns, and save them:
+xs_final = xs_imp.drop(to_drop, axis=1)
+valid_xs_final = valid_xs_imp.drop(to_drop, axis=1)
+(path/'xs_final.pkl').save(xs_final)
+(path/'valid_xs_final.pkl').save(valid_xs_final)

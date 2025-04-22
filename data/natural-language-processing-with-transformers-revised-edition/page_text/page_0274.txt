@@ -1,0 +1,6 @@
+From the figure, we can see that a small amount of data augmentation improves the
+<i>F</i> -score of the Naive Bayes classifier by around 5 points, and it overtakes the zero-
+1
+shot pipeline for the macro scores once we have around 170 training samples. Let’s
+now take a look at a method based on using the embeddings of large language
+models.

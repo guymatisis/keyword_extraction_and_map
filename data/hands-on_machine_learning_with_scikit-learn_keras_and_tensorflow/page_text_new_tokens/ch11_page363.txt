@@ -1,0 +1,44 @@
+This implementation relies on the optimizer’s initial learning rate (contrary to the
+previous implementation), so make sure to set it appropriately.
+When you save a model, the optimizer and its learning rate get saved along with it.
+This means that with this new schedule function, you could just load a trained model
+and continue training where it left off, no problem. Things are not so simple if your
+epoch
+schedule function uses the argument, however: the epoch does not get saved,
+and it gets reset to 0 every time you call the fit() method. If you were to continue
+training a model where it left off, this could lead to a very large learning rate, which
+fit()
+would likely damage your model’s weights. One solution is to manually set the
+method’s initial_epoch argument so the epoch starts at the right value.
+For piecewise constant scheduling, you can use a schedule function like the following
+one (as earlier, you can define a more general function if you want; see the “Piecewise
+Constant Scheduling” section of the notebook for an example), then create a Lear
+ningRateScheduler callback with this function and pass it to the fit() method, just
+like we did for exponential scheduling:
+<b>def</b> piecewise_constant_fn(epoch):
+<b>if</b> epoch < 5:
+<b>return</b> 0.01
+<b>elif</b> epoch < 15:
+<b>return</b> 0.005
+<b>else:</b>
+<b>return</b> 0.001
+ReduceLROnPlateau
+For performance scheduling, use the callback. For example, if
+you pass the following callback to the fit() method, it will multiply the learning rate
+by 0.5 whenever the best validation loss does not improve for five consecutive epochs
+(other options are available; please check the documentation for more details):
+lr_scheduler = keras.callbacks.ReduceLROnPlateau(factor=0.5, patience=5)
+Lastly, tf.keras offers an alternative way to implement learning rate scheduling: define
+keras.optimizers.sched
+the learning rate using one of the schedules available in
+ules , then pass this learning rate to any optimizer. This approach updates the learn‐
+ing rate at each step rather than at each epoch. For example, here is how to implement
+exponential_decay_fn()
+the same exponential schedule as the function we defined
+earlier:
+s = 20 * len(X_train) // 32 <i>#</i> <i>number</i> <i>of</i> <i>steps</i> <i>in</i> <i>20</i> <i>epochs</i> <i>(batch</i> <i>size</i> <i>=</i> <i>32)</i>
+learning_rate = keras.optimizers.schedules.ExponentialDecay(0.01, s, 0.1)
+optimizer = keras.optimizers.SGD(learning_rate)
+This is nice and simple, plus when you save the model, the learning rate and its
+schedule (including its state) get saved as well. This approach, however, is not part of
+the Keras API; it is specific to tf.keras.

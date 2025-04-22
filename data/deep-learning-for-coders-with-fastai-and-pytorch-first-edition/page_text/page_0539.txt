@@ -1,0 +1,41 @@
+As you can see, Learner is really just using our standard training loop, except that it’s
+also calling callbacks at appropriate times. So let’s define some callbacks!
+<header><largefont><b>Callbacks</b></largefont></header>
+In Learner.__init__ we have
+<b>for</b> cb <b>in</b> cbs: cb.learner = self
+In other words, every callback knows what learner it is used in. This is critical, since
+otherwise a callback can’t get information from the learner, or change things in the
+learner. Because getting information from the learner is so common, we make that
+easier by defining Callback as a subclass of GetAttr , with a default attribute of
+learner:
+<b>class</b> <b>Callback(GetAttr):</b> _default='learner'
+GetAttr __getattr__ __dir__
+is a fastai class that implements Python’s standard and
+methods for you, so that anytime you try to access an attribute that doesn’t exist, it
+passes the request along to whatever you have defined as _default.
+For instance, we want to move all model parameters to the GPU automatically at the
+start of fit . We could do this by defining before_fit as self.learner.model.cuda ;
+however, because learner is the default attribute, and we have SetupLearnerCB
+Callback GetAttr), .learner
+inherit from (which inherits from we can remove the
+and just call self.model.cuda :
+<b>class</b> <b>SetupLearnerCB(Callback):</b>
+<b>def</b> before_batch(self):
+xb,yb = to_device(self.batch)
+self.learner.batch = tfm_x(xb),yb
+<b>def</b> before_fit(self): self.model.cuda()
+In SetupLearnerCB , we also move each mini-batch to the GPU, by calling
+to_device(self.batch) (we could also have used the longer
+to_device(self.learner.batch).
+Note, however, that in the line
+self.learner.batch = tfm_x(xb),yb, we can’t remove .learner, because here
+we’re <i>setting</i> the attribute, not getting it.
+Learner,
+Before we try our let’s create a callback to track and print progress. Other‐
+wise, we won’t really know if it’s working properly:
+<b>class</b> <b>TrackResults(Callback):</b>
+<b>def</b> before_epoch(self): self.accs,self.losses,self.ns = [],[],[]
+<b>def</b> after_epoch(self):
+n = sum(self.ns)
+<b>print(self.epoch,</b> self.model.training,
+sum(self.losses).item()/n, sum(self.accs).item()/n)

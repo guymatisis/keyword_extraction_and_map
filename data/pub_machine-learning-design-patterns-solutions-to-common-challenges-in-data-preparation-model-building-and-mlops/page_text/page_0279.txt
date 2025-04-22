@@ -1,0 +1,46 @@
+becomes important to be able to update the model parameters with each element.
+This can be done by changing the ModelFn as follows (full code is on GitHub):
+<b>class</b> <b>OnlineModelFn(beam.CombineFn):</b>
+...
+<b>def</b> add_input(self, inmem_state, input_dict):
+(sum, sumsq, count) = inmem_state
+input = input_dict['delay']
+<b>return</b> (sum + input, sumsq + input*input, count + 1)
+<b>def</b> extract_output(self, inmem_state):
+(sum, sumsq, count) = inmem_state
+...
+mean = sum / count
+variance = (sumsq / count) - mean*mean
+stddev = np.sqrt(variance) <b>if</b> variance > 0 <b>else</b> 0
+<b>return</b> {
+'prediction': mean,
+'acceptable_deviation': 4 * stddev
+}
+...
+The key difference is that the only thing held in memory are three floating point
+sum sum2 count
+numbers ( , , ) required to extract the output model state, not the entire
+dataframe of received instances. Updating the model parameters one instance at a
+time is called an <i>online</i> <i>update</i> and is something that can be done only if the model
+training doesn’t require iteration over the entire dataset. Therefore, in the above
+x2
+implementation, the variance is computed by maintaining a sum of so that we
+don’t need a second pass through the data after computing the mean.
+<b>StreamingSQL</b>
+If our infrastructure consists of a high-performance SQL database that is capable of
+processing streaming data, it is possible to implement the Windowed Inference pat‐
+tern in an alternative way by using an aggregation window (full code is on GitHub).
+We pull out the flight data from BigQuery:
+<b>WITH</b> <b>data</b> <b>AS</b> (
+<b>SELECT</b>
+PARSE_DATETIME('%Y-%m-%d-%H%M',
+CONCAT(CAST(date <b>AS</b> STRING),
+'-', FORMAT('%04d', arrival_schedule))
+) <b>AS</b> scheduled_arrival_time,
+arrival_delay
+<b>FROM</b> `bigquery-samples.airline_ontime_data.flights`
+<b>WHERE</b> arrival_airport = 'DFW' <b>AND</b> SUBSTR(date, 0, 7) = '2010-05'
+),
+model_state
+Then, we create the by computing the model parameters over a time
+window specified as two hours preceding to one second preceding:

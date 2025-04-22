@@ -1,0 +1,35 @@
+network with just one hidden layer that approximates that function as closely as we
+want.1
+Deep learning approaches to solving differential equations or complex dynamical
+systems aim to represent a function defined implicitly by a differential equation, or
+system of equations, using a neural network.
+Overfitting is useful when the following two conditions are met:
+• There is no noise, so the labels are accurate for all instances.
+• You have the complete dataset at your disposal (you have all the examples there
+are). In this case, overfitting becomes interpolating the dataset.
+<header><largefont><b>Trade-Offs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Alternatives</b></largefont></header>
+We introduced overfitting as being useful when the set of inputs can be exhaustively
+listed and the accurate label for each set of inputs can be calculated. If the full input
+space can be tabulated, overfitting is not a concern because there is no unseen data.
+However, the Useful Overfitting design pattern is useful beyond this narrow use case.
+In many real-world situations, even if one or more of these conditions has to be
+relaxed, the concept that overfitting can be useful remains valid.
+<b>Interpolationandchaostheory</b>
+The machine learning model essentially functions as an approximation to a lookup
+table of inputs to outputs. If the lookup table is small, just use it as a lookup table!
+There is no need to approximate it by a machine learning model. An ML approxima‐
+tion is useful in situations where the lookup table will be too large to effectively use. It
+is when the lookup table is too unwieldy that it becomes better to treat it as the train‐
+ing dataset for a machine learning model that approximates the lookup table.
+Note that we assumed that the observations would have a finite number of possibili‐
+ties. For example, we posited that temperature would be measured in 0.01°C incre‐
+ments and lie between 60°C and 80°C. This will be the case if the observations are
+made by digital instruments. If this is not the case, the ML model is needed to inter‐
+polate between entries in the lookup table.
+Machine learning models interpolate by weighting unseen values by the distance of
+these unseen values from training examples. Such interpolation works only if the
+underlying system is not chaotic. In chaotic systems, even if the system is determinis‐
+tic, small differences in initial conditions can lead to dramatically different outcomes.
+1 Itmay,ofcourse,notbethecasethatwecanlearnthenetworkusinggradientdescentjustbecausethere
+existssuchaneuralnetwork(thisiswhychangingthemodelarchitecturebyaddinglayershelps—itmakes
+thelosslandscapemoreamenabletoSGD).

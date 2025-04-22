@@ -1,0 +1,33 @@
+When you use the fine_tune method, fastai will use these tricks for you. There are a
+few parameters you can set (which we’ll discuss later), but in the default form shown
+here, it does two steps:
+1. Use one epoch to fit just those parts of the model necessary to get the new ran‐
+dom head to work correctly with your dataset.
+2. Use the number of epochs requested when calling the method to fit the entire
+model, updating the weights of the later layers (especially the head) faster than
+the earlier layers (which, as we’ll see, generally don’t require many changes from
+the pretrained weights).
+The <i>head</i> of a model is the part that is newly added to be specific to the new dataset.
+An <i>epoch</i> is one complete pass through the dataset. After calling fit, the results after
+each epoch are printed, showing the epoch number, the training and validation set
+losses (the “measure of performance” used for training the model), and any <i>metrics</i>
+you’ve requested (error rate, in this case).
+So, with all this code, our model learned to recognize cats and dogs just from labeled
+examples. But how did it do it?
+<header><largefont><b>What</b></largefont> <largefont><b>Our</b></largefont> <largefont><b>Image</b></largefont> <largefont><b>Recognizer</b></largefont> <largefont><b>Learned</b></largefont></header>
+At this stage, we have an image recognizer that is working well, but we have no idea
+what it is doing! Although many people complain that deep learning results in
+impenetrable “black box” models (that is, something that gives predictions but that
+no one can understand), this really couldn’t be further from the truth. There is a vast
+body of research showing how to deeply inspect deep learning models and get rich
+insights from them. Having said that, all kinds of machine learning models (including
+deep learning and traditional statistical models) can be challenging to fully under‐
+stand, especially when considering how they will behave when coming across data
+that is very different from the data used to train them. We’ll be discussing this issue
+throughout this book.
+In 2013, PhD student Matt Zeiler and his supervisor, Rob Fergus, published “Visual‐
+izing and Understanding Convolutional Networks”, which showed how to visualize
+the neural network weights learned in each layer of a model. They carefully analyzed
+the model that won the 2012 ImageNet competition, and used this analysis to greatly
+improve the model, such that they were able to go on to win the 2013 competition!
+Figure 1-10 is the picture that they published of the first layer’s weights.

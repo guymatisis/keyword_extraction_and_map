@@ -1,0 +1,35 @@
+tions. We’ll then combine with our 8,000 fraudulent examples, reshuffle the data, and
+use this new, smaller dataset to train a model. Here’s how we could implement this
+with pandas:
+data = pd.read_csv('fraud_data.csv')
+<i>#</i> <i>Split</i> <i>into</i> <i>separate</i> <i>dataframes</i> <i>for</i> <i>fraud</i> <i>/</i> <i>not</i> <i>fraud</i>
+fraud = data[data['isFraud'] == 1]
+not_fraud = data[data['isFraud'] == 0]
+<i>#</i> <i>Take</i> <i>a</i> <i>random</i> <i>sample</i> <i>of</i> <i>non</i> <i>fraud</i> <i>rows</i>
+not_fraud_sample = not_fraud.sample(random_state=2, frac=.005)
+<i>#</i> <i>Put</i> <i>it</i> <i>back</i> <i>together</i> <i>and</i> <i>shuffle</i>
+df = pd.concat([not_fraud_sample,fraud])
+df = shuffle(df, random_state=2)
+Following this, our dataset would contain 25% fraudulent transactions, much more
+balanced than the original dataset with only 0.1% in the minority class. It’s worth
+experimenting with the exact balance used when downsampling. Here we used a
+25/75 split, but different problems might require closer to a 50/50 split to achieve
+decent accuracy.
+Downsampling is usually combined with the Ensemble pattern, following these steps:
+1. Downsample the majority class and use all the instances of the minority class.
+2. Train a model and add it to the ensemble.
+3. Repeat.
+During inference, take the median output of the ensemble models.
+We discussed a classification example here, but downsampling can also be applied to
+regression models where we’re predicting a numerical value. In this case, taking a
+random sample of majority class samples will be more nuanced since the majority
+“class” in our data includes a range of values rather than a single label.
+<b>Weightedclasses</b>
+Another approach to handling imbalanced datasets is to change the <i>weight</i> our model
+gives to examples from each class. Note that this is a different use of the term
+“weight” than the weights (or parameters) learned by our model during training,
+which you cannot set manually. By weighting <i>classes,</i> we tell our model to treat spe‐
+cific label classes with more importance during training. We’ll want our model to
+assign more weight to examples from the minority class. Exactly how much impor‐
+tance your model should give to certain examples is up to you, and is a parameter you
+can experiment with.

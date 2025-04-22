@@ -1,0 +1,25 @@
+<i>Figure</i> <i>1-3.</i> <i>An</i> <i>encoder-decoder</i> <i>architecture</i> <i>with</i> <i>a</i> <i>pair</i> <i>of</i> <i>RNNs</i> <i>(in</i> <i>general,</i> <i>there</i> <i>are</i>
+<i>many</i> <i>more</i> <i>recurrent</i> <i>layers</i> <i>than</i> <i>those</i> <i>shown</i> <i>here)</i>
+Although elegant in its simplicity, one weakness of this architecture is that the final
+hidden state of the encoder creates an <i>information</i> <i>bottleneck:</i> it has to represent the
+meaning of the whole input sequence because this is all the decoder has access to
+when generating the output. This is especially challenging for long sequences, where
+information at the start of the sequence might be lost in the process of compressing
+everything to a single, fixed representation.
+Fortunately, there is a way out of this bottleneck by allowing the decoder to have
+access to all of the encoder’s hidden states. The general mechanism for this is called
+<i>attention,6</i> and it is a key component in many modern neural network architectures.
+Understanding how attention was developed for RNNs will put us in good shape to
+understand one of the main building blocks of the Transformer architecture. Let’s
+take a deeper look.
+<header><largefont><b>Attention</b></largefont> <largefont><b>Mechanisms</b></largefont></header>
+The main idea behind attention is that instead of producing a single hidden state for
+the input sequence, the encoder outputs a hidden state at each step that the decoder
+can access. However, using all the states at the same time would create a huge input
+for the decoder, so some mechanism is needed to prioritize which states to use. This
+is where attention comes in: it lets the decoder assign a different amount of weight, or
+“attention,” to each of the encoder states at every decoding timestep. This process is
+illustrated in Figure 1-4, where the role of attention is shown for predicting the third
+token in the output sequence.
+6 D.Bahdanau,K.Cho,andY.Bengio,“NeuralMachineTranslationbyJointlyLearningtoAlignandTrans‐
+late”,(2014).

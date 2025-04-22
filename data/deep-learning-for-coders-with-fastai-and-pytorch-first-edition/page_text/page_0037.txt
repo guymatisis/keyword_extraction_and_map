@@ -1,0 +1,14 @@
+environmental sound detection model using a dataset of 8,732 urban sounds. fastai’s
+show_batch clearly shows how each sound has a quite distinctive spectrogram, as you
+can see in Figure 1-14.
+<i>Figure</i> <i>1-14.</i> <i>show_batch</i> <i>with</i> <i>spectrograms</i> <i>of</i> <i>sounds</i>
+A time series can easily be converted into an image by simply plotting the time series
+on a graph. However, it is often a good idea to try to represent your data in a way that
+makes it as easy as possible to pull out the most important components. In a time ser‐
+ies, things like seasonality and anomalies are most likely to be of interest.
+Various transformations are available for time series data. For instance, fast.ai student
+Ignacio Oguiza created images from a time series dataset for olive oil classification,
+using a technique called Gramian Angular Difference Field (GADF); you can see the
+result in Figure 1-15. He then fed those images to an image classification model just
+like the one you see in this chapter. His results, despite having only 30 training set
+images, were well over 90% accurate, and close to the state of the art.

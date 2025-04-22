@@ -1,0 +1,33 @@
+In this case, we’re not seeing a clear win from the deeper model. This is useful to
+remember—bigger models aren’t necessarily better models for your particular case!
+Make sure you try small models before you start scaling up.
+<header><largefont><b>Conclusion</b></largefont></header>
+In this chapter, you learned some important practical tips, both for getting your
+image data ready for modeling (presizing, data block summary) and for fitting the
+model (learning rate finder, unfreezing, discriminative learning rates, setting the
+number of epochs, and using deeper architectures). Using these tools will help you to
+build more accurate image models, more quickly.
+We also discussed cross-entropy loss. This part of the book is worth spending plenty
+of time on. You aren’t likely to need to implement cross-entropy loss from scratch
+yourself in practice, but it’s important you understand the inputs to and output from
+that function, because it (or a variant of it, as we’ll see in the next chapter) is used in
+nearly every classification model. So when you want to debug a model, or put a
+model in production, or improve the accuracy of a model, you’re going to need to be
+able to look at its activations and loss, and understand what’s going on, and why. You
+can’t do that properly if you don’t understand your loss function.
+If cross-entropy loss hasn’t “clicked” for you just yet, don’t worry—you’ll get there!
+First, go back to the preceding chapter and make sure you really understand
+mnist_loss.
+Then work gradually through the cells of the notebook for this chapter,
+where we step through each piece of cross-entropy loss. Make sure you understand
+what each calculation is doing and why. Try creating some small tensors yourself and
+pass them into the functions, to see what they return.
+Remember: the choices made in the implementation of cross-entropy loss are not the
+only possible choices that could have been made. Just as when we looked at regres‐
+sion we could choose between mean squared error and mean absolute difference
+(L1), we could change the details here too. If you have other ideas for possible func‐
+tions that you think might work, feel free to give them a try in this chapter’s note‐
+book! (Fair warning, though: you’ll probably find that the model will be slower to
+train and less accurate. That’s because the gradient of cross-entropy loss is propor‐
+tional to the difference between the activation and the target, so SGD always gets a
+nicely scaled step for the weights.)
