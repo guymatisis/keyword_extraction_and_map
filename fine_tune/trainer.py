@@ -19,18 +19,24 @@ from data import CombinedDataset
 class KeyphraseTrainer:
     def __init__(self, config: Config):
         self.config = config
+        self.set_tokenizer()
         self.model = None
-        self.tokenizer = AutoTokenizer.from_pretrained(self.config.model.name)
         self.trainer = None
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         
     def load_model(self):
         """Load the model and tokenizer"""
-        # self.tokenizer = AutoTokenizer.from_pretrained(self.config.model.name)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(self.config.model.name)
         self.model.to(self.device)
+        self.model.resize_token_embeddings(len(self.tokenizer))
+
         return self.model, self.tokenizer
     
+    def set_tokenizer(self):
+        self.tokenizer = AutoTokenizer.from_pretrained(self.config.model.name)
+        self.tokenizer.add_tokens(["<largefont>", "</largefont>"])
+
+
     def preprocess_batch(self):
         """Create preprocessing function"""
         def preprocess(batch):
@@ -84,11 +90,11 @@ class KeyphraseTrainer:
         """Set up the trainer with all arguments"""
         training_args = Seq2SeqTrainingArguments(
             output_dir=self.config.output.dir,
-            eval_strategy="steps",
-            save_strategy="steps",
+            eval_strategy="epoch",
+            save_strategy="epoch",
+            logging_stategy='epoch',
             save_total_limit=self.config.output.save_total_limit,
-            logging_strategy="steps",
-            logging_steps=self.config.output.logging_steps,
+            logging_strategy="epoch",
             num_train_epochs=self.config.training.num_epochs,
             per_device_train_batch_size=self.config.training.batch_size,
             per_device_eval_batch_size=self.config.training.batch_size,

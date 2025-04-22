@@ -2,14 +2,14 @@ import os
 import random
 import glob
 import argparse
-from transformers import BartForConditionalGeneration, AutoTokenizer
+from transformers import BartForConditionalGeneration, AutoTokenizer, AutoModelForSeq2SeqLM
 import pandas as pd
 import json
-from evaluate_model import get_bertscore, sbert_soft_f1, exact_f1_at_k
+from evaluate_model import get_bertscore, sbert_soft_f1, f1_score
 import torch
 
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VALIDATION_CSV = os.path.join(BASE_PATH, "data", "hands-on_machine_learning_with_scikit-learn_keras_and_tensorflow", "processed_inputs", "valid.csv")
+TEST_CSV = os.path.join(BASE_PATH, "data", "hands-on_machine_learning_with_scikit-learn_keras_and_tensorflow", "processed_inputs", "test.csv")
 
 
 def main(model_path):
@@ -22,7 +22,7 @@ def main(model_path):
     is_longformer = "led" in model.config.model_type.lower() or "longformer" in model_path.lower()
 
     # get page to keyphrases mapping
-    validation_df = pd.read_csv(VALIDATION_CSV, sep="|")
+    validation_df = pd.read_csv(TEST_CSV, sep="|")
     validation_df = validation_df[["text", "keyphrases"]]
     validation_df["keyphrases"] = validation_df["keyphrases"].apply(lambda x: x.split(";"))
 
@@ -58,9 +58,9 @@ def main(model_path):
 
         # Calculate and store metrics
         bertscore = get_bertscore(predicted_phrases, gt_keyphrases)
-        f1_1 = exact_f1_at_k(predicted_phrases, gt_keyphrases, 1)
-        f1_2 = exact_f1_at_k(predicted_phrases, gt_keyphrases, 2)
-        f1_3 = exact_f1_at_k(predicted_phrases, gt_keyphrases, 3)
+        f1_1 = f1_score(predicted_phrases, gt_keyphrases, 1)[2]
+        f1_2 = f1_score(predicted_phrases, gt_keyphrases, 2)[2]
+        f1_3 = f1_score(predicted_phrases, gt_keyphrases, 3)[2]
         sbert_f1 = sbert_soft_f1(predicted_phrases, gt_keyphrases)
 
         metrics['bertscore'].append(bertscore)

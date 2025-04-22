@@ -67,7 +67,6 @@ datasets:
 output:
   dir: model_output          # Directory for saving models
   save_total_limit: 1             # Keep only the last checkpoint
-  logging_steps: 50               # Log metrics every 50 steps
 
 # Debug Configuration
 debug:
