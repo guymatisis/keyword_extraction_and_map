@@ -1,46 +1,18 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          this way the GPU will be almost 100% utilized (except for the data transfer time from
-          the CPU to the GPU3), and training will run much faster.    
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 13-3. With prefetching, the CPU and the GPU work in parallel: as the GPU works
-          on one batch, the CPU works on the next                     
-                                                                      
-                   If you plan to purchase a GPU card, its processing power and its
-                   memory size are of course very important (in particular, a large
-                   amount of RAM is crucial for computer vision). Just as important
-                   to get good performance is its memory bandwidth; this is the num‐
-                   ber of gigabytes of data it can get into or out of its RAM per
-                   second.                                            
-                                                                      
-          If the dataset is small enough to fit in memory, you can significantly speed up train‐
-          ing by using the dataset’s cache() method to cache its content to RAM. You should
-          generally do this after loading and preprocessing the data, but before shuffling,
-          repeating, batching, and prefetching. This way, each instance will only be read and
-                                                                      
-                                                                      
-          3 But check out the tf.data.experimental.prefetch_to_device() function, which can prefetch data directly
-           to the GPU.                                                
+this way the GPU will be almost 100% utilized (except for the data transfer time from
+the CPU to the GPU3), and training will run much faster.
+<i>Figure</i> <i>13-3.</i> <i>With</i> <i>prefetching,</i> <i>the</i> <i>CPU</i> <i>and</i> <i>the</i> <i>GPU</i> <i>work</i> <i>in</i> <i>parallel:</i> <i>as</i> <i>the</i> <i>GPU</i> <i>works</i>
+<i>on</i> <i>one</i> <i>batch,</i> <i>the</i> <i>CPU</i> <i>works</i> <i>on</i> <i>the</i> <i>next</i>
+If you plan to purchase a GPU card, its processing power and its
+memory size are of course very important (in particular, a large
+amount of RAM is crucial for computer vision). Just as important
+to get good performance is its <i>memory</i> <i>bandwidth;</i> this is the num‐
+ber of gigabytes of data it can get into or out of its RAM per
+second.
+If the dataset is small enough to fit in memory, you can significantly speed up train‐
+cache()
+ing by using the dataset’s method to cache its content to RAM. You should
+generally do this after loading and preprocessing the data, but before shuffling,
+repeating, batching, and prefetching. This way, each instance will only be read and
+tf.data.experimental.prefetch_to_device()
+3 Butcheckoutthe function,whichcanprefetchdatadirectly
+totheGPU.

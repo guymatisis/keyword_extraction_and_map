@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 17-10. Sparsity loss                                 
+                                                                      
+          Given two discrete probability distributions P and Q, the KL divergence between
+          these distributions, noted D (P ∥ Q), can be computed using Equation 17-1.
+                          KL                                          
+            Equation 17-1. Kullback–Leibler divergence                
+                          P i                                         
+            D  P∥Q = ∑P i log                                         
+             KL           Q i                                         
+                    i                                                 
+          In our case, we want to measure the divergence between the target probability p that a
+          neuron in the coding layer will activate and the actual probability q (i.e., the mean
+          activation over the training batch). So the KL divergence simplifies to Equation 17-2.
+            Equation 17-2. KL divergence between the target sparsity p and the actual sparsity q
+                       p        1−p                                   
+            D  p∥q = p log + 1−p log                                  
+             KL        q        1−q                                   
+          Once we have computed the sparsity loss for each neuron in the coding layer, we sum
+          up these losses and add the result to the cost function. In order to control the relative
+          importance of the sparsity loss and the reconstruction loss, we can multiply the spar‐
+          sity loss by a sparsity weight hyperparameter. If this weight is too high, the model will
+          stick closely to the target sparsity, but it may not reconstruct the inputs properly,
+          making the model useless. Conversely, if it is too low, the model will mostly ignore
+          the sparsity objective and will not learn any interesting features.
+                                                                      
+                                                                      

@@ -1,46 +1,43 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          That’s not too hard! However, you may prefer to use a nice self-contained custom
-          layer (much like Scikit-Learn’s StandardScaler), rather than having global variables
-          like means and stds dangling around:                        
-                                                                      
-            class Standardization(keras.layers.Layer):                
-               def adapt(self, data_sample):                          
-                 self.means_ = np.mean(data_sample, axis=0, keepdims=True)
-                 self.stds_ = np.std(data_sample, axis=0, keepdims=True)
-               def call(self, inputs):                                
-                 return (inputs - self.means_) / (self.stds_ + keras.backend.epsilon())
-          Before you can use this standardization layer, you will need to adapt it to your dataset
-          by calling the adapt() method and passing it a data sample. This will allow it to use
-          the appropriate mean and standard deviation for each feature:
-            std_layer = Standardization()                             
-            std_layer.adapt(data_sample)                              
-          This sample must be large enough to be representative of your dataset, but it does not
-          have to be the full training set: in general, a few hundred randomly selected instances
-          will suffice (however, this depends on your task). Next, you can use this preprocess‐
-          ing layer like a normal layer:                              
-            model = keras.Sequential()                                
-            model.add(std_layer)                                      
-            [...] # create the rest of the model                      
-            model.compile([...])                                      
-            model.fit([...])                                          
-          If you are thinking that Keras should contain a standardization layer like this one,
-          here’s some good news for you: by the time you read this, the keras.layers.Normal
-          ization layer will probably be available. It will work very much like our custom
-          Standardization layer: first, create the layer, then adapt it to your dataset by passing
-          a data sample to the adapt() method, and finally use the layer normally.
-          Now let’s look at categorical features. We will start by encoding them as one-hot
-          vectors.                                                    
-          Encoding Categorical Features Using One-Hot Vectors         
-                                                                      
-          Consider the ocean_proximity feature in the California housing dataset we explored
-          in Chapter 2: it is a categorical feature with five possible values: "<1H OCEAN",
-          "INLAND", "NEAR OCEAN", "NEAR BAY", and "ISLAND". We need to encode this feature
-          before we feed it to a neural network. Since there are very few categories, we can use
-          one-hot encoding. For this, we first need to map each category to its index (0 to 4),
-          which can be done using a lookup table:                     
-            vocab = ["<1H OCEAN", "INLAND", "NEAR OCEAN", "NEAR BAY", "ISLAND"]
-            indices = tf.range(len(vocab), dtype=tf.int64)            
-                                                                      
+That’s not too hard! However, you may prefer to use a nice self-contained custom
+layer (much like Scikit-Learn’s StandardScaler ), rather than having global variables
+like means and stds dangling around:
+<b>class</b> <b>Standardization(keras.layers.Layer):</b>
+<b>def</b> adapt(self, data_sample):
+self.means_ = np.mean(data_sample, axis=0, keepdims=True)
+self.stds_ = np.std(data_sample, axis=0, keepdims=True)
+<b>def</b> call(self, inputs):
+<b>return</b> (inputs - self.means_) / (self.stds_ + keras.backend.epsilon())
+Before you can use this standardization layer, you will need to adapt it to your dataset
+by calling the adapt() method and passing it a data sample. This will allow it to use
+the appropriate mean and standard deviation for each feature:
+std_layer = Standardization()
+std_layer.adapt(data_sample)
+This sample must be large enough to be representative of your dataset, but it does not
+have to be the full training set: in general, a few hundred randomly selected instances
+will suffice (however, this depends on your task). Next, you can use this preprocess‐
+ing layer like a normal layer:
+model = keras.Sequential()
+model.add(std_layer)
+[...] <i>#</i> <i>create</i> <i>the</i> <i>rest</i> <i>of</i> <i>the</i> <i>model</i>
+model.compile([...])
+model.fit([...])
+If you are thinking that Keras should contain a standardization layer like this one,
+keras.layers.Normal
+here’s some good news for you: by the time you read this, the
+ization layer will probably be available. It will work very much like our custom
+Standardization
+layer: first, create the layer, then adapt it to your dataset by passing
+a data sample to the adapt() method, and finally use the layer normally.
+Now let’s look at categorical features. We will start by encoding them as one-hot
+vectors.
+<header><largefont><b>Encoding</b></largefont> <largefont><b>Categorical</b></largefont> <largefont><b>Features</b></largefont> <largefont><b>Using</b></largefont> <largefont><b>One-Hot</b></largefont> <largefont><b>Vectors</b></largefont></header>
+ocean_proximity
+Consider the feature in the California housing dataset we explored
+in Chapter 2: it is a categorical feature with five possible values: "<1H OCEAN" ,
+"INLAND", "NEAR OCEAN", "NEAR BAY", "ISLAND".
+and We need to encode this feature
+before we feed it to a neural network. Since there are very few categories, we can use
+one-hot encoding. For this, we first need to map each category to its index (0 to 4),
+which can be done using a lookup table:
+vocab = ["<1H OCEAN", "INLAND", "NEAR OCEAN", "NEAR BAY", "ISLAND"]
+indices = tf.range(len(vocab), dtype=tf.int64)

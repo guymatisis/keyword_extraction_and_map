@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   You can think of autoencoders as a form of self-supervised learning
+                   (i.e., using a supervised learning technique with automatically gen‐
+                   erated labels, in this case simply equal to the inputs).
+                                                                      
+                                                                      
+          Stacked Autoencoders                                        
+                                                                      
+          Just like other neural networks we have discussed, autoencoders can have multiple
+          hidden layers. In this case they are called stacked autoencoders (or deep autoencoders).
+          Adding more layers helps the autoencoder learn more complex codings. That said,
+          one must be careful not to make the autoencoder too powerful. Imagine an encoder
+          so powerful that it just learns to map each input to a single arbitrary number (and the
+          decoder learns the reverse mapping). Obviously such an autoencoder will reconstruct
+          the training data perfectly, but it will not have learned any useful data representation
+          in the process (and it is unlikely to generalize well to new instances).
+          The architecture of a stacked autoencoder is typically symmetrical with regard to the
+          central hidden layer (the coding layer). To put it simply, it looks like a sandwich. For
+          example, an autoencoder for MNIST (introduced in Chapter 3) may have 784 inputs,
+          followed by a hidden layer with 100 neurons, then a central hidden layer of 30 neu‐
+          rons, then another hidden layer with 100 neurons, and an output layer with 784 neu‐
+          rons. This stacked autoencoder is represented in Figure 17-3.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 17-3. Stacked autoencoder                            
+                                                                      
+          Implementing a Stacked Autoencoder Using Keras              
+          You can implement a stacked autoencoder very much like a regular deep MLP. In par‐
+          ticular, the same techniques we used in Chapter 11 for training deep nets can be
+          applied. For example, the following code builds a stacked autoencoder for Fashion
+                                                                      

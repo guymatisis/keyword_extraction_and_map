@@ -1,46 +1,27 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                   CHAPTER 8          
-                                                                      
-                              Dimensionality    Reduction             
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Many Machine Learning problems involve thousands or even millions of features for
-          each training instance. Not only do all these features make training extremely slow,
-          but they can also make it much harder to find a good solution, as we will see. This
-          problem is often referred to as the curse of dimensionality.
-          Fortunately, in real-world problems, it is often possible to reduce the number of fea‐
-          tures considerably, turning an intractable problem into a tractable one. For example,
-          consider the MNIST images (introduced in Chapter 3): the pixels on the image bor‐
-          ders are almost always white, so you could completely drop these pixels from the
-          training set without losing much information. Figure 7-6 confirms that these pixels
-          are utterly unimportant for the classification task. Additionally, two neighboring pix‐
-          els are often highly correlated: if you merge them into a single pixel (e.g., by taking
-          the mean of the two pixel intensities), you will not lose much information.
-                                                                      
-                   Reducing dimensionality does cause some information loss (just
-                   like compressing an image to JPEG can degrade its quality), so
-                   even though it will speed up training, it may make your system
-                   perform slightly worse. It also makes your pipelines a bit more
-                   complex and thus harder to maintain. So, if training is too slow,
-                   you should first try to train your system with the original data
-                   before considering using dimensionality reduction. In some cases,
-                   reducing the dimensionality of the training data may filter out
-                   some noise and unnecessary details and thus result in higher per‐
-                   formance, but in general it won’t; it will just speed up training.
-          Apart from speeding up training, dimensionality reduction is also extremely useful
-          for data visualization (or DataViz). Reducing the number of dimensions down to two
-          (or three) makes it possible to plot a condensed view of a high-dimensional training
-                                                                      
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>8</b></largefont></header>
+<header><largefont><b>Dimensionality</b></largefont> <largefont><b>Reduction</b></largefont></header>
+Many Machine Learning problems involve thousands or even millions of features for
+each training instance. Not only do all these features make training extremely slow,
+but they can also make it much harder to find a good solution, as we will see. This
+problem is often referred to as the <i>curse</i> <i>of</i> <i>dimensionality.</i>
+Fortunately, in real-world problems, it is often possible to reduce the number of fea‐
+tures considerably, turning an intractable problem into a tractable one. For example,
+consider the MNIST images (introduced in Chapter 3): the pixels on the image bor‐
+ders are almost always white, so you could completely drop these pixels from the
+training set without losing much information. Figure 7-6 confirms that these pixels
+are utterly unimportant for the classification task. Additionally, two neighboring pix‐
+els are often highly correlated: if you merge them into a single pixel (e.g., by taking
+the mean of the two pixel intensities), you will not lose much information.
+Reducing dimensionality does cause some information loss (just
+like compressing an image to JPEG can degrade its quality), so
+even though it will speed up training, it may make your system
+perform slightly worse. It also makes your pipelines a bit more
+complex and thus harder to maintain. So, if training is too slow,
+you should first try to train your system with the original data
+before considering using dimensionality reduction. In some cases,
+reducing the dimensionality of the training data may filter out
+some noise and unnecessary details and thus result in higher per‐
+formance, but in general it won’t; it will just speed up training.
+Apart from speeding up training, dimensionality reduction is also extremely useful
+for data visualization (or <i>DataViz).</i> Reducing the number of dimensions down to two
+(or three) makes it possible to plot a condensed view of a high-dimensional training

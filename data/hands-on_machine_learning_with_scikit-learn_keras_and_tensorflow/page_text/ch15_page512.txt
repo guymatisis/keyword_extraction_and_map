@@ -1,46 +1,41 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Fighting the Unstable Gradients Problem                     
-                                                                      
-          Many of the tricks we used in deep nets to alleviate the unstable gradients problem
-          can also be used for RNNs: good parameter initialization, faster optimizers, dropout,
-          and so on. However, nonsaturating activation functions (e.g., ReLU) may not help as
-          much here; in fact, they may actually lead the RNN to be even more unstable during
-          training. Why? Well, suppose Gradient Descent updates the weights in a way that
-          increases the outputs slightly at the first time step. Because the same weights are used
-          at every time step, the outputs at the second time step may also be slightly increased,
-          and those at the third, and so on until the outputs explode—and a nonsaturating acti‐
-          vation function does not prevent that. You can reduce this risk by using a smaller
-          learning rate, but you can also simply use a saturating activation function like the
-          hyperbolic tangent (this explains why it is the default). In much the same way, the
-          gradients themselves can explode. If you notice that training is unstable, you may
-          want to monitor the size of the gradients (e.g., using TensorBoard) and perhaps use
-          Gradient Clipping.                                          
-          Moreover, Batch Normalization cannot be used as efficiently with RNNs as with deep
-          feedforward nets. In fact, you cannot use it between time steps, only between recur‐
-          rent layers. To be more precise, it is technically possible to add a BN layer to a mem‐
-          ory cell (as we will see shortly) so that it will be applied at each time step (both on the
-          inputs for that time step and on the hidden state from the previous step). However,
-          the same BN layer will be used at each time step, with the same parameters, regardless
-          of the actual scale and offset of the inputs and hidden state. In practice, this does not
-          yield good results, as was demonstrated by César Laurent et al. in a 2015 paper:3 the
-          authors found that BN was slightly beneficial only when it was applied to the inputs,
-          not to the hidden states. In other words, it was slightly better than nothing when
-          applied between recurrent layers (i.e., vertically in Figure 15-7), but not within recur‐
-          rent layers (i.e., horizontally). In Keras this can be done simply by adding a Batch
-          Normalization layer before each recurrent layer, but don’t expect too much from it.
-          Another form of normalization often works better with RNNs: Layer Normalization.
-          This idea was introduced by Jimmy Lei Ba et al. in a 2016 paper:4 it is very similar to
-          Batch Normalization, but instead of normalizing across the batch dimension, it nor‐
-          malizes across the features dimension. One advantage is that it can compute the
-          required statistics on the fly, at each time step, independently for each instance. This
-          also means that it behaves the same way during training and testing (as opposed to
-          BN), and it does not need to use exponential moving averages to estimate the feature
-          statistics across all instances in the training set. Like BN, Layer Normalization learns a
-                                                                      
-                                                                      
-          3 César Laurent et al., “Batch Normalized Recurrent Neural Networks,” Proceedings of the IEEE International
-           Conference on Acoustics, Speech, and Signal Processing (2016): 2657–2661.
-          4 Jimmy Lei Ba et al., “Layer Normalization,” arXiv preprint arXiv:1607.06450 (2016).
+<header><largefont><b>Fighting</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Unstable</b></largefont> <largefont><b>Gradients</b></largefont> <largefont><b>Problem</b></largefont></header>
+Many of the tricks we used in deep nets to alleviate the unstable gradients problem
+can also be used for RNNs: good parameter initialization, faster optimizers, dropout,
+and so on. However, nonsaturating activation functions (e.g., ReLU) may not help as
+much here; in fact, they may actually lead the RNN to be even more unstable during
+training. Why? Well, suppose Gradient Descent updates the weights in a way that
+increases the outputs slightly at the first time step. Because the same weights are used
+at every time step, the outputs at the second time step may also be slightly increased,
+and those at the third, and so on until the outputs explode—and a nonsaturating acti‐
+vation function does not prevent that. You can reduce this risk by using a smaller
+learning rate, but you can also simply use a saturating activation function like the
+hyperbolic tangent (this explains why it is the default). In much the same way, the
+gradients themselves can explode. If you notice that training is unstable, you may
+want to monitor the size of the gradients (e.g., using TensorBoard) and perhaps use
+Gradient Clipping.
+Moreover, Batch Normalization cannot be used as efficiently with RNNs as with deep
+feedforward nets. In fact, you cannot use it between time steps, only between recur‐
+rent layers. To be more precise, it is technically possible to add a BN layer to a mem‐
+ory cell (as we will see shortly) so that it will be applied at each time step (both on the
+inputs for that time step and on the hidden state from the previous step). However,
+the same BN layer will be used at each time step, with the same parameters, regardless
+of the actual scale and offset of the inputs and hidden state. In practice, this does not
+yield good results, as was demonstrated by César Laurent et al. in a 2015 paper: 3 the
+authors found that BN was slightly beneficial only when it was applied to the inputs,
+not to the hidden states. In other words, it was slightly better than nothing when
+applied between recurrent layers (i.e., vertically in Figure 15-7), but not within recur‐
+Batch
+rent layers (i.e., horizontally). In Keras this can be done simply by adding a
+Normalization layer before each recurrent layer, but don’t expect too much from it.
+Another form of normalization often works better with RNNs: <i>Layer</i> <i>Normalization.</i>
+paper:4
+This idea was introduced by Jimmy Lei Ba et al. in a 2016 it is very similar to
+Batch Normalization, but instead of normalizing across the batch dimension, it nor‐
+malizes across the features dimension. One advantage is that it can compute the
+required statistics on the fly, at each time step, independently for each instance. This
+also means that it behaves the same way during training and testing (as opposed to
+BN), and it does not need to use exponential moving averages to estimate the feature
+statistics across all instances in the training set. Like BN, Layer Normalization learns a
+3 CésarLaurentetal.,“BatchNormalizedRecurrentNeuralNetworks,”ProceedingsoftheIEEEInternational
+<i>ConferenceonAcoustics,Speech,andSignalProcessing(2016):2657–2661.</i>
+4 JimmyLeiBaetal.,“LayerNormalization,”arXivpreprintarXiv:1607.06450(2016).

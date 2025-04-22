@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 9-21. AIC and BIC for different numbers of clusters k
+                                                                      
+          Bayesian Gaussian Mixture Models                            
+                                                                      
+          Rather than manually searching for the optimal number of clusters, you can use the
+          BayesianGaussianMixture class, which is capable of giving weights equal (or close)
+          to zero to unnecessary clusters. Set the number of clusters n_components to a value
+          that you have good reason to believe is greater than the optimal number of clusters
+          (this assumes some minimal knowledge about the problem at hand), and the algo‐
+          rithm will eliminate the unnecessary clusters automatically. For example, let’s set the
+          number of clusters to 10 and see what happens:              
+            >>> from sklearn.mixture import BayesianGaussianMixture   
+            >>> bgm = BayesianGaussianMixture(n_components=10, n_init=10)
+            >>> bgm.fit(X)                                            
+            >>> np.round(bgm.weights_, 2)                             
+            array([0.4 , 0.21, 0.4 , 0. , 0. , 0. , 0. , 0. , 0. , 0. ])
+          Perfect: the algorithm automatically detected that only three clusters are needed, and
+          the resulting clusters are almost identical to the ones in Figure 9-17.
+          In this model, the cluster parameters (including the weights, means, and covariance
+          matrices) are not treated as fixed model parameters anymore, but as latent random
+          variables, like the cluster assignments (see Figure 9-22). So z now includes both the
+          cluster parameters and the cluster assignments.             
+          The Beta distribution is commonly used to model random variables whose values lie
+          within a fixed range. In this case, the range is from 0 to 1. The Stick-Breaking Process
+          (SBP) is best explained through an example: suppose Φ=[0.3, 0.6, 0.5,…], then 30% of
+          the instances will be assigned to cluster 0, then 60% of the remaining instances will be
+          assigned to cluster 1, then 50% of the remaining instances will be assigned to cluster
+          2, and so on. This process is a good model for datasets where new instances are more
+          likely to join large clusters than small clusters (e.g., people are more likely to move to
+          larger cities). If the concentration α is high, then Φ values will likely be close to 0, and
+          the SBP generate many clusters. Conversely, if the concentration is low, then Φ values
+                                                                      

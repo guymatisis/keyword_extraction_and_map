@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          is to create one binary attribute per category: one attribute equal to 1 when the cate‐
+          gory is “<1H OCEAN” (and 0 otherwise), another attribute equal to 1 when the cate‐
+          gory is “INLAND” (and 0 otherwise), and so on. This is called one-hot encoding,
+          because only one attribute will be equal to 1 (hot), while the others will be 0 (cold).
+          The new attributes are sometimes called dummy attributes. Scikit-Learn provides a
+          OneHotEncoder class to convert categorical values into one-hot vectors:20
+                                                                      
+            >>> from sklearn.preprocessing import OneHotEncoder       
+            >>> cat_encoder = OneHotEncoder()                         
+            >>> housing_cat_1hot = cat_encoder.fit_transform(housing_cat)
+            >>> housing_cat_1hot                                      
+            <16512x5 sparse matrix of type '<class 'numpy.float64'>'  
+             with 16512 stored elements in Compressed Sparse Row format>
+          Notice that the output is a SciPy sparse matrix, instead of a NumPy array. This is very
+          useful when you have categorical attributes with thousands of categories. After one-
+          hot encoding, we get a matrix with thousands of columns, and the matrix is full of 0s
+          except for a single 1 per row. Using up tons of memory mostly to store zeros would
+          be very wasteful, so instead a sparse matrix only stores the location of the nonzero
+          elements. You can use it mostly like a normal 2D array,21 but if you really want to con‐
+          vert it to a (dense) NumPy array, just call the toarray() method:
+            >>> housing_cat_1hot.toarray()                            
+            array([[1., 0., 0., 0., 0.],                              
+                [1., 0., 0., 0., 0.],                                 
+                [0., 0., 0., 0., 1.],                                 
+                ...,                                                  
+                [0., 1., 0., 0., 0.],                                 
+                [1., 0., 0., 0., 0.],                                 
+                [0., 0., 0., 1., 0.]])                                
+          Once again, you can get the list of categories using the encoder’s categories_
+          instance variable:                                          
+            >>> cat_encoder.categories_                               
+            [array(['<1H OCEAN', 'INLAND', 'ISLAND', 'NEAR BAY', 'NEAR OCEAN'],
+                dtype=object)]                                        
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          20 Before Scikit-Learn 0.20, the method could only encode integer categorical values, but since 0.20 it can also
+           handle other types of inputs, including text categorical inputs.
+          21 See SciPy’s documentation for more details.              

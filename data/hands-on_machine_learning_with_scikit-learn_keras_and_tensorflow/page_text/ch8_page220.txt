@@ -1,46 +1,21 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 8-7. Selecting the subspace to project on            
-                                                                      
-          It seems reasonable to select the axis that preserves the maximum amount of var‐
-          iance, as it will most likely lose less information than the other projections. Another
-          way to justify this choice is that it is the axis that minimizes the mean squared dis‐
-          tance between the original dataset and its projection onto that axis. This is the rather
-          simple idea behind PCA.4                                    
-          Principal Components                                        
-                                                                      
-          PCA identifies the axis that accounts for the largest amount of variance in the train‐
-          ing set. In Figure 8-7, it is the solid line. It also finds a second axis, orthogonal to the
-          first one, that accounts for the largest amount of remaining variance. In this 2D
-          example there is no choice: it is the dotted line. If it were a higher-dimensional data‐
-          set, PCA would also find a third axis, orthogonal to both previous axes, and a fourth,
-          a fifth, and so on—as many axes as the number of dimensions in the dataset.
-                                                                      
-          The ith axis is called the ith principal component (PC) of the data. In Figure 8-7, the
-          first PC is the axis on which vector c lies, and the second PC is the axis on which
-                                1                                     
-          vector c lies. In Figure 8-2 the first two PCs are the orthogonal axes on which the
-               2                                                      
-          two arrows lie, on the plane, and the third PC is the axis orthogonal to that plane.
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          4 Karl Pearson, “On Lines and Planes of Closest Fit to Systems of Points in Space,” The London, Edinburgh, and
-           Dublin Philosophical Magazine and Journal of Science 2, no. 11 (1901): 559-572, https://homl.info/pca.
+<i>Figure</i> <i>8-7.</i> <i>Selecting</i> <i>the</i> <i>subspace</i> <i>to</i> <i>project</i> <i>on</i>
+It seems reasonable to select the axis that preserves the maximum amount of var‐
+iance, as it will most likely lose less information than the other projections. Another
+way to justify this choice is that it is the axis that minimizes the mean squared dis‐
+tance between the original dataset and its projection onto that axis. This is the rather
+simple idea behind PCA.4
+<header><largefont><b>Principal</b></largefont> <largefont><b>Components</b></largefont></header>
+PCA identifies the axis that accounts for the largest amount of variance in the train‐
+ing set. In Figure 8-7, it is the solid line. It also finds a second axis, orthogonal to the
+first one, that accounts for the largest amount of remaining variance. In this 2D
+example there is no choice: it is the dotted line. If it were a higher-dimensional data‐
+set, PCA would also find a third axis, orthogonal to both previous axes, and a fourth,
+a fifth, and so on—as many axes as the number of dimensions in the dataset.
+The <i>i</i> th axis is called the <i>i</i> th <i>principal</i> <i>component</i> (PC) of the data. In Figure 8-7, the
+first PC is the axis on which vector <b>c</b> lies, and the second PC is the axis on which
+<b>1</b>
+vector <b>c</b> lies. In Figure 8-2 the first two PCs are the orthogonal axes on which the
+<b>2</b>
+two arrows lie, on the plane, and the third PC is the axis orthogonal to that plane.
+4 KarlPearson,“OnLinesandPlanesofClosestFittoSystemsofPointsinSpace,”TheLondon,Edinburgh,and
+<i>DublinPhilosophicalMagazineandJournalofScience2,no.11(1901):559-572,https://homl.info/pca.</i>

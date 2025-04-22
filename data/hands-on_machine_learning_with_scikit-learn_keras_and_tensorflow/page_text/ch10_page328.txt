@@ -1,46 +1,39 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-              even faster, but this time the boundaries are linear. This is due to the shape of
-              the ReLU function.                                      
-                                                                      
-             c. The risk of local minima. Modify the network architecture to have just one
-              hidden layer with three neurons. Train it multiple times (to reset the network
-              weights, click the Reset button next to the Play button). Notice that the train‐
-              ing time varies a lot, and sometimes it even gets stuck in a local minimum.
-            d. What happens when neural nets are too small. Remove one neuron to keep
-              just two. Notice that the neural network is now incapable of finding a good
-              solution, even if you try multiple times. The model has too few parameters
-              and systematically underfits the training set.          
-             e. What happens when neural nets are large enough. Set the number of neurons
-              to eight, and train the network several times. Notice that it is now consistently
-              fast and never gets stuck. This highlights an important finding in neural net‐
-              work theory: large neural networks almost never get stuck in local minima,
-              and even when they do these local optima are almost as good as the global
-              optimum. However, they can still get stuck on long plateaus for a long time.
-             f. The risk of vanishing gradients in deep networks. Select the spiral dataset (the
-              bottom-right dataset under “DATA”), and change the network architecture to
-              have four hidden layers with eight neurons each. Notice that training takes
-              much longer and often gets stuck on plateaus for long periods of time. Also
-              notice that the neurons in the highest layers (on the right) tend to evolve
-              faster than the neurons in the lowest layers (on the left). This problem, called
-              the “vanishing gradients” problem, can be alleviated with better weight initial‐
-              ization and other techniques, better optimizers (such as AdaGrad or Adam),
-              or Batch Normalization (discussed in Chapter 11).       
-            g. Go further. Take an hour or so to play around with other parameters and get a
-              feel for what they do, to build an intuitive understanding about neural
-              networks.                                               
-           2. Draw an ANN using the original artificial neurons (like the ones in Figure 10-3)
-            that computes A ⊕ B (where ⊕ represents the XOR operation). Hint: A ⊕ B =
-            (A ∧ ¬ B ∨ (¬ A ∧ B).                                     
-                                                                      
-           3. Why is it generally preferable to use a Logistic Regression classifier rather than a
-            classical Perceptron (i.e., a single layer of threshold logic units trained using the
-            Perceptron training algorithm)? How can you tweak a Perceptron to make it
-            equivalent to a Logistic Regression classifier?           
-           4. Why was the logistic activation function a key ingredient in training the first
-            MLPs?                                                     
-           5. Name three popular activation functions. Can you draw them?
-                                                                      
-                                                                      
+even faster, but this time the boundaries are linear. This is due to the shape of
+the ReLU function.
+c. The risk of local minima. Modify the network architecture to have just one
+hidden layer with three neurons. Train it multiple times (to reset the network
+weights, click the Reset button next to the Play button). Notice that the train‐
+ing time varies a lot, and sometimes it even gets stuck in a local minimum.
+d. What happens when neural nets are too small. Remove one neuron to keep
+just two. Notice that the neural network is now incapable of finding a good
+solution, even if you try multiple times. The model has too few parameters
+and systematically underfits the training set.
+e. What happens when neural nets are large enough. Set the number of neurons
+to eight, and train the network several times. Notice that it is now consistently
+fast and never gets stuck. This highlights an important finding in neural net‐
+work theory: large neural networks almost never get stuck in local minima,
+and even when they do these local optima are almost as good as the global
+optimum. However, they can still get stuck on long plateaus for a long time.
+f. The risk of vanishing gradients in deep networks. Select the spiral dataset (the
+bottom-right dataset under “DATA”), and change the network architecture to
+have four hidden layers with eight neurons each. Notice that training takes
+much longer and often gets stuck on plateaus for long periods of time. Also
+notice that the neurons in the highest layers (on the right) tend to evolve
+faster than the neurons in the lowest layers (on the left). This problem, called
+the “vanishing gradients” problem, can be alleviated with better weight initial‐
+ization and other techniques, better optimizers (such as AdaGrad or Adam),
+or Batch Normalization (discussed in Chapter 11).
+g. Go further. Take an hour or so to play around with other parameters and get a
+feel for what they do, to build an intuitive understanding about neural
+networks.
+2. Draw an ANN using the original artificial neurons (like the ones in Figure 10-3)
+that computes <i>A</i> ⊕ <i>B</i> (where ⊕ represents the XOR operation). Hint: <i>A</i> ⊕ <i>B</i> =
+∧ ∨ ∧
+(A ¬ <i>B</i> (¬ <i>A</i> <i>B).</i>
+3. Why is it generally preferable to use a Logistic Regression classifier rather than a
+classical Perceptron (i.e., a single layer of threshold logic units trained using the
+Perceptron training algorithm)? How can you tweak a Perceptron to make it
+equivalent to a Logistic Regression classifier?
+4. Why was the logistic activation function a key ingredient in training the first
+MLPs?
+5. Name three popular activation functions. Can you draw them?

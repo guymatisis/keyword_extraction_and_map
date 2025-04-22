@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          element-wise division, and ε is a smoothing term to avoid division by zero, typically
+          set to 10–10). This vectorized form is equivalent to simultaneously computing
+          θ  θ −η∂J θ /∂θ/ s +ε for all parameters θ.                 
+           i  i       i i             i                               
+          In short, this algorithm decays the learning rate, but it does so faster for steep dimen‐
+          sions than for dimensions with gentler slopes. This is called an adaptive learning rate.
+          It helps point the resulting updates more directly toward the global optimum (see
+          Figure 11-7). One additional benefit is that it requires much less tuning of the learn‐
+          ing rate hyperparameter η.                                  
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 11-7. AdaGrad versus Gradient Descent: the former can correct its direction ear‐
+          lier to point to the optimum                                
+                                                                      
+          AdaGrad frequently performs well for simple quadratic problems, but it often stops
+          too early when training neural networks. The learning rate gets scaled down so much
+          that the algorithm ends up stopping entirely before reaching the global optimum. So
+          even though Keras has an Adagrad optimizer, you should not use it to train deep neu‐
+          ral networks (it may be efficient for simpler tasks such as Linear Regression, though).
+          Still, understanding AdaGrad is helpful to grasp the other adaptive learning rate
+          optimizers.                                                 
+                                                                      
+          RMSProp                                                     
+          As we’ve seen, AdaGrad runs the risk of slowing down a bit too fast and never con‐
+          verging to the global optimum. The RMSProp algorithm16 fixes this by accumulating
+          only the gradients from the most recent iterations (as opposed to all the gradients
+                                                                      
+                                                                      
+                                                                      
+          16 This algorithm was created by Geoffrey Hinton and Tijmen Tieleman in 2012 and presented by Geoffrey Hin‐
+           ton in his Coursera class on neural networks (slides: https://homl.info/57; video: https://homl.info/58). Amus‐
+           ingly, since the authors did not write a paper to describe the algorithm, researchers often cite “slide 29 in
+           lecture 6” in their papers.                                

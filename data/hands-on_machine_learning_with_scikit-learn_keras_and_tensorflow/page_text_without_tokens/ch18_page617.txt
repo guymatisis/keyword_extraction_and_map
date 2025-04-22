@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Let’s hardcode a simple policy that accelerates left when the pole is leaning toward the
+          left and accelerates right when the pole is leaning toward the right. We will run this
+          policy to see the average rewards it gets over 500 episodes:
+                                                                      
+            def basic_policy(obs):                                    
+               angle = obs[2]                                         
+               return 0 if angle < 0 else 1                           
+            totals = []                                               
+            for episode in range(500):                                
+               episode_rewards = 0                                    
+               obs = env.reset()                                      
+               for step in range(200):                                
+                 action = basic_policy(obs)                           
+                 obs, reward, done, info = env.step(action)           
+                 episode_rewards += reward                            
+                 if done:                                             
+                   break                                              
+               totals.append(episode_rewards)                         
+          This code is hopefully self-explanatory. Let’s look at the result:
+            >>> import numpy as np                                    
+            >>> np.mean(totals), np.std(totals), np.min(totals), np.max(totals)
+            (41.718, 8.858356280936096, 24.0, 68.0)                   
+          Even with 500 tries, this policy never managed to keep the pole upright for more than
+          68 consecutive steps. Not great. If you look at the simulation in the Jupyter note‐
+          books, you will see that the cart oscillates left and right more and more strongly until
+          the pole tilts too much. Let’s see if a neural network can come up with a better policy.
+          Neural Network Policies                                     
+          Let’s create a neural network policy. Just like with the policy we hardcoded earlier, this
+          neural network will take an observation as input, and it will output the action to be
+          executed. More precisely, it will estimate a probability for each action, and then we
+          will select an action randomly, according to the estimated probabilities (see
+          Figure 18-5). In the case of the CartPole environment, there are just two possible
+          actions (left or right), so we only need one output neuron. It will output the probabil‐
+          ity p of action 0 (left), and of course the probability of action 1 (right) will be 1 – p.
+          For example, if it outputs 0.7, then we will pick action 0 with 70% probability, or
+          action 1 with 30% probability.                              
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

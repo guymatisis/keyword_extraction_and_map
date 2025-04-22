@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          chase, maintain, and upgrade all the hardware infrastructure, you will want to use
+          virtual machines on a cloud platform such as Amazon AWS, Microsoft Azure, Google
+          Cloud Platform, IBM Cloud, Alibaba Cloud, Oracle Cloud, or some other Platform-
+          as-a-Service (PaaS). Managing all the virtual machines, handling container orchestra‐
+          tion (even with the help of Kubernetes), taking care of TF Serving configuration,
+          tuning and monitoring—all of this can be a full-time job. Fortunately, some service
+          providers can take care of all this for you. In this chapter we will use Google Cloud AI
+          Platform because it’s the only platform with TPUs today, it supports TensorFlow 2, it
+          offers a nice suite of AI services (e.g., AutoML, Vision API, Natural Language API),
+          and it is the one I have the most experience with. But there are several other provid‐
+          ers in this space, such as Amazon AWS SageMaker and Microsoft AI Platform, which
+          are also capable of serving TensorFlow models.              
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 19-2. Scaling up TF Serving with load balancing      
+                                                                      
+          Now let’s see how to serve our wonderful MNIST model on the cloud!
+                                                                      
+          Creating a Prediction Service on GCP AI Platform            
+                                                                      
+          Before you can deploy a model, there’s a little bit of setup to take care of:
+           1. Log in to your Google account, and then go to the Google Cloud Platform (GCP)
+            console (see Figure 19-3). If you don’t have a Google account, you’ll have to cre‐
+            ate one.                                                  
+                                                                      
+           2. If it is your first time using GCP, you will have to read and accept the terms and
+            conditions. Click Tour Console if you want. At the time of this writing, new users
+            are offered a free trial, including $300 worth of GCP credit that you can use over
+            the course of 12 months. You will only need a small portion of that to pay for the
+            services you will use in this chapter. Upon signing up for the free trial, you will
+            still need to create a payment profile and enter your credit card number: it is used
+            for verification purposes (probably to avoid people using the free trial multiple
+            times), but you will not be billed. Activate and upgrade your account if requested.
+                                                                      
+                                                                      
+                                                                      

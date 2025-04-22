@@ -1,46 +1,36 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          catastrophic forgetting, and it is one of the big problems facing virtually all RL algo‐
-          rithms: as the agent explores the environment, it updates its policy, but what it learns
-          in one part of the environment may break what it learned earlier in other parts of the
-          environment. The experiences are quite correlated, and the learning environment
-          keeps changing—this is not ideal for Gradient Descent! If you increase the size of the
-          replay buffer, the algorithm will be less subject to this problem. Reducing the learning
-          rate may also help. But the truth is, Reinforcement Learning is hard: training is often
-          unstable, and you may need to try many hyperparameter values and random seeds
-          before you find a combination that works well. For example, if you try changing the
-          number of neurons per layer in the preceding from 32 to 30 or 34, the performance
-          will never go above 100 (the DQN may be more stable with one hidden layer instead
-          of two).                                                    
-                                                                      
-                   Reinforcement Learning is notoriously difficult, largely because of
-                   the training instabilities and the huge sensitivity to the choice of
-                   hyperparameter values and random seeds.13 As the researcher
-                   Andrej Karpathy put it: “[Supervised learning] wants to work. […]
-                   RL must be forced to work.” You will need time, patience, persever‐
-                   ance, and perhaps a bit of luck too. This is a major reason RL is not
-                   as widely adopted as regular Deep Learning (e.g., convolutional
-                   nets). But there are a few real-world applications, beyond AlphaGo
-                   and Atari games: for example, Google uses RL to optimize its data‐
-                   center costs, and it is used in some robotics applications, for hyper‐
-                   parameter tuning, and in recommender systems.      
-          You might wonder why we didn’t plot the loss. It turns out that loss is a poor indicator
-          of the model’s performance. The loss might go down, yet the agent might perform
-          worse (e.g., this can happen when the agent gets stuck in one small region of the envi‐
-          ronment, and the DQN starts overfitting this region). Conversely, the loss could go
-          up, yet the agent might perform better (e.g., if the DQN was underestimating the Q-
-          Values, and it starts correctly increasing its predictions, the agent will likely perform
-          better, getting more rewards, but the loss might increase because the DQN also sets
-          the targets, which will be larger too).                     
-          The basic Deep Q-Learning algorithm we’ve been using so far would be too unstable
-          to learn to play Atari games. So how did DeepMind do it? Well, they tweaked the
-          algorithm!                                                  
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          13 A great 2018 post by Alex Irpan nicely lays out RL’s biggest difficulties and limitations.
+<i>catastrophic</i> <i>forgetting,</i> and it is one of the big problems facing virtually all RL algo‐
+rithms: as the agent explores the environment, it updates its policy, but what it learns
+in one part of the environment may break what it learned earlier in other parts of the
+environment. The experiences are quite correlated, and the learning environment
+keeps changing—this is not ideal for Gradient Descent! If you increase the size of the
+replay buffer, the algorithm will be less subject to this problem. Reducing the learning
+rate may also help. But the truth is, Reinforcement Learning is hard: training is often
+unstable, and you may need to try many hyperparameter values and random seeds
+before you find a combination that works well. For example, if you try changing the
+number of neurons per layer in the preceding from 32 to 30 or 34, the performance
+will never go above 100 (the DQN may be more stable with one hidden layer instead
+of two).
+Reinforcement Learning is notoriously difficult, largely because of
+the training instabilities and the huge sensitivity to the choice of
+13
+hyperparameter values and random seeds. As the researcher
+Andrej Karpathy put it: “[Supervised learning] wants to work. […]
+RL must be forced to work.” You will need time, patience, persever‐
+ance, and perhaps a bit of luck too. This is a major reason RL is not
+as widely adopted as regular Deep Learning (e.g., convolutional
+nets). But there are a few real-world applications, beyond AlphaGo
+and Atari games: for example, Google uses RL to optimize its data‐
+center costs, and it is used in some robotics applications, for hyper‐
+parameter tuning, and in recommender systems.
+You might wonder why we didn’t plot the loss. It turns out that loss is a poor indicator
+of the model’s performance. The loss might go down, yet the agent might perform
+worse (e.g., this can happen when the agent gets stuck in one small region of the envi‐
+ronment, and the DQN starts overfitting this region). Conversely, the loss could go
+up, yet the agent might perform better (e.g., if the DQN was underestimating the Q-
+Values, and it starts correctly increasing its predictions, the agent will likely perform
+better, getting more rewards, but the loss might increase because the DQN also sets
+the targets, which will be larger too).
+The basic Deep Q-Learning algorithm we’ve been using so far would be too unstable
+to learn to play Atari games. So how did DeepMind do it? Well, they tweaked the
+algorithm!
+13 Agreat2018postbyAlexIrpannicelylaysoutRL’sbiggestdifficultiesandlimitations.

@@ -1,47 +1,41 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            table_init = tf.lookup.KeyValueTensorInitializer(vocab, indices)
-            num_oov_buckets = 2                                       
-            table = tf.lookup.StaticVocabularyTable(table_init, num_oov_buckets)
-          Let’s go through this code:                                 
-                                                                      
-           • We first define the vocabulary: this is the list of all possible categories.
-           • Then we create a tensor with the corresponding indices (0 to 4).
-           • Next, we create an initializer for the lookup table, passing it the list of categories
-            and their corresponding indices. In this example, we already have this data, so we
-            use a KeyValueTensorInitializer; but if the categories were listed in a text file
-            (with one category per line), we would use a TextFileInitializer instead.
-                                                                      
-           • In the last two lines we create the lookup table, giving it the initializer and speci‐
-            fying the number of out-of-vocabulary (oov) buckets. If we look up a category
-            that does not exist in the vocabulary, the lookup table will compute a hash of this
-            category and use it to assign the unknown category to one of the oov buckets.
-            Their indices start after the known categories, so in this example the indices of
-            the two oov buckets are 5 and 6.                          
-          Why use oov buckets? Well, if the number of categories is large (e.g., zip codes, cities,
-          words, products, or users) and the dataset is large as well, or it keeps changing, then
-          getting the full list of categories may not be convenient. One solution is to define the
-          vocabulary based on a data sample (rather than the whole training set) and add some
-          oov buckets for the other categories that were not in the data sample. The more
-          unknown categories you expect to find during training, the more oov buckets you
-          should use. Indeed, if there are not enough oov buckets, there will be collisions: dif‐
-          ferent categories will end up in the same bucket, so the neural network will not be
-          able to distinguish them (at least not based on this feature).
-          Now let’s use the lookup table to encode a small batch of categorical features to one-
-          hot vectors:                                                
-                                                                      
-            >>> categories = tf.constant(["NEAR BAY", "DESERT", "INLAND", "INLAND"])
-            >>> cat_indices = table.lookup(categories)                
-            >>> cat_indices                                           
-            <tf.Tensor: id=514, shape=(4,), dtype=int64, numpy=array([3, 5, 1, 1])>
-            >>> cat_one_hot = tf.one_hot(cat_indices, depth=len(vocab) + num_oov_buckets)
-            >>> cat_one_hot                                           
-            <tf.Tensor: id=524, shape=(4, 7), dtype=float32, numpy=   
-            array([[0., 0., 0., 1., 0., 0., 0.],                      
-                [0., 0., 0., 0., 0., 1., 0.],                         
-                [0., 1., 0., 0., 0., 0., 0.],                         
-                [0., 1., 0., 0., 0., 0., 0.]], dtype=float32)>        
-          As you can see, "NEAR BAY" was mapped to index 3, the unknown category "DESERT"
-          was mapped to one of the two oov buckets (at index 5), and "INLAND" was mapped to
+table_init = tf.lookup.KeyValueTensorInitializer(vocab, indices)
+num_oov_buckets = 2
+table = tf.lookup.StaticVocabularyTable(table_init, num_oov_buckets)
+Let’s go through this code:
+• We first define the <i>vocabulary:</i> this is the list of all possible categories.
+• Then we create a tensor with the corresponding indices (0 to 4).
+• Next, we create an initializer for the lookup table, passing it the list of categories
+and their corresponding indices. In this example, we already have this data, so we
+use a KeyValueTensorInitializer ; but if the categories were listed in a text file
+(with one category per line), we would use a TextFileInitializer instead.
+• In the last two lines we create the lookup table, giving it the initializer and speci‐
+fying the number of <i>out-of-vocabulary</i> (oov) buckets. If we look up a category
+that does not exist in the vocabulary, the lookup table will compute a hash of this
+category and use it to assign the unknown category to one of the oov buckets.
+Their indices start after the known categories, so in this example the indices of
+the two oov buckets are 5 and 6.
+Why use oov buckets? Well, if the number of categories is large (e.g., zip codes, cities,
+words, products, or users) and the dataset is large as well, or it keeps changing, then
+getting the full list of categories may not be convenient. One solution is to define the
+vocabulary based on a data sample (rather than the whole training set) and add some
+oov buckets for the other categories that were not in the data sample. The more
+unknown categories you expect to find during training, the more oov buckets you
+should use. Indeed, if there are not enough oov buckets, there will be collisions: dif‐
+ferent categories will end up in the same bucket, so the neural network will not be
+able to distinguish them (at least not based on this feature).
+Now let’s use the lookup table to encode a small batch of categorical features to one-
+hot vectors:
+<b>>>></b> categories = tf.constant(["NEAR BAY", "DESERT", "INLAND", "INLAND"])
+<b>>>></b> cat_indices = table.lookup(categories)
+<b>>>></b> cat_indices
+<tf.Tensor: id=514, shape=(4,), dtype=int64, numpy=array([3, 5, 1, 1])>
+<b>>>></b> cat_one_hot = tf.one_hot(cat_indices, depth=len(vocab) + num_oov_buckets)
+<b>>>></b> cat_one_hot
+<tf.Tensor: id=524, shape=(4, 7), dtype=float32, numpy=
+array([[0., 0., 0., 1., 0., 0., 0.],
+[0., 0., 0., 0., 0., 1., 0.],
+[0., 1., 0., 0., 0., 0., 0.],
+[0., 1., 0., 0., 0., 0., 0.]], dtype=float32)>
+As you can see, "NEAR BAY" was mapped to index 3, the unknown category "DESERT"
+"INLAND"
+was mapped to one of the two oov buckets (at index 5), and was mapped to

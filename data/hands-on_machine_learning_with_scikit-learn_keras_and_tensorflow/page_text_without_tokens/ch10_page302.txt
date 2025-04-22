@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          weights) or bias_initializer when creating the layer. We will discuss initializers
+          further in Chapter 11, but if you want the full list, see https://keras.io/initializers/.
+                                                                      
+                   The shape of the weight matrix depends on the number of inputs.
+                   This is why it is recommended to specify the input_shape when
+                   creating the first layer in a Sequential model. However, if you do
+                   not specify the input shape, it’s OK: Keras will simply wait until it
+                   knows the input shape before it actually builds the model. This will
+                   happen either when you feed it actual data (e.g., during training),
+                   or when you call its build() method. Until the model is really
+                   built, the layers will not have any weights, and you will not be able
+                   to do certain things (such as print the model summary or save the
+                   model). So, if you know the input shape when creating the model,
+                   it is best to specify it.                          
+          Compiling the model                                         
+                                                                      
+          After a model is created, you must call its compile() method to specify the loss func‐
+          tion and the optimizer to use. Optionally, you can specify a list of extra metrics to
+          compute during training and evaluation:                     
+            model.compile(loss="sparse_categorical_crossentropy",     
+                    optimizer="sgd",                                  
+                    metrics=["accuracy"])                             
+                                                                      
+                   Using loss="sparse_categorical_crossentropy" is equivalent to
+                   using loss=keras.losses.sparse_categorical_crossentropy.
+                   Similarly, specifying optimizer="sgd" is equivalent to specifying
+                   optimizer=keras.optimizers.SGD(), and metrics=["accuracy"]
+                   is equivalent to metrics=[keras.metrics.sparse_categori
+                   cal_accuracy] (when using this loss). We will use many other los‐
+                   ses, optimizers, and metrics in this book; for the full lists, see
+                   https://keras.io/losses, https://keras.io/optimizers, and https://
+                   keras.io/metrics.                                  
+          This code requires some explanation. First, we use the "sparse_categorical_cross
+          entropy" loss because we have sparse labels (i.e., for each instance, there is just a tar‐
+          get class index, from 0 to 9 in this case), and the classes are exclusive. If instead we
+          had one target probability per class for each instance (such as one-hot vectors, e.g.
+          [0., 0., 0., 1., 0., 0., 0., 0., 0., 0.] to represent class 3), then we would
+          need to use the "categorical_crossentropy" loss instead. If we were doing binary
+          classification (with one or more binary labels), then we would use the "sigmoid" (i.e.,
+          logistic) activation function in the output layer instead of the "softmax" activation
+          function, and we would use the "binary_crossentropy" loss.  
+                                                                      

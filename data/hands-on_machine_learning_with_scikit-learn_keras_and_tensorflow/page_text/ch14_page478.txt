@@ -1,49 +1,43 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          numbers representing the overall level of response for each filter. The next layer is
-          where the “squeeze” happens: this layer has significantly fewer than 256 neurons—
-          typically 16 times fewer than the number of feature maps (e.g., 16 neurons)—so the
-          256 numbers get compressed into a small vector (e.g., 16 dimensions). This is a low-
-          dimensional vector representation (i.e., an embedding) of the distribution of feature
-          responses. This bottleneck step forces the SE block to learn a general representation
-          of the feature combinations (we will see this principle in action again when we dis‐
-          cuss autoencoders in Chapter 17). Finally, the output layer takes the embedding and
-          outputs a recalibration vector containing one number per feature map (e.g., 256),
-          each between 0 and 1. The feature maps are then multiplied by this recalibration vec‐
-          tor, so irrelevant features (with a low recalibration score) get scaled down while rele‐
-          vant features (with a recalibration score close to 1) are left alone.
-                                                                      
-          Implementing a ResNet-34 CNN Using Keras                    
-                                                                      
-          Most CNN architectures described so far are fairly straightforward to implement
-          (although generally you would load a pretrained network instead, as we will see). To
-          illustrate the process, let’s implement a ResNet-34 from scratch using Keras. First, let’s
-          create a ResidualUnit layer:                                
-            class ResidualUnit(keras.layers.Layer):                   
-               def __init__(self, filters, strides=1, activation="relu", **kwargs):
-                 super().__init__(**kwargs)                           
-                 self.activation = keras.activations.get(activation)  
-                 self.main_layers = [                                 
-                   keras.layers.Conv2D(filters, 3, strides=strides,   
-                               padding="same", use_bias=False),       
-                   keras.layers.BatchNormalization(),                 
-                   self.activation,                                   
-                   keras.layers.Conv2D(filters, 3, strides=1,         
-                               padding="same", use_bias=False),       
-                   keras.layers.BatchNormalization()]                 
-                 self.skip_layers = []                                
-                 if strides > 1:                                      
-                   self.skip_layers = [                               
-                      keras.layers.Conv2D(filters, 1, strides=strides,
-                                 padding="same", use_bias=False),     
-                      keras.layers.BatchNormalization()]              
-               def call(self, inputs):                                
-                 Z = inputs                                           
-                 for layer in self.main_layers:                       
-                   Z = layer(Z)                                       
-                 skip_Z = inputs                                      
-                 for layer in self.skip_layers:                       
-                   skip_Z = layer(skip_Z)                             
-                 return self.activation(Z + skip_Z)                   
+numbers representing the overall level of response for each filter. The next layer is
+where the “squeeze” happens: this layer has significantly fewer than 256 neurons—
+typically 16 times fewer than the number of feature maps (e.g., 16 neurons)—so the
+256 numbers get compressed into a small vector (e.g., 16 dimensions). This is a low-
+dimensional vector representation (i.e., an embedding) of the distribution of feature
+responses. This bottleneck step forces the SE block to learn a general representation
+of the feature combinations (we will see this principle in action again when we dis‐
+cuss autoencoders in Chapter 17). Finally, the output layer takes the embedding and
+outputs a recalibration vector containing one number per feature map (e.g., 256),
+each between 0 and 1. The feature maps are then multiplied by this recalibration vec‐
+tor, so irrelevant features (with a low recalibration score) get scaled down while rele‐
+vant features (with a recalibration score close to 1) are left alone.
+<header><largefont><b>Implementing</b></largefont> <largefont><b>a</b></largefont> <largefont><b>ResNet-34</b></largefont> <largefont><b>CNN</b></largefont> <largefont><b>Using</b></largefont> <largefont><b>Keras</b></largefont></header>
+Most CNN architectures described so far are fairly straightforward to implement
+(although generally you would load a pretrained network instead, as we will see). To
+illustrate the process, let’s implement a ResNet-34 from scratch using Keras. First, let’s
+create a ResidualUnit layer:
+<b>class</b> <b>ResidualUnit(keras.layers.Layer):</b>
+<b>def</b> <b>__init__(self,</b> filters, strides=1, activation="relu", **kwargs):
+super().__init__(**kwargs)
+self.activation = keras.activations.get(activation)
+self.main_layers = [
+keras.layers.Conv2D(filters, 3, strides=strides,
+padding="same", use_bias=False),
+keras.layers.BatchNormalization(),
+self.activation,
+keras.layers.Conv2D(filters, 3, strides=1,
+padding="same", use_bias=False),
+keras.layers.BatchNormalization()]
+self.skip_layers = []
+<b>if</b> strides > 1:
+self.skip_layers = [
+keras.layers.Conv2D(filters, 1, strides=strides,
+padding="same", use_bias=False),
+keras.layers.BatchNormalization()]
+<b>def</b> call(self, inputs):
+Z = inputs
+<b>for</b> layer <b>in</b> self.main_layers:
+Z = layer(Z)
+skip_Z = inputs
+<b>for</b> layer <b>in</b> self.skip_layers:
+skip_Z = layer(skip_Z)
+<b>return</b> self.activation(Z + skip_Z)

@@ -1,46 +1,32 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            another clustering algorithm in this low-dimensional space (Scikit-Learn’s imple‐
-            mentation uses K-Means.) Spectral clustering can capture complex cluster struc‐
-            tures, and it can also be used to cut graphs (e.g., to identify clusters of friends on
-            a social network). It does not scale well to large numbers of instances, and it does
-            not behave well when the clusters have very different sizes.
-                                                                      
-          Now let’s dive into Gaussian mixture models, which can be used for density estima‐
-          tion, clustering, and anomaly detection.                    
-          Gaussian Mixtures                                           
-                                                                      
-          A Gaussian mixture model (GMM) is a probabilistic model that assumes that the
-          instances were generated from a mixture of several Gaussian distributions whose
-          parameters are unknown. All the instances generated from a single Gaussian distri‐
-          bution form a cluster that typically looks like an ellipsoid. Each cluster can have a dif‐
-          ferent ellipsoidal shape, size, density, and orientation, just like in Figure 9-11. When
-          you observe an instance, you know it was generated from one of the Gaussian distri‐
-          butions, but you are not told which one, and you do not know what the parameters of
-          these distributions are.                                    
-                                                                      
-          There are several GMM variants. In the simplest variant, implemented in the Gaus
-          sianMixture class, you must know in advance the number k of Gaussian distribu‐
-          tions. The dataset X is assumed to have been generated through the following
-          probabilistic process:                                      
-           • For each instance, a cluster is picked randomly from among k clusters. The prob‐
-            ability of choosing the jth cluster is defined by the cluster’s weight, ϕ(j).7 The index
-            of the cluster chosen for the ith instance is noted z(i). 
-                                                                      
-           • If z(i)=j, meaning the ith instance has been assigned to the jth cluster, the location
-            x(i) of this instance is sampled randomly from the Gaussian distribution with
-            mean μ(j) and covariance matrix Σ(j). This is noted xi ∼  μ j,Σ j .
-                                                                      
-          This generative process can be represented as a graphical model. Figure 9-16 repre‐
-          sents the structure of the conditional dependencies between random variables.
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          7 Phi (ϕ or φ) is the 21st letter of the Greek alphabet.    
+another clustering algorithm in this low-dimensional space (Scikit-Learn’s imple‐
+mentation uses K-Means.) Spectral clustering can capture complex cluster struc‐
+tures, and it can also be used to cut graphs (e.g., to identify clusters of friends on
+a social network). It does not scale well to large numbers of instances, and it does
+not behave well when the clusters have very different sizes.
+Now let’s dive into Gaussian mixture models, which can be used for density estima‐
+tion, clustering, and anomaly detection.
+<header><largefont><b>Gaussian</b></largefont> <largefont><b>Mixtures</b></largefont></header>
+A <i>Gaussian</i> <i>mixture</i> <i>model</i> (GMM) is a probabilistic model that assumes that the
+instances were generated from a mixture of several Gaussian distributions whose
+parameters are unknown. All the instances generated from a single Gaussian distri‐
+bution form a cluster that typically looks like an ellipsoid. Each cluster can have a dif‐
+ferent ellipsoidal shape, size, density, and orientation, just like in Figure 9-11. When
+you observe an instance, you know it was generated from one of the Gaussian distri‐
+butions, but you are not told which one, and you do not know what the parameters of
+these distributions are.
+There are several GMM variants. In the simplest variant, implemented in the Gaus
+sianMixture
+class, you must know in advance the number <i>k</i> of Gaussian distribu‐
+tions. The dataset <b>X</b> is assumed to have been generated through the following
+probabilistic process:
+• For each instance, a cluster is picked randomly from among <i>k</i> clusters. The prob‐
+ability of choosing the <i>jth</i> cluster is defined by the cluster’s weight, <i>ϕ(j).7</i> The index
+of the cluster chosen for the <i>i</i> th instance is noted <i>z</i> (i) .
+(i) th th
+• If <i>z</i> =j, meaning the <i>i</i> instance has been assigned to the <i>j</i> cluster, the location
+<b>x(i)</b> of this instance is sampled randomly from the Gaussian distribution with
+<b>μ(j)</b> <b>Σ(j).</b> <i>i</i> ∼  <i>j</i> <i>j</i>
+mean and covariance matrix This is noted <b>x</b> <b>μ</b> ,Σ .
+This generative process can be represented as a graphical model. Figure 9-16 repre‐
+sents the structure of the conditional dependencies between random variables.
+7 Phi(ϕorφ)isthe21stletteroftheGreekalphabet.

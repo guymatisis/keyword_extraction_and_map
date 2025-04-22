@@ -1,46 +1,26 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          In summary:                                                 
-                                                                      
-           • You studied the data.                                    
-           • You selected a model.                                    
-                                                                      
-           • You trained it on the training data (i.e., the learning algorithm searched for the
-            model parameter values that minimize a cost function).    
-           • Finally, you applied the model to make predictions on new cases (this is called
-            inference), hoping that this model will generalize well.  
-                                                                      
-          This is what a typical Machine Learning project looks like. In Chapter 2 you will
-          experience this firsthand by going through a project end to end.
-          We have covered a lot of ground so far: you now know what Machine Learning is
-          really about, why it is useful, what some of the most common categories of ML sys‐
-          tems are, and what a typical project workflow looks like. Now let’s look at what can go
-          wrong in learning and prevent you from making accurate predictions.
-                                                                      
-          Main Challenges of Machine Learning                         
-                                                                      
-          In short, since your main task is to select a learning algorithm and train it on some
-          data, the two things that can go wrong are “bad algorithm” and “bad data.” Let’s start
-          with examples of bad data.                                  
-          Insufficient Quantity of Training Data                      
-                                                                      
-          For a toddler to learn what an apple is, all it takes is for you to point to an apple and
-          say “apple” (possibly repeating this procedure a few times). Now the child is able to
-          recognize apples in all sorts of colors and shapes. Genius. 
-                                                                      
-          Machine Learning is not quite there yet; it takes a lot of data for most Machine Learn‐
-          ing algorithms to work properly. Even for very simple problems you typically need
-          thousands of examples, and for complex problems such as image or speech recogni‐
-          tion you may need millions of examples (unless you can reuse parts of an existing
-          model).                                                     
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+In summary:
+• You studied the data.
+• You selected a model.
+• You trained it on the training data (i.e., the learning algorithm searched for the
+model parameter values that minimize a cost function).
+• Finally, you applied the model to make predictions on new cases (this is called
+<i>inference),</i> hoping that this model will generalize well.
+This is what a typical Machine Learning project looks like. In Chapter 2 you will
+experience this firsthand by going through a project end to end.
+We have covered a lot of ground so far: you now know what Machine Learning is
+really about, why it is useful, what some of the most common categories of ML sys‐
+tems are, and what a typical project workflow looks like. Now let’s look at what can go
+wrong in learning and prevent you from making accurate predictions.
+<header><largefont><b>Main</b></largefont> <largefont><b>Challenges</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Machine</b></largefont> <largefont><b>Learning</b></largefont></header>
+In short, since your main task is to select a learning algorithm and train it on some
+data, the two things that can go wrong are “bad algorithm” and “bad data.” Let’s start
+with examples of bad data.
+<header><largefont><b>Insufficient</b></largefont> <largefont><b>Quantity</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Data</b></largefont></header>
+For a toddler to learn what an apple is, all it takes is for you to point to an apple and
+say “apple” (possibly repeating this procedure a few times). Now the child is able to
+recognize apples in all sorts of colors and shapes. Genius.
+Machine Learning is not quite there yet; it takes a lot of data for most Machine Learn‐
+ing algorithms to work properly. Even for very simple problems you typically need
+thousands of examples, and for complex problems such as image or speech recogni‐
+tion you may need millions of examples (unless you can reuse parts of an existing
+model).

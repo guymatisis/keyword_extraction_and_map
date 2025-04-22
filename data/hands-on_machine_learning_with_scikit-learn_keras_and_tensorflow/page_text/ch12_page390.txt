@@ -1,46 +1,43 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          and the number of instances seen so far. When asked for the result, it returns the
-          ratio, which is simply the mean Huber loss:                 
-                                                                      
-            class HuberMetric(keras.metrics.Metric):                  
-               def __init__(self, threshold=1.0, **kwargs):           
-                 super().__init__(**kwargs) # handles base args (e.g., dtype)
-                 self.threshold = threshold                           
-                 self.huber_fn = create_huber(threshold)              
-                 self.total = self.add_weight("total", initializer="zeros")
-                 self.count = self.add_weight("count", initializer="zeros")
-               def update_state(self, y_true, y_pred, sample_weight=None):
-                 metric = self.huber_fn(y_true, y_pred)               
-                 self.total.assign_add(tf.reduce_sum(metric))         
-                 self.count.assign_add(tf.cast(tf.size(y_true), tf.float32))
-               def result(self):                                      
-                 return self.total / self.count                       
-               def get_config(self):                                  
-                 base_config = super().get_config()                   
-                 return {**base_config, "threshold": self.threshold}  
-          Let’s walk through this code:7                              
-           • The constructor uses the add_weight() method to create the variables needed to
-            keep track of the metric’s state over multiple batches—in this case, the sum of all
-            Huber losses (total) and the number of instances seen so far (count). You could
-            just create variables manually if you preferred. Keras tracks any tf.Variable that
-            is set as an attribute (and more generally, any “trackable” object, such as layers or
-            models).                                                  
-           • The update_state() method is called when you use an instance of this class as a
-            function (as we did with the Precision object). It updates the variables, given the
-            labels and predictions for one batch (and sample weights, but in this case we
-            ignore them).                                             
-           • The result() method computes and returns the final result, in this case the
-            mean Huber metric over all instances. When you use the metric as a function, the
-            update_state() method gets called first, then the result() method is called,
-            and its output is returned.                               
-           • We also implement the get_config() method to ensure the threshold gets
-            saved along with the model.                               
-           • The default implementation of the reset_states() method resets all variables to
-            0.0 (but you can override it if needed).                  
-                                                                      
-                                                                      
-          7 This class is for illustration purposes only. A simpler and better implementation would just subclass the
-           keras.metrics.Mean class; see the “Streaming metrics” section of the notebook for an example.
+and the number of instances seen so far. When asked for the result, it returns the
+ratio, which is simply the mean Huber loss:
+<b>class</b> <b>HuberMetric(keras.metrics.Metric):</b>
+<b>def</b> <b>__init__(self,</b> threshold=1.0, **kwargs):
+super().__init__(**kwargs) <i>#</i> <i>handles</i> <i>base</i> <i>args</i> <i>(e.g.,</i> <i>dtype)</i>
+self.threshold = threshold
+self.huber_fn = create_huber(threshold)
+self.total = self.add_weight("total", initializer="zeros")
+self.count = self.add_weight("count", initializer="zeros")
+<b>def</b> update_state(self, y_true, y_pred, sample_weight=None):
+metric = self.huber_fn(y_true, y_pred)
+self.total.assign_add(tf.reduce_sum(metric))
+self.count.assign_add(tf.cast(tf.size(y_true), tf.float32))
+<b>def</b> result(self):
+<b>return</b> self.total / self.count
+<b>def</b> get_config(self):
+base_config = super().get_config()
+<b>return</b> {**base_config, "threshold": self.threshold}
+Let’s walk through this code:7
+• The constructor uses the add_weight() method to create the variables needed to
+keep track of the metric’s state over multiple batches—in this case, the sum of all
+total count
+Huber losses ( ) and the number of instances seen so far ( ). You could
+just create variables manually if you preferred. Keras tracks any tf.Variable that
+is set as an attribute (and more generally, any “trackable” object, such as layers or
+models).
+• The update_state() method is called when you use an instance of this class as a
+Precision
+function (as we did with the object). It updates the variables, given the
+labels and predictions for one batch (and sample weights, but in this case we
+ignore them).
+result()
+• The method computes and returns the final result, in this case the
+mean Huber metric over all instances. When you use the metric as a function, the
+update_state() method gets called first, then the result() method is called,
+and its output is returned.
+• We also implement the get_config() method to ensure the threshold gets
+saved along with the model.
+• The default implementation of the reset_states() method resets all variables to
+0.0 (but you can override it if needed).
+7 Thisclassisforillustrationpurposesonly.Asimplerandbetterimplementationwouldjustsubclassthe
+keras.metrics.Mean
+class;seethe“Streamingmetrics”sectionofthenotebookforanexample.

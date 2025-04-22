@@ -1,0 +1,53 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          In a 2015 paper,8 Sergey Ioffe and Christian Szegedy proposed a technique called
+          Batch Normalization (BN) that addresses these problems. The technique consists of
+          adding an operation in the model just before or after the activation function of each
+          hidden layer. This operation simply zero-centers and normalizes each input, then
+          scales and shifts the result using two new parameter vectors per layer: one for scaling,
+          the other for shifting. In other words, the operation lets the model learn the optimal
+          scale and mean of each of the layer’s inputs. In many cases, if you add a BN layer as
+          the very first layer of your neural network, you do not need to standardize your train‐
+          ing set (e.g., using a StandardScaler); the BN layer will do it for you (well, approxi‐
+          mately, since it only looks at one batch at a time, and it can also rescale and shift each
+          input feature).                                             
+          In order to zero-center and normalize the inputs, the algorithm needs to estimate
+          each input’s mean and standard deviation. It does so by evaluating the mean and stan‐
+          dard deviation of the input over the current mini-batch (hence the name “Batch Nor‐
+          malization”). The whole operation is summarized step by step in Equation 11-3.
+                                                                      
+            Equation 11-3. Batch Normalization algorithm              
+                                                                      
+                     m                                                
+                      B                                               
+            1. μ = 1 ∑ x i                                            
+                B  m                                                  
+                    Bi=1                                              
+                     m                                                
+                      B                                               
+            2. σ 2 = 1 ∑ x i −μ 2                                     
+                B  m        B                                         
+                    Bi=1                                              
+                    i                                                 
+                   x −μ                                               
+                 i     B                                              
+            3. x  =                                                   
+                     2                                                
+                    σ +ε                                              
+                     B                                                
+            4. z i =γ⊗x i +β                                          
+          In this algorithm:                                          
+           • μ is the vector of input means, evaluated over the whole mini-batch B (it con‐
+             B                                                        
+            tains one mean per input).                                
+           • σ is the vector of input standard deviations, also evaluated over the whole mini-
+             B                                                        
+            batch (it contains one standard deviation per input).     
+           • m is the number of instances in the mini-batch.          
+              B                                                       
+           • x(i) is the vector of zero-centered and normalized inputs for instance i.
+          8 Sergey Ioffe and Christian Szegedy, “Batch Normalization: Accelerating Deep Network Training by Reducing
+           Internal Covariate Shift,” Proceedings of the 32nd International Conference on Machine Learning (2015): 448–
+           456.                                                       

@@ -1,46 +1,29 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Let’s plot this model’s predictions (Figure 4-2):           
-                                                                      
-            plt.plot(X_new, y_predict, "r-")                          
-            plt.plot(X, y, "b.")                                      
-            plt.axis([0, 2, 0, 15])                                   
-            plt.show()                                                
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 4-2. Linear Regression model predictions             
-                                                                      
-          Performing Linear Regression using Scikit-Learn is simple:2 
-            >>> from sklearn.linear_model import LinearRegression     
-            >>> lin_reg = LinearRegression()                          
-            >>> lin_reg.fit(X, y)                                     
-            >>> lin_reg.intercept_, lin_reg.coef_                     
-            (array([4.21509616]), array([[2.77011339]]))              
-            >>> lin_reg.predict(X_new)                                
-            array([[4.21509616],                                      
-                [9.75532293]])                                        
-          The LinearRegression class is based on the scipy.linalg.lstsq() function (the
-          name stands for “least squares”), which you could call directly:
-            >>> theta_best_svd, residuals, rank, s = np.linalg.lstsq(X_b, y, rcond=1e-6)
-            >>> theta_best_svd                                        
-            array([[4.21509616],                                      
-                [2.77011339]])                                        
-          This function computes θ =X+y, where  + is the pseudoinverse of X (specifically,
-          the Moore-Penrose inverse). You can use np.linalg.pinv() to compute the
-          pseudoinverse directly:                                     
-                                                                      
-                                                                      
-          2 Note that Scikit-Learn separates the bias term (intercept_) from the feature weights (coef_).
+Let’s plot this model’s predictions (Figure 4-2):
+plt.plot(X_new, y_predict, "r-")
+plt.plot(X, y, "b.")
+plt.axis([0, 2, 0, 15])
+plt.show()
+<i>Figure</i> <i>4-2.</i> <i>Linear</i> <i>Regression</i> <i>model</i> <i>predictions</i>
+Performing Linear Regression using Scikit-Learn is simple: 2
+<b>>>></b> <b>from</b> <b>sklearn.linear_model</b> <b>import</b> LinearRegression
+<b>>>></b> lin_reg = LinearRegression()
+<b>>>></b> lin_reg.fit(X, y)
+<b>>>></b> lin_reg.intercept_, lin_reg.coef_
+(array([4.21509616]), array([[2.77011339]]))
+<b>>>></b> lin_reg.predict(X_new)
+array([[4.21509616],
+[9.75532293]])
+LinearRegression scipy.linalg.lstsq()
+The class is based on the function (the
+name stands for “least squares”), which you could call directly:
+<b>>>></b> theta_best_svd, residuals, rank, s = np.linalg.lstsq(X_b, y, rcond=1e-6)
+<b>>>></b> theta_best_svd
+array([[4.21509616],
+[2.77011339]])
++ +
+This function computes <b>θ</b> = <b>X</b> <b>y,</b> where  is the <i>pseudoinverse</i> of <b>X</b> (specifically,
+np.linalg.pinv()
+the Moore-Penrose inverse). You can use to compute the
+pseudoinverse directly:
+intercept_ coef_
+2 NotethatScikit-Learnseparatesthebiasterm( )fromthefeatureweights( ).

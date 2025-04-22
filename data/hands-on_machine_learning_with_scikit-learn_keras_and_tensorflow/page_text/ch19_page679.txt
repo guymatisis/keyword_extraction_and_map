@@ -1,46 +1,25 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                     Always set an alarm to remind yourself to turn services off
-                     when you know you will only need them for a few hours, or
-                     else you might leave them running for days or months, incur‐
-                     ring potentially significant costs.              
-                                                                      
-           5. Now that you have a GCP account with billing activated, you can start using the
-            services. The first one you will need is Google Cloud Storage (GCS): this is where
-            you will put the SavedModels, the training data, and more. In the navigation
-            menu, scroll down to the Storage section, and click Storage → Browser. All your
-            files will go in one or more buckets. Click Create Bucket and choose the bucket
-            name (you may need to activate the Storage API first). GCS uses a single world‐
-            wide namespace for buckets, so simple names like “machine-learning” will most
-            likely not be available. Make sure the bucket name conforms to DNS naming
-            conventions, as it may be used in DNS records. Moreover, bucket names are pub‐
-            lic, so do not put anything private in there. It is common to use your domain
-            name or your company name as a prefix to ensure uniqueness, or simply use a
-            random number as part of the name. Choose the location where you want the
-            bucket to be hosted, and the rest of the options should be fine by default. Then
-            click Create.                                             
-           6. Upload the my_mnist_model folder you created earlier (including one or more
-            versions) to your bucket. To do this, just go to the GCS Browser, click the bucket,
-            then drag and drop the my_mnist_model folder from your system to the bucket
-            (see Figure 19-4). Alternatively, you can click “Upload folder” and select the
-            my_mnist_model folder to upload. By default, the maximum size for a SavedMo‐
-            del is 250 MB, but it is possible to request a higher quota.
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            Figure 19-4. Uploading a SavedModel to Google Cloud Storage
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+Always set an alarm to remind yourself to turn services off
+when you know you will only need them for a few hours, or
+else you might leave them running for days or months, incur‐
+ring potentially significant costs.
+5. Now that you have a GCP account with billing activated, you can start using the
+services. The first one you will need is Google Cloud Storage (GCS): this is where
+you will put the SavedModels, the training data, and more. In the navigation
+menu, scroll down to the Storage section, and click Storage → Browser. All your
+files will go in one or more <i>buckets.</i> Click Create Bucket and choose the bucket
+name (you may need to activate the Storage API first). GCS uses a single world‐
+wide namespace for buckets, so simple names like “machine-learning” will most
+likely not be available. Make sure the bucket name conforms to DNS naming
+conventions, as it may be used in DNS records. Moreover, bucket names are pub‐
+lic, so do not put anything private in there. It is common to use your domain
+name or your company name as a prefix to ensure uniqueness, or simply use a
+random number as part of the name. Choose the location where you want the
+bucket to be hosted, and the rest of the options should be fine by default. Then
+click Create.
+6. Upload the <i>my_mnist_model</i> folder you created earlier (including one or more
+versions) to your bucket. To do this, just go to the GCS Browser, click the bucket,
+then drag and drop the <i>my_mnist_model</i> folder from your system to the bucket
+(see Figure 19-4). Alternatively, you can click “Upload folder” and select the
+<i>my_mnist_model</i> folder to upload. By default, the maximum size for a SavedMo‐
+del is 250 MB, but it is possible to request a higher quota.
+<i>Figure</i> <i>19-4.</i> <i>Uploading</i> <i>a</i> <i>SavedModel</i> <i>to</i> <i>Google</i> <i>Cloud</i> <i>Storage</i>

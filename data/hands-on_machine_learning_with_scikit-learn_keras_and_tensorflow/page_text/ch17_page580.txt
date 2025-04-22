@@ -1,46 +1,39 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-               keras.layers.Conv2DTranspose(16, kernel_size=3, strides=2, padding="same",
-                                activation="selu"),                   
-               keras.layers.Conv2DTranspose(1, kernel_size=3, strides=2, padding="same",
-                                activation="sigmoid"),                
-               keras.layers.Reshape([28, 28])                         
-            ])                                                        
-            conv_ae = keras.models.Sequential([conv_encoder, conv_decoder])
-          Recurrent Autoencoders                                      
-                                                                      
-          If you want to build an autoencoder for sequences, such as time series or text (e.g., for
-          unsupervised learning or dimensionality reduction), then recurrent neural networks
-          (see Chapter 15) may be better suited than dense networks. Building a recurrent
-          autoencoder is straightforward: the encoder is typically a sequence-to-vector RNN
-          which compresses the input sequence down to a single vector. The decoder is a
-          vector-to-sequence RNN that does the reverse:               
-            recurrent_encoder = keras.models.Sequential([             
-               keras.layers.LSTM(100, return_sequences=True, input_shape=[None, 28]),
-               keras.layers.LSTM(30)                                  
-            ])                                                        
-            recurrent_decoder = keras.models.Sequential([             
-               keras.layers.RepeatVector(28, input_shape=[30]),       
-               keras.layers.LSTM(100, return_sequences=True),         
-               keras.layers.TimeDistributed(keras.layers.Dense(28, activation="sigmoid"))
-            ])                                                        
-            recurrent_ae = keras.models.Sequential([recurrent_encoder, recurrent_decoder])
-          This recurrent autoencoder can process sequences of any length, with 28 dimensions
-          per time step. Conveniently, this means it can process Fashion MNIST images by
-          treating each image as a sequence of rows: at each time step, the RNN will process a
-          single row of 28 pixels. Obviously, you could use a recurrent autoencoder for any
-          kind of sequence. Note that we use a RepeatVector layer as the first layer of the
-          decoder, to ensure that its input vector gets fed to the decoder at each time step.
-          OK, let’s step back for a second. So far we have seen various kinds of autoencoders
-          (basic, stacked, convolutional, and recurrent), and we have looked at how to train
-          them (either in one shot or layer by layer). We also looked at a couple applications:
-          data visualization and unsupervised pretraining.            
-          Up to now, in order to force the autoencoder to learn interesting features, we have
-          limited the size of the coding layer, making it undercomplete. There are actually
-          many other kinds of constraints that can be used, including ones that allow the cod‐
-          ing layer to be just as large as the inputs, or even larger, resulting in an overcomplete
-          autoencoder. Let’s look at some of those approaches now.    
-                                                                      
-                                                                      
+keras.layers.Conv2DTranspose(16, kernel_size=3, strides=2, padding="same",
+activation="selu"),
+keras.layers.Conv2DTranspose(1, kernel_size=3, strides=2, padding="same",
+activation="sigmoid"),
+keras.layers.Reshape([28, 28])
+])
+conv_ae = keras.models.Sequential([conv_encoder, conv_decoder])
+<header><largefont><b>Recurrent</b></largefont> <largefont><b>Autoencoders</b></largefont></header>
+If you want to build an autoencoder for sequences, such as time series or text (e.g., for
+unsupervised learning or dimensionality reduction), then recurrent neural networks
+(see Chapter 15) may be better suited than dense networks. Building a <i>recurrent</i>
+<i>autoencoder</i> is straightforward: the encoder is typically a sequence-to-vector RNN
+which compresses the input sequence down to a single vector. The decoder is a
+vector-to-sequence RNN that does the reverse:
+recurrent_encoder = keras.models.Sequential([
+keras.layers.LSTM(100, return_sequences=True, input_shape=[None, 28]),
+keras.layers.LSTM(30)
+])
+recurrent_decoder = keras.models.Sequential([
+keras.layers.RepeatVector(28, input_shape=[30]),
+keras.layers.LSTM(100, return_sequences=True),
+keras.layers.TimeDistributed(keras.layers.Dense(28, activation="sigmoid"))
+])
+recurrent_ae = keras.models.Sequential([recurrent_encoder, recurrent_decoder])
+This recurrent autoencoder can process sequences of any length, with 28 dimensions
+per time step. Conveniently, this means it can process Fashion MNIST images by
+treating each image as a sequence of rows: at each time step, the RNN will process a
+single row of 28 pixels. Obviously, you could use a recurrent autoencoder for any
+kind of sequence. Note that we use a RepeatVector layer as the first layer of the
+decoder, to ensure that its input vector gets fed to the decoder at each time step.
+OK, let’s step back for a second. So far we have seen various kinds of autoencoders
+(basic, stacked, convolutional, and recurrent), and we have looked at how to train
+them (either in one shot or layer by layer). We also looked at a couple applications:
+data visualization and unsupervised pretraining.
+Up to now, in order to force the autoencoder to learn interesting features, we have
+limited the size of the coding layer, making it undercomplete. There are actually
+many other kinds of constraints that can be used, including ones that allow the cod‐
+ing layer to be just as large as the inputs, or even larger, resulting in an <i>overcomplete</i>
+<i>autoencoder.</i> Let’s look at some of those approaches now.

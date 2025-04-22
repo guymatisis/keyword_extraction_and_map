@@ -1,46 +1,34 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-           • Start the first few epochs using just one replica (this is called the warmup phase).
-            Stale gradients tend to be more damaging at the beginning of training, when gra‐
-            dients are typically large and the parameters have not settled into a valley of the
-            cost function yet, so different replicas may push the parameters in quite different
-            directions.                                               
-                                                                      
-          A paper published by the Google Brain team in 201620 benchmarked various
-          approaches and found that using synchronous updates with a few spare replicas was
-          more efficient than using asynchronous updates, not only converging faster but also
-          producing a better model. However, this is still an active area of research, so you
-          should not rule out asynchronous updates just yet.          
-                                                                      
-          Bandwidth saturation                                        
-          Whether you use synchronous or asynchronous updates, data parallelism with cen‐
-          tralized parameters still requires communicating the model parameters from the
-          parameter servers to every replica at the beginning of each training step, and the gra‐
-          dients in the other direction at the end of each training step. Similarly, when using the
-          mirrored strategy, the gradients produced by each GPU will need to be shared with
-          every other GPU. Unfortunately, there always comes a point where adding an extra
-          GPU will not improve performance at all because the time spent moving the data into
-          and out of GPU RAM (and across the network in a distributed setup) will outweigh
-          the speedup obtained by splitting the computation load. At that point, adding more
-          GPUs will just worsen the bandwidth saturation and actually slow down training.
-                                                                      
-                   For some models, typically relatively small and trained on a very
-                   large training set, you are often better off training the model on a
-                   single machine with a single powerful GPU with a large memory
-                   bandwidth.                                         
-                                                                      
-          Saturation is more severe for large dense models, since they have a lot of parameters
-          and gradients to transfer. It is less severe for small models (but the parallelization gain
-          is limited) and for large sparse models, where the gradients are typically mostly zeros
-          and so can be communicated efficiently. Jeff Dean, initiator and lead of the Google
-          Brain project, reported typical speedups of 25–40× when distributing computations
-          across 50 GPUs for dense models, and a 300× speedup for sparser models trained
-          across 500 GPUs. As you can see, sparse models really do scale better. Here are a few
-          concrete examples:                                          
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          20 Jianmin Chen et al., “Revisiting Distributed Synchronous SGD,” arXiv preprint arXiv:1604.00981 (2016).
+• Start the first few epochs using just one replica (this is called the <i>warmup</i> <i>phase).</i>
+Stale gradients tend to be more damaging at the beginning of training, when gra‐
+dients are typically large and the parameters have not settled into a valley of the
+cost function yet, so different replicas may push the parameters in quite different
+directions.
+A paper published by the Google Brain team in 201620 benchmarked various
+approaches and found that using synchronous updates with a few spare replicas was
+more efficient than using asynchronous updates, not only converging faster but also
+producing a better model. However, this is still an active area of research, so you
+should not rule out asynchronous updates just yet.
+<b>Bandwidthsaturation</b>
+Whether you use synchronous or asynchronous updates, data parallelism with cen‐
+tralized parameters still requires communicating the model parameters from the
+parameter servers to every replica at the beginning of each training step, and the gra‐
+dients in the other direction at the end of each training step. Similarly, when using the
+mirrored strategy, the gradients produced by each GPU will need to be shared with
+every other GPU. Unfortunately, there always comes a point where adding an extra
+GPU will not improve performance at all because the time spent moving the data into
+and out of GPU RAM (and across the network in a distributed setup) will outweigh
+the speedup obtained by splitting the computation load. At that point, adding more
+GPUs will just worsen the bandwidth saturation and actually slow down training.
+For some models, typically relatively small and trained on a very
+large training set, you are often better off training the model on a
+single machine with a single powerful GPU with a large memory
+bandwidth.
+Saturation is more severe for large dense models, since they have a lot of parameters
+and gradients to transfer. It is less severe for small models (but the parallelization gain
+is limited) and for large sparse models, where the gradients are typically mostly zeros
+and so can be communicated efficiently. Jeff Dean, initiator and lead of the Google
+Brain project, reported typical speedups of 25–40× when distributing computations
+across 50 GPUs for dense models, and a 300× speedup for sparser models trained
+across 500 GPUs. As you can see, sparse models really do scale better. Here are a few
+concrete examples:
+20 JianminChenetal.,“RevisitingDistributedSynchronousSGD,”arXivpreprintarXiv:1604.00981(2016).

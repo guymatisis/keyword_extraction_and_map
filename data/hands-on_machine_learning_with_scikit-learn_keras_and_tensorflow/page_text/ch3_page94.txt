@@ -1,46 +1,32 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 3-3. In this precision/recall trade-off, images are ranked by their classifier score,
-          and those above the chosen decision threshold are considered positive; the higher the
-          threshold, the lower the recall, but (in general) the higher the precision
-                                                                      
-          Scikit-Learn does not let you set the threshold directly, but it does give you access to
-          the decision scores that it uses to make predictions. Instead of calling the classifier’s
-          predict() method, you can call its decision_function() method, which returns a
-          score for each instance, and then use any threshold you want to make predictions
-          based on those scores:                                      
-            >>> y_scores = sgd_clf.decision_function([some_digit])    
-            >>> y_scores                                              
-            array([2412.53175101])                                    
-            >>> threshold = 0                                         
-            >>> y_some_digit_pred = (y_scores > threshold)            
-            array([ True])                                            
-          The SGDClassifier uses a threshold equal to 0, so the previous code returns the same
-          result as the predict() method (i.e., True). Let’s raise the threshold:
-            >>> threshold = 8000                                      
-            >>> y_some_digit_pred = (y_scores > threshold)            
-            >>> y_some_digit_pred                                     
-            array([False])                                            
-          This confirms that raising the threshold decreases recall. The image actually repre‐
-          sents a 5, and the classifier detects it when the threshold is 0, but it misses it when the
-          threshold is increased to 8,000.                            
-          How do you decide which threshold to use? First, use the cross_val_predict()
-          function to get the scores of all instances in the training set, but this time specify that
-          you want to return decision scores instead of predictions:  
-            y_scores = cross_val_predict(sgd_clf, X_train, y_train_5, cv=3,
-                             method="decision_function")              
-          With these scores, use the precision_recall_curve() function to compute precision
-          and recall for all possible thresholds:                     
-                                                                      
-                                                                      
+<i>Figure</i> <i>3-3.</i> <i>In</i> <i>this</i> <i>precision/recall</i> <i>trade-off,</i> <i>images</i> <i>are</i> <i>ranked</i> <i>by</i> <i>their</i> <i>classifier</i> <i>score,</i>
+<i>and</i> <i>those</i> <i>above</i> <i>the</i> <i>chosen</i> <i>decision</i> <i>threshold</i> <i>are</i> <i>considered</i> <i>positive;</i> <i>the</i> <i>higher</i> <i>the</i>
+<i>threshold,</i> <i>the</i> <i>lower</i> <i>the</i> <i>recall,</i> <i>but</i> <i>(in</i> <i>general)</i> <i>the</i> <i>higher</i> <i>the</i> <i>precision</i>
+Scikit-Learn does not let you set the threshold directly, but it does give you access to
+the decision scores that it uses to make predictions. Instead of calling the classifier’s
+predict() decision_function()
+method, you can call its method, which returns a
+score for each instance, and then use any threshold you want to make predictions
+based on those scores:
+<b>>>></b> y_scores = sgd_clf.decision_function([some_digit])
+<b>>>></b> y_scores
+array([2412.53175101])
+<b>>>></b> threshold = 0
+<b>>>></b> y_some_digit_pred = (y_scores > threshold)
+array([ True])
+The SGDClassifier uses a threshold equal to 0, so the previous code returns the same
+result as the predict() method (i.e., True ). Let’s raise the threshold:
+<b>>>></b> threshold = 8000
+<b>>>></b> y_some_digit_pred = (y_scores > threshold)
+<b>>>></b> y_some_digit_pred
+array([False])
+This confirms that raising the threshold decreases recall. The image actually repre‐
+sents a 5, and the classifier detects it when the threshold is 0, but it misses it when the
+threshold is increased to 8,000.
+How do you decide which threshold to use? First, use the cross_val_predict()
+function to get the scores of all instances in the training set, but this time specify that
+you want to return decision scores instead of predictions:
+y_scores = cross_val_predict(sgd_clf, X_train, y_train_5, cv=3,
+method="decision_function")
+precision_recall_curve()
+With these scores, use the function to compute precision
+and recall for all possible thresholds:

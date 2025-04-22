@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          recommendation system promoting news from last week). Perhaps even more impor‐
+          tantly, a long training time will prevent you from experimenting with new ideas. In
+          Machine Learning (as in many other fields), it is hard to know in advance which ideas
+          will work, so you should try out as many as possible, as fast as possible. One way to
+          speed up training is to use hardware accelerators such as GPUs or TPUs. To go even
+          faster, you can train a model across multiple machines, each equipped with multiple
+          hardware accelerators. TensorFlow’s simple yet powerful Distribution Strategies API
+          makes this easy, as we will see.                            
+                                                                      
+          In this chapter we will look at how to deploy models, first to TF Serving, then to Goo‐
+          gle Cloud AI Platform. We will also take a quick look at deploying models to mobile
+          apps, embedded devices, and web apps. Lastly, we will discuss how to speed up com‐
+          putations using GPUs and how to train models across multiple devices and servers
+          using the Distribution Strategies API. That’s a lot of topics to discuss, so let’s get
+          started!                                                    
+          Serving a TensorFlow Model                                  
+                                                                      
+          Once you have trained a TensorFlow model, you can easily use it in any Python code:
+          if it’s a tf.keras model, just call its predict() method! But as your infrastructure
+          grows, there comes a point where it is preferable to wrap your model in a small ser‐
+          vice whose sole role is to make predictions and have the rest of the infrastructure
+          query it (e.g., via a REST or gRPC API).2 This decouples your model from the rest of
+          the infrastructure, making it possible to easily switch model versions or scale the ser‐
+          vice up as needed (independently from the rest of your infrastructure), perform A/B
+          experiments, and ensure that all your software components rely on the same model
+          versions. It also simplifies testing and development, and more. You could create your
+          own microservice using any technology you want (e.g., using the Flask library), but
+          why reinvent the wheel when you can just use TF Serving?    
+                                                                      
+          Using TensorFlow Serving                                    
+          TF Serving is a very efficient, battle-tested model server that’s written in C++. It can
+          sustain a high load, serve multiple versions of your models and watch a model reposi‐
+          tory to automatically deploy the latest versions, and more (see Figure 19-1).
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          2 A REST (or RESTful) API is an API that uses standard HTTP verbs, such as GET, POST, PUT, and DELETE,
+           and uses JSON inputs and outputs. The gRPC protocol is more complex but more efficient. Data is exchanged
+           using protocol buffers (see Chapter 13).                   

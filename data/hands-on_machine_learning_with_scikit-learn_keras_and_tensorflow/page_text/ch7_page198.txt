@@ -1,46 +1,40 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            bag_clf = BaggingClassifier(                              
-               DecisionTreeClassifier(splitter="random", max_leaf_nodes=16),
-               n_estimators=500, max_samples=1.0, bootstrap=True, n_jobs=-1)
-          Extra-Trees                                                 
-                                                                      
-          When you are growing a tree in a Random Forest, at each node only a random subset
-          of the features is considered for splitting (as discussed earlier). It is possible to make
-          trees even more random by also using random thresholds for each feature rather than
-          searching for the best possible thresholds (like regular Decision Trees do).
-                                                                      
-          A forest of such extremely random trees is called an Extremely Randomized Trees
-          ensemble12 (or Extra-Trees for short). Once again, this technique trades more bias for
-          a lower variance. It also makes Extra-Trees much faster to train than regular Random
-          Forests, because finding the best possible threshold for each feature at every node is
-          one of the most time-consuming tasks of growing a tree.     
-          You can create an Extra-Trees classifier using Scikit-Learn’s ExtraTreesClassifier
-          class. Its API is identical to the RandomForestClassifier class. Similarly, the Extra
-          TreesRegressor class has the same API as the RandomForestRegressor class.
-                                                                      
-                   It is hard to tell in advance whether a RandomForestClassifier
-                   will perform better or worse than an ExtraTreesClassifier. Gen‐
-                   erally, the only way to know is to try both and compare them using
-                   cross-validation (tuning the hyperparameters using grid search).
-                                                                      
-          Feature Importance                                          
-                                                                      
-          Yet another great quality of Random Forests is that they make it easy to measure the
-          relative importance of each feature. Scikit-Learn measures a feature’s importance by
-          looking at how much the tree nodes that use that feature reduce impurity on average
-          (across all trees in the forest). More precisely, it is a weighted average, where each
-          node’s weight is equal to the number of training samples that are associated with it
-          (see Chapter 6).                                            
-          Scikit-Learn computes this score automatically for each feature after training, then it
-          scales the results so that the sum of all importances is equal to 1. You can access the
-          result using the feature_importances_ variable. For example, the following code
-          trains a RandomForestClassifier on the iris dataset (introduced in Chapter 4) and
-          outputs each feature’s importance. It seems that the most important features are the
-          petal length (44%) and width (42%), while sepal length and width are rather unim‐
-          portant in comparison (11% and 2%, respectively):           
-                                                                      
-                                                                      
-          12 Pierre Geurts et al., “Extremely Randomized Trees,” Machine Learning 63, no. 1 (2006): 3–42.
+bag_clf = BaggingClassifier(
+DecisionTreeClassifier(splitter="random", max_leaf_nodes=16),
+n_estimators=500, max_samples=1.0, bootstrap=True, n_jobs=-1)
+<header><largefont><b>Extra-Trees</b></largefont></header>
+When you are growing a tree in a Random Forest, at each node only a random subset
+of the features is considered for splitting (as discussed earlier). It is possible to make
+trees even more random by also using random thresholds for each feature rather than
+searching for the best possible thresholds (like regular Decision Trees do).
+A forest of such extremely random trees is called an <i>Extremely</i> <i>Randomized</i> <i>Trees</i>
+ensemble12 (or <i>Extra-Trees</i> for short). Once again, this technique trades more bias for
+a lower variance. It also makes Extra-Trees much faster to train than regular Random
+Forests, because finding the best possible threshold for each feature at every node is
+one of the most time-consuming tasks of growing a tree.
+ExtraTreesClassifier
+You can create an Extra-Trees classifier using Scikit-Learn’s
+class. Its API is identical to the RandomForestClassifier class. Similarly, the Extra
+TreesRegressor RandomForestRegressor
+class has the same API as the class.
+RandomForestClassifier
+It is hard to tell in advance whether a
+ExtraTreesClassifier
+will perform better or worse than an . Gen‐
+erally, the only way to know is to try both and compare them using
+cross-validation (tuning the hyperparameters using grid search).
+<header><largefont><b>Feature</b></largefont> <largefont><b>Importance</b></largefont></header>
+Yet another great quality of Random Forests is that they make it easy to measure the
+relative importance of each feature. Scikit-Learn measures a feature’s importance by
+looking at how much the tree nodes that use that feature reduce impurity on average
+(across all trees in the forest). More precisely, it is a weighted average, where each
+node’s weight is equal to the number of training samples that are associated with it
+(see Chapter 6).
+Scikit-Learn computes this score automatically for each feature after training, then it
+scales the results so that the sum of all importances is equal to 1. You can access the
+result using the feature_importances_ variable. For example, the following code
+RandomForestClassifier
+trains a on the iris dataset (introduced in Chapter 4) and
+outputs each feature’s importance. It seems that the most important features are the
+petal length (44%) and width (42%), while sepal length and width are rather unim‐
+portant in comparison (11% and 2%, respectively):
+12 PierreGeurtsetal.,“ExtremelyRandomizedTrees,”MachineLearning63,no.1(2006):3–42.

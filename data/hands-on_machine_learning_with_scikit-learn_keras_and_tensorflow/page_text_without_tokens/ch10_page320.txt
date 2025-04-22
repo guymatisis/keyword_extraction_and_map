@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          This is actually a useful visualization tool to have, even beyond TensorFlow or Deep
+          Learning.                                                   
+                                                                      
+          Let’s summarize what you’ve learned so far in this chapter: we saw where neural nets
+          came from, what an MLP is and how you can use it for classification and regression,
+          how to use tf.keras’s Sequential API to build MLPs, and how to use the Functional
+          API or the Subclassing API to build more complex model architectures. You learned
+          how to save and restore a model and how to use callbacks for checkpointing, early
+          stopping, and more. Finally, you learned how to use TensorBoard for visualization.
+          You can already go ahead and use neural networks to tackle many problems! How‐
+          ever, you may wonder how to choose the number of hidden layers, the number of
+          neurons in the network, and all the other hyperparameters. Let’s look at this now.
+          Fine-Tuning Neural Network Hyperparameters                  
+                                                                      
+          The flexibility of neural networks is also one of their main drawbacks: there are many
+          hyperparameters to tweak. Not only can you use any imaginable network architec‐
+          ture, but even in a simple MLP you can change the number of layers, the number of
+          neurons per layer, the type of activation function to use in each layer, the weight initi‐
+          alization logic, and much more. How do you know what combination of hyperpara‐
+          meters is the best for your task?                           
+                                                                      
+          One option is to simply try many combinations of hyperparameters and see which
+          one works best on the validation set (or use K-fold cross-validation). For example, we
+          can use GridSearchCV or RandomizedSearchCV to explore the hyperparameter space,
+          as we did in Chapter 2. To do this, we need to wrap our Keras models in objects that
+          mimic regular Scikit-Learn regressors. The first step is to create a function that will
+          build and compile a Keras model, given a set of hyperparameters:
+            def build_model(n_hidden=1, n_neurons=30, learning_rate=3e-3, input_shape=[8]):
+               model = keras.models.Sequential()                      
+               model.add(keras.layers.InputLayer(input_shape=input_shape))
+               for layer in range(n_hidden):                          
+                 model.add(keras.layers.Dense(n_neurons, activation="relu"))
+               model.add(keras.layers.Dense(1))                       
+               optimizer = keras.optimizers.SGD(lr=learning_rate)     
+               model.compile(loss="mse", optimizer=optimizer)         
+               return model                                           
+          This function creates a simple Sequential model for univariate regression (only one
+          output neuron), with the given input shape and the given number of hidden layers
+          and neurons, and it compiles it using an SGD optimizer configured with the specified
+          learning rate. It is good practice to provide reasonable defaults to as many hyperpara‐
+          meters as you can, as Scikit-Learn does.                    
+          Next, let’s create a KerasRegressor based on this build_model() function:

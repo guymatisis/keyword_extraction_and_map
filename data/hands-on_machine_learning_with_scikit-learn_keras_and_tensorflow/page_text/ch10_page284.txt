@@ -1,46 +1,30 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Let’s see what these networks do:                           
-                                                                      
-           • The first network on the left is the identity function: if neuron A is activated,
-            then neuron C gets activated as well (since it receives two input signals from neu‐
-            ron A); but if neuron A is off, then neuron C is off as well.
-           • The second network performs a logical AND: neuron C is activated only when
-            both neurons A and B are activated (a single input signal is not enough to acti‐
-            vate neuron C).                                           
-           • The third network performs a logical OR: neuron C gets activated if either neu‐
-            ron A or neuron B is activated (or both).                 
-                                                                      
-           • Finally, if we suppose that an input connection can inhibit the neuron’s activity
-            (which is the case with biological neurons), then the fourth network computes a
-            slightly more complex logical proposition: neuron C is activated only if neuron A
-            is active and neuron B is off. If neuron A is active all the time, then you get a
-            logical NOT: neuron C is active when neuron B is off, and vice versa.
-          You can imagine how these networks can be combined to compute complex logical
-          expressions (see the exercises at the end of the chapter for an example).
-                                                                      
-          The Perceptron                                              
-                                                                      
-          The Perceptron is one of the simplest ANN architectures, invented in 1957 by Frank
-          Rosenblatt. It is based on a slightly different artificial neuron (see Figure 10-4) called
-          a threshold logic unit (TLU), or sometimes a linear threshold unit (LTU). The inputs
-          and output are numbers (instead of binary on/off values), and each input connection
-          is associated with a weight. The TLU computes a weighted sum of its inputs (z = w x
-                                                          1 1         
-          + w x + ⋯ + w x = x⊺ w), then applies a step function to that sum and outputs the
-            2 2     n n                                               
-          result: h (x) = step(z), where z = x⊺ w.                    
-               w                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 10-4. Threshold logic unit: an artificial neuron which computes a weighted sum
-          of its inputs then applies a step function                  
-                                                                      
-                                                                      
+Let’s see what these networks do:
+• The first network on the left is the identity function: if neuron A is activated,
+then neuron C gets activated as well (since it receives two input signals from neu‐
+ron A); but if neuron A is off, then neuron C is off as well.
+• The second network performs a logical AND: neuron C is activated only when
+both neurons A and B are activated (a single input signal is not enough to acti‐
+vate neuron C).
+• The third network performs a logical OR: neuron C gets activated if either neu‐
+ron A or neuron B is activated (or both).
+• Finally, if we suppose that an input connection can inhibit the neuron’s activity
+(which is the case with biological neurons), then the fourth network computes a
+slightly more complex logical proposition: neuron C is activated only if neuron A
+is active and neuron B is off. If neuron A is active all the time, then you get a
+logical NOT: neuron C is active when neuron B is off, and vice versa.
+You can imagine how these networks can be combined to compute complex logical
+expressions (see the exercises at the end of the chapter for an example).
+<header><largefont><b>The</b></largefont> <largefont><b>Perceptron</b></largefont></header>
+The <i>Perceptron</i> is one of the simplest ANN architectures, invented in 1957 by Frank
+Rosenblatt. It is based on a slightly different artificial neuron (see Figure 10-4) called
+a <i>threshold</i> <i>logic</i> <i>unit</i> (TLU), or sometimes a <i>linear</i> <i>threshold</i> <i>unit</i> (LTU). The inputs
+and output are numbers (instead of binary on/off values), and each input connection
+is associated with a weight. The TLU computes a weighted sum of its inputs (z = <i>w</i> <i>x</i>
+1 1
++ <i>w</i> <i>x</i> + ⋯ + <i>w</i> <i>x</i> = <b>x</b> ⊺ <b>w),</b> then applies a <i>step</i> <i>function</i> to that sum and outputs the
+2 2 <i>n</i> <i>n</i>
+⊺
+result: <i>h</i> (x) = step(z), where <i>z</i> = <b>x</b> <b>w.</b>
+<b>w</b>
+<i>Figure</i> <i>10-4.</i> <i>Threshold</i> <i>logic</i> <i>unit:</i> <i>an</i> <i>artificial</i> <i>neuron</i> <i>which</i> <i>computes</i> <i>a</i> <i>weighted</i> <i>sum</i>
+<i>of</i> <i>its</i> <i>inputs</i> <i>then</i> <i>applies</i> <i>a</i> <i>step</i> <i>function</i>

@@ -1,46 +1,18 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            max_pool = keras.layers.MaxPool2D(pool_size=2)            
-                                                                      
-          To create an average pooling layer, just use AvgPool2D instead of MaxPool2D. As you
-          might expect, it works exactly like a max pooling layer, except it computes the mean
-          rather than the max. Average pooling layers used to be very popular, but people
-          mostly use max pooling layers now, as they generally perform better. This may seem
-          surprising, since computing the mean generally loses less information than comput‐
-          ing the max. But on the other hand, max pooling preserves only the strongest fea‐
-          tures, getting rid of all the meaningless ones, so the next layers get a cleaner signal to
-          work with. Moreover, max pooling offers stronger translation invariance than average
-          pooling, and it requires slightly less compute.             
-          Note that max pooling and average pooling can be performed along the depth dimen‐
-          sion rather than the spatial dimensions, although this is not as common. This can
-          allow the CNN to learn to be invariant to various features. For example, it could learn
-          multiple filters, each detecting a different rotation of the same pattern (such as hand-
-          written digits; see Figure 14-10), and the depthwise max pooling layer would ensure
-          that the output is the same regardless of the rotation. The CNN could similarly learn
-          to be invariant to anything else: thickness, brightness, skew, color, and so on.
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 14-10. Depthwise max pooling can help the CNN learn any invariance
-                                                                      
-                                                                      
+max_pool = keras.layers.MaxPool2D(pool_size=2)
+To create an <i>average</i> <i>pooling</i> <i>layer,</i> just use AvgPool2D instead of MaxPool2D. As you
+might expect, it works exactly like a max pooling layer, except it computes the mean
+rather than the max. Average pooling layers used to be very popular, but people
+mostly use max pooling layers now, as they generally perform better. This may seem
+surprising, since computing the mean generally loses less information than comput‐
+ing the max. But on the other hand, max pooling preserves only the strongest fea‐
+tures, getting rid of all the meaningless ones, so the next layers get a cleaner signal to
+work with. Moreover, max pooling offers stronger translation invariance than average
+pooling, and it requires slightly less compute.
+Note that max pooling and average pooling can be performed along the depth dimen‐
+sion rather than the spatial dimensions, although this is not as common. This can
+allow the CNN to learn to be invariant to various features. For example, it could learn
+multiple filters, each detecting a different rotation of the same pattern (such as hand-
+written digits; see Figure 14-10), and the depthwise max pooling layer would ensure
+that the output is the same regardless of the rotation. The CNN could similarly learn
+to be invariant to anything else: thickness, brightness, skew, color, and so on.
+<i>Figure</i> <i>14-10.</i> <i>Depthwise</i> <i>max</i> <i>pooling</i> <i>can</i> <i>help</i> <i>the</i> <i>CNN</i> <i>learn</i> <i>any</i> <i>invariance</i>

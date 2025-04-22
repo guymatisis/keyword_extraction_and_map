@@ -1,46 +1,32 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Here is a more troublesome difference: if you pick two points randomly in a unit
-          square, the distance between these two points will be, on average, roughly 0.52. If you
-          pick two random points in a unit 3D cube, the average distance will be roughly 0.66.
-          But what about two points picked randomly in a 1,000,000-dimensional hypercube?
-          The average distance, believe it or not, will be about 408.25 (roughly 1,000,000/6)!
-          This is counterintuitive: how can two points be so far apart when they both lie within
-          the same unit hypercube? Well, there’s just plenty of space in high dimensions. As a
-          result, high-dimensional datasets are at risk of being very sparse: most training
-          instances are likely to be far away from each other. This also means that a new
-          instance will likely be far away from any training instance, making predictions much
-          less reliable than in lower dimensions, since they will be based on much larger extrap‐
-          olations. In short, the more dimensions the training set has, the greater the risk of
-          overfitting it.                                             
-          In theory, one solution to the curse of dimensionality could be to increase the size of
-          the training set to reach a sufficient density of training instances. Unfortunately, in
-          practice, the number of training instances required to reach a given density grows
-          exponentially with the number of dimensions. With just 100 features (significantly
-          fewer than in the MNIST problem), you would need more training instances than
-          atoms in the observable universe in order for training instances to be within 0.1 of
-          each other on average, assuming they were spread out uniformly across all dimen‐
-          sions.                                                      
-                                                                      
-          Main Approaches for Dimensionality Reduction                
-                                                                      
-          Before we dive into specific dimensionality reduction algorithms, let’s take a look at
-          the two main approaches to reducing dimensionality: projection and Manifold
-          Learning.                                                   
-                                                                      
-          Projection                                                  
-          In most real-world problems, training instances are not spread out uniformly across
-          all dimensions. Many features are almost constant, while others are highly correlated
-          (as discussed earlier for MNIST). As a result, all training instances lie within (or close
-          to) a much lower-dimensional subspace of the high-dimensional space. This sounds
-          very abstract, so let’s look at an example. In Figure 8-2 you can see a 3D dataset repre‐
-          sented by circles.                                          
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+Here is a more troublesome difference: if you pick two points randomly in a unit
+square, the distance between these two points will be, on average, roughly 0.52. If you
+pick two random points in a unit 3D cube, the average distance will be roughly 0.66.
+But what about two points picked randomly in a 1,000,000-dimensional hypercube?
+The average distance, believe it or not, will be about 408.25 (roughly 1,000,000/6)!
+This is counterintuitive: how can two points be so far apart when they both lie within
+the same unit hypercube? Well, there’s just plenty of space in high dimensions. As a
+result, high-dimensional datasets are at risk of being very sparse: most training
+instances are likely to be far away from each other. This also means that a new
+instance will likely be far away from any training instance, making predictions much
+less reliable than in lower dimensions, since they will be based on much larger extrap‐
+olations. In short, the more dimensions the training set has, the greater the risk of
+overfitting it.
+In theory, one solution to the curse of dimensionality could be to increase the size of
+the training set to reach a sufficient density of training instances. Unfortunately, in
+practice, the number of training instances required to reach a given density grows
+exponentially with the number of dimensions. With just 100 features (significantly
+fewer than in the MNIST problem), you would need more training instances than
+atoms in the observable universe in order for training instances to be within 0.1 of
+each other on average, assuming they were spread out uniformly across all dimen‐
+sions.
+<header><largefont><b>Main</b></largefont> <largefont><b>Approaches</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Dimensionality</b></largefont> <largefont><b>Reduction</b></largefont></header>
+Before we dive into specific dimensionality reduction algorithms, let’s take a look at
+the two main approaches to reducing dimensionality: projection and Manifold
+Learning.
+<header><largefont><b>Projection</b></largefont></header>
+In most real-world problems, training instances are <i>not</i> spread out uniformly across
+all dimensions. Many features are almost constant, while others are highly correlated
+(as discussed earlier for MNIST). As a result, all training instances lie within (or close
+to) a much lower-dimensional <i>subspace</i> of the high-dimensional space. This sounds
+very abstract, so let’s look at an example. In Figure 8-2 you can see a 3D dataset repre‐
+sented by circles.

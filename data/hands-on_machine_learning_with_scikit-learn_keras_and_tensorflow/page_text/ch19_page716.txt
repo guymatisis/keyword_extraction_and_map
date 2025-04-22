@@ -1,46 +1,45 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          If you want to explore a few hyperparameter values, you can simply run multiple jobs
-          and specify the hyperparameter values using the extra arguments for your tasks.
-          However, if you want to explore many hyperparameters efficiently, it’s a good idea to
-          use AI Platform’s hyperparameter tuning service instead.    
-                                                                      
-          Black Box Hyperparameter Tuning on AI Platform              
-                                                                      
-          AI Platform provides a powerful Bayesian optimization hyperparameter tuning ser‐
-          vice called Google Vizier.23 To use it, you need to pass a YAML configuration file
-          when creating the job (--config tuning.yaml). For example, it may look like this:
-            trainingInput:                                            
-             hyperparameters:                                         
-               goal: MAXIMIZE                                         
-               hyperparameterMetricTag: accuracy                      
-               maxTrials: 10                                          
-               maxParallelTrials: 2                                   
-               params:                                                
-                - parameterName: n_layers                             
-                 type: INTEGER                                        
-                 minValue: 10                                         
-                 maxValue: 100                                        
-                 scaleType: UNIT_LINEAR_SCALE                         
-                - parameterName: momentum                             
-                 type: DOUBLE                                         
-                 minValue: 0.1                                        
-                 maxValue: 1.0                                        
-                 scaleType: UNIT_LOG_SCALE                            
-          This tells AI Platform that we want to maximize the metric named "accuracy", the
-          job will run a maximum of 10 trials (each trial will run our training code to train the
-          model from scratch), and it will run a maximum of 2 trials in parallel. We want it to
-          tune two hyperparameters: the n_layers hyperparameter (an integer between 10 and
-          100) and the momentum hyperparameter (a float between 0.1 and 1.0). The scaleType
-          argument specifies the prior for the hyperparameter value: UNIT_LINEAR_SCALE
-          means a flat prior (i.e., no a priori preference), while UNIT_LOG_SCALE says we have a
-          prior belief that the optimal value lies closer to the max value (the other possible prior
-          is UNIT_REVERSE_LOG_SCALE, when we believe the optimal value to be close to the min
-          value).                                                     
-          The n_layers and momentum arguments will be passed as command-line arguments
-          to the training code, and of course it is expected to use them. The question is, how
-          will the training code communicate the metric back to the AI Platform so that it can
-          23 Daniel Golovin et al., “Google Vizier: A Service for Black-Box Optimization,” Proceedings of the 23rd ACM
-           SIGKDD International Conference on Knowledge Discovery and Data Mining (2017): 1487–1495.
+If you want to explore a few hyperparameter values, you can simply run multiple jobs
+and specify the hyperparameter values using the extra arguments for your tasks.
+However, if you want to explore many hyperparameters efficiently, it’s a good idea to
+use AI Platform’s hyperparameter tuning service instead.
+<header><largefont><b>Black</b></largefont> <largefont><b>Box</b></largefont> <largefont><b>Hyperparameter</b></largefont> <largefont><b>Tuning</b></largefont> <largefont><b>on</b></largefont> <largefont><b>AI</b></largefont> <largefont><b>Platform</b></largefont></header>
+AI Platform provides a powerful Bayesian optimization hyperparameter tuning ser‐
+Vizier.23
+vice called Google To use it, you need to pass a YAML configuration file
+(--config tuning.yaml).
+when creating the job For example, it may look like this:
+<b>trainingInput:</b>
+<b>hyperparameters:</b>
+<b>goal:</b> MAXIMIZE
+<b>hyperparameterMetricTag:</b> accuracy
+<b>maxTrials:</b> 10
+<b>maxParallelTrials:</b> 2
+<b>params:</b>
+- <b>parameterName:</b> n_layers
+<b>type:</b> INTEGER
+<b>minValue:</b> 10
+<b>maxValue:</b> 100
+<b>scaleType:</b> UNIT_LINEAR_SCALE
+- <b>parameterName:</b> momentum
+<b>type:</b> DOUBLE
+<b>minValue:</b> 0.1
+<b>maxValue:</b> 1.0
+<b>scaleType:</b> UNIT_LOG_SCALE
+This tells AI Platform that we want to maximize the metric named "accuracy" , the
+job will run a maximum of 10 trials (each trial will run our training code to train the
+model from scratch), and it will run a maximum of 2 trials in parallel. We want it to
+n_layers
+tune two hyperparameters: the hyperparameter (an integer between 10 and
+100) and the momentum hyperparameter (a float between 0.1 and 1.0). The scaleType
+UNIT_LINEAR_SCALE
+argument specifies the prior for the hyperparameter value:
+means a flat prior (i.e., no a priori preference), while UNIT_LOG_SCALE says we have a
+prior belief that the optimal value lies closer to the max value (the other possible prior
+UNIT_REVERSE_LOG_SCALE
+is , when we believe the optimal value to be close to the min
+value).
+The n_layers and momentum arguments will be passed as command-line arguments
+to the training code, and of course it is expected to use them. The question is, how
+will the training code communicate the metric back to the AI Platform so that it can
+23 DanielGolovinetal.,“GoogleVizier:AServiceforBlack-BoxOptimization,”Proceedingsofthe23rdACM
+<i>SIGKDDInternationalConferenceonKnowledgeDiscoveryandDataMining(2017):1487–1495.</i>

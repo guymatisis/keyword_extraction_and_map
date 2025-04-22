@@ -1,0 +1,48 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            codings_size = 100                                        
+                                                                      
+            generator = keras.models.Sequential([                     
+               keras.layers.Dense(7 * 7 * 128, input_shape=[codings_size]),
+               keras.layers.Reshape([7, 7, 128]),                     
+               keras.layers.BatchNormalization(),                     
+               keras.layers.Conv2DTranspose(64, kernel_size=5, strides=2, padding="same",
+                                activation="selu"),                   
+               keras.layers.BatchNormalization(),                     
+               keras.layers.Conv2DTranspose(1, kernel_size=5, strides=2, padding="same",
+                                activation="tanh")                    
+            ])                                                        
+            discriminator = keras.models.Sequential([                 
+               keras.layers.Conv2D(64, kernel_size=5, strides=2, padding="same",
+                          activation=keras.layers.LeakyReLU(0.2),     
+                          input_shape=[28, 28, 1]),                   
+               keras.layers.Dropout(0.4),                             
+               keras.layers.Conv2D(128, kernel_size=5, strides=2, padding="same",
+                          activation=keras.layers.LeakyReLU(0.2)),    
+               keras.layers.Dropout(0.4),                             
+               keras.layers.Flatten(),                                
+               keras.layers.Dense(1, activation="sigmoid")            
+            ])                                                        
+            gan = keras.models.Sequential([generator, discriminator]) 
+          The generator takes codings of size 100, and it projects them to 6272 dimensions (7 *
+          7 * 128), and reshapes the result to get a 7 × 7 × 128 tensor. This tensor is batch nor‐
+          malized and fed to a transposed convolutional layer with a stride of 2, which upsam‐
+          ples it from 7 × 7 to 14 × 14 and reduces its depth from 128 to 64. The result is batch
+          normalized again and fed to another transposed convolutional layer with a stride of 2,
+          which upsamples it from 14 × 14 to 28 × 28 and reduces the depth from 64 to 1. This
+          layer uses the tanh activation function, so the outputs will range from –1 to 1. For this
+          reason, before training the GAN, we need to rescale the training set to that same
+          range. We also need to reshape it to add the channel dimension:
+            X_train = X_train.reshape(-1, 28, 28, 1) * 2. - 1. # reshape and rescale
+          The discriminator looks much like a regular CNN for binary classification, except
+          instead of using max pooling layers to downsample the image, we use strided convo‐
+          lutions (strides=2). Also note that we use the leaky ReLU activation function.
+          Overall, we respected the DCGAN guidelines, except we replaced the BatchNormali
+          zation layers in the discriminator with Dropout layers (otherwise training was unsta‐
+          ble in this case) and we replaced ReLU with SELU in the generator. Feel free to tweak
+          this architecture: you will see how sensitive it is to the hyperparameters (especially
+          the relative learning rates of the two networks).           
+          Lastly, to build the dataset, then compile and train this model, we use the exact same
+          code as earlier. After 50 epochs of training, the generator produces images like those

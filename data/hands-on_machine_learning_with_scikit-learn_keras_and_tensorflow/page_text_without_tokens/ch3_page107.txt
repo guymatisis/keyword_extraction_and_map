@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          instances with that target label). To do this, simply set average="weighted" in the
+          preceding code.4                                            
+                                                                      
+          Multioutput Classification                                  
+                                                                      
+          The last type of classification task we are going to discuss here is called multioutput–
+          multiclass classification (or simply multioutput classification). It is simply a generaliza‐
+          tion of multilabel classification where each label can be multiclass (i.e., it can have
+          more than two possible values).                             
+                                                                      
+          To illustrate this, let’s build a system that removes noise from images. It will take as
+          input a noisy digit image, and it will (hopefully) output a clean digit image, repre‐
+          sented as an array of pixel intensities, just like the MNIST images. Notice that the
+          classifier’s output is multilabel (one label per pixel) and each label can have multiple
+          values (pixel intensity ranges from 0 to 255). It is thus an example of a multioutput
+          classification system.                                      
+                   The line between classification and regression is sometimes blurry,
+                   such as in this example. Arguably, predicting pixel intensity is more
+                   akin to regression than to classification. Moreover, multioutput
+                   systems are not limited to classification tasks; you could even have
+                   a system that outputs multiple labels per instance, including both
+                   class labels and value labels.                     
+                                                                      
+          Let’s start by creating the training and test sets by taking the MNIST images and
+          adding noise to their pixel intensities with NumPy’s randint() function. The target
+          images will be the original images:                         
+            noise = np.random.randint(0, 100, (len(X_train), 784))    
+            X_train_mod = X_train + noise                             
+            noise = np.random.randint(0, 100, (len(X_test), 784))     
+            X_test_mod = X_test + noise                               
+            y_train_mod = X_train                                     
+            y_test_mod = X_test                                       
+          Let’s take a peek at an image from the test set (yes, we’re snooping on the test data, so
+          you should be frowning right now):                          
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          4 Scikit-Learn offers a few other averaging options and multilabel classifier metrics; see the documentation for
+           more details.                                              

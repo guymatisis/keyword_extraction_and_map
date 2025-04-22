@@ -1,46 +1,27 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 9-1. Classification (left) versus clustering (right) 
-                                                                      
-          Clustering is used in a wide variety of applications, including these:
-          For customer segmentation                                   
-            You can cluster your customers based on their purchases and their activity on
-            your website. This is useful to understand who your customers are and what they
-            need, so you can adapt your products and marketing campaigns to each segment.
-            For example, customer segmentation can be useful in recommender systems to
-            suggest content that other users in the same cluster enjoyed.
-                                                                      
-          For data analysis                                           
-            When you analyze a new dataset, it can be helpful to run a clustering algorithm,
-            and then analyze each cluster separately.                 
-          As a dimensionality reduction technique                     
-            Once a dataset has been clustered, it is usually possible to measure each instance’s
-            affinity with each cluster (affinity is any measure of how well an instance fits into
-            a cluster). Each instance’s feature vector x can then be replaced with the vector of
-            its cluster affinities. If there are k clusters, then this vector is k-dimensional. This
-            vector is typically much lower-dimensional than the original feature vector, but it
-            can preserve enough information for further processing.   
-                                                                      
-          For anomaly detection (also called outlier detection)       
-            Any instance that has a low affinity to all the clusters is likely to be an anomaly.
-            For example, if you have clustered the users of your website based on their
-            behavior, you can detect users with unusual behavior, such as an unusual number
-            of requests per second. Anomaly detection is particularly useful in detecting
-            defects in manufacturing, or for fraud detection.         
-          For semi-supervised learning                                
-            If you only have a few labels, you could perform clustering and propagate the
-            labels to all the instances in the same cluster. This technique can greatly increase
-                                                                      
+<i>Figure</i> <i>9-1.</i> <i>Classification</i> <i>(left)</i> <i>versus</i> <i>clustering</i> <i>(right)</i>
+Clustering is used in a wide variety of applications, including these:
+<i>For</i> <i>customer</i> <i>segmentation</i>
+You can cluster your customers based on their purchases and their activity on
+your website. This is useful to understand who your customers are and what they
+need, so you can adapt your products and marketing campaigns to each segment.
+For example, customer segmentation can be useful in <i>recommender</i> <i>systems</i> to
+suggest content that other users in the same cluster enjoyed.
+<i>For</i> <i>data</i> <i>analysis</i>
+When you analyze a new dataset, it can be helpful to run a clustering algorithm,
+and then analyze each cluster separately.
+<i>As</i> <i>a</i> <i>dimensionality</i> <i>reduction</i> <i>technique</i>
+Once a dataset has been clustered, it is usually possible to measure each instance’s
+<i>affinity</i> with each cluster (affinity is any measure of how well an instance fits into
+a cluster). Each instance’s feature vector <b>x</b> can then be replaced with the vector of
+its cluster affinities. If there are <i>k</i> clusters, then this vector is <i>k-dimensional.</i> This
+vector is typically much lower-dimensional than the original feature vector, but it
+can preserve enough information for further processing.
+<i>For</i> <i>anomaly</i> <i>detection</i> <i>(also</i> <i>called</i> <i>outlier</i> <i>detection)</i>
+Any instance that has a low affinity to all the clusters is likely to be an anomaly.
+For example, if you have clustered the users of your website based on their
+behavior, you can detect users with unusual behavior, such as an unusual number
+of requests per second. Anomaly detection is particularly useful in detecting
+defects in manufacturing, or for <i>fraud</i> <i>detection.</i>
+<i>For</i> <i>semi-supervised</i> <i>learning</i>
+If you only have a few labels, you could perform clustering and propagate the
+labels to all the instances in the same cluster. This technique can greatly increase

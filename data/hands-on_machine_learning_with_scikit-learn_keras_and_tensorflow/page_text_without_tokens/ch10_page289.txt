@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          The Multilayer Perceptron and Backpropagation               
+                                                                      
+          An MLP is composed of one (passthrough) input layer, one or more layers of TLUs,
+          called hidden layers, and one final layer of TLUs called the output layer (see
+          Figure 10-7). The layers close to the input layer are usually called the lower layers, and
+          the ones close to the outputs are usually called the upper layers. Every layer except the
+          output layer includes a bias neuron and is fully connected to the next layer.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 10-7. Architecture of a Multilayer Perceptron with two inputs, one hidden layer of
+          four neurons, and three output neurons (the bias neurons are shown here, but usually
+          they are implicit)                                          
+                                                                      
+                   The signal flows only in one direction (from the inputs to the out‐
+                   puts), so this architecture is an example of a feedforward neural net‐
+                   work (FNN).                                        
+                                                                      
+                                                                      
+          When an ANN contains a deep stack of hidden layers,9 it is called a deep neural net‐
+          work (DNN). The field of Deep Learning studies DNNs, and more generally models
+          containing deep stacks of computations. Even so, many people talk about Deep
+          Learning whenever neural networks are involved (even shallow ones).
+                                                                      
+          For many years researchers struggled to find a way to train MLPs, without success.
+          But in 1986, David Rumelhart, Geoffrey Hinton, and Ronald Williams published a
+                                                                      
+                                                                      
+                                                                      
+          9 In the 1990s, an ANN with more than two hidden layers was considered deep. Nowadays, it is common to see
+           ANNs with dozens of layers, or even hundreds, so the definition of “deep” is quite fuzzy.

@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          work quite well too. We will discuss both of these possibilities, and we will finish this
+          chapter by implementing a WaveNet: this is a CNN architecture capable of handling
+          sequences of tens of thousands of time steps. In Chapter 16, we will continue to
+          explore RNNs and see how to use them for natural language processing, along with
+          more recent architectures based on attention mechanisms. Let’s get started!
+                                                                      
+          Recurrent Neurons and Layers                                
+                                                                      
+          Up to now we have focused on feedforward neural networks, where the activations
+          flow only in one direction, from the input layer to the output layer (a few exceptions
+          are discussed in Appendix E). A recurrent neural network looks very much like a
+          feedforward neural network, except it also has connections pointing backward. Let’s
+          look at the simplest possible RNN, composed of one neuron receiving inputs, pro‐
+          ducing an output, and sending that output back to itself, as shown in Figure 15-1
+          (left). At each time step t (also called a frame), this recurrent neuron receives the inputs
+          x as well as its own output from the previous time step, y . Since there is no previ‐
+           (t)                              (t–1)                     
+          ous output at the first time step, it is generally set to 0. We can represent this tiny net‐
+          work against the time axis, as shown in Figure 15-1 (right). This is called unrolling the
+          network through time (it’s the same recurrent neuron represented once per time step).
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 15-1. A recurrent neuron (left) unrolled through time (right)
+                                                                      
+          You can easily create a layer of recurrent neurons. At each time step t, every neuron
+          receives both the input vector x and the output vector from the previous time step
+                             (t)                                      
+          y , as shown in Figure 15-2. Note that both the inputs and outputs are vectors now
+           (t–1)                                                      
+          (when there was just a single neuron, the output was a scalar).
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

@@ -1,46 +1,27 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          class). In between these extremes, the classifier is unsure. However, if you ask it to
-          predict the class (using the predict() method rather than the predict_proba()
-          method), it will return whichever class is the most likely. Therefore, there is a decision
-          boundary at around 1.6 cm where both probabilities are equal to 50%: if the petal
-          width is higher than 1.6 cm, the classifier will predict that the flower is an Iris virgin‐
-          ica, and otherwise it will predict that it is not (even if it is not very confident):
-                                                                      
-            >>> log_reg.predict([[1.7], [1.5]])                       
-            array([1, 0])                                             
-          Figure 4-24 shows the same dataset, but this time displaying two features: petal width
-          and length. Once trained, the Logistic Regression classifier can, based on these two
-          features, estimate the probability that a new flower is an Iris virginica. The dashed line
-          represents the points where the model estimates a 50% probability: this is the model’s
-          decision boundary. Note that it is a linear boundary.16 Each parallel line represents the
-          points where the model outputs a specific probability, from 15% (bottom left) to 90%
-          (top right). All the flowers beyond the top-right line have an over 90% chance of
-          being Iris virginica, according to the model.               
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 4-24. Linear decision boundary                       
-                                                                      
-          Just like the other linear models, Logistic Regression models can be regularized using
-          ℓ or ℓ penalties. Scikit-Learn actually adds an ℓ penalty by default.
-           1 2                        2                               
-                   The hyperparameter controlling the regularization strength of a
-                   Scikit-Learn LogisticRegression model is not alpha (as in other
-                   linear models), but its inverse: C. The higher the value of C, the less
-                   the model is regularized.                          
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          16 It is the the set of points x such that θ0 + θ1x1 + θ2x2 = 0, which defines a straight line.
+class). In between these extremes, the classifier is unsure. However, if you ask it to
+predict the class (using the predict() method rather than the predict_proba()
+method), it will return whichever class is the most likely. Therefore, there is a <i>decision</i>
+<i>boundary</i> at around 1.6 cm where both probabilities are equal to 50%: if the petal
+width is higher than 1.6 cm, the classifier will predict that the flower is an <i>Iris</i> <i>virgin‐</i>
+<i>ica,</i> and otherwise it will predict that it is not (even if it is not very confident):
+<b>>>></b> log_reg.predict([[1.7], [1.5]])
+array([1, 0])
+Figure 4-24 shows the same dataset, but this time displaying two features: petal width
+and length. Once trained, the Logistic Regression classifier can, based on these two
+features, estimate the probability that a new flower is an <i>Iris</i> <i>virginica.</i> The dashed line
+represents the points where the model estimates a 50% probability: this is the model’s
+boundary.16
+decision boundary. Note that it is a linear Each parallel line represents the
+points where the model outputs a specific probability, from 15% (bottom left) to 90%
+(top right). All the flowers beyond the top-right line have an over 90% chance of
+being <i>Iris</i> <i>virginica,</i> according to the model.
+<i>Figure</i> <i>4-24.</i> <i>Linear</i> <i>decision</i> <i>boundary</i>
+Just like the other linear models, Logistic Regression models can be regularized using
+ℓ or ℓ penalties. Scikit-Learn actually adds an ℓ penalty by default.
+1 2 2
+The hyperparameter controlling the regularization strength of a
+Scikit-Learn LogisticRegression model is not alpha (as in other
+linear models), but its inverse: C. The higher the value of C, the <i>less</i>
+the model is regularized.
+16 Itisthethesetofpointsxsuchthatθ +θ <i>x</i> +θ <i>x</i> =0,whichdefinesastraightline.
+0 1 1 2 2

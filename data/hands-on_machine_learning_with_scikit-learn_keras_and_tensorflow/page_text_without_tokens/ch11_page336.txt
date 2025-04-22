@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          eter). PReLU was reported to strongly outperform ReLU on large image datasets, but
+          on smaller datasets it runs the risk of overfitting the training set.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 11-2. Leaky ReLU: like ReLU, but with a small slope for negative values
+                                                                      
+          Last but not least, a 2015 paper by Djork-Arné Clevert et al.6 proposed a new activa‐
+          tion function called the exponential linear unit (ELU) that outperformed all the ReLU
+          variants in the authors’ experiments: training time was reduced, and the neural net‐
+          work performed better on the test set. Figure 11-3 graphs the function, and Equation
+          11-2 shows its definition.                                  
+            Equation 11-2. ELU activation function                    
+                                                                      
+                   α exp z −1 if z<0                                  
+            ELU z =                                                   
+               α   z        if z≥0                                    
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 11-3. ELU activation function                        
+                                                                      
+                                                                      
+          6 Djork-Arné Clevert et al., “Fast and Accurate Deep Network Learning by Exponential Linear Units (ELUs),”
+           Proceedings of the International Conference on Learning Representations (2016).

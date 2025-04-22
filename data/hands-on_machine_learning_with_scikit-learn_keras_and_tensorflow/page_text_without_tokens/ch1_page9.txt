@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 1-6. A regression problem: predict a value, given an input feature (there are usu‐
+          ally multiple input features, and sometimes multiple output values)
+                                                                      
+          Here are some of the most important supervised learning algorithms (covered in this
+          book):                                                      
+                                                                      
+           • k-Nearest Neighbors                                      
+           • Linear Regression                                        
+           • Logistic Regression                                      
+                                                                      
+           • Support Vector Machines (SVMs)                           
+           • Decision Trees and Random Forests                        
+           • Neural networks2                                         
+                                                                      
+                                                                      
+          Unsupervised learning                                       
+          In unsupervised learning, as you might guess, the training data is unlabeled
+          (Figure 1-7). The system tries to learn without a teacher.  
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          2 Some neural network architectures can be unsupervised, such as autoencoders and restricted Boltzmann
+           machines. They can also be semisupervised, such as in deep belief networks and unsupervised pretraining.

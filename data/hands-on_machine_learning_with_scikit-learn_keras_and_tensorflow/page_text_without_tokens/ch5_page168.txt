@@ -1,0 +1,53 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          The general problem formulation is given by Equation 5-5.   
+                                                                      
+            Equation 5-5. Quadratic Programming problem               
+                                                                      
+                    1 ⊺     ⊺                                         
+            Minimize p Hp + f p                                       
+                    2                                                 
+               p                                                      
+            subject to Ap≤b                                           
+                    p is an n ‐dimensional vector (n =number of parameters),
+                          p             p                             
+                    H is an n ×n matrix,                              
+                          p  p                                        
+               where f is an n ‐dimensional vector,                   
+                          p                                           
+                    A is an n ×n matrix (n =number of constraints),   
+                          c  p      c                                 
+                    b is an n ‐dimensional vector.                    
+                          c                                           
+          Note that the expression A p ≤ b defines n constraints: p⊺ a(i) ≤ b(i) for i = 1, 2, ⋯, n,
+                                   c                       c          
+          where a(i) is the vector containing the elements of the ith row of A and b(i) is the ith
+          element of b.                                               
+          You can easily verify that if you set the QP parameters in the following way, you get
+          the hard margin linear SVM classifier objective:            
+           • n = n + 1, where n is the number of features (the +1 is for the bias term).
+             p                                                        
+           • n = m, where m is the number of training instances.      
+             c                                                        
+           • H is the n × n identity matrix, except with a zero in the top-left cell (to ignore
+                  p  p                                                
+            the bias term).                                           
+           • f = 0, an n -dimensional vector full of 0s.              
+                  p                                                   
+           • b = –1, an n-dimensional vector full of –1s.             
+                   c                                                  
+           • a(i) = –t(i) x˙(i), where x˙(i) is equal to x(i) with an extra bias feature x˙ = 1.
+                                                 0                    
+          One way to train a hard margin linear SVM classifier is to use an off-the-shelf QP
+          solver and pass it the preceding parameters. The resulting vector p will contain the
+          bias term b = p and the feature weights w = p for i = 1, 2, ⋯, n. Similarly, you can
+                   0               i  i                               
+          use a QP solver to solve the soft margin problem (see the exercises at the end of the
+          chapter).                                                   
+          To use the kernel trick, we are going to look at a different constrained optimization
+          problem.                                                    
+          The Dual Problem                                            
+          Given a constrained optimization problem, known as the primal problem, it is possi‐
+          ble to express a different but closely related problem, called its dual problem. The

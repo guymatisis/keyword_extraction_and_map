@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 8-2. A 3D dataset lying close to a 2D subspace       
+                                                                      
+          Notice that all training instances lie close to a plane: this is a lower-dimensional (2D)
+          subspace of the high-dimensional (3D) space. If we project every training instance
+          perpendicularly onto this subspace (as represented by the short lines connecting the
+          instances to the plane), we get the new 2D dataset shown in Figure 8-3. Ta-da! We
+          have just reduced the dataset’s dimensionality from 3D to 2D. Note that the axes cor‐
+          respond to new features z and z (the coordinates of the projections on the plane).
+                         1   2                                        
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 8-3. The new 2D dataset after projection             
+                                                                      
+                                                                      
+                                                                      

@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 8-6. The decision boundary may not always be simpler with lower dimensions
+                                                                      
+          PCA                                                         
+                                                                      
+          Principal Component Analysis (PCA) is by far the most popular dimensionality reduc‐
+          tion algorithm. First it identifies the hyperplane that lies closest to the data, and then
+          it projects the data onto it, just like in Figure 8-2.      
+                                                                      
+          Preserving the Variance                                     
+                                                                      
+          Before you can project the training set onto a lower-dimensional hyperplane, you
+          first need to choose the right hyperplane. For example, a simple 2D dataset is repre‐
+          sented on the left in Figure 8-7, along with three different axes (i.e., 1D hyperplanes).
+          On the right is the result of the projection of the dataset onto each of these axes. As
+          you can see, the projection onto the solid line preserves the maximum variance, while
+          the projection onto the dotted line preserves very little variance and the projection
+          onto the dashed line preserves an intermediate amount of variance.
+                                                                      
+                                                                      
+                                                                      
+                                                                      

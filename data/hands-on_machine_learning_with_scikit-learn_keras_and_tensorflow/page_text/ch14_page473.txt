@@ -1,46 +1,9 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 14-17. ResNet architecture                           
-                                                                      
-          Note that the number of feature maps is doubled every few residual units, at the same
-          time as their height and width are halved (using a convolutional layer with stride 2).
-          When this happens, the inputs cannot be added directly to the outputs of the residual
-          unit because they don’t have the same shape (for example, this problem affects the
-          skip connection represented by the dashed arrow in Figure 14-17). To solve this prob‐
-          lem, the inputs are passed through a 1 × 1 convolutional layer with stride 2 and the
-          right number of output feature maps (see Figure 14-18).     
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 14-18. Skip connection when changing feature map size and depth
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+<i>Figure</i> <i>14-17.</i> <i>ResNet</i> <i>architecture</i>
+Note that the number of feature maps is doubled every few residual units, at the same
+time as their height and width are halved (using a convolutional layer with stride 2).
+When this happens, the inputs cannot be added directly to the outputs of the residual
+unit because they don’t have the same shape (for example, this problem affects the
+skip connection represented by the dashed arrow in Figure 14-17). To solve this prob‐
+lem, the inputs are passed through a 1 × 1 convolutional layer with stride 2 and the
+right number of output feature maps (see Figure 14-18).
+<i>Figure</i> <i>14-18.</i> <i>Skip</i> <i>connection</i> <i>when</i> <i>changing</i> <i>feature</i> <i>map</i> <i>size</i> <i>and</i> <i>depth</i>

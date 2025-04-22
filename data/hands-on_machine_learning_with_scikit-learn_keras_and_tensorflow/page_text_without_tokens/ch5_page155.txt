@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 5-3. Hard margin sensitivity to outliers             
+                                                                      
+          To avoid these issues, use a more flexible model. The objective is to find a good bal‐
+          ance between keeping the street as large as possible and limiting the margin violations
+          (i.e., instances that end up in the middle of the street or even on the wrong side). This
+          is called soft margin classification.                       
+          When creating an SVM model using Scikit-Learn, we can specify a number of hyper‐
+          parameters. C is one of those hyperparameters. If we set it to a low value, then we end
+          up with the model on the left of Figure 5-4. With a high value, we get the model on
+          the right. Margin violations are bad. It’s usually better to have few of them. However,
+          in this case the model on the left has a lot of margin violations but will probably gen‐
+          eralize better.                                             
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 5-4. Large margin (left) versus fewer margin violations (right)
+                                                                      
+                   If your SVM model is overfitting, you can try regularizing it by
+                   reducing C.                                        
+                                                                      
+                                                                      
+                                                                      
+          The following Scikit-Learn code loads the iris dataset, scales the features, and then
+          trains a linear SVM model (using the LinearSVC class with C=1 and the hinge loss
+          function, described shortly) to detect Iris virginica flowers:
+                                                                      
+            import numpy as np                                        
+            from sklearn import datasets                              
+            from sklearn.pipeline import Pipeline                     

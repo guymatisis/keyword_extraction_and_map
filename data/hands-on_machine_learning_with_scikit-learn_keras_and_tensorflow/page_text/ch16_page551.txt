@@ -1,46 +1,33 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                   If the input sentence is n words long, and assuming the output sen‐
-                   tence is about as long, then this model will need to compute about
-                   n2 weights. Fortunately, this quadratic computational complexity is
-                   still tractable because even long sentences don’t have thousands of
-                   words.                                             
-                                                                      
-          Another common attention mechanism was proposed shortly after, in a 2015 paper16
-          by Minh-Thang Luong et al. Because the goal of the attention mechanism is to meas‐
-          ure the similarity between one of the encoder’s outputs and the decoder’s previous
-          hidden state, the authors proposed to simply compute the dot product (see Chapter 4)
-          of these two vectors, as this is often a fairly good similarity measure, and modern
-          hardware can compute it much faster. For this to be possible, both vectors must have
-          the same dimensionality. This is called Luong attention (again, after the paper’s first
-          author), or sometimes multiplicative attention. The dot product gives a score, and all
-          the scores (at a given decoder time step) go through a softmax layer to give the final
-          weights, just like in Bahdanau attention. Another simplification they proposed was to
-          use the decoder’s hidden state at the current time step rather than at the previous time
-          step (i.e., h ) rather than h ), then to use the output of the attention mechanism
-                 (t)      (t–1)                                       
-          (noted  ) directly to compute the decoder’s predictions (rather than using it to
-                t                                                     
-          compute the decoder’s current hidden state). They also proposed a variant of the dot
-          product mechanism where the encoder outputs first go through a linear transforma‐
-          tion (i.e., a time-distributed Dense layer without a bias term) before the dot products
-          are computed. This is called the “general” dot product approach. They compared both
-          dot product approaches to the concatenative attention mechanism (adding a rescaling
-          parameter vector v), and they observed that the dot product variants performed bet‐
-          ter than concatenative attention. For this reason, concatenative attention is much less
-          used now. The equations for these three attention mechanisms are summarized in
-          Equation 16-1.                                              
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          16 Minh-Thang Luong et al., “Effective Approaches to Attention-Based Neural Machine Translation,” Proceed‐
-           ings of the 2015 Conference on Empirical Methods in Natural Language Processing (2015): 1412–1421.
+If the input sentence is <i>n</i> words long, and assuming the output sen‐
+tence is about as long, then this model will need to compute about
+<i>n2</i> weights. Fortunately, this quadratic computational complexity is
+still tractable because even long sentences don’t have thousands of
+words.
+Another common attention mechanism was proposed shortly after, in a 2015 paper16
+by Minh-Thang Luong et al. Because the goal of the attention mechanism is to meas‐
+ure the similarity between one of the encoder’s outputs and the decoder’s previous
+hidden state, the authors proposed to simply compute the <i>dot</i> <i>product</i> (see Chapter 4)
+of these two vectors, as this is often a fairly good similarity measure, and modern
+hardware can compute it much faster. For this to be possible, both vectors must have
+the same dimensionality. This is called <i>Luong</i> <i>attention</i> (again, after the paper’s first
+author), or sometimes <i>multiplicative</i> <i>attention.</i> The dot product gives a score, and all
+the scores (at a given decoder time step) go through a softmax layer to give the final
+weights, just like in Bahdanau attention. Another simplification they proposed was to
+use the decoder’s hidden state at the current time step rather than at the previous time
+step (i.e., <b>h</b> ) rather than <b>h</b> ), then to use the output of the attention mechanism
+(t) (t–1)
+
+(noted ) directly to compute the decoder’s predictions (rather than using it to
+<i>t</i>
+compute the decoder’s current hidden state). They also proposed a variant of the dot
+product mechanism where the encoder outputs first go through a linear transforma‐
+Dense
+tion (i.e., a time-distributed layer without a bias term) before the dot products
+are computed. This is called the “general” dot product approach. They compared both
+dot product approaches to the concatenative attention mechanism (adding a rescaling
+parameter vector <b>v),</b> and they observed that the dot product variants performed bet‐
+ter than concatenative attention. For this reason, concatenative attention is much less
+used now. The equations for these three attention mechanisms are summarized in
+Equation 16-1.
+16 Minh-ThangLuongetal.,“EffectiveApproachestoAttention-BasedNeuralMachineTranslation,”Proceed‐
+<i>ingsofthe2015ConferenceonEmpiricalMethodsinNaturalLanguageProcessing(2015):1412–1421.</i>

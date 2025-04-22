@@ -1,46 +1,26 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                   CHAPTER 7          
-                                                                      
-              Ensemble    Learning  and  Random    Forests            
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Suppose you pose a complex question to thousands of random people, then aggregate
-          their answers. In many cases you will find that this aggregated answer is better than
-          an expert’s answer. This is called the wisdom of the crowd. Similarly, if you aggregate
-          the predictions of a group of predictors (such as classifiers or regressors), you will
-          often get better predictions than with the best individual predictor. A group of pre‐
-          dictors is called an ensemble; thus, this technique is called Ensemble Learning, and an
-          Ensemble Learning algorithm is called an Ensemble method.   
-          As an example of an Ensemble method, you can train a group of Decision Tree classi‐
-          fiers, each on a different random subset of the training set. To make predictions, you
-          obtain the predictions of all the individual trees, then predict the class that gets the
-          most votes (see the last exercise in Chapter 6). Such an ensemble of Decision Trees is
-          called a Random Forest, and despite its simplicity, this is one of the most powerful
-          Machine Learning algorithms available today.                
-          As discussed in Chapter 2, you will often use Ensemble methods near the end of a
-          project, once you have already built a few good predictors, to combine them into an
-          even better predictor. In fact, the winning solutions in Machine Learning competi‐
-          tions often involve several Ensemble methods (most famously in the Netflix Prize
-          competition).                                               
-                                                                      
-          In this chapter we will discuss the most popular Ensemble methods, including bag‐
-          ging, boosting, and stacking. We will also explore Random Forests.
-          Voting Classifiers                                          
-                                                                      
-          Suppose you have trained a few classifiers, each one achieving about 80% accuracy.
-          You may have a Logistic Regression classifier, an SVM classifier, a Random Forest
-          classifier, a K-Nearest Neighbors classifier, and perhaps a few more (see Figure 7-1).
-                                                                      
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>7</b></largefont></header>
+<header><largefont><b>Ensemble</b></largefont> <largefont><b>Learning</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Random</b></largefont> <largefont><b>Forests</b></largefont></header>
+Suppose you pose a complex question to thousands of random people, then aggregate
+their answers. In many cases you will find that this aggregated answer is better than
+an expert’s answer. This is called the <i>wisdom</i> <i>of</i> <i>the</i> <i>crowd.</i> Similarly, if you aggregate
+the predictions of a group of predictors (such as classifiers or regressors), you will
+often get better predictions than with the best individual predictor. A group of pre‐
+dictors is called an <i>ensemble;</i> thus, this technique is called <i>Ensemble</i> <i>Learning,</i> and an
+Ensemble Learning algorithm is called an <i>Ensemble</i> <i>method.</i>
+As an example of an Ensemble method, you can train a group of Decision Tree classi‐
+fiers, each on a different random subset of the training set. To make predictions, you
+obtain the predictions of all the individual trees, then predict the class that gets the
+most votes (see the last exercise in Chapter 6). Such an ensemble of Decision Trees is
+called a <i>Random</i> <i>Forest,</i> and despite its simplicity, this is one of the most powerful
+Machine Learning algorithms available today.
+As discussed in Chapter 2, you will often use Ensemble methods near the end of a
+project, once you have already built a few good predictors, to combine them into an
+even better predictor. In fact, the winning solutions in Machine Learning competi‐
+tions often involve several Ensemble methods (most famously in the Netflix Prize
+competition).
+In this chapter we will discuss the most popular Ensemble methods, including <i>bag‐</i>
+<i>ging,</i> <i>boosting,</i> and <i>stacking.</i> We will also explore Random Forests.
+<header><largefont><b>Voting</b></largefont> <largefont><b>Classifiers</b></largefont></header>
+Suppose you have trained a few classifiers, each one achieving about 80% accuracy.
+You may have a Logistic Regression classifier, an SVM classifier, a Random Forest
+classifier, a K-Nearest Neighbors classifier, and perhaps a few more (see Figure 7-1).

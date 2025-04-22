@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          An SE block analyzes the output of the unit it is attached to, focusing exclusively on
+          the depth dimension (it does not look for any spatial pattern), and it learns which fea‐
+          tures are usually most active together. It then uses this information to recalibrate the
+          feature maps, as shown in Figure 14-21. For example, an SE block may learn that
+          mouths, noses, and eyes usually appear together in pictures: if you see a mouth and a
+          nose, you should expect to see eyes as well. So if the block sees a strong activation in
+          the mouth and nose feature maps, but only mild activation in the eye feature map, it
+          will boost the eye feature map (more accurately, it will reduce irrelevant feature
+          maps). If the eyes were somewhat confused with something else, this feature map
+          recalibration will help resolve the ambiguity.              
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 14-21. An SE block performs feature map recalibration
+                                                                      
+          An SE block is composed of just three layers: a global average pooling layer, a hidden
+          dense layer using the ReLU activation function, and a dense output layer using the
+          sigmoid activation function (see Figure 14-22).             
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 14-22. SE block architecture                         
+                                                                      
+          As earlier, the global average pooling layer computes the mean activation for each fea‐
+          ture map: for example, if its input contains 256 feature maps, it will output 256
+                                                                      

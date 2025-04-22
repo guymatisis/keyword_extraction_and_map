@@ -1,46 +1,42 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          it is fed to the model. And suppose you also want to deploy the model to Tensor‐
-          Flow.js so that it runs in a web browser? Once again, you will need to write some pre‐
-          processing code. This can become a maintenance nightmare: whenever you want to
-          change the preprocessing logic, you will need to update your Apache Beam code,
-          your mobile app code, and your JavaScript code. This is not only time-consuming,
-          but also error-prone: you may end up with subtle differences between the preprocess‐
-          ing operations performed before training and the ones performed in your app or in
-          the browser. This training/serving skew will lead to bugs or degraded performance.
-                                                                      
-          One improvement would be to take the trained model (trained on data that was pre‐
-          processed by your Apache Beam or Spark code) and, before deploying it to your app
-          or the browser, add extra preprocessing layers to take care of preprocessing on the fly.
-          That’s definitely better, since now you just have two versions of your preprocessing
-          code: the Apache Beam or Spark code, and the preprocessing layers’ code.
-          But what if you could define your preprocessing operations just once? This is what
-          TF Transform was designed for. It is part of TensorFlow Extended (TFX), an end-to-
-          end platform for productionizing TensorFlow models. First, to use a TFX component
-          such as TF Transform, you must install it; it does not come bundled with TensorFlow.
-          You then define your preprocessing function just once (in Python), by using TF
-          Transform functions for scaling, bucketizing, and more. You can also use any Tensor‐
-          Flow operation you need. Here is what this preprocessing function might look like if
-          we just had two features:                                   
-            import tensorflow_transform as tft                        
-                                                                      
-            def preprocess(inputs): # inputs = a batch of input features
-               median_age = inputs["housing_median_age"]              
-               ocean_proximity = inputs["ocean_proximity"]            
-               standardized_age = tft.scale_to_z_score(median_age)    
-               ocean_proximity_id = tft.compute_and_apply_vocabulary(ocean_proximity)
-               return {                                               
-                 "standardized_median_age": standardized_age,         
-                 "ocean_proximity_id": ocean_proximity_id             
-               }                                                      
-          Next, TF Transform lets you apply this preprocess() function to the whole training
-          set using Apache Beam (it provides an AnalyzeAndTransformDataset class that you
-          can use for this purpose in your Apache Beam pipeline). In the process, it will also
-          compute all the necessary statistics over the whole training set: in this example, the
-          mean and standard deviation of the housing_median_age feature, and the vocabulary
-          for the ocean_proximity feature. The components that compute these statistics are
-          called analyzers.                                           
-          Importantly, TF Transform will also generate an equivalent TensorFlow Function that
-          you can plug into the model you deploy. This TF Function includes some constants
+it is fed to the model. And suppose you also want to deploy the model to Tensor‐
+Flow.js so that it runs in a web browser? Once again, you will need to write some pre‐
+processing code. This can become a maintenance nightmare: whenever you want to
+change the preprocessing logic, you will need to update your Apache Beam code,
+your mobile app code, and your JavaScript code. This is not only time-consuming,
+but also error-prone: you may end up with subtle differences between the preprocess‐
+ing operations performed before training and the ones performed in your app or in
+the browser. This <i>training/serving</i> <i>skew</i> will lead to bugs or degraded performance.
+One improvement would be to take the trained model (trained on data that was pre‐
+processed by your Apache Beam or Spark code) and, before deploying it to your app
+or the browser, add extra preprocessing layers to take care of preprocessing on the fly.
+That’s definitely better, since now you just have two versions of your preprocessing
+code: the Apache Beam or Spark code, and the preprocessing layers’ code.
+But what if you could define your preprocessing operations just once? This is what
+TF Transform was designed for. It is part of TensorFlow Extended (TFX), an end-to-
+end platform for productionizing TensorFlow models. First, to use a TFX component
+such as TF Transform, you must install it; it does not come bundled with TensorFlow.
+You then define your preprocessing function just once (in Python), by using TF
+Transform functions for scaling, bucketizing, and more. You can also use any Tensor‐
+Flow operation you need. Here is what this preprocessing function might look like if
+we just had two features:
+<b>import</b> <b>tensorflow_transform</b> <b>as</b> <b>tft</b>
+<b>def</b> preprocess(inputs): <i>#</i> <i>inputs</i> <i>=</i> <i>a</i> <i>batch</i> <i>of</i> <i>input</i> <i>features</i>
+median_age = inputs["housing_median_age"]
+ocean_proximity = inputs["ocean_proximity"]
+standardized_age = tft.scale_to_z_score(median_age)
+ocean_proximity_id = tft.compute_and_apply_vocabulary(ocean_proximity)
+<b>return</b> {
+"standardized_median_age": standardized_age,
+"ocean_proximity_id": ocean_proximity_id
+}
+Next, TF Transform lets you apply this preprocess() function to the whole training
+AnalyzeAndTransformDataset
+set using Apache Beam (it provides an class that you
+can use for this purpose in your Apache Beam pipeline). In the process, it will also
+compute all the necessary statistics over the whole training set: in this example, the
+housing_median_age
+mean and standard deviation of the feature, and the vocabulary
+for the ocean_proximity feature. The components that compute these statistics are
+called <i>analyzers.</i>
+Importantly, TF Transform will also generate an equivalent TensorFlow Function that
+you can plug into the model you deploy. This TF Function includes some constants

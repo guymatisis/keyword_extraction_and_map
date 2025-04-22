@@ -1,47 +1,47 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          probably overfitting the training set (or there is a bug, such as a data mismatch
-          between the training set and the validation set).           
-                                                                      
-          And that’s it! The neural network is trained.15 At each epoch during training, Keras
-          displays the number of instances processed so far (along with a progress bar), the
-          mean training time per sample, and the loss and accuracy (or any other extra metrics
-          you asked for) on both the training set and the validation set. You can see that the
-          training loss went down, which is a good sign, and the validation accuracy reached
-          89.26% after 30 epochs. That’s not too far from the training accuracy, so there does
-          not seem to be much overfitting going on.                   
-                                                                      
-                   Instead of passing a validation set using the validation_data
-                   argument, you could set validation_split to the ratio of the
-                   training set that you want Keras to use for validation. For example,
-                   validation_split=0.1 tells Keras to use the last 10% of the data
-                   (before shuffling) for validation.                 
-          If the training set was very skewed, with some classes being overrepresented and oth‐
-          ers underrepresented, it would be useful to set the class_weight argument when
-          calling the fit() method, which would give a larger weight to underrepresented
-          classes and a lower weight to overrepresented classes. These weights would be used by
-          Keras when computing the loss. If you need per-instance weights, set the sam
-          ple_weight argument (if both class_weight and sample_weight are provided, Keras
-          multiplies them). Per-instance weights could be useful if some instances were labeled
-          by experts while others were labeled using a crowdsourcing platform: you might want
-          to give more weight to the former. You can also provide sample weights (but not class
-          weights) for the validation set by adding them as a third item in the validation_data
-          tuple.                                                      
-                                                                      
-          The fit() method returns a History object containing the training parameters
-          (history.params), the list of epochs it went through (history.epoch), and most
-          importantly a dictionary (history.history) containing the loss and extra metrics it
-          measured at the end of each epoch on the training set and on the validation set (if
-          any). If you use this dictionary to create a pandas DataFrame and call its plot()
-          method, you get the learning curves shown in Figure 10-12:  
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          15 If your training or validation data does not match the expected shape, you will get an exception. This is per‐
-           haps the most common error, so you should get familiar with the error message. The message is actually quite
-           clear: for example, if you try to train this model with an array containing flattened images
-           (X_train.reshape(-1, 784)), then you will get the following exception: “ValueError: Error when checking
-           input: expected flatten_input to have 3 dimensions, but got array with shape (60000, 784).”
+probably overfitting the training set (or there is a bug, such as a data mismatch
+between the training set and the validation set).
+And that’s it! The neural network is trained. 15 At each epoch during training, Keras
+displays the number of instances processed so far (along with a progress bar), the
+mean training time per sample, and the loss and accuracy (or any other extra metrics
+you asked for) on both the training set and the validation set. You can see that the
+training loss went down, which is a good sign, and the validation accuracy reached
+89.26% after 30 epochs. That’s not too far from the training accuracy, so there does
+not seem to be much overfitting going on.
+validation_data
+Instead of passing a validation set using the
+validation_split
+argument, you could set to the ratio of the
+training set that you want Keras to use for validation. For example,
+validation_split=0.1 tells Keras to use the last 10% of the data
+(before shuffling) for validation.
+If the training set was very skewed, with some classes being overrepresented and oth‐
+class_weight
+ers underrepresented, it would be useful to set the argument when
+fit()
+calling the method, which would give a larger weight to underrepresented
+classes and a lower weight to overrepresented classes. These weights would be used by
+sam
+Keras when computing the loss. If you need per-instance weights, set the
+ple_weight class_weight sample_weight
+argument (if both and are provided, Keras
+multiplies them). Per-instance weights could be useful if some instances were labeled
+by experts while others were labeled using a crowdsourcing platform: you might want
+to give more weight to the former. You can also provide sample weights (but not class
+validation_data
+weights) for the validation set by adding them as a third item in the
+tuple.
+fit() History
+The method returns a object containing the training parameters
+history.params history.epoch
+( ), the list of epochs it went through ( ), and most
+importantly a dictionary ( history.history ) containing the loss and extra metrics it
+measured at the end of each epoch on the training set and on the validation set (if
+plot()
+any). If you use this dictionary to create a pandas DataFrame and call its
+method, you get the learning curves shown in Figure 10-12:
+15 Ifyourtrainingorvalidationdatadoesnotmatchtheexpectedshape,youwillgetanexception.Thisisper‐
+hapsthemostcommonerror,soyoushouldgetfamiliarwiththeerrormessage.Themessageisactuallyquite
+clear:forexample,ifyoutrytotrainthismodelwithanarraycontainingflattenedimages
+X_train.reshape(-1, 784)
+( ),thenyouwillgetthefollowingexception:“ValueError:Errorwhenchecking
+input:expectedflatten_inputtohave3dimensions,butgotarraywithshape(60000,784).”

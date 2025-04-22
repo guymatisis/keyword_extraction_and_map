@@ -1,46 +1,37 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Scikit-Learn uses a multiclass version of AdaBoost called SAMME16 (which stands for
-          Stagewise Additive Modeling using a Multiclass Exponential loss function). When there
-          are just two classes, SAMME is equivalent to AdaBoost. If the predictors can estimate
-          class probabilities (i.e., if they have a predict_proba() method), Scikit-Learn can use
-          a variant of SAMME called SAMME.R (the R stands for “Real”), which relies on class
-          probabilities rather than predictions and generally performs better.
-                                                                      
-          The following code trains an AdaBoost classifier based on 200 Decision Stumps using
-          Scikit-Learn’s AdaBoostClassifier class (as you might expect, there is also an Ada
-          BoostRegressor class). A Decision Stump is a Decision Tree with max_depth=1—in
-          other words, a tree composed of a single decision node plus two leaf nodes. This is
-          the default base estimator for the AdaBoostClassifier class:
-            from sklearn.ensemble import AdaBoostClassifier           
-                                                                      
-            ada_clf = AdaBoostClassifier(                             
-               DecisionTreeClassifier(max_depth=1), n_estimators=200, 
-               algorithm="SAMME.R", learning_rate=0.5)                
-            ada_clf.fit(X_train, y_train)                             
-                   If your AdaBoost ensemble is overfitting the training set, you can
-                   try reducing the number of estimators or more strongly regulariz‐
-                   ing the base estimator.                            
-                                                                      
-                                                                      
-          Gradient Boosting                                           
-                                                                      
-          Another very popular boosting algorithm is Gradient Boosting.17 Just like AdaBoost,
-          Gradient Boosting works by sequentially adding predictors to an ensemble, each one
-          correcting its predecessor. However, instead of tweaking the instance weights at every
-          iteration like AdaBoost does, this method tries to fit the new predictor to the residual
-          errors made by the previous predictor.                      
-          Let’s go through a simple regression example, using Decision Trees as the base predic‐
-          tors (of course, Gradient Boosting also works great with regression tasks). This is
-          called Gradient Tree Boosting, or Gradient Boosted Regression Trees (GBRT). First, let’s
-          fit a DecisionTreeRegressor to the training set (for example, a noisy quadratic train‐
-          ing set):                                                   
-                                                                      
-                                                                      
-                                                                      
-          16 For more details, see Ji Zhu et al., “Multi-Class AdaBoost,” Statistics and Its Interface 2, no. 3 (2009): 349–360.
-          17 Gradient Boosting was first introduced in Leo Breiman’s 1997 paper “Arcing the Edge” and was further devel‐
-           oped in the 1999 paper “Greedy Function Approximation: A Gradient Boosting Machine” by Jerome H. Fried‐
-           man.                                                       
+<i>SAMME16</i>
+Scikit-Learn uses a multiclass version of AdaBoost called (which stands for
+<i>Stagewise</i> <i>Additive</i> <i>Modeling</i> <i>using</i> <i>a</i> <i>Multiclass</i> <i>Exponential</i> <i>loss</i> <i>function).</i> When there
+are just two classes, SAMME is equivalent to AdaBoost. If the predictors can estimate
+class probabilities (i.e., if they have a predict_proba() method), Scikit-Learn can use
+a variant of SAMME called <i>SAMME.R</i> (the <i>R</i> stands for “Real”), which relies on class
+probabilities rather than predictions and generally performs better.
+The following code trains an AdaBoost classifier based on 200 <i>Decision</i> <i>Stumps</i> using
+Scikit-Learn’s AdaBoostClassifier class (as you might expect, there is also an Ada
+BoostRegressor max_depth=1
+class). A Decision Stump is a Decision Tree with —in
+other words, a tree composed of a single decision node plus two leaf nodes. This is
+the default base estimator for the AdaBoostClassifier class:
+<b>from</b> <b>sklearn.ensemble</b> <b>import</b> AdaBoostClassifier
+ada_clf = AdaBoostClassifier(
+DecisionTreeClassifier(max_depth=1), n_estimators=200,
+algorithm="SAMME.R", learning_rate=0.5)
+ada_clf.fit(X_train, y_train)
+If your AdaBoost ensemble is overfitting the training set, you can
+try reducing the number of estimators or more strongly regulariz‐
+ing the base estimator.
+<header><largefont><b>Gradient</b></largefont> <largefont><b>Boosting</b></largefont></header>
+Another very popular boosting algorithm is <i>Gradient</i> <i>Boosting.</i> 17 Just like AdaBoost,
+Gradient Boosting works by sequentially adding predictors to an ensemble, each one
+correcting its predecessor. However, instead of tweaking the instance weights at every
+iteration like AdaBoost does, this method tries to fit the new predictor to the <i>residual</i>
+<i>errors</i> made by the previous predictor.
+Let’s go through a simple regression example, using Decision Trees as the base predic‐
+tors (of course, Gradient Boosting also works great with regression tasks). This is
+called <i>Gradient</i> <i>Tree</i> <i>Boosting,</i> or <i>Gradient</i> <i>Boosted</i> <i>Regression</i> <i>Trees</i> (GBRT). First, let’s
+DecisionTreeRegressor
+fit a to the training set (for example, a noisy quadratic train‐
+ing set):
+16 Formoredetails,seeJiZhuetal.,“Multi-ClassAdaBoost,”StatisticsandItsInterface2,no.3(2009):349–360.
+17 GradientBoostingwasfirstintroducedinLeoBreiman’s1997paper“ArcingtheEdge”andwasfurtherdevel‐
+opedinthe1999paper“GreedyFunctionApproximation:AGradientBoostingMachine”byJeromeH.Fried‐
+man.

@@ -1,49 +1,46 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          This solution gives the same performance as learned positional embeddings do, but it
-          can extend to arbitrarily long sentences, which is why it’s favored. After the positional
-          embeddings are added to the word embeddings, the rest of the model has access to
-          the absolute position of each word in the sentence because there is a unique posi‐
-          tional embedding for each position (e.g., the positional embedding for the word loca‐
-          ted at the 22nd position in a sentence is represented by the vertical dashed line at the
-          bottom left of Figure 16-9, and you can see that it is unique to that position). More‐
-          over, the choice of oscillating functions (sine and cosine) makes it possible for the
-          model to learn relative positions as well. For example, words located 38 words apart
-          (e.g., at positions p = 22 and p = 60) always have the same positional embedding val‐
-          ues in the embedding dimensions i = 100 and i = 101, as you can see in Figure 16-9.
-          This explains why we need both the sine and the cosine for each frequency: if we only
-          used the sine (the blue wave at i = 100), the model would not be able to distinguish
-          positions p = 25 and p = 35 (marked by a cross).            
-          There is no PositionalEmbedding layer in TensorFlow, but it is easy to create one.
-          For efficiency reasons, we precompute the positional embedding matrix in the con‐
-          structor (so we need to know the maximum sentence length, max_steps, and the
-          number of dimensions for each word representation, max_dims). Then the call()
-          method crops this embedding matrix to the size of the inputs, and it adds it to the
-          inputs. Since we added an extra first dimension of size 1 when creating the positional
-          embedding matrix, the rules of broadcasting will ensure that the matrix gets added to
-          every sentence in the inputs:                               
-                                                                      
-            class PositionalEncoding(keras.layers.Layer):             
-               def __init__(self, max_steps, max_dims, dtype=tf.float32, **kwargs):
-                 super().__init__(dtype=dtype, **kwargs)              
-                 if max_dims % 2 == 1: max_dims += 1 # max_dims must be even
-                 p, i = np.meshgrid(np.arange(max_steps), np.arange(max_dims // 2))
-                 pos_emb = np.empty((1, max_steps, max_dims))         
-                 pos_emb[0, :, ::2] = np.sin(p / 10000**(2 * i / max_dims)).T
-                 pos_emb[0, :, 1::2] = np.cos(p / 10000**(2 * i / max_dims)).T
-                 self.positional_embedding = tf.constant(pos_emb.astype(self.dtype))
-               def call(self, inputs):                                
-                 shape = tf.shape(inputs)                             
-                 return inputs + self.positional_embedding[:, :shape[-2], :shape[-1]]
-          Then we can create the first layers of the Transformer:     
-            embed_size = 512; max_steps = 500; vocab_size = 10000     
-            encoder_inputs = keras.layers.Input(shape=[None], dtype=np.int32)
-            decoder_inputs = keras.layers.Input(shape=[None], dtype=np.int32)
-            embeddings = keras.layers.Embedding(vocab_size, embed_size)
-            encoder_embeddings = embeddings(encoder_inputs)           
-            decoder_embeddings = embeddings(decoder_inputs)           
-            positional_encoding = PositionalEncoding(max_steps, max_dims=embed_size)
-            encoder_in = positional_encoding(encoder_embeddings)      
-            decoder_in = positional_encoding(decoder_embeddings)      
+This solution gives the same performance as learned positional embeddings do, but it
+can extend to arbitrarily long sentences, which is why it’s favored. After the positional
+embeddings are added to the word embeddings, the rest of the model has access to
+the absolute position of each word in the sentence because there is a unique posi‐
+tional embedding for each position (e.g., the positional embedding for the word loca‐
+ted at the 22nd position in a sentence is represented by the vertical dashed line at the
+bottom left of Figure 16-9, and you can see that it is unique to that position). More‐
+over, the choice of oscillating functions (sine and cosine) makes it possible for the
+model to learn relative positions as well. For example, words located 38 words apart
+(e.g., at positions <i>p</i> = 22 and <i>p</i> = 60) always have the same positional embedding val‐
+ues in the embedding dimensions <i>i</i> = 100 and <i>i</i> = 101, as you can see in Figure 16-9.
+This explains why we need both the sine and the cosine for each frequency: if we only
+used the sine (the blue wave at <i>i</i> = 100), the model would not be able to distinguish
+positions <i>p</i> = 25 and <i>p</i> = 35 (marked by a cross).
+PositionalEmbedding
+There is no layer in TensorFlow, but it is easy to create one.
+For efficiency reasons, we precompute the positional embedding matrix in the con‐
+structor (so we need to know the maximum sentence length, max_steps, and the
+max_dims call()
+number of dimensions for each word representation, ). Then the
+method crops this embedding matrix to the size of the inputs, and it adds it to the
+inputs. Since we added an extra first dimension of size 1 when creating the positional
+embedding matrix, the rules of broadcasting will ensure that the matrix gets added to
+every sentence in the inputs:
+<b>class</b> <b>PositionalEncoding(keras.layers.Layer):</b>
+<b>def</b> <b>__init__(self,</b> max_steps, max_dims, dtype=tf.float32, **kwargs):
+super().__init__(dtype=dtype, **kwargs)
+<b>if</b> max_dims % 2 == 1: max_dims += 1 <i>#</i> <i>max_dims</i> <i>must</i> <i>be</i> <i>even</i>
+p, i = np.meshgrid(np.arange(max_steps), np.arange(max_dims // 2))
+pos_emb = np.empty((1, max_steps, max_dims))
+pos_emb[0, :, ::2] = np.sin(p / 10000**(2 * i / max_dims)).T
+pos_emb[0, :, 1::2] = np.cos(p / 10000**(2 * i / max_dims)).T
+self.positional_embedding = tf.constant(pos_emb.astype(self.dtype))
+<b>def</b> call(self, inputs):
+shape = tf.shape(inputs)
+<b>return</b> inputs + self.positional_embedding[:, :shape[-2], :shape[-1]]
+Then we can create the first layers of the Transformer:
+embed_size = 512; max_steps = 500; vocab_size = 10000
+encoder_inputs = keras.layers.Input(shape=[None], dtype=np.int32)
+decoder_inputs = keras.layers.Input(shape=[None], dtype=np.int32)
+embeddings = keras.layers.Embedding(vocab_size, embed_size)
+encoder_embeddings = embeddings(encoder_inputs)
+decoder_embeddings = embeddings(decoder_inputs)
+positional_encoding = PositionalEncoding(max_steps, max_dims=embed_size)
+encoder_in = positional_encoding(encoder_embeddings)
+decoder_in = positional_encoding(decoder_embeddings)

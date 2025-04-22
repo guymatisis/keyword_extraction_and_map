@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          from.16 When an experience is recorded in the replay buffer, its priority is set to a very
+          large value, to ensure that it gets sampled at least once. However, once it is sampled
+          (and every time it is sampled), the TD error δ is computed, and this experience’s pri‐
+          ority is set to p = |δ| (plus a small constant to ensure that every experience has a non-
+          zero probability of being sampled). The probability P of sampling an experience with
+          priority p is proportional to pζ, where ζ is a hyperparameter that controls how greedy
+          we want importance sampling to be: when ζ = 0, we just get uniform sampling, and
+          when ζ = 1, we get full-blown importance sampling. In the paper, the authors used ζ =
+          0.6, but the optimal value will depend on the task.         
+          There’s one catch, though: since the samples will be biased toward important experi‐
+          ences, we must compensate for this bias during training by downweighting the expe‐
+          riences according to their importance, or else the model will just overfit the
+          important experiences. To be clear, we want important experiences to be sampled
+          more often, but this also means we must give them a lower weight during training. To
+          do this, we define each experience’s training weight as w = (n P)–β, where n is the
+          number of experiences in the replay buffer, and β is a hyperparameter that controls
+          how much we want to compensate for the importance sampling bias (0 means not at
+          all, while 1 means entirely). In the paper, the authors used β = 0.4 at the beginning of
+          training and linearly increased it to β = 1 by the end of training. Again, the optimal
+          value will depend on the task, but if you increase one, you will usually want to
+          increase the other as well.                                 
+                                                                      
+          Now let’s look at one last important variant of the DQN algorithm.
+          Dueling DQN                                                 
+                                                                      
+          The Dueling DQN algorithm (DDQN, not to be confused with Double DQN,
+          although both techniques can easily be combined) was introduced in yet another
+          2015 paper17 by DeepMind researchers. To understand how it works, we must first
+          note that the Q-Value of a state-action pair (s, a) can be expressed as Q(s, a) = V(s) +
+          A(s, a), where V(s) is the value of state s and A(s, a) is the advantage of taking the
+          action a in state s, compared to all other possible actions in that state. Moreover, the
+          value of a state is equal to the Q-Value of the best action a* for that state (since we
+          assume the optimal policy will pick the best action), so V(s) = Q(s, a*), which implies
+          that A(s, a*) = 0. In a Dueling DQN, the model estimates both the value of the state
+          and the advantage of each possible action. Since the best action should have an
+          advantage of 0, the model subtracts the maximum predicted advantage from all pre‐
+                                                                      
+                                                                      
+          16 It could also just be that the rewards are noisy, in which case there are better methods for estimating an expe‐
+           rience’s importance (see the paper for some examples).     
+          17 Ziyu Wang et al., “Dueling Network Architectures for Deep Reinforcement Learning,” arXiv preprint arXiv:
+           1511.06581 (2015).                                         

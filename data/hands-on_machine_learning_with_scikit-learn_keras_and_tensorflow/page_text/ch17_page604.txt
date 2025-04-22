@@ -1,46 +1,37 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            avoid division by zero). This technique avoids explosions in the activations due
-            to excessive competition between the generator and the discriminator.
-                                                                      
-          The combination of all these techniques allowed the authors to generate extremely
-          convincing high-definition images of faces. But what exactly do we call “convincing”?
-          Evaluation is one of the big challenges when working with GANs: although it is possi‐
-          ble to automatically evaluate the diversity of the generated images, judging their qual‐
-          ity is a much trickier and subjective task. One technique is to use human raters, but
-          this is costly and time-consuming. So the authors proposed to measure the similarity
-          between the local image structure of the generated images and the training images,
-          considering every scale. This idea led them to another groundbreaking innovation:
-          StyleGANs.                                                  
-          StyleGANs                                                   
-                                                                      
-          The state of the art in high-resolution image generation was advanced once again by
-          the same Nvidia team in a 2018 paper18 that introduced the popular StyleGAN archi‐
-          tecture. The authors used style transfer techniques in the generator to ensure that the
-          generated images have the same local structure as the training images, at every scale,
-          greatly improving the quality of the generated images. The discriminator and the loss
-          function were not modified, only the generator. Let’s take a look at the StyleGAN. It is
-          composed of two networks (see Figure 17-20):                
-          Mapping network                                             
-            An eight-layer MLP that maps the latent representations z (i.e., the codings) to a
-            vector w. This vector is then sent through multiple affine transformations (i.e.,
-            Dense layers with no activation functions, represented by the “A” boxes in
-            Figure 17-20), which produces multiple vectors. These vectors control the style of
-            the generated image at different levels, from fine-grained texture (e.g., hair color)
-            to high-level features (e.g., adult or child). In short, the mapping network maps
-            the codings to multiple style vectors.                    
-                                                                      
-          Synthesis network                                           
-            Responsible for generating the images. It has a constant learned input (to be
-            clear, this input will be constant after training, but during training it keeps getting
-            tweaked by backpropagation). It processes this input through multiple convolu‐
-            tional and upsampling layers, as earlier, but there are two twists: first, some noise
-            is added to the input and to all the outputs of the convolutional layers (before the
-            activation function). Second, each noise layer is followed by an Adaptive Instance
-            Normalization (AdaIN) layer: it standardizes each feature map independently (by
-                                                                      
-                                                                      
-          18 Tero Karras et al., “A Style-Based Generator Architecture for Generative Adversarial Networks,” arXiv pre‐
-           print arXiv:1812.04948 (2018).                             
+avoid division by zero). This technique avoids explosions in the activations due
+to excessive competition between the generator and the discriminator.
+The combination of all these techniques allowed the authors to generate extremely
+convincing high-definition images of faces. But what exactly do we call “convincing”?
+Evaluation is one of the big challenges when working with GANs: although it is possi‐
+ble to automatically evaluate the diversity of the generated images, judging their qual‐
+ity is a much trickier and subjective task. One technique is to use human raters, but
+this is costly and time-consuming. So the authors proposed to measure the similarity
+between the local image structure of the generated images and the training images,
+considering every scale. This idea led them to another groundbreaking innovation:
+StyleGANs.
+<header><largefont><b>StyleGANs</b></largefont></header>
+The state of the art in high-resolution image generation was advanced once again by
+the same Nvidia team in a 2018 paper18 that introduced the popular StyleGAN archi‐
+tecture. The authors used <i>style</i> <i>transfer</i> techniques in the generator to ensure that the
+generated images have the same local structure as the training images, at every scale,
+greatly improving the quality of the generated images. The discriminator and the loss
+function were not modified, only the generator. Let’s take a look at the StyleGAN. It is
+composed of two networks (see Figure 17-20):
+<i>Mapping</i> <i>network</i>
+An eight-layer MLP that maps the latent representations <b>z</b> (i.e., the codings) to a
+vector <b>w.</b> This vector is then sent through multiple <i>affine</i> <i>transformations</i> (i.e.,
+Dense layers with no activation functions, represented by the “A” boxes in
+Figure 17-20), which produces multiple vectors. These vectors control the style of
+the generated image at different levels, from fine-grained texture (e.g., hair color)
+to high-level features (e.g., adult or child). In short, the mapping network maps
+the codings to multiple style vectors.
+<i>Synthesis</i> <i>network</i>
+Responsible for generating the images. It has a constant learned input (to be
+clear, this input will be constant <i>after</i> training, but <i>during</i> training it keeps getting
+tweaked by backpropagation). It processes this input through multiple convolu‐
+tional and upsampling layers, as earlier, but there are two twists: first, some noise
+is added to the input and to all the outputs of the convolutional layers (before the
+activation function). Second, each noise layer is followed by an <i>Adaptive</i> <i>Instance</i>
+<i>Normalization</i> (AdaIN) layer: it standardizes each feature map independently (by
+18 TeroKarrasetal.,“AStyle-BasedGeneratorArchitectureforGenerativeAdversarialNetworks,”arXivpre‐
+printarXiv:1812.04948(2018).

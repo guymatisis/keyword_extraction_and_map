@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          As you can see, this code matches Figure 14-18 pretty closely. In the constructor, we
+          create all the layers we will need: the main layers are the ones on the right side of the
+          diagram, and the skip layers are the ones on the left (only needed if the stride is
+          greater than 1). Then in the call() method, we make the inputs go through the main
+          layers and the skip layers (if any), then we add both outputs and apply the activation
+          function.                                                   
+                                                                      
+          Next, we can build the ResNet-34 using a Sequential model, since it’s really just a
+          long sequence of layers (we can treat each residual unit as a single layer now that we
+          have the ResidualUnit class):                               
+            model = keras.models.Sequential()                         
+            model.add(keras.layers.Conv2D(64, 7, strides=2, input_shape=[224, 224, 3],
+                              padding="same", use_bias=False))        
+            model.add(keras.layers.BatchNormalization())              
+            model.add(keras.layers.Activation("relu"))                
+            model.add(keras.layers.MaxPool2D(pool_size=3, strides=2, padding="same"))
+            prev_filters = 64                                         
+            for filters in [64] * 3 + [128] * 4 + [256] * 6 + [512] * 3:
+               strides = 1 if filters == prev_filters else 2          
+               model.add(ResidualUnit(filters, strides=strides))      
+               prev_filters = filters                                 
+            model.add(keras.layers.GlobalAvgPool2D())                 
+            model.add(keras.layers.Flatten())                         
+            model.add(keras.layers.Dense(10, activation="softmax"))   
+          The only slightly tricky part in this code is the loop that adds the ResidualUnit layers
+          to the model: as explained earlier, the first 3 RUs have 64 filters, then the next 4 RUs
+          have 128 filters, and so on. We then set the stride to 1 when the number of filters is
+          the same as in the previous RU, or else we set it to 2. Then we add the ResidualUnit,
+          and finally we update prev_filters.                         
+          It is amazing that in fewer than 40 lines of code, we can build the model that won the
+          ILSVRC 2015 challenge! This demonstrates both the elegance of the ResNet model
+          and the expressiveness of the Keras API. Implementing the other CNN architectures
+          is not much harder. However, Keras comes with several of these architectures built in,
+          so why not use them instead?                                
+          Using Pretrained Models from Keras                          
+          In general, you won’t have to implement standard models like GoogLeNet or ResNet
+          manually, since pretrained networks are readily available with a single line of code in
+          the keras.applications package. For example, you can load the ResNet-50 model,
+          pretrained on ImageNet, with the following line of code:    
+            model = keras.applications.resnet50.ResNet50(weights="imagenet")
+                                                                      
+                                                                      

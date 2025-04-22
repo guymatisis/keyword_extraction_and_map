@@ -1,46 +1,43 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          way. You get the picture. By looking at this MDP, can you guess which strategy will
-          gain the most reward over time? In state s it is clear that action a is the best option,
-                                   0            0                     
-          and in state s the agent has no choice but to take action a , but in state s it is not
-                  2                          1        1               
-          obvious whether the agent should stay put (a ) or go through the fire (a ).
-                                    0              2                  
-          Bellman found a way to estimate the optimal state value of any state s, noted V*(s),
-          which is the sum of all discounted future rewards the agent can expect on average
-          after it reaches a state s, assuming it acts optimally. He showed that if the agent acts
-          optimally, then the Bellman Optimality Equation applies (see Equation 18-1). This
-          recursive equation says that if the agent acts optimally, then the optimal value of the
-          current state is equal to the reward it will get on average after taking one optimal
-          action, plus the expected optimal value of all possible next states that this action can
-          lead to.                                                    
-            Equation 18-1. Bellman Optimality Equation                
-            V* s = max ∑ T s,a,s′ R s,a,s′ +γ·V* s′ for all s         
-                   a s                                                
-          In this equation:                                           
-           • T(s, a, s′) is the transition probability from state s to state s′, given that the agent
-            chose action a. For example, in Figure 18-8, T(s , a , s ) = 0.8.
-                                        2 1 0                         
-           • R(s, a, s′) is the reward that the agent gets when it goes from state s to state s′,
-            given that the agent chose action a. For example, in Figure 18-8, R(s , a ,
-                                                         2 1          
-            s ) = +40.                                                
-             0                                                        
-           • γ is the discount factor.                                
-          This equation leads directly to an algorithm that can precisely estimate the optimal
-          state value of every possible state: you first initialize all the state value estimates to
-          zero, and then you iteratively update them using the Value Iteration algorithm (see
-          Equation 18-2). A remarkable result is that, given enough time, these estimates are
-          guaranteed to converge to the optimal state values, corresponding to the optimal
-          policy.                                                     
-            Equation 18-2. Value Iteration algorithm                  
-            V   s  max ∑T s,a,s′ R s,a,s′ +γ·V s′ for all s           
-             k+1    a s′             k                                
-          In this equation, V(s) is the estimated value of state s at the kth iteration of the
-                      k                                               
-          algorithm.                                                  
-                                                                      
-                                                                      
+way. You get the picture. By looking at this MDP, can you guess which strategy will
+gain the most reward over time? In state <i>s</i> it is clear that action <i>a</i> is the best option,
+0 0
+and in state <i>s</i> the agent has no choice but to take action <i>a</i> , but in state <i>s</i> it is not
+2 1 1
+obvious whether the agent should stay put (a ) or go through the fire (a ).
+0 2
+Bellman found a way to estimate the <i>optimal</i> <i>state</i> <i>value</i> of any state <i>s,</i> noted <i>V*(s),</i>
+which is the sum of all discounted future rewards the agent can expect on average
+after it reaches a state <i>s,</i> assuming it acts optimally. He showed that if the agent acts
+optimally, then the <i>Bellman</i> <i>Optimality</i> <i>Equation</i> applies (see Equation 18-1). This
+recursive equation says that if the agent acts optimally, then the optimal value of the
+current state is equal to the reward it will get on average after taking one optimal
+action, plus the expected optimal value of all possible next states that this action can
+lead to.
+<i>Equation</i> <i>18-1.</i> <i>Bellman</i> <i>Optimality</i> <i>Equation</i>
+<i>V*</i> <i>s</i> = max ∑ <i>T</i> <i>s,a,s</i> ′ <i>R</i> <i>s,a,s</i> ′ + <i>γ</i> · <i>V*</i> <i>s</i> ′ for all <i>s</i>
+<i>a</i> <i>s</i>
+In this equation:
+• <i>T(s,</i> <i>a,</i> <i>s</i> ′ ) is the transition probability from state <i>s</i> to state <i>s</i> ′ , given that the agent
+chose action <i>a.</i> For example, in Figure 18-8, <i>T(s</i> , <i>a</i> , <i>s</i> ) = 0.8.
+2 1 0
+<i>s′)</i> <i>s′,</i>
+• <i>R(s,</i> <i>a,</i> is the reward that the agent gets when it goes from state <i>s</i> to state
+given that the agent chose action <i>a.</i> For example, in Figure 18-8, <i>R(s</i> , <i>a</i> ,
+2 1
+<i>s</i> ) = +40.
+0
+• <i>γ</i> is the discount factor.
+This equation leads directly to an algorithm that can precisely estimate the optimal
+state value of every possible state: you first initialize all the state value estimates to
+zero, and then you iteratively update them using the <i>Value</i> <i>Iteration</i> algorithm (see
+Equation 18-2). A remarkable result is that, given enough time, these estimates are
+guaranteed to converge to the optimal state values, corresponding to the optimal
+policy.
+<i>Equation</i> <i>18-2.</i> <i>Value</i> <i>Iteration</i> <i>algorithm</i>
+<largefont>∑T</largefont> <i>s,a,s′</i> <i>s,a,s′</i> <i>s′</i>
+<i>V</i> <i>s</i> max <i>R</i> + <i>γ</i> · <i>V</i> for all <i>s</i>
+<i>k+1</i> <i>a</i> <i>k</i>
+<i>s′</i>
+In this equation, <i>V</i> (s) is the estimated value of state <i>s</i> at the <i>kth</i> iteration of the
+<i>k</i>
+algorithm.

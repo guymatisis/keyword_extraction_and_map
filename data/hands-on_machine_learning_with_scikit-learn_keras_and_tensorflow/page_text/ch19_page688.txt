@@ -1,46 +1,32 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                          TensorFlow in the Browser                   
-                                                                      
-           What if you want to use your model in a website, running directly in the user’s
-           browser? This can be useful in many scenarios, such as:    
-            • When your web application is often used in situations where the user’s connec‐
-              tivity is intermittent or slow (e.g., a website for hikers), so running the model
-              directly on the client side is the only way to make your website reliable.
-            • When you need the model’s responses to be as fast as possible (e.g., for an online
-              game). Removing the need to query the server to make predictions will definitely
-              reduce the latency and make the website much more responsive.
-            • When your web service makes predictions based on some private user data, and
-              you want to protect the user’s privacy by making the predictions on the client
-              side so that the private data never has to leave the user’s machine.9
-                                                                      
-           For all these scenarios, you can export your model to a special format that can be
-           loaded by the TensorFlow.js JavaScript library. This library can then use your model
-           to make predictions directly in the user’s browser. The TensorFlow.js project includes
-           a tensorflowjs_converter tool that can convert a TensorFlow SavedModel or a
-           Keras model file to the TensorFlow.js Layers format: this is a directory containing a set
-           of sharded weight files in binary format and a model.json file that describes the mod‐
-           el’s architecture and links to the weight files. This format is optimized to be downloa‐
-           ded efficiently on the web. Users can then download the model and run predictions in
-           the browser using the TensorFlow.js library. Here is a code snippet to give you an idea
-           of what the JavaScript API looks like:                     
-             import * as tf from '@tensorflow/tfjs';                  
-             const model = await tf.loadLayersModel('https://example.com/tfjs/model.json');
-             const image = tf.fromPixels(webcamElement);              
-             const prediction = model.predict(image);                 
-           Once again, doing justice to this topic would require a whole book. If you want to
-           learn more about TensorFlow.js, check out the O’Reilly book Practical Deep Learning
-           for Cloud, Mobile, and Edge, by Anirudh Koul, Siddha Ganju, and Meher Kasam.
-                                                                      
-          Next, we will see how to use GPUs to speed up computations! 
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          9 If you’re interested in this topic, check out federated learning.
+<header><largefont><b>TensorFlow</b></largefont> <largefont><b>in</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Browser</b></largefont></header>
+What if you want to use your model in a website, running directly in the user’s
+browser? This can be useful in many scenarios, such as:
+• When your web application is often used in situations where the user’s connec‐
+tivity is intermittent or slow (e.g., a website for hikers), so running the model
+directly on the client side is the only way to make your website reliable.
+• When you need the model’s responses to be as fast as possible (e.g., for an online
+game). Removing the need to query the server to make predictions will definitely
+reduce the latency and make the website much more responsive.
+• When your web service makes predictions based on some private user data, and
+you want to protect the user’s privacy by making the predictions on the client
+side so that the private data never has to leave the user’s machine. 9
+For all these scenarios, you can export your model to a special format that can be
+loaded by the TensorFlow.js JavaScript library. This library can then use your model
+to make predictions directly in the user’s browser. The TensorFlow.js project includes
+tensorflowjs_converter
+a tool that can convert a TensorFlow SavedModel or a
+Keras model file to the <i>TensorFlow.js</i> <i>Layers</i> format: this is a directory containing a set
+of sharded weight files in binary format and a <i>model.json</i> file that describes the mod‐
+el’s architecture and links to the weight files. This format is optimized to be downloa‐
+ded efficiently on the web. Users can then download the model and run predictions in
+the browser using the TensorFlow.js library. Here is a code snippet to give you an idea
+of what the JavaScript API looks like:
+<b>import</b> * as tf from '@tensorflow/tfjs';
+<b>const</b> model = await tf.loadLayersModel('https://example.com/tfjs/model.json');
+<b>const</b> image = tf.fromPixels(webcamElement);
+<b>const</b> prediction = model.predict(image);
+Once again, doing justice to this topic would require a whole book. If you want to
+learn more about TensorFlow.js, check out the O’Reilly book <i>Practical</i> <i>Deep</i> <i>Learning</i>
+<i>for</i> <i>Cloud,</i> <i>Mobile,</i> <i>and</i> <i>Edge,</i> by Anirudh Koul, Siddha Ganju, and Meher Kasam.
+Next, we will see how to use GPUs to speed up computations!
+9 Ifyou’reinterestedinthistopic,checkoutfederatedlearning.

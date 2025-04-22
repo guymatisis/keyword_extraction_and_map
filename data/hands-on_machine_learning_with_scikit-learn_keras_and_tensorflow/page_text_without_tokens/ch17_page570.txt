@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 17-1. The chess memory experiment (left) and a simple autoencoder (right)
+                                                                      
+          As you can see, an autoencoder typically has the same architecture as a Multi-Layer
+          Perceptron (MLP; see Chapter 10), except that the number of neurons in the output
+          layer must be equal to the number of inputs. In this example, there is just one hidden
+          layer composed of two neurons (the encoder), and one output layer composed of
+          three neurons (the decoder). The outputs are often called the reconstructions because
+          the autoencoder tries to reconstruct the inputs, and the cost function contains a
+          reconstruction loss that penalizes the model when the reconstructions are different
+          from the inputs.                                            
+          Because the internal representation has a lower dimensionality than the input data (it
+          is 2D instead of 3D), the autoencoder is said to be undercomplete. An undercomplete
+          autoencoder cannot trivially copy its inputs to the codings, yet it must find a way to
+          output a copy of its inputs. It is forced to learn the most important features in the
+          input data (and drop the unimportant ones).                 
+                                                                      
+          Let’s see how to implement a very simple undercomplete autoencoder for dimension‐
+          ality reduction.                                            
+          Performing PCA with an Undercomplete Linear                 
+                                                                      
+          Autoencoder                                                 
+                                                                      
+          If the autoencoder uses only linear activations and the cost function is the mean
+          squared error (MSE), then it ends up performing Principal Component Analysis
+          (PCA; see Chapter 8).                                       
+          The following code builds a simple linear autoencoder to perform PCA on a 3D data‐
+          set, projecting it to 2D:                                   
+                                                                      
+                                                                      

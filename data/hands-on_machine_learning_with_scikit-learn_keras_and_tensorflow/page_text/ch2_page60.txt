@@ -1,46 +1,17 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          other numerical attribute. Since there are now 11 numerical attributes, you would get
-          112 = 121 plots, which would not fit on a page—so let’s just focus on a few promising
-          attributes that seem most correlated with the median housing value (Figure 2-15):
-                                                                      
-            from pandas.plotting import scatter_matrix                
-            attributes = ["median_house_value", "median_income", "total_rooms",
-                    "housing_median_age"]                             
-            scatter_matrix(housing[attributes], figsize=(12, 8))      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 2-15. This scatter matrix plots every numerical attribute against every other
-          numerical attribute, plus a histogram of each numerical attribute
-                                                                      
-          The main diagonal (top left to bottom right) would be full of straight lines if pandas
-          plotted each variable against itself, which would not be very useful. So instead pandas
-          displays a histogram of each attribute (other options are available; see the pandas
-          documentation for more details).                            
-          The most promising attribute to predict the median house value is the median
-          income, so let’s zoom in on their correlation scatterplot (Figure 2-16):
-            housing.plot(kind="scatter", x="median_income", y="median_house_value",
-                    alpha=0.1)                                        
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+other numerical attribute. Since there are now 11 numerical attributes, you would get
+112 = 121 plots, which would not fit on a page—so let’s just focus on a few promising
+attributes that seem most correlated with the median housing value (Figure 2-15):
+<b>from</b> <b>pandas.plotting</b> <b>import</b> scatter_matrix
+attributes = ["median_house_value", "median_income", "total_rooms",
+"housing_median_age"]
+scatter_matrix(housing[attributes], figsize=(12, 8))
+<i>Figure</i> <i>2-15.</i> <i>This</i> <i>scatter</i> <i>matrix</i> <i>plots</i> <i>every</i> <i>numerical</i> <i>attribute</i> <i>against</i> <i>every</i> <i>other</i>
+<i>numerical</i> <i>attribute,</i> <i>plus</i> <i>a</i> <i>histogram</i> <i>of</i> <i>each</i> <i>numerical</i> <i>attribute</i>
+The main diagonal (top left to bottom right) would be full of straight lines if pandas
+plotted each variable against itself, which would not be very useful. So instead pandas
+displays a histogram of each attribute (other options are available; see the pandas
+documentation for more details).
+The most promising attribute to predict the median house value is the median
+income, so let’s zoom in on their correlation scatterplot (Figure 2-16):
+housing.plot(kind="scatter", x="median_income", y="median_house_value",
+alpha=0.1)

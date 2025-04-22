@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 2-13. California housing prices: red is expensive, blue is cheap, larger circles indi‐
+          cate areas with a larger population                         
+                                                                      
+          This image tells you that the housing prices are very much related to the location
+          (e.g., close to the ocean) and to the population density, as you probably knew already.
+          A clustering algorithm should be useful for detecting the main cluster and for adding
+          new features that measure the proximity to the cluster centers. The ocean proximity
+          attribute may be useful as well, although in Northern California the housing prices in
+          coastal districts are not too high, so it is not a simple rule.
+          Looking for Correlations                                    
+                                                                      
+          Since the dataset is not too large, you can easily compute the standard correlation
+          coefficient (also called Pearson’s r) between every pair of attributes using the corr()
+          method:                                                     
+                                                                      
+            corr_matrix = housing.corr()                              
+          Now let’s look at how much each attribute correlates with the median house value:
+            >>> corr_matrix["median_house_value"].sort_values(ascending=False)
+            median_house_value 1.000000                               
+            median_income 0.687170                                    
+            total_rooms  0.135231                                     
+            housing_median_age 0.114220                               

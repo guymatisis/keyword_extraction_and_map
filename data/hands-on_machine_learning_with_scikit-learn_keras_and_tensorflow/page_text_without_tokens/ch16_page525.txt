@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                  CHAPTER 16          
+                                                                      
+                    Natural   Language    Processing  with            
+                                                                      
+                                     RNNs   and  Attention            
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          When Alan Turing imagined his famous Turing test1 in 1950, his objective was to
+          evaluate a machine’s ability to match human intelligence. He could have tested for
+          many things, such as the ability to recognize cats in pictures, play chess, compose
+          music, or escape a maze, but, interestingly, he chose a linguistic task. More specifi‐
+          cally, he devised a chatbot capable of fooling its interlocutor into thinking it was
+          human.2 This test does have its weaknesses: a set of hardcoded rules can fool unsus‐
+          pecting or naive humans (e.g., the machine could give vague predefined answers in
+          response to some keywords; it could pretend that it is joking or drunk, to get a pass
+          on its weirdest answers; or it could escape difficult questions by answering them with
+          its own questions), and many aspects of human intelligence are utterly ignored (e.g.,
+          the ability to interpret nonverbal communication such as facial expressions, or to
+          learn a manual task). But the test does highlight the fact that mastering language is
+          arguably Homo sapiens’s greatest cognitive ability. Can we build a machine that can
+          read and write natural language?                            
+          A common approach for natural language tasks is to use recurrent neural networks.
+          We will therefore continue to explore RNNs (introduced in Chapter 15), starting with
+          a character RNN, trained to predict the next character in a sentence. This will allow us
+          to generate some original text, and in the process we will see how to build a Tensor‐
+          Flow Dataset on a very long sequence. We will first use a stateless RNN (which learns
+                                                                      
+          1 Alan Turing, “Computing Machinery and Intelligence,” Mind 49 (1950): 433–460.
+          2 Of course, the word chatbot came much later. Turing called his test the imitation game: machine A and human
+           B chat with human interrogator C via text messages; the interrogator asks questions to figure out which one is
+           the machine (A or B). The machine passes the test if it can fool the interrogator, while the human B must try
+           to help the interrogator.                                  

@@ -1,46 +1,37 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-           In short, the PDF is a function of x (with θ fixed), while the likelihood function is a
-           function of θ (with x fixed). It is important to understand that the likelihood function
-           is not a probability distribution: if you integrate a probability distribution over all
-           possible values of x, you always get 1; but if you integrate the likelihood function over
-           all possible values of θ, the result can be any positive value.
-           Given a dataset X, a common task is to try to estimate the most likely values for the
-           model parameters. To do this, you must find the values that maximize the likelihood
-           function, given X. In this example, if you have observed a single instance x=2.5, the
-           maximum likelihood estimate (MLE) of θ is θ=1.5. If a prior probability distribution g
-           over θ exists, it is possible to take it into account by maximizing ℒ(θ|x)g(θ) rather
-           than just maximizing ℒ(θ|x). This is called maximum a-posteriori (MAP) estimation.
-           Since MAP constrains the parameter values, you can think of it as a regularized ver‐
-           sion of MLE.                                               
-           Notice that maximizing the likelihood function is equivalent to maximizing its loga‐
-           rithm (represented in the lower-righthand plot in Figure 9-20). Indeed the logarithm
-           is a strictly increasing function, so if θ maximizes the log likelihood, it also maximizes
-           the likelihood. It turns out that it is generally easier to maximize the log likelihood.
-           For example, if you observed several independent instances x(1) to x(m), you would
-           need to find the value of θ that maximizes the product of the individual likelihood
-           functions. But it is equivalent, and much simpler, to maximize the sum (not the prod‐
-           uct) of the log likelihood functions, thanks to the magic of the logarithm which con‐
-           verts products into sums: log(ab)=log(a)+log(b).           
-           Once you have estimated θ, the value of θ that maximizes the likelihood function,
-           then you are ready to compute L =ℒ θ,  , which is the value used to compute the
-           AIC and BIC; you can think of it as a measure of how well the model fits the data.
-                                                                      
-                                                                      
-          To compute the BIC and AIC, call the bic() and aic() methods:
-            >>> gm.bic(X)                                             
-            8189.74345832983                                          
-            >>> gm.aic(X)                                             
-            8102.518178214792                                         
-          Figure 9-21 shows the BIC for different numbers of clusters k. As you can see, both
-          the BIC and the AIC are lowest when k=3, so it is most likely the best choice. Note
-          that we could also search for the best value for the covariance_type hyperparameter.
-          For example, if it is "spherical" rather than "full", then the model has significantly
-          fewer parameters to learn, but it does not fit the data as well.
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+In short, the PDF is a function of <i>x</i> (with <i>θ</i> fixed), while the likelihood function is a
+function of <i>θ</i> (with <i>x</i> fixed). It is important to understand that the likelihood function
+is <i>not</i> a probability distribution: if you integrate a probability distribution over all
+possible values of <i>x,</i> you always get 1; but if you integrate the likelihood function over
+all possible values of <i>θ,</i> the result can be any positive value.
+Given a dataset <b>X,</b> a common task is to try to estimate the most likely values for the
+model parameters. To do this, you must find the values that maximize the likelihood
+function, given <b>X.</b> In this example, if you have observed a single instance <i>x=2.5,</i> the
+<i>maximum</i> <i>likelihood</i> <i>estimate</i> (MLE) of <i>θ</i> is <i>θ=1.5.</i> If a prior probability distribution <i>g</i>
+over <i>θ</i> exists, it is possible to take it into account by maximizing ℒ (θ|x)g(θ) rather
+than just maximizing ℒ (θ|x). This is called <i>maximum</i> <i>a-posteriori</i> (MAP) estimation.
+Since MAP constrains the parameter values, you can think of it as a regularized ver‐
+sion of MLE.
+Notice that maximizing the likelihood function is equivalent to maximizing its loga‐
+rithm (represented in the lower-righthand plot in Figure 9-20). Indeed the logarithm
+is a strictly increasing function, so if <i>θ</i> maximizes the log likelihood, it also maximizes
+the likelihood. It turns out that it is generally easier to maximize the log likelihood.
+For example, if you observed several independent instances <i>x</i> (1) to <i>x</i> (m) , you would
+need to find the value of <i>θ</i> that maximizes the product of the individual likelihood
+functions. But it is equivalent, and much simpler, to maximize the sum (not the prod‐
+uct) of the log likelihood functions, thanks to the magic of the logarithm which con‐
+verts products into sums: log(ab)=log(a)+log(b).
+Once you have estimated <i>θ,</i> the value of <i>θ</i> that maximizes the likelihood function,
+ℒ
+then you are ready to compute <i>L</i> = <i>θ,</i> , which is the value used to compute the
+AIC and BIC; you can think of it as a measure of how well the model fits the data.
+To compute the BIC and AIC, call the bic() and aic() methods:
+<b>>>></b> gm.bic(X)
+8189.74345832983
+<b>>>></b> gm.aic(X)
+8102.518178214792
+Figure 9-21 shows the BIC for different numbers of clusters <i>k.</i> As you can see, both
+the BIC and the AIC are lowest when <i>k=3,</i> so it is most likely the best choice. Note
+covariance_type
+that we could also search for the best value for the hyperparameter.
+For example, if it is "spherical" rather than "full" , then the model has significantly
+fewer parameters to learn, but it does not fit the data as well.

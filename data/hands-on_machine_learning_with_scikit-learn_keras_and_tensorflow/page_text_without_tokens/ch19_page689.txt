@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Using GPUs to Speed Up Computations                         
+                                                                      
+          In Chapter 11 we discussed several techniques that can considerably speed up train‐
+          ing: better weight initialization, Batch Normalization, sophisticated optimizers, and
+          so on. But even with all of these techniques, training a large neural network on a sin‐
+          gle machine with a single CPU can take days or even weeks.  
+                                                                      
+          In this section we will look at how to speed up your models by using GPUs. We will
+          also see how to split the computations across multiple devices, including the CPU
+          and multiple GPU devices (see Figure 19-9). For now we will run everything on a sin‐
+          gle machine, but later in this chapter we will discuss how to distribute computations
+          across multiple servers.                                    
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 19-9. Executing a TensorFlow graph across multiple devices in parallel
+                                                                      
+          Thanks to GPUs, instead of waiting for days or weeks for a training algorithm to
+          complete, you may end up waiting for just a few minutes or hours. Not only does this
+          save an enormous amount of time, but it also means that you can experiment with
+          various models much more easily and frequently retrain your models on fresh data.
+                                                                      
+                   You can often get a major performance boost simply by adding
+                   GPU cards to a single machine. In fact, in many cases this will suf‐
+                   fice; you won’t need to use multiple machines at all. For example,
+                   you can typically train a neural network just as fast using four
+                   GPUs on a single machine rather than eight GPUs across multiple
+                   machines, due to the extra delay imposed by network communica‐
+                   tions in a distributed setup. Similarly, using a single powerful GPU
+                   is often preferable to using multiple slower GPUs. 

@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            subtracting the feature map’s mean and dividing by its standard deviation), then
+            it uses the style vector to determine the scale and offset of each feature map (the
+            style vector contains one scale and one bias term for each feature map).
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 17-20. StyleGAN’s generator architecture (part of figure 1 from the StyleGAN
+          paper)19                                                    
+                                                                      
+          The idea of adding noise independently from the codings is very important. Some
+          parts of an image are quite random, such as the exact position of each freckle or hair.
+          In earlier GANs, this randomness had to either come from the codings or be some
+          pseudorandom noise produced by the generator itself. If it came from the codings, it
+          meant that the generator had to dedicate a significant portion of the codings’ repre‐
+          sentational power to store noise: this is quite wasteful. Moreover, the noise had to be
+                                                                      
+                                                                      
+                                                                      
+          19 Reproduced with the kind authorization of the authors.   

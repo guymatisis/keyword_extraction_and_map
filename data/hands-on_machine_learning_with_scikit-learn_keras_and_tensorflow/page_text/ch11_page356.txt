@@ -1,50 +1,46 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          since the beginning of training). It does so by using exponential decay in the first step
-          (see Equation 11-7).                                        
-                                                                      
-            Equation 11-7. RMSProp algorithm                          
-                                                                      
-            1. s  βs+ 1−β ∇ J θ ⊗∇ J θ                                
-                         θ     θ                                      
-            2. θ  θ−η∇ J θ ⊘ s+ε                                      
-                      θ                                               
-          The decay rate β is typically set to 0.9. Yes, it is once again a new hyperparameter, but
-          this default value often works well, so you may not need to tune it at all.
-          As you might expect, Keras has an RMSprop optimizer:        
-            optimizer = keras.optimizers.RMSprop(lr=0.001, rho=0.9)   
-          Note that the rho argument corresponds to β in Equation 11-7. Except on very simple
-          problems, this optimizer almost always performs much better than AdaGrad. In fact,
-          it was the preferred optimization algorithm of many researchers until Adam optimi‐
-          zation came around.                                         
-                                                                      
-          Adam and Nadam Optimization                                 
-                                                                      
-          Adam,17 which stands for adaptive moment estimation, combines the ideas of momen‐
-          tum optimization and RMSProp: just like momentum optimization, it keeps track of
-          an exponentially decaying average of past gradients; and just like RMSProp, it keeps
-          track of an exponentially decaying average of past squared gradients (see Equation
-          11-8).18                                                    
-                                                                      
-            Equation 11-8. Adam algorithm                             
-            1. m   β m− 1−β ∇ J θ                                     
-                   1      1 θ                                         
-            2. s  β s+ 1−β ∇ J θ ⊗∇ J θ                               
-                   2    2  θ    θ                                     
-                    m                                                 
-            3. m                                                      
-                      t                                               
-                   1−β                                                
-                      1                                               
-                    s                                                 
-            4.  s                                                     
-                      t                                               
-                  1−β                                                 
-                     2                                                
-            5. θ  θ+ηm⊘  s +ε                                         
-          17 Diederik P. Kingma and Jimmy Ba, “Adam: A Method for Stochastic Optimization,” arXiv preprint arXiv:
-           1412.6980 (2014).                                          
-          18 These are estimations of the mean and (uncentered) variance of the gradients. The mean is often called the
-           first moment while the variance is often called the second moment, hence the name of the algorithm.
+since the beginning of training). It does so by using exponential decay in the first step
+(see Equation 11-7).
+<i>Equation</i> <i>11-7.</i> <i>RMSProp</i> <i>algorithm</i>
+∇ ⊗ ∇
+1. <b>s</b> <i>βs</i> + 1 − <i>β</i> <i>J</i> <b>θ</b> <i>J</i> <b>θ</b>
+<b>θ</b> <b>θ</b>
+∇ ⊘
+2. <b>θ</b> <b>θ</b> − <i>η</i> <i>J</i> <b>θ</b> <b>s</b> + <i>ε</i>
+<b>θ</b>
+The decay rate <i>β</i> is typically set to 0.9. Yes, it is once again a new hyperparameter, but
+this default value often works well, so you may not need to tune it at all.
+RMSprop
+As you might expect, Keras has an optimizer:
+optimizer = keras.optimizers.RMSprop(lr=0.001, rho=0.9)
+rho
+Note that the argument corresponds to <i>β</i> in Equation 11-7. Except on very simple
+problems, this optimizer almost always performs much better than AdaGrad. In fact,
+it was the preferred optimization algorithm of many researchers until Adam optimi‐
+zation came around.
+<header><largefont><b>Adam</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Nadam</b></largefont> <largefont><b>Optimization</b></largefont></header>
+<i>Adam,17</i> which stands for <i>adaptive</i> <i>moment</i> <i>estimation,</i> combines the ideas of momen‐
+tum optimization and RMSProp: just like momentum optimization, it keeps track of
+an exponentially decaying average of past gradients; and just like RMSProp, it keeps
+track of an exponentially decaying average of past squared gradients (see Equation
+11-8).18
+<i>Equation</i> <i>11-8.</i> <i>Adam</i> <i>algorithm</i>
+1. <b>m</b> <i>β</i> <b>m</b> − 1 − <i>β</i> ∇ <i>J</i> <b>θ</b>
+1 1 <b>θ</b>
+2. <b>s</b> <i>β</i> <b>s</b> + 1 − <i>β</i> ∇ <i>J</i> <b>θ</b> ⊗ ∇ <i>J</i> <b>θ</b>
+2 2 <b>θ</b> <b>θ</b>
+<b>m</b>
+3. <b>m</b>
+<i>t</i>
+1 − <i>β</i>
+1
+<b>s</b>
+4. <b>s</b>
+<i>t</i>
+1 − <i>β</i>
+2
+⊘
+5. <b>θ</b> <b>θ</b> + <i>ηm</i> <b>s</b> + <i>ε</i>
+17 DiederikP.KingmaandJimmyBa,“Adam:AMethodforStochasticOptimization,”arXivpreprintarXiv:
+1412.6980(2014).
+18 Theseareestimationsofthemeanand(uncentered)varianceofthegradients.Themeanisoftencalledthe
+<i>firstmomentwhilethevarianceisoftencalledthesecondmoment,hencethenameofthealgorithm.</i>

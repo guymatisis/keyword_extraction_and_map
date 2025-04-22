@@ -1,53 +1,60 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            Equation 5-8. Second-degree polynomial mapping            
-                                                                      
-                        2                                             
-                       x                                              
-                        1                                             
-                  x                                                   
-                  1                                                   
-            ϕ x =ϕ  =  2x x                                           
-                        1 2                                           
-                  x                                                   
-                  2                                                   
-                        2                                             
-                       x                                              
-                        2                                             
-          Notice that the transformed vector is 3D instead of 2D. Now let’s look at what hap‐
-          pens to a couple of 2D vectors, a and b, if we apply this second-degree polynomial
-          mapping and then compute the dot product7 of the transformed vectors (See Equa‐
-          tion 5-9).                                                  
-            Equation 5-9. Kernel trick for a second-degree polynomial mapping
-                        2 ⊺   2                                       
-                       a    b                                         
-                       1     1                                        
-            ϕ a ⊺ ϕ b = 2a a 2b b =a 2 b 2 +2a b a b +a 2 b 2         
-                        1 2   1 2 1 1   1 1 2 2 2 2                   
-                        2     2                                       
-                       a    b                                         
-                       2     2                                        
-                               a ⊺ b 2                                
-                            2   1  1   ⊺ 2                            
-                    = a b +a b =     = a b                            
-                      1 1 2 2  a  b                                   
-                                2  2                                  
-          How about that? The dot product of the transformed vectors is equal to the square of
-          the dot product of the original vectors: ϕ(a)⊺ ϕ(b) = (a⊺ b)2.
-          Here is the key insight: if you apply the transformation ϕ to all training instances,
-          then the dual problem (see Equation 5-6) will contain the dot product ϕ(x(i))⊺ ϕ(x(j)).
-          But if ϕ is the second-degree polynomial transformation defined in Equation 5-8,
-          then you can replace this dot product of transformed vectors simply by xi⊺ x j 2 . So,
-          you don’t need to transform the training instances at all; just replace the dot product
-          by its square in Equation 5-6. The result will be strictly the same as if you had gone
-          through the trouble of transforming the training set then fitting a linear SVM algo‐
-          rithm, but this trick makes the whole process much more computationally efficient.
-          The function K(a, b) = (a⊺ b)2 is a second-degree polynomial kernel. In Machine
-          Learning, a kernel is a function capable of computing the dot product ϕ(a)⊺ ϕ(b),
-          7 As explained in Chapter 4, the dot product of two vectors a and b is normally noted a · b. However, in
-           Machine Learning, vectors are frequently represented as column vectors (i.e., single-column matrices), so the
-           dot product is achieved by computing a⊺b. To remain consistent with the rest of the book, we will use this
-           notation here, ignoring the fact that this technically results in a single-cell matrix rather than a scalar value.
+<i>Equation</i> <i>5-8.</i> <i>Second-degree</i> <i>polynomial</i> <i>mapping</i>
+2
+<i>x</i>
+1
+<i>x</i>
+1
+2x <i>x</i>
+<i>ϕ</i> <b>x</b> = <i>ϕ</i> =
+1 2
+<i>x</i>
+2
+2
+<i>x</i>
+2
+Notice that the transformed vector is 3D instead of 2D. Now let’s look at what hap‐
+pens to a couple of 2D vectors, <b>a</b> and <b>b,</b> if we apply this second-degree polynomial
+mapping and then compute the dot product7 of the transformed vectors (See Equa‐
+tion 5-9).
+<i>Equation</i> <i>5-9.</i> <i>Kernel</i> <i>trick</i> <i>for</i> <i>a</i> <i>second-degree</i> <i>polynomial</i> <i>mapping</i>
+⊺
+2 2
+<i>a</i> <i>b</i>
+1 1
+⊺ 2 2 2 2
+<i>ϕ</i> <b>a</b> <i>ϕ</i> <b>b</b> = 2a <i>a</i> 2b <i>b</i> = <i>a</i> <i>b</i> + 2a <i>b</i> <i>a</i> <i>b</i> + <i>a</i> <i>b</i>
+1 2 1 2 1 1 1 1 2 2 2 2
+2 2
+<i>a</i> <i>b</i>
+2 2
+2
+⊺
+<i>a</i> <i>b</i>
+1 1 2
+2 ⊺
+= <i>a</i> <i>b</i> + <i>a</i> <i>b</i> = = <b>a</b> <b>b</b>
+1 1 2 2
+<i>a</i> <i>b</i>
+2 2
+How about that? The dot product of the transformed vectors is equal to the square of
+the dot product of the original vectors: <i>ϕ(a)</i> ⊺ <i>ϕ(b)</i> = (a ⊺ <b>b)2.</b>
+Here is the key insight: if you apply the transformation <i>ϕ</i> to all training instances,
+⊺
+then the dual problem (see Equation 5-6) will contain the dot product <i>ϕ(x</i> (i) ) <i>ϕ(x</i> (j) ).
+But if <i>ϕ</i> is the second-degree polynomial transformation defined in Equation 5-8,
+⊺ 2
+<i>i</i> <i>j</i>
+then you can replace this dot product of transformed vectors simply by <b>x</b> <b>x</b> . So,
+you don’t need to transform the training instances at all; just replace the dot product
+by its square in Equation 5-6. The result will be strictly the same as if you had gone
+through the trouble of transforming the training set then fitting a linear SVM algo‐
+rithm, but this trick makes the whole process much more computationally efficient.
+⊺ 2
+The function <i>K(a,</i> <b>b)</b> = (a <b>b)</b> is a second-degree polynomial kernel. In Machine
+⊺
+Learning, a <i>kernel</i> is a function capable of computing the dot product <i>ϕ(a)</i> <i>ϕ(b),</i>
+7 AsexplainedinChapter4,thedotproductoftwovectorsaandbisnormallynoteda·b.However,in
+MachineLearning,vectorsarefrequentlyrepresentedascolumnvectors(i.e.,single-columnmatrices),sothe
+⊺
+dotproductisachievedbycomputinga <b>b.Toremainconsistentwiththerestofthebook,wewillusethis</b>
+notationhere,ignoringthefactthatthistechnicallyresultsinasingle-cellmatrixratherthanascalarvalue.

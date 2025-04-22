@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   We will cover many of the packages and functions of the Tensor‐
+                   Flow API, but it’s impossible to cover them all, so you should really
+                   take some time to browse through the API; you will find that it is
+                   quite rich and well documented.                    
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 12-1. TensorFlow’s Python API                        
+                                                                      
+          At the lowest level, each TensorFlow operation (op for short) is implemented using
+          highly efficient C++ code.2 Many operations have multiple implementations called
+          kernels: each kernel is dedicated to a specific device type, such as CPUs, GPUs, or
+          even TPUs (tensor processing units). As you may know, GPUs can dramatically speed
+          up computations by splitting them into many smaller chunks and running them in
+          parallel across many GPU threads. TPUs are even faster: they are custom ASIC chips
+          built specifically for Deep Learning operations3 (we will discuss how to use Tensor‐
+          Flow with GPUs or TPUs in Chapter 19).                      
+          TensorFlow’s architecture is shown in Figure 12-2. Most of the time your code will
+          use the high-level APIs (especially tf.keras and tf.data); but when you need more flex‐
+          ibility, you will use the lower-level Python API, handling tensors directly. Note that
+                                                                      
+                                                                      
+          2 If you ever need to (but you probably won’t), you can write your own operations using the C++ API.
+          3 To learn more about TPUs and how they work, check out https://homl.info/tpus.

@@ -1,46 +1,27 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 9-16. A graphical representation of a Gaussian mixture model, including its
-          parameters (squares), random variables (circles), and their conditional dependencies
-          (solid arrows)                                              
-          Here is how to interpret the figure:8                       
-                                                                      
-           • The circles represent random variables.                  
-                                                                      
-           • The squares represent fixed values (i.e., parameters of the model).
-           • The large rectangles are called plates. They indicate that their content is repeated
-            several times.                                            
-           • The number at the bottom right of each plate indicates how many times its con‐
-            tent is repeated. So, there are m random variables z(i) (from z(1) to z(m)) and m
-            random variables x(i). There are also k means μ(j) and k covariance matrices Σ(j).
-            Lastly, there is just one weight vector ϕ (containing all the weights ϕ(1) to ϕ(k)).
-           • Each variable z(i) is drawn from the categorical distribution with weights ϕ. Each
-            variable x(i) is drawn from the normal distribution, with the mean and covariance
-            matrix defined by its cluster z(i).                       
-           • The solid arrows represent conditional dependencies. For example, the probabil‐
-            ity distribution for each random variable z(i) depends on the weight vector ϕ.
-            Note that when an arrow crosses a plate boundary, it means that it applies to all
-            the repetitions of that plate. For example, the weight vector ϕ conditions the
-            probability distributions of all the random variables x(1) to x(m).
-                                                                      
-           • The squiggly arrow from z(i) to x(i) represents a switch: depending on the value of
-            z(i), the instance x(i) will be sampled from a different Gaussian distribution. For
-            example, if z(i)=j, then xi ∼  μ j,Σ j .                  
-                                                                      
-                                                                      
-          8 Most of these notations are standard, but a few additional notations were taken from the Wikipedia article on
-           plate notation.                                            
+<i>Figure</i> <i>9-16.</i> <i>A</i> <i>graphical</i> <i>representation</i> <i>of</i> <i>a</i> <i>Gaussian</i> <i>mixture</i> <i>model,</i> <i>including</i> <i>its</i>
+<i>parameters</i> <i>(squares),</i> <i>random</i> <i>variables</i> <i>(circles),</i> <i>and</i> <i>their</i> <i>conditional</i> <i>dependencies</i>
+<i>(solid</i> <i>arrows)</i>
+Here is how to interpret the figure: 8
+• The circles represent random variables.
+• The squares represent fixed values (i.e., parameters of the model).
+• The large rectangles are called <i>plates.</i> They indicate that their content is repeated
+several times.
+• The number at the bottom right of each plate indicates how many times its con‐
+tent is repeated. So, there are <i>m</i> random variables <i>z</i> (i) (from <i>z</i> (1) to <i>z</i> (m) ) and <i>m</i>
+random variables <b>x</b> (i) . There are also <i>k</i> means <b>μ</b> (j) and <i>k</i> covariance matrices <b>Σ</b> (j) .
+Lastly, there is just one weight vector <b>ϕ</b> (containing all the weights <i>ϕ(1)</i> to <i>ϕ(k)).</i>
+• Each variable <i>z(i)</i> is drawn from the <i>categorical</i> <i>distribution</i> with weights <b>ϕ.</b> Each
+variable <b>x</b> (i) is drawn from the normal distribution, with the mean and covariance
+matrix defined by its cluster <i>z(i).</i>
+• The solid arrows represent conditional dependencies. For example, the probabil‐
+ity distribution for each random variable <i>z</i> (i) depends on the weight vector <b>ϕ.</b>
+Note that when an arrow crosses a plate boundary, it means that it applies to all
+the repetitions of that plate. For example, the weight vector <b>ϕ</b> conditions the
+(1) (m)
+probability distributions of all the random variables <b>x</b> to <b>x</b> .
+• The squiggly arrow from <i>z</i> (i) to <b>x</b> (i) represents a switch: depending on the value of
+<i>z(i),</i> the instance <b>x(i)</b> will be sampled from a different Gaussian distribution. For
+<i>i</i> <i>j</i> <i>j</i>
+example, if <i>z(i)=j,</i> then <b>x</b> ∼  <b>μ</b> ,Σ .
+8 Mostofthesenotationsarestandard,butafewadditionalnotationsweretakenfromtheWikipediaarticleon
+platenotation.

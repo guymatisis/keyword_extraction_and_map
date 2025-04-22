@@ -1,0 +1,49 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 3-2. An illustrated confusion matrix shows examples of true negatives (top left),
+          false positives (top right), false negatives (lower left), and true positives (lower right)
+                                                                      
+          Precision and Recall                                        
+                                                                      
+          Scikit-Learn provides several functions to compute classifier metrics, including preci‐
+          sion and recall:                                            
+            >>> from sklearn.metrics import precision_score, recall_score
+            >>> precision_score(y_train_5, y_train_pred) # == 4096 / (4096 + 1522)
+            0.7290850836596654                                        
+            >>> recall_score(y_train_5, y_train_pred) # == 4096 / (4096 + 1325)
+            0.7555801512636044                                        
+          Now your 5-detector does not look as shiny as it did when you looked at its accuracy.
+          When it claims an image represents a 5, it is correct only 72.9% of the time. More‐
+          over, it only detects 75.6% of the 5s.                      
+          It is often convenient to combine precision and recall into a single metric called the F
+                                                           1          
+          score, in particular if you need a simple way to compare two classifiers. The F score is
+                                                       1              
+          the harmonic mean of precision and recall (Equation 3-3). Whereas the regular mean
+          treats all values equally, the harmonic mean gives much more weight to low values.
+          As a result, the classifier will only get a high F score if both recall and precision are
+                                     1                                
+          high.                                                       
+            Equation 3-3. F                                           
+                     1                                                
+                   2        precision×recall TP                       
+            F =         =2×           =                               
+             1   1    1     precision+recall FN+FP                    
+                    +                  TP+                            
+               precision recall             2                         

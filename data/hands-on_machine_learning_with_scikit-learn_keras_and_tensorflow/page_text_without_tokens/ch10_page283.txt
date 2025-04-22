@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 10-2. Multiple layers in a biological neural network (human cortex)6
+                                                                      
+          Logical Computations with Neurons                           
+          McCulloch and Pitts proposed a very simple model of the biological neuron, which
+          later became known as an artificial neuron: it has one or more binary (on/off) inputs
+          and one binary output. The artificial neuron activates its output when more than a
+          certain number of its inputs are active. In their paper, they showed that even with
+          such a simplified model it is possible to build a network of artificial neurons that
+          computes any logical proposition you want. To see how such a network works, let’s
+          build a few ANNs that perform various logical computations (see Figure 10-3),
+          assuming that a neuron is activated when at least two of its inputs are active.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 10-3. ANNs performing simple logical computations    
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          6 Drawing of a cortical lamination by S. Ramon y Cajal (public domain). Reproduced from https://en.wikipe
+           dia.org/wiki/Cerebral_cortex.                              

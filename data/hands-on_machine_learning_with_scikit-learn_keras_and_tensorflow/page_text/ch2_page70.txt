@@ -1,46 +1,40 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                   As with all the transformations, it is important to fit the scalers to
-                   the training data only, not to the full dataset (including the test set).
-                   Only then can you use them to transform the training set and the
-                   test set (and new data).                           
-                                                                      
-          Transformation Pipelines                                    
-                                                                      
-          As you can see, there are many data transformation steps that need to be executed in
-          the right order. Fortunately, Scikit-Learn provides the Pipeline class to help with
-          such sequences of transformations. Here is a small pipeline for the numerical
-          attributes:                                                 
-            from sklearn.pipeline import Pipeline                     
-            from sklearn.preprocessing import StandardScaler          
-                                                                      
-            num_pipeline = Pipeline([                                 
-                 ('imputer', SimpleImputer(strategy="median")),       
-                 ('attribs_adder', CombinedAttributesAdder()),        
-                 ('std_scaler', StandardScaler()),                    
-               ])                                                     
-            housing_num_tr = num_pipeline.fit_transform(housing_num)  
-          The Pipeline constructor takes a list of name/estimator pairs defining a sequence of
-          steps. All but the last estimator must be transformers (i.e., they must have a
-          fit_transform() method). The names can be anything you like (as long as they are
-          unique and don’t contain double underscores, __); they will come in handy later for
-          hyperparameter tuning.                                      
-          When you call the pipeline’s fit() method, it calls fit_transform() sequentially on
-          all transformers, passing the output of each call as the parameter to the next call until
-          it reaches the final estimator, for which it calls the fit() method.
-                                                                      
-          The pipeline exposes the same methods as the final estimator. In this example, the last
-          estimator is a StandardScaler, which is a transformer, so the pipeline has a trans
-          form() method that applies all the transforms to the data in sequence (and of course
-          also a fit_transform() method, which is the one we used).   
-          So far, we have handled the categorical columns and the numerical columns sepa‐
-          rately. It would be more convenient to have a single transformer able to handle all col‐
-          umns, applying the appropriate transformations to each column. In version 0.20,
-          Scikit-Learn introduced the ColumnTransformer for this purpose, and the good news
-          is that it works great with pandas DataFrames. Let’s use it to apply all the transforma‐
-          tions to the housing data:                                  
-                                                                      
-                                                                      
-                                                                      
+As with all the transformations, it is important to fit the scalers to
+the training data only, not to the full dataset (including the test set).
+Only then can you use them to transform the training set and the
+test set (and new data).
+<header><largefont><b>Transformation</b></largefont> <largefont><b>Pipelines</b></largefont></header>
+As you can see, there are many data transformation steps that need to be executed in
+Pipeline
+the right order. Fortunately, Scikit-Learn provides the class to help with
+such sequences of transformations. Here is a small pipeline for the numerical
+attributes:
+<b>from</b> <b>sklearn.pipeline</b> <b>import</b> Pipeline
+<b>from</b> <b>sklearn.preprocessing</b> <b>import</b> StandardScaler
+num_pipeline = Pipeline([
+('imputer', SimpleImputer(strategy="median")),
+('attribs_adder', CombinedAttributesAdder()),
+('std_scaler', StandardScaler()),
+])
+housing_num_tr = num_pipeline.fit_transform(housing_num)
+Pipeline
+The constructor takes a list of name/estimator pairs defining a sequence of
+steps. All but the last estimator must be transformers (i.e., they must have a
+fit_transform() method). The names can be anything you like (as long as they are
+__);
+unique and don’t contain double underscores, they will come in handy later for
+hyperparameter tuning.
+When you call the pipeline’s fit() method, it calls fit_transform() sequentially on
+all transformers, passing the output of each call as the parameter to the next call until
+fit()
+it reaches the final estimator, for which it calls the method.
+The pipeline exposes the same methods as the final estimator. In this example, the last
+estimator is a StandardScaler , which is a transformer, so the pipeline has a trans
+form()
+method that applies all the transforms to the data in sequence (and of course
+also a fit_transform() method, which is the one we used).
+So far, we have handled the categorical columns and the numerical columns sepa‐
+rately. It would be more convenient to have a single transformer able to handle all col‐
+umns, applying the appropriate transformations to each column. In version 0.20,
+Scikit-Learn introduced the ColumnTransformer for this purpose, and the good news
+is that it works great with pandas DataFrames. Let’s use it to apply all the transforma‐
+tions to the housing data:

@@ -1,46 +1,34 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          multiple values at once), you need one output neuron per output dimension. For
-          example, to locate the center of an object in an image, you need to predict 2D coordi‐
-          nates, so you need two output neurons. If you also want to place a bounding box
-          around the object, then you need two more numbers: the width and the height of the
-          object. So, you end up with four output neurons.            
-                                                                      
-          In general, when building an MLP for regression, you do not want to use any activa‐
-          tion function for the output neurons, so they are free to output any range of values. If
-          you want to guarantee that the output will always be positive, then you can use the
-          ReLU activation function in the output layer. Alternatively, you can use the softplus
-          activation function, which is a smooth variant of ReLU: softplus(z) = log(1 + exp(z)).
-          It is close to 0 when z is negative, and close to z when z is positive. Finally, if you want
-          to guarantee that the predictions will fall within a given range of values, then you can
-          use the logistic function or the hyperbolic tangent, and then scale the labels to the
-          appropriate range: 0 to 1 for the logistic function and –1 to 1 for the hyperbolic
-          tangent.                                                    
-          The loss function to use during training is typically the mean squared error, but if you
-          have a lot of outliers in the training set, you may prefer to use the mean absolute
-          error instead. Alternatively, you can use the Huber loss, which is a combination of
-          both.                                                       
-                                                                      
-                   The Huber loss is quadratic when the error is smaller than a thres‐
-                   hold δ (typically 1) but linear when the error is larger than δ. The
-                   linear part makes it less sensitive to outliers than the mean squared
-                   error, and the quadratic part allows it to converge faster and be
-                   more precise than the mean absolute error.         
-          Table 10-1 summarizes the typical architecture of a regression MLP.
-                                                                      
-          Table 10-1. Typical regression MLP architecture             
-                                                                      
-          Hyperparameter Typical value                                
-          # input neurons One per input feature (e.g., 28 x 28 = 784 for MNIST)
-          # hidden layers Depends on the problem, but typically 1 to 5
-          # neurons per hidden layer Depends on the problem, but typically 10 to 100
-          # output neurons 1 per prediction dimension                 
-          Hidden activation ReLU (or SELU, see Chapter 11)            
-          Output activation None, or ReLU/softplus (if positive outputs) or logistic/tanh (if bounded outputs)
-          Loss function MSE or MAE/Huber (if outliers)                
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+multiple values at once), you need one output neuron per output dimension. For
+example, to locate the center of an object in an image, you need to predict 2D coordi‐
+nates, so you need two output neurons. If you also want to place a bounding box
+around the object, then you need two more numbers: the width and the height of the
+object. So, you end up with four output neurons.
+In general, when building an MLP for regression, you do not want to use any activa‐
+tion function for the output neurons, so they are free to output any range of values. If
+you want to guarantee that the output will always be positive, then you can use the
+ReLU activation function in the output layer. Alternatively, you can use the <i>softplus</i>
+activation function, which is a smooth variant of ReLU: softplus(z) = log(1 + exp(z)).
+It is close to 0 when <i>z</i> is negative, and close to <i>z</i> when <i>z</i> is positive. Finally, if you want
+to guarantee that the predictions will fall within a given range of values, then you can
+use the logistic function or the hyperbolic tangent, and then scale the labels to the
+appropriate range: 0 to 1 for the logistic function and –1 to 1 for the hyperbolic
+tangent.
+The loss function to use during training is typically the mean squared error, but if you
+have a lot of outliers in the training set, you may prefer to use the mean absolute
+error instead. Alternatively, you can use the Huber loss, which is a combination of
+both.
+The Huber loss is quadratic when the error is smaller than a thres‐
+hold <i>δ</i> (typically 1) but linear when the error is larger than <i>δ.</i> The
+linear part makes it less sensitive to outliers than the mean squared
+error, and the quadratic part allows it to converge faster and be
+more precise than the mean absolute error.
+Table 10-1 summarizes the typical architecture of a regression MLP.
+<i>Table</i> <i>10-1.</i> <i>Typical</i> <i>regression</i> <i>MLP</i> <i>architecture</i>
+<b>Hyperparameter</b> <b>Typicalvalue</b>
+#inputneurons Oneperinputfeature(e.g.,28x28=784forMNIST)
+#hiddenlayers Dependsontheproblem,buttypically1to5
+#neuronsperhiddenlayer Dependsontheproblem,buttypically10to100
+#outputneurons 1perpredictiondimension
+Hiddenactivation ReLU(orSELU,seeChapter11)
+Outputactivation None,orReLU/softplus(ifpositiveoutputs)orlogistic/tanh(ifboundedoutputs)
+Lossfunction MSEorMAE/Huber(ifoutliers)

@@ -1,46 +1,23 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 17-18. Vector arithmetic for visual concepts (part of figure 7 from the DCGAN
-          paper)14                                                    
-                                                                      
-                   If you add each image’s class as an extra input to both the generator
-                   and the discriminator, they will both learn what each class looks
-                   like, and thus you will be able to control the class of each image
-                   produced by the generator. This is called a conditional GAN15
-                   (CGAN).                                            
-                                                                      
-          DCGANs aren’t perfect, though. For example, when you try to generate very large
-          images using DCGANs, you often end up with locally convincing features but overall
-          inconsistencies (such as shirts with one sleeve much longer than the other). How can
-          you fix this?                                               
-          Progressive Growing of GANs                                 
-                                                                      
-          An important technique was proposed in a 2018 paper16 by Nvidia researchers Tero
-          Karras et al.: they suggested generating small images at the beginning of training,
-          then gradually adding convolutional layers to both the generator and the discrimina‐
-          tor to produce larger and larger images (4 × 4, 8 × 8, 16 × 16, …, 512 × 512, 1,024 ×
-          1,024). This approach resembles greedy layer-wise training of stacked autoencoders.
-                                                                      
-                                                                      
-          14 Reproduced with the kind authorization of the authors.   
-          15 Mehdi Mirza and Simon Osindero, “Conditional Generative Adversarial Nets,” arXiv preprint arXiv:
-           1411.1784 (2014).                                          
-          16 Tero Karras et al., “Progressive Growing of GANs for Improved Quality, Stability, and Variation,” Proceedings
-           of the International Conference on Learning Representations (2018).
+<i>Figure</i> <i>17-18.</i> <i>Vector</i> <i>arithmetic</i> <i>for</i> <i>visual</i> <i>concepts</i> <i>(part</i> <i>of</i> <i>figure</i> <i>7</i> <i>from</i> <i>the</i> <i>DCGAN</i>
+<i>paper)</i> <i>14</i>
+If you add each image’s class as an extra input to both the generator
+and the discriminator, they will both learn what each class looks
+like, and thus you will be able to control the class of each image
+15
+produced by the generator. This is called a <i>conditional</i> <i>GAN</i>
+(CGAN).
+DCGANs aren’t perfect, though. For example, when you try to generate very large
+images using DCGANs, you often end up with locally convincing features but overall
+inconsistencies (such as shirts with one sleeve much longer than the other). How can
+you fix this?
+<header><largefont><b>Progressive</b></largefont> <largefont><b>Growing</b></largefont> <largefont><b>of</b></largefont> <largefont><b>GANs</b></largefont></header>
+An important technique was proposed in a 2018 paper16 by Nvidia researchers Tero
+Karras et al.: they suggested generating small images at the beginning of training,
+then gradually adding convolutional layers to both the generator and the discrimina‐
+tor to produce larger and larger images (4 × 4, 8 × 8, 16 × 16, …, 512 × 512, 1,024 ×
+1,024). This approach resembles greedy layer-wise training of stacked autoencoders.
+14 Reproducedwiththekindauthorizationoftheauthors.
+15 MehdiMirzaandSimonOsindero,“ConditionalGenerativeAdversarialNets,”arXivpreprintarXiv:
+1411.1784(2014).
+16 TeroKarrasetal.,“ProgressiveGrowingofGANsforImprovedQuality,Stability,andVariation,”Proceedings
+<i>oftheInternationalConferenceonLearningRepresentations(2018).</i>

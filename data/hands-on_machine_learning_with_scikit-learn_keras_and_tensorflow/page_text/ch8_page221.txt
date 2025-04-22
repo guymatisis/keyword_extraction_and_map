@@ -1,46 +1,40 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                   For each principal component, PCA finds a zero-centered unit vec‐
-                   tor pointing in the direction of the PC. Since two opposing unit
-                   vectors lie on the same axis, the direction of the unit vectors
-                   returned by PCA is not stable: if you perturb the training set
-                   slightly and run PCA again, the unit vectors may point in the oppo‐
-                   site direction as the original vectors. However, they will generally
-                   still lie on the same axes. In some cases, a pair of unit vectors may
-                   even rotate or swap (if the variances along these two axes are close),
-                   but the plane they define will generally remain the same.
-          So how can you find the principal components of a training set? Luckily, there is a
-          standard matrix factorization technique called Singular Value Decomposition (SVD)
-          that can decompose the training set matrix X into the matrix multiplication of three
-          matrices U Σ V⊺, where V contains the unit vectors that define all the principal com‐
-          ponents that we are looking for, as shown in Equation 8-1.  
-                                                                      
-            Equation 8-1. Principal components matrix                 
-                                                                      
-               ∣ ∣   ∣                                                
-            V= c c ⋯ c                                                
-                1 2  n                                                
-               ∣ ∣   ∣                                                
-          The following Python code uses NumPy’s svd() function to obtain all the principal
-          components of the training set, then extracts the two unit vectors that define the first
-          two PCs:                                                    
-                                                                      
-            X_centered = X - X.mean(axis=0)                           
-            U, s, Vt = np.linalg.svd(X_centered)                      
-            c1 = Vt.T[:, 0]                                           
-            c2 = Vt.T[:, 1]                                           
-                   PCA assumes that the dataset is centered around the origin. As we
-                   will see, Scikit-Learn’s PCA classes take care of centering the data
-                   for you. If you implement PCA yourself (as in the preceding exam‐
-                   ple), or if you use other libraries, don’t forget to center the data
-                   first.                                             
-          Projecting Down to d Dimensions                             
-                                                                      
-          Once you have identified all the principal components, you can reduce the dimen‐
-          sionality of the dataset down to d dimensions by projecting it onto the hyperplane
-          defined by the first d principal components. Selecting this hyperplane ensures that the
-          projection will preserve as much variance as possible. For example, in Figure 8-2 the
-          3D dataset is projected down to the 2D plane defined by the first two principal
-                                                                      
+For each principal component, PCA finds a zero-centered unit vec‐
+tor pointing in the direction of the PC. Since two opposing unit
+vectors lie on the same axis, the direction of the unit vectors
+returned by PCA is not stable: if you perturb the training set
+slightly and run PCA again, the unit vectors may point in the oppo‐
+site direction as the original vectors. However, they will generally
+still lie on the same axes. In some cases, a pair of unit vectors may
+even rotate or swap (if the variances along these two axes are close),
+but the plane they define will generally remain the same.
+So how can you find the principal components of a training set? Luckily, there is a
+standard matrix factorization technique called <i>Singular</i> <i>Value</i> <i>Decomposition</i> (SVD)
+that can decompose the training set matrix <b>X</b> into the matrix multiplication of three
+⊺
+matrices <b>U</b> <b>Σ</b> <b>V</b> , where <b>V</b> contains the unit vectors that define all the principal com‐
+ponents that we are looking for, as shown in Equation 8-1.
+<i>Equation</i> <i>8-1.</i> <i>Principal</i> <i>components</i> <i>matrix</i>
+∣ ∣ ∣
+⋯
+<b>V</b> = <b>c</b> <b>c</b> <b>c</b>
+1 2 <i>n</i>
+∣ ∣ ∣
+svd()
+The following Python code uses NumPy’s function to obtain all the principal
+components of the training set, then extracts the two unit vectors that define the first
+two PCs:
+X_centered = X - X.mean(axis=0)
+U, s, Vt = np.linalg.svd(X_centered)
+c1 = Vt.T[:, 0]
+c2 = Vt.T[:, 1]
+PCA assumes that the dataset is centered around the origin. As we
+will see, Scikit-Learn’s PCA classes take care of centering the data
+for you. If you implement PCA yourself (as in the preceding exam‐
+ple), or if you use other libraries, don’t forget to center the data
+first.
+<header><largefont><b>Projecting</b></largefont> <largefont><b>Down</b></largefont> <largefont><b>to</b></largefont> <largefont><b>d</b></largefont> <largefont><b>Dimensions</b></largefont></header>
+Once you have identified all the principal components, you can reduce the dimen‐
+sionality of the dataset down to <i>d</i> dimensions by projecting it onto the hyperplane
+defined by the first <i>d</i> principal components. Selecting this hyperplane ensures that the
+projection will preserve as much variance as possible. For example, in Figure 8-2 the
+3D dataset is projected down to the 2D plane defined by the first two principal

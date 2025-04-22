@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+           • At the end of each epoch, we display the status bar again to make it look com‐
+            plete13 and to print a line feed, and we reset the states of the mean loss and the
+            metrics.                                                  
+                                                                      
+          If you set the optimizer’s clipnorm or clipvalue hyperparameter, it will take care of
+          this for you. If you want to apply any other transformation to the gradients, simply do
+          so before calling the apply_gradients() method.             
+          If you add weight constraints to your model (e.g., by setting kernel_constraint or
+          bias_constraint when creating a layer), you should update the training loop to
+                                                                      
+          apply these constraints just after apply_gradients():       
+            for variable in model.variables:                          
+               if variable.constraint is not None:                    
+                 variable.assign(variable.constraint(variable))       
+          Most importantly, this training loop does not handle layers that behave differently
+          during training and testing (e.g., BatchNormalization or Dropout). To handle these,
+          you need to call the model with training=True and make sure it propagates this to
+          every layer that needs it.                                  
+          As you can see, there are quite a lot of things you need to get right, and it’s easy to
+          make a mistake. But on the bright side, you get full control, so it’s your call.
+                                                                      
+          Now that you know how to customize any part of your models14 and training algo‐
+          rithms, let’s see how you can use TensorFlow’s automatic graph generation feature: it
+          can speed up your custom code considerably, and it will also make it portable to any
+          platform supported by TensorFlow (see Chapter 19).          
+          TensorFlow Functions and Graphs                             
+                                                                      
+          In TensorFlow 1, graphs were unavoidable (as were the complexities that came with
+          them) because they were a central part of TensorFlow’s API. In TensorFlow 2, they are
+          still there, but not as central, and they’re much (much!) simpler to use. To show just
+          how simple, let’s start with a trivial function that computes the cube of its input:
+                                                                      
+            def cube(x):                                              
+               return x ** 3                                          
+                                                                      
+                                                                      
+                                                                      
+          13 The truth is we did not process every single instance in the training set, because we sampled instances ran‐
+           domly: some were processed more than once, while others were not processed at all. Likewise, if the training
+           set size is not a multiple of the batch size, we will miss a few instances. In practice that’s fine.
+          14 With the exception of optimizers, as very few people ever customize these; see the “Custom Optimizers” sec‐
+           tion in the notebook for an example.                       

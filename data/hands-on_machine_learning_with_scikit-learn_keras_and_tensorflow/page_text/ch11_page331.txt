@@ -1,46 +1,26 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                  CHAPTER 11          
-                                                                      
-                        Training  Deep  Neural   Networks             
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          In Chapter 10 we introduced artificial neural networks and trained our first deep
-          neural networks. But they were shallow nets, with just a few hidden layers. What if
-          you need to tackle a complex problem, such as detecting hundreds of types of objects
-          in high-resolution images? You may need to train a much deeper DNN, perhaps with
-          10 layers or many more, each containing hundreds of neurons, linked by hundreds of
-          thousands of connections. Training a deep DNN isn’t a walk in the park. Here are
-          some of the problems you could run into:                    
-           • You may be faced with the tricky vanishing gradients problem or the related
-            exploding gradients problem. This is when the gradients grow smaller and
-            smaller, or larger and larger, when flowing backward through the DNN during
-            training. Both of these problems make lower layers very hard to train.
-                                                                      
-           • You might not have enough training data for such a large network, or it might be
-            too costly to label.                                      
-           • Training may be extremely slow.                          
-           • A model with millions of parameters would severely risk overfitting the training
-            set, especially if there are not enough training instances or if they are too noisy.
-                                                                      
-          In this chapter we will go through each of these problems and present techniques to
-          solve them. We will start by exploring the vanishing and exploding gradients prob‐
-          lems and some of their most popular solutions. Next, we will look at transfer learning
-          and unsupervised pretraining, which can help you tackle complex tasks even when
-          you have little labeled data. Then we will discuss various optimizers that can speed up
-          training large models tremendously. Finally, we will go through a few popular regula‐
-          rization techniques for large neural networks.              
-          With these tools, you will be able to train very deep nets. Welcome to Deep Learning!
-                                                                      
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>11</b></largefont></header>
+<header><largefont><b>Training</b></largefont> <largefont><b>Deep</b></largefont> <largefont><b>Neural</b></largefont> <largefont><b>Networks</b></largefont></header>
+In Chapter 10 we introduced artificial neural networks and trained our first deep
+neural networks. But they were shallow nets, with just a few hidden layers. What if
+you need to tackle a complex problem, such as detecting hundreds of types of objects
+in high-resolution images? You may need to train a much deeper DNN, perhaps with
+10 layers or many more, each containing hundreds of neurons, linked by hundreds of
+thousands of connections. Training a deep DNN isn’t a walk in the park. Here are
+some of the problems you could run into:
+• You may be faced with the tricky <i>vanishing</i> <i>gradients</i> problem or the related
+<i>exploding</i> <i>gradients</i> problem. This is when the gradients grow smaller and
+smaller, or larger and larger, when flowing backward through the DNN during
+training. Both of these problems make lower layers very hard to train.
+• You might not have enough training data for such a large network, or it might be
+too costly to label.
+• Training may be extremely slow.
+• A model with millions of parameters would severely risk overfitting the training
+set, especially if there are not enough training instances or if they are too noisy.
+In this chapter we will go through each of these problems and present techniques to
+solve them. We will start by exploring the vanishing and exploding gradients prob‐
+lems and some of their most popular solutions. Next, we will look at transfer learning
+and unsupervised pretraining, which can help you tackle complex tasks even when
+you have little labeled data. Then we will discuss various optimizers that can speed up
+training large models tremendously. Finally, we will go through a few popular regula‐
+rization techniques for large neural networks.
+With these tools, you will be able to train very deep nets. Welcome to Deep Learning!

@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          You can easily assign new instances to the cluster whose centroid is closest:
+                                                                      
+            >>> X_new = np.array([[0, 2], [3, 2], [-3, 3], [-3, 2.5]])
+            >>> kmeans.predict(X_new)                                 
+            array([1, 1, 2, 2], dtype=int32)                          
+          If you plot the cluster’s decision boundaries, you get a Voronoi tessellation (see
+          Figure 9-3, where each centroid is represented with an X).  
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 9-3. K-Means decision boundaries (Voronoi tessellation)
+                                                                      
+          The vast majority of the instances were clearly assigned to the appropriate cluster, but
+          a few instances were probably mislabeled (especially near the boundary between the
+          top-left cluster and the central cluster). Indeed, the K-Means algorithm does not
+          behave very well when the blobs have very different diameters because all it cares
+          about when assigning an instance to a cluster is the distance to the centroid.
+          Instead of assigning each instance to a single cluster, which is called hard clustering, it
+          can be useful to give each instance a score per cluster, which is called soft clustering.
+          The score can be the distance between the instance and the centroid; conversely, it
+          can be a similarity score (or affinity), such as the Gaussian Radial Basis Function
+          (introduced in Chapter 5). In the KMeans class, the transform() method measures
+          the distance from each instance to every centroid:          
+                                                                      
+            >>> kmeans.transform(X_new)                               
+            array([[2.81093633, 0.32995317, 2.9042344 , 1.49439034, 2.88633901],
+                [5.80730058, 2.80290755, 5.84739223, 4.4759332 , 5.84236351],
+                [1.21475352, 3.29399768, 0.29040966, 1.69136631, 1.71086031],
+                [0.72581411, 3.21806371, 0.36159148, 1.54808703, 1.21567622]])
+          In this example, the first instance in X_new is located at a distance of 2.81 from the
+          first centroid, 0.33 from the second centroid, 2.90 from the third centroid, 1.49 from
+          the fourth centroid, and 2.89 from the fifth centroid. If you have a high-dimensional
+          dataset and you transform it this way, you end up with a k-dimensional dataset: this
+          transformation can be a very efficient nonlinear dimensionality reduction technique.
+                                                                      

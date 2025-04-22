@@ -1,46 +1,21 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Nonrepresentative Training Data                             
-                                                                      
-          In order to generalize well, it is crucial that your training data be representative of the
-          new cases you want to generalize to. This is true whether you use instance-based
-          learning or model-based learning.                           
-          For example, the set of countries we used earlier for training the linear model was not
-          perfectly representative; a few countries were missing. Figure 1-21 shows what the
-          data looks like when you add the missing countries.         
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 1-21. A more representative training sample          
-                                                                      
-          If you train a linear model on this data, you get the solid line, while the old model is
-          represented by the dotted line. As you can see, not only does adding a few missing
-          countries significantly alter the model, but it makes it clear that such a simple linear
-          model is probably never going to work well. It seems that very rich countries are not
-          happier than moderately rich countries (in fact, they seem unhappier), and con‐
-          versely some poor countries seem happier than many rich countries.
-          By using a nonrepresentative training set, we trained a model that is unlikely to make
-          accurate predictions, especially for very poor and very rich countries.
-                                                                      
-          It is crucial to use a training set that is representative of the cases you want to general‐
-          ize to. This is often harder than it sounds: if the sample is too small, you will have
-          sampling noise (i.e., nonrepresentative data as a result of chance), but even very large
-          samples can be nonrepresentative if the sampling method is flawed. This is called
-          sampling bias.                                              
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+<header><largefont><b>Nonrepresentative</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Data</b></largefont></header>
+In order to generalize well, it is crucial that your training data be representative of the
+new cases you want to generalize to. This is true whether you use instance-based
+learning or model-based learning.
+For example, the set of countries we used earlier for training the linear model was not
+perfectly representative; a few countries were missing. Figure 1-21 shows what the
+data looks like when you add the missing countries.
+<i>Figure</i> <i>1-21.</i> <i>A</i> <i>more</i> <i>representative</i> <i>training</i> <i>sample</i>
+If you train a linear model on this data, you get the solid line, while the old model is
+represented by the dotted line. As you can see, not only does adding a few missing
+countries significantly alter the model, but it makes it clear that such a simple linear
+model is probably never going to work well. It seems that very rich countries are not
+happier than moderately rich countries (in fact, they seem unhappier), and con‐
+versely some poor countries seem happier than many rich countries.
+By using a nonrepresentative training set, we trained a model that is unlikely to make
+accurate predictions, especially for very poor and very rich countries.
+It is crucial to use a training set that is representative of the cases you want to general‐
+ize to. This is often harder than it sounds: if the sample is too small, you will have
+<i>sampling</i> <i>noise</i> (i.e., nonrepresentative data as a result of chance), but even very large
+samples can be nonrepresentative if the sampling method is flawed. This is called
+<i>sampling</i> <i>bias.</i>

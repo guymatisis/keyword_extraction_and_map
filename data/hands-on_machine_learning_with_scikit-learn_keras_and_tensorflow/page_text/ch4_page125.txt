@@ -1,46 +1,36 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          When the cost function is very irregular (as in Figure 4-6), this can actually help the
-          algorithm jump out of local minima, so Stochastic Gradient Descent has a better
-          chance of finding the global minimum than Batch Gradient Descent does.
-                                                                      
-          Therefore, randomness is good to escape from local optima, but bad because it means
-          that the algorithm can never settle at the minimum. One solution to this dilemma is
-          to gradually reduce the learning rate. The steps start out large (which helps make
-          quick progress and escape local minima), then get smaller and smaller, allowing the
-          algorithm to settle at the global minimum. This process is akin to simulated anneal‐
-          ing, an algorithm inspired from the process in metallurgy of annealing, where molten
-          metal is slowly cooled down. The function that determines the learning rate at each
-          iteration is called the learning schedule. If the learning rate is reduced too quickly, you
-          may get stuck in a local minimum, or even end up frozen halfway to the minimum. If
-          the learning rate is reduced too slowly, you may jump around the minimum for a
-          long time and end up with a suboptimal solution if you halt training too early.
-          This code implements Stochastic Gradient Descent using a simple learning schedule:
-            n_epochs = 50                                             
-            t0, t1 = 5, 50 # learning schedule hyperparameters        
-            def learning_schedule(t):                                 
-               return t0 / (t + t1)                                   
-                                                                      
-            theta = np.random.randn(2,1) # random initialization      
-            for epoch in range(n_epochs):                             
-               for i in range(m):                                     
-                 random_index = np.random.randint(m)                  
-                 xi = X_b[random_index:random_index+1]                
-                 yi = y[random_index:random_index+1]                  
-                 gradients = 2 * xi.T.dot(xi.dot(theta) - yi)         
-                 eta = learning_schedule(epoch * m + i)               
-                 theta = theta - eta * gradients                      
-          By convention we iterate by rounds of m iterations; each round is called an epoch.
-          While the Batch Gradient Descent code iterated 1,000 times through the whole train‐
-          ing set, this code goes through the training set only 50 times and reaches a pretty
-          good solution:                                              
-            >>> theta                                                 
-            array([[4.21076011],                                      
-                [2.74856079]])                                        
-          Figure 4-10 shows the first 20 steps of training (notice how irregular the steps are).
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+When the cost function is very irregular (as in Figure 4-6), this can actually help the
+algorithm jump out of local minima, so Stochastic Gradient Descent has a better
+chance of finding the global minimum than Batch Gradient Descent does.
+Therefore, randomness is good to escape from local optima, but bad because it means
+that the algorithm can never settle at the minimum. One solution to this dilemma is
+to gradually reduce the learning rate. The steps start out large (which helps make
+quick progress and escape local minima), then get smaller and smaller, allowing the
+algorithm to settle at the global minimum. This process is akin to <i>simulated</i> <i>anneal‐</i>
+<i>ing,</i> an algorithm inspired from the process in metallurgy of annealing, where molten
+metal is slowly cooled down. The function that determines the learning rate at each
+iteration is called the <i>learning</i> <i>schedule.</i> If the learning rate is reduced too quickly, you
+may get stuck in a local minimum, or even end up frozen halfway to the minimum. If
+the learning rate is reduced too slowly, you may jump around the minimum for a
+long time and end up with a suboptimal solution if you halt training too early.
+This code implements Stochastic Gradient Descent using a simple learning schedule:
+n_epochs = 50
+t0, t1 = 5, 50 <i>#</i> <i>learning</i> <i>schedule</i> <i>hyperparameters</i>
+<b>def</b> learning_schedule(t):
+<b>return</b> t0 / (t + t1)
+theta = np.random.randn(2,1) <i>#</i> <i>random</i> <i>initialization</i>
+<b>for</b> epoch <b>in</b> range(n_epochs):
+<b>for</b> i <b>in</b> range(m):
+random_index = np.random.randint(m)
+xi = X_b[random_index:random_index+1]
+yi = y[random_index:random_index+1]
+gradients = 2 * xi.T.dot(xi.dot(theta) - yi)
+eta = learning_schedule(epoch * m + i)
+theta = theta - eta * gradients
+By convention we iterate by rounds of <i>m</i> iterations; each round is called an <i>epoch.</i>
+While the Batch Gradient Descent code iterated 1,000 times through the whole train‐
+ing set, this code goes through the training set only 50 times and reaches a pretty
+good solution:
+<b>>>></b> theta
+array([[4.21076011],
+[2.74856079]])
+Figure 4-10 shows the first 20 steps of training (notice how irregular the steps are).

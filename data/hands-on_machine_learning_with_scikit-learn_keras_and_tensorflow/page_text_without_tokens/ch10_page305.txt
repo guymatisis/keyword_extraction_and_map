@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            import pandas as pd                                       
+            import matplotlib.pyplot as plt                           
+                                                                      
+            pd.DataFrame(history.history).plot(figsize=(8, 5))        
+            plt.grid(True)                                            
+            plt.gca().set_ylim(0, 1) # set the vertical range to [0-1]
+            plt.show()                                                
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 10-12. Learning curves: the mean training loss and accuracy measured over each
+          epoch, and the mean validation loss and accuracy measured at the end of each epoch
+          You can see that both the training accuracy and the validation accuracy steadily
+          increase during training, while the training loss and the validation loss decrease.
+          Good! Moreover, the validation curves are close to the training curves, which means
+          that there is not too much overfitting. In this particular case, the model looks like it
+          performed better on the validation set than on the training set at the beginning of
+          training. But that’s not the case: indeed, the validation error is computed at the end of
+          each epoch, while the training error is computed using a running mean during each
+          epoch. So the training curve should be shifted by half an epoch to the left. If you do
+          that, you will see that the training and validation curves overlap almost perfectly at
+          the beginning of training.                                  
+                                                                      
+                   When plotting the training curve, it should be shifted by half an
+                   epoch to the left.                                 
+                                                                      
+                                                                      
+                                                                      
+                                                                      

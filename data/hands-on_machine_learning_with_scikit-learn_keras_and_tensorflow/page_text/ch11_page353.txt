@@ -1,46 +1,41 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            optimizer = keras.optimizers.SGD(lr=0.001, momentum=0.9)  
-                                                                      
-          The one drawback of momentum optimization is that it adds yet another hyperpara‐
-          meter to tune. However, the momentum value of 0.9 usually works well in practice
-          and almost always goes faster than regular Gradient Descent.
-          Nesterov Accelerated Gradient                               
-                                                                      
-          One small variant to momentum optimization, proposed by Yurii Nesterov in 1983,14
-          is almost always faster than vanilla momentum optimization. The Nesterov Acceler‐
-          ated Gradient (NAG) method, also known as Nesterov momentum optimization, meas‐
-          ures the gradient of the cost function not at the local position θ but slightly ahead in
-          the direction of the momentum, at θ + βm (see Equation 11-5).
-                                                                      
-            Equation 11-5. Nesterov Accelerated Gradient algorithm    
-            1. m   βm−η∇ J θ+βm                                       
-                        θ                                             
-            2. θ  θ+m                                                 
-                                                                      
-          This small tweak works because in general the momentum vector will be pointing in
-          the right direction (i.e., toward the optimum), so it will be slightly more accurate to
-          use the gradient measured a bit farther in that direction rather than the gradient at
-          the original position, as you can see in Figure 11-6 (where ∇ represents the gradient
-                                             1                        
-          of the cost function measured at the starting point θ, and ∇ represents the gradient
-                                             2                        
-          at the point located at θ + βm).                            
-          As you can see, the Nesterov update ends up slightly closer to the optimum. After a
-          while, these small improvements add up and NAG ends up being significantly faster
-          than regular momentum optimization. Moreover, note that when the momentum
-          pushes the weights across a valley, ∇ continues to push farther across the valley,
-                                 1                                    
-          while ∇ pushes back toward the bottom of the valley. This helps reduce oscillations
-               2                                                      
-          and thus NAG converges faster.                              
-          NAG is generally faster than regular momentum optimization. To use it, simply set
-          nesterov=True when creating the SGD optimizer:              
-            optimizer = keras.optimizers.SGD(lr=0.001, momentum=0.9, nesterov=True)
-                                                                      
-                                                                      
-                                                                      
-          14 Yurii Nesterov, “A Method for Unconstrained Convex Minimization Problem with the Rate of Convergence
-           O(1/k2),” Doklady AN USSR 269 (1983): 543–547.             
+optimizer = keras.optimizers.SGD(lr=0.001, momentum=0.9)
+The one drawback of momentum optimization is that it adds yet another hyperpara‐
+meter to tune. However, the momentum value of 0.9 usually works well in practice
+and almost always goes faster than regular Gradient Descent.
+<header><largefont><b>Nesterov</b></largefont> <largefont><b>Accelerated</b></largefont> <largefont><b>Gradient</b></largefont></header>
+1983,14
+One small variant to momentum optimization, proposed by Yurii Nesterov in
+is almost always faster than vanilla momentum optimization. The <i>Nesterov</i> <i>Acceler‐</i>
+<i>ated</i> <i>Gradient</i> (NAG) method, also known as <i>Nesterov</i> <i>momentum</i> <i>optimization,</i> meas‐
+ures the gradient of the cost function not at the local position <b>θ</b> but slightly ahead in
+the direction of the momentum, at <b>θ</b> + <i>βm</i> (see Equation 11-5).
+<i>Equation</i> <i>11-5.</i> <i>Nesterov</i> <i>Accelerated</i> <i>Gradient</i> <i>algorithm</i>
+1. <b>m</b> <i>βm</i> − <i>η</i> ∇ <i>J</i> <b>θ</b> + <i>βm</i>
+<b>θ</b>
+2. <b>θ</b> <b>θ</b> + <b>m</b>
+This small tweak works because in general the momentum vector will be pointing in
+the right direction (i.e., toward the optimum), so it will be slightly more accurate to
+use the gradient measured a bit farther in that direction rather than the gradient at
+the original position, as you can see in Figure 11-6 (where ∇ represents the gradient
+1
+∇
+of the cost function measured at the starting point <b>θ,</b> and represents the gradient
+2
+at the point located at <b>θ</b> + <i>βm).</i>
+As you can see, the Nesterov update ends up slightly closer to the optimum. After a
+while, these small improvements add up and NAG ends up being significantly faster
+than regular momentum optimization. Moreover, note that when the momentum
+∇
+pushes the weights across a valley, continues to push farther across the valley,
+1
+∇
+while pushes back toward the bottom of the valley. This helps reduce oscillations
+2
+and thus NAG converges faster.
+NAG is generally faster than regular momentum optimization. To use it, simply set
+nesterov=True SGD
+when creating the optimizer:
+optimizer = keras.optimizers.SGD(lr=0.001, momentum=0.9, nesterov=True)
+14 YuriiNesterov,“AMethodforUnconstrainedConvexMinimizationProblemwiththeRateofConvergence
+2
+O(1/k ),”DokladyANUSSR269(1983):543–547.

@@ -1,46 +1,25 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          but with a regularization constraint. You can see that regularization forced the model
-          to have a smaller slope: this model does not fit the training data (circles) as well as the
-          first model, but it actually generalizes better to new examples that it did not see dur‐
-          ing training (squares).                                     
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 1-23. Regularization reduces the risk of overfitting 
-                                                                      
-          The amount of regularization to apply during learning can be controlled by a hyper‐
-          parameter. A hyperparameter is a parameter of a learning algorithm (not of the
-          model). As such, it is not affected by the learning algorithm itself; it must be set prior
-          to training and remains constant during training. If you set the regularization hyper‐
-          parameter to a very large value, you will get an almost flat model (a slope close to
-          zero); the learning algorithm will almost certainly not overfit the training data, but it
-          will be less likely to find a good solution. Tuning hyperparameters is an important
-          part of building a Machine Learning system (you will see a detailed example in the
-          next chapter).                                              
-          Underfitting the Training Data                              
-                                                                      
-          As you might guess, underfitting is the opposite of overfitting: it occurs when your
-          model is too simple to learn the underlying structure of the data. For example, a lin‐
-          ear model of life satisfaction is prone to underfit; reality is just more complex than
-          the model, so its predictions are bound to be inaccurate, even on the training
-          examples.                                                   
-          Here are the main options for fixing this problem:          
-                                                                      
-           • Select a more powerful model, with more parameters.      
-                                                                      
-           • Feed better features to the learning algorithm (feature engineering).
-           • Reduce the constraints on the model (e.g., reduce the regularization hyperpara‐
-            meter).                                                   
-                                                                      
-                                                                      
+but with a regularization constraint. You can see that regularization forced the model
+to have a smaller slope: this model does not fit the training data (circles) as well as the
+first model, but it actually generalizes better to new examples that it did not see dur‐
+ing training (squares).
+<i>Figure</i> <i>1-23.</i> <i>Regularization</i> <i>reduces</i> <i>the</i> <i>risk</i> <i>of</i> <i>overfitting</i>
+The amount of regularization to apply during learning can be controlled by a <i>hyper‐</i>
+<i>parameter.</i> A hyperparameter is a parameter of a learning algorithm (not of the
+model). As such, it is not affected by the learning algorithm itself; it must be set prior
+to training and remains constant during training. If you set the regularization hyper‐
+parameter to a very large value, you will get an almost flat model (a slope close to
+zero); the learning algorithm will almost certainly not overfit the training data, but it
+will be less likely to find a good solution. Tuning hyperparameters is an important
+part of building a Machine Learning system (you will see a detailed example in the
+next chapter).
+<header><largefont><b>Underfitting</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Training</b></largefont> <largefont><b>Data</b></largefont></header>
+As you might guess, <i>underfitting</i> is the opposite of overfitting: it occurs when your
+model is too simple to learn the underlying structure of the data. For example, a lin‐
+ear model of life satisfaction is prone to underfit; reality is just more complex than
+the model, so its predictions are bound to be inaccurate, even on the training
+examples.
+Here are the main options for fixing this problem:
+• Select a more powerful model, with more parameters.
+• Feed better features to the learning algorithm (feature engineering).
+• Reduce the constraints on the model (e.g., reduce the regularization hyperpara‐
+meter).

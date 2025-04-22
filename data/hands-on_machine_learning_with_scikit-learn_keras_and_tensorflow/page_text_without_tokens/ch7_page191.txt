@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          How is this possible? The following analogy can help shed some light on this mystery.
+          Suppose you have a slightly biased coin that has a 51% chance of coming up heads
+          and 49% chance of coming up tails. If you toss it 1,000 times, you will generally get
+          more or less 510 heads and 490 tails, and hence a majority of heads. If you do the
+          math, you will find that the probability of obtaining a majority of heads after 1,000
+          tosses is close to 75%. The more you toss the coin, the higher the probability (e.g.,
+          with 10,000 tosses, the probability climbs over 97%). This is due to the law of large
+          numbers: as you keep tossing the coin, the ratio of heads gets closer and closer to the
+          probability of heads (51%). Figure 7-3 shows 10 series of biased coin tosses. You can
+          see that as the number of tosses increases, the ratio of heads approaches 51%. Eventu‐
+          ally all 10 series end up so close to 51% that they are consistently above 50%.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 7-3. The law of large numbers                        
+                                                                      
+          Similarly, suppose you build an ensemble containing 1,000 classifiers that are individ‐
+          ually correct only 51% of the time (barely better than random guessing). If you pre‐
+          dict the majority voted class, you can hope for up to 75% accuracy! However, this is
+          only true if all classifiers are perfectly independent, making uncorrelated errors,
+          which is clearly not the case because they are trained on the same data. They are likely
+          to make the same types of errors, so there will be many majority votes for the wrong
+          class, reducing the ensemble’s accuracy.                    
+                                                                      
+                   Ensemble methods work best when the predictors are as independ‐
+                   ent from one another as possible. One way to get diverse classifiers
+                   is to train them using very different algorithms. This increases the
+                   chance that they will make very different types of errors, improving
+                   the ensemble’s accuracy.                           
+                                                                      
+          The following code creates and trains a voting classifier in Scikit-Learn, composed of
+          three diverse classifiers (the training set is the moons dataset, introduced in Chap‐
+          ter 5):                                                     

@@ -1,46 +1,25 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          You may have noticed that the Perceptron learning algorithm strongly resembles Sto‐
-          chastic Gradient Descent. In fact, Scikit-Learn’s Perceptron class is equivalent to
-          using an SGDClassifier with the following hyperparameters: loss="perceptron",
-          learning_rate="constant", eta0=1 (the learning rate), and penalty=None (no
-          regularization).                                            
-                                                                      
-          Note that contrary to Logistic Regression classifiers, Perceptrons do not output a class
-          probability; rather, they make predictions based on a hard threshold. This is one rea‐
-          son to prefer Logistic Regression over Perceptrons.         
-          In their 1969 monograph Perceptrons, Marvin Minsky and Seymour Papert highligh‐
-          ted a number of serious weaknesses of Perceptrons—in particular, the fact that they
-          are incapable of solving some trivial problems (e.g., the Exclusive OR (XOR) classifi‐
-          cation problem; see the left side of Figure 10-6). This is true of any other linear classi‐
-          fication model (such as Logistic Regression classifiers), but researchers had expected
-          much more from Perceptrons, and some were so disappointed that they dropped
-          neural networks altogether in favor of higher-level problems such as logic, problem
-          solving, and search.                                        
-          It turns out that some of the limitations of Perceptrons can be eliminated by stacking
-          multiple Perceptrons. The resulting ANN is called a Multilayer Perceptron (MLP). An
-          MLP can solve the XOR problem, as you can verify by computing the output of the
-          MLP represented on the right side of Figure 10-6: with inputs (0, 0) or (1, 1), the net‐
-          work outputs 0, and with inputs (0, 1) or (1, 0) it outputs 1. All connections have a
-          weight equal to 1, except the four connections where the weight is shown. Try verify‐
-          ing that this network indeed solves the XOR problem!        
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 10-6. XOR classification problem and an MLP that solves it
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+You may have noticed that the Perceptron learning algorithm strongly resembles Sto‐
+chastic Gradient Descent. In fact, Scikit-Learn’s Perceptron class is equivalent to
+using an SGDClassifier with the following hyperparameters: loss="perceptron" ,
+learning_rate="constant" eta0=1 penalty=None
+, (the learning rate), and (no
+regularization).
+Note that contrary to Logistic Regression classifiers, Perceptrons do not output a class
+probability; rather, they make predictions based on a hard threshold. This is one rea‐
+son to prefer Logistic Regression over Perceptrons.
+In their 1969 monograph <i>Perceptrons,</i> Marvin Minsky and Seymour Papert highligh‐
+ted a number of serious weaknesses of Perceptrons—in particular, the fact that they
+are incapable of solving some trivial problems (e.g., the <i>Exclusive</i> <i>OR</i> (XOR) classifi‐
+cation problem; see the left side of Figure 10-6). This is true of any other linear classi‐
+fication model (such as Logistic Regression classifiers), but researchers had expected
+much more from Perceptrons, and some were so disappointed that they dropped
+neural networks altogether in favor of higher-level problems such as logic, problem
+solving, and search.
+It turns out that some of the limitations of Perceptrons can be eliminated by stacking
+multiple Perceptrons. The resulting ANN is called a <i>Multilayer</i> <i>Perceptron</i> (MLP). An
+MLP can solve the XOR problem, as you can verify by computing the output of the
+MLP represented on the right side of Figure 10-6: with inputs (0, 0) or (1, 1), the net‐
+work outputs 0, and with inputs (0, 1) or (1, 0) it outputs 1. All connections have a
+weight equal to 1, except the four connections where the weight is shown. Try verify‐
+ing that this network indeed solves the XOR problem!
+<i>Figure</i> <i>10-6.</i> <i>XOR</i> <i>classification</i> <i>problem</i> <i>and</i> <i>an</i> <i>MLP</i> <i>that</i> <i>solves</i> <i>it</i>

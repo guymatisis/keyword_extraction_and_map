@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            class MyDense(keras.layers.Layer):                        
+               def __init__(self, units, activation=None, **kwargs):  
+                 super().__init__(**kwargs)                           
+                 self.units = units                                   
+                 self.activation = keras.activations.get(activation)  
+               def build(self, batch_input_shape):                    
+                 self.kernel = self.add_weight(                       
+                   name="kernel", shape=[batch_input_shape[-1], self.units],
+                   initializer="glorot_normal")                       
+                 self.bias = self.add_weight(                         
+                   name="bias", shape=[self.units], initializer="zeros")
+                 super().build(batch_input_shape) # must be at the end
+               def call(self, X):                                     
+                 return self.activation(X @ self.kernel + self.bias)  
+               def compute_output_shape(self, batch_input_shape):     
+                 return tf.TensorShape(batch_input_shape.as_list()[:-1] + [self.units])
+               def get_config(self):                                  
+                 base_config = super().get_config()                   
+                 return {**base_config, "units": self.units,          
+                      "activation": keras.activations.serialize(self.activation)}
+          Let’s walk through this code:                               
+           • The constructor takes all the hyperparameters as arguments (in this example,
+            units and activation), and importantly it also takes a **kwargs argument. It
+            calls the parent constructor, passing it the kwargs: this takes care of standard
+            arguments such as input_shape, trainable, and name. Then it saves the hyper‐
+            parameters as attributes, converting the activation argument to the appropriate
+            activation function using the keras.activations.get() function (it accepts
+            functions, standard strings like "relu" or "selu", or simply None).8
+                                                                      
+           • The build() method’s role is to create the layer’s variables by calling the
+            add_weight() method for each weight. The build() method is called the first
+            time the layer is used. At that point, Keras will know the shape of this layer’s
+            inputs, and it will pass it to the build() method,9 which is often necessary to cre‐
+            ate some of the weights. For example, we need to know the number of neurons in
+            the previous layer in order to create the connection weights matrix (i.e., the
+            "kernel"): this corresponds to the size of the last dimension of the inputs. At the
+            end of the build() method (and only at the end), you must call the parent’s
+                                                                      
+                                                                      
+          8 This function is specific to tf.keras. You could use keras.layers.Activation instead.
+          9 The Keras API calls this argument input_shape, but since it also includes the batch dimension, I prefer to call
+           it batch_input_shape. Same for compute_output_shape().     

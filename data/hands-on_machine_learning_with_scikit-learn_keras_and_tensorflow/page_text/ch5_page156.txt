@@ -1,46 +1,32 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            from sklearn.preprocessing import StandardScaler          
-            from sklearn.svm import LinearSVC                         
-                                                                      
-            iris = datasets.load_iris()                               
-            X = iris["data"][:, (2, 3)] # petal length, petal width   
-            y = (iris["target"] == 2).astype(np.float64) # Iris virginica
-            svm_clf = Pipeline([                                      
-                 ("scaler", StandardScaler()),                        
-                 ("linear_svc", LinearSVC(C=1, loss="hinge")),        
-               ])                                                     
-            svm_clf.fit(X, y)                                         
-          The resulting model is represented on the left in Figure 5-4.
-          Then, as usual, you can use the model to make predictions:  
-                                                                      
-            >>> svm_clf.predict([[5.5, 1.7]])                         
-            array([1.])                                               
-                                                                      
-                   Unlike Logistic Regression classifiers, SVM classifiers do not out‐
-                   put probabilities for each class.                  
-                                                                      
-                                                                      
-                                                                      
-          Instead of using the LinearSVC class, we could use the SVC class with a linear kernel.
-          When creating the SVC model, we would write SVC(kernel="linear", C=1). Or we
-          could use the SGDClassifier class, with SGDClassifier(loss="hinge", alpha=1/
-          (m*C)). This applies regular Stochastic Gradient Descent (see Chapter 4) to train a
-          linear SVM classifier. It does not converge as fast as the LinearSVC class, but it can be
-          useful to handle online classification tasks or huge datasets that do not fit in memory
-          (out-of-core training).                                     
-                                                                      
-                   The LinearSVC class regularizes the bias term, so you should center
-                   the training set first by subtracting its mean. This is automatic if
-                   you scale the data using the StandardScaler. Also make sure you
-                   set the loss hyperparameter to "hinge", as it is not the default
-                   value. Finally, for better performance, you should set the dual
-                   hyperparameter to False, unless there are more features than
-                   training instances (we will discuss duality later in the chapter).
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+<b>from</b> <b>sklearn.preprocessing</b> <b>import</b> StandardScaler
+<b>from</b> <b>sklearn.svm</b> <b>import</b> LinearSVC
+iris = datasets.load_iris()
+X = iris["data"][:, (2, 3)] <i>#</i> <i>petal</i> <i>length,</i> <i>petal</i> <i>width</i>
+y = (iris["target"] == 2).astype(np.float64) <i>#</i> <i>Iris</i> <i>virginica</i>
+svm_clf = Pipeline([
+("scaler", StandardScaler()),
+("linear_svc", LinearSVC(C=1, loss="hinge")),
+])
+svm_clf.fit(X, y)
+The resulting model is represented on the left in Figure 5-4.
+Then, as usual, you can use the model to make predictions:
+<b>>>></b> svm_clf.predict([[5.5, 1.7]])
+array([1.])
+Unlike Logistic Regression classifiers, SVM classifiers do not out‐
+put probabilities for each class.
+Instead of using the LinearSVC class, we could use the SVC class with a linear kernel.
+When creating the SVC model, we would write SVC(kernel="linear", C=1) . Or we
+SGDClassifier SGDClassifier(loss="hinge", alpha=1/
+could use the class, with
+(m*C)). This applies regular Stochastic Gradient Descent (see Chapter 4) to train a
+LinearSVC
+linear SVM classifier. It does not converge as fast as the class, but it can be
+useful to handle online classification tasks or huge datasets that do not fit in memory
+(out-of-core training).
+The LinearSVC class regularizes the bias term, so you should center
+the training set first by subtracting its mean. This is automatic if
+you scale the data using the StandardScaler. Also make sure you
+set the loss hyperparameter to "hinge", as it is not the default
+value. Finally, for better performance, you should set the dual
+hyperparameter to False, unless there are more features than
+training instances (we will discuss duality later in the chapter).

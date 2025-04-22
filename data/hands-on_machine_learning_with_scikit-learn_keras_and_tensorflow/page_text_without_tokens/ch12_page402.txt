@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          This is because computing the gradients of this function using autodiff leads to some
+          numerical difficulties: due to floating-point precision errors, autodiff ends up com‐
+          puting infinity divided by infinity (which returns NaN). Fortunately, we can analyti‐
+          cally find that the derivative of the softplus function is just 1 / (1 + 1 / exp(x)), which
+          is numerically stable. Next, we can tell TensorFlow to use this stable function when
+          computing the gradients of the my_softplus() function by decorating it with
+          @tf.custom_gradient and making it return both its normal output and the function
+          that computes the derivatives (note that it will receive as input the gradients that were
+          backpropagated so far, down to the softplus function; and according to the chain rule,
+          we should multiply them with this function’s gradients):    
+            @tf.custom_gradient                                       
+            def my_better_softplus(z):                                
+               exp = tf.exp(z)                                        
+               def my_softplus_gradients(grad):                       
+                 return grad / (1 + 1 / exp)                          
+               return tf.math.log(exp + 1), my_softplus_gradients     
+          Now when we compute the gradients of the my_better_softplus() function, we get
+          the proper result, even for large input values (however, the main output still explodes
+          because of the exponential; one workaround is to use tf.where() to return the inputs
+          when they are large).                                       
+          Congratulations! You can now compute the gradients of any function (provided it is
+          differentiable at the point where you compute it), even blocking backpropagation
+          when needed, and write your own gradient functions! This is probably more flexibil‐
+          ity than you will ever need, even if you build your own custom training loops, as we
+          will see now.                                               
+                                                                      
+          Custom Training Loops                                       
+                                                                      
+          In some rare cases, the fit() method may not be flexible enough for what you need
+          to do. For example, the Wide & Deep paper we discussed in Chapter 10 uses two dif‐
+          ferent optimizers: one for the wide path and the other for the deep path. Since the
+          fit() method only uses one optimizer (the one that we specify when compiling the
+          model), implementing this paper requires writing your own custom loop.
+          You may also like to write custom training loops simply to feel more confident that
+          they do precisely what you intend them to do (perhaps you are unsure about some
+          details of the fit() method). It can sometimes feel safer to make everything explicit.
+          However, remember that writing a custom training loop will make your code longer,
+          more error-prone, and harder to maintain.                   
+                                                                      
+                                                                      
+                                                                      
+                                                                      

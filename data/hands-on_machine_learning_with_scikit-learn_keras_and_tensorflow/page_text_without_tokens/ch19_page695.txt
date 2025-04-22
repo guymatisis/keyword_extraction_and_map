@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          each ID always refers to the same GPU card. For example, if you have four GPU
+          cards, you could start two programs, assigning two GPUs to each of them, by execut‐
+          ing commands like the following in two separate terminal windows:
+                                                                      
+            $ CUDA_DEVICE_ORDER=PCI_BUS_ID CUDA_VISIBLE_DEVICES=0,1 python3 program_1.py
+            # and in another terminal:                                
+            $ CUDA_DEVICE_ORDER=PCI_BUS_ID CUDA_VISIBLE_DEVICES=3,2 python3 program_2.py
+          Program 1 will then only see GPU cards 0 and 1, named /gpu:0 and /gpu:1 respec‐
+          tively, and program 2 will only see GPU cards 2 and 3, named /gpu:1 and /gpu:0
+          respectively (note the order). Everything will work fine (see Figure 19-12). Of course,
+          you can also define these environment variables in Python by setting os.envi
+          ron["CUDA_DEVICE_ORDER"] and os.environ["CUDA_VISIBLE_DEVICES"], as long as
+          you do so before using TensorFlow.                          
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 19-12. Each program gets two GPUs                    
+                                                                      
+          Another option is to tell TensorFlow to grab only a specific amount of GPU RAM.
+          This must be done immediately after importing TensorFlow. For example, to make
+          TensorFlow grab only 2 GiB of RAM on each GPU, you must create a virtual GPU
+          device (also called a logical GPU device) for each physical GPU device and set its
+          memory limit to 2 GiB (i.e., 2,048 MiB):                    
+            for gpu in tf.config.experimental.list_physical_devices("GPU"):
+               tf.config.experimental.set_virtual_device_configuration(
+                 gpu,                                                 
+                 [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=2048)])
+          Now (supposing you have four GPUs, each with at least 4 GiB of RAM) two programs
+          like this one can run in parallel, each using all four GPU cards (see Figure 19-13).
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

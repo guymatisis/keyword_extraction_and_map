@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            fashion_mnist = keras.datasets.fashion_mnist              
+            (X_train_full, y_train_full), (X_test, y_test) = fashion_mnist.load_data()
+          When loading MNIST or Fashion MNIST using Keras rather than Scikit-Learn, one
+          important difference is that every image is represented as a 28 × 28 array rather than
+          a 1D array of size 784. Moreover, the pixel intensities are represented as integers
+          (from 0 to 255) rather than floats (from 0.0 to 255.0). Let’s take a look at the shape
+          and data type of the training set:                          
+                                                                      
+            >>> X_train_full.shape                                    
+            (60000, 28, 28)                                           
+            >>> X_train_full.dtype                                    
+            dtype('uint8')                                            
+          Note that the dataset is already split into a training set and a test set, but there is no
+          validation set, so we’ll create one now. Additionally, since we are going to train the
+          neural network using Gradient Descent, we must scale the input features. For simplic‐
+          ity, we’ll scale the pixel intensities down to the 0–1 range by dividing them by 255.0
+          (this also converts them to floats):                        
+            X_valid, X_train = X_train_full[:5000] / 255.0, X_train_full[5000:] / 255.0
+            y_valid, y_train = y_train_full[:5000], y_train_full[5000:]
+          With MNIST, when the label is equal to 5, it means that the image represents the
+          handwritten digit 5. Easy. For Fashion MNIST, however, we need the list of class
+          names to know what we are dealing with:                     
+            class_names = ["T-shirt/top", "Trouser", "Pullover", "Dress", "Coat",
+                     "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot"]
+          For example, the first image in the training set represents a coat:
+            >>> class_names[y_train[0]]                               
+            'Coat'                                                    
+          Figure 10-11 shows some samples from the Fashion MNIST dataset.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 10-11. Samples from Fashion MNIST                    
+                                                                      

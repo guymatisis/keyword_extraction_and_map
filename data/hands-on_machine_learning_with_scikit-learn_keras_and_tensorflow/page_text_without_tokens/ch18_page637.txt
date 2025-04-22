@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            for episode in range(600):                                
+               obs = env.reset()                                      
+               for step in range(200):                                
+                 epsilon = max(1 - episode / 500, 0.01)               
+                 obs, reward, done, info = play_one_step(env, obs, epsilon)
+                 if done:                                             
+                   break                                              
+               if episode > 50:                                       
+                 training_step(batch_size)                            
+          We run 600 episodes, each for a maximum of 200 steps. At each step, we first com‐
+          pute the epsilon value for the ε-greedy policy: it will go from 1 down to 0.01, line‐
+          arly, in a bit under 500 episodes. Then we call the play_one_step() function, which
+          will use the ε-greedy policy to pick an action, then execute it and record the experi‐
+          ence in the replay buffer. If the episode is done, we exit the loop. Finally, if we are past
+          the 50th episode, we call the training_step() function to train the model on one
+          batch sampled from the replay buffer. The reason we play 50 episodes without train‐
+          ing is to give the replay buffer some time to fill up (if we don’t wait enough, then
+          there will not be enough diversity in the replay buffer). And that’s it, we just imple‐
+          mented the Deep Q-Learning algorithm!                       
+          Figure 18-10 shows the total rewards the agent got during each episode.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 18-10. Learning curve of the Deep Q-Learning algorithm
+                                                                      
+          As you can see, the algorithm made no apparent progress at all for almost 300 epi‐
+          sodes (in part because ε was very high at the beginning), then its performance sud‐
+          denly skyrocketed up to 200 (which is the maximum possible performance in this
+          environment). That’s great news: the algorithm worked fine, and it actually ran much
+          faster than the Policy Gradient algorithm! But wait… just a few episodes later, it for‐
+          got everything it knew, and its performance dropped below 25! This is called
+                                                                      

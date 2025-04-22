@@ -1,46 +1,39 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Next, we need to construct the vocabulary. This requires going through the whole
-          training set once, applying our preprocess() function, and using a Counter to count
-          the number of occurrences of each word:                     
-                                                                      
-            from collections import Counter                           
-            vocabulary = Counter()                                    
-            for X_batch, y_batch in datasets["train"].batch(32).map(preprocess):
-               for review in X_batch:                                 
-                 vocabulary.update(list(review.numpy()))              
-          Let’s look at the three most common words:                  
-            >>> vocabulary.most_common()[:3]                          
-            [(b'<pad>', 215797), (b'the', 61137), (b'a', 38564)]      
-          Great! We probably don’t need our model to know all the words in the dictionary to
-          get good performance, though, so let’s truncate the vocabulary, keeping only the
-          10,000 most common words:                                   
-            vocab_size = 10000                                        
-            truncated_vocabulary = [                                  
-               word for word, count in vocabulary.most_common()[:vocab_size]]
-          Now we need to add a preprocessing step to replace each word with its ID (i.e., its
-          index in the vocabulary). Just like we did in Chapter 13, we will create a lookup table
-          for this, using 1,000 out-of-vocabulary (oov) buckets:      
-            words = tf.constant(truncated_vocabulary)                 
-            word_ids = tf.range(len(truncated_vocabulary), dtype=tf.int64)
-            vocab_init = tf.lookup.KeyValueTensorInitializer(words, word_ids)
-            num_oov_buckets = 1000                                    
-            table = tf.lookup.StaticVocabularyTable(vocab_init, num_oov_buckets)
-          We can then use this table to look up the IDs of a few words:
-            >>> table.lookup(tf.constant([b"This movie was faaaaaantastic".split()]))
-            <tf.Tensor: [...], dtype=int64, numpy=array([[ 22, 12, 11, 10054]])>
-          Note that the words “this,” “movie,” and “was” were found in the table, so their IDs
-          are lower than 10,000, while the word “faaaaaantastic” was not found, so it was map‐
-          ped to one of the oov buckets, with an ID greater than or equal to 10,000.
-                                                                      
-                   TF Transform (introduced in Chapter 13) provides some useful
-                   functions to handle such vocabularies. For example, check out the
-                   tft.compute_and_apply_vocabulary() function: it will go
-                   through the dataset to find all distinct words and build the vocabu‐
-                   lary, and it will generate the TF operations required to encode each
-                   word using this vocabulary.                        
-                                                                      
-          Now we are ready to create the final training set. We batch the reviews, then convert
-          them to short sequences of words using the preprocess() function, then encode
+Next, we need to construct the vocabulary. This requires going through the whole
+training set once, applying our preprocess() function, and using a Counter to count
+the number of occurrences of each word:
+<b>from</b> <b>collections</b> <b>import</b> Counter
+vocabulary = Counter()
+<b>for</b> X_batch, y_batch <b>in</b> datasets["train"].batch(32).map(preprocess):
+<b>for</b> review <b>in</b> X_batch:
+vocabulary.update(list(review.numpy()))
+Let’s look at the three most common words:
+<b>>>></b> vocabulary.most_common()[:3]
+[(b'<pad>', 215797), (b'the', 61137), (b'a', 38564)]
+Great! We probably don’t need our model to know all the words in the dictionary to
+get good performance, though, so let’s truncate the vocabulary, keeping only the
+10,000 most common words:
+vocab_size = 10000
+truncated_vocabulary = [
+word <b>for</b> word, count <b>in</b> vocabulary.most_common()[:vocab_size]]
+Now we need to add a preprocessing step to replace each word with its ID (i.e., its
+index in the vocabulary). Just like we did in Chapter 13, we will create a lookup table
+for this, using 1,000 out-of-vocabulary (oov) buckets:
+words = tf.constant(truncated_vocabulary)
+word_ids = tf.range(len(truncated_vocabulary), dtype=tf.int64)
+vocab_init = tf.lookup.KeyValueTensorInitializer(words, word_ids)
+num_oov_buckets = 1000
+table = tf.lookup.StaticVocabularyTable(vocab_init, num_oov_buckets)
+We can then use this table to look up the IDs of a few words:
+<b>>>></b> table.lookup(tf.constant([b"This movie was faaaaaantastic".split()]))
+<tf.Tensor: [...], dtype=int64, numpy=array([[ 22, 12, 11, 10054]])>
+Note that the words “this,” “movie,” and “was” were found in the table, so their IDs
+are lower than 10,000, while the word “faaaaaantastic” was not found, so it was map‐
+ped to one of the oov buckets, with an ID greater than or equal to 10,000.
+TF Transform (introduced in Chapter 13) provides some useful
+functions to handle such vocabularies. For example, check out the
+tft.compute_and_apply_vocabulary() function: it will go
+through the dataset to find all distinct words and build the vocabu‐
+lary, and it will generate the TF operations required to encode each
+word using this vocabulary.
+Now we are ready to create the final training set. We batch the reviews, then convert
+them to short sequences of words using the preprocess() function, then encode

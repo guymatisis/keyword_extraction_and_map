@@ -1,46 +1,10 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 7-9. In this depiction of Gradient Boosting, the first predictor (top left) is trained
-          normally, then each consecutive predictor (middle left and lower left) is trained on the
-          previous predictor’s residuals; the right column shows the resulting ensemble’s predictions
-                                                                      
-          The learning_rate hyperparameter scales the contribution of each tree. If you set it
-          to a low value, such as 0.1, you will need more trees in the ensemble to fit the train‐
-          ing set, but the predictions will usually generalize better. This is a regularization tech‐
-          nique called shrinkage. Figure 7-10 shows two GBRT ensembles trained with a low
-          learning rate: the one on the left does not have enough trees to fit the training set,
-          while the one on the right has too many trees and overfits the training set.
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+<i>Figure</i> <i>7-9.</i> <i>In</i> <i>this</i> <i>depiction</i> <i>of</i> <i>Gradient</i> <i>Boosting,</i> <i>the</i> <i>first</i> <i>predictor</i> <i>(top</i> <i>left)</i> <i>is</i> <i>trained</i>
+<i>normally,</i> <i>then</i> <i>each</i> <i>consecutive</i> <i>predictor</i> <i>(middle</i> <i>left</i> <i>and</i> <i>lower</i> <i>left)</i> <i>is</i> <i>trained</i> <i>on</i> <i>the</i>
+<i>previous</i> <i>predictor’s</i> <i>residuals;</i> <i>the</i> <i>right</i> <i>column</i> <i>shows</i> <i>the</i> <i>resulting</i> <i>ensemble’s</i> <i>predictions</i>
+learning_rate
+The hyperparameter scales the contribution of each tree. If you set it
+to a low value, such as 0.1 , you will need more trees in the ensemble to fit the train‐
+ing set, but the predictions will usually generalize better. This is a regularization tech‐
+nique called <i>shrinkage.</i> Figure 7-10 shows two GBRT ensembles trained with a low
+learning rate: the one on the left does not have enough trees to fit the training set,
+while the one on the right has too many trees and overfits the training set.

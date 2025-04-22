@@ -1,0 +1,47 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            model = keras.models.Sequential([                         
+               keras.layers.Flatten(input_shape=[28, 28]),            
+               keras.layers.BatchNormalization(),                     
+               keras.layers.Dense(300, activation="elu", kernel_initializer="he_normal"),
+               keras.layers.BatchNormalization(),                     
+               keras.layers.Dense(100, activation="elu", kernel_initializer="he_normal"),
+               keras.layers.BatchNormalization(),                     
+               keras.layers.Dense(10, activation="softmax")           
+            ])                                                        
+          That’s all! In this tiny example with just two hidden layers, it’s unlikely that Batch
+          Normalization will have a very positive impact; but for deeper networks it can make a
+          tremendous difference.                                      
+          Let’s display the model summary:                            
+            >>> model.summary()                                       
+            Model: "sequential_3"                                     
+            _________________________________________________________________
+            Layer (type)     Output Shape    Param #                  
+            =================================================================
+            flatten_3 (Flatten) (None, 784)  0                        
+            _________________________________________________________________
+            batch_normalization_v2 (Batc (None, 784) 3136             
+            _________________________________________________________________
+            dense_50 (Dense) (None, 300)     235500                   
+            _________________________________________________________________
+            batch_normalization_v2_1 (Ba (None, 300) 1200             
+            _________________________________________________________________
+            dense_51 (Dense) (None, 100)     30100                    
+            _________________________________________________________________
+            batch_normalization_v2_2 (Ba (None, 100) 400              
+            _________________________________________________________________
+            dense_52 (Dense) (None, 10)      1010                     
+            =================================================================
+            Total params: 271,346                                     
+            Trainable params: 268,978                                 
+            Non-trainable params: 2,368                               
+          As you can see, each BN layer adds four parameters per input: γ, β, μ, and σ (for
+          example, the first BN layer adds 3,136 parameters, which is 4 × 784). The last two
+          parameters, μ and σ, are the moving averages; they are not affected by backpropaga‐
+          tion, so Keras calls them “non-trainable”9 (if you count the total number of BN
+          parameters, 3,136 + 1,200 + 400, and divide by 2, you get 2,368, which is the total
+          number of non-trainable parameters in this model).          
+          9 However, they are estimated during training, based on the training data, so arguably they are trainable. In
+           Keras, “non-trainable” really means “untouched by backpropagation.”

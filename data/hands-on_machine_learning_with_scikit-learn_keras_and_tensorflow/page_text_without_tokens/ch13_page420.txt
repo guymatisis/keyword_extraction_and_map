@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+           • First, the code assumes that we have precomputed the mean and standard devia‐
+            tion of each feature in the training set. X_mean and X_std are just 1D tensors (or
+            NumPy arrays) containing eight floats, one per input feature.
+           • The preprocess() function takes one CSV line and starts by parsing it. For this
+            it uses the tf.io.decode_csv() function, which takes two arguments: the first is
+            the line to parse, and the second is an array containing the default value for each
+            column in the CSV file. This array tells TensorFlow not only the default value for
+            each column, but also the number of columns and their types. In this example,
+            we tell it that all feature columns are floats and that missing values should default
+            to 0, but we provide an empty array of type tf.float32 as the default value for
+            the last column (the target): the array tells TensorFlow that this column contains
+            floats, but that there is no default value, so it will raise an exception if it encoun‐
+            ters a missing value.                                     
+           • The decode_csv() function returns a list of scalar tensors (one per column), but
+            we need to return 1D tensor arrays. So we call tf.stack() on all tensors except
+            for the last one (the target): this will stack these tensors into a 1D array. We then
+            do the same for the target value (this makes it a 1D tensor array with a single
+            value, rather than a scalar tensor).                      
+           • Finally, we scale the input features by subtracting the feature means and then
+            dividing by the feature standard deviations, and we return a tuple containing the
+            scaled features and the target.                           
+                                                                      
+          Let’s test this preprocessing function:                     
+            >>> preprocess(b'4.2083,44.0,5.3232,0.9171,846.0,2.3370,37.47,-122.2,2.782')
+            (<tf.Tensor: id=6227, shape=(8,), dtype=float32, numpy=   
+             array([ 0.16579159, 1.216324 , -0.05204564, -0.39215982, -0.5277444 ,
+                 -0.2633488 , 0.8543046 , -1.3072058 ], dtype=float32)>,
+             <tf.Tensor: [...], numpy=array([2.782], dtype=float32)>) 
+          Looks good! We can now apply the function to the dataset.   
+          Putting Everything Together                                 
+                                                                      
+          To make the code reusable, let’s put together everything we have discussed so far into
+          a small helper function: it will create and return a dataset that will efficiently load Cal‐
+          ifornia housing data from multiple CSV files, preprocess it, shuffle it, optionally
+          repeat it, and batch it (see Figure 13-2):                  
+            def csv_reader_dataset(filepaths, repeat=1, n_readers=5,  
+                          n_read_threads=None, shuffle_buffer_size=10000,
+                          n_parse_threads=5, batch_size=32):          
+               dataset = tf.data.Dataset.list_files(filepaths)        
+               dataset = dataset.interleave(                          
+                 lambda filepath: tf.data.TextLineDataset(filepath).skip(1),

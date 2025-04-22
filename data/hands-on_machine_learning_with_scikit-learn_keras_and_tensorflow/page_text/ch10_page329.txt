@@ -1,46 +1,36 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-           6. Suppose you have an MLP composed of one input layer with 10 passthrough
-            neurons, followed by one hidden layer with 50 artificial neurons, and finally one
-            output layer with 3 artificial neurons. All artificial neurons use the ReLU activa‐
-            tion function.                                            
-                                                                      
-             • What is the shape of the input matrix X?               
-             • What are the shapes of the hidden layer’s weight vector W and its bias vector
-                                                h                     
-              b ?                                                     
-               h                                                      
-             • What are the shapes of the output layer’s weight vector W and its bias vector
-                                                o                     
-              b?                                                      
-               o                                                      
-             • What is the shape of the network’s output matrix Y?    
-             • Write the equation that computes the network’s output matrix Y as a function
-              of X, W , b , W, and b.                                 
-                  h h  o   o                                          
-           7. How many neurons do you need in the output layer if you want to classify email
-            into spam or ham? What activation function should you use in the output layer?
-            If instead you want to tackle MNIST, how many neurons do you need in the out‐
-            put layer, and which activation function should you use? What about for getting
-            your network to predict housing prices, as in Chapter 2?  
-           8. What is backpropagation and how does it work? What is the difference between
-            backpropagation and reverse-mode autodiff?                
-           9. Can you list all the hyperparameters you can tweak in a basic MLP? If the MLP
-            overfits the training data, how could you tweak these hyperparameters to try to
-            solve the problem?                                        
-          10. Train a deep MLP on the MNIST dataset (you can load it using keras.data
-            sets.mnist.load_data(). See if you can get over 98% precision. Try searching
-            for the optimal learning rate by using the approach presented in this chapter (i.e.,
-            by growing the learning rate exponentially, plotting the loss, and finding the
-            point where the loss shoots up). Try adding all the bells and whistles—save
-            checkpoints, use early stopping, and plot learning curves using TensorBoard.
-          Solutions to these exercises are available in Appendix A.   
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+6. Suppose you have an MLP composed of one input layer with 10 passthrough
+neurons, followed by one hidden layer with 50 artificial neurons, and finally one
+output layer with 3 artificial neurons. All artificial neurons use the ReLU activa‐
+tion function.
+• What is the shape of the input matrix <b>X?</b>
+• What are the shapes of the hidden layer’s weight vector <b>W</b> and its bias vector
+<i>h</i>
+<b>b</b> ?
+<i>h</i>
+• What are the shapes of the output layer’s weight vector <b>W</b> and its bias vector
+<i>o</i>
+<b>b</b> ?
+<i>o</i>
+• What is the shape of the network’s output matrix <b>Y?</b>
+• Write the equation that computes the network’s output matrix <b>Y</b> as a function
+of <b>X,</b> <b>W</b> , <b>b</b> , <b>W</b> , and <b>b</b> .
+<i>h</i> <i>h</i> <i>o</i> <i>o</i>
+7. How many neurons do you need in the output layer if you want to classify email
+into spam or ham? What activation function should you use in the output layer?
+If instead you want to tackle MNIST, how many neurons do you need in the out‐
+put layer, and which activation function should you use? What about for getting
+your network to predict housing prices, as in Chapter 2?
+8. What is backpropagation and how does it work? What is the difference between
+backpropagation and reverse-mode autodiff?
+9. Can you list all the hyperparameters you can tweak in a basic MLP? If the MLP
+overfits the training data, how could you tweak these hyperparameters to try to
+solve the problem?
+keras.data
+10. Train a deep MLP on the MNIST dataset (you can load it using
+sets.mnist.load_data().
+See if you can get over 98% precision. Try searching
+for the optimal learning rate by using the approach presented in this chapter (i.e.,
+by growing the learning rate exponentially, plotting the loss, and finding the
+point where the loss shoots up). Try adding all the bells and whistles—save
+checkpoints, use early stopping, and plot learning curves using TensorBoard.
+Solutions to these exercises are available in Appendix A.

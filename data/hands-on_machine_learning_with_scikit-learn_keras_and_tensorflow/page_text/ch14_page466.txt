@@ -1,46 +1,45 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          them to explore a wider range of features, ultimately improving generalization. Equa‐
-          tion 14-2 shows how to apply LRN.                           
-                                                                      
-            Equation 14-2. Local response normalization (LRN)         
-                                                                      
-                                         r                            
-                    j    −β    j  = min i+ , f −1                     
-                    high       high     2  n                          
-            b =a k+α ∑ a 2 with                                       
-             i i   j= j j                r                            
-                     low       j = max 0,i−                           
-                               low       2                            
-          In this equation:                                           
-           • b is the normalized output of the neuron located in feature map i, at some row u
-             i                                                        
-            and column v (note that in this equation we consider only neurons located at this
-            row and column, so u and v are not shown).                
-           • a is the activation of that neuron after the ReLU step, but before normalization.
-             i                                                        
-           • k, α, β, and r are hyperparameters. k is called the bias, and r is called the depth
-            radius.                                                   
-           • f is the number of feature maps.                         
-             n                                                        
-          For example, if r = 2 and a neuron has a strong activation, it will inhibit the activation
-          of the neurons located in the feature maps immediately above and below its own.
-          In AlexNet, the hyperparameters are set as follows: r = 2, α = 0.00002, β = 0.75, and
-          k = 1. This step can be implemented using the tf.nn.local_response_normaliza
-          tion() function (which you can wrap in a Lambda layer if you want to use it in a
-          Keras model).                                               
-          A variant of AlexNet called ZF Net12 was developed by Matthew Zeiler and Rob Fer‐
-          gus and won the 2013 ILSVRC challenge. It is essentially AlexNet with a few tweaked
-          hyperparameters (number of feature maps, kernel size, stride, etc.).
-          GoogLeNet                                                   
-          The GoogLeNet architecture was developed by Christian Szegedy et al. from Google
-          Research,13 and it won the ILSVRC 2014 challenge by pushing the top-five error rate
-          below 7%. This great performance came in large part from the fact that the network
-          was much deeper than previous CNNs (as you’ll see in Figure 14-14). This was made
-                                                                      
-          12 Matthew D. Zeiler and Rob Fergus, “Visualizing and Understanding Convolutional Networks,” Proceedings of
-           the European Conference on Computer Vision (2014): 818-833.
-          13 Christian Szegedy et al., “Going Deeper with Convolutions,” Proceedings of the IEEE Conference on Computer
-           Vision and Pattern Recognition (2015): 1–9.                
+them to explore a wider range of features, ultimately improving generalization. Equa‐
+tion 14-2 shows how to apply LRN.
+<i>Equation</i> <i>14-2.</i> <i>Local</i> <i>response</i> <i>normalization</i> <i>(LRN)</i>
+<i>r</i>
+−β
+<i>j</i> <i>j</i> = min <i>i</i> + , <i>f</i> − 1
+high high <i>n</i>
+2
+<largefont>∑</largefont> 2
+<i>b</i> = <i>a</i> <i>k</i> + <i>α</i> <i>a</i> with
+<i>i</i> <i>i</i> <i>j</i> <i>r</i>
+<i>j</i> = <i>j</i>
+low <i>j</i> = max 0,i −
+low 2
+In this equation:
+• <i>b</i> is the normalized output of the neuron located in feature map <i>i,</i> at some row <i>u</i>
+<i>i</i>
+and column <i>v</i> (note that in this equation we consider only neurons located at this
+row and column, so <i>u</i> and <i>v</i> are not shown).
+• <i>a</i> is the activation of that neuron after the ReLU step, but before normalization.
+<i>i</i>
+• <i>k,</i> <i>α,</i> <i>β,</i> and <i>r</i> are hyperparameters. <i>k</i> is called the <i>bias,</i> and <i>r</i> is called the <i>depth</i>
+<i>radius.</i>
+• <i>f</i> is the number of feature maps.
+<i>n</i>
+For example, if <i>r</i> = 2 and a neuron has a strong activation, it will inhibit the activation
+of the neurons located in the feature maps immediately above and below its own.
+In AlexNet, the hyperparameters are set as follows: <i>r</i> = 2, <i>α</i> = 0.00002, <i>β</i> = 0.75, and
+tf.nn.local_response_normaliza
+<i>k</i> = 1. This step can be implemented using the
+tion() function (which you can wrap in a Lambda layer if you want to use it in a
+Keras model).
+A variant of AlexNet called <i>ZF</i> <i>Net12</i> was developed by Matthew Zeiler and Rob Fer‐
+gus and won the 2013 ILSVRC challenge. It is essentially AlexNet with a few tweaked
+hyperparameters (number of feature maps, kernel size, stride, etc.).
+<header><largefont><b>GoogLeNet</b></largefont></header>
+The GoogLeNet architecture was developed by Christian Szegedy et al. from Google
+Research,13
+and it won the ILSVRC 2014 challenge by pushing the top-five error rate
+below 7%. This great performance came in large part from the fact that the network
+was much deeper than previous CNNs (as you’ll see in Figure 14-14). This was made
+12 MatthewD.ZeilerandRobFergus,“VisualizingandUnderstandingConvolutionalNetworks,”Proceedingsof
+<i>theEuropeanConferenceonComputerVision(2014):818-833.</i>
+13 ChristianSzegedyetal.,“GoingDeeperwithConvolutions,”ProceedingsoftheIEEEConferenceonComputer
+<i>VisionandPatternRecognition(2015):1–9.</i>

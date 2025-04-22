@@ -1,46 +1,43 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Now you can fit the imputer instance to the training data using the fit() method:
-                                                                      
-            imputer.fit(housing_num)                                  
-          The imputer has simply computed the median of each attribute and stored the result
-          in its statistics_ instance variable. Only the total_bedrooms attribute had missing
-          values, but we cannot be sure that there won’t be any missing values in new data after
-          the system goes live, so it is safer to apply the imputer to all the numerical attributes:
-            >>> imputer.statistics_                                   
-            array([ -118.51 , 34.26 , 29. , 2119.5 , 433. , 1164. , 408. , 3.5409])
-            >>> housing_num.median().values                           
-            array([ -118.51 , 34.26 , 29. , 2119.5 , 433. , 1164. , 408. , 3.5409])
-          Now you can use this “trained” imputer to transform the training set by replacing
-          missing values with the learned medians:                    
-            X = imputer.transform(housing_num)                        
-                                                                      
-          The result is a plain NumPy array containing the transformed features. If you want to
-          put it back into a pandas DataFrame, it’s simple:           
-            housing_tr = pd.DataFrame(X, columns=housing_num.columns, 
-                            index=housing_num.index)                  
-                                                                      
-                            Scikit-Learn Design                       
-                                                                      
-           Scikit-Learn’s API is remarkably well designed. These are the main design principles:17
-           Consistency                                                
-              All objects share a consistent and simple interface:    
-                                                                      
-              Estimators                                              
-                Any object that can estimate some parameters based on a dataset is called an
-                estimator (e.g., an imputer is an estimator). The estimation itself is per‐
-                formed by the fit() method, and it takes only a dataset as a parameter (or
-                two for supervised learning algorithms; the second dataset contains the
-                labels). Any other parameter needed to guide the estimation process is con‐
-                sidered a hyperparameter (such as an imputer’s strategy), and it must be
-                set as an instance variable (generally via a constructor parameter).
-              Transformers                                            
-                Some estimators (such as an imputer) can also transform a dataset; these are
-                called transformers. Once again, the API is simple: the transformation is
-                performed by the transform() method with the dataset to transform as a
-                                                                      
-                                                                      
-          17 For more details on the design principles, see Lars Buitinck et al., “API Design for Machine Learning Software:
-           Experiences from the Scikit-Learn Project” ,” arXiv preprint arXiv:1309.0238 (2013).
+imputer fit()
+Now you can fit the instance to the training data using the method:
+imputer.fit(housing_num)
+imputer
+The has simply computed the median of each attribute and stored the result
+in its statistics_ instance variable. Only the total_bedrooms attribute had missing
+values, but we cannot be sure that there won’t be any missing values in new data after
+imputer
+the system goes live, so it is safer to apply the to all the numerical attributes:
+<b>>>></b> imputer.statistics_
+array([ -118.51 , 34.26 , 29. , 2119.5 , 433. , 1164. , 408. , 3.5409])
+<b>>>></b> housing_num.median().values
+array([ -118.51 , 34.26 , 29. , 2119.5 , 433. , 1164. , 408. , 3.5409])
+imputer
+Now you can use this “trained” to transform the training set by replacing
+missing values with the learned medians:
+X = imputer.transform(housing_num)
+The result is a plain NumPy array containing the transformed features. If you want to
+put it back into a pandas DataFrame, it’s simple:
+housing_tr = pd.DataFrame(X, columns=housing_num.columns,
+index=housing_num.index)
+<header><largefont><b>Scikit-Learn</b></largefont> <largefont><b>Design</b></largefont></header>
+Scikit-Learn’s API is remarkably well designed. These are the main design principles: 17
+<i>Consistency</i>
+All objects share a consistent and simple interface:
+<i>Estimators</i>
+Any object that can estimate some parameters based on a dataset is called an
+imputer
+<i>estimator</i> (e.g., an is an estimator). The estimation itself is per‐
+fit()
+formed by the method, and it takes only a dataset as a parameter (or
+two for supervised learning algorithms; the second dataset contains the
+labels). Any other parameter needed to guide the estimation process is con‐
+sidered a hyperparameter (such as an imputer ’s strategy ), and it must be
+set as an instance variable (generally via a constructor parameter).
+<i>Transformers</i>
+imputer)
+Some estimators (such as an can also transform a dataset; these are
+called <i>transformers.</i> Once again, the API is simple: the transformation is
+transform()
+performed by the method with the dataset to transform as a
+17 Formoredetailsonthedesignprinciples,seeLarsBuitincketal.,“APIDesignforMachineLearningSoftware:
+ExperiencesfromtheScikit-LearnProject”,”arXivpreprintarXiv:1309.0238(2013).

@@ -1,46 +1,45 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            signature_def['serving_default']:                         
-             The given SavedModel SignatureDef contains the following input(s):
-               inputs['flatten_input'] tensor_info:                   
-                 dtype: DT_FLOAT                                      
-                 shape: (-1, 28, 28)                                  
-                 name: serving_default_flatten_input:0                
-             The given SavedModel SignatureDef contains the following output(s):
-               outputs['dense_1'] tensor_info:                        
-                 dtype: DT_FLOAT                                      
-                 shape: (-1, 10)                                      
-                 name: StatefulPartitionedCall:0                      
-             Method name is: tensorflow/serving/predict               
-          A SavedModel contains one or more metagraphs. A metagraph is a computation
-          graph plus some function signature definitions (including their input and output
-          names, types, and shapes). Each metagraph is identified by a set of tags. For example,
-          you may want to have a metagraph containing the full computation graph, including
-          the training operations (this one may be tagged "train", for example), and another
-          metagraph containing a pruned computation graph with only the prediction opera‐
-          tions, including some GPU-specific operations (this metagraph may be tagged
-          "serve", "gpu"). However, when you pass a tf.keras model to the
-          tf.saved_model.save() function, by default the function saves a much simpler
-          SavedModel: it saves a single metagraph tagged "serve", which contains two signa‐
-          ture definitions, an initialization function (called __saved_model_init_op, which
-          you do not need to worry about) and a default serving function (called serv
-          ing_default). When saving a tf.keras model, the default serving function corre‐
-          sponds to the model’s call() function, which of course makes predictions.
-          The saved_model_cli tool can also be used to make predictions (for testing, not
-          really for production). Suppose you have a NumPy array (X_new) containing three
-          images of handwritten digits that you want to make predictions for. You first need to
-          export them to NumPy’s npy format:                          
-            np.save("my_mnist_tests.npy", X_new)                      
-          Next, use the saved_model_cli command like this:            
-            $ saved_model_cli run --dir my_mnist_model/0001 --tag_set serve \
-                         --signature_def serving_default \            
-                         --inputs flatten_input=my_mnist_tests.npy    
-            [...] Result for output key dense_1:                      
-            [[1.1739199e-04 1.1239604e-07 6.0210604e-04 [...] 3.9471846e-04]
-             [1.2294615e-03 2.9207937e-05 9.8599273e-01 [...] 1.1113169e-07]
-             [6.4066830e-05 9.6359509e-01 9.0598064e-03 [...] 4.2495009e-04]]
-          The tool’s output contains the 10 class probabilities of each of the 3 instances. Great!
-          Now that you have a working SavedModel, the next step is to install TF Serving.
-                                                                      
+signature_def['serving_default']:
+The given SavedModel SignatureDef contains the following input(s):
+inputs['flatten_input'] tensor_info:
+dtype: DT_FLOAT
+shape: (-1, 28, 28)
+name: serving_default_flatten_input:0
+The given SavedModel SignatureDef contains the following output(s):
+outputs['dense_1'] tensor_info:
+dtype: DT_FLOAT
+shape: (-1, 10)
+name: StatefulPartitionedCall:0
+Method name is: tensorflow/serving/predict
+A SavedModel contains one or more <i>metagraphs.</i> A metagraph is a computation
+graph plus some function signature definitions (including their input and output
+names, types, and shapes). Each metagraph is identified by a set of tags. For example,
+you may want to have a metagraph containing the full computation graph, including
+the training operations (this one may be tagged "train" , for example), and another
+metagraph containing a pruned computation graph with only the prediction opera‐
+tions, including some GPU-specific operations (this metagraph may be tagged
+"serve", "gpu" ). However, when you pass a tf.keras model to the
+tf.saved_model.save()
+function, by default the function saves a much simpler
+SavedModel: it saves a single metagraph tagged "serve" , which contains two signa‐
+ture definitions, an initialization function (called __saved_model_init_op , which
+serv
+you do not need to worry about) and a default serving function (called
+ing_default ). When saving a tf.keras model, the default serving function corre‐
+call()
+sponds to the model’s function, which of course makes predictions.
+The saved_model_cli tool can also be used to make predictions (for testing, not
+really for production). Suppose you have a NumPy array ( X_new ) containing three
+images of handwritten digits that you want to make predictions for. You first need to
+export them to NumPy’s npy format:
+np.save("my_mnist_tests.npy", X_new)
+saved_model_cli
+Next, use the command like this:
+$ <b>saved_model_cli</b> <b>run</b> <b>--dir</b> <b>my_mnist_model/0001</b> <b>--tag_set</b> <b>serve</b> \
+<b>--signature_def</b> <b>serving_default</b> \
+<b>--inputs</b> <b>flatten_input=my_mnist_tests.npy</b>
+[...] Result for output key dense_1:
+[[1.1739199e-04 1.1239604e-07 6.0210604e-04 [...] 3.9471846e-04]
+[1.2294615e-03 2.9207937e-05 9.8599273e-01 [...] 1.1113169e-07]
+[6.4066830e-05 9.6359509e-01 9.0598064e-03 [...] 4.2495009e-04]]
+The tool’s output contains the 10 class probabilities of each of the 3 instances. Great!
+Now that you have a working SavedModel, the next step is to install TF Serving.

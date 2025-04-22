@@ -1,46 +1,21 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 9-7. Bad choices for the number of clusters: when k is too small, separate clusters
-          get merged (left), and when k is too large, some clusters get chopped into multiple pieces
-          (right)                                                     
-                                                                      
-          You might be thinking that we could just pick the model with the lowest inertia,
-          right? Unfortunately, it is not that simple. The inertia for k=3 is 653.2, which is much
-          higher than for k=5 (which was 211.6). But with k=8, the inertia is just 119.1. The
-          inertia is not a good performance metric when trying to choose k because it keeps
-          getting lower as we increase k. Indeed, the more clusters there are, the closer each
-          instance will be to its closest centroid, and therefore the lower the inertia will be. Let’s
-          plot the inertia as a function of k (see Figure 9-8).       
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 9-8. When plotting the inertia as a function of the number of clusters k, the curve
-          often contains an inflexion point called the “elbow”        
-                                                                      
-          As you can see, the inertia drops very quickly as we increase k up to 4, but then it
-          decreases much more slowly as we keep increasing k. This curve has roughly the
-          shape of an arm, and there is an “elbow” at k = 4. So, if we did not know better, 4
-          would be a good choice: any lower value would be dramatic, while any higher value
-          would not help much, and we might just be splitting perfectly good clusters in half for
-          no good reason.                                             
-          This technique for choosing the best value for the number of clusters is rather coarse.
-          A more precise approach (but also more computationally expensive) is to use the
-          silhouette score, which is the mean silhouette coefficient over all the instances. An
-                                                                      
+<i>Figure</i> <i>9-7.</i> <i>Bad</i> <i>choices</i> <i>for</i> <i>the</i> <i>number</i> <i>of</i> <i>clusters:</i> <i>when</i> <i>k</i> <i>is</i> <i>too</i> <i>small,</i> <i>separate</i> <i>clusters</i>
+<i>get</i> <i>merged</i> <i>(left),</i> <i>and</i> <i>when</i> <i>k</i> <i>is</i> <i>too</i> <i>large,</i> <i>some</i> <i>clusters</i> <i>get</i> <i>chopped</i> <i>into</i> <i>multiple</i> <i>pieces</i>
+<i>(right)</i>
+You might be thinking that we could just pick the model with the lowest inertia,
+right? Unfortunately, it is not that simple. The inertia for <i>k=3</i> is 653.2, which is much
+higher than for <i>k=5</i> (which was 211.6). But with <i>k=8,</i> the inertia is just 119.1. The
+inertia is not a good performance metric when trying to choose <i>k</i> because it keeps
+getting lower as we increase <i>k.</i> Indeed, the more clusters there are, the closer each
+instance will be to its closest centroid, and therefore the lower the inertia will be. Let’s
+plot the inertia as a function of <i>k</i> (see Figure 9-8).
+<i>Figure</i> <i>9-8.</i> <i>When</i> <i>plotting</i> <i>the</i> <i>inertia</i> <i>as</i> <i>a</i> <i>function</i> <i>of</i> <i>the</i> <i>number</i> <i>of</i> <i>clusters</i> <i>k,</i> <i>the</i> <i>curve</i>
+<i>often</i> <i>contains</i> <i>an</i> <i>inflexion</i> <i>point</i> <i>called</i> <i>the</i> <i>“elbow”</i>
+As you can see, the inertia drops very quickly as we increase <i>k</i> up to 4, but then it
+decreases much more slowly as we keep increasing <i>k.</i> This curve has roughly the
+shape of an arm, and there is an “elbow” at <i>k</i> = 4. So, if we did not know better, 4
+would be a good choice: any lower value would be dramatic, while any higher value
+would not help much, and we might just be splitting perfectly good clusters in half for
+no good reason.
+This technique for choosing the best value for the number of clusters is rather coarse.
+A more precise approach (but also more computationally expensive) is to use the
+<i>silhouette</i> <i>score,</i> which is the mean <i>silhouette</i> <i>coefficient</i> over all the instances. An

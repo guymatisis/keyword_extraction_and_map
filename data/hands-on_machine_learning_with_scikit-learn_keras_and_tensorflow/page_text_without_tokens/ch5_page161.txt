@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          hyperparameter: if your model is overfitting, you should reduce it; if it is underfitting,
+          you should increase it (similar to the C hyperparameter).   
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 5-9. SVM classifiers using an RBF kernel             
+                                                                      
+          Other kernels exist but are used much more rarely. Some kernels are specialized for
+          specific data structures. String kernels are sometimes used when classifying text docu‐
+          ments or DNA sequences (e.g., using the string subsequence kernel or kernels based on
+          the Levenshtein distance).                                  
+                                                                      
+                   With so many kernels to choose from, how can you decide which
+                   one to use? As a rule of thumb, you should always try the linear
+                   kernel first (remember that LinearSVC is much faster than SVC(ker
+                   nel="linear")), especially if the training set is very large or if it
+                   has plenty of features. If the training set is not too large, you should
+                   also try the Gaussian RBF kernel; it works well in most cases. Then
+                   if you have spare time and computing power, you can experiment
+                   with a few other kernels, using cross-validation and grid search.
+                   You’d want to experiment like that especially if there are kernels
+                   specialized for your training set’s data structure.
+                                                                      
+                                                                      
+                                                                      
+                                                                      

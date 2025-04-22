@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 15-11. WaveNet architecture                          
+                                                                      
+          In the WaveNet paper, the authors actually stacked 10 convolutional layers with dila‐
+          tion rates of 1, 2, 4, 8, …, 256, 512, then they stacked another group of 10 identical
+          layers (also with dilation rates 1, 2, 4, 8, …, 256, 512), then again another identical
+          group of 10 layers. They justified this architecture by pointing out that a single stack
+          of 10 convolutional layers with these dilation rates will act like a super-efficient con‐
+          volutional layer with a kernel of size 1,024 (except way faster, more powerful, and
+          using significantly fewer parameters), which is why they stacked 3 such blocks. They
+          also left-padded the input sequences with a number of zeros equal to the dilation rate
+          before every layer, to preserve the same sequence length throughout the network.
+          Here is how to implement a simplified WaveNet to tackle the same sequences as
+          earlier:14                                                  
+            model = keras.models.Sequential()                         
+            model.add(keras.layers.InputLayer(input_shape=[None, 1])) 
+            for rate in (1, 2, 4, 8) * 2:                             
+               model.add(keras.layers.Conv1D(filters=20, kernel_size=2, padding="causal",
+                                activation="relu", dilation_rate=rate))
+            model.add(keras.layers.Conv1D(filters=10, kernel_size=1)) 
+            model.compile(loss="mse", optimizer="adam", metrics=[last_time_step_mse])
+            history = model.fit(X_train, Y_train, epochs=20,          
+                        validation_data=(X_valid, Y_valid))           
+          This Sequential model starts with an explicit input layer (this is simpler than trying
+          to set input_shape only on the first layer), then continues with a 1D convolutional
+          layer using "causal" padding: this ensures that the convolutional layer does not peek
+          into the future when making predictions (it is equivalent to padding the inputs with
+          the right amount of zeros on the left and using "valid" padding). We then add
+                                                                      
+          14 The complete WaveNet uses a few more tricks, such as skip connections like in a ResNet, and Gated Activation
+           Units similar to those found in a GRU cell. Please see the notebook for more details.

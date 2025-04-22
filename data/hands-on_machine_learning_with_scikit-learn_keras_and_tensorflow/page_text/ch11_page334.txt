@@ -1,52 +1,51 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            Equation 11-1. Glorot initialization (when using the logistic activation function)
-                                                                      
-                                       2  1                           
-            Normal distribution with mean 0 and variance σ =          
-                                         fan                          
-                                           avg                        
-                                             3                        
-            Or a uniform distribution between −r and +r, with r=      
-                                            fan                       
-                                              avg                     
-          If you replace fan with fan in Equation 11-1, you get an initialization strategy that
-                    avg    in                                         
-          Yann LeCun proposed in the 1990s. He called it LeCun initialization. Genevieve Orr
-          and Klaus-Robert Müller even recommended it in their 1998 book Neural Networks:
-          Tricks of the Trade (Springer). LeCun initialization is equivalent to Glorot initializa‐
-          tion when fan = fan . It took over a decade for researchers to realize how important
-                  in  out                                             
-          this trick is. Using Glorot initialization can speed up training considerably, and it is
-          one of the tricks that led to the success of Deep Learning. 
-          Some papers3 have provided similar strategies for different activation functions.
-          These strategies differ only by the scale of the variance and whether they use fan or
-                                                         avg          
-          fan , as shown in Table 11-1 (for the uniform distribution, just compute r = 3σ2).
-            in                                                        
-          The initialization strategy for the ReLU activation function (and its variants, includ‐
-          ing the ELU activation described shortly) is sometimes called He initialization, after
-          the paper’s first author. The SELU activation function will be explained later in this
-          chapter. It should be used with LeCun initialization (preferably with a normal distri‐
-          bution, as we will see).                                    
-          Table 11-1. Initialization parameters for each type of activation function
-          Initialization Activation functions σ² (Normal)             
-          Glorot None, tanh, logistic, softmax 1 / fan                
-                               avg                                    
-          He     ReLU and variants 2 / fan                            
-                               in                                     
-          LeCun  SELU        1 / fan                                  
-                               in                                     
-          By default, Keras uses Glorot initialization with a uniform distribution. When creat‐
-          ing a layer, you can change this to He initialization by setting kernel_initial
-          izer="he_uniform" or kernel_initializer="he_normal" like this:
-            keras.layers.Dense(10, activation="relu", kernel_initializer="he_normal")
-          If you want He initialization with a uniform distribution but based on fan rather
-                                                      avg             
-          than fan , you can use the VarianceScaling initializer like this:
-               in                                                     
-          3 E.g., Kaiming He et al., “Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet
-           Classification,” Proceedings of the 2015 IEEE International Conference on Computer Vision (2015): 1026–1034.
+<i>Equation</i> <i>11-1.</i> <i>Glorot</i> <i>initialization</i> <i>(when</i> <i>using</i> <i>the</i> <i>logistic</i> <i>activation</i> <i>function)</i>
+1
+2
+Normal distribution with mean 0 and variance <i>σ</i> =
+<i>fan</i>
+avg
+3
+Or a uniform distribution between −r and + <i>r,</i> with <i>r</i> =
+<i>fan</i>
+avg
+If you replace <i>fan</i> with <i>fan</i> in Equation 11-1, you get an initialization strategy that
+avg in
+Yann LeCun proposed in the 1990s. He called it <i>LeCun</i> <i>initialization.</i> Genevieve Orr
+and Klaus-Robert Müller even recommended it in their 1998 book <i>Neural</i> <i>Networks:</i>
+<i>Tricks</i> <i>of</i> <i>the</i> <i>Trade</i> (Springer). LeCun initialization is equivalent to Glorot initializa‐
+tion when <i>fan</i> = <i>fan</i> . It took over a decade for researchers to realize how important
+in out
+this trick is. Using Glorot initialization can speed up training considerably, and it is
+one of the tricks that led to the success of Deep Learning.
+Some papers 3 have provided similar strategies for different activation functions.
+These strategies differ only by the scale of the variance and whether they use <i>fan</i> or
+avg
+2
+<i>fan</i> , as shown in Table 11-1 (for the uniform distribution, just compute <i>r</i> = 3σ ).
+in
+The initialization strategy for the ReLU activation function (and its variants, includ‐
+ing the ELU activation described shortly) is sometimes called <i>He</i> <i>initialization,</i> after
+the paper’s first author. The SELU activation function will be explained later in this
+chapter. It should be used with LeCun initialization (preferably with a normal distri‐
+bution, as we will see).
+<i>Table</i> <i>11-1.</i> <i>Initialization</i> <i>parameters</i> <i>for</i> <i>each</i> <i>type</i> <i>of</i> <i>activation</i> <i>function</i>
+<b>Initialization</b> <b>Activationfunctions</b> <b>σ²(Normal)</b>
+Glorot None,tanh,logistic,softmax 1/fan
+avg
+He ReLUandvariants 2/fan
+in
+LeCun SELU 1/fan
+in
+By default, Keras uses Glorot initialization with a uniform distribution. When creat‐
+kernel_initial
+ing a layer, you can change this to He initialization by setting
+izer="he_uniform" kernel_initializer="he_normal"
+or like this:
+keras.layers.Dense(10, activation="relu", kernel_initializer="he_normal")
+If you want He initialization with a uniform distribution but based on <i>fan</i> rather
+avg
+VarianceScaling
+than <i>fan</i> , you can use the initializer like this:
+in
+3 E.g.,KaimingHeetal.,“DelvingDeepintoRectifiers:SurpassingHuman-LevelPerformanceonImageNet
+Classification,”Proceedingsofthe2015IEEEInternationalConferenceonComputerVision(2015):1026–1034.

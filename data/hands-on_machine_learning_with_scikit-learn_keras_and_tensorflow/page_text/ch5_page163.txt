@@ -1,46 +1,18 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Regression models trained on some random linear data, one with a large margin (ϵ =
-          1.5) and the other with a small margin (ϵ = 0.5).           
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 5-10. SVM Regression                                 
-                                                                      
-          Adding more training instances within the margin does not affect the model’s predic‐
-          tions; thus, the model is said to be ϵ-insensitive.         
-          You can use Scikit-Learn’s LinearSVR class to perform linear SVM Regression. The
-          following code produces the model represented on the left in Figure 5-10 (the train‐
-          ing data should be scaled and centered first):              
-                                                                      
-            from sklearn.svm import LinearSVR                         
-            svm_reg = LinearSVR(epsilon=1.5)                          
-            svm_reg.fit(X, y)                                         
-          To tackle nonlinear regression tasks, you can use a kernelized SVM model.
-          Figure 5-11 shows SVM Regression on a random quadratic training set, using a
-          second-degree polynomial kernel. There is little regularization in the left plot (i.e., a
-          large C value), and much more regularization in the right plot (i.e., a small C value).
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+ϵ
+Regression models trained on some random linear data, one with a large margin ( =
+(ϵ=
+1.5) and the other with a small margin 0.5).
+<i>Figure</i> <i>5-10.</i> <i>SVM</i> <i>Regression</i>
+Adding more training instances within the margin does not affect the model’s predic‐
+beϵ-insensitive.
+tions; thus, the model is said to
+You can use Scikit-Learn’s LinearSVR class to perform linear SVM Regression. The
+following code produces the model represented on the left in Figure 5-10 (the train‐
+ing data should be scaled and centered first):
+<b>from</b> <b>sklearn.svm</b> <b>import</b> LinearSVR
+svm_reg = LinearSVR(epsilon=1.5)
+svm_reg.fit(X, y)
+To tackle nonlinear regression tasks, you can use a kernelized SVM model.
+Figure 5-11 shows SVM Regression on a random quadratic training set, using a
+second-degree polynomial kernel. There is little regularization in the left plot (i.e., a
+large C value), and much more regularization in the right plot (i.e., a small C value).

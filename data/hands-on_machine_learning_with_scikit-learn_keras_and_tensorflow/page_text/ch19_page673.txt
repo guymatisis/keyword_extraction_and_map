@@ -1,46 +1,41 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          -v "$ML_PATH/my_mnist_model:/models/my_mnist_model"         
-            Makes the host’s $ML_PATH/my_mnist_model directory available to the container
-            at the path /models/mnist_model. On Windows, you may need to replace / with \
-            in the host path (but not in the container path).         
-                                                                      
-          -e MODEL_NAME=my_mnist_model                                
-            Sets the container’s MODEL_NAME environment variable, so TF Serving knows
-            which model to serve. By default, it will look for models in the /models directory,
-            and it will automatically serve the latest version it finds.
-          tensorflow/serving                                          
-            This is the name of the image to run.                     
-                                                                      
-          Now let’s go back to Python and query this server, first using the REST API, then the
-          gRPC API.                                                   
-                                                                      
-          Querying TF Serving through the REST API                    
-          Let’s start by creating the query. It must contain the name of the function signature
-          you want to call, and of course the input data:             
-            import json                                               
-                                                                      
-            input_data_json = json.dumps({                            
-               "signature_name": "serving_default",                   
-               "instances": X_new.tolist(),                           
-            })                                                        
-          Note that the JSON format is 100% text-based, so the X_new NumPy array had to be
-          converted to a Python list and then formatted as JSON:      
-            >>> input_data_json                                       
-            '{"signature_name": "serving_default", "instances": [[[0.0, 0.0, 0.0, [...]
-            0.3294117647058824, 0.725490196078431, [...very long], 0.0, 0.0, 0.0, 0.0]]]}'
-          Now let’s send the input data to TF Serving by sending an HTTP POST request. This
-          can be done easily using the requests library (it is not part of Python’s standard
-          library, so you will need to install it first, e.g., using pip):
-            import requests                                           
-                                                                      
-            SERVER_URL = 'http://localhost:8501/v1/models/my_mnist_model:predict'
-            response = requests.post(SERVER_URL, data=input_data_json)
-            response.raise_for_status() # raise an exception in case of error
-            response = response.json()                                
-          The response is a dictionary containing a single "predictions" key. The correspond‐
-          ing value is the list of predictions. This list is a Python list, so let’s convert it to a
-          NumPy array and round the floats it contains to the second decimal:
-                                                                      
+-v "$ML_PATH/my_mnist_model:/models/my_mnist_model"
+Makes the host’s $ML_PATH/my_mnist_model directory available to the container
+/ \
+at the path <i>/models/mnist_model.</i> On Windows, you may need to replace with
+in the host path (but not in the container path).
+-e MODEL_NAME=my_mnist_model
+MODEL_NAME
+Sets the container’s environment variable, so TF Serving knows
+which model to serve. By default, it will look for models in the <i>/models</i> directory,
+and it will automatically serve the latest version it finds.
+tensorflow/serving
+This is the name of the image to run.
+Now let’s go back to Python and query this server, first using the REST API, then the
+gRPC API.
+<b>QueryingTFServingthroughtheRESTAPI</b>
+Let’s start by creating the query. It must contain the name of the function signature
+you want to call, and of course the input data:
+<b>import</b> <b>json</b>
+input_data_json = json.dumps({
+"signature_name": "serving_default",
+"instances": X_new.tolist(),
+})
+X_new
+Note that the JSON format is 100% text-based, so the NumPy array had to be
+converted to a Python list and then formatted as JSON:
+<b>>>></b> input_data_json
+'{"signature_name": "serving_default", "instances": [[[0.0, 0.0, 0.0, [...]
+0.3294117647058824, 0.725490196078431, [...very long], 0.0, 0.0, 0.0, 0.0]]]}'
+Now let’s send the input data to TF Serving by sending an HTTP POST request. This
+requests
+can be done easily using the library (it is not part of Python’s standard
+library, so you will need to install it first, e.g., using pip):
+<b>import</b> <b>requests</b>
+SERVER_URL = 'http://localhost:8501/v1/models/my_mnist_model:predict'
+response = requests.post(SERVER_URL, data=input_data_json)
+response.raise_for_status() <i>#</i> <i>raise</i> <i>an</i> <i>exception</i> <i>in</i> <i>case</i> <i>of</i> <i>error</i>
+response = response.json()
+"predictions"
+The response is a dictionary containing a single key. The correspond‐
+ing value is the list of predictions. This list is a Python list, so let’s convert it to a
+NumPy array and round the floats it contains to the second decimal:

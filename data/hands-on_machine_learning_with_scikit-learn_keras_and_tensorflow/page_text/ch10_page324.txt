@@ -1,46 +1,39 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          amount of time: you would have to draw each tree individually, branch by branch,
-          leaf by leaf. If you could instead draw one leaf, copy and paste it to draw a branch,
-          then copy and paste that branch to create a tree, and finally copy and paste this tree to
-          make a forest, you would be finished in no time. Real-world data is often structured
-          in such a hierarchical way, and deep neural networks automatically take advantage of
-          this fact: lower hidden layers model low-level structures (e.g., line segments of vari‐
-          ous shapes and orientations), intermediate hidden layers combine these low-level
-          structures to model intermediate-level structures (e.g., squares, circles), and the high‐
-          est hidden layers and the output layer combine these intermediate structures to
-          model high-level structures (e.g., faces).                  
-          Not only does this hierarchical architecture help DNNs converge faster to a good sol‐
-          ution, but it also improves their ability to generalize to new datasets. For example, if
-          you have already trained a model to recognize faces in pictures and you now want to
-          train a new neural network to recognize hairstyles, you can kickstart the training by
-          reusing the lower layers of the first network. Instead of randomly initializing the
-          weights and biases of the first few layers of the new neural network, you can initialize
-          them to the values of the weights and biases of the lower layers of the first network.
-          This way the network will not have to learn from scratch all the low-level structures
-          that occur in most pictures; it will only have to learn the higher-level structures (e.g.,
-          hairstyles). This is called transfer learning.              
-                                                                      
-          In summary, for many problems you can start with just one or two hidden layers and
-          the neural network will work just fine. For instance, you can easily reach above 97%
-          accuracy on the MNIST dataset using just one hidden layer with a few hundred neu‐
-          rons, and above 98% accuracy using two hidden layers with the same total number of
-          neurons, in roughly the same amount of training time. For more complex problems,
-          you can ramp up the number of hidden layers until you start overfitting the training
-          set. Very complex tasks, such as large image classification or speech recognition, typi‐
-          cally require networks with dozens of layers (or even hundreds, but not fully connec‐
-          ted ones, as we will see in Chapter 14), and they need a huge amount of training data.
-          You will rarely have to train such networks from scratch: it is much more common to
-          reuse parts of a pretrained state-of-the-art network that performs a similar task.
-          Training will then be a lot faster and require much less data (we will discuss this in
-          Chapter 11).                                                
-          Number of Neurons per Hidden Layer                          
-                                                                      
-          The number of neurons in the input and output layers is determined by the type of
-          input and output your task requires. For example, the MNIST task requires 28 × 28 =
-          784 input neurons and 10 output neurons.                    
-          As for the hidden layers, it used to be common to size them to form a pyramid, with
-          fewer and fewer neurons at each layer—the rationale being that many low-level fea‐
-                                                                      
+amount of time: you would have to draw each tree individually, branch by branch,
+leaf by leaf. If you could instead draw one leaf, copy and paste it to draw a branch,
+then copy and paste that branch to create a tree, and finally copy and paste this tree to
+make a forest, you would be finished in no time. Real-world data is often structured
+in such a hierarchical way, and deep neural networks automatically take advantage of
+this fact: lower hidden layers model low-level structures (e.g., line segments of vari‐
+ous shapes and orientations), intermediate hidden layers combine these low-level
+structures to model intermediate-level structures (e.g., squares, circles), and the high‐
+est hidden layers and the output layer combine these intermediate structures to
+model high-level structures (e.g., faces).
+Not only does this hierarchical architecture help DNNs converge faster to a good sol‐
+ution, but it also improves their ability to generalize to new datasets. For example, if
+you have already trained a model to recognize faces in pictures and you now want to
+train a new neural network to recognize hairstyles, you can kickstart the training by
+reusing the lower layers of the first network. Instead of randomly initializing the
+weights and biases of the first few layers of the new neural network, you can initialize
+them to the values of the weights and biases of the lower layers of the first network.
+This way the network will not have to learn from scratch all the low-level structures
+that occur in most pictures; it will only have to learn the higher-level structures (e.g.,
+hairstyles). This is called <i>transfer</i> <i>learning.</i>
+In summary, for many problems you can start with just one or two hidden layers and
+the neural network will work just fine. For instance, you can easily reach above 97%
+accuracy on the MNIST dataset using just one hidden layer with a few hundred neu‐
+rons, and above 98% accuracy using two hidden layers with the same total number of
+neurons, in roughly the same amount of training time. For more complex problems,
+you can ramp up the number of hidden layers until you start overfitting the training
+set. Very complex tasks, such as large image classification or speech recognition, typi‐
+cally require networks with dozens of layers (or even hundreds, but not fully connec‐
+ted ones, as we will see in Chapter 14), and they need a huge amount of training data.
+You will rarely have to train such networks from scratch: it is much more common to
+reuse parts of a pretrained state-of-the-art network that performs a similar task.
+Training will then be a lot faster and require much less data (we will discuss this in
+Chapter 11).
+<header><largefont><b>Number</b></largefont> <largefont><b>of</b></largefont> <largefont><b>Neurons</b></largefont> <largefont><b>per</b></largefont> <largefont><b>Hidden</b></largefont> <largefont><b>Layer</b></largefont></header>
+The number of neurons in the input and output layers is determined by the type of
+input and output your task requires. For example, the MNIST task requires 28 × 28 =
+784 input neurons and 10 output neurons.
+As for the hidden layers, it used to be common to size them to form a pyramid, with
+fewer and fewer neurons at each layer—the rationale being that many low-level fea‐

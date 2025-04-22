@@ -1,46 +1,41 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          of time, but challenging enough to be fun and rewarding. Keras provides a simple
-          function to load it:                                        
-                                                                      
-            >>> (X_train, y_train), (X_test, y_test) = keras.datasets.imdb.load_data()
-            >>> X_train[0][:10]                                       
-            [1, 14, 22, 16, 43, 530, 973, 1622, 1385, 65]             
-          Where are the movie reviews? Well, as you can see, the dataset is already prepro‐
-          cessed for you: X_train consists of a list of reviews, each of which is represented as a
-          NumPy array of integers, where each integer represents a word. All punctuation was
-          removed, and then words were converted to lowercase, split by spaces, and finally
-          indexed by frequency (so low integers correspond to frequent words). The integers 0,
-          1, and 2 are special: they represent the padding token, the start-of-sequence (SSS)
-          token, and unknown words, respectively. If you want to visualize a review, you can
-          decode it like this:                                        
-            >>> word_index = keras.datasets.imdb.get_word_index()     
-            >>> id_to_word = {id_ + 3: word for word, id_ in word_index.items()}
-            >>> for id_, token in enumerate(("<pad>", "<sos>", "<unk>")):
-            ...  id_to_word[id_] = token                              
-            ...                                                       
-            >>> " ".join([id_to_word[id_] for id_ in X_train[0][:10]])
-            '<sos> this film was just brilliant casting location scenery story'
-          In a real project, you will have to preprocess the text yourself. You can do that using
-          the same Tokenizer class we used earlier, but this time setting char_level=False
-          (which is the default). When encoding words, it filters out a lot of characters, includ‐
-          ing most punctuation, line breaks, and tabs (but you can change this by setting the
-          filters argument). Most importantly, it uses spaces to identify word boundaries.
-          This is OK for English and many other scripts (written languages) that use spaces
-          between words, but not all scripts use spaces this way. Chinese does not use spaces
-          between words, Vietnamese uses spaces even within words, and languages such as
-          German often attach multiple words together, without spaces. Even in English, spaces
-          are not always the best way to tokenize text: think of “San Francisco” or
-          “#ILoveDeepLearning.”                                       
-          Fortunately, there are better options! The 2018 paper4 by Taku Kudo introduced an
-          unsupervised learning technique to tokenize and detokenize text at the subword level
-          in a language-independent way, treating spaces like other characters. With this
-          approach, even if your model encounters a word it has never seen before, it can still
-          reasonably guess what it means. For example, it may never have seen the word
-          “smartest” during training, but perhaps it learned the word “smart” and it also
-          learned that the suffix “est” means “the most,” so it can infer the meaning of
-                                                                      
-          4 Taku Kudo, “Subword Regularization: Improving Neural Network Translation Models with Multiple Subword
-           Candidates,” arXiv preprint arXiv:1804.10959 (2018).       
+of time, but challenging enough to be fun and rewarding. Keras provides a simple
+function to load it:
+<b>>>></b> (X_train, y_train), (X_test, y_test) = keras.datasets.imdb.load_data()
+<b>>>></b> X_train[0][:10]
+[1, 14, 22, 16, 43, 530, 973, 1622, 1385, 65]
+Where are the movie reviews? Well, as you can see, the dataset is already prepro‐
+X_train
+cessed for you: consists of a list of reviews, each of which is represented as a
+NumPy array of integers, where each integer represents a word. All punctuation was
+removed, and then words were converted to lowercase, split by spaces, and finally
+indexed by frequency (so low integers correspond to frequent words). The integers 0,
+1, and 2 are special: they represent the padding token, the <i>start-of-sequence</i> (SSS)
+token, and unknown words, respectively. If you want to visualize a review, you can
+decode it like this:
+<b>>>></b> word_index = keras.datasets.imdb.get_word_index()
+<b>>>></b> id_to_word = {id_ + 3: word <b>for</b> word, id_ <b>in</b> word_index.items()}
+<b>>>></b> <b>for</b> id_, token <b>in</b> enumerate(("<pad>", "<sos>", "<unk>")):
+<b>...</b> id_to_word[id_] = token
+<b>...</b>
+<b>>>></b> " ".join([id_to_word[id_] <b>for</b> id_ <b>in</b> X_train[0][:10]])
+'<sos> this film was just brilliant casting location scenery story'
+In a real project, you will have to preprocess the text yourself. You can do that using
+the same Tokenizer class we used earlier, but this time setting char_level=False
+(which is the default). When encoding words, it filters out a lot of characters, includ‐
+ing most punctuation, line breaks, and tabs (but you can change this by setting the
+filters argument). Most importantly, it uses spaces to identify word boundaries.
+This is OK for English and many other scripts (written languages) that use spaces
+between words, but not all scripts use spaces this way. Chinese does not use spaces
+between words, Vietnamese uses spaces even within words, and languages such as
+German often attach multiple words together, without spaces. Even in English, spaces
+are not always the best way to tokenize text: think of “San Francisco” or
+“#ILoveDeepLearning.”
+Fortunately, there are better options! The 2018 paper4 by Taku Kudo introduced an
+unsupervised learning technique to tokenize and detokenize text at the subword level
+in a language-independent way, treating spaces like other characters. With this
+approach, even if your model encounters a word it has never seen before, it can still
+reasonably guess what it means. For example, it may never have seen the word
+“smartest” during training, but perhaps it learned the word “smart” and it also
+learned that the suffix “est” means “the most,” so it can infer the meaning of
+4 TakuKudo,“SubwordRegularization:ImprovingNeuralNetworkTranslationModelswithMultipleSubword
+Candidates,”arXivpreprintarXiv:1804.10959(2018).

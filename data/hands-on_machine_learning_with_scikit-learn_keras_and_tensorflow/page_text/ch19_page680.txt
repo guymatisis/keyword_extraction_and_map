@@ -1,46 +1,17 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-           7. Now you need to configure AI Platform (formerly known as ML Engine) so that
-            it knows which models and versions you want to use. In the navigation menu,
-            scroll down to the Artificial Intelligence section, and click AI Platform → Models.
-            Click Activate API (it takes a few minutes), then click “Create model.” Fill in the
-            model details (see Figure 19-5) and click Create.         
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            Figure 19-5. Creating a new model on Google Cloud AI Platform
-                                                                      
-           8. Now that you have a model on AI Platform, you need to create a model version.
-            In the list of models, click the model you just created, then click “Create version”
-            and fill in the version details (see Figure 19-6): set the name, description, Python
-            version (3.5 or above), framework (TensorFlow), framework version (2.0 if avail‐
-            able, or 1.13),6 ML runtime version (2.0, if available or 1.13), machine type
-            (choose “Single core CPU” for now), model path on GCS (this is the full path to
-            the actual version folder, e.g., gs://my-mnist-model-bucket/my_mnist_model/
-            0002/), scaling (choose automatic), and minimum number of TF Serving con‐
-            tainers to have running at all times (leave this field empty). Then click Save.
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          6 At the time of this writing, TensorFlow version 2 is not available yet on AI Platform, but that’s OK: you can
-           use 1.13, and it will run your TF 2 SavedModels just fine. 
+7. Now you need to configure AI Platform (formerly known as ML Engine) so that
+it knows which models and versions you want to use. In the navigation menu,
+scroll down to the Artificial Intelligence section, and click AI Platform → Models.
+Click Activate API (it takes a few minutes), then click “Create model.” Fill in the
+model details (see Figure 19-5) and click Create.
+<i>Figure</i> <i>19-5.</i> <i>Creating</i> <i>a</i> <i>new</i> <i>model</i> <i>on</i> <i>Google</i> <i>Cloud</i> <i>AI</i> <i>Platform</i>
+8. Now that you have a model on AI Platform, you need to create a model version.
+In the list of models, click the model you just created, then click “Create version”
+and fill in the version details (see Figure 19-6): set the name, description, Python
+version (3.5 or above), framework (TensorFlow), framework version (2.0 if avail‐
+able, or 1.13),6 ML runtime version (2.0, if available or 1.13), machine type
+(choose “Single core CPU” for now), model path on GCS (this is the full path to
+the actual version folder, e.g., <i>gs://my-mnist-model-bucket/my_mnist_model/</i>
+<i>0002/),</i> scaling (choose automatic), and minimum number of TF Serving con‐
+tainers to have running at all times (leave this field empty). Then click Save.
+6 Atthetimeofthiswriting,TensorFlowversion2isnotavailableyetonAIPlatform,butthat’sOK:youcan
+use1.13,anditwillrunyourTF2SavedModelsjustfine.

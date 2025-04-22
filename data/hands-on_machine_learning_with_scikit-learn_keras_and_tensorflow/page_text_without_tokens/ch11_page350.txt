@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          new layer and add another layer on top of it, train the model again, and so on. Nowa‐
+          days, things are much simpler: people generally train the full unsupervised model in
+          one shot (i.e., in Figure 11-5, just start directly at step three) and use autoencoders or
+          GANs rather than RBMs.                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 11-5. In unsupervised training, a model is trained on the unlabeled data (or on
+          all the data) using an unsupervised learning technique, then it is fine-tuned for the final
+          task on the labeled data using a supervised learning technique; the unsupervised part
+          may train one layer at a time as shown here, or it may train the full model directly
+                                                                      
+          Pretraining on an Auxiliary Task                            
+                                                                      
+          If you do not have much labeled training data, one last option is to train a first neural
+          network on an auxiliary task for which you can easily obtain or generate labeled
+          training data, then reuse the lower layers of that network for your actual task. The
+          first neural network’s lower layers will learn feature detectors that will likely be reusa‐
+          ble by the second neural network.                           
+          For example, if you want to build a system to recognize faces, you may only have a
+          few pictures of each individual—clearly not enough to train a good classifier. Gather‐
+          ing hundreds of pictures of each person would not be practical. You could, however,
+          gather a lot of pictures of random people on the web and train a first neural network
+          to detect whether or not two different pictures feature the same person. Such a
+                                                                      
+                                                                      

@@ -1,0 +1,47 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 15-2. A layer of recurrent neurons (left) unrolled through time (right)
+                                                                      
+          Each recurrent neuron has two sets of weights: one for the inputs x and the other for
+                                                 (t)                  
+          the outputs of the previous time step, y . Let’s call these weight vectors w and w. If
+                                 (t–1)               x    y           
+          we consider the whole recurrent layer instead of just one recurrent neuron, we can
+          place all the weight vectors in two weight matrices, W and W. The output vector of
+                                          x   y                       
+          the whole recurrent layer can then be computed pretty much as you might expect, as
+          shown in Equation 15-1 (b is the bias vector and ϕ(·) is the activation function (e.g.,
+          ReLU1).                                                     
+            Equation 15-1. Output of a recurrent layer for a single instance
+                  ⊺     ⊺                                             
+            y =ϕ W x + W y   + b                                      
+             t    x t   y t−1                                         
+          Just as with feedforward neural networks, we can compute a recurrent layer’s output
+          in one shot for a whole mini-batch by placing all the inputs at time step t in an input
+          matrix X (see Equation 15-2).                               
+               (t)                                                    
+            Equation 15-2. Outputs of a layer of recurrent neurons for all instances in a mini-
+            batch                                                     
+            Y  =ϕ X W +Y  W +b                                        
+             t    t  x  t−1 y                                         
+                                    W                                 
+                                     x                                
+               =ϕ X  Y   W+b  with W=                                 
+                   t  t−1           W                                 
+                                      y                               
+          1 Note that many researchers prefer to use the hyperbolic tangent (tanh) activation function in RNNs rather
+           than the ReLU activation function. For example, take a look at Vu Pham et al.’s 2013 paper “Dropout Improves
+           Recurrent Neural Networks for Handwriting Recognition”. ReLU-based RNNs are also possible, as shown in
+           Quoc V. Le et al.’s 2015 paper “A Simple Way to Initialize Recurrent Networks of Rectified Linear Units”.

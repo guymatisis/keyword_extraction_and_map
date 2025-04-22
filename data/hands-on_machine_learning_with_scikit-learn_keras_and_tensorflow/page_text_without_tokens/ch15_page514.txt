@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          by the activation function. Finally, it returns the outputs twice (once as the outputs,
+          and once as the new hidden states). To use this custom cell, all we need to do is create
+          a keras.layers.RNN layer, passing it a cell instance:       
+                                                                      
+            model = keras.models.Sequential([                         
+               keras.layers.RNN(LNSimpleRNNCell(20), return_sequences=True,
+                         input_shape=[None, 1]),                      
+               keras.layers.RNN(LNSimpleRNNCell(20), return_sequences=True),
+               keras.layers.TimeDistributed(keras.layers.Dense(10))   
+            ])                                                        
+          Similarly, you could create a custom cell to apply dropout between each time step. But
+          there’s a simpler way: all recurrent layers (except for keras.layers.RNN) and all cells
+          provided by Keras have a dropout hyperparameter and a recurrent_dropout hyper‐
+          parameter: the former defines the dropout rate to apply to the inputs (at each time
+          step), and the latter defines the dropout rate for the hidden states (also at each time
+          step). No need to create a custom cell to apply dropout at each time step in an RNN.
+          With these techniques, you can alleviate the unstable gradients problem and train an
+          RNN much more efficiently. Now let’s look at how to deal with the short-term mem‐
+          ory problem.                                                
+          Tackling the Short-Term Memory Problem                      
+                                                                      
+          Due to the transformations that the data goes through when traversing an RNN,
+          some information is lost at each time step. After a while, the RNN’s state contains vir‐
+          tually no trace of the first inputs. This can be a showstopper. Imagine Dory the fish6
+          trying to translate a long sentence; by the time she’s finished reading it, she has no
+          clue how it started. To tackle this problem, various types of cells with long-term
+          memory have been introduced. They have proven so successful that the basic cells are
+          not used much anymore. Let’s first look at the most popular of these long-term mem‐
+          ory cells: the LSTM cell.                                   
+          LSTM cells                                                  
+                                                                      
+          The Long Short-Term Memory (LSTM) cell was proposed in 19977 by Sepp Hochreiter
+          and Jürgen Schmidhuber and gradually improved over the years by several research‐
+          ers, such as Alex Graves, Haşim Sak,8 and Wojciech Zaremba.9 If you consider the
+                                                                      
+                                                                      
+          6 A character from the animated movies Finding Nemo and Finding Dory who has short-term memory loss.
+          7 Sepp Hochreiter and Jürgen Schmidhuber, “Long Short-Term Memory,” Neural Computation 9, no. 8 (1997):
+           1735–1780.                                                 
+          8 Haşim Sak et al., “Long Short-Term Memory Based Recurrent Neural Network Architectures for Large
+           Vocabulary Speech Recognition,” arXiv preprint arXiv:1402.1128 (2014).
+          9 Wojciech Zaremba et al., “Recurrent Neural Network Regularization,” arXiv preprint arXiv:1409.2329 (2014).

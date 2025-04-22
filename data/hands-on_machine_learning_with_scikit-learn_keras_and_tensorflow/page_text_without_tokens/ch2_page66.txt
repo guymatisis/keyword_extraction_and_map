@@ -1,0 +1,48 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            >>> housing_cat = housing[["ocean_proximity"]]            
+            >>> housing_cat.head(10)                                  
+                ocean_proximity                                       
+            17606  <1H OCEAN                                          
+            18632  <1H OCEAN                                          
+            14650  NEAR OCEAN                                         
+            3230     INLAND                                           
+            3555   <1H OCEAN                                          
+            19480    INLAND                                           
+            8879   <1H OCEAN                                          
+            13685    INLAND                                           
+            4937   <1H OCEAN                                          
+            4861   <1H OCEAN                                          
+          It’s not arbitrary text: there are a limited number of possible values, each of which
+          represents a category. So this attribute is a categorical attribute. Most Machine Learn‐
+          ing algorithms prefer to work with numbers, so let’s convert these categories from
+          text to numbers. For this, we can use Scikit-Learn’s OrdinalEncoder class:19
+            >>> from sklearn.preprocessing import OrdinalEncoder      
+            >>> ordinal_encoder = OrdinalEncoder()                    
+            >>> housing_cat_encoded = ordinal_encoder.fit_transform(housing_cat)
+            >>> housing_cat_encoded[:10]                              
+            array([[0.],                                              
+                [0.],                                                 
+                [4.],                                                 
+                [1.],                                                 
+                [0.],                                                 
+                [1.],                                                 
+                [0.],                                                 
+                [1.],                                                 
+                [0.],                                                 
+                [0.]])                                                
+          You can get the list of categories using the categories_ instance variable. It is a list
+          containing a 1D array of categories for each categorical attribute (in this case, a list
+          containing a single array since there is just one categorical attribute):
+            >>> ordinal_encoder.categories_                           
+            [array(['<1H OCEAN', 'INLAND', 'ISLAND', 'NEAR BAY', 'NEAR OCEAN'],
+                dtype=object)]                                        
+          One issue with this representation is that ML algorithms will assume that two nearby
+          values are more similar than two distant values. This may be fine in some cases (e.g.,
+          for ordered categories such as “bad,” “average,” “good,” and “excellent”), but it is obvi‐
+          ously not the case for the ocean_proximity column (for example, categories 0 and 4
+          are clearly more similar than categories 0 and 1). To fix this issue, a common solution
+          19 This class is available in Scikit-Learn 0.20 and later. If you use an earlier version, please consider upgrading, or
+           use the pandas Series.factorize() method.                  

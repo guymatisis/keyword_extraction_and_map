@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+           • Any instance that is not a core instance and does not have one in its neighbor‐
+            hood is considered an anomaly.                            
+                                                                      
+          This algorithm works well if all the clusters are dense enough and if they are well sep‐
+          arated by low-density regions. The DBSCAN class in Scikit-Learn is as simple to use as
+          you might expect. Let’s test it on the moons dataset, introduced in Chapter 5:
+            from sklearn.cluster import DBSCAN                        
+            from sklearn.datasets import make_moons                   
+                                                                      
+            X, y = make_moons(n_samples=1000, noise=0.05)             
+            dbscan = DBSCAN(eps=0.05, min_samples=5)                  
+            dbscan.fit(X)                                             
+          The labels of all the instances are now available in the labels_ instance variable:
+            >>> dbscan.labels_                                        
+            array([ 0, 2, -1, -1, 1, 0, 0, 0, ..., 3, 2, 3, 3, 4, 2, 6, 3])
+          Notice that some instances have a cluster index equal to –1, which means that they
+          are considered as anomalies by the algorithm. The indices of the core instances are
+          available in the core_sample_indices_ instance variable, and the core instances
+          themselves are available in the components_ instance variable:
+            >>> len(dbscan.core_sample_indices_)                      
+            808                                                       
+            >>> dbscan.core_sample_indices_                           
+            array([ 0, 4, 5, 6, 7, 8, 10, 11, ..., 992, 993, 995, 997, 998, 999])
+            >>> dbscan.components_                                    
+            array([[-0.02137124, 0.40618608],                         
+                [-0.84192557, 0.53058695],                            
+                       ...                                            
+                [-0.94355873, 0.3278936 ],                            
+                [ 0.79419406, 0.60777171]])                           
+          This clustering is represented in the lefthand plot of Figure 9-14. As you can see, it
+          identified quite a lot of anomalies, plus seven different clusters. How disappointing!
+          Fortunately, if we widen each instance’s neighborhood by increasing eps to 0.2, we get
+          the clustering on the right, which looks perfect. Let’s continue with this model.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

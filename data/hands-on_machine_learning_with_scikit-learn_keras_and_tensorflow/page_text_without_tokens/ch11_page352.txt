@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Recall that Gradient Descent updates the weights θ by directly subtracting the gradi‐
+          ent of the cost function J(θ) with regard to the weights (∇ J(θ)) multiplied by the
+                                              θ                       
+          learning rate η. The equation is: θ ← θ – η∇ J(θ). It does not care about what the ear‐
+                                    θ                                 
+          lier gradients were. If the local gradient is tiny, it goes very slowly.
+          Momentum optimization cares a great deal about what previous gradients were: at
+          each iteration, it subtracts the local gradient from the momentum vector m (multi‐
+          plied by the learning rate η), and it updates the weights by adding this momentum
+          vector (see Equation 11-4). In other words, the gradient is used for acceleration, not
+          for speed. To simulate some sort of friction mechanism and prevent the momentum
+          from growing too large, the algorithm introduces a new hyperparameter β, called the
+          momentum, which must be set between 0 (high friction) and 1 (no friction). A typical
+          momentum value is 0.9.                                      
+            Equation 11-4. Momentum algorithm                         
+            1. m   βm−η∇ J θ                                          
+                        θ                                             
+            2. θ  θ+m                                                 
+          You can easily verify that if the gradient remains constant, the terminal velocity (i.e.,
+          the maximum size of the weight updates) is equal to that gradient multiplied by the
+          learning rate η multiplied by 1/(1–β) (ignoring the sign). For example, if β = 0.9, then
+          the terminal velocity is equal to 10 times the gradient times the learning rate, so
+          momentum optimization ends up going 10 times faster than Gradient Descent! This
+          allows momentum optimization to escape from plateaus much faster than Gradient
+          Descent. We saw in Chapter 4 that when the inputs have very different scales, the cost
+          function will look like an elongated bowl (see Figure 4-7). Gradient Descent goes
+          down the steep slope quite fast, but then it takes a very long time to go down the val‐
+          ley. In contrast, momentum optimization will roll down the valley faster and faster
+          until it reaches the bottom (the optimum). In deep neural networks that don’t use
+          Batch Normalization, the upper layers will often end up having inputs with very dif‐
+          ferent scales, so using momentum optimization helps a lot. It can also help roll past
+          local optima.                                               
+                                                                      
+                   Due to the momentum, the optimizer may overshoot a bit, then
+                   come back, overshoot again, and oscillate like this many times
+                   before stabilizing at the minimum. This is one of the reasons it’s
+                   good to have a bit of friction in the system: it gets rid of these oscil‐
+                   lations and thus speeds up convergence.            
+                                                                      
+          Implementing momentum optimization in Keras is a no-brainer: just use the SGD
+          optimizer and set its momentum hyperparameter, then lie back and profit!
+                                                                      

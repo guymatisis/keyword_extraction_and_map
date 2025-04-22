@@ -1,46 +1,41 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Perceptron learning rule reinforces connections that help reduce the error. More
-          specifically, the Perceptron is fed one training instance at a time, and for each
-          instance it makes its predictions. For every output neuron that produced a wrong
-          prediction, it reinforces the connection weights from the inputs that would have con‐
-          tributed to the correct prediction. The rule is shown in Equation 10-3.
-                                                                      
-            Equation 10-3. Perceptron learning rule (weight update)   
-                                                                      
-              next step                                               
-            w      =w  +η y −y x                                      
-             i,j      i,j j  j i                                      
-          In this equation:                                           
-           • w is the connection weight between the ith input neuron and the jth output
-             i, j                                                     
-            neuron.                                                   
-           • x is the ith input value of the current training instance.
-             i                                                        
-           • y is the output of the jth output neuron for the current training instance.
-             j                                                        
-           • y is the target output of the jth output neuron for the current training instance.
-             j                                                        
-           • η is the learning rate.                                  
-          The decision boundary of each output neuron is linear, so Perceptrons are incapable
-          of learning complex patterns (just like Logistic Regression classifiers). However, if the
-          training instances are linearly separable, Rosenblatt demonstrated that this algorithm
-          would converge to a solution.8 This is called the Perceptron convergence theorem.
-          Scikit-Learn provides a Perceptron class that implements a single-TLU network. It
-          can be used pretty much as you would expect—for example, on the iris dataset (intro‐
-          duced in Chapter 4):                                        
-            import numpy as np                                        
-            from sklearn.datasets import load_iris                    
-            from sklearn.linear_model import Perceptron               
-            iris = load_iris()                                        
-            X = iris.data[:, (2, 3)] # petal length, petal width      
-            y = (iris.target == 0).astype(np.int) # Iris setosa?      
-            per_clf = Perceptron()                                    
-            per_clf.fit(X, y)                                         
-            y_pred = per_clf.predict([[2, 0.5]])                      
-                                                                      
-                                                                      
-          8 Note that this solution is not unique: when data points are linearly separable, there is an infinity of hyper‐
-           planes that can separate them.                             
+Perceptron learning rule reinforces connections that help reduce the error. More
+specifically, the Perceptron is fed one training instance at a time, and for each
+instance it makes its predictions. For every output neuron that produced a wrong
+prediction, it reinforces the connection weights from the inputs that would have con‐
+tributed to the correct prediction. The rule is shown in Equation 10-3.
+<i>Equation</i> <i>10-3.</i> <i>Perceptron</i> <i>learning</i> <i>rule</i> <i>(weight</i> <i>update)</i>
+next step
+<i>w</i> = <i>w</i> + <i>η</i> <i>y</i> − <i>y</i> <i>x</i>
+<i>i,</i> <i>j</i> <i>i,</i> <i>j</i> <i>j</i> <i>j</i> <i>i</i>
+In this equation:
+th th
+• <i>w</i> is the connection weight between the <i>i</i> input neuron and the <i>j</i> output
+<i>i,</i> <i>j</i>
+neuron.
+• <i>x</i> is the <i>ith</i> input value of the current training instance.
+<i>i</i>
+• <i>y</i> is the output of the <i>j</i> th output neuron for the current training instance.
+<i>j</i>
+• <i>y</i> is the target output of the <i>j</i> th output neuron for the current training instance.
+<i>j</i>
+• <i>η</i> is the learning rate.
+The decision boundary of each output neuron is linear, so Perceptrons are incapable
+of learning complex patterns (just like Logistic Regression classifiers). However, if the
+training instances are linearly separable, Rosenblatt demonstrated that this algorithm
+solution.8
+would converge to a This is called the <i>Perceptron</i> <i>convergence</i> <i>theorem.</i>
+Perceptron
+Scikit-Learn provides a class that implements a single-TLU network. It
+can be used pretty much as you would expect—for example, on the iris dataset (intro‐
+duced in Chapter 4):
+<b>import</b> <b>numpy</b> <b>as</b> <b>np</b>
+<b>from</b> <b>sklearn.datasets</b> <b>import</b> load_iris
+<b>from</b> <b>sklearn.linear_model</b> <b>import</b> Perceptron
+iris = load_iris()
+X = iris.data[:, (2, 3)] <i>#</i> <i>petal</i> <i>length,</i> <i>petal</i> <i>width</i>
+y = (iris.target == 0).astype(np.int) <i>#</i> <i>Iris</i> <i>setosa?</i>
+per_clf = Perceptron()
+per_clf.fit(X, y)
+y_pred = per_clf.predict([[2, 0.5]])
+8 Notethatthissolutionisnotunique:whendatapointsarelinearlyseparable,thereisaninfinityofhyper‐
+planesthatcanseparatethem.

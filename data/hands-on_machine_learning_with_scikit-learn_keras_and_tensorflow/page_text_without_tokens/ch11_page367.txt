@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   In practice, you can usually apply dropout only to the neurons in
+                   the top one to three layers (excluding the output layer).
+                                                                      
+                                                                      
+                                                                      
+          There is one small but important technical detail. Suppose p = 50%, in which case
+          during testing a neuron would be connected to twice as many input neurons as it
+          would be (on average) during training. To compensate for this fact, we need to multi‐
+          ply each neuron’s input connection weights by 0.5 after training. If we don’t, each
+          neuron will get a total input signal roughly twice as large as what the network was
+          trained on and will be unlikely to perform well. More generally, we need to multiply
+          each input connection weight by the keep probability (1 – p) after training. Alterna‐
+          tively, we can divide each neuron’s output by the keep probability during training
+          (these alternatives are not perfectly equivalent, but they work equally well).
+                                                                      
+          To implement dropout using Keras, you can use the keras.layers.Dropout layer.
+          During training, it randomly drops some inputs (setting them to 0) and divides the
+          remaining inputs by the keep probability. After training, it does nothing at all; it just
+          passes the inputs to the next layer. The following code applies dropout regularization
+          before every Dense layer, using a dropout rate of 0.2:      
+            model = keras.models.Sequential([                         
+               keras.layers.Flatten(input_shape=[28, 28]),            
+               keras.layers.Dropout(rate=0.2),                        
+               keras.layers.Dense(300, activation="elu", kernel_initializer="he_normal"),
+               keras.layers.Dropout(rate=0.2),                        
+               keras.layers.Dense(100, activation="elu", kernel_initializer="he_normal"),
+               keras.layers.Dropout(rate=0.2),                        
+               keras.layers.Dense(10, activation="softmax")           
+            ])                                                        
+                   Since dropout is only active during training, comparing the train‐
+                   ing loss and the validation loss can be misleading. In particular, a
+                   model may be overfitting the training set and yet have similar
+                   training and validation losses. So make sure to evaluate the training
+                   loss without dropout (e.g., after training).       
+          If you observe that the model is overfitting, you can increase the dropout rate. Con‐
+          versely, you should try decreasing the dropout rate if the model underfits the training
+          set. It can also help to increase the dropout rate for large layers, and reduce it for
+          small ones. Moreover, many state-of-the-art architectures only use dropout after the
+          last hidden layer, so you may want to try this if full dropout is too strong.
+                                                                      
+                                                                      
+                                                                      

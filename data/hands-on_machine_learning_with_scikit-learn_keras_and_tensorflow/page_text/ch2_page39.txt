@@ -1,46 +1,34 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          data about that district. The census data looks like a great dataset to exploit for this
-          purpose, since it includes the median housing prices of thousands of districts, as well
-          as other data.                                              
-                                                                      
-          With all this information, you are now ready to start designing your system. First,
-          you need to frame the problem: is it supervised, unsupervised, or Reinforcement
-          Learning? Is it a classification task, a regression task, or something else? Should you
-          use batch learning or online learning techniques? Before you read on, pause and try
-          to answer these questions for yourself.                     
-          Have you found the answers? Let’s see: it is clearly a typical supervised learning task,
-          since you are given labeled training examples (each instance comes with the expected
-          output, i.e., the district’s median housing price). It is also a typical regression task,
-          since you are asked to predict a value. More specifically, this is a multiple regression
-          problem, since the system will use multiple features to make a prediction (it will use
-          the district’s population, the median income, etc.). It is also a univariate regression
-          problem, since we are only trying to predict a single value for each district. If we were
-          trying to predict multiple values per district, it would be a multivariate regression
-          problem. Finally, there is no continuous flow of data coming into the system, there is
-          no particular need to adjust to changing data rapidly, and the data is small enough to
-          fit in memory, so plain batch learning should do just fine. 
-                                                                      
-                   If the data were huge, you could either split your batch learning
-                   work across multiple servers (using the MapReduce technique) or
-                   use an online learning technique.                  
-                                                                      
-                                                                      
-          Select a Performance Measure                                
-          Your next step is to select a performance measure. A typical performance measure for
-          regression problems is the Root Mean Square Error (RMSE). It gives an idea of how
-          much error the system typically makes in its predictions, with a higher weight for
-          large errors. Equation 2-1 shows the mathematical formula to compute the RMSE.
-                                                                      
-            Equation 2-1. Root Mean Square Error (RMSE)               
-                                                                      
-                       m                                              
-            RMSE X,h = 1 ∑ h x i −y i 2                               
-                     m                                                
-                       i=1                                            
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+data about that district. The census data looks like a great dataset to exploit for this
+purpose, since it includes the median housing prices of thousands of districts, as well
+as other data.
+With all this information, you are now ready to start designing your system. First,
+you need to frame the problem: is it supervised, unsupervised, or Reinforcement
+Learning? Is it a classification task, a regression task, or something else? Should you
+use batch learning or online learning techniques? Before you read on, pause and try
+to answer these questions for yourself.
+Have you found the answers? Let’s see: it is clearly a typical supervised learning task,
+since you are given <i>labeled</i> training examples (each instance comes with the expected
+output, i.e., the district’s median housing price). It is also a typical regression task,
+since you are asked to predict a value. More specifically, this is a <i>multiple</i> <i>regression</i>
+problem, since the system will use multiple features to make a prediction (it will use
+the district’s population, the median income, etc.). It is also a <i>univariate</i> <i>regression</i>
+problem, since we are only trying to predict a single value for each district. If we were
+trying to predict multiple values per district, it would be a <i>multivariate</i> <i>regression</i>
+problem. Finally, there is no continuous flow of data coming into the system, there is
+no particular need to adjust to changing data rapidly, and the data is small enough to
+fit in memory, so plain batch learning should do just fine.
+If the data were huge, you could either split your batch learning
+work across multiple servers (using the MapReduce technique) or
+use an online learning technique.
+<header><largefont><b>Select</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Performance</b></largefont> <largefont><b>Measure</b></largefont></header>
+Your next step is to select a performance measure. A typical performance measure for
+regression problems is the Root Mean Square Error (RMSE). It gives an idea of how
+much error the system typically makes in its predictions, with a higher weight for
+large errors. Equation 2-1 shows the mathematical formula to compute the RMSE.
+<i>Equation</i> <i>2-1.</i> <i>Root</i> <i>Mean</i> <i>Square</i> <i>Error</i> <i>(RMSE)</i>
+<i>m</i>
+1 2
+<i>i</i> <i>i</i>
+<header>RMSE <b>X,h</b> = <largefont>∑</largefont> <i>h</i> <b>x</b> − <i>y</i></header>
+<i>m</i>
+<i>i</i> = 1

@@ -1,46 +1,40 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            class HuberLoss(keras.losses.Loss):                       
-               def __init__(self, threshold=1.0, **kwargs):           
-                 self.threshold = threshold                           
-                 super().__init__(**kwargs)                           
-               def call(self, y_true, y_pred):                        
-                 error = y_true - y_pred                              
-                 is_small_error = tf.abs(error) < self.threshold      
-                 squared_loss = tf.square(error) / 2                  
-                 linear_loss = self.threshold * tf.abs(error) - self.threshold**2 / 2
-                 return tf.where(is_small_error, squared_loss, linear_loss)
-               def get_config(self):                                  
-                 base_config = super().get_config()                   
-                 return {**base_config, "threshold": self.threshold}  
-                   The Keras API currently only specifies how to use subclassing to
-                   define layers, models, callbacks, and regularizers. If you build other
-                   components (such as losses, metrics, initializers, or constraints)
-                   using subclassing, they may not be portable to other Keras imple‐
-                   mentations. It’s likely that the Keras API will be updated to specify
-                   subclassing for all these components as well.      
-          Let’s walk through this code:                               
-           • The constructor accepts **kwargs and passes them to the parent constructor,
-            which handles standard hyperparameters: the name of the loss and the reduction
-            algorithm to use to aggregate the individual instance losses. By default, it is
-            "sum_over_batch_size", which means that the loss will be the sum of the
-            instance losses, weighted by the sample weights, if any, and divided by the batch
-            size (not by the sum of weights, so this is not the weighted mean).5 Other possible
-            values are "sum" and "none".                              
-           • The call() method takes the labels and predictions, computes all the instance
-            losses, and returns them.                                 
-           • The get_config() method returns a dictionary mapping each hyperparameter
-            name to its value. It first calls the parent class’s get_config() method, then adds
-                                                                      
-            the new hyperparameters to this dictionary (note that the convenient {**x} syn‐
-            tax was added in Python 3.5).                             
-          You can then use any instance of this class when you compile the model:
-                                                                      
-            model.compile(loss=HuberLoss(2.), optimizer="nadam")      
-                                                                      
-                                                                      
-                                                                      
-          5 It would not be a good idea to use a weighted mean: if you did, then two instances with the same weight but in
-           different batches would have a different impact on training, depending on the total weight of each batch.
+<b>class</b> <b>HuberLoss(keras.losses.Loss):</b>
+<b>def</b> <b>__init__(self,</b> threshold=1.0, **kwargs):
+self.threshold = threshold
+super().__init__(**kwargs)
+<b>def</b> call(self, y_true, y_pred):
+error = y_true - y_pred
+is_small_error = tf.abs(error) < self.threshold
+squared_loss = tf.square(error) / 2
+linear_loss = self.threshold * tf.abs(error) - self.threshold**2 / 2
+<b>return</b> tf.where(is_small_error, squared_loss, linear_loss)
+<b>def</b> get_config(self):
+base_config = super().get_config()
+<b>return</b> {**base_config, "threshold": self.threshold}
+The Keras API currently only specifies how to use subclassing to
+define layers, models, callbacks, and regularizers. If you build other
+components (such as losses, metrics, initializers, or constraints)
+using subclassing, they may not be portable to other Keras imple‐
+mentations. It’s likely that the Keras API will be updated to specify
+subclassing for all these components as well.
+Let’s walk through this code:
+**kwargs
+• The constructor accepts and passes them to the parent constructor,
+which handles standard hyperparameters: the name of the loss and the reduction
+algorithm to use to aggregate the individual instance losses. By default, it is
+"sum_over_batch_size"
+, which means that the loss will be the sum of the
+instance losses, weighted by the sample weights, if any, and divided by the batch
+size (not by the sum of weights, so this is <i>not</i> the weighted mean). 5 Other possible
+values are "sum" and "none" .
+• The call() method takes the labels and predictions, computes all the instance
+losses, and returns them.
+• The get_config() method returns a dictionary mapping each hyperparameter
+name to its value. It first calls the parent class’s get_config() method, then adds
+{**x}
+the new hyperparameters to this dictionary (note that the convenient syn‐
+tax was added in Python 3.5).
+You can then use any instance of this class when you compile the model:
+model.compile(loss=HuberLoss(2.), optimizer="nadam")
+5 Itwouldnotbeagoodideatouseaweightedmean:ifyoudid,thentwoinstanceswiththesameweightbutin
+differentbatcheswouldhaveadifferentimpactontraining,dependingonthetotalweightofeachbatch.

@@ -1,46 +1,43 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Scikit-Learn detects when you try to use a binary classification algorithm for a multi‐
-          class classification task, and it automatically runs OvR or OvO, depending on the
-          algorithm. Let’s try this with a Support Vector Machine classifier (see Chapter 5),
-          using the sklearn.svm.SVC class:                            
-                                                                      
-            >>> from sklearn.svm import SVC                           
-            >>> svm_clf = SVC()                                       
-            >>> svm_clf.fit(X_train, y_train) # y_train, not y_train_5
-            >>> svm_clf.predict([some_digit])                         
-            array([5], dtype=uint8)                                   
-          That was easy! This code trains the SVC on the training set using the original target
-          classes from 0 to 9 (y_train), instead of the 5-versus-the-rest target classes
-          (y_train_5). Then it makes a prediction (a correct one in this case). Under the hood,
-          Scikit-Learn actually used the OvO strategy: it trained 45 binary classifiers, got their
-          decision scores for the image, and selected the class that won the most duels.
-          If you call the decision_function() method, you will see that it returns 10 scores
-          per instance (instead of just 1). That’s one score per class:
-            >>> some_digit_scores = svm_clf.decision_function([some_digit])
-            >>> some_digit_scores                                     
-            array([[ 2.92492871, 7.02307409, 3.93648529, 0.90117363, 5.96945908,
-                  9.5  , 1.90718593, 8.02755089, -0.13202708, 4.94216947]])
-          The highest score is indeed the one corresponding to class 5:
-            >>> np.argmax(some_digit_scores)                          
-            5                                                         
-            >>> svm_clf.classes_                                      
-            array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dtype=uint8)        
-            >>> svm_clf.classes_[5]                                   
-            5                                                         
-                   When a classifier is trained, it stores the list of target classes in its
-                   classes_ attribute, ordered by value. In this case, the index of each
-                   class in the classes_ array conveniently matches the class itself
-                   (e.g., the class at index 5 happens to be class 5), but in general you
-                   won’t be so lucky.                                 
-                                                                      
-          If you want to force Scikit-Learn to use one-versus-one or one-versus-the-rest, you
-          can use the OneVsOneClassifier or OneVsRestClassifier classes. Simply create an
-          instance and pass a classifier to its constructor (it does not even have to be a binary
-          classifier). For example, this code creates a multiclass classifier using the OvR strat‐
-          egy, based on an SVC:                                       
-            >>> from sklearn.multiclass import OneVsRestClassifier    
-            >>> ovr_clf = OneVsRestClassifier(SVC())                  
-            >>> ovr_clf.fit(X_train, y_train)                         
+Scikit-Learn detects when you try to use a binary classification algorithm for a multi‐
+class classification task, and it automatically runs OvR or OvO, depending on the
+algorithm. Let’s try this with a Support Vector Machine classifier (see Chapter 5),
+using the sklearn.svm.SVC class:
+<b>>>></b> <b>from</b> <b>sklearn.svm</b> <b>import</b> SVC
+<b>>>></b> svm_clf = SVC()
+<b>>>></b> svm_clf.fit(X_train, y_train) <i>#</i> <i>y_train,</i> <i>not</i> <i>y_train_5</i>
+<b>>>></b> svm_clf.predict([some_digit])
+array([5], dtype=uint8)
+SVC
+That was easy! This code trains the on the training set using the original target
+classes from 0 to 9 ( y_train ), instead of the 5-versus-the-rest target classes
+(y_train_5).
+Then it makes a prediction (a correct one in this case). Under the hood,
+Scikit-Learn actually used the OvO strategy: it trained 45 binary classifiers, got their
+decision scores for the image, and selected the class that won the most duels.
+If you call the decision_function() method, you will see that it returns 10 scores
+per instance (instead of just 1). That’s one score per class:
+<b>>>></b> some_digit_scores = svm_clf.decision_function([some_digit])
+<b>>>></b> some_digit_scores
+array([[ 2.92492871, 7.02307409, 3.93648529, 0.90117363, 5.96945908,
+9.5 , 1.90718593, 8.02755089, -0.13202708, 4.94216947]])
+5
+The highest score is indeed the one corresponding to class :
+<b>>>></b> np.argmax(some_digit_scores)
+5
+<b>>>></b> svm_clf.classes_
+array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dtype=uint8)
+<b>>>></b> svm_clf.classes_[5]
+5
+When a classifier is trained, it stores the list of target classes in its
+classes_ attribute, ordered by value. In this case, the index of each
+class in the classes_ array conveniently matches the class itself
+(e.g., the class at index 5 happens to be class 5), but in general you
+won’t be so lucky.
+If you want to force Scikit-Learn to use one-versus-one or one-versus-the-rest, you
+can use the OneVsOneClassifier or OneVsRestClassifier classes. Simply create an
+instance and pass a classifier to its constructor (it does not even have to be a binary
+classifier). For example, this code creates a multiclass classifier using the OvR strat‐
+egy, based on an SVC :
+<b>>>></b> <b>from</b> <b>sklearn.multiclass</b> <b>import</b> OneVsRestClassifier
+<b>>>></b> ovr_clf = OneVsRestClassifier(SVC())
+<b>>>></b> ovr_clf.fit(X_train, y_train)

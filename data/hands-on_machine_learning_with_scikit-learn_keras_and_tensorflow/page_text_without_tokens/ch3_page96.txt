@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 3-5. Precision versus recall                         
+                                                                      
+          You can see that precision really starts to fall sharply around 80% recall. You will
+          probably want to select a precision/recall trade-off just before that drop—for exam‐
+          ple, at around 60% recall. But of course, the choice depends on your project.
+          Suppose you decide to aim for 90% precision. You look up the first plot and find that
+          you need to use a threshold of about 8,000. To be more precise you can search for the
+          lowest threshold that gives you at least 90% precision (np.argmax() will give you the
+          first index of the maximum value, which in this case means the first True value):
+            threshold_90_precision = thresholds[np.argmax(precisions >= 0.90)] # ~7816
+                                                                      
+          To make predictions (on the training set for now), instead of calling the classifier’s
+          predict() method, you can run this code:                    
+            y_train_pred_90 = (y_scores >= threshold_90_precision)    
+          Let’s check these predictions’ precision and recall:        
+                                                                      
+            >>> precision_score(y_train_5, y_train_pred_90)           
+            0.9000380083618396                                        
+            >>> recall_score(y_train_5, y_train_pred_90)              
+            0.4368197749492714                                        
+          Great, you have a 90% precision classifier! As you can see, it is fairly easy to create a
+          classifier with virtually any precision you want: just set a high enough threshold, and
+          you’re done. But wait, not so fast. A high-precision classifier is not very useful if its
+          recall is too low!                                          
+                                                                      
+                                                                      

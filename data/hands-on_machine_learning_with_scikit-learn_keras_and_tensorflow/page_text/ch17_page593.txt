@@ -1,46 +1,38 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          During training, the generator and the discriminator have opposite goals: the dis‐
-          criminator tries to tell fake images from real images, while the generator tries to pro‐
-          duce images that look real enough to trick the discriminator. Because the GAN is
-          composed of two networks with different objectives, it cannot be trained like a regu‐
-          lar neural network. Each training iteration is divided into two phases:
-                                                                      
-           • In the first phase, we train the discriminator. A batch of real images is sampled
-            from the training set and is completed with an equal number of fake images pro‐
-            duced by the generator. The labels are set to 0 for fake images and 1 for real
-            images, and the discriminator is trained on this labeled batch for one step, using
-            the binary cross-entropy loss. Importantly, backpropagation only optimizes the
-            weights of the discriminator during this phase.           
-           • In the second phase, we train the generator. We first use it to produce another
-            batch of fake images, and once again the discriminator is used to tell whether the
-            images are fake or real. This time we do not add real images in the batch, and all
-            the labels are set to 1 (real): in other words, we want the generator to produce
-            images that the discriminator will (wrongly) believe to be real! Crucially, the
-            weights of the discriminator are frozen during this step, so backpropagation only
-            affects the weights of the generator.                     
-                                                                      
-                                                                      
-                   The generator never actually sees any real images, yet it gradually
-                   learns to produce convincing fake images! All it gets is the gradi‐
-                   ents flowing back through the discriminator. Fortunately, the better
-                   the discriminator gets, the more information about the real images
-                   is contained in these secondhand gradients, so the generator can
-                   make significant progress.                         
-          Let’s go ahead and build a simple GAN for Fashion MNIST.    
-                                                                      
-          First, we need to build the generator and the discriminator. The generator is similar
-          to an autoencoder’s decoder, and the discriminator is a regular binary classifier (it
-          takes an image as input and ends with a Dense layer containing a single unit and
-          using the sigmoid activation function). For the second phase of each training itera‐
-          tion, we also need the full GAN model containing the generator followed by the
-          discriminator:                                              
-            codings_size = 30                                         
-            generator = keras.models.Sequential([                     
-               keras.layers.Dense(100, activation="selu", input_shape=[codings_size]),
-               keras.layers.Dense(150, activation="selu"),            
-               keras.layers.Dense(28 * 28, activation="sigmoid"),     
-               keras.layers.Reshape([28, 28])                         
-            ])                                                        
+During training, the generator and the discriminator have opposite goals: the dis‐
+criminator tries to tell fake images from real images, while the generator tries to pro‐
+duce images that look real enough to trick the discriminator. Because the GAN is
+composed of two networks with different objectives, it cannot be trained like a regu‐
+lar neural network. Each training iteration is divided into two phases:
+• In the first phase, we train the discriminator. A batch of real images is sampled
+from the training set and is completed with an equal number of fake images pro‐
+duced by the generator. The labels are set to 0 for fake images and 1 for real
+images, and the discriminator is trained on this labeled batch for one step, using
+the binary cross-entropy loss. Importantly, backpropagation only optimizes the
+weights of the discriminator during this phase.
+• In the second phase, we train the generator. We first use it to produce another
+batch of fake images, and once again the discriminator is used to tell whether the
+images are fake or real. This time we do not add real images in the batch, and all
+the labels are set to 1 (real): in other words, we want the generator to produce
+images that the discriminator will (wrongly) believe to be real! Crucially, the
+weights of the discriminator are frozen during this step, so backpropagation only
+affects the weights of the generator.
+The generator never actually sees any real images, yet it gradually
+learns to produce convincing fake images! All it gets is the gradi‐
+ents flowing back through the discriminator. Fortunately, the better
+the discriminator gets, the more information about the real images
+is contained in these secondhand gradients, so the generator can
+make significant progress.
+Let’s go ahead and build a simple GAN for Fashion MNIST.
+First, we need to build the generator and the discriminator. The generator is similar
+to an autoencoder’s decoder, and the discriminator is a regular binary classifier (it
+takes an image as input and ends with a Dense layer containing a single unit and
+using the sigmoid activation function). For the second phase of each training itera‐
+tion, we also need the full GAN model containing the generator followed by the
+discriminator:
+codings_size = 30
+generator = keras.models.Sequential([
+keras.layers.Dense(100, activation="selu", input_shape=[codings_size]),
+keras.layers.Dense(150, activation="selu"),
+keras.layers.Dense(28 * 28, activation="sigmoid"),
+keras.layers.Reshape([28, 28])
+])

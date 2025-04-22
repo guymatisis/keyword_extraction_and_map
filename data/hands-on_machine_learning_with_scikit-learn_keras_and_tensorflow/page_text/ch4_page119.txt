@@ -1,46 +1,13 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 4-4. The learning rate is too small                  
-          On the other hand, if the learning rate is too high, you might jump across the valley
-          and end up on the other side, possibly even higher up than you were before. This
-          might make the algorithm diverge, with larger and larger values, failing to find a good
-          solution (see Figure 4-5).                                  
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 4-5. The learning rate is too large                  
-                                                                      
-          Finally, not all cost functions look like nice, regular bowls. There may be holes, ridges,
-          plateaus, and all sorts of irregular terrains, making convergence to the minimum dif‐
-          ficult. Figure 4-6 shows the two main challenges with Gradient Descent. If the ran‐
-          dom initialization starts the algorithm on the left, then it will converge to a local
-          minimum, which is not as good as the global minimum. If it starts on the right, then it
-          will take a very long time to cross the plateau. And if you stop too early, you will
-          never reach the global minimum.                             
-                                                                      
-                                                                      
+<i>Figure</i> <i>4-4.</i> <i>The</i> <i>learning</i> <i>rate</i> <i>is</i> <i>too</i> <i>small</i>
+On the other hand, if the learning rate is too high, you might jump across the valley
+and end up on the other side, possibly even higher up than you were before. This
+might make the algorithm diverge, with larger and larger values, failing to find a good
+solution (see Figure 4-5).
+<i>Figure</i> <i>4-5.</i> <i>The</i> <i>learning</i> <i>rate</i> <i>is</i> <i>too</i> <i>large</i>
+Finally, not all cost functions look like nice, regular bowls. There may be holes, ridges,
+plateaus, and all sorts of irregular terrains, making convergence to the minimum dif‐
+ficult. Figure 4-6 shows the two main challenges with Gradient Descent. If the ran‐
+dom initialization starts the algorithm on the left, then it will converge to a <i>local</i>
+<i>minimum,</i> which is not as good as the <i>global</i> <i>minimum.</i> If it starts on the right, then it
+will take a very long time to cross the plateau. And if you stop too early, you will
+never reach the global minimum.

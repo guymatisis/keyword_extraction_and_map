@@ -1,46 +1,14 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 19-16. Splitting a partially connected neural network
-                                                                      
-          Deep recurrent neural networks (see Chapter 15) can be split a bit more efficiently
-          across multiple GPUs. If you split the network horizontally by placing each layer on a
-          different device, and you feed the network with an input sequence to process, then at
-          the first time step only one device will be active (working on the sequence’s first
-          value), at the second step two will be active (the second layer will be handling the out‐
-          put of the first layer for the first value, while the first layer will be handling the second
-          value), and by the time the signal propagates to the output layer, all devices will be
-          active simultaneously (Figure 19-17). There is still a lot of cross-device communica‐
-          tion going on, but since each cell may be fairly complex, the benefit of running multi‐
-          ple cells in parallel may (in theory) outweigh the communication penalty. However,
-          in practice a regular stack of LSTM layers running on a single GPU actually runs much
-          faster.                                                     
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+<i>Figure</i> <i>19-16.</i> <i>Splitting</i> <i>a</i> <i>partially</i> <i>connected</i> <i>neural</i> <i>network</i>
+Deep recurrent neural networks (see Chapter 15) can be split a bit more efficiently
+across multiple GPUs. If you split the network horizontally by placing each layer on a
+different device, and you feed the network with an input sequence to process, then at
+the first time step only one device will be active (working on the sequence’s first
+value), at the second step two will be active (the second layer will be handling the out‐
+put of the first layer for the first value, while the first layer will be handling the second
+value), and by the time the signal propagates to the output layer, all devices will be
+active simultaneously (Figure 19-17). There is still a lot of cross-device communica‐
+tion going on, but since each cell may be fairly complex, the benefit of running multi‐
+ple cells in parallel may (in theory) outweigh the communication penalty. However,
+LSTM
+in practice a regular stack of layers running on a single GPU actually runs much
+faster.

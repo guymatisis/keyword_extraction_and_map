@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            keras_reg = keras.wrappers.scikit_learn.KerasRegressor(build_model)
+                                                                      
+          The KerasRegressor object is a thin wrapper around the Keras model built using
+          build_model(). Since we did not specify any hyperparameters when creating it, it
+          will use the default hyperparameters we defined in build_model(). Now we can use
+          this object like a regular Scikit-Learn regressor: we can train it using its fit()
+          method, then evaluate it using its score() method, and use it to make predictions
+          using its predict() method, as you can see in the following code:
+            keras_reg.fit(X_train, y_train, epochs=100,               
+                    validation_data=(X_valid, y_valid),               
+                    callbacks=[keras.callbacks.EarlyStopping(patience=10)])
+            mse_test = keras_reg.score(X_test, y_test)                
+            y_pred = keras_reg.predict(X_new)                         
+          Note that any extra parameter you pass to the fit() method will get passed to the
+          underlying Keras model. Also note that the score will be the opposite of the MSE
+          because Scikit-Learn wants scores, not losses (i.e., higher should be better).
+          We don’t want to train and evaluate a single model like this, though we want to train
+          hundreds of variants and see which one performs best on the validation set. Since
+          there are many hyperparameters, it is preferable to use a randomized search rather
+          than grid search (as we discussed in Chapter 2). Let’s try to explore the number of
+          hidden layers, the number of neurons, and the learning rate:
+            from scipy.stats import reciprocal                        
+            from sklearn.model_selection import RandomizedSearchCV    
+            param_distribs = {                                        
+               "n_hidden": [0, 1, 2, 3],                              
+               "n_neurons": np.arange(1, 100),                        
+               "learning_rate": reciprocal(3e-4, 3e-2),               
+            }                                                         
+            rnd_search_cv = RandomizedSearchCV(keras_reg, param_distribs, n_iter=10, cv=3)
+            rnd_search_cv.fit(X_train, y_train, epochs=100,           
+                       validation_data=(X_valid, y_valid),            
+                       callbacks=[keras.callbacks.EarlyStopping(patience=10)])
+          This is identical to what we did in Chapter 2, except here we pass extra parameters to
+          the fit() method, and they get relayed to the underlying Keras models. Note that
+          RandomizedSearchCV uses K-fold cross-validation, so it does not use X_valid and
+          y_valid, which are only used for early stopping.            
+          The exploration may last many hours, depending on the hardware, the size of the
+          dataset, the complexity of the model, and the values of n_iter and cv. When it’s over,
+          you can access the best parameters found, the best score, and the trained Keras model
+          like this:                                                  
+                                                                      
+                                                                      

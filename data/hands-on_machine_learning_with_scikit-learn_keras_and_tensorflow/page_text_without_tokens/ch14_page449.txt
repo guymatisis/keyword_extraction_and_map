@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          A neuron located in row i, column j of a given layer is connected to the outputs of the
+          neurons in the previous layer located in rows i to i + f – 1, columns j to j + f – 1,
+                                          h             w             
+          where f and f are the height and width of the receptive field (see Figure 14-3). In
+              h   w                                                   
+          order for a layer to have the same height and width as the previous layer, it is com‐
+          mon to add zeros around the inputs, as shown in the diagram. This is called zero
+          padding.                                                    
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 14-3. Connections between layers and zero padding    
+                                                                      
+          It is also possible to connect a large input layer to a much smaller layer by spacing out
+          the receptive fields, as shown in Figure 14-4. This dramatically reduces the model’s
+          computational complexity. The shift from one receptive field to the next is called the
+          stride. In the diagram, a 5 × 7 input layer (plus zero padding) is connected to a 3 × 4
+          layer, using 3 × 3 receptive fields and a stride of 2 (in this example the stride is the
+          same in both directions, but it does not have to be so). A neuron located in row i,
+          column j in the upper layer is connected to the outputs of the neurons in the previous
+          layer located in rows i × s to i × s + f – 1, columns j × s to j × s + f – 1, where s
+                         h    h h           w    w w       h          
+          and s are the vertical and horizontal strides.              
+             w                                                        
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

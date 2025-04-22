@@ -1,46 +1,42 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          When you save the model, the threshold will be saved along with it; and when you
-          load the model, you just need to map the class name to the class itself:
-                                                                      
-            model = keras.models.load_model("my_model_with_a_custom_loss_class.h5",
-                               custom_objects={"HuberLoss": HuberLoss})
-          When you save a model, Keras calls the loss instance’s get_config() method and
-          saves the config as JSON in the HDF5 file. When you load the model, it calls the
-          from_config() class method on the HuberLoss class: this method is implemented by
-          the base class (Loss) and creates an instance of the class, passing **config to the
-          constructor.                                                
-          That’s it for losses! That wasn’t too hard, was it? Just as simple are custom activation
-          functions, initializers, regularizers, and constraints. Let’s look at these now.
-                                                                      
-          Custom Activation Functions, Initializers, Regularizers, and
-          Constraints                                                 
-                                                                      
-          Most Keras functionalities, such as losses, regularizers, constraints, initializers, met‐
-          rics, activation functions, layers, and even full models, can be customized in very
-          much the same way. Most of the time, you will just need to write a simple function
-          with the appropriate inputs and outputs. Here are examples of a custom activation
-          function (equivalent to keras.activations.softplus() or tf.nn.softplus()), a
-          custom Glorot initializer (equivalent to keras.initializers.glorot_normal()), a
-          custom ℓ regularizer (equivalent to keras.regularizers.l1(0.01)), and a custom
-               1                                                      
-          constraint that ensures weights are all positive (equivalent to keras.con
-          straints.nonneg() or tf.nn.relu()):                         
-            def my_softplus(z): # return value is just tf.nn.softplus(z)
-               return tf.math.log(tf.exp(z) + 1.0)                    
-            def my_glorot_initializer(shape, dtype=tf.float32):       
-               stddev = tf.sqrt(2. / (shape[0] + shape[1]))           
-               return tf.random.normal(shape, stddev=stddev, dtype=dtype)
-            def my_l1_regularizer(weights):                           
-               return tf.reduce_sum(tf.abs(0.01 * weights))           
-            def my_positive_weights(weights): # return value is just tf.nn.relu(weights)
-               return tf.where(weights < 0., tf.zeros_like(weights), weights)
-          As you can see, the arguments depend on the type of custom function. These custom
-          functions can then be used normally; for example:           
-            layer = keras.layers.Dense(30, activation=my_softplus,    
-                            kernel_initializer=my_glorot_initializer, 
-                            kernel_regularizer=my_l1_regularizer,     
-                            kernel_constraint=my_positive_weights)    
-                                                                      
+When you save the model, the threshold will be saved along with it; and when you
+load the model, you just need to map the class name to the class itself:
+model = keras.models.load_model("my_model_with_a_custom_loss_class.h5",
+custom_objects={"HuberLoss": HuberLoss})
+When you save a model, Keras calls the loss instance’s get_config() method and
+saves the config as JSON in the HDF5 file. When you load the model, it calls the
+from_config() HuberLoss
+class method on the class: this method is implemented by
+the base class ( Loss ) and creates an instance of the class, passing **config to the
+constructor.
+That’s it for losses! That wasn’t too hard, was it? Just as simple are custom activation
+functions, initializers, regularizers, and constraints. Let’s look at these now.
+<header><largefont><b>Custom</b></largefont> <largefont><b>Activation</b></largefont> <largefont><b>Functions,</b></largefont> <largefont><b>Initializers,</b></largefont> <largefont><b>Regularizers,</b></largefont> <largefont><b>and</b></largefont></header>
+<header><largefont><b>Constraints</b></largefont></header>
+Most Keras functionalities, such as losses, regularizers, constraints, initializers, met‐
+rics, activation functions, layers, and even full models, can be customized in very
+much the same way. Most of the time, you will just need to write a simple function
+with the appropriate inputs and outputs. Here are examples of a custom activation
+keras.activations.softplus() tf.nn.softplus()
+function (equivalent to or ), a
+custom Glorot initializer (equivalent to keras.initializers.glorot_normal() ), a
+keras.regularizers.l1(0.01)),
+custom ℓ regularizer (equivalent to and a custom
+1
+keras.con
+constraint that ensures weights are all positive (equivalent to
+straints.nonneg() or tf.nn.relu() ):
+<b>def</b> my_softplus(z): <i>#</i> <i>return</i> <i>value</i> <i>is</i> <i>just</i> <i>tf.nn.softplus(z)</i>
+<b>return</b> tf.math.log(tf.exp(z) + 1.0)
+<b>def</b> my_glorot_initializer(shape, dtype=tf.float32):
+stddev = tf.sqrt(2. / (shape[0] + shape[1]))
+<b>return</b> tf.random.normal(shape, stddev=stddev, dtype=dtype)
+<b>def</b> my_l1_regularizer(weights):
+<b>return</b> tf.reduce_sum(tf.abs(0.01 * weights))
+<b>def</b> my_positive_weights(weights): <i>#</i> <i>return</i> <i>value</i> <i>is</i> <i>just</i> <i>tf.nn.relu(weights)</i>
+<b>return</b> tf.where(weights < 0., tf.zeros_like(weights), weights)
+As you can see, the arguments depend on the type of custom function. These custom
+functions can then be used normally; for example:
+layer = keras.layers.Dense(30, activation=my_softplus,
+kernel_initializer=my_glorot_initializer,
+kernel_regularizer=my_l1_regularizer,
+kernel_constraint=my_positive_weights)

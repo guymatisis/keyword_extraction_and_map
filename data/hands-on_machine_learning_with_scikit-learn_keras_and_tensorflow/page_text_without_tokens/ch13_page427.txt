@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          String() are not TensorFlow operations (and neither are the other operations in this
+          code), so they cannot be included in a TensorFlow Function (except by wrapping
+          them in a tf.py_function() operation, which would make the code slower and less
+          portable, as we saw in Chapter 12). Fortunately, TensorFlow does include special pro‐
+          tobuf definitions for which it provides parsing operations. 
+                                                                      
+          TensorFlow Protobufs                                        
+                                                                      
+          The main protobuf typically used in a TFRecord file is the Example protobuf, which
+          represents one instance in a dataset. It contains a list of named features, where each
+          feature can either be a list of byte strings, a list of floats, or a list of integers. Here is
+          the protobuf definition:                                    
+            syntax = "proto3";                                        
+            message BytesList { repeated bytes value = 1; }           
+            message FloatList { repeated float value = 1 [packed = true]; }
+            message Int64List { repeated int64 value = 1 [packed = true]; }
+            message Feature {                                         
+               oneof kind {                                           
+                 BytesList bytes_list = 1;                            
+                 FloatList float_list = 2;                            
+                 Int64List int64_list = 3;                            
+               }                                                      
+            };                                                        
+            message Features { map<string, Feature> feature = 1; };   
+            message Example { Features features = 1; };               
+          The definitions of BytesList, FloatList, and Int64List are straightforward
+          enough. Note that [packed = true] is used for repeated numerical fields, for a more
+          efficient encoding. A Feature contains either a BytesList, a FloatList, or an
+          Int64List. A Features (with an s) contains a dictionary that maps a feature name to
+          the corresponding feature value. And finally, an Example contains only a Features
+          object.8 Here is how you could create a tf.train.Example representing the same per‐
+          son as earlier and write it to a TFRecord file:             
+            from tensorflow.train import BytesList, FloatList, Int64List
+            from tensorflow.train import Feature, Features, Example   
+            person_example = Example(                                 
+               features=Features(                                     
+                 feature={                                            
+                   "name": Feature(bytes_list=BytesList(value=[b"Alice"])),
+          8 Why was Example even defined, since it contains no more than a Features object? Well, TensorFlow’s devel‐
+           opers may one day decide to add more fields to it. As long as the new Example definition still contains the
+           features field, with the same ID, it will be backward compatible. This extensibility is one of the great features
+           of protobufs.                                              

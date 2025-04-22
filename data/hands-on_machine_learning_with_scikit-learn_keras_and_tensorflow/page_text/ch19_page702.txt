@@ -1,46 +1,17 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Unfortunately, such model parallelism turns out to be pretty tricky, and it really
-          depends on the architecture of your neural network. For fully connected networks,
-          there is generally not much to be gained from this approach (see Figure 19-15). Intui‐
-          tively, it may seem that an easy way to split the model is to place each layer on a dif‐
-          ferent device, but this does not work because each layer needs to wait for the output
-          of the previous layer before it can do anything. So perhaps you can slice it vertically—
-          for example, with the left half of each layer on one device, and the right part on
-          another device? This is slightly better, since both halves of each layer can indeed work
-          in parallel, but the problem is that each half of the next layer requires the output of
-          both halves, so there will be a lot of cross-device communication (represented by the
-          dashed arrows). This is likely to completely cancel out the benefit of the parallel com‐
-          putation, since cross-device communication is slow (especially when the devices are
-          located on different machines).                             
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 19-15. Splitting a fully connected neural network    
-                                                                      
-          Some neural network architectures, such as convolutional neural networks (see
-          Chapter 14), contain layers that are only partially connected to the lower layers, so it
-          is much easier to distribute chunks across devices in an efficient way (Figure 19-16).
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+Unfortunately, such model parallelism turns out to be pretty tricky, and it really
+depends on the architecture of your neural network. For fully connected networks,
+there is generally not much to be gained from this approach (see Figure 19-15). Intui‐
+tively, it may seem that an easy way to split the model is to place each layer on a dif‐
+ferent device, but this does not work because each layer needs to wait for the output
+of the previous layer before it can do anything. So perhaps you can slice it vertically—
+for example, with the left half of each layer on one device, and the right part on
+another device? This is slightly better, since both halves of each layer can indeed work
+in parallel, but the problem is that each half of the next layer requires the output of
+both halves, so there will be a lot of cross-device communication (represented by the
+dashed arrows). This is likely to completely cancel out the benefit of the parallel com‐
+putation, since cross-device communication is slow (especially when the devices are
+located on different machines).
+<i>Figure</i> <i>19-15.</i> <i>Splitting</i> <i>a</i> <i>fully</i> <i>connected</i> <i>neural</i> <i>network</i>
+Some neural network architectures, such as convolutional neural networks (see
+Chapter 14), contain layers that are only partially connected to the lower layers, so it
+is much easier to distribute chunks across devices in an efficient way (Figure 19-16).

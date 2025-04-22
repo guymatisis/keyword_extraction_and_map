@@ -1,46 +1,20 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Convolutional Layers                                        
-                                                                      
-          The most important building block of a CNN is the convolutional layer:6 neurons in
-          the first convolutional layer are not connected to every single pixel in the input image
-          (like they were in the layers discussed in previous chapters), but only to pixels in their
-          receptive fields (see Figure 14-2). In turn, each neuron in the second convolutional
-          layer is connected only to neurons located within a small rectangle in the first layer.
-          This architecture allows the network to concentrate on small low-level features in the
-          first hidden layer, then assemble them into larger higher-level features in the next
-          hidden layer, and so on. This hierarchical structure is common in real-world images,
-          which is one of the reasons why CNNs work so well for image recognition.
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 14-2. CNN layers with rectangular local receptive fields
-                                                                      
-                   All the multilayer neural networks we’ve looked at so far had layers
-                   composed of a long line of neurons, and we had to flatten input
-                   images to 1D before feeding them to the neural network. In a CNN
-                   each layer is represented in 2D, which makes it easier to match
-                   neurons with their corresponding inputs.           
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          6 A convolution is a mathematical operation that slides one function over another and measures the integral of
-           their pointwise multiplication. It has deep connections with the Fourier transform and the Laplace transform
-           and is heavily used in signal processing. Convolutional layers actually use cross-correlations, which are very
-           similar to convolutions (see https://homl.info/76 for more details).
+<header><largefont><b>Convolutional</b></largefont> <largefont><b>Layers</b></largefont></header>
+The most important building block of a CNN is the <i>convolutional</i> <i>layer:6</i> neurons in
+the first convolutional layer are not connected to every single pixel in the input image
+(like they were in the layers discussed in previous chapters), but only to pixels in their
+receptive fields (see Figure 14-2). In turn, each neuron in the second convolutional
+layer is connected only to neurons located within a small rectangle in the first layer.
+This architecture allows the network to concentrate on small low-level features in the
+first hidden layer, then assemble them into larger higher-level features in the next
+hidden layer, and so on. This hierarchical structure is common in real-world images,
+which is one of the reasons why CNNs work so well for image recognition.
+<i>Figure</i> <i>14-2.</i> <i>CNN</i> <i>layers</i> <i>with</i> <i>rectangular</i> <i>local</i> <i>receptive</i> <i>fields</i>
+All the multilayer neural networks we’ve looked at so far had layers
+composed of a long line of neurons, and we had to flatten input
+images to 1D before feeding them to the neural network. In a CNN
+each layer is represented in 2D, which makes it easier to match
+neurons with their corresponding inputs.
+6 Aconvolutionisamathematicaloperationthatslidesonefunctionoveranotherandmeasurestheintegralof
+theirpointwisemultiplication.IthasdeepconnectionswiththeFouriertransformandtheLaplacetransform
+andisheavilyusedinsignalprocessing.Convolutionallayersactuallyusecross-correlations,whicharevery
+similartoconvolutions(seehttps://homl.info/76formoredetails).

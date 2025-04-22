@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Softmax Regression                                          
+                                                                      
+          The Logistic Regression model can be generalized to support multiple classes directly,
+          without having to train and combine multiple binary classifiers (as discussed in
+          Chapter 3). This is called Softmax Regression, or Multinomial Logistic Regression.
+          The idea is simple: when given an instance x, the Softmax Regression model first
+          computes a score s(x) for each class k, then estimates the probability of each class by
+                     k                                                
+          applying the softmax function (also called the normalized exponential) to the scores.
+          The equation to compute s(x) should look familiar, as it is just like the equation for
+                          k                                           
+          Linear Regression prediction (see Equation 4-19).           
+            Equation 4-19. Softmax score for class k                  
+                 ⊺ k                                                  
+            s x =x θ                                                  
+            k                                                         
+          Note that each class has its own dedicated parameter vector θ(k). All these vectors are
+          typically stored as rows in a parameter matrix Θ.           
+          Once you have computed the score of every class for the instance x, you can estimate
+          the probability p that the instance belongs to class k by running the scores through
+                    k                                                 
+          the softmax function (Equation 4-20). The function computes the exponential of
+          every score, then normalizes them (dividing by the sum of all the exponentials). The
+          scores are generally called logits or log-odds (although they are actually unnormal‐
+          ized log-odds).                                             
+            Equation 4-20. Softmax function                           
+                       exp s x                                        
+                          k                                           
+            p =σ s x =                                                
+             k     k  K                                               
+                     ∑  exp s x                                       
+                      j=1   j                                         
+          In this equation:                                           
+           • K is the number of classes.                              
+           • s(x) is a vector containing the scores of each class for the instance x.
+           • σ(s(x)) is the estimated probability that the instance x belongs to class k, given
+                k                                                     
+            the scores of each class for that instance.               
+                                                                      
+                                                                      
+                                                                      
+                                                                      

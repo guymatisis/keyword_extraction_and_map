@@ -1,46 +1,25 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Now the model fits the training data as closely as possible (for a linear model), as you
-          can see in Figure 1-19.                                     
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 1-19. The linear model that fits the training data best
-                                                                      
-          You are finally ready to run the model to make predictions. For example, say you
-          want to know how happy Cypriots are, and the OECD data does not have the answer.
-          Fortunately, you can use your model to make a good prediction: you look up Cyprus’s
-          GDP per capita, find $22,587, and then apply your model and find that life satisfac‐
-          tion is likely to be somewhere around 4.85 + 22,587 × 4.91 × 10-5 = 5.96.
-          To whet your appetite, Example 1-1 shows the Python code that loads the data, pre‐
-          pares it,6 creates a scatterplot for visualization, and then trains a linear model and
-          makes a prediction.7                                        
-                                                                      
-          Example 1-1. Training and running a linear model using Scikit-Learn
-                                                                      
-          import matplotlib.pyplot as plt                             
-          import numpy as np                                          
-          import pandas as pd                                         
-          import sklearn.linear_model                                 
-          # Load the data                                             
-          oecd_bli = pd.read_csv("oecd_bli_2015.csv", thousands=',')  
-          gdp_per_capita = pd.read_csv("gdp_per_capita.csv",thousands=',',delimiter='\t',
-                           encoding='latin1', na_values="n/a")        
-                                                                      
-                                                                      
-                                                                      
-          6 The prepare_country_stats() function’s definition is not shown here (see this chapter’s Jupyter notebook if
-           you want all the gory details). It’s just boring pandas code that joins the life satisfaction data from the OECD
-           with the GDP per capita data from the IMF.                 
-          7 It’s OK if you don’t understand all the code yet; we will present Scikit-Learn in the following chapters.
+Now the model fits the training data as closely as possible (for a linear model), as you
+can see in Figure 1-19.
+<i>Figure</i> <i>1-19.</i> <i>The</i> <i>linear</i> <i>model</i> <i>that</i> <i>fits</i> <i>the</i> <i>training</i> <i>data</i> <i>best</i>
+You are finally ready to run the model to make predictions. For example, say you
+want to know how happy Cypriots are, and the OECD data does not have the answer.
+Fortunately, you can use your model to make a good prediction: you look up Cyprus’s
+GDP per capita, find $22,587, and then apply your model and find that life satisfac‐
+tion is likely to be somewhere around 4.85 + 22,587 × 4.91 × 10-5 = 5.96.
+To whet your appetite, Example 1-1 shows the Python code that loads the data, pre‐
+pares it, 6 creates a scatterplot for visualization, and then trains a linear model and
+makes a prediction.7
+<i>Example</i> <i>1-1.</i> <i>Training</i> <i>and</i> <i>running</i> <i>a</i> <i>linear</i> <i>model</i> <i>using</i> <i>Scikit-Learn</i>
+<b>import</b> <b>matplotlib.pyplot</b> <b>as</b> <b>plt</b>
+<b>import</b> <b>numpy</b> <b>as</b> <b>np</b>
+<b>import</b> <b>pandas</b> <b>as</b> <b>pd</b>
+<b>import</b> <b>sklearn.linear_model</b>
+<i>#</i> <i>Load</i> <i>the</i> <i>data</i>
+oecd_bli = pd.read_csv("oecd_bli_2015.csv", thousands=',')
+gdp_per_capita = pd.read_csv("gdp_per_capita.csv",thousands=',',delimiter='\t',
+encoding='latin1', na_values="n/a")
+Theprepare_country_stats()function’sdefinitionisnotshownhere(seethischapter’sJupyternotebookif
+6
+youwantallthegorydetails).It’sjustboringpandascodethatjoinsthelifesatisfactiondatafromtheOECD
+withtheGDPpercapitadatafromtheIMF.
+7 It’sOKifyoudon’tunderstandallthecodeyet;wewillpresentScikit-Learninthefollowingchapters.

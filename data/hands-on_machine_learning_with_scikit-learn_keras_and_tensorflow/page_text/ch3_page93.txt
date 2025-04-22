@@ -1,46 +1,35 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          To compute the F score, simply call the f1_score() function:
-                    1                                                 
-            >>> from sklearn.metrics import f1_score                  
-            >>> f1_score(y_train_5, y_train_pred)                     
-            0.7420962043663375                                        
-          The F score favors classifiers that have similar precision and recall. This is not always
-             1                                                        
-          what you want: in some contexts you mostly care about precision, and in other con‐
-          texts you really care about recall. For example, if you trained a classifier to detect vid‐
-          eos that are safe for kids, you would probably prefer a classifier that rejects many
-          good videos (low recall) but keeps only safe ones (high precision), rather than a clas‐
-          sifier that has a much higher recall but lets a few really bad videos show up in your
-          product (in such cases, you may even want to add a human pipeline to check the clas‐
-          sifier’s video selection). On the other hand, suppose you train a classifier to detect
-          shoplifters in surveillance images: it is probably fine if your classifier has only 30%
-          precision as long as it has 99% recall (sure, the security guards will get a few false
-          alerts, but almost all shoplifters will get caught).        
-          Unfortunately, you can’t have it both ways: increasing precision reduces recall, and
-          vice versa. This is called the precision/recall trade-off.  
-          Precision/Recall Trade-off                                  
-          To understand this trade-off, let’s look at how the SGDClassifier makes its classifica‐
-          tion decisions. For each instance, it computes a score based on a decision function. If
-          that score is greater than a threshold, it assigns the instance to the positive class;
-          otherwise it assigns it to the negative class. Figure 3-3 shows a few digits positioned
-          from the lowest score on the left to the highest score on the right. Suppose the deci‐
-          sion threshold is positioned at the central arrow (between the two 5s): you will find 4
-          true positives (actual 5s) on the right of that threshold, and 1 false positive (actually a
-          6). Therefore, with that threshold, the precision is 80% (4 out of 5). But out of 6
-          actual 5s, the classifier only detects 4, so the recall is 67% (4 out of 6). If you raise the
-          threshold (move it to the arrow on the right), the false positive (the 6) becomes a true
-          negative, thereby increasing the precision (up to 100% in this case), but one true posi‐
-          tive becomes a false negative, decreasing recall down to 50%. Conversely, lowering
-          the threshold increases recall and reduces precision.       
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+f1_score()
+To compute the F score, simply call the function:
+1
+<b>>>></b> <b>from</b> <b>sklearn.metrics</b> <b>import</b> f1_score
+<b>>>></b> f1_score(y_train_5, y_train_pred)
+0.7420962043663375
+The F score favors classifiers that have similar precision and recall. This is not always
+1
+what you want: in some contexts you mostly care about precision, and in other con‐
+texts you really care about recall. For example, if you trained a classifier to detect vid‐
+eos that are safe for kids, you would probably prefer a classifier that rejects many
+good videos (low recall) but keeps only safe ones (high precision), rather than a clas‐
+sifier that has a much higher recall but lets a few really bad videos show up in your
+product (in such cases, you may even want to add a human pipeline to check the clas‐
+sifier’s video selection). On the other hand, suppose you train a classifier to detect
+shoplifters in surveillance images: it is probably fine if your classifier has only 30%
+precision as long as it has 99% recall (sure, the security guards will get a few false
+alerts, but almost all shoplifters will get caught).
+Unfortunately, you can’t have it both ways: increasing precision reduces recall, and
+vice versa. This is called the <i>precision/recall</i> <i>trade-off.</i>
+<header><largefont><b>Precision/Recall</b></largefont> <largefont><b>Trade-off</b></largefont></header>
+SGDClassifier
+To understand this trade-off, let’s look at how the makes its classifica‐
+tion decisions. For each instance, it computes a score based on a <i>decision</i> <i>function.</i> If
+that score is greater than a threshold, it assigns the instance to the positive class;
+otherwise it assigns it to the negative class. Figure 3-3 shows a few digits positioned
+from the lowest score on the left to the highest score on the right. Suppose the <i>deci‐</i>
+<i>sion</i> <i>threshold</i> is positioned at the central arrow (between the two 5s): you will find 4
+true positives (actual 5s) on the right of that threshold, and 1 false positive (actually a
+6). Therefore, with that threshold, the precision is 80% (4 out of 5). But out of 6
+actual 5s, the classifier only detects 4, so the recall is 67% (4 out of 6). If you raise the
+threshold (move it to the arrow on the right), the false positive (the 6) becomes a true
+negative, thereby increasing the precision (up to 100% in this case), but one true posi‐
+tive becomes a false negative, decreasing recall down to 50%. Conversely, lowering
+the threshold increases recall and reduces precision.

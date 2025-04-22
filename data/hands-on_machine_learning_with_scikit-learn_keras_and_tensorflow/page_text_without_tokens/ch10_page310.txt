@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+           • Next, we create a Concatenate layer, and once again we immediately use it like a
+            function, to concatenate the input and the output of the second hidden layer. You
+            may prefer the keras.layers.concatenate() function, which creates a
+            Concatenate layer and immediately calls it with the given inputs.
+                                                                      
+           • Then we create the output layer, with a single neuron and no activation function,
+            and we call it like a function, passing it the result of the concatenation.
+           • Lastly, we create a Keras Model, specifying which inputs and outputs to use.
+                                                                      
+          Once you have built the Keras model, everything is exactly like earlier, so there’s no
+          need to repeat it here: you must compile the model, train it, evaluate it, and use it to
+          make predictions.                                           
+          But what if you want to send a subset of the features through the wide path and a
+          different subset (possibly overlapping) through the deep path (see Figure 10-15)? In
+          this case, one solution is to use multiple inputs. For example, suppose we want to
+          send five features through the wide path (features 0 to 4), and six features through the
+          deep path (features 2 to 7):                                
+            input_A = keras.layers.Input(shape=[5], name="wide_input")
+            input_B = keras.layers.Input(shape=[6], name="deep_input")
+            hidden1 = keras.layers.Dense(30, activation="relu")(input_B)
+            hidden2 = keras.layers.Dense(30, activation="relu")(hidden1)
+            concat = keras.layers.concatenate([input_A, hidden2])     
+            output = keras.layers.Dense(1, name="output")(concat)     
+            model = keras.Model(inputs=[input_A, input_B], outputs=[output])
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 10-15. Handling multiple inputs                      
+                                                                      
+                                                                      

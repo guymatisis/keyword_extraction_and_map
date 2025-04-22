@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+             $ cd $ML_PATH                                            
+             $ source my_env/bin/activate # on Linux or macOS         
+             $ .\my_env\Scripts\activate # on Windows                 
+           To deactivate this environment, type deactivate. While the environment is active,
+           any package you install using pip will be installed in this isolated environment, and
+           Python will only have access to these packages (if you also want access to the system’s
+           packages, you should create the environment using virtualenv’s --system-site-
+           packages option). Check out virtualenv’s documentation for more information.
+                                                                      
+                                                                      
+          Now you can install all the required modules and their dependencies using this sim‐
+          ple pip command (if you are not using a virtualenv, you will need the --user option
+          or administrator rights):                                   
+            $ python3 -m pip install -U jupyter matplotlib numpy pandas scipy scikit-learn
+            Collecting jupyter                                        
+             Downloading https://[...]/jupyter-1.0.0-py2.py3-none-any.whl
+            Collecting matplotlib                                     
+             [...]                                                    
+          If you created a virtualenv, you need to register it to Jupyter and give it a name:
+            $ python3 -m ipykernel install --user --name=python3      
+          Now you can fire up Jupyter by typing the following command:
+            $ jupyter notebook                                        
+            [...] Serving notebooks from local directory: [...]/ml    
+            [...] The Jupyter Notebook is running at:                 
+            [...] http://localhost:8888/?token=60995e108e44ac8d8865a[...]
+            [...] or http://127.0.0.1:8889/?token=60995e108e44ac8d8865a[...]
+            [...] Use Control-C to stop this server and shut down all kernels [...]
+          A Jupyter server is now running in your terminal, listening to port 8888. You can visit
+          this server by opening your web browser to http://localhost:8888/ (this usually hap‐
+          pens automatically when the server starts). You should see your empty workspace
+          directory (containing only the env directory if you followed the preceding virtualenv
+          instructions).                                              
+          Now create a new Python notebook by clicking the New button and selecting the
+          appropriate Python version9 (see Figure 2-3). Doing that will create a new notebook
+          file called Untitled.ipynb in your workspace, start a Jupyter Python kernel to run the
+          notebook, and open this notebook in a new tab. You should start by renaming this
+          notebook to “Housing” (this will automatically rename the file to Housing.ipynb) by
+          clicking Untitled and typing the new name.                  
+                                                                      
+                                                                      
+          9 Note that Jupyter can handle multiple versions of Python, and even many other languages such as R or
+           Octave.                                                    

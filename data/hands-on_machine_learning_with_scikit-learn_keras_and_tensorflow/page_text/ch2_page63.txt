@@ -1,46 +1,38 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-           • This will make it possible for you to easily try various transformations and see
-            which combination of transformations works best.          
-                                                                      
-          But first let’s revert to a clean training set (by copying strat_train_set once again).
-          Let’s also separate the predictors and the labels, since we don’t necessarily want to
-          apply the same transformations to the predictors and the target values (note that
-          drop() creates a copy of the data and does not affect strat_train_set):
-            housing = strat_train_set.drop("median_house_value", axis=1)
-            housing_labels = strat_train_set["median_house_value"].copy()
-                                                                      
-          Data Cleaning                                               
-                                                                      
-          Most Machine Learning algorithms cannot work with missing features, so let’s create
-          a few functions to take care of them. We saw earlier that the total_bedrooms
-          attribute has some missing values, so let’s fix this. You have three options:
-           1. Get rid of the corresponding districts.                 
-                                                                      
-           2. Get rid of the whole attribute.                         
-           3. Set the values to some value (zero, the mean, the median, etc.).
-                                                                      
-          You can accomplish these easily using DataFrame’s dropna(), drop(), and fillna()
-          methods:                                                    
-            housing.dropna(subset=["total_bedrooms"]) # option 1      
-            housing.drop("total_bedrooms", axis=1) # option 2         
-            median = housing["total_bedrooms"].median() # option 3    
-            housing["total_bedrooms"].fillna(median, inplace=True)    
-          If you choose option 3, you should compute the median value on the training set and
-          use it to fill the missing values in the training set. Don’t forget to save the median
-          value that you have computed. You will need it later to replace missing values in the
-          test set when you want to evaluate your system, and also once the system goes live to
-          replace missing values in new data.                         
-          Scikit-Learn provides a handy class to take care of missing values: SimpleImputer.
-          Here is how to use it. First, you need to create a SimpleImputer instance, specifying
-          that you want to replace each attribute’s missing values with the median of that
-          attribute:                                                  
-            from sklearn.impute import SimpleImputer                  
-                                                                      
-            imputer = SimpleImputer(strategy="median")                
-          Since the median can only be computed on numerical attributes, you need to create a
-          copy of the data without the text attribute ocean_proximity:
-                                                                      
-            housing_num = housing.drop("ocean_proximity", axis=1)     
+• This will make it possible for you to easily try various transformations and see
+which combination of transformations works best.
+strat_train_set
+But first let’s revert to a clean training set (by copying once again).
+Let’s also separate the predictors and the labels, since we don’t necessarily want to
+apply the same transformations to the predictors and the target values (note that
+drop() creates a copy of the data and does not affect strat_train_set ):
+housing = strat_train_set.drop("median_house_value", axis=1)
+housing_labels = strat_train_set["median_house_value"].copy()
+<header><largefont><b>Data</b></largefont> <largefont><b>Cleaning</b></largefont></header>
+Most Machine Learning algorithms cannot work with missing features, so let’s create
+total_bedrooms
+a few functions to take care of them. We saw earlier that the
+attribute has some missing values, so let’s fix this. You have three options:
+1. Get rid of the corresponding districts.
+2. Get rid of the whole attribute.
+3. Set the values to some value (zero, the mean, the median, etc.).
+You can accomplish these easily using DataFrame’s dropna(), drop(), and fillna()
+methods:
+housing.dropna(subset=["total_bedrooms"]) <i>#</i> <i>option</i> <i>1</i>
+housing.drop("total_bedrooms", axis=1) <i>#</i> <i>option</i> <i>2</i>
+median = housing["total_bedrooms"].median() <i>#</i> <i>option</i> <i>3</i>
+housing["total_bedrooms"].fillna(median, inplace=True)
+If you choose option 3, you should compute the median value on the training set and
+use it to fill the missing values in the training set. Don’t forget to save the median
+value that you have computed. You will need it later to replace missing values in the
+test set when you want to evaluate your system, and also once the system goes live to
+replace missing values in new data.
+Scikit-Learn provides a handy class to take care of missing values: SimpleImputer .
+SimpleImputer
+Here is how to use it. First, you need to create a instance, specifying
+that you want to replace each attribute’s missing values with the median of that
+attribute:
+<b>from</b> <b>sklearn.impute</b> <b>import</b> SimpleImputer
+imputer = SimpleImputer(strategy="median")
+Since the median can only be computed on numerical attributes, you need to create a
+copy of the data without the text attribute ocean_proximity :
+housing_num = housing.drop("ocean_proximity", axis=1)

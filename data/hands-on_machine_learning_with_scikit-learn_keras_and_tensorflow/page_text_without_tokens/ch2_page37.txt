@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Look at the Big Picture                                     
+                                                                      
+          Welcome to the Machine Learning Housing Corporation! Your first task is to use Cal‐
+          ifornia census data to build a model of housing prices in the state. This data includes
+          metrics such as the population, median income, and median housing price for each
+          block group in California. Block groups are the smallest geographical unit for which
+          the US Census Bureau publishes sample data (a block group typically has a popula‐
+          tion of 600 to 3,000 people). We will call them “districts” for short.
+          Your model should learn from this data and be able to predict the median housing
+          price in any district, given all the other metrics.         
+                                                                      
+                                                                      
+                   Since you are a well-organized data scientist, the first thing you
+                   should do is pull out your Machine Learning project checklist. You
+                   can start with the one in Appendix B; it should work reasonably
+                   well for most Machine Learning projects, but make sure to adapt it
+                   to your needs. In this chapter we will go through many checklist
+                   items, but we will also skip a few, either because they are self-
+                   explanatory or because they will be discussed in later chapters.
+          Frame the Problem                                           
+                                                                      
+          The first question to ask your boss is what exactly the business objective is. Building a
+          model is probably not the end goal. How does the company expect to use and benefit
+          from this model? Knowing the objective is important because it will determine how
+          you frame the problem, which algorithms you will select, which performance meas‐
+          ure you will use to evaluate your model, and how much effort you will spend tweak‐
+          ing it.                                                     
+          Your boss answers that your model’s output (a prediction of a district’s median hous‐
+          ing price) will be fed to another Machine Learning system (see Figure 2-2), along
+          with many other signals.3 This downstream system will determine whether it is worth
+          investing in a given area or not. Getting this right is critical, as it directly affects
+          revenue.                                                    
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          3 A piece of information fed to a Machine Learning system is often called a signal, in reference to Claude Shan‐
+           non’s information theory, which he developed at Bell Labs to improve telecommunications. His theory: you
+           want a high signal-to-noise ratio.                         

@@ -1,46 +1,31 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          As you can see, for each instance the model estimates one probability per class, from
-          class 0 to class 9. For example, for the first image it estimates that the probability of
-          class 9 (ankle boot) is 96%, the probability of class 5 (sandal) is 3%, the probability of
-          class 7 (sneaker) is 1%, and the probabilities of the other classes are negligible. In
-          other words, it “believes” the first image is footwear, most likely ankle boots but pos‐
-          sibly sandals or sneakers. If you only care about the class with the highest estimated
-          probability (even if that probability is quite low), then you can use the pre
-          dict_classes() method instead:                              
-                                                                      
-            >>> y_pred = model.predict_classes(X_new)                 
-            >>> y_pred                                                
-            array([9, 2, 1])                                          
-            >>> np.array(class_names)[y_pred]                         
-            array(['Ankle boot', 'Pullover', 'Trouser'], dtype='<U11')
-          Here, the classifier actually classified all three images correctly (these images are
-          shown in Figure 10-13):                                     
-            >>> y_new = y_test[:3]                                    
-            >>> y_new                                                 
-            array([9, 2, 1])                                          
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 10-13. Correctly classified Fashion MNIST images     
-                                                                      
-          Now you know how to use the Sequential API to build, train, evaluate, and use a clas‐
-          sification MLP. But what about regression?                  
-                                                                      
-          Building a Regression MLP Using the Sequential API          
-                                                                      
-          Let’s switch to the California housing problem and tackle it using a regression neural
-          network. For simplicity, we will use Scikit-Learn’s fetch_california_housing()
-          function to load the data. This dataset is simpler than the one we used in Chapter 2,
-          since it contains only numerical features (there is no ocean_proximity feature), and
-          there is no missing value. After loading the data, we split it into a training set, a vali‐
-          dation set, and a test set, and we scale all the features:  
-            from sklearn.datasets import fetch_california_housing     
-            from sklearn.model_selection import train_test_split      
-            from sklearn.preprocessing import StandardScaler          
+As you can see, for each instance the model estimates one probability per class, from
+class 0 to class 9. For example, for the first image it estimates that the probability of
+class 9 (ankle boot) is 96%, the probability of class 5 (sandal) is 3%, the probability of
+class 7 (sneaker) is 1%, and the probabilities of the other classes are negligible. In
+other words, it “believes” the first image is footwear, most likely ankle boots but pos‐
+sibly sandals or sneakers. If you only care about the class with the highest estimated
+probability (even if that probability is quite low), then you can use the pre
+dict_classes() method instead:
+<b>>>></b> y_pred = model.predict_classes(X_new)
+<b>>>></b> y_pred
+array([9, 2, 1])
+<b>>>></b> np.array(class_names)[y_pred]
+array(['Ankle boot', 'Pullover', 'Trouser'], dtype='<U11')
+Here, the classifier actually classified all three images correctly (these images are
+shown in Figure 10-13):
+<b>>>></b> y_new = y_test[:3]
+<b>>>></b> y_new
+array([9, 2, 1])
+<i>Figure</i> <i>10-13.</i> <i>Correctly</i> <i>classified</i> <i>Fashion</i> <i>MNIST</i> <i>images</i>
+Now you know how to use the Sequential API to build, train, evaluate, and use a clas‐
+sification MLP. But what about regression?
+<header><largefont><b>Building</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Regression</b></largefont> <largefont><b>MLP</b></largefont> <largefont><b>Using</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Sequential</b></largefont> <largefont><b>API</b></largefont></header>
+Let’s switch to the California housing problem and tackle it using a regression neural
+network. For simplicity, we will use Scikit-Learn’s fetch_california_housing()
+function to load the data. This dataset is simpler than the one we used in Chapter 2,
+since it contains only numerical features (there is no ocean_proximity feature), and
+there is no missing value. After loading the data, we split it into a training set, a vali‐
+dation set, and a test set, and we scale all the features:
+<b>from</b> <b>sklearn.datasets</b> <b>import</b> fetch_california_housing
+<b>from</b> <b>sklearn.model_selection</b> <b>import</b> train_test_split
+<b>from</b> <b>sklearn.preprocessing</b> <b>import</b> StandardScaler

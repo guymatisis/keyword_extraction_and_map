@@ -1,46 +1,40 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          300 units), and add some ℓ regularization to the coding layer’s activations (the
-                           1                                          
-          decoder is just a regular decoder):                         
-            sparse_l1_encoder = keras.models.Sequential([             
-               keras.layers.Flatten(input_shape=[28, 28]),            
-               keras.layers.Dense(100, activation="selu"),            
-               keras.layers.Dense(300, activation="sigmoid"),         
-               keras.layers.ActivityRegularization(l1=1e-3)           
-            ])                                                        
-            sparse_l1_decoder = keras.models.Sequential([             
-               keras.layers.Dense(100, activation="selu", input_shape=[300]),
-               keras.layers.Dense(28 * 28, activation="sigmoid"),     
-               keras.layers.Reshape([28, 28])                         
-            ])                                                        
-            sparse_l1_ae = keras.models.Sequential([sparse_l1_encoder, sparse_l1_decoder])
-          This ActivityRegularization layer just returns its inputs, but as a side effect it adds
-          a training loss equal to the sum of absolute values of its inputs (this layer only has an
-          effect during training). Equivalently, you could remove the ActivityRegularization
-          layer and set activity_regularizer=keras.regularizers.l1(1e-3) in the previous
-          layer. This penalty will encourage the neural network to produce codings close to 0,
-          but since it will also be penalized if it does not reconstruct the inputs correctly, it will
-          have to output at least a few nonzero values. Using the ℓ norm rather than the ℓ
-                                            1              2          
-          norm will push the neural network to preserve the most important codings while
-          eliminating the ones that are not needed for the input image (rather than just reduc‐
-          ing all codings).                                           
-          Another approach, which often yields better results, is to measure the actual sparsity
-          of the coding layer at each training iteration, and penalize the model when the meas‐
-          ured sparsity differs from a target sparsity. We do so by computing the average activa‐
-          tion of each neuron in the coding layer, over the whole training batch. The batch size
-          must not be too small, or else the mean will not be accurate.
-          Once we have the mean activation per neuron, we want to penalize the neurons that
-          are too active, or not active enough, by adding a sparsity loss to the cost function. For
-          example, if we measure that a neuron has an average activation of 0.3, but the target
-          sparsity is 0.1, it must be penalized to activate less. One approach could be simply
-          adding the squared error (0.3 – 0.1)2 to the cost function, but in practice a better
-          approach is to use the Kullback–Leibler (KL) divergence (briefly discussed in Chap‐
-          ter 4), which has much stronger gradients than the mean squared error, as you can
-          see in Figure 17-10.                                        
-                                                                      
-                                                                      
-                                                                      
+300 units), and add some ℓ regularization to the coding layer’s activations (the
+1
+decoder is just a regular decoder):
+sparse_l1_encoder = keras.models.Sequential([
+keras.layers.Flatten(input_shape=[28, 28]),
+keras.layers.Dense(100, activation="selu"),
+keras.layers.Dense(300, activation="sigmoid"),
+keras.layers.ActivityRegularization(l1=1e-3)
+])
+sparse_l1_decoder = keras.models.Sequential([
+keras.layers.Dense(100, activation="selu", input_shape=[300]),
+keras.layers.Dense(28 * 28, activation="sigmoid"),
+keras.layers.Reshape([28, 28])
+])
+sparse_l1_ae = keras.models.Sequential([sparse_l1_encoder, sparse_l1_decoder])
+This ActivityRegularization layer just returns its inputs, but as a side effect it adds
+a training loss equal to the sum of absolute values of its inputs (this layer only has an
+ActivityRegularization
+effect during training). Equivalently, you could remove the
+layer and set activity_regularizer=keras.regularizers.l1(1e-3) in the previous
+layer. This penalty will encourage the neural network to produce codings close to 0,
+but since it will also be penalized if it does not reconstruct the inputs correctly, it will
+have to output at least a few nonzero values. Using the ℓ norm rather than the ℓ
+1 2
+norm will push the neural network to preserve the most important codings while
+eliminating the ones that are not needed for the input image (rather than just reduc‐
+ing all codings).
+Another approach, which often yields better results, is to measure the actual sparsity
+of the coding layer at each training iteration, and penalize the model when the meas‐
+ured sparsity differs from a target sparsity. We do so by computing the average activa‐
+tion of each neuron in the coding layer, over the whole training batch. The batch size
+must not be too small, or else the mean will not be accurate.
+Once we have the mean activation per neuron, we want to penalize the neurons that
+are too active, or not active enough, by adding a <i>sparsity</i> <i>loss</i> to the cost function. For
+example, if we measure that a neuron has an average activation of 0.3, but the target
+sparsity is 0.1, it must be penalized to activate less. One approach could be simply
+adding the squared error (0.3 – 0.1)2 to the cost function, but in practice a better
+approach is to use the Kullback–Leibler (KL) divergence (briefly discussed in Chap‐
+ter 4), which has much stronger gradients than the mean squared error, as you can
+see in Figure 17-10.

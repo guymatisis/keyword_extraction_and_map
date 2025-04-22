@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          The code is self-explanatory. You should name at least the most important layers,
+          especially when the model gets a bit complex like this. Note that we specified
+          inputs=[input_A, input_B] when creating the model. Now we can compile the
+          model as usual, but when we call the fit() method, instead of passing a single input
+          matrix X_train, we must pass a pair of matrices (X_train_A, X_train_B): one per
+          input.19 The same is true for X_valid, and also for X_test and X_new when you call
+          evaluate() or predict():                                    
+                                                                      
+            model.compile(loss="mse", optimizer=keras.optimizers.SGD(lr=1e-3))
+            X_train_A, X_train_B = X_train[:, :5], X_train[:, 2:]     
+            X_valid_A, X_valid_B = X_valid[:, :5], X_valid[:, 2:]     
+            X_test_A, X_test_B = X_test[:, :5], X_test[:, 2:]         
+            X_new_A, X_new_B = X_test_A[:3], X_test_B[:3]             
+            history = model.fit((X_train_A, X_train_B), y_train, epochs=20,
+                        validation_data=((X_valid_A, X_valid_B), y_valid))
+            mse_test = model.evaluate((X_test_A, X_test_B), y_test)   
+            y_pred = model.predict((X_new_A, X_new_B))                
+          There are many use cases in which you may want to have multiple outputs:
+                                                                      
+           • The task may demand it. For instance, you may want to locate and classify the
+            main object in a picture. This is both a regression task (finding the coordinates of
+            the object’s center, as well as its width and height) and a classification task.
+           • Similarly, you may have multiple independent tasks based on the same data. Sure,
+            you could train one neural network per task, but in many cases you will get better
+            results on all tasks by training a single neural network with one output per task.
+            This is because the neural network can learn features in the data that are useful
+            across tasks. For example, you could perform multitask classification on pictures
+            of faces, using one output to classify the person’s facial expression (smiling, sur‐
+            prised, etc.) and another output to identify whether they are wearing glasses or
+            not.                                                      
+           • Another use case is as a regularization technique (i.e., a training constraint whose
+            objective is to reduce overfitting and thus improve the model’s ability to general‐
+            ize). For example, you may want to add some auxiliary outputs in a neural net‐
+            work architecture (see Figure 10-16) to ensure that the underlying part of the
+            network learns something useful on its own, without relying on the rest of the
+            network.                                                  
+                                                                      
+                                                                      
+                                                                      
+          19 Alternatively, you can pass a dictionary mapping the input names to the input values, like {"wide_input":
+           X_train_A, "deep_input": X_train_B}. This is especially useful when there are many inputs, to avoid get‐
+           ting the order wrong.                                      

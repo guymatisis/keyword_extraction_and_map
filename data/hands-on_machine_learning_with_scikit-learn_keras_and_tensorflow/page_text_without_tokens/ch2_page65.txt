@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                parameter. It returns the transformed dataset. This transformation generally
+                relies on the learned parameters, as is the case for an imputer. All transform‐
+                ers also have a convenience method called fit_transform() that is equiva‐
+                lent to calling fit() and then transform() (but sometimes
+                fit_transform() is optimized and runs much faster).   
+                                                                      
+              Predictors                                              
+                Finally, some estimators, given a dataset, are capable of making predictions;
+                they are called predictors. For example, the LinearRegression model in the
+                previous chapter was a predictor: given a country’s GDP per capita, it pre‐
+                dicted life satisfaction. A predictor has a predict() method that takes a
+                dataset of new instances and returns a dataset of corresponding predictions.
+                It also has a score() method that measures the quality of the predictions,
+                given a test set (and the corresponding labels, in the case of supervised learn‐
+                ing algorithms).18                                    
+           Inspection                                                 
+              All the estimator’s hyperparameters are accessible directly via public instance
+              variables (e.g., imputer.strategy), and all the estimator’s learned parameters are
+              accessible via public instance variables with an underscore suffix (e.g.,
+              imputer.statistics_).                                   
+           Nonproliferation of classes                                
+              Datasets are represented as NumPy arrays or SciPy sparse matrices, instead of
+              homemade classes. Hyperparameters are just regular Python strings or numbers.
+           Composition                                                
+              Existing building blocks are reused as much as possible. For example, it is easy to
+              create a Pipeline estimator from an arbitrary sequence of transformers followed
+              by a final estimator, as we will see.                   
+           Sensible defaults                                          
+              Scikit-Learn provides reasonable default values for most parameters, making it
+              easy to quickly create a baseline working system.       
+                                                                      
+                                                                      
+          Handling Text and Categorical Attributes                    
+                                                                      
+          So far we have only dealt with numerical attributes, but now let’s look at text
+          attributes. In this dataset, there is just one: the ocean_proximity attribute. Let’s look
+          at its value for the first 10 instances:                    
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          18 Some predictors also provide methods to measure the confidence of their predictions.

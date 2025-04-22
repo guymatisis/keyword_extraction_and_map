@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 8-9. MNIST compression that preserves 95% of the variance
+          The equation of the inverse transformation is shown in Equation 8-3.
+                                                                      
+            Equation 8-3. PCA inverse transformation, back to the original number of
+            dimensions                                                
+                                                                      
+                         ⊺                                            
+            X     =X   W                                              
+             recovered d‐proj d                                       
+          Randomized PCA                                              
+          If you set the svd_solver hyperparameter to "randomized", Scikit-Learn uses a sto‐
+          chastic algorithm called Randomized PCA that quickly finds an approximation of the
+          first d principal components. Its computational complexity is O(m × d2) + O(d3),
+          instead of O(m × n2) + O(n3) for the full SVD approach, so it is dramatically faster
+          than full SVD when d is much smaller than n:                
+            rnd_pca = PCA(n_components=154, svd_solver="randomized")  
+            X_reduced = rnd_pca.fit_transform(X_train)                
+          By default, svd_solver is actually set to "auto": Scikit-Learn automatically uses the
+          randomized PCA algorithm if m or n is greater than 500 and d is less than 80% of m
+          or n, or else it uses the full SVD approach. If you want to force Scikit-Learn to use full
+          SVD, you can set the svd_solver hyperparameter to "full".   
+                                                                      
+          Incremental PCA                                             
+                                                                      
+          One problem with the preceding implementations of PCA is that they require the
+          whole training set to fit in memory in order for the algorithm to run. Fortunately,
+          Incremental PCA (IPCA) algorithms have been developed. They allow you to split the
+          training set into mini-batches and feed an IPCA algorithm one mini-batch at a time.
+                                                                      

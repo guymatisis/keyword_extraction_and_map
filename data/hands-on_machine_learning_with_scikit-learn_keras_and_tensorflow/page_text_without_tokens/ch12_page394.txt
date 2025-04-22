@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          This layer may now be used like any other layer, but of course only using the Func‐
+          tional and Subclassing APIs, not the Sequential API (which only accepts layers with
+          one input and one output).                                  
+                                                                      
+          If your layer needs to have a different behavior during training and during testing
+          (e.g., if it uses Dropout or BatchNormalization layers), then you must add a train
+          ing argument to the call() method and use this argument to decide what to do. For
+          example, let’s create a layer that adds Gaussian noise during training (for regulariza‐
+          tion) but does nothing during testing (Keras has a layer that does the same thing,
+          keras.layers.GaussianNoise):                                
+            class MyGaussianNoise(keras.layers.Layer):                
+               def __init__(self, stddev, **kwargs):                  
+                 super().__init__(**kwargs)                           
+                 self.stddev = stddev                                 
+               def call(self, X, training=None):                      
+                 if training:                                         
+                   noise = tf.random.normal(tf.shape(X), stddev=self.stddev)
+                   return X + noise                                   
+                 else:                                                
+                   return X                                           
+               def compute_output_shape(self, batch_input_shape):     
+                 return batch_input_shape                             
+          With that, you can now build any custom layer you need! Now let’s create custom
+          models.                                                     
+          Custom Models                                               
+                                                                      
+          We already looked at creating custom model classes in Chapter 10, when we dis‐
+          cussed the Subclassing API.10 It’s straightforward: subclass the keras.Model class, cre‐
+          ate layers and variables in the constructor, and implement the call() method to do
+          whatever you want the model to do. Suppose you want to build the model repre‐
+          sented in Figure 12-3.                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          10 The name “Subclassing API” usually refers only to the creation of custom models by subclassing, although
+           many other things can be created by subclassing, as we saw in this chapter.

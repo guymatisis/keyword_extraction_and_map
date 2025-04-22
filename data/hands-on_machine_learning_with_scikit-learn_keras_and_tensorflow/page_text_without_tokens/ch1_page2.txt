@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   If you already know all the Machine Learning basics, you may want
+                   to skip directly to Chapter 2. If you are not sure, try to answer all
+                   the questions listed at the end of the chapter before moving on.
+                                                                      
+                                                                      
+          What Is Machine Learning?                                   
+                                                                      
+          Machine Learning is the science (and art) of programming computers so they can
+          learn from data.                                            
+                                                                      
+          Here is a slightly more general definition:                 
+            [Machine Learning is the] field of study that gives computers the ability to learn
+            without being explicitly programmed.                      
+              —Arthur Samuel, 1959                                    
+                                                                      
+          And a more engineering-oriented one:                        
+            A computer program is said to learn from experience E with respect to some task T
+            and some performance measure P, if its performance on T, as measured by P,
+            improves with experience E.                               
+              —Tom Mitchell, 1997                                     
+          Your spam filter is a Machine Learning program that, given examples of spam emails
+          (e.g., flagged by users) and examples of regular (nonspam, also called “ham”) emails,
+          can learn to flag spam. The examples that the system uses to learn are called the train‐
+          ing set. Each training example is called a training instance (or sample). In this case, the
+          task T is to flag spam for new emails, the experience E is the training data, and the
+          performance measure P needs to be defined; for example, you can use the ratio of
+          correctly classified emails. This particular performance measure is called accuracy,
+          and it is often used in classification tasks.               
+                                                                      
+          If you just download a copy of Wikipedia, your computer has a lot more data, but it is
+          not suddenly better at any task. Thus, downloading a copy of Wikipedia is not
+          Machine Learning.                                           
+          Why Use Machine Learning?                                   
+                                                                      
+          Consider how you would write a spam filter using traditional programming techni‐
+          ques (Figure 1-1):                                          
+                                                                      
+           1. First you would consider what spam typically looks like. You might notice that
+            some words or phrases (such as “4U,” “credit card,” “free,” and “amazing”) tend to
+            come up a lot in the subject line. Perhaps you would also notice a few other pat‐
+            terns in the sender’s name, the email’s body, and other parts of the email.
+                                                                      

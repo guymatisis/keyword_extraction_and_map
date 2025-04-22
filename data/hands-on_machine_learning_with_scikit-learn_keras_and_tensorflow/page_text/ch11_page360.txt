@@ -1,48 +1,34 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 11-8. Learning curves for various learning rates η   
-                                                                      
-          As we discussed in Chapter 10, you can find a good learning rate by training the
-          model for a few hundred iterations, exponentially increasing the learning rate from a
-          very small value to a very large value, and then looking at the learning curve and
-          picking a learning rate slightly lower than the one at which the learning curve starts
-          shooting back up. You can then reinitialize your model and train it with that learning
-          rate.                                                       
-          But you can do better than a constant learning rate: if you start with a large learning
-          rate and then reduce it once training stops making fast progress, you can reach a
-          good solution faster than with the optimal constant learning rate. There are many dif‐
-          ferent strategies to reduce the learning rate during training. It can also be beneficial to
-          start with a low learning rate, increase it, then drop it again. These strategies are
-          called learning schedules (we briefly introduced this concept in Chapter 4). These are
-          the most commonly used learning schedules:                  
-          Power scheduling                                            
-            Set the learning rate to a function of the iteration number t: η(t) = η / (1 + t/s)c.
-                                                    0                 
-            The initial learning rate η , the power c (typically set to 1), and the steps s are
-                            0                                         
-            hyperparameters. The learning rate drops at each step. After s steps, it is down to
-            η / 2. After s more steps, it is down to η / 3, then it goes down to η / 4, then η /
-             0                      0               0     0           
-            5, and so on. As you can see, this schedule first drops quickly, then more and
-            more slowly. Of course, power scheduling requires tuning η and s (and possibly
-                                               0                      
-            c).                                                       
-          Exponential scheduling                                      
-            Set the learning rate to η(t) = η 0.1t/s. The learning rate will gradually drop by a
-                               0                                      
-            factor of 10 every s steps. While power scheduling reduces the learning rate more
-            and more slowly, exponential scheduling keeps slashing it by a factor of 10 every
-            s steps.                                                  
+<i>Figure</i> <i>11-8.</i> <i>Learning</i> <i>curves</i> <i>for</i> <i>various</i> <i>learning</i> <i>rates</i> <i>η</i>
+As we discussed in Chapter 10, you can find a good learning rate by training the
+model for a few hundred iterations, exponentially increasing the learning rate from a
+very small value to a very large value, and then looking at the learning curve and
+picking a learning rate slightly lower than the one at which the learning curve starts
+shooting back up. You can then reinitialize your model and train it with that learning
+rate.
+But you can do better than a constant learning rate: if you start with a large learning
+rate and then reduce it once training stops making fast progress, you can reach a
+good solution faster than with the optimal constant learning rate. There are many dif‐
+ferent strategies to reduce the learning rate during training. It can also be beneficial to
+start with a low learning rate, increase it, then drop it again. These strategies are
+called <i>learning</i> <i>schedules</i> (we briefly introduced this concept in Chapter 4). These are
+the most commonly used learning schedules:
+<i>Power</i> <i>scheduling</i>
+<i>c</i>
+Set the learning rate to a function of the iteration number <i>t:</i> <i>η(t)</i> = <i>η</i> / (1 + <i>t/s)</i> .
+0
+The initial learning rate <i>η</i> , the power <i>c</i> (typically set to 1), and the steps <i>s</i> are
+0
+hyperparameters. The learning rate drops at each step. After <i>s</i> steps, it is down to
+<i>η</i> / 2. After <i>s</i> more steps, it is down to <i>η</i> / 3, then it goes down to <i>η</i> / 4, then <i>η</i> /
+0 0 0 0
+5, and so on. As you can see, this schedule first drops quickly, then more and
+more slowly. Of course, power scheduling requires tuning <i>η</i> and <i>s</i> (and possibly
+0
+<i>c).</i>
+<i>Exponential</i> <i>scheduling</i>
+<i>t/s</i>
+Set the learning rate to <i>η(t)</i> = <i>η</i> 0.1 . The learning rate will gradually drop by a
+0
+factor of 10 every <i>s</i> steps. While power scheduling reduces the learning rate more
+and more slowly, exponential scheduling keeps slashing it by a factor of 10 every
+<i>s</i> steps.

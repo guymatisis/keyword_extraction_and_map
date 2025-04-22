@@ -1,46 +1,30 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          position (0.0 = center), its velocity (positive means right), the angle of the pole (0.0 =
-          vertical), and its angular velocity (positive means clockwise).
-                                                                      
-          Now let’s display this environment by calling its render() method (see Figure 18-4).
-          On Windows, this requires first installing an X Server, such as VcXsrv or Xming:
-            >>> env.render()                                          
-            True                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 18-4. The CartPole environment                       
-                                                                      
-                   If you are using a headless server (i.e., without a screen), such as a
-                   virtual machine on the cloud, rendering will fail. The only way to
-                   avoid this is to use a fake X server such as Xvfb or Xdummy. For
-                   example, you can install Xvfb (apt install xvfb on Ubuntu or
-                   Debian) and start Python using the following command: xvfb-run
-                   -s "-screen 0 1400x900x24" python3. Alternatively, install Xvfb
-                   and the pyvirtualdisplay library (which wraps Xvfb) and run
-                   pyvirtualdisplay.Display(visible=0, size=(1400,    
-                   900)).start() at the beginning of your program.    
-          If you want render() to return the rendered image as a NumPy array, you can set
-          mode="rgb_array" (oddly, this environment will render the environment to screen as
-          well):                                                      
-                                                                      
-            >>> img = env.render(mode="rgb_array")                    
-            >>> img.shape # height, width, channels (3 = Red, Green, Blue)
-            (800, 1200, 3)                                            
-          Let’s ask the environment what actions are possible:        
-            >>> env.action_space                                      
-            Discrete(2)                                               
-          Discrete(2) means that the possible actions are integers 0 and 1, which represent
-          accelerating left (0) or right (1). Other environments may have additional discrete
-                                                                      
-                                                                      
+0.0 0.0
+position ( = center), its velocity (positive means right), the angle of the pole ( =
+vertical), and its angular velocity (positive means clockwise).
+Now let’s display this environment by calling its render() method (see Figure 18-4).
+On Windows, this requires first installing an X Server, such as VcXsrv or Xming:
+<b>>>></b> env.render()
+True
+<i>Figure</i> <i>18-4.</i> <i>The</i> <i>CartPole</i> <i>environment</i>
+If you are using a headless server (i.e., without a screen), such as a
+virtual machine on the cloud, rendering will fail. The only way to
+avoid this is to use a fake X server such as Xvfb or Xdummy. For
+example, you can install Xvfb ( apt install xvfb on Ubuntu or
+Debian) and start Python using the following command: xvfb-run
+-s "-screen 0 1400x900x24" python3 . Alternatively, install Xvfb
+and the pyvirtualdisplay library (which wraps Xvfb) and run
+pyvirtualdisplay.Display(visible=0, size=(1400,
+900)).start() at the beginning of your program.
+If you want render() to return the rendered image as a NumPy array, you can set
+mode="rgb_array"
+(oddly, this environment will render the environment to screen as
+well):
+<b>>>></b> img = env.render(mode="rgb_array")
+<b>>>></b> img.shape <i>#</i> <i>height,</i> <i>width,</i> <i>channels</i> <i>(3</i> <i>=</i> <i>Red,</i> <i>Green,</i> <i>Blue)</i>
+(800, 1200, 3)
+Let’s ask the environment what actions are possible:
+<b>>>></b> env.action_space
+Discrete(2)
+Discrete(2)
+means that the possible actions are integers 0 and 1, which represent
+accelerating left (0) or right (1). Other environments may have additional discrete

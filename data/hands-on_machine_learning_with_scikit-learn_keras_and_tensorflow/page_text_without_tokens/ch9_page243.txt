@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Centroid initialization methods                             
+                                                                      
+          If you happen to know approximately where the centroids should be (e.g., if you ran
+          another clustering algorithm earlier), then you can set the init hyperparameter to a
+          NumPy array containing the list of centroids, and set n_init to 1:
+            good_init = np.array([[-3, 3], [-3, 2], [-3, 1], [-1, 2], [0, 2]])
+            kmeans = KMeans(n_clusters=5, init=good_init, n_init=1)   
+          Another solution is to run the algorithm multiple times with different random initial‐
+          izations and keep the best solution. The number of random initializations is con‐
+          trolled by the n_init hyperparameter: by default, it is equal to 10, which means that
+          the whole algorithm described earlier runs 10 times when you call fit(), and Scikit-
+          Learn keeps the best solution. But how exactly does it know which solution is the
+          best? It uses a performance metric! That metric is called the model’s inertia, which is
+          the mean squared distance between each instance and its closest centroid. It is
+          roughly equal to 223.3 for the model on the left in Figure 9-5, 237.5 for the model on
+          the right in Figure 9-5, and 211.6 for the model in Figure 9-3. The KMeans class runs
+          the algorithm n_init times and keeps the model with the lowest inertia. In this
+          example, the model in Figure 9-3 will be selected (unless we are very unlucky with
+          n_init consecutive random initializations). If you are curious, a model’s inertia is
+          accessible via the inertia_ instance variable:              
+            >>> kmeans.inertia_                                       
+            211.59853725816856                                        
+          The score() method returns the negative inertia. Why negative? Because a predic‐
+                                                                      
+          tor’s score() method must always respect Scikit-Learn’s “greater is better” rule: if a
+          predictor is better than another, its score() method should return a greater score.
+            >>> kmeans.score(X)                                       
+            -211.59853725816856                                       
+          An important improvement to the K-Means algorithm, K-Means++, was proposed in
+          a 2006 paper by David Arthur and Sergei Vassilvitskii.3 They introduced a smarter
+          initialization step that tends to select centroids that are distant from one another, and
+          this improvement makes the K-Means algorithm much less likely to converge to a
+          suboptimal solution. They showed that the additional computation required for the
+          smarter initialization step is well worth it because it makes it possible to drastically
+          reduce the number of times the algorithm needs to be run to find the optimal solu‐
+          tion. Here is the K-Means++ initialization algorithm:       
+                                                                      
+           1. Take one centroid c(1), chosen uniformly at random from the dataset.
+                                                                      
+                                                                      
+          3 David Arthur and Sergei Vassilvitskii, “k-Means++: The Advantages of Careful Seeding,” Proceedings of the
+           18th Annual ACM-SIAM Symposium on Discrete Algorithms (2007): 1027–1035.

@@ -1,46 +1,21 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          model is shown more training examples, it learns, and thus the validation error
-          slowly goes down. However, once again a straight line cannot do a good job modeling
-          the data, so the error ends up at a plateau, very close to the other curve.
-                                                                      
-          These learning curves are typical of a model that’s underfitting. Both curves have
-          reached a plateau; they are close and fairly high.          
-                                                                      
-                   If your model is underfitting the training data, adding more train‐
-                   ing examples will not help. You need to use a more complex model
-                   or come up with better features.                   
-                                                                      
-                                                                      
-          Now let’s look at the learning curves of a 10th-degree polynomial model on the same
-          data (Figure 4-16):                                         
-            from sklearn.pipeline import Pipeline                     
-                                                                      
-            polynomial_regression = Pipeline([                        
-                 ("poly_features", PolynomialFeatures(degree=10, include_bias=False)),
-                 ("lin_reg", LinearRegression()),                     
-               ])                                                     
-            plot_learning_curves(polynomial_regression, X, y)         
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 4-16. Learning curves for the 10th-degree polynomial model
-                                                                      
-          These learning curves look a bit like the previous ones, but there are two very impor‐
-          tant differences:                                           
-           • The error on the training data is much lower than with the Linear Regression
-            model.                                                    
-                                                                      
+model is shown more training examples, it learns, and thus the validation error
+slowly goes down. However, once again a straight line cannot do a good job modeling
+the data, so the error ends up at a plateau, very close to the other curve.
+These learning curves are typical of a model that’s underfitting. Both curves have
+reached a plateau; they are close and fairly high.
+If your model is underfitting the training data, adding more train‐
+ing examples will not help. You need to use a more complex model
+or come up with better features.
+Now let’s look at the learning curves of a 10th-degree polynomial model on the same
+data (Figure 4-16):
+<b>from</b> <b>sklearn.pipeline</b> <b>import</b> Pipeline
+polynomial_regression = Pipeline([
+("poly_features", PolynomialFeatures(degree=10, include_bias=False)),
+("lin_reg", LinearRegression()),
+])
+plot_learning_curves(polynomial_regression, X, y)
+<i>Figure</i> <i>4-16.</i> <i>Learning</i> <i>curves</i> <i>for</i> <i>the</i> <i>10th-degree</i> <i>polynomial</i> <i>model</i>
+These learning curves look a bit like the previous ones, but there are two very impor‐
+tant differences:
+• The error on the training data is much lower than with the Linear Regression
+model.

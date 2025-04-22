@@ -1,47 +1,38 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Installing TensorFlow Serving                               
-                                                                      
-          There are many ways to install TF Serving: using a Docker image,3 using the system’s
-          package manager, installing from source, and more. Let’s use the Docker option,
-          which is highly recommended by the TensorFlow team as it is simple to install, it will
-          not mess with your system, and it offers high performance. You first need to install
-          Docker. Then download the official TF Serving Docker image: 
-            $ docker pull tensorflow/serving                          
-          Now you can create a Docker container to run this image:    
-            $ docker run -it --rm -p 8500:8500 -p 8501:8501 \         
-                    -v "$ML_PATH/my_mnist_model:/models/my_mnist_model" \
-                    -e MODEL_NAME=my_mnist_model \                    
-                    tensorflow/serving                                
-            [...]                                                     
-            2019-06-01 [...] loaded servable version {name: my_mnist_model version: 1}
-            2019-06-01 [...] Running gRPC ModelServer at 0.0.0.0:8500 ...
-            2019-06-01 [...] Exporting HTTP/REST API at:localhost:8501 ...
-            [evhttp_server.cc : 237] RAW: Entering the event loop ... 
-          That’s it! TF Serving is running. It loaded our MNIST model (version 1), and it is
-          serving it through both gRPC (on port 8500) and REST (on port 8501). Here is what
-          all the command-line options mean:                          
-          -it                                                         
-            Makes the container interactive (so you can press Ctrl-C to stop it) and displays
-            the server’s output.                                      
-          --rm                                                        
-            Deletes the container when you stop it (no need to clutter your machine with
-            interrupted containers). However, it does not delete the image.
-          -p 8500:8500                                                
-                                                                      
-            Makes the Docker engine forward the host’s TCP port 8500 to the container’s
-            TCP port 8500. By default, TF Serving uses this port to serve the gRPC API.
-          -p 8501:8501                                                
-            Forwards the host’s TCP port 8501 to the container’s TCP port 8501. By default,
-            TF Serving uses this port to serve the REST API.          
-                                                                      
-                                                                      
-                                                                      
-          3 If you are not familiar with Docker, it allows you to easily download a set of applications packaged in a Docker
-           image (including all their dependencies and usually some good default configuration) and then run them on
-           your system using a Docker engine. When you run an image, the engine creates a Docker container that keeps
-           the applications well isolated from your own system (but you can give it some limited access if you want). It is
-           similar to a virtual machine, but much faster and more lightweight, as the container relies directly on the
-           host’s kernel. This means that the image does not need to include or run its own kernel.
+<b>InstallingTensorFlowServing</b>
+There are many ways to install TF Serving: using a Docker image,3 using the system’s
+package manager, installing from source, and more. Let’s use the Docker option,
+which is highly recommended by the TensorFlow team as it is simple to install, it will
+not mess with your system, and it offers high performance. You first need to install
+Docker. Then download the official TF Serving Docker image:
+$ <b>docker</b> <b>pull</b> <b>tensorflow/serving</b>
+Now you can create a Docker container to run this image:
+$ <b>docker</b> <b>run</b> <b>-it</b> <b>--rm</b> <b>-p</b> <b>8500:8500</b> <b>-p</b> <b>8501:8501</b> \
+<b>-v</b> <b>"$ML_PATH/my_mnist_model:/models/my_mnist_model"</b> \
+<b>-e</b> <b>MODEL_NAME=my_mnist_model</b> \
+<b>tensorflow/serving</b>
+[...]
+2019-06-01 [...] loaded servable version {name: my_mnist_model version: 1}
+2019-06-01 [...] Running gRPC ModelServer at 0.0.0.0:8500 ...
+2019-06-01 [...] Exporting HTTP/REST API at:localhost:8501 ...
+[evhttp_server.cc : 237] RAW: Entering the event loop ...
+That’s it! TF Serving is running. It loaded our MNIST model (version 1), and it is
+serving it through both gRPC (on port 8500) and REST (on port 8501). Here is what
+all the command-line options mean:
+-it
+Makes the container interactive (so you can press Ctrl-C to stop it) and displays
+the server’s output.
+--rm
+Deletes the container when you stop it (no need to clutter your machine with
+interrupted containers). However, it does not delete the image.
+-p 8500:8500
+Makes the Docker engine forward the host’s TCP port 8500 to the container’s
+TCP port 8500. By default, TF Serving uses this port to serve the gRPC API.
+-p 8501:8501
+Forwards the host’s TCP port 8501 to the container’s TCP port 8501. By default,
+TF Serving uses this port to serve the REST API.
+3 IfyouarenotfamiliarwithDocker,itallowsyoutoeasilydownloadasetofapplicationspackagedinaDocker
+<i>image(includingalltheirdependenciesandusuallysomegooddefaultconfiguration)andthenrunthemon</i>
+yoursystemusingaDockerengine.Whenyourunanimage,theenginecreatesaDockercontainerthatkeeps
+theapplicationswellisolatedfromyourownsystem(butyoucangiveitsomelimitedaccessifyouwant).Itis
+similartoavirtualmachine,butmuchfasterandmorelightweight,asthecontainerreliesdirectlyonthe
+host’skernel.Thismeansthattheimagedoesnotneedtoincludeorrunitsownkernel.

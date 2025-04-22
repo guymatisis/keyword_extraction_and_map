@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 19-19. Data parallelism with centralized parameters  
+          Whereas the mirrored strategy imposes synchronous weight updates across all GPUs,
+          this centralized approach allows either synchronous or asynchronous updates. Let’s
+          see the pros and cons of both options.                      
+                                                                      
+          Synchronous updates. With synchronous updates, the aggregator waits until all gradi‐
+          ents are available before it computes the average gradients and passes them to the
+          optimizer, which will update the model parameters. Once a replica has finished com‐
+          puting its gradients, it must wait for the parameters to be updated before it can pro‐
+          ceed to the next mini-batch. The downside is that some devices may be slower than
+          others, so all other devices will have to wait for them at every step. Moreover, the
+          parameters will be copied to every device almost at the same time (immediately after
+          the gradients are applied), which may saturate the parameter servers’ bandwidth.
+                                                                      
+                   To reduce the waiting time at each step, you could ignore the gradi‐
+                   ents from the slowest few replicas (typically ~10%). For example,
+                   you could run 20 replicas, but only aggregate the gradients from
+                   the fastest 18 replicas at each step, and just ignore the gradients
+                   from the last 2. As soon as the parameters are updated, the first 18
+                   replicas can start working again immediately, without having to
+                   wait for the 2 slowest replicas. This setup is generally described as
+                   having 18 replicas plus 2 spare replicas.19        
+                                                                      
+          19 This name is slightly confusing because it sounds like some replicas are special, doing nothing. In reality, all
+           replicas are equivalent: they all work hard to be among the fastest at each training step, and the losers vary at
+           every step (unless some devices are really slower than others). However, it does mean that if a server crashes,
+           training will continue just fine.                          

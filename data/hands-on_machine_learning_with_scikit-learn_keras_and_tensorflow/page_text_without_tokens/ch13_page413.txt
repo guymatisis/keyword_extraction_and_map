@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                  CHAPTER 13          
+                                                                      
+                       Loading   and  Preprocessing   Data            
+                                                                      
+                                         with TensorFlow              
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          So far we have used only datasets that fit in memory, but Deep Learning systems are
+          often trained on very large datasets that will not fit in RAM. Ingesting a large dataset
+          and preprocessing it efficiently can be tricky to implement with other Deep Learning
+          libraries, but TensorFlow makes it easy thanks to the Data API: you just create a data‐
+          set object, and tell it where to get the data and how to transform it. TensorFlow takes
+          care of all the implementation details, such as multithreading, queuing, batching, and
+          prefetching. Moreover, the Data API works seamlessly with tf.keras!
+          Off the shelf, the Data API can read from text files (such as CSV files), binary files
+          with fixed-size records, and binary files that use TensorFlow’s TFRecord format,
+          which supports records of varying sizes. TFRecord is a flexible and efficient binary
+          format usually containing protocol buffers (an open source binary format). The Data
+          API also has support for reading from SQL databases. Moreover, many open source
+          extensions are available to read from all sorts of data sources, such as Google’s Big‐
+          Query service.                                              
+          Reading huge datasets efficiently is not the only difficulty: the data also needs to be
+          preprocessed, usually normalized. Moreover, it is not always composed strictly of
+          convenient numerical fields: there may be text features, categorical features, and so
+          on. These need to be encoded, for example using one-hot encoding, bag-of-words
+          encoding, or embeddings (as we will see, an embedding is a trainable dense vector that
+          represents a category or token). One option to handle all this preprocessing is to
+          write your own custom preprocessing layers. Another is to use the standard prepro‐
+          cessing layers provided by Keras.                           
+                                                                      
+                                                                      
+                                                                      

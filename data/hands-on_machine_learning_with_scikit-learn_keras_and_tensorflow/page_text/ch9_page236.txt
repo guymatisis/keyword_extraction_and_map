@@ -1,46 +1,38 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Clustering                                                  
-            The goal is to group similar instances together into clusters. Clustering is a great
-            tool for data analysis, customer segmentation, recommender systems, search
-            engines, image segmentation, semi-supervised learning, dimensionality reduc‐
-            tion, and more.                                           
-                                                                      
-          Anomaly detection                                           
-            The objective is to learn what “normal” data looks like, and then use that to
-            detect abnormal instances, such as defective items on a production line or a new
-            trend in a time series.                                   
-          Density estimation                                          
-            This is the task of estimating the probability density function (PDF) of the random
-            process that generated the dataset. Density estimation is commonly used for
-            anomaly detection: instances located in very low-density regions are likely to be
-            anomalies. It is also useful for data analysis and visualization.
-          Ready for some cake? We will start with clustering, using K-Means and DBSCAN,
-          and then we will discuss Gaussian mixture models and see how they can be used for
-          density estimation, clustering, and anomaly detection.      
-                                                                      
-          Clustering                                                  
-                                                                      
-          As you enjoy a hike in the mountains, you stumble upon a plant you have never seen
-          before. You look around and you notice a few more. They are not identical, yet they
-          are sufficiently similar for you to know that they most likely belong to the same spe‐
-          cies (or at least the same genus). You may need a botanist to tell you what species that
-          is, but you certainly don’t need an expert to identify groups of similar-looking objects.
-          This is called clustering: it is the task of identifying similar instances and assigning
-          them to clusters, or groups of similar instances.           
-          Just like in classification, each instance gets assigned to a group. However, unlike clas‐
-          sification, clustering is an unsupervised task. Consider Figure 9-1: on the left is the
-          iris dataset (introduced in Chapter 4), where each instance’s species (i.e., its class) is
-          represented with a different marker. It is a labeled dataset, for which classification
-          algorithms such as Logistic Regression, SVMs, or Random Forest classifiers are well
-          suited. On the right is the same dataset, but without the labels, so you cannot use a
-          classification algorithm anymore. This is where clustering algorithms step in: many of
-          them can easily detect the lower-left cluster. It is also quite easy to see with our own
-          eyes, but it is not so obvious that the upper-right cluster is composed of two distinct
-          sub-clusters. That said, the dataset has two additional features (sepal length and
-          width), not represented here, and clustering algorithms can make good use of all fea‐
-          tures, so in fact they identify the three clusters fairly well (e.g., using a Gaussian mix‐
-          ture model, only 5 instances out of 150 are assigned to the wrong cluster).
-                                                                      
+<i>Clustering</i>
+The goal is to group similar instances together into <i>clusters.</i> Clustering is a great
+tool for data analysis, customer segmentation, recommender systems, search
+engines, image segmentation, semi-supervised learning, dimensionality reduc‐
+tion, and more.
+<i>Anomaly</i> <i>detection</i>
+The objective is to learn what “normal” data looks like, and then use that to
+detect abnormal instances, such as defective items on a production line or a new
+trend in a time series.
+<i>Density</i> <i>estimation</i>
+This is the task of estimating the <i>probability</i> <i>density</i> <i>function</i> (PDF) of the random
+process that generated the dataset. Density estimation is commonly used for
+anomaly detection: instances located in very low-density regions are likely to be
+anomalies. It is also useful for data analysis and visualization.
+Ready for some cake? We will start with clustering, using K-Means and DBSCAN,
+and then we will discuss Gaussian mixture models and see how they can be used for
+density estimation, clustering, and anomaly detection.
+<header><largefont><b>Clustering</b></largefont></header>
+As you enjoy a hike in the mountains, you stumble upon a plant you have never seen
+before. You look around and you notice a few more. They are not identical, yet they
+are sufficiently similar for you to know that they most likely belong to the same spe‐
+cies (or at least the same genus). You may need a botanist to tell you what species that
+is, but you certainly don’t need an expert to identify groups of similar-looking objects.
+This is called <i>clustering:</i> it is the task of identifying similar instances and assigning
+them to <i>clusters,</i> or groups of similar instances.
+Just like in classification, each instance gets assigned to a group. However, unlike clas‐
+sification, clustering is an unsupervised task. Consider Figure 9-1: on the left is the
+iris dataset (introduced in Chapter 4), where each instance’s species (i.e., its class) is
+represented with a different marker. It is a labeled dataset, for which classification
+algorithms such as Logistic Regression, SVMs, or Random Forest classifiers are well
+suited. On the right is the same dataset, but without the labels, so you cannot use a
+classification algorithm anymore. This is where clustering algorithms step in: many of
+them can easily detect the lower-left cluster. It is also quite easy to see with our own
+eyes, but it is not so obvious that the upper-right cluster is composed of two distinct
+sub-clusters. That said, the dataset has two additional features (sepal length and
+width), not represented here, and clustering algorithms can make good use of all fea‐
+tures, so in fact they identify the three clusters fairly well (e.g., using a Gaussian mix‐
+ture model, only 5 instances out of 150 are assigned to the wrong cluster).

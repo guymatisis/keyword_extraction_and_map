@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Let’s look at the parameters of the first BN layer. Two are trainable (by backpropaga‐
+          tion), and two are not:                                     
+                                                                      
+            >>> [(var.name, var.trainable) for var in model.layers[1].variables]
+            [('batch_normalization_v2/gamma:0', True),                
+             ('batch_normalization_v2/beta:0', True),                 
+             ('batch_normalization_v2/moving_mean:0', False),         
+             ('batch_normalization_v2/moving_variance:0', False)]     
+          Now when you create a BN layer in Keras, it also creates two operations that will be
+          called by Keras at each iteration during training. These operations will update the
+          moving averages. Since we are using the TensorFlow backend, these operations are
+          TensorFlow operations (we will discuss TF operations in Chapter 12):
+            >>> model.layers[1].updates                               
+            [<tf.Operation 'cond_2/Identity' type=Identity>,          
+             <tf.Operation 'cond_3/Identity' type=Identity>]          
+          The authors of the BN paper argued in favor of adding the BN layers before the acti‐
+          vation functions, rather than after (as we just did). There is some debate about this, as
+          which is preferable seems to depend on the task—you can experiment with this too to
+          see which option works best on your dataset. To add the BN layers before the activa‐
+          tion functions, you must remove the activation function from the hidden layers and
+          add them as separate layers after the BN layers. Moreover, since a Batch Normaliza‐
+          tion layer includes one offset parameter per input, you can remove the bias term from
+          the previous layer (just pass use_bias=False when creating it):
+            model = keras.models.Sequential([                         
+               keras.layers.Flatten(input_shape=[28, 28]),            
+               keras.layers.BatchNormalization(),                     
+               keras.layers.Dense(300, kernel_initializer="he_normal", use_bias=False),
+               keras.layers.BatchNormalization(),                     
+               keras.layers.Activation("elu"),                        
+               keras.layers.Dense(100, kernel_initializer="he_normal", use_bias=False),
+               keras.layers.BatchNormalization(),                     
+               keras.layers.Activation("elu"),                        
+               keras.layers.Dense(10, activation="softmax")           
+            ])                                                        
+          The BatchNormalization class has quite a few hyperparameters you can tweak. The
+          defaults will usually be fine, but you may occasionally need to tweak the momentum.
+          This hyperparameter is used by the BatchNormalization layer when it updates the
+          exponential moving averages; given a new value v (i.e., a new vector of input means
+          or standard deviations computed over the current batch), the layer updates the run‐
+          ning average  using the following equation:                 
+            v  v×momentum+v× 1−momentum                               
+                                                                      

@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   The number of Monte Carlo samples you use (100 in this example)
+                   is a hyperparameter you can tweak. The higher it is, the more accu‐
+                   rate the predictions and their uncertainty estimates will be. How‐
+                   ever, if you double it, inference time will also be doubled.
+                   Moreover, above a certain number of samples, you will notice little
+                   improvement. So your job is to find the right trade-off between
+                   latency and accuracy, depending on your application.
+                                                                      
+          If your model contains other layers that behave in a special way during training (such
+          as BatchNormalization layers), then you should not force training mode like we just
+          did. Instead, you should replace the Dropout layers with the following MCDropout
+          class:27                                                    
+            class MCDropout(keras.layers.Dropout):                    
+               def call(self, inputs):                                
+                 return super().call(inputs, training=True)           
+          Here, we just subclass the Dropout layer and override the call() method to force its
+          training argument to True (see Chapter 12). Similarly, you could define an MCAlpha
+          Dropout class by subclassing AlphaDropout instead. If you are creating a model from
+          scratch, it’s just a matter of using MCDropout rather than Dropout. But if you have a
+          model that was already trained using Dropout, you need to create a new model that’s
+          identical to the existing model except that it replaces the Dropout layers with MCDrop
+          out, then copy the existing model’s weights to your new model.
+          In short, MC Dropout is a fantastic technique that boosts dropout models and pro‐
+          vides better uncertainty estimates. And of course, since it is just regular dropout dur‐
+          ing training, it also acts like a regularizer.              
+                                                                      
+          Max-Norm Regularization                                     
+                                                                      
+          Another regularization technique that is popular for neural networks is called max-
+          norm regularization: for each neuron, it constrains the weights w of the incoming
+          connections such that ∥ w ∥ ≤ r, where r is the max-norm hyperparameter and ∥ · ∥
+                          2                                2          
+          is the ℓ norm.                                              
+              2                                                       
+          Max-norm regularization does not add a regularization loss term to the overall loss
+          function. Instead, it is typically implemented by computing ∥w∥ after each training
+                                                2                     
+          step and rescaling w if needed (w ← w r/‖ w ‖ ).            
+                                    2                                 
+          27 This MCDropout class will work with all Keras APIs, including the Sequential API. If you only care about the
+           Functional API or the Subclassing API, you do not have to create an MCDropout class; you can create a regular
+           Dropout layer and call it with training=True.              

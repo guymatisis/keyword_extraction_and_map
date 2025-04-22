@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Nonlinear SVM Classification                                
+                                                                      
+          Although linear SVM classifiers are efficient and work surprisingly well in many
+          cases, many datasets are not even close to being linearly separable. One approach to
+          handling nonlinear datasets is to add more features, such as polynomial features (as
+          you did in Chapter 4); in some cases this can result in a linearly separable dataset.
+          Consider the left plot in Figure 5-5: it represents a simple dataset with just one fea‐
+          ture, x . This dataset is not linearly separable, as you can see. But if you add a second
+              1                                                       
+          feature x = (x )2, the resulting 2D dataset is perfectly linearly separable.
+               2  1                                                   
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 5-5. Adding features to make a dataset linearly separable
+          To implement this idea using Scikit-Learn, create a Pipeline containing a Polyno
+          mialFeatures transformer (discussed in “Polynomial Regression” on page 128), fol‐
+          lowed by a StandardScaler and a LinearSVC. Let’s test this on the moons dataset: this
+          is a toy dataset for binary classification in which the data points are shaped as two
+          interleaving half circles (see Figure 5-6). You can generate this dataset using the
+          make_moons() function:                                      
+                                                                      
+            from sklearn.datasets import make_moons                   
+            from sklearn.pipeline import Pipeline                     
+            from sklearn.preprocessing import PolynomialFeatures      
+            X, y = make_moons(n_samples=100, noise=0.15)              
+            polynomial_svm_clf = Pipeline([                           
+                 ("poly_features", PolynomialFeatures(degree=3)),     
+                 ("scaler", StandardScaler()),                        
+                 ("svm_clf", LinearSVC(C=10, loss="hinge"))           
+               ])                                                     
+            polynomial_svm_clf.fit(X, y)                              
+                                                                      
+                                                                      

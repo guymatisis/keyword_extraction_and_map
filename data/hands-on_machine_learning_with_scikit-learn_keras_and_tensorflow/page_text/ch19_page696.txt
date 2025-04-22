@@ -1,46 +1,35 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 19-13. Each program gets all four GPUs, but with only 2 GiB of RAM on each
-          GPU                                                         
-                                                                      
-          If you run the nvidia-smi command while both programs are running, you should
-          see that each process holds 2 GiB of RAM on each card:      
-            $ nvidia-smi                                              
-            [...]                                                     
-            +-----------------------------------------------------------------------------+
-            | Processes:                            GPU Memory |      
-            | GPU   PID Type Process name           Usage |           
-            |=============================================================================|
-            |  0   2373  C  /usr/bin/python3         2241MiB |        
-            |  0   2533  C  /usr/bin/python3         2241MiB |        
-            |  1   2373  C  /usr/bin/python3         2241MiB |        
-            |  1   2533  C  /usr/bin/python3         2241MiB |        
-            [...]                                                     
-          Yet another option is to tell TensorFlow to grab memory only when it needs it (this
-          also must be done immediately after importing TensorFlow):  
-            for gpu in tf.config.experimental.list_physical_devices("GPU"):
-               tf.config.experimental.set_memory_growth(gpu, True)    
-          Another way to do this is to set the TF_FORCE_GPU_ALLOW_GROWTH environment vari‐
-          able to true. With this option, TensorFlow will never release memory once it has
-          grabbed it (again, to avoid memory fragmentation), except of course when the pro‐
-          gram ends. It can be harder to guarantee deterministic behavior using this option
-          (e.g., one program may crash because another program’s memory usage went through
-          the roof), so in production you’ll probably want to stick with one of the previous
-          options. However, there are some cases where it is very useful: for example, when you
-          use a machine to run multiple Jupyter notebooks, several of which use TensorFlow.
-          This is why the TF_FORCE_GPU_ALLOW_GROWTH environment variable is set to true in
-          Colab Runtimes.                                             
-          Lastly, in some cases you may want to split a GPU into two or more virtual GPUs—
-          for example, if you want to test a distribution algorithm (this is a handy way to try
-          out the code examples in the rest of this chapter even if you have a single GPU, such
+<i>Figure</i> <i>19-13.</i> <i>Each</i> <i>program</i> <i>gets</i> <i>all</i> <i>four</i> <i>GPUs,</i> <i>but</i> <i>with</i> <i>only</i> <i>2</i> <i>GiB</i> <i>of</i> <i>RAM</i> <i>on</i> <i>each</i>
+<i>GPU</i>
+nvidia-smi
+If you run the command while both programs are running, you should
+see that each process holds 2 GiB of RAM on each card:
+$ <b>nvidia-smi</b>
+[...]
++-----------------------------------------------------------------------------+
+| Processes: GPU Memory |
+| GPU PID Type Process name Usage |
+|=============================================================================|
+| 0 2373 C /usr/bin/python3 2241MiB |
+| 0 2533 C /usr/bin/python3 2241MiB |
+| 1 2373 C /usr/bin/python3 2241MiB |
+| 1 2533 C /usr/bin/python3 2241MiB |
+[...]
+Yet another option is to tell TensorFlow to grab memory only when it needs it (this
+also must be done immediately after importing TensorFlow):
+<b>for</b> gpu <b>in</b> tf.config.experimental.list_physical_devices("GPU"):
+tf.config.experimental.set_memory_growth(gpu, True)
+TF_FORCE_GPU_ALLOW_GROWTH
+Another way to do this is to set the environment vari‐
+able to true. With this option, TensorFlow will never release memory once it has
+grabbed it (again, to avoid memory fragmentation), except of course when the pro‐
+gram ends. It can be harder to guarantee deterministic behavior using this option
+(e.g., one program may crash because another program’s memory usage went through
+the roof), so in production you’ll probably want to stick with one of the previous
+options. However, there are some cases where it is very useful: for example, when you
+use a machine to run multiple Jupyter notebooks, several of which use TensorFlow.
+TF_FORCE_GPU_ALLOW_GROWTH true
+This is why the environment variable is set to in
+Colab Runtimes.
+Lastly, in some cases you may want to split a GPU into two or more <i>virtual</i> <i>GPUs—</i>
+for example, if you want to test a distribution algorithm (this is a handy way to try
+out the code examples in the rest of this chapter even if you have a single GPU, such

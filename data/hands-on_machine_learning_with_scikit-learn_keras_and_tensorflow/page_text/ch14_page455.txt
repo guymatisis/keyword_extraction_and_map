@@ -1,46 +1,26 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-             —If set to "VALID", the convolutional layer does not use zero padding and may
-              ignore some rows and columns at the bottom and right of the input image,
-              depending on the stride, as shown in Figure 14-7 (for simplicity, only the hor‐
-              izontal dimension is shown here, but of course the same logic applies to the
-              vertical dimension). This means that every neuron’s receptive field lies strictly
-              within valid positions inside the input (it does not go out of bounds), hence
-              the name valid.                                         
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 14-7. Padding="SAME” or “VALID” (with input width 13, filter width 6, stride
-          5)                                                          
-                                                                      
-          In this example we manually defined the filters, but in a real CNN you would nor‐
-          mally define filters as trainable variables so the neural net can learn which filters
-          work best, as explained earlier. Instead of manually creating the variables, use the
-          keras.layers.Conv2D layer:                                  
-            conv = keras.layers.Conv2D(filters=32, kernel_size=3, strides=1,
-                            padding="same", activation="relu")        
-          This code creates a Conv2D layer with 32 filters, each 3 × 3, using a stride of 1 (both
-          horizontally and vertically) and "same" padding, and applying the ReLU activation
-          function to its outputs. As you can see, convolutional layers have quite a few hyper‐
-          parameters: you must choose the number of filters, their height and width, the
-          strides, and the padding type. As always, you can use cross-validation to find the right
-          hyperparameter values, but this is very time-consuming. We will discuss common
-          CNN architectures later, to give you some idea of which hyperparameter values work
-          best in practice.                                           
-                                                                      
-                                                                      
+"VALID"
+— If set to , the convolutional layer does <i>not</i> use zero padding and may
+ignore some rows and columns at the bottom and right of the input image,
+depending on the stride, as shown in Figure 14-7 (for simplicity, only the hor‐
+izontal dimension is shown here, but of course the same logic applies to the
+vertical dimension). This means that every neuron’s receptive field lies strictly
+within valid positions inside the input (it does not go out of bounds), hence
+the name <i>valid.</i>
+<i>Figure</i> <i>14-7.</i> <i>Padding="SAME”</i> <i>or</i> <i>“VALID”</i> <i>(with</i> <i>input</i> <i>width</i> <i>13,</i> <i>filter</i> <i>width</i> <i>6,</i> <i>stride</i>
+<i>5)</i>
+In this example we manually defined the filters, but in a real CNN you would nor‐
+mally define filters as trainable variables so the neural net can learn which filters
+work best, as explained earlier. Instead of manually creating the variables, use the
+keras.layers.Conv2D
+layer:
+conv = keras.layers.Conv2D(filters=32, kernel_size=3, strides=1,
+padding="same", activation="relu")
+Conv2D
+This code creates a layer with 32 filters, each 3 × 3, using a stride of 1 (both
+horizontally and vertically) and "same" padding, and applying the ReLU activation
+function to its outputs. As you can see, convolutional layers have quite a few hyper‐
+parameters: you must choose the number of filters, their height and width, the
+strides, and the padding type. As always, you can use cross-validation to find the right
+hyperparameter values, but this is very time-consuming. We will discuss common
+CNN architectures later, to give you some idea of which hyperparameter values work
+best in practice.

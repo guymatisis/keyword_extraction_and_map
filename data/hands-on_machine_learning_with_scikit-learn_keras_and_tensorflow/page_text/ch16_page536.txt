@@ -1,46 +1,39 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          “smartest.” Google’s SentencePiece project provides an open source implementation,
-          described in a paper5 by Taku Kudo and John Richardson.     
-                                                                      
-          Another option was proposed in an earlier paper6 by Rico Sennrich et al. that
-          explored other ways of creating subword encodings (e.g., using byte pair encoding).
-          Last but not least, the TensorFlow team released the TF.Text library in June 2019,
-          which implements various tokenization strategies, including WordPiece7 (a variant of
-          byte pair encoding).                                        
-          If you want to deploy your model to a mobile device or a web browser, and you don’t
-          want to have to write a different preprocessing function every time, then you will
-          want to handle preprocessing using only TensorFlow operations, so it can be included
-          in the model itself. Let’s see how. First, let’s load the original IMDb reviews, as text
-          (byte strings), using TensorFlow Datasets (introduced in Chapter 13):
-            import tensorflow_datasets as tfds                        
-                                                                      
-            datasets, info = tfds.load("imdb_reviews", as_supervised=True, with_info=True)
-            train_size = info.splits["train"].num_examples            
-          Next, let’s write the preprocessing function:               
-            def preprocess(X_batch, y_batch):                         
-               X_batch = tf.strings.substr(X_batch, 0, 300)           
-               X_batch = tf.strings.regex_replace(X_batch, b"<br\\s*/?>", b" ")
-               X_batch = tf.strings.regex_replace(X_batch, b"[^a-zA-Z']", b" ")
-               X_batch = tf.strings.split(X_batch)                    
-               return X_batch.to_tensor(default_value=b"<pad>"), y_batch
-          It starts by truncating the reviews, keeping only the first 300 characters of each: this
-          will speed up training, and it won’t impact performance too much because you can
-          generally tell whether a review is positive or not in the first sentence or two. Then it
-          uses regular expressions to replace <br /> tags with spaces, and to replace any charac‐
-          ters other than letters and quotes with spaces. For example, the text "Well, I
-          can't<br />" will become "Well I can't". Finally, the preprocess() function
-          splits the reviews by the spaces, which returns a ragged tensor, and it converts this
-          ragged tensor to a dense tensor, padding all reviews with the padding token "<pad>"
-          so that they all have the same length.                      
-                                                                      
-                                                                      
-                                                                      
-          5 Taku Kudo and John Richardson, “SentencePiece: A Simple and Language Independent Subword Tokenizer
-           and Detokenizer for Neural Text Processing,” arXiv preprint arXiv:1808.06226 (2018).
-          6 Rico Sennrich et al., “Neural Machine Translation of Rare Words with Subword Units,” Proceedings of the 54th
-           Annual Meeting of the Association for Computational Linguistics 1 (2016): 1715–1725.
-          7 Yonghui Wu et al., “Google’s Neural Machine Translation System: Bridging the Gap Between Human and
-           Machine Translation,” arXiv preprint arXiv:1609.08144 (2016).
+“smartest.” Google’s <i>SentencePiece</i> project provides an open source implementation,
+described in a paper5 by Taku Kudo and John Richardson.
+Another option was proposed in an earlier paper 6 by Rico Sennrich et al. that
+explored other ways of creating subword encodings (e.g., using <i>byte</i> <i>pair</i> <i>encoding).</i>
+Last but not least, the TensorFlow team released the TF.Text library in June 2019,
+WordPiece7
+which implements various tokenization strategies, including (a variant of
+byte pair encoding).
+If you want to deploy your model to a mobile device or a web browser, and you don’t
+want to have to write a different preprocessing function every time, then you will
+want to handle preprocessing using only TensorFlow operations, so it can be included
+in the model itself. Let’s see how. First, let’s load the original IMDb reviews, as text
+(byte strings), using TensorFlow Datasets (introduced in Chapter 13):
+<b>import</b> <b>tensorflow_datasets</b> <b>as</b> <b>tfds</b>
+datasets, info = tfds.load("imdb_reviews", as_supervised=True, with_info=True)
+train_size = info.splits["train"].num_examples
+Next, let’s write the preprocessing function:
+<b>def</b> preprocess(X_batch, y_batch):
+X_batch = tf.strings.substr(X_batch, 0, 300)
+X_batch = tf.strings.regex_replace(X_batch, b"<br\\s*/?>", b" ")
+X_batch = tf.strings.regex_replace(X_batch, b"[^a-zA-Z']", b" ")
+X_batch = tf.strings.split(X_batch)
+<b>return</b> X_batch.to_tensor(default_value=b"<pad>"), y_batch
+It starts by truncating the reviews, keeping only the first 300 characters of each: this
+will speed up training, and it won’t impact performance too much because you can
+generally tell whether a review is positive or not in the first sentence or two. Then it
+uses <i>regular</i> <i>expressions</i> to replace <br /> tags with spaces, and to replace any charac‐
+ters other than letters and quotes with spaces. For example, the text "Well, I
+can't<br />" "Well I can't" preprocess()
+will become . Finally, the function
+splits the reviews by the spaces, which returns a ragged tensor, and it converts this
+ragged tensor to a dense tensor, padding all reviews with the padding token "<pad>"
+so that they all have the same length.
+5 TakuKudoandJohnRichardson,“SentencePiece:ASimpleandLanguageIndependentSubwordTokenizer
+andDetokenizerforNeuralTextProcessing,”arXivpreprintarXiv:1808.06226(2018).
+6 RicoSennrichetal.,“NeuralMachineTranslationofRareWordswithSubwordUnits,”Proceedingsofthe54th
+<i>AnnualMeetingoftheAssociationforComputationalLinguistics1(2016):1715–1725.</i>
+7 YonghuiWuetal.,“Google’sNeuralMachineTranslationSystem:BridgingtheGapBetweenHumanand
+MachineTranslation,”arXivpreprintarXiv:1609.08144(2016).

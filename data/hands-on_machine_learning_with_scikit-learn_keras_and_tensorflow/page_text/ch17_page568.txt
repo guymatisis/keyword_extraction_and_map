@@ -1,46 +1,28 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Autoencoders and GANs are both unsupervised, they both learn dense representa‐
-          tions, they can both be used as generative models, and they have many similar appli‐
-          cations. However, they work very differently:               
-                                                                      
-           • Autoencoders simply learn to copy their inputs to their outputs. This may sound
-            like a trivial task, but we will see that constraining the network in various ways
-            can make it rather difficult. For example, you can limit the size of the latent rep‐
-            resentations, or you can add noise to the inputs and train the network to recover
-            the original inputs. These constraints prevent the autoencoder from trivially
-            copying the inputs directly to the outputs, which forces it to learn efficient ways
-            of representing the data. In short, the codings are byproducts of the autoencoder
-            learning the identity function under some constraints.    
-           • GANs are composed of two neural networks: a generator that tries to generate
-            data that looks similar to the training data, and a discriminator that tries to tell
-            real data from fake data. This architecture is very original in Deep Learning in
-            that the generator and the discriminator compete against each other during
-            training: the generator is often compared to a criminal trying to make realistic
-            counterfeit money, while the discriminator is like the police investigator trying to
-            tell real money from fake. Adversarial training (training competing neural net‐
-            works) is widely considered as one of the most important ideas in recent years. In
-            2016, Yann LeCun even said that it was “the most interesting idea in the last 10
-            years in Machine Learning.”                               
-                                                                      
-          In this chapter we will start by exploring in more depth how autoencoders work and
-          how to use them for dimensionality reduction, feature extraction, unsupervised pre‐
-          training, or as generative models. This will naturally lead us to GANs. We will start by
-          building a simple GAN to generate fake images, but we will see that training is often
-          quite difficult. We will discuss the main difficulties you will encounter with adversa‐
-          rial training, as well as some of the main techniques to work around these difficulties.
-          Let’s start with autoencoders!                              
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+Autoencoders and GANs are both unsupervised, they both learn dense representa‐
+tions, they can both be used as generative models, and they have many similar appli‐
+cations. However, they work very differently:
+• Autoencoders simply learn to copy their inputs to their outputs. This may sound
+like a trivial task, but we will see that constraining the network in various ways
+can make it rather difficult. For example, you can limit the size of the latent rep‐
+resentations, or you can add noise to the inputs and train the network to recover
+the original inputs. These constraints prevent the autoencoder from trivially
+copying the inputs directly to the outputs, which forces it to learn efficient ways
+of representing the data. In short, the codings are byproducts of the autoencoder
+learning the identity function under some constraints.
+• GANs are composed of two neural networks: a <i>generator</i> that tries to generate
+data that looks similar to the training data, and a <i>discriminator</i> that tries to tell
+real data from fake data. This architecture is very original in Deep Learning in
+that the generator and the discriminator compete against each other during
+training: the generator is often compared to a criminal trying to make realistic
+counterfeit money, while the discriminator is like the police investigator trying to
+tell real money from fake. <i>Adversarial</i> <i>training</i> (training competing neural net‐
+works) is widely considered as one of the most important ideas in recent years. In
+2016, Yann LeCun even said that it was “the most interesting idea in the last 10
+years in Machine Learning.”
+In this chapter we will start by exploring in more depth how autoencoders work and
+how to use them for dimensionality reduction, feature extraction, unsupervised pre‐
+training, or as generative models. This will naturally lead us to GANs. We will start by
+building a simple GAN to generate fake images, but we will see that training is often
+quite difficult. We will discuss the main difficulties you will encounter with adversa‐
+rial training, as well as some of the main techniques to work around these difficulties.
+Let’s start with autoencoders!

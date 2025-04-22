@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            mean_loss = keras.metrics.Mean()                          
+            metrics = [keras.metrics.MeanAbsoluteError()]             
+          And now we are ready to build the custom loop!              
+                                                                      
+            for epoch in range(1, n_epochs + 1):                      
+               print("Epoch {}/{}".format(epoch, n_epochs))           
+               for step in range(1, n_steps + 1):                     
+                 X_batch, y_batch = random_batch(X_train_scaled, y_train)
+                 with tf.GradientTape() as tape:                      
+                   y_pred = model(X_batch, training=True)             
+                   main_loss = tf.reduce_mean(loss_fn(y_batch, y_pred))
+                   loss = tf.add_n([main_loss] + model.losses)        
+                 gradients = tape.gradient(loss, model.trainable_variables)
+                 optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+                 mean_loss(loss)                                      
+                 for metric in metrics:                               
+                   metric(y_batch, y_pred)                            
+                 print_status_bar(step * batch_size, len(y_train), mean_loss, metrics)
+               print_status_bar(len(y_train), len(y_train), mean_loss, metrics)
+               for metric in [mean_loss] + metrics:                   
+                 metric.reset_states()                                
+          There’s a lot going on in this code, so let’s walk through it:
+           • We create two nested loops: one for the epochs, the other for the batches within
+            an epoch.                                                 
+           • Then we sample a random batch from the training set.     
+           • Inside the tf.GradientTape() block, we make a prediction for one batch (using
+            the model as a function), and we compute the loss: it is equal to the main loss
+            plus the other losses (in this model, there is one regularization loss per layer).
+            Since the mean_squared_error() function returns one loss per instance, we
+            compute the mean over the batch using tf.reduce_mean() (if you wanted to
+            apply different weights to each instance, this is where you would do it). The regu‐
+            larization losses are already reduced to a single scalar each, so we just need to
+            sum them (using tf.add_n(), which sums multiple tensors of the same shape
+            and data type).                                           
+           • Next, we ask the tape to compute the gradient of the loss with regard to each
+            trainable variable (not all variables!), and we apply them to the optimizer to per‐
+            form a Gradient Descent step.                             
+           • Then we update the mean loss and the metrics (over the current epoch), and we
+            display the status bar.                                   
+                                                                      
+                                                                      
+                                                                      

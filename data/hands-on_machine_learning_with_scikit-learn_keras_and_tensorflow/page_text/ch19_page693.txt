@@ -1,46 +1,24 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          JupyterLab (this is an alternative web interface to run Jupyter notebooks). Once the
-          VM is created, scroll down the navigation menu to the Artificial Intelligence section,
-          then click AI Platform → Notebooks. Once the Notebook instance appears in the list
-          (this may take a few minutes, so click Refresh once in a while until it appears), click
-          its Open JupyterLab link. This will run JupyterLab on the VM and connect your
-          browser to it. You can create notebooks and run any code you want on this VM, and
-          benefit from its GPUs!                                      
-                                                                      
-          But if you just want to run some quick tests or easily share notebooks with your col‐
-          leagues, then you should try Colaboratory.                  
-          Colaboratory                                                
-                                                                      
-          The simplest and cheapest way to access a GPU VM is to use Colaboratory (or Colab,
-          for short). It’s free! Just go to https://colab.research.google.com/ and create a new
-          Python 3 notebook: this will create a Jupyter notebook, stored on your Google Drive
-          (alternatively, you can open any notebook on GitHub, or on Google Drive, or you can
-          even upload your own notebooks). Colab’s user interface is similar to Jupyter’s, except
-          you can share and use the notebooks like regular Google Docs, and there are a few
-          other minor differences (e.g., you can create handy widgets using special comments
-          in your code).                                              
-          When you open a Colab notebook, it runs on a free Google VM dedicated to that
-          notebook, called a Colab Runtime (see Figure 19-11). By default the Runtime is CPU-
-          only, but you can change this by going to Runtime → “Change runtime type,” select‐
-          ing GPU in the “Hardware accelerator” drop-down menu, then clicking Save. In fact,
-          you could even select TPU! (Yes, you can actually use a TPU for free; we will talk
-          about TPUs later in this chapter, though, so for now just select GPU.)
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+JupyterLab (this is an alternative web interface to run Jupyter notebooks). Once the
+VM is created, scroll down the navigation menu to the Artificial Intelligence section,
+then click AI Platform → Notebooks. Once the Notebook instance appears in the list
+(this may take a few minutes, so click Refresh once in a while until it appears), click
+its Open JupyterLab link. This will run JupyterLab on the VM and connect your
+browser to it. You can create notebooks and run any code you want on this VM, and
+benefit from its GPUs!
+But if you just want to run some quick tests or easily share notebooks with your col‐
+leagues, then you should try Colaboratory.
+<header><largefont><b>Colaboratory</b></largefont></header>
+The simplest and cheapest way to access a GPU VM is to use <i>Colaboratory</i> (or <i>Colab,</i>
+for short). It’s free! Just go to <i>https://colab.research.google.com/</i> and create a new
+Python 3 notebook: this will create a Jupyter notebook, stored on your Google Drive
+(alternatively, you can open any notebook on GitHub, or on Google Drive, or you can
+even upload your own notebooks). Colab’s user interface is similar to Jupyter’s, except
+you can share and use the notebooks like regular Google Docs, and there are a few
+other minor differences (e.g., you can create handy widgets using special comments
+in your code).
+When you open a Colab notebook, it runs on a free Google VM dedicated to that
+notebook, called a <i>Colab</i> <i>Runtime</i> (see Figure 19-11). By default the Runtime is CPU-
+only, but you can change this by going to Runtime → “Change runtime type,” select‐
+ing GPU in the “Hardware accelerator” drop-down menu, then clicking Save. In fact,
+you could even select TPU! (Yes, you can actually use a TPU for free; we will talk
+about TPUs later in this chapter, though, so for now just select GPU.)

@@ -1,46 +1,38 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          If you want to try using data parallelism with centralized parameters, replace the
-          MirroredStrategy with the CentralStorageStrategy:           
-                                                                      
-            distribution = tf.distribute.experimental.CentralStorageStrategy()
-          You can optionally set the compute_devices argument to specify the list of devices
-          you want to use as workers (by default it will use all available GPUs), and you can
-          optionally set the parameter_device argument to specify the device you want to store
-          the parameters on (by default it will use the CPU, or the GPU if there is just one).
-          Now let’s see how to train a model across a cluster of TensorFlow servers!
-                                                                      
-          Training a Model on a TensorFlow Cluster                    
-                                                                      
-          A TensorFlow cluster is a group of TensorFlow processes running in parallel, usually
-          on different machines, and talking to each other to complete some work—for exam‐
-          ple, training or executing a neural network. Each TF process in the cluster is called a
-          task, or a TF server. It has an IP address, a port, and a type (also called its role or its
-          job). The type can be either "worker", "chief", "ps" (parameter server), or
-          "evaluator":                                                
-                                                                      
-           • Each worker performs computations, usually on a machine with one or more
-            GPUs.                                                     
-           • The chief performs computations as well (it is a worker), but it also handles extra
-            work such as writing TensorBoard logs or saving checkpoints. There is a single
-            chief in a cluster. If no chief is specified, then the first worker is the chief.
-           • A parameter server only keeps track of variable values, and it is usually on a CPU-
-            only machine. This type of task is only used with the ParameterServerStrategy.
-           • An evaluator obviously takes care of evaluation.         
-                                                                      
-          To start a TensorFlow cluster, you must first specify it. This means defining each
-          task’s IP address, TCP port, and type. For example, the following cluster specification
-          defines a cluster with three tasks (two workers and one parameter server; see
-          Figure 19-21). The cluster spec is a dictionary with one key per job, and the values are
-          lists of task addresses (IP:port):                          
-            cluster_spec = {                                          
-               "worker": [                                            
-                 "machine-a.example.com:2222", # /job:worker/task:0   
-                 "machine-b.example.com:2222" # /job:worker/task:1    
-               ],                                                     
-               "ps": ["machine-a.example.com:2221"] # /job:ps/task:0  
-            }                                                         
-                                                                      
-                                                                      
+If you want to try using data parallelism with centralized parameters, replace the
+MirroredStrategy with the CentralStorageStrategy :
+distribution = tf.distribute.experimental.CentralStorageStrategy()
+compute_devices
+You can optionally set the argument to specify the list of devices
+you want to use as workers (by default it will use all available GPUs), and you can
+optionally set the parameter_device argument to specify the device you want to store
+the parameters on (by default it will use the CPU, or the GPU if there is just one).
+Now let’s see how to train a model across a cluster of TensorFlow servers!
+<header><largefont><b>Training</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Model</b></largefont> <largefont><b>on</b></largefont> <largefont><b>a</b></largefont> <largefont><b>TensorFlow</b></largefont> <largefont><b>Cluster</b></largefont></header>
+A <i>TensorFlow</i> <i>cluster</i> is a group of TensorFlow processes running in parallel, usually
+on different machines, and talking to each other to complete some work—for exam‐
+ple, training or executing a neural network. Each TF process in the cluster is called a
+<i>task,</i> or a <i>TF</i> <i>server.</i> It has an IP address, a port, and a type (also called its <i>role</i> or its
+"worker" "chief" "ps"
+<i>job).</i> The type can be either , , (parameter server), or
+"evaluator" :
+• Each <i>worker</i> performs computations, usually on a machine with one or more
+GPUs.
+• The <i>chief</i> performs computations as well (it is a worker), but it also handles extra
+work such as writing TensorBoard logs or saving checkpoints. There is a single
+chief in a cluster. If no chief is specified, then the first worker is the chief.
+• A <i>parameter</i> <i>server</i> only keeps track of variable values, and it is usually on a CPU-
+ParameterServerStrategy
+only machine. This type of task is only used with the .
+• An <i>evaluator</i> obviously takes care of evaluation.
+To start a TensorFlow cluster, you must first specify it. This means defining each
+task’s IP address, TCP port, and type. For example, the following <i>cluster</i> <i>specification</i>
+defines a cluster with three tasks (two workers and one parameter server; see
+Figure 19-21). The cluster spec is a dictionary with one key per job, and the values are
+lists of task addresses (IP:port):
+cluster_spec = {
+"worker": [
+"machine-a.example.com:2222", <i>#</i> <i>/job:worker/task:0</i>
+"machine-b.example.com:2222" <i>#</i> <i>/job:worker/task:1</i>
+],
+"ps": ["machine-a.example.com:2221"] <i>#</i> <i>/job:ps/task:0</i>
+}

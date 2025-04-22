@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          rate is not too large and you wait long enough). The partial derivatives of the cost
+          function with regard to the jth model parameter θ are given by Equation 4-18.
+                                      j                               
+            Equation 4-18. Logistic cost function partial derivatives 
+                                                                      
+                    m                                                 
+             ∂ J θ = 1 ∑ σ θ ⊺ x i −y i x i                           
+            ∂θ    m            j                                      
+              j    i=1                                                
+          This equation looks very much like Equation 4-5: for each instance it computes the
+          prediction error and multiplies it by the jth feature value, and then it computes the
+          average over all training instances. Once you have the gradient vector containing all
+          the partial derivatives, you can use it in the Batch Gradient Descent algorithm. That’s
+          it: you now know how to train a Logistic Regression model. For Stochastic GD you
+          would take one instance at a time, and for Mini-batch GD you would use a mini-
+          batch at a time.                                            
+          Decision Boundaries                                         
+          Let’s use the iris dataset to illustrate Logistic Regression. This is a famous dataset that
+          contains the sepal and petal length and width of 150 iris flowers of three different
+          species: Iris setosa, Iris versicolor, and Iris virginica (see Figure 4-22).
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-22. Flowers of three iris plant species14          
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          14 Photos reproduced from the corresponding Wikipedia pages. Iris virginica photo by Frank Mayfield (Creative
+           Commons BY-SA 2.0), Iris versicolor photo by D. Gordon E. Robertson (Creative Commons BY-SA 3.0), Iris
+           setosa photo public domain.                                

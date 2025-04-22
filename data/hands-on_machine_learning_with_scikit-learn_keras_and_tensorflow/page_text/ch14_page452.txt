@@ -1,46 +1,13 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          channel, but some images may have much more—for example, satellite images that
-          capture extra light frequencies (such as infrared).         
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 14-6. Convolutional layers with multiple feature maps, and images with three
-          color channels                                              
-          Specifically, a neuron located in row i, column j of the feature map k in a given convo‐
-          lutional layer l is connected to the outputs of the neurons in the previous layer l – 1,
-          located in rows i × s to i × s + f – 1 and columns j × s to j × s + f – 1, across all
-                      h    h h             w    w  w                  
-          feature maps (in layer l – 1). Note that all neurons located in the same row i and col‐
-          umn j but in different feature maps are connected to the outputs of the exact same
-          neurons in the previous layer.                              
-          Equation 14-1 summarizes the preceding explanations in one big mathematical equa‐
-          tion: it shows how to compute the output of a given neuron in a convolutional layer.
-                                                                      
-                                                                      
-                                                                      
+channel, but some images may have much more—for example, satellite images that
+capture extra light frequencies (such as infrared).
+<i>Figure</i> <i>14-6.</i> <i>Convolutional</i> <i>layers</i> <i>with</i> <i>multiple</i> <i>feature</i> <i>maps,</i> <i>and</i> <i>images</i> <i>with</i> <i>three</i>
+<i>color</i> <i>channels</i>
+Specifically, a neuron located in row <i>i,</i> column <i>j</i> of the feature map <i>k</i> in a given convo‐
+lutional layer <i>l</i> is connected to the outputs of the neurons in the previous layer <i>l</i> – 1,
+located in rows <i>i</i> × <i>s</i> to <i>i</i> × <i>s</i> + <i>f</i> – 1 and columns <i>j</i> × <i>s</i> to <i>j</i> × <i>s</i> + <i>f</i> – 1, across all
+<i>h</i> <i>h</i> <i>h</i> <i>w</i> <i>w</i> <i>w</i>
+feature maps (in layer <i>l</i> – <i>1).</i> Note that all neurons located in the same row <i>i</i> and col‐
+umn <i>j</i> but in different feature maps are connected to the outputs of the exact same
+neurons in the previous layer.
+Equation 14-1 summarizes the preceding explanations in one big mathematical equa‐
+tion: it shows how to compute the output of a given neuron in a convolutional layer.

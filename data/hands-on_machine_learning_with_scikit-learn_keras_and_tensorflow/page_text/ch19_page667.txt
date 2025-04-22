@@ -1,46 +1,27 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                  CHAPTER 19          
-                                                                      
-                   Training  and  Deploying   TensorFlow              
-                                                                      
-                                          Models   at Scale           
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Once you have a beautiful model that makes amazing predictions, what do you do
-          with it? Well, you need to put it in production! This could be as simple as running the
-          model on a batch of data and perhaps writing a script that runs this model every
-          night. However, it is often much more involved. Various parts of your infrastructure
-          may need to use this model on live data, in which case you probably want to wrap
-          your model in a web service: this way, any part of your infrastructure can query your
-          model at any time using a simple REST API (or some other protocol), as we discussed
-          in Chapter 2. But as time passes, you need to regularly retrain your model on fresh
-          data and push the updated version to production. You must handle model versioning,
-          gracefully transition from one model to the next, possibly roll back to the previous
-          model in case of problems, and perhaps run multiple different models in parallel to
-          perform A/B experiments.1 If your product becomes successful, your service may start
-          to get plenty of queries per second (QPS), and it must scale up to support the load. A
-          great solution to scale up your service, as we will see in this chapter, is to use TF Serv‐
-          ing, either on your own hardware infrastructure or via a cloud service such as Google
-          Cloud AI Platform. It will take care of efficiently serving your model, handle graceful
-          model transitions, and more. If you use the cloud platform, you will also get many
-          extra features, such as powerful monitoring tools.          
-          Moreover, if you have a lot of training data, and compute-intensive models, then
-          training time may be prohibitively long. If your product needs to adapt to changes
-          quickly, then a long training time can be a showstopper (e.g., think of a news
-                                                                      
-                                                                      
-          1 An A/B experiment consists in testing two different versions of your product on different subsets of users in
-           order to check which version works best and get other insights.
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>19</b></largefont></header>
+<header><largefont><b>Training</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Deploying</b></largefont> <largefont><b>TensorFlow</b></largefont></header>
+<header><largefont><b>Models</b></largefont> <largefont><b>at</b></largefont> <largefont><b>Scale</b></largefont></header>
+Once you have a beautiful model that makes amazing predictions, what do you do
+with it? Well, you need to put it in production! This could be as simple as running the
+model on a batch of data and perhaps writing a script that runs this model every
+night. However, it is often much more involved. Various parts of your infrastructure
+may need to use this model on live data, in which case you probably want to wrap
+your model in a web service: this way, any part of your infrastructure can query your
+model at any time using a simple REST API (or some other protocol), as we discussed
+in Chapter 2. But as time passes, you need to regularly retrain your model on fresh
+data and push the updated version to production. You must handle model versioning,
+gracefully transition from one model to the next, possibly roll back to the previous
+model in case of problems, and perhaps run multiple different models in parallel to
+1
+perform <i>A/B</i> <i>experiments.</i> If your product becomes successful, your service may start
+to get plenty of <i>queries</i> <i>per</i> <i>second</i> (QPS), and it must scale up to support the load. A
+great solution to scale up your service, as we will see in this chapter, is to use TF Serv‐
+ing, either on your own hardware infrastructure or via a cloud service such as Google
+Cloud AI Platform. It will take care of efficiently serving your model, handle graceful
+model transitions, and more. If you use the cloud platform, you will also get many
+extra features, such as powerful monitoring tools.
+Moreover, if you have a lot of training data, and compute-intensive models, then
+training time may be prohibitively long. If your product needs to adapt to changes
+quickly, then a long training time can be a showstopper (e.g., think of a news
+1 AnA/Bexperimentconsistsintestingtwodifferentversionsofyourproductondifferentsubsetsofusersin
+ordertocheckwhichversionworksbestandgetotherinsights.

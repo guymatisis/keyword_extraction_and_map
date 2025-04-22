@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-6. Gradient Descent pitfalls                       
+                                                                      
+          Fortunately, the MSE cost function for a Linear Regression model happens to be a
+          convex function, which means that if you pick any two points on the curve, the line
+          segment joining them never crosses the curve. This implies that there are no local
+          minima, just one global minimum. It is also a continuous function with a slope that
+          never changes abruptly.3 These two facts have a great consequence: Gradient Descent
+          is guaranteed to approach arbitrarily close the global minimum (if you wait long
+          enough and if the learning rate is not too high).           
+          In fact, the cost function has the shape of a bowl, but it can be an elongated bowl if
+          the features have very different scales. Figure 4-7 shows Gradient Descent on a train‐
+          ing set where features 1 and 2 have the same scale (on the left), and on a training set
+          where feature 1 has much smaller values than feature 2 (on the right).4
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-7. Gradient Descent with (left) and without (right) feature scaling
+                                                                      
+                                                                      
+          3 Technically speaking, its derivative is Lipschitz continuous.
+          4 Since feature 1 is smaller, it takes a larger change in θ1 to affect the cost function, which is why the bowl is
+           elongated along the θ1 axis.                               

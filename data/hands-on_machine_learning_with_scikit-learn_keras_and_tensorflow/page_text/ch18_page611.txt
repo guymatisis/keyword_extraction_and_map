@@ -1,46 +1,12 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 18-1. Reinforcement Learning examples: (a) robotics, (b) Ms. Pac-Man, (c) Go
-          player, (d) thermostat, (e) automatic trader5               
-                                                                      
-          Note that there may not be any positive rewards at all; for example, the agent may
-          move around in a maze, getting a negative reward at every time step, so it had better
-          find the exit as quickly as possible! There are many other examples of tasks to which
-          Reinforcement Learning is well suited, such as self-driving cars, recommender sys‐
-          tems, placing ads on a web page, or controlling where an image classification system
-          should focus its attention.                                 
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          5 Image (a) is from NASA (public domain). (b) is a screenshot from the Ms. Pac-Man game, copyright Atari
-           (fair use in this chapter). Images (c) and (d) are reproduced from Wikipedia. (c) was created by user Stever‐
-           tigo and released under Creative Commons BY-SA 2.0. (d) is in the public domain. (e) was reproduced from
-           Pixabay, released under Creative Commons CC0.              
+<i>Figure</i> <i>18-1.</i> <i>Reinforcement</i> <i>Learning</i> <i>examples:</i> <i>(a)</i> <i>robotics,</i> <i>(b)</i> <i>Ms.</i> <i>Pac-Man,</i> <i>(c)</i> <i>Go</i>
+<i>player,</i> <i>(d)</i> <i>thermostat,</i> <i>(e)</i> <i>automatic</i> <i>trader</i> <i>5</i>
+Note that there may not be any positive rewards at all; for example, the agent may
+move around in a maze, getting a negative reward at every time step, so it had better
+find the exit as quickly as possible! There are many other examples of tasks to which
+Reinforcement Learning is well suited, such as self-driving cars, recommender sys‐
+tems, placing ads on a web page, or controlling where an image classification system
+should focus its attention.
+5 Image(a)isfromNASA(publicdomain).(b)isascreenshotfromtheMs.Pac-Mangame,copyrightAtari
+(fairuseinthischapter).Images(c)and(d)arereproducedfromWikipedia.(c)wascreatedbyuserStever‐
+tigoandreleasedunderCreativeCommonsBY-SA2.0.(d)isinthepublicdomain.(e)wasreproducedfrom
+Pixabay,releasedunderCreativeCommonsCC0.

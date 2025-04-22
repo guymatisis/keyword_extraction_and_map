@@ -1,46 +1,40 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          components, preserving a large part of the dataset’s variance. As a result, the 2D pro‐
-          jection looks very much like the original 3D dataset.       
-                                                                      
-          To project the training set onto the hyperplane and obtain a reduced dataset X of
-                                                        d-proj        
-          dimensionality d, compute the matrix multiplication of the training set matrix X by
-          the matrix W , defined as the matrix containing the first d columns of V, as shown in
-                  d                                                   
-          Equation 8-2.                                               
-            Equation 8-2. Projecting the training set down to d dimensions
-            X   =XW                                                   
-             d‐proj d                                                 
-          The following Python code projects the training set onto the plane defined by the first
-          two principal components:                                   
-            W2 = Vt.T[:, :2]                                          
-            X2D = X_centered.dot(W2)                                  
-          There you have it! You now know how to reduce the dimensionality of any dataset
-          down to any number of dimensions, while preserving as much variance as possible.
-          Using Scikit-Learn                                          
-                                                                      
-          Scikit-Learn’s PCA class uses SVD decomposition to implement PCA, just like we did
-          earlier in this chapter. The following code applies PCA to reduce the dimensionality
-          of the dataset down to two dimensions (note that it automatically takes care of center‐
-          ing the data):                                              
-            from sklearn.decomposition import PCA                     
-                                                                      
-            pca = PCA(n_components = 2)                               
-            X2D = pca.fit_transform(X)                                
-          After fitting the PCA transformer to the dataset, its components_ attribute holds the
-          transpose of W (e.g., the unit vector that defines the first principal component is
-                   d                                                  
-          equal to pca.components_.T[:, 0]).                          
-          Explained Variance Ratio                                    
-                                                                      
-          Another useful piece of information is the explained variance ratio of each principal
-          component, available via the explained_variance_ratio_ variable. The ratio indi‐
-          cates the proportion of the dataset’s variance that lies along each principal compo‐
-          nent. For example, let’s look at the explained variance ratios of the first two
-          components of the 3D dataset represented in Figure 8-2:     
-            >>> pca.explained_variance_ratio_                         
-            array([0.84248607, 0.14631839])                           
-                                                                      
+components, preserving a large part of the dataset’s variance. As a result, the 2D pro‐
+jection looks very much like the original 3D dataset.
+To project the training set onto the hyperplane and obtain a reduced dataset <b>X</b> of
+<i>d-proj</i>
+dimensionality <i>d,</i> compute the matrix multiplication of the training set matrix <b>X</b> by
+the matrix <b>W</b> , defined as the matrix containing the first <i>d</i> columns of <b>V,</b> as shown in
+<i>d</i>
+Equation 8-2.
+<i>Equation</i> <i>8-2.</i> <i>Projecting</i> <i>the</i> <i>training</i> <i>set</i> <i>down</i> <i>to</i> <i>d</i> <i>dimensions</i>
+<b>X</b> = <b>XW</b>
+<i>d‐proj</i> <i>d</i>
+The following Python code projects the training set onto the plane defined by the first
+two principal components:
+W2 = Vt.T[:, :2]
+X2D = X_centered.dot(W2)
+There you have it! You now know how to reduce the dimensionality of any dataset
+down to any number of dimensions, while preserving as much variance as possible.
+<header><largefont><b>Using</b></largefont> <largefont><b>Scikit-Learn</b></largefont></header>
+PCA
+Scikit-Learn’s class uses SVD decomposition to implement PCA, just like we did
+earlier in this chapter. The following code applies PCA to reduce the dimensionality
+of the dataset down to two dimensions (note that it automatically takes care of center‐
+ing the data):
+<b>from</b> <b>sklearn.decomposition</b> <b>import</b> PCA
+pca = PCA(n_components = 2)
+X2D = pca.fit_transform(X)
+PCA components_
+After fitting the transformer to the dataset, its attribute holds the
+transpose of <b>W</b> (e.g., the unit vector that defines the first principal component is
+<i>d</i>
+equal to pca.components_.T[:, 0] ).
+<header><largefont><b>Explained</b></largefont> <largefont><b>Variance</b></largefont> <largefont><b>Ratio</b></largefont></header>
+Another useful piece of information is the <i>explained</i> <i>variance</i> <i>ratio</i> of each principal
+explained_variance_ratio_
+component, available via the variable. The ratio indi‐
+cates the proportion of the dataset’s variance that lies along each principal compo‐
+nent. For example, let’s look at the explained variance ratios of the first two
+components of the 3D dataset represented in Figure 8-2:
+<b>>>></b> pca.explained_variance_ratio_
+array([0.84248607, 0.14631839])

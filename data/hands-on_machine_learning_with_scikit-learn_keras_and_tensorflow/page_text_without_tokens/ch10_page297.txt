@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            $ cd $ML_PATH     # Your ML working directory (e.g., $HOME/ml)
+            $ source my_env/bin/activate # on Linux or macOS          
+            $ .\my_env\Scripts\activate # on Windows                  
+          Next, install TensorFlow 2 (if you are not using a virtualenv, you will need adminis‐
+          trator rights, or to add the --user option):                
+            $ python3 -m pip install -U tensorflow                    
+                                                                      
+                   For GPU support, at the time of this writing you need to install
+                   tensorflow-gpu instead of tensorflow, but the TensorFlow team
+                   is working on having a single library that will support both CPU-
+                   only and GPU-equipped systems. You will still need to install extra
+                   libraries for GPU support (see https://tensorflow.org/install for
+                   more details). We will look at GPUs in more depth in Chapter 19.
+                                                                      
+          To test your installation, open a Python shell or a Jupyter notebook, then import
+          TensorFlow and tf.keras and print their versions:           
+            >>> import tensorflow as tf                               
+            >>> from tensorflow import keras                          
+            >>> tf.__version__                                        
+            '2.0.0'                                                   
+            >>> keras.__version__                                     
+            '2.2.4-tf'                                                
+          The second version is the version of the Keras API implemented by tf.keras. Note that
+          it ends with -tf, highlighting the fact that tf.keras implements the Keras API, plus
+          some extra TensorFlow-specific features.                    
+          Now let’s use tf.keras! We’ll start by building a simple image classifier.
+                                                                      
+          Building an Image Classifier Using the Sequential API       
+          First, we need to load a dataset. In this chapter we will tackle Fashion MNIST, which
+          is a drop-in replacement of MNIST (introduced in Chapter 3). It has the exact same
+          format as MNIST (70,000 grayscale images of 28 × 28 pixels each, with 10 classes),
+          but the images represent fashion items rather than handwritten digits, so each class is
+          more diverse, and the problem turns out to be significantly more challenging than
+          MNIST. For example, a simple linear model reaches about 92% accuracy on MNIST,
+          but only about 83% on Fashion MNIST.                        
+                                                                      
+          Using Keras to load the dataset                             
+                                                                      
+          Keras provides some utility functions to fetch and load common datasets, including
+          MNIST, Fashion MNIST, and the California housing dataset we used in Chapter 2.
+          Let’s load Fashion MNIST:                                   
+                                                                      

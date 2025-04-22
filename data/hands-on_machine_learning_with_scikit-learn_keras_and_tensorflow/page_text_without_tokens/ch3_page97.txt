@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   If someone says, “Let’s reach 99% precision,” you should ask, “At
+                   what recall?”                                      
+                                                                      
+                                                                      
+                                                                      
+          The ROC Curve                                               
+                                                                      
+          The receiver operating characteristic (ROC) curve is another common tool used with
+          binary classifiers. It is very similar to the precision/recall curve, but instead of plot‐
+          ting precision versus recall, the ROC curve plots the true positive rate (another name
+          for recall) against the false positive rate (FPR). The FPR is the ratio of negative instan‐
+          ces that are incorrectly classified as positive. It is equal to 1 – the true negative rate
+          (TNR), which is the ratio of negative instances that are correctly classified as negative.
+          The TNR is also called specificity. Hence, the ROC curve plots sensitivity (recall) ver‐
+          sus 1 – specificity.                                        
+          To plot the ROC curve, you first use the roc_curve() function to compute the TPR
+          and FPR for various threshold values:                       
+                                                                      
+            from sklearn.metrics import roc_curve                     
+            fpr, tpr, thresholds = roc_curve(y_train_5, y_scores)     
+          Then you can plot the FPR against the TPR using Matplotlib. This code produces the
+          plot in Figure 3-6:                                         
+                                                                      
+            def plot_roc_curve(fpr, tpr, label=None):                 
+               plt.plot(fpr, tpr, linewidth=2, label=label)           
+               plt.plot([0, 1], [0, 1], 'k--') # Dashed diagonal      
+               [...] # Add axis labels and grid                       
+            plot_roc_curve(fpr, tpr)                                  
+            plt.show()                                                
+          Once again there is a trade-off: the higher the recall (TPR), the more false positives
+          (FPR) the classifier produces. The dotted line represents the ROC curve of a purely
+          random classifier; a good classifier stays as far away from that line as possible (toward
+          the top-left corner).                                       
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

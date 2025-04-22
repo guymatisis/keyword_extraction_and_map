@@ -1,46 +1,24 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                   CHAPTER 3          
-                                                                      
-                                             Classification           
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          In Chapter 1 I mentioned that the most common supervised learning tasks are
-          regression (predicting values) and classification (predicting classes). In Chapter 2 we
-          explored a regression task, predicting housing values, using various algorithms such
-          as Linear Regression, Decision Trees, and Random Forests (which will be explained
-          in further detail in later chapters). Now we will turn our attention to classification
-          systems.                                                    
-          MNIST                                                       
-                                                                      
-                                                                      
-          In this chapter we will be using the MNIST dataset, which is a set of 70,000 small
-          images of digits handwritten by high school students and employees of the US Cen‐
-          sus Bureau. Each image is labeled with the digit it represents. This set has been stud‐
-          ied so much that it is often called the “hello world” of Machine Learning: whenever
-          people come up with a new classification algorithm they are curious to see how it will
-          perform on MNIST, and anyone who learns Machine Learning tackles this dataset
-          sooner or later.                                            
-          Scikit-Learn provides many helper functions to download popular datasets. MNIST is
-          one of them. The following code fetches the MNIST dataset:1 
-            >>> from sklearn.datasets import fetch_openml             
-            >>> mnist = fetch_openml('mnist_784', version=1)          
-            >>> mnist.keys()                                          
-            dict_keys(['data', 'target', 'feature_names', 'DESCR', 'details',
-                   'categories', 'url'])                              
-                                                                      
-                                                                      
-                                                                      
-          1 By default Scikit-Learn caches downloaded datasets in a directory called $HOME/scikit_learn_data.
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>3</b></largefont></header>
+<header><largefont><b>Classification</b></largefont></header>
+In Chapter 1 I mentioned that the most common supervised learning tasks are
+regression (predicting values) and classification (predicting classes). In Chapter 2 we
+explored a regression task, predicting housing values, using various algorithms such
+as Linear Regression, Decision Trees, and Random Forests (which will be explained
+in further detail in later chapters). Now we will turn our attention to classification
+systems.
+<header><largefont><b>MNIST</b></largefont></header>
+In this chapter we will be using the MNIST dataset, which is a set of 70,000 small
+images of digits handwritten by high school students and employees of the US Cen‐
+sus Bureau. Each image is labeled with the digit it represents. This set has been stud‐
+ied so much that it is often called the “hello world” of Machine Learning: whenever
+people come up with a new classification algorithm they are curious to see how it will
+perform on MNIST, and anyone who learns Machine Learning tackles this dataset
+sooner or later.
+Scikit-Learn provides many helper functions to download popular datasets. MNIST is
+one of them. The following code fetches the MNIST dataset:1
+<b>>>></b> <b>from</b> <b>sklearn.datasets</b> <b>import</b> fetch_openml
+<b>>>></b> mnist = fetch_openml('mnist_784', version=1)
+<b>>>></b> mnist.keys()
+dict_keys(['data', 'target', 'feature_names', 'DESCR', 'details',
+'categories', 'url'])
+1 BydefaultScikit-Learncachesdownloadeddatasetsinadirectorycalled$HOME/scikit_learn_data.

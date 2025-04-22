@@ -1,46 +1,42 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          solution to the dual problem typically gives a lower bound to the solution of the pri‐
-          mal problem, but under some conditions it can have the same solution as the primal
-          problem. Luckily, the SVM problem happens to meet these conditions,6 so you can
-          choose to solve the primal problem or the dual problem; both will have the same sol‐
-          ution. Equation 5-6 shows the dual form of the linear SVM objective (if you are inter‐
-          ested in knowing how to derive the dual problem from the primal problem, see
-          Appendix C).                                                
-                                                                      
-            Equation 5-6. Dual form of the linear SVM objective       
-                                                                      
-                   m  m                m                              
-            minimize 1 ∑ ∑ α i α j t i t j x i⊺ x j − ∑ α i           
-              α   2 i=1j=1             i=1                            
-                     subject to α i ≥0 for i=1,2,⋯,m                  
-          Once you find the vector α that minimizes this equation (using a QP solver), use
-          Equation 5-7 to compute w and b that minimize the primal problem.
-                                                                      
-            Equation 5-7. From the dual solution to the primal solution
-                                                                      
-                m                                                     
-             w= ∑ α i t i x i                                         
-               i=1                                                    
-                  m                                                   
-             b = 1 ∑ t i −w ⊺ x i                                     
-               n                                                      
-                s i=1                                                 
-                  i                                                   
-                 α >0                                                 
-          The dual problem is faster to solve than the primal one when the number of training
-          instances is smaller than the number of features. More importantly, the dual problem
-          makes the kernel trick possible, while the primal does not. So what is this kernel trick,
-          anyway?                                                     
-          Kernelized SVMs                                             
-          Suppose you want to apply a second-degree polynomial transformation to a two-
-          dimensional training set (such as the moons training set), then train a linear SVM
-          classifier on the transformed training set. Equation 5-8 shows the second-degree pol‐
-          ynomial mapping function ϕ that you want to apply.          
-                                                                      
-                                                                      
-                                                                      
-          6 The objective function is convex, and the inequality constraints are continuously differentiable and convex
-           functions.                                                 
+solution to the dual problem typically gives a lower bound to the solution of the pri‐
+mal problem, but under some conditions it can have the same solution as the primal
+problem. Luckily, the SVM problem happens to meet these conditions, 6 so you can
+choose to solve the primal problem or the dual problem; both will have the same sol‐
+ution. Equation 5-6 shows the dual form of the linear SVM objective (if you are inter‐
+ested in knowing how to derive the dual problem from the primal problem, see
+Appendix C).
+<i>Equation</i> <i>5-6.</i> <i>Dual</i> <i>form</i> <i>of</i> <i>the</i> <i>linear</i> <i>SVM</i> <i>objective</i>
+<i>m</i> <i>m</i> <i>m</i>
+1 ⊺
+<largefont>∑</largefont> <largefont>∑</largefont> <i>i</i> <i>j</i> <i>i</i> <i>j</i> <i>i</i> <i>j</i> <largefont>∑</largefont> <i>i</i>
+minimize <i>α</i> <i>α</i> <i>t</i> <i>t</i> <b>x</b> <b>x</b> − <i>α</i>
+<i>α</i> 2
+<i>i</i> = 1 <i>j</i> = 1 <i>i</i> = 1
+<i>i</i> ⋯
+subject to <i>α</i> ≥ 0 for <i>i</i> = 1,2, ,m
+Once you find the vector <b>α</b> that minimizes this equation (using a QP solver), use
+Equation 5-7 to compute <b>w</b> and <i>b</i> that minimize the primal problem.
+<i>Equation</i> <i>5-7.</i> <i>From</i> <i>the</i> <i>dual</i> <i>solution</i> <i>to</i> <i>the</i> <i>primal</i> <i>solution</i>
+<i>m</i>
+<i>i</i> <i>i</i> <i>i</i>
+<header><b>w</b> = <largefont>∑</largefont> <i>α</i> <i>t</i> <b>x</b></header>
+<i>i</i> = 1
+<i>m</i>
+1 ⊺
+<largefont>∑</largefont> <i>i</i> <i>i</i>
+<i>b</i> = <i>t</i> − <b>w</b> <b>x</b>
+<i>n</i>
+<i>s</i> <i>i</i> = 1
+<i>i</i>
+<i>α</i> > 0
+The dual problem is faster to solve than the primal one when the number of training
+instances is smaller than the number of features. More importantly, the dual problem
+makes the kernel trick possible, while the primal does not. So what is this kernel trick,
+anyway?
+<header><largefont><b>Kernelized</b></largefont> <largefont><b>SVMs</b></largefont></header>
+Suppose you want to apply a second-degree polynomial transformation to a two-
+dimensional training set (such as the moons training set), then train a linear SVM
+classifier on the transformed training set. Equation 5-8 shows the second-degree pol‐
+ynomial mapping function <i>ϕ</i> that you want to apply.
+6 Theobjectivefunctionisconvex,andtheinequalityconstraintsarecontinuouslydifferentiableandconvex
+functions.

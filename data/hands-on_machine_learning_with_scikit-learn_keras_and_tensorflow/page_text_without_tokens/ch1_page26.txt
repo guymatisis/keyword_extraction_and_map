@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                          Examples of Sampling Bias                   
+                                                                      
+           Perhaps the most famous example of sampling bias happened during the US presi‐
+           dential election in 1936, which pitted Landon against Roosevelt: the Literary Digest
+           conducted a very large poll, sending mail to about 10 million people. It got 2.4 million
+           answers, and predicted with high confidence that Landon would get 57% of the votes.
+           Instead, Roosevelt won with 62% of the votes. The flaw was in the Literary Digest’s
+           sampling method:                                           
+            • First, to obtain the addresses to send the polls to, the Literary Digest used tele‐
+              phone directories, lists of magazine subscribers, club membership lists, and the
+              like. All of these lists tended to favor wealthier people, who were more likely to
+              vote Republican (hence Landon).                         
+            • Second, less than 25% of the people who were polled answered. Again this intro‐
+              duced a sampling bias, by potentially ruling out people who didn’t care much
+              about politics, people who didn’t like the Literary Digest, and other key groups.
+              This is a special type of sampling bias called nonresponse bias.
+           Here is another example: say you want to build a system to recognize funk music vid‐
+           eos. One way to build your training set is to search for “funk music” on YouTube and
+           use the resulting videos. But this assumes that YouTube’s search engine returns a set of
+           videos that are representative of all the funk music videos on YouTube. In reality, the
+           search results are likely to be biased toward popular artists (and if you live in Brazil
+           you will get a lot of “funk carioca” videos, which sound nothing like James Brown).
+           On the other hand, how else can you get a large training set?
+                                                                      
+          Poor-Quality Data                                           
+                                                                      
+          Obviously, if your training data is full of errors, outliers, and noise (e.g., due to poor-
+          quality measurements), it will make it harder for the system to detect the underlying
+          patterns, so your system is less likely to perform well. It is often well worth the effort
+          to spend time cleaning up your training data. The truth is, most data scientists spend
+          a significant part of their time doing just that. The following are a couple of examples
+          of when you’d want to clean up training data:               
+                                                                      
+           • If some instances are clearly outliers, it may help to simply discard them or try to
+            fix the errors manually.                                  
+           • If some instances are missing a few features (e.g., 5% of your customers did not
+            specify their age), you must decide whether you want to ignore this attribute alto‐
+            gether, ignore these instances, fill in the missing values (e.g., with the median
+            age), or train one model with the feature and one model without it.
+                                                                      
+                                                                      

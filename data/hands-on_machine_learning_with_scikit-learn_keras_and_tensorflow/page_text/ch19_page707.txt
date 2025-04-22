@@ -1,46 +1,24 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Asynchronous updates. With asynchronous updates, whenever a replica has finished
-          computing the gradients, it immediately uses them to update the model parameters.
-          There is no aggregation (it removes the “mean” step in Figure 19-19) and no synchro‐
-          nization. Replicas work independently of the other replicas. Since there is no waiting
-          for the other replicas, this approach runs more training steps per minute. Moreover,
-          although the parameters still need to be copied to every device at every step, this hap‐
-          pens at different times for each replica, so the risk of bandwidth saturation is reduced.
-          Data parallelism with asynchronous updates is an attractive choice because of its sim‐
-          plicity, the absence of synchronization delay, and a better use of the bandwidth. How‐
-          ever, although it works reasonably well in practice, it is almost surprising that it
-          works at all! Indeed, by the time a replica has finished computing the gradients based
-          on some parameter values, these parameters will have been updated several times by
-          other replicas (on average N – 1 times, if there are N replicas), and there is no guaran‐
-          tee that the computed gradients will still be pointing in the right direction (see
-          Figure 19-20). When gradients are severely out-of-date, they are called stale gradients:
-          they can slow down convergence, introducing noise and wobble effects (the learning
-          curve may contain temporary oscillations), or they can even make the training algo‐
-          rithm diverge.                                              
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 19-20. Stale gradients when using asynchronous updates
-          There are a few ways you can reduce the effect of stale gradients:
-                                                                      
-           • Reduce the learning rate.                                
-           • Drop stale gradients or scale them down.                 
-                                                                      
-           • Adjust the mini-batch size.                              
-                                                                      
-                                                                      
+<b>Asynchronousupdates.</b>
+With asynchronous updates, whenever a replica has finished
+computing the gradients, it immediately uses them to update the model parameters.
+There is no aggregation (it removes the “mean” step in Figure 19-19) and no synchro‐
+nization. Replicas work independently of the other replicas. Since there is no waiting
+for the other replicas, this approach runs more training steps per minute. Moreover,
+although the parameters still need to be copied to every device at every step, this hap‐
+pens at different times for each replica, so the risk of bandwidth saturation is reduced.
+Data parallelism with asynchronous updates is an attractive choice because of its sim‐
+plicity, the absence of synchronization delay, and a better use of the bandwidth. How‐
+ever, although it works reasonably well in practice, it is almost surprising that it
+works at all! Indeed, by the time a replica has finished computing the gradients based
+on some parameter values, these parameters will have been updated several times by
+other replicas (on average <i>N</i> – 1 times, if there are <i>N</i> replicas), and there is no guaran‐
+tee that the computed gradients will still be pointing in the right direction (see
+Figure 19-20). When gradients are severely out-of-date, they are called <i>stale</i> <i>gradients:</i>
+they can slow down convergence, introducing noise and wobble effects (the learning
+curve may contain temporary oscillations), or they can even make the training algo‐
+rithm diverge.
+<i>Figure</i> <i>19-20.</i> <i>Stale</i> <i>gradients</i> <i>when</i> <i>using</i> <i>asynchronous</i> <i>updates</i>
+There are a few ways you can reduce the effect of stale gradients:
+• Reduce the learning rate.
+• Drop stale gradients or scale them down.
+• Adjust the mini-batch size.

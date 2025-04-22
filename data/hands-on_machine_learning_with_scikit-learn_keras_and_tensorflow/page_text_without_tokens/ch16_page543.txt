@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 16-3. A simple machine translation model             
+                                                                      
+          At each step, the decoder outputs a score for each word in the output vocabulary (i.e.,
+          French), and then the softmax layer turns these scores into probabilities. For exam‐
+          ple, at the first step the word “Je” may have a probability of 20%, “Tu” may have a
+          probability of 1%, and so on. The word with the highest probability is output. This is
+          very much like a regular classification task, so you can train the model using the
+          "sparse_categorical_crossentropy" loss, much like we did in the Char-RNN
+          model.                                                      
+                                                                      
+          Note that at inference time (after training), you will not have the target sentence to
+          feed to the decoder. Instead, simply feed the decoder the word that it output at the
+          previous step, as shown in Figure 16-4 (this will require an embedding lookup that is
+          not shown in the diagram).                                  
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

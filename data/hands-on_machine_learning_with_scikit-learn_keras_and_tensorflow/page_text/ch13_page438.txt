@@ -1,46 +1,46 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Columns API, which is harder to use and less intuitive (if you want to learn more
-          about the Feature Columns API anyway, please check out the notebook for this chap‐
-          ter).                                                       
-                                                                      
-          We already discussed two of these layers: the keras.layers.Normalization layer that
-          will perform feature standardization (it will be equivalent to the Standardization
-          layer we defined earlier), and the TextVectorization layer that will be capable of
-          encoding each word in the inputs into its index in the vocabulary. In both cases, you
-          create the layer, you call its adapt() method with a data sample, and then you use the
-          layer normally in your model. The other preprocessing layers will follow the same
-          pattern.                                                    
-          The API will also include a keras.layers.Discretization layer that will chop con‐
-          tinuous data into different bins and encode each bin as a one-hot vector. For example,
-          you could use it to discretize prices into three categories, (low, medium, high), which
-          would be encoded as [1, 0, 0], [0, 1, 0], and [0, 0, 1], respectively. Of course this loses a
-          lot of information, but in some cases it can help the model detect patterns that would
-          otherwise not be obvious when just looking at the continuous values.
-                                                                      
-                   The Discretization layer will not be differentiable, and it should
-                   only be used at the start of your model. Indeed, the model’s prepro‐
-                   cessing layers will be frozen during training, so their parameters
-                   will not be affected by Gradient Descent, and thus they do not need
-                   to be differentiable. This also means that you should not use an
-                   Embedding layer directly in a custom preprocessing layer, if you
-                   want it to be trainable: instead, it should be added separately to
-                   your model, as in the previous code example.       
-          It will also be possible to chain multiple preprocessing layers using the Preproces
-          singStage class. For example, the following code will create a preprocessing pipeline
-          that will first normalize the inputs, then discretize them (this may remind you of
-          Scikit-Learn pipelines). After you adapt this pipeline to a data sample, you can use it
-          like a regular layer in your models (but again, only at the start of the model, since it
-          contains a nondifferentiable preprocessing layer):          
-                                                                      
-            normalization = keras.layers.Normalization()              
-            discretization = keras.layers.Discretization([...])       
-            pipeline = keras.layers.PreprocessingStage([normalization, discretization])
-            pipeline.adapt(data_sample)                               
-          The TextVectorization layer will also have an option to output word-count vectors
-          instead of word indices. For example, if the vocabulary contains three words, say
-          ["and", "basketball", "more"], then the text "more and more" will be mapped to
-          the vector [1, 0, 2]: the word "and" appears once, the word "basketball" does not
-          appear at all, and the word "more" appears twice. This text representation is called a
+Columns API, which is harder to use and less intuitive (if you want to learn more
+about the Feature Columns API anyway, please check out the notebook for this chap‐
+ter).
+We already discussed two of these layers: the keras.layers.Normalization layer that
+Standardization
+will perform feature standardization (it will be equivalent to the
+layer we defined earlier), and the TextVectorization layer that will be capable of
+encoding each word in the inputs into its index in the vocabulary. In both cases, you
+adapt()
+create the layer, you call its method with a data sample, and then you use the
+layer normally in your model. The other preprocessing layers will follow the same
+pattern.
+keras.layers.Discretization
+The API will also include a layer that will chop con‐
+tinuous data into different bins and encode each bin as a one-hot vector. For example,
+you could use it to discretize prices into three categories, (low, medium, high), which
+would be encoded as [1, 0, 0], [0, 1, 0], and [0, 0, 1], respectively. Of course this loses a
+lot of information, but in some cases it can help the model detect patterns that would
+otherwise not be obvious when just looking at the continuous values.
+Discretization
+The layer will not be differentiable, and it should
+only be used at the start of your model. Indeed, the model’s prepro‐
+cessing layers will be frozen during training, so their parameters
+will not be affected by Gradient Descent, and thus they do not need
+to be differentiable. This also means that you should not use an
+Embedding layer directly in a custom preprocessing layer, if you
+want it to be trainable: instead, it should be added separately to
+your model, as in the previous code example.
+It will also be possible to chain multiple preprocessing layers using the Preproces
+singStage
+class. For example, the following code will create a preprocessing pipeline
+that will first normalize the inputs, then discretize them (this may remind you of
+Scikit-Learn pipelines). After you adapt this pipeline to a data sample, you can use it
+like a regular layer in your models (but again, only at the start of the model, since it
+contains a nondifferentiable preprocessing layer):
+normalization = keras.layers.Normalization()
+discretization = keras.layers.Discretization([...])
+pipeline = keras.layers.PreprocessingStage([normalization, discretization])
+pipeline.adapt(data_sample)
+The TextVectorization layer will also have an option to output word-count vectors
+instead of word indices. For example, if the vocabulary contains three words, say
+["and", "basketball", "more"] "more and more"
+, then the text will be mapped to
+the vector [1, 0, 2]: the word "and" appears once, the word "basketball" does not
+"more"
+appear at all, and the word appears twice. This text representation is called a

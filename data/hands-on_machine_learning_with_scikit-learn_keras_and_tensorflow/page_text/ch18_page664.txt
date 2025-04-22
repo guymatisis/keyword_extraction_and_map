@@ -1,46 +1,36 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Curiosity-based exploration27                               
-            A recurring problem in RL is the sparsity of the rewards, which makes learning
-            very slow and inefficient. Deepak Pathak and other UC Berkeley researchers have
-            proposed an exciting way to tackle this issue: why not ignore the rewards, and
-            just make the agent extremely curious to explore the environment? The rewards
-            thus become intrinsic to the agent, rather than coming from the environment.
-            Similarly, stimulating curiosity in a child is more likely to give good results than
-            purely rewarding the child for getting good grades. How does this work? The
-            agent continuously tries to predict the outcome of its actions, and it seeks situa‐
-            tions where the outcome does not match its predictions. In other words, it wants
-            to be surprised. If the outcome is predictable (boring), it goes elsewhere. How‐
-            ever, if the outcome is unpredictable but the agent notices that it has no control
-            over it, it also gets bored after a while. With only curiosity, the authors succeeded
-            in training an agent at many video games: even though the agent gets no penalty
-            for losing, the game starts over, which is boring so it learns to avoid it.
-          We covered many topics in this chapter: Policy Gradients, Markov chains, Markov
-          decision processes, Q-Learning, Approximate Q-Learning, and Deep Q-Learning and
-          its main variants (fixed Q-Value targets, Double DQN, Dueling DQN, and prioritized
-          experience replay). We discussed how to use TF-Agents to train agents at scale, and
-          finally we took a quick look at a few other popular algorithms. Reinforcement Learn‐
-          ing is a huge and exciting field, with new ideas and algorithms popping out every day,
-          so I hope this chapter sparked your curiosity: there is a whole world to explore!
-          Exercises                                                   
-                                                                      
-                                                                      
-           1. How would you define Reinforcement Learning? How is it different from regular
-            supervised or unsupervised learning?                      
-           2. Can you think of three possible applications of RL that were not mentioned in
-            this chapter? For each of them, what is the environment? What is the agent?
-            What are some possible actions? What are the rewards?     
-           3. What is the discount factor? Can the optimal policy change if you modify the dis‐
-            count factor?                                             
-                                                                      
-           4. How do you measure the performance of a Reinforcement Learning agent?
-           5. What is the credit assignment problem? When does it occur? How can you allevi‐
-            ate it?                                                   
-           6. What is the point of using a replay buffer?             
-                                                                      
-                                                                      
-          27 Deepak Pathak et al., “Curiosity-Driven Exploration by Self-Supervised Prediction,” Proceedings of the 34th
-           International Conference on Machine Learning (2017): 2778–2787.
+<i>Curiosity-based</i> <i>exploration27</i>
+A recurring problem in RL is the sparsity of the rewards, which makes learning
+very slow and inefficient. Deepak Pathak and other UC Berkeley researchers have
+proposed an exciting way to tackle this issue: why not ignore the rewards, and
+just make the agent extremely curious to explore the environment? The rewards
+thus become intrinsic to the agent, rather than coming from the environment.
+Similarly, stimulating curiosity in a child is more likely to give good results than
+purely rewarding the child for getting good grades. How does this work? The
+agent continuously tries to predict the outcome of its actions, and it seeks situa‐
+tions where the outcome does not match its predictions. In other words, it wants
+to be surprised. If the outcome is predictable (boring), it goes elsewhere. How‐
+ever, if the outcome is unpredictable but the agent notices that it has no control
+over it, it also gets bored after a while. With only curiosity, the authors succeeded
+in training an agent at many video games: even though the agent gets no penalty
+for losing, the game starts over, which is boring so it learns to avoid it.
+We covered many topics in this chapter: Policy Gradients, Markov chains, Markov
+decision processes, Q-Learning, Approximate Q-Learning, and Deep Q-Learning and
+its main variants (fixed Q-Value targets, Double DQN, Dueling DQN, and prioritized
+experience replay). We discussed how to use TF-Agents to train agents at scale, and
+finally we took a quick look at a few other popular algorithms. Reinforcement Learn‐
+ing is a huge and exciting field, with new ideas and algorithms popping out every day,
+so I hope this chapter sparked your curiosity: there is a whole world to explore!
+<header><largefont><b>Exercises</b></largefont></header>
+1. How would you define Reinforcement Learning? How is it different from regular
+supervised or unsupervised learning?
+2. Can you think of three possible applications of RL that were not mentioned in
+this chapter? For each of them, what is the environment? What is the agent?
+What are some possible actions? What are the rewards?
+3. What is the discount factor? Can the optimal policy change if you modify the dis‐
+count factor?
+4. How do you measure the performance of a Reinforcement Learning agent?
+5. What is the credit assignment problem? When does it occur? How can you allevi‐
+ate it?
+6. What is the point of using a replay buffer?
+27 DeepakPathaketal.,“Curiosity-DrivenExplorationbySelf-SupervisedPrediction,”Proceedingsofthe34th
+<i>InternationalConferenceonMachineLearning(2017):2778–2787.</i>

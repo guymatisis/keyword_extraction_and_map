@@ -1,46 +1,44 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          index 1, twice. Then we used tf.one_hot() to one-hot encode these indices. Notice
-          that we have to tell this function the total number of indices, which is equal to the
-          vocabulary size plus the number of oov buckets. Now you know how to encode cate‐
-          gorical features to one-hot vectors using TensorFlow!       
-                                                                      
-          Just like earlier, it wouldn’t be too difficult to bundle all of this logic into a nice self-
-          contained class. Its adapt() method would take a data sample and extract all the dis‐
-          tinct categories it contains. It would create a lookup table to map each category to its
-          index (including unknown categories using oov buckets). Then its call() method
-          would use the lookup table to map the input categories to their indices. Well, here’s
-          more good news: by the time you read this, Keras will probably include a layer called
-          keras.layers.TextVectorization, which will be capable of doing exactly that: its
-          adapt() method will extract the vocabulary from a data sample, and its call()
-          method will convert each category to its index in the vocabulary. You could add this
-          layer at the beginning of your model, followed by a Lambda layer that would apply the
-          tf.one_hot() function, if you want to convert these indices to one-hot vectors.
-          This may not be the best solution, though. The size of each one-hot vector is the
-          vocabulary length plus the number of oov buckets. This is fine when there are just a
-          few possible categories, but if the vocabulary is large, it is much more efficient to
-          encode them using embeddings instead.                       
-                                                                      
-                   As a rule of thumb, if the number of categories is lower than 10,
-                   then one-hot encoding is generally the way to go (but your mileage
-                   may vary!). If the number of categories is greater than 50 (which is
-                   often the case when you use hash buckets), then embeddings are
-                   usually preferable. In between 10 and 50 categories, you may want
-                   to experiment with both options and see which one works best for
-                   your use case.                                     
-          Encoding Categorical Features Using Embeddings              
-                                                                      
-          An embedding is a trainable dense vector that represents a category. By default,
-          embeddings are initialized randomly, so for example the "NEAR BAY" category could
-          be represented initially by a random vector such as [0.131, 0.890], while the "NEAR
-          OCEAN" category might be represented by another random vector such as [0.631,
-          0.791]. In this example, we use 2D embeddings, but the number of dimensions is a
-          hyperparameter you can tweak. Since these embeddings are trainable, they will grad‐
-          ually improve during training; and as they represent fairly similar categories, Gradi‐
-          ent Descent will certainly end up pushing them closer together, while it will tend to
-          move them away from the "INLAND" category’s embedding (see Figure 13-4). Indeed,
-          the better the representation, the easier it will be for the neural network to make
-          accurate predictions, so training tends to make embeddings useful representations of
-                                                                      
+tf.one_hot()
+index 1, twice. Then we used to one-hot encode these indices. Notice
+that we have to tell this function the total number of indices, which is equal to the
+vocabulary size plus the number of oov buckets. Now you know how to encode cate‐
+gorical features to one-hot vectors using TensorFlow!
+Just like earlier, it wouldn’t be too difficult to bundle all of this logic into a nice self-
+contained class. Its adapt() method would take a data sample and extract all the dis‐
+tinct categories it contains. It would create a lookup table to map each category to its
+call()
+index (including unknown categories using oov buckets). Then its method
+would use the lookup table to map the input categories to their indices. Well, here’s
+more good news: by the time you read this, Keras will probably include a layer called
+keras.layers.TextVectorization , which will be capable of doing exactly that: its
+adapt() call()
+method will extract the vocabulary from a data sample, and its
+method will convert each category to its index in the vocabulary. You could add this
+layer at the beginning of your model, followed by a Lambda layer that would apply the
+tf.one_hot()
+function, if you want to convert these indices to one-hot vectors.
+This may not be the best solution, though. The size of each one-hot vector is the
+vocabulary length plus the number of oov buckets. This is fine when there are just a
+few possible categories, but if the vocabulary is large, it is much more efficient to
+encode them using <i>embeddings</i> instead.
+As a rule of thumb, if the number of categories is lower than 10,
+then one-hot encoding is generally the way to go (but your mileage
+may vary!). If the number of categories is greater than 50 (which is
+often the case when you use hash buckets), then embeddings are
+usually preferable. In between 10 and 50 categories, you may want
+to experiment with both options and see which one works best for
+your use case.
+<header><largefont><b>Encoding</b></largefont> <largefont><b>Categorical</b></largefont> <largefont><b>Features</b></largefont> <largefont><b>Using</b></largefont> <largefont><b>Embeddings</b></largefont></header>
+An embedding is a trainable dense vector that represents a category. By default,
+embeddings are initialized randomly, so for example the "NEAR BAY" category could
+[0.131, 0.890] "NEAR
+be represented initially by a random vector such as , while the
+OCEAN" [0.631,
+category might be represented by another random vector such as
+0.791] . In this example, we use 2D embeddings, but the number of dimensions is a
+hyperparameter you can tweak. Since these embeddings are trainable, they will grad‐
+ually improve during training; and as they represent fairly similar categories, Gradi‐
+ent Descent will certainly end up pushing them closer together, while it will tend to
+move them away from the "INLAND" category’s embedding (see Figure 13-4). Indeed,
+the better the representation, the easier it will be for the neural network to make
+accurate predictions, so training tends to make embeddings useful representations of

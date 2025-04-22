@@ -1,46 +1,42 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          preprocessed once (instead of once per epoch), but the data will still be shuffled dif‐
-          ferently at each epoch, and the next batch will still be prepared in advance.
-                                                                      
-          You now know how to build efficient input pipelines to load and preprocess data
-          from multiple text files. We have discussed the most common dataset methods, but
-          there are a few more you may want to look at: concatenate(), zip(), window(),
-          reduce(), shard(), flat_map(), and padded_batch(). There are also a couple more
-          class methods: from_generator() and from_tensors(), which create a new dataset
-          from a Python generator or a list of tensors, respectively. Please check the API docu‐
-          mentation for more details. Also note that there are experimental features available in
-          tf.data.experimental, many of which will likely make it to the core API in future
-          releases (e.g., check out the CsvDataset class, as well as the make_csv_dataset()
-          method, which takes care of inferring the type of each column).
-          Using the Dataset with tf.keras                             
-                                                                      
-          Now we can use the csv_reader_dataset() function to create a dataset for the train‐
-          ing set. Note that we do not need to repeat it, as this will be taken care of by tf.keras.
-          We also create datasets for the validation set and the test set:
-            train_set = csv_reader_dataset(train_filepaths)           
-            valid_set = csv_reader_dataset(valid_filepaths)           
-            test_set = csv_reader_dataset(test_filepaths)             
-          And now we can simply build and train a Keras model using these datasets.4 All we
-          need to do is pass the training and validation datasets to the fit() method, instead of
-          X_train, y_train, X_valid, and y_valid:5                    
-                                                                      
-            model = keras.models.Sequential([...])                    
-            model.compile([...])                                      
-            model.fit(train_set, epochs=10, validation_data=valid_set)
-          Similarly, we can pass a dataset to the evaluate() and predict() methods:
-            model.evaluate(test_set)                                  
-            new_set = test_set.take(3).map(lambda X, y: X) # pretend we have 3 new instances
-            model.predict(new_set) # a dataset containing new instances
-          Unlike the other sets, the new_set will usually not contain labels (if it does, Keras will
-          ignore them). Note that in all these cases, you can still use NumPy arrays instead of
-                                                                      
-                                                                      
-                                                                      
-          4 Support for datasets is specific to tf.keras; this will not work in other implementations of the Keras API.
-          5 The fit() method will take care of repeating the training dataset. Alternatively, you could call repeat() on
-           the training dataset so that it repeats forever and specify the steps_per_epoch argument when calling the
-           fit() method. This may be useful in some rare cases, for example if you want to use a shuffle buffer that
-           crosses over epochs.                                       
+preprocessed once (instead of once per epoch), but the data will still be shuffled dif‐
+ferently at each epoch, and the next batch will still be prepared in advance.
+You now know how to build efficient input pipelines to load and preprocess data
+from multiple text files. We have discussed the most common dataset methods, but
+concatenate(), zip(), window(),
+there are a few more you may want to look at:
+reduce() , shard() , flat_map() , and padded_batch() . There are also a couple more
+class methods: from_generator() and from_tensors() , which create a new dataset
+from a Python generator or a list of tensors, respectively. Please check the API docu‐
+mentation for more details. Also note that there are experimental features available in
+tf.data.experimental , many of which will likely make it to the core API in future
+CsvDataset make_csv_dataset()
+releases (e.g., check out the class, as well as the
+method, which takes care of inferring the type of each column).
+<header><largefont><b>Using</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Dataset</b></largefont> <largefont><b>with</b></largefont> <largefont><b>tf.keras</b></largefont></header>
+Now we can use the csv_reader_dataset() function to create a dataset for the train‐
+ing set. Note that we do not need to repeat it, as this will be taken care of by tf.keras.
+We also create datasets for the validation set and the test set:
+train_set = csv_reader_dataset(train_filepaths)
+valid_set = csv_reader_dataset(valid_filepaths)
+test_set = csv_reader_dataset(test_filepaths)
+And now we can simply build and train a Keras model using these datasets.4 All we
+need to do is pass the training and validation datasets to the fit() method, instead of
+X_train, y_train X_valid y_valid
+, , and :5
+model = keras.models.Sequential([...])
+model.compile([...])
+model.fit(train_set, epochs=10, validation_data=valid_set)
+Similarly, we can pass a dataset to the evaluate() and predict() methods:
+model.evaluate(test_set)
+new_set = test_set.take(3).map(lambda X, y: X) <i>#</i> <i>pretend</i> <i>we</i> <i>have</i> <i>3</i> <i>new</i> <i>instances</i>
+model.predict(new_set) <i>#</i> <i>a</i> <i>dataset</i> <i>containing</i> <i>new</i> <i>instances</i>
+new_set
+Unlike the other sets, the will usually not contain labels (if it does, Keras will
+ignore them). Note that in all these cases, you can still use NumPy arrays instead of
+4 Supportfordatasetsisspecifictotf.keras;thiswillnotworkinotherimplementationsoftheKerasAPI.
+The fit() methodwilltakecareofrepeatingthetrainingdataset.Alternatively,youcouldcall repeat() on
+5
+thetrainingdatasetsothatitrepeatsforeverandspecifythesteps_per_epochargumentwhencallingthe
+fit()
+method.Thismaybeusefulinsomerarecases,forexampleifyouwanttouseashufflebufferthat
+crossesoverepochs.

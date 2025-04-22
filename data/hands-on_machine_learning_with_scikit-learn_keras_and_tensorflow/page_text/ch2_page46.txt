@@ -1,46 +1,37 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Download the Data                                           
-                                                                      
-          In typical environments your data would be available in a relational database (or
-          some other common data store) and spread across multiple tables/documents/files.
-          To access it, you would first need to get your credentials and access authorizations10
-          and familiarize yourself with the data schema. In this project, however, things are
-          much simpler: you will just download a single compressed file, housing.tgz, which
-          contains a comma-separated values (CSV) file called housing.csv with all the data.
-          You could use your web browser to download the file and run tar xzf housing.tgz
-          to decompress it and extract the CSV file, but it is preferable to create a small func‐
-          tion to do that. Having a function that downloads the data is useful in particular if the
-          data changes regularly: you can write a small script that uses the function to fetch the
-          latest data (or you can set up a scheduled job to do that automatically at regular inter‐
-          vals). Automating the process of fetching the data is also useful if you need to install
-          the dataset on multiple machines.                           
-          Here is the function to fetch the data:11                   
-                                                                      
-            import os                                                 
-            import tarfile                                            
-            import urllib                                             
-            DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml2/master/"
-            HOUSING_PATH = os.path.join("datasets", "housing")        
-            HOUSING_URL = DOWNLOAD_ROOT + "datasets/housing/housing.tgz"
-            def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
-               os.makedirs(housing_path, exist_ok=True)               
-               tgz_path = os.path.join(housing_path, "housing.tgz")   
-               urllib.request.urlretrieve(housing_url, tgz_path)      
-               housing_tgz = tarfile.open(tgz_path)                   
-               housing_tgz.extractall(path=housing_path)              
-               housing_tgz.close()                                    
-          Now when you call fetch_housing_data(), it creates a datasets/housing directory in
-          your workspace, downloads the housing.tgz file, and extracts the housing.csv file from
-          it in this directory.                                       
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          10 You might also need to check legal constraints, such as private fields that should never be copied to unsafe
-           data stores.                                               
-          11 In a real project you would save this code in a Python file, but for now you can just write it in your Jupyter
-           notebook.                                                  
+<header><largefont><b>Download</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Data</b></largefont></header>
+In typical environments your data would be available in a relational database (or
+some other common data store) and spread across multiple tables/documents/files.
+To access it, you would first need to get your credentials and access authorizations10
+and familiarize yourself with the data schema. In this project, however, things are
+much simpler: you will just download a single compressed file, <i>housing.tgz,</i> which
+contains a comma-separated values (CSV) file called <i>housing.csv</i> with all the data.
+tar xzf housing.tgz
+You could use your web browser to download the file and run
+to decompress it and extract the CSV file, but it is preferable to create a small func‐
+tion to do that. Having a function that downloads the data is useful in particular if the
+data changes regularly: you can write a small script that uses the function to fetch the
+latest data (or you can set up a scheduled job to do that automatically at regular inter‐
+vals). Automating the process of fetching the data is also useful if you need to install
+the dataset on multiple machines.
+Here is the function to fetch the data: 11
+<b>import</b> <b>os</b>
+<b>import</b> <b>tarfile</b>
+<b>import</b> <b>urllib</b>
+DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml2/master/"
+HOUSING_PATH = os.path.join("datasets", "housing")
+HOUSING_URL = DOWNLOAD_ROOT + "datasets/housing/housing.tgz"
+<b>def</b> fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
+os.makedirs(housing_path, exist_ok=True)
+tgz_path = os.path.join(housing_path, "housing.tgz")
+urllib.request.urlretrieve(housing_url, tgz_path)
+housing_tgz = tarfile.open(tgz_path)
+housing_tgz.extractall(path=housing_path)
+housing_tgz.close()
+fetch_housing_data()
+Now when you call , it creates a <i>datasets/housing</i> directory in
+your workspace, downloads the <i>housing.tgz</i> file, and extracts the <i>housing.csv</i> file from
+it in this directory.
+10 Youmightalsoneedtochecklegalconstraints,suchasprivatefieldsthatshouldneverbecopiedtounsafe
+datastores.
+11 InarealprojectyouwouldsavethiscodeinaPythonfile,butfornowyoucanjustwriteitinyourJupyter
+notebook.

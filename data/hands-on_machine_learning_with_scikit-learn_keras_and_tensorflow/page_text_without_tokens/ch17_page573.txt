@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          MNIST (loaded and normalized as in Chapter 10), using the SELU activation
+          function:                                                   
+                                                                      
+            stacked_encoder = keras.models.Sequential([               
+               keras.layers.Flatten(input_shape=[28, 28]),            
+               keras.layers.Dense(100, activation="selu"),            
+               keras.layers.Dense(30, activation="selu"),             
+            ])                                                        
+            stacked_decoder = keras.models.Sequential([               
+               keras.layers.Dense(100, activation="selu", input_shape=[30]),
+               keras.layers.Dense(28 * 28, activation="sigmoid"),     
+               keras.layers.Reshape([28, 28])                         
+            ])                                                        
+            stacked_ae = keras.models.Sequential([stacked_encoder, stacked_decoder])
+            stacked_ae.compile(loss="binary_crossentropy",            
+                       optimizer=keras.optimizers.SGD(lr=1.5))        
+            history = stacked_ae.fit(X_train, X_train, epochs=10,     
+                           validation_data=[X_valid, X_valid])        
+          Let’s go through this code:                                 
+           • Just like earlier, we split the autoencoder model into two submodels: the encoder
+            and the decoder.                                          
+           • The encoder takes 28 × 28–pixel grayscale images, flattens them so that each
+            image is represented as a vector of size 784, then processes these vectors through
+            two Dense layers of diminishing sizes (100 units then 30 units), both using the
+            SELU activation function (you may want to add LeCun normal initialization as
+            well, but the network is not very deep so it won’t make a big difference). For each
+            input image, the encoder outputs a vector of size 30.     
+           • The decoder takes codings of size 30 (output by the encoder) and processes them
+            through two Dense layers of increasing sizes (100 units then 784 units), and it
+            reshapes the final vectors into 28 × 28 arrays so the decoder’s outputs have the
+            same shape as the encoder’s inputs.                       
+           • When compiling the stacked autoencoder, we use the binary cross-entropy loss
+            instead of the mean squared error. We are treating the reconstruction task as a
+            multilabel binary classification problem: each pixel intensity represents the prob‐
+            ability that the pixel should be black. Framing it this way (rather than as a regres‐
+            sion problem) tends to make the model converge faster.2   
+           • Finally, we train the model using X_train as both the inputs and the targets (and
+            similarly, we use X_valid as both the validation inputs and targets).
+                                                                      
+          2 You might be tempted to use the accuracy metric, but it would not work properly, since this metric expects the
+           labels to be either 0 or 1 for each pixel. You can easily work around this problem by creating a custom metric
+           that computes the accuracy after rounding the targets and predictions to 0 or 1.

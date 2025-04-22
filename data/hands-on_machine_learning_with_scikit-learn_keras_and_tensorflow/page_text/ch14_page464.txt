@@ -1,46 +1,32 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            cost function is now preferred, as it penalizes bad predictions much more, pro‐
-            ducing larger gradients and converging faster.            
-                                                                      
-          Yann LeCun’s website features great demos of LeNet-5 classifying digits.
-                                                                      
-          AlexNet                                                     
-                                                                      
-          The AlexNet CNN architecture11 won the 2012 ImageNet ILSVRC challenge by a
-          large margin: it achieved a top-five error rate of 17%, while the second best achieved
-          only 26%! It was developed by Alex Krizhevsky (hence the name), Ilya Sutskever, and
-          Geoffrey Hinton. It is similar to LeNet-5, only much larger and deeper, and it was the
-          first to stack convolutional layers directly on top of one another, instead of stacking a
-          pooling layer on top of each convolutional layer. Table 14-2 presents this architecture.
-          Table 14-2. AlexNet architecture                            
-                                                                      
-          Layer Type Maps Size Kernel size Stride Padding Activation  
-          Out Fully connected – 1,000 – – – Softmax                   
-          F10 Fully connected – 4,096 – – – ReLU                      
-          F9  Fully connected – 4,096 – – – ReLU                      
-          S8  Max pooling 256 6 × 6 3 × 3 2 valid –                   
-          C7  Convolution 256 13 × 13 3 × 3 1 same ReLU               
-          C6  Convolution 384 13 × 13 3 × 3 1 same ReLU               
-          C5  Convolution 384 13 × 13 3 × 3 1 same ReLU               
-          S4  Max pooling 256 13 × 13 3 × 3 2 valid –                 
-          C3  Convolution 256 27 × 27 5 × 5 1 same ReLU               
-          S2  Max pooling 96 27 × 27 3 × 3 2 valid –                  
-                                                                      
-          C1  Convolution 96 55 × 55 11 × 11 4 valid ReLU             
-          In  Input  3 (RGB) 227 × 227 – – – –                        
-                                                                      
-          To reduce overfitting, the authors used two regularization techniques. First, they
-          applied dropout (introduced in Chapter 11) with a 50% dropout rate during training
-          to the outputs of layers F9 and F10. Second, they performed data augmentation by
-          randomly shifting the training images by various offsets, flipping them horizontally,
-          and changing the lighting conditions.                       
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          11 Alex Krizhevsky et al., “ImageNet Classification with Deep Convolutional Neural Networks,” _Proceedings of
-           the 25th International Conference on Neural Information Processing Systems 1 (2012): 1097–1105.
+cost function is now preferred, as it penalizes bad predictions much more, pro‐
+ducing larger gradients and converging faster.
+Yann LeCun’s website features great demos of LeNet-5 classifying digits.
+<header><largefont><b>AlexNet</b></largefont></header>
+architecture11
+The AlexNet CNN won the 2012 ImageNet ILSVRC challenge by a
+large margin: it achieved a top-five error rate of 17%, while the second best achieved
+only 26%! It was developed by Alex Krizhevsky (hence the name), Ilya Sutskever, and
+Geoffrey Hinton. It is similar to LeNet-5, only much larger and deeper, and it was the
+first to stack convolutional layers directly on top of one another, instead of stacking a
+pooling layer on top of each convolutional layer. Table 14-2 presents this architecture.
+<i>Table</i> <i>14-2.</i> <i>AlexNet</i> <i>architecture</i>
+<b>Layer</b> <b>Type</b> <b>Maps</b> <b>Size</b> <b>Kernelsize</b> <b>Stride</b> <b>Padding</b> <b>Activation</b>
+Out Fullyconnected – 1,000 – – – Softmax
+F10 Fullyconnected – 4,096 – – – ReLU
+F9 Fullyconnected – 4,096 – – – ReLU
+S8 Maxpooling 256 6×6 3×3 2 valid –
+C7 Convolution 256 13×13 3×3 1 same ReLU
+C6 Convolution 384 13×13 3×3 1 same ReLU
+C5 Convolution 384 13×13 3×3 1 same ReLU
+S4 Maxpooling 256 13×13 3×3 2 valid –
+C3 Convolution 256 27×27 5×5 1 same ReLU
+S2 Maxpooling 96 27×27 3×3 2 valid –
+C1 Convolution 96 55×55 11×11 4 valid ReLU
+In Input 3(RGB) 227×227 – – – –
+To reduce overfitting, the authors used two regularization techniques. First, they
+applied dropout (introduced in Chapter 11) with a 50% dropout rate during training
+to the outputs of layers F9 and F10. Second, they performed <i>data</i> <i>augmentation</i> by
+randomly shifting the training images by various offsets, flipping them horizontally,
+and changing the lighting conditions.
+11 AlexKrizhevskyetal.,“ImageNetClassificationwithDeepConvolutionalNeuralNetworks,”_Proceedingsof
+<i>the25thInternationalConferenceonNeuralInformationProcessingSystems1(2012):1097–1105.</i>

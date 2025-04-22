@@ -1,46 +1,26 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                  CHAPTER 15          
-                                                                      
-                            Processing   Sequences   Using            
-                                                                      
-                                          RNNs   and  CNNs            
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          The batter hits the ball. The outfielder immediately starts running, anticipating the
-          ball’s trajectory. He tracks it, adapts his movements, and finally catches it (under a
-          thunder of applause). Predicting the future is something you do all the time, whether
-          you are finishing a friend’s sentence or anticipating the smell of coffee at breakfast. In
-          this chapter we will discuss recurrent neural networks (RNNs), a class of nets that can
-          predict the future (well, up to a point, of course). They can analyze time series data
-          such as stock prices, and tell you when to buy or sell. In autonomous driving systems,
-          they can anticipate car trajectories and help avoid accidents. More generally, they can
-          work on sequences of arbitrary lengths, rather than on fixed-sized inputs like all the
-          nets we have considered so far. For example, they can take sentences, documents, or
-          audio samples as input, making them extremely useful for natural language process‐
-          ing applications such as automatic translation or speech-to-text.
-          In this chapter we will first look at the fundamental concepts underlying RNNs and
-          how to train them using backpropagation through time, then we will use them to
-          forecast a time series. After that we’ll explore the two main difficulties that RNNs
-          face:                                                       
-           • Unstable gradients (discussed in Chapter 11), which can be alleviated using vari‐
-            ous techniques, including recurrent dropout and recurrent layer normalization
-                                                                      
-           • A (very) limited short-term memory, which can be extended using LSTM and
-            GRU cells                                                 
-          RNNs are not the only types of neural networks capable of handling sequential data:
-          for small sequences, a regular dense network can do the trick; and for very long
-          sequences, such as audio samples or text, convolutional neural networks can actually
-                                                                      
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>15</b></largefont></header>
+<header><largefont><b>Processing</b></largefont> <largefont><b>Sequences</b></largefont> <largefont><b>Using</b></largefont></header>
+<header><largefont><b>RNNs</b></largefont> <largefont><b>and</b></largefont> <largefont><b>CNNs</b></largefont></header>
+The batter hits the ball. The outfielder immediately starts running, anticipating the
+ball’s trajectory. He tracks it, adapts his movements, and finally catches it (under a
+thunder of applause). Predicting the future is something you do all the time, whether
+you are finishing a friend’s sentence or anticipating the smell of coffee at breakfast. In
+this chapter we will discuss recurrent neural networks (RNNs), a class of nets that can
+predict the future (well, up to a point, of course). They can analyze time series data
+such as stock prices, and tell you when to buy or sell. In autonomous driving systems,
+they can anticipate car trajectories and help avoid accidents. More generally, they can
+work on sequences of arbitrary lengths, rather than on fixed-sized inputs like all the
+nets we have considered so far. For example, they can take sentences, documents, or
+audio samples as input, making them extremely useful for natural language process‐
+ing applications such as automatic translation or speech-to-text.
+In this chapter we will first look at the fundamental concepts underlying RNNs and
+how to train them using backpropagation through time, then we will use them to
+forecast a time series. After that we’ll explore the two main difficulties that RNNs
+face:
+• Unstable gradients (discussed in Chapter 11), which can be alleviated using vari‐
+ous techniques, including recurrent dropout and recurrent layer normalization
+• A (very) limited short-term memory, which can be extended using LSTM and
+GRU cells
+RNNs are not the only types of neural networks capable of handling sequential data:
+for small sequences, a regular dense network can do the trick; and for very long
+sequences, such as audio samples or text, convolutional neural networks can actually

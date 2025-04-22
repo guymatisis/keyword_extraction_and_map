@@ -1,48 +1,44 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          In this example we are using 2D embeddings, but as a rule of thumb embeddings typ‐
-          ically have 10 to 300 dimensions, depending on the task and the vocabulary size (you
-          will have to tune this hyperparameter).                     
-                                                                      
-          This embedding matrix is a random 6 × 2 matrix, stored in a variable (so it can be
-          tweaked by Gradient Descent during training):               
-            >>> embedding_matrix                                      
-            <tf.Variable 'Variable:0' shape=(6, 2) dtype=float32, numpy=
-            array([[0.6645621 , 0.44100678],                          
-                [0.3528825 , 0.46448255],                             
-                [0.03366041, 0.68467236],                             
-                [0.74011743, 0.8724445 ],                             
-                [0.22632635, 0.22319686],                             
-                [0.3103881 , 0.7223358 ]], dtype=float32)>            
-          Now let’s encode the same batch of categorical features as earlier, but this time using
-          these embeddings:                                           
-            >>> categories = tf.constant(["NEAR BAY", "DESERT", "INLAND", "INLAND"])
-            >>> cat_indices = table.lookup(categories)                
-            >>> cat_indices                                           
-            <tf.Tensor: id=741, shape=(4,), dtype=int64, numpy=array([3, 5, 1, 1])>
-            >>> tf.nn.embedding_lookup(embedding_matrix, cat_indices) 
-            <tf.Tensor: id=864, shape=(4, 2), dtype=float32, numpy=   
-            array([[0.74011743, 0.8724445 ],                          
-                [0.3103881 , 0.7223358 ],                             
-                [0.3528825 , 0.46448255],                             
-                [0.3528825 , 0.46448255]], dtype=float32)>            
-          The tf.nn.embedding_lookup() function looks up the rows in the embedding
-          matrix, at the given indices—that’s all it does. For example, the lookup table says that
-          the "INLAND" category is at index 1, so the tf.nn.embedding_lookup() function
-          returns the embedding at row 1 in the embedding matrix (twice): [0.3528825,
-          0.46448255].                                                
-          Keras provides a keras.layers.Embedding layer that handles the embedding matrix
-          (trainable, by default); when the layer is created it initializes the embedding matrix
-          randomly, and then when it is called with some category indices it returns the rows at
-          those indices in the embedding matrix:                      
-            >>> embedding = keras.layers.Embedding(input_dim=len(vocab) + num_oov_buckets,
-            ...                    output_dim=embedding_dim)          
-            ...                                                       
-            >>> embedding(cat_indices)                                
-            <tf.Tensor: id=814, shape=(4, 2), dtype=float32, numpy=   
-            array([[ 0.02401174, 0.03724445],                         
-                [-0.01896119, 0.02223358],                            
-                [-0.01471175, -0.00355174],                           
-                [-0.01471175, -0.00355174]], dtype=float32)>          
+In this example we are using 2D embeddings, but as a rule of thumb embeddings typ‐
+ically have 10 to 300 dimensions, depending on the task and the vocabulary size (you
+will have to tune this hyperparameter).
+This embedding matrix is a random 6 × 2 matrix, stored in a variable (so it can be
+tweaked by Gradient Descent during training):
+<b>>>></b> embedding_matrix
+<tf.Variable 'Variable:0' shape=(6, 2) dtype=float32, numpy=
+array([[0.6645621 , 0.44100678],
+[0.3528825 , 0.46448255],
+[0.03366041, 0.68467236],
+[0.74011743, 0.8724445 ],
+[0.22632635, 0.22319686],
+[0.3103881 , 0.7223358 ]], dtype=float32)>
+Now let’s encode the same batch of categorical features as earlier, but this time using
+these embeddings:
+<b>>>></b> categories = tf.constant(["NEAR BAY", "DESERT", "INLAND", "INLAND"])
+<b>>>></b> cat_indices = table.lookup(categories)
+<b>>>></b> cat_indices
+<tf.Tensor: id=741, shape=(4,), dtype=int64, numpy=array([3, 5, 1, 1])>
+<b>>>></b> tf.nn.embedding_lookup(embedding_matrix, cat_indices)
+<tf.Tensor: id=864, shape=(4, 2), dtype=float32, numpy=
+array([[0.74011743, 0.8724445 ],
+[0.3103881 , 0.7223358 ],
+[0.3528825 , 0.46448255],
+[0.3528825 , 0.46448255]], dtype=float32)>
+The tf.nn.embedding_lookup() function looks up the rows in the embedding
+matrix, at the given indices—that’s all it does. For example, the lookup table says that
+the "INLAND" category is at index 1, so the tf.nn.embedding_lookup() function
+returns the embedding at row 1 in the embedding matrix (twice): [0.3528825,
+0.46448255]
+.
+Keras provides a keras.layers.Embedding layer that handles the embedding matrix
+(trainable, by default); when the layer is created it initializes the embedding matrix
+randomly, and then when it is called with some category indices it returns the rows at
+those indices in the embedding matrix:
+<b>>>></b> embedding = keras.layers.Embedding(input_dim=len(vocab) + num_oov_buckets,
+<b>...</b> output_dim=embedding_dim)
+<b>...</b>
+<b>>>></b> embedding(cat_indices)
+<tf.Tensor: id=814, shape=(4, 2), dtype=float32, numpy=
+array([[ 0.02401174, 0.03724445],
+[-0.01896119, 0.02223358],
+[-0.01471175, -0.00355174],
+[-0.01471175, -0.00355174]], dtype=float32)>

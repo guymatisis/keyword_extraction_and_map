@@ -1,46 +1,24 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          reduce the computational load, the memory usage, and the number of parameters
-          (thereby limiting the risk of overfitting).                 
-                                                                      
-          Just like in convolutional layers, each neuron in a pooling layer is connected to the
-          outputs of a limited number of neurons in the previous layer, located within a small
-          rectangular receptive field. You must define its size, the stride, and the padding type,
-          just like before. However, a pooling neuron has no weights; all it does is aggregate the
-          inputs using an aggregation function such as the max or mean. Figure 14-8 shows a
-          max pooling layer, which is the most common type of pooling layer. In this example,
-          we use a 2 × 2 pooling kernel,9 with a stride of 2 and no padding. Only the max input
-          value in each receptive field makes it to the next layer, while the other inputs are
-          dropped. For example, in the lower-left receptive field in Figure 14-8, the input values
-          are 1, 5, 3, 2, so only the max value, 5, is propagated to the next layer. Because of the
-          stride of 2, the output image has half the height and half the width of the input image
-          (rounded down since we use no padding).                     
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 14-8. Max pooling layer (2 × 2 pooling kernel, stride 2, no padding)
-                                                                      
-                   A pooling layer typically works on every input channel independ‐
-                   ently, so the output depth is the same as the input depth.
-                                                                      
-                                                                      
-                                                                      
-          Other than reducing computations, memory usage, and the number of parameters, a
-          max pooling layer also introduces some level of invariance to small translations, as
-          shown in Figure 14-9. Here we assume that the bright pixels have a lower value than
-          dark pixels, and we consider three images (A, B, C) going through a max pooling
-          layer with a 2 × 2 kernel and stride 2. Images B and C are the same as image A, but
-                                                                      
-                                                                      
-                                                                      
-          9 Other kernels we’ve discussed so far had weights, but pooling kernels do not: they are just stateless sliding
-           windows.                                                   
+reduce the computational load, the memory usage, and the number of parameters
+(thereby limiting the risk of overfitting).
+Just like in convolutional layers, each neuron in a pooling layer is connected to the
+outputs of a limited number of neurons in the previous layer, located within a small
+rectangular receptive field. You must define its size, the stride, and the padding type,
+just like before. However, a pooling neuron has no weights; all it does is aggregate the
+inputs using an aggregation function such as the max or mean. Figure 14-8 shows a
+<i>max</i> <i>pooling</i> <i>layer,</i> which is the most common type of pooling layer. In this example,
+we use a 2 × 2 <i>pooling</i> <i>kernel,9</i> with a stride of 2 and no padding. Only the max input
+value in each receptive field makes it to the next layer, while the other inputs are
+dropped. For example, in the lower-left receptive field in Figure 14-8, the input values
+are 1, 5, 3, 2, so only the max value, 5, is propagated to the next layer. Because of the
+stride of 2, the output image has half the height and half the width of the input image
+(rounded down since we use no padding).
+<i>Figure</i> <i>14-8.</i> <i>Max</i> <i>pooling</i> <i>layer</i> <i>(2</i> <i>×</i> <i>2</i> <i>pooling</i> <i>kernel,</i> <i>stride</i> <i>2,</i> <i>no</i> <i>padding)</i>
+A pooling layer typically works on every input channel independ‐
+ently, so the output depth is the same as the input depth.
+Other than reducing computations, memory usage, and the number of parameters, a
+max pooling layer also introduces some level of <i>invariance</i> to small translations, as
+shown in Figure 14-9. Here we assume that the bright pixels have a lower value than
+dark pixels, and we consider three images (A, B, C) going through a max pooling
+layer with a 2 × 2 kernel and stride 2. Images B and C are the same as image A, but
+9 Otherkernelswe’vediscussedsofarhadweights,butpoolingkernelsdonot:theyarejuststatelesssliding
+windows.

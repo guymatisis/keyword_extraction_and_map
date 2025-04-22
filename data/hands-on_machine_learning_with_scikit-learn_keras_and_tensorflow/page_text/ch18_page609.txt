@@ -1,46 +1,27 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                  CHAPTER 18          
-                                                                      
-                                Reinforcement    Learning             
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Reinforcement Learning (RL) is one of the most exciting fields of Machine Learning
-          today, and also one of the oldest. It has been around since the 1950s, producing many
-          interesting applications over the years,1 particularly in games (e.g., TD-Gammon, a
-          Backgammon-playing program) and in machine control, but seldom making the
-          headline news. But a revolution took place in 2013, when researchers from a British
-          startup called DeepMind demonstrated a system that could learn to play just about
-          any Atari game from scratch,2 eventually outperforming humans3 in most of them,
-          using only raw pixels as inputs and without any prior knowledge of the rules of the
-          games.4 This was the first of a series of amazing feats, culminating in March 2016
-          with the victory of their system AlphaGo against Lee Sedol, a legendary professional
-          player of the game of Go, and in May 2017 against Ke Jie, the world champion. No
-          program had ever come close to beating a master of this game, let alone the world
-          champion. Today the whole field of RL is boiling with new ideas, with a wide range of
-          applications. DeepMind was bought by Google for over $500 million in 2014.
-          So how did DeepMind achieve all this? With hindsight it seems rather simple: they
-          applied the power of Deep Learning to the field of Reinforcement Learning, and it
-          worked beyond their wildest dreams. In this chapter we will first explain what
-                                                                      
-                                                                      
-          1 For more details, be sure to check out Richard Sutton and Andrew Barto’s book on RL, Reinforcement Learn‐
-           ing: An Introduction (MIT Press).                          
-          2 Volodymyr Mnih et al., “Playing Atari with Deep Reinforcement Learning,” arXiv preprint arXiv:1312.5602
-           (2013).                                                    
-          3 Volodymyr Mnih et al., “Human-Level Control Through Deep Reinforcement Learning,” Nature 518 (2015):
-           529–533.                                                   
-          4 Check out the videos of DeepMind’s system learning to play Space Invaders, Breakout, and other video games
-           at https://homl.info/dqn3.                                 
+<header><largefont><b>CHAPTER</b></largefont> <largefont><b>18</b></largefont></header>
+<header><largefont><b>Reinforcement</b></largefont> <largefont><b>Learning</b></largefont></header>
+<i>Reinforcement</i> <i>Learning</i> (RL) is one of the most exciting fields of Machine Learning
+today, and also one of the oldest. It has been around since the 1950s, producing many
+interesting applications over the years,1 particularly in games (e.g., <i>TD-Gammon,</i> a
+Backgammon-playing program) and in machine control, but seldom making the
+headline news. But a revolution took place in 2013, when researchers from a British
+startup called DeepMind demonstrated a system that could learn to play just about
+any Atari game from scratch,2 eventually outperforming humans3 in most of them,
+using only raw pixels as inputs and without any prior knowledge of the rules of the
+games. 4 This was the first of a series of amazing feats, culminating in March 2016
+with the victory of their system AlphaGo against Lee Sedol, a legendary professional
+player of the game of Go, and in May 2017 against Ke Jie, the world champion. No
+program had ever come close to beating a master of this game, let alone the world
+champion. Today the whole field of RL is boiling with new ideas, with a wide range of
+applications. DeepMind was bought by Google for over $500 million in 2014.
+So how did DeepMind achieve all this? With hindsight it seems rather simple: they
+applied the power of Deep Learning to the field of Reinforcement Learning, and it
+worked beyond their wildest dreams. In this chapter we will first explain what
+1 Formoredetails,besuretocheckoutRichardSuttonandAndrewBarto’sbookonRL,ReinforcementLearn‐
+<i>ing:AnIntroduction(MITPress).</i>
+2 VolodymyrMnihetal.,“PlayingAtariwithDeepReinforcementLearning,”arXivpreprintarXiv:1312.5602
+(2013).
+3 VolodymyrMnihetal.,“Human-LevelControlThroughDeepReinforcementLearning,”Nature518(2015):
+529–533.
+4 CheckoutthevideosofDeepMind’ssystemlearningtoplaySpaceInvaders,Breakout,andothervideogames
+athttps://homl.info/dqn3.

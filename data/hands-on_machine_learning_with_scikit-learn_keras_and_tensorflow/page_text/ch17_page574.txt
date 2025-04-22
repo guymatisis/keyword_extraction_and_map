@@ -1,46 +1,30 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Visualizing the Reconstructions                             
-                                                                      
-          One way to ensure that an autoencoder is properly trained is to compare the inputs
-          and the outputs: the differences should not be too significant. Let’s plot a few images
-          from the validation set, as well as their reconstructions:  
-            def plot_image(image):                                    
-               plt.imshow(image, cmap="binary")                       
-               plt.axis("off")                                        
-            def show_reconstructions(model, n_images=5):              
-               reconstructions = model.predict(X_valid[:n_images])    
-               fig = plt.figure(figsize=(n_images * 1.5, 3))          
-               for image_index in range(n_images):                    
-                 plt.subplot(2, n_images, 1 + image_index)            
-                 plot_image(X_valid[image_index])                     
-                 plt.subplot(2, n_images, 1 + n_images + image_index) 
-                 plot_image(reconstructions[image_index])             
-            show_reconstructions(stacked_ae)                          
-          Figure 17-4 shows the resulting images.                     
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 17-4. Original images (top) and their reconstructions (bottom)
-                                                                      
-          The reconstructions are recognizable, but a bit too lossy. We may need to train the
-          model for longer, or make the encoder and decoder deeper, or make the codings
-          larger. But if we make the network too powerful, it will manage to make perfect
-          reconstructions without having learned any useful patterns in the data. For now, let’s
-          go with this model.                                         
-                                                                      
-          Visualizing the Fashion MNIST Dataset                       
-          Now that we have trained a stacked autoencoder, we can use it to reduce the dataset’s
-          dimensionality. For visualization, this does not give great results compared to other
-          dimensionality reduction algorithms (such as those we discussed in Chapter 8), but
-          one big advantage of autoencoders is that they can handle large datasets, with many
-          instances and many features. So one strategy is to use an autoencoder to reduce the
-          dimensionality down to a reasonable level, then use another dimensionality
-                                                                      
+<header><largefont><b>Visualizing</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Reconstructions</b></largefont></header>
+One way to ensure that an autoencoder is properly trained is to compare the inputs
+and the outputs: the differences should not be too significant. Let’s plot a few images
+from the validation set, as well as their reconstructions:
+<b>def</b> plot_image(image):
+plt.imshow(image, cmap="binary")
+plt.axis("off")
+<b>def</b> show_reconstructions(model, n_images=5):
+reconstructions = model.predict(X_valid[:n_images])
+fig = plt.figure(figsize=(n_images * 1.5, 3))
+<b>for</b> image_index <b>in</b> range(n_images):
+plt.subplot(2, n_images, 1 + image_index)
+plot_image(X_valid[image_index])
+plt.subplot(2, n_images, 1 + n_images + image_index)
+plot_image(reconstructions[image_index])
+show_reconstructions(stacked_ae)
+Figure 17-4 shows the resulting images.
+<i>Figure</i> <i>17-4.</i> <i>Original</i> <i>images</i> <i>(top)</i> <i>and</i> <i>their</i> <i>reconstructions</i> <i>(bottom)</i>
+The reconstructions are recognizable, but a bit too lossy. We may need to train the
+model for longer, or make the encoder and decoder deeper, or make the codings
+larger. But if we make the network too powerful, it will manage to make perfect
+reconstructions without having learned any useful patterns in the data. For now, let’s
+go with this model.
+<header><largefont><b>Visualizing</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Fashion</b></largefont> <largefont><b>MNIST</b></largefont> <largefont><b>Dataset</b></largefont></header>
+Now that we have trained a stacked autoencoder, we can use it to reduce the dataset’s
+dimensionality. For visualization, this does not give great results compared to other
+dimensionality reduction algorithms (such as those we discussed in Chapter 8), but
+one big advantage of autoencoders is that they can handle large datasets, with many
+instances and many features. So one strategy is to use an autoencoder to reduce the
+dimensionality down to a reasonable level, then use another dimensionality

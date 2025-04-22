@@ -1,46 +1,39 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            def train_gan(gan, dataset, batch_size, codings_size, n_epochs=50):
-               generator, discriminator = gan.layers                  
-               for epoch in range(n_epochs):                          
-                 for X_batch in dataset:                              
-                   # phase 1 - training the discriminator             
-                   noise = tf.random.normal(shape=[batch_size, codings_size])
-                   generated_images = generator(noise)                
-                   X_fake_and_real = tf.concat([generated_images, X_batch], axis=0)
-                   y1 = tf.constant([[0.]] * batch_size + [[1.]] * batch_size)
-                   discriminator.trainable = True                     
-                   discriminator.train_on_batch(X_fake_and_real, y1)  
-                   # phase 2 - training the generator                 
-                   noise = tf.random.normal(shape=[batch_size, codings_size])
-                   y2 = tf.constant([[1.]] * batch_size)              
-                   discriminator.trainable = False                    
-                   gan.train_on_batch(noise, y2)                      
-            train_gan(gan, dataset, batch_size, codings_size)         
-          As discussed earlier, you can see the two phases at each iteration:
-           • In phase one we feed Gaussian noise to the generator to produce fake images,
-            and we complete this batch by concatenating an equal number of real images.
-            The targets y1 are set to 0 for fake images and 1 for real images. Then we train
-            the discriminator on this batch. Note that we set the discriminator’s trainable
-            attribute to True: this is only to get rid of a warning that Keras displays when it
-            notices that trainable is now False but was True when the model was compiled
-            (or vice versa).                                          
-           • In phase two, we feed the GAN some Gaussian noise. Its generator will start by
-            producing fake images, then the discriminator will try to guess whether these
-            images are fake or real. We want the discriminator to believe that the fake images
-            are real, so the targets y2 are set to 1. Note that we set the trainable attribute to
-            False, once again to avoid a warning.                     
-          That’s it! If you display the generated images (see Figure 17-16), you will see that at
-          the end of the first epoch, they already start to look like (very noisy) Fashion MNIST
-          images.                                                     
-          Unfortunately, the images never really get much better than that, and you may even
-          find epochs where the GAN seems to be forgetting what it learned. Why is that? Well,
-          it turns out that training a GAN can be challenging. Let’s see why.
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+<b>def</b> train_gan(gan, dataset, batch_size, codings_size, n_epochs=50):
+generator, discriminator = gan.layers
+<b>for</b> epoch <b>in</b> range(n_epochs):
+<b>for</b> X_batch <b>in</b> dataset:
+<i>#</i> <i>phase</i> <i>1</i> <i>-</i> <i>training</i> <i>the</i> <i>discriminator</i>
+noise = tf.random.normal(shape=[batch_size, codings_size])
+generated_images = generator(noise)
+X_fake_and_real = tf.concat([generated_images, X_batch], axis=0)
+y1 = tf.constant([[0.]] * batch_size + [[1.]] * batch_size)
+discriminator.trainable = True
+discriminator.train_on_batch(X_fake_and_real, y1)
+<i>#</i> <i>phase</i> <i>2</i> <i>-</i> <i>training</i> <i>the</i> <i>generator</i>
+noise = tf.random.normal(shape=[batch_size, codings_size])
+y2 = tf.constant([[1.]] * batch_size)
+discriminator.trainable = False
+gan.train_on_batch(noise, y2)
+train_gan(gan, dataset, batch_size, codings_size)
+As discussed earlier, you can see the two phases at each iteration:
+• In phase one we feed Gaussian noise to the generator to produce fake images,
+and we complete this batch by concatenating an equal number of real images.
+y1
+The targets are set to 0 for fake images and 1 for real images. Then we train
+the discriminator on this batch. Note that we set the discriminator’s trainable
+True
+attribute to : this is only to get rid of a warning that Keras displays when it
+notices that trainable is now False but was True when the model was compiled
+(or vice versa).
+• In phase two, we feed the GAN some Gaussian noise. Its generator will start by
+producing fake images, then the discriminator will try to guess whether these
+images are fake or real. We want the discriminator to believe that the fake images
+y2 trainable
+are real, so the targets are set to 1. Note that we set the attribute to
+False , once again to avoid a warning.
+That’s it! If you display the generated images (see Figure 17-16), you will see that at
+the end of the first epoch, they already start to look like (very noisy) Fashion MNIST
+images.
+Unfortunately, the images never really get much better than that, and you may even
+find epochs where the GAN seems to be forgetting what it learned. Why is that? Well,
+it turns out that training a GAN can be challenging. Let’s see why.

@@ -1,46 +1,43 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                   Unless you really need the extra flexibility, you should prefer using
-                   the fit() method rather than implementing your own training
-                   loop, especially if you work in a team.            
-                                                                      
-                                                                      
-          First, let’s build a simple model. No need to compile it, since we will handle the train‐
-          ing loop manually:                                          
-                                                                      
-            l2_reg = keras.regularizers.l2(0.05)                      
-            model = keras.models.Sequential([                         
-               keras.layers.Dense(30, activation="elu", kernel_initializer="he_normal",
-                          kernel_regularizer=l2_reg),                 
-               keras.layers.Dense(1, kernel_regularizer=l2_reg)       
-            ])                                                        
-          Next, let’s create a tiny function that will randomly sample a batch of instances from
-          the training set (in Chapter 13 we will discuss the Data API, which offers a much bet‐
-          ter alternative):                                           
-            def random_batch(X, y, batch_size=32):                    
-               idx = np.random.randint(len(X), size=batch_size)       
-               return X[idx], y[idx]                                  
-          Let’s also define a function that will display the training status, including the number
-          of steps, the total number of steps, the mean loss since the start of the epoch (i.e., we
-          will use the Mean metric to compute it), and other metrics: 
-            def print_status_bar(iteration, total, loss, metrics=None):
-               metrics = " - ".join(["{}: {:.4f}".format(m.name, m.result())
-                           for m in [loss] + (metrics or [])])        
-               end = "" if iteration < total else "\n"                
-               print("\r{}/{} - ".format(iteration, total) + metrics, 
-                  end=end)                                            
-          This code is self-explanatory, unless you are unfamiliar with Python string format‐
-          ting: {:.4f} will format a float with four digits after the decimal point, and using \r
-          (carriage return) along with end="" ensures that the status bar always gets printed on
-          the same line. In the notebook, the print_status_bar() function includes a progress
-          bar, but you could use the handy tqdm library instead.      
-          With that, let’s get down to business! First, we need to define some hyperparameters
-          and choose the optimizer, the loss function, and the metrics (just the MAE in this
-          example):                                                   
-            n_epochs = 5                                              
-            batch_size = 32                                           
-            n_steps = len(X_train) // batch_size                      
-            optimizer = keras.optimizers.Nadam(lr=0.01)               
-            loss_fn = keras.losses.mean_squared_error                 
+Unless you really need the extra flexibility, you should prefer using
+fit()
+the method rather than implementing your own training
+loop, especially if you work in a team.
+First, let’s build a simple model. No need to compile it, since we will handle the train‐
+ing loop manually:
+l2_reg = keras.regularizers.l2(0.05)
+model = keras.models.Sequential([
+keras.layers.Dense(30, activation="elu", kernel_initializer="he_normal",
+kernel_regularizer=l2_reg),
+keras.layers.Dense(1, kernel_regularizer=l2_reg)
+])
+Next, let’s create a tiny function that will randomly sample a batch of instances from
+the training set (in Chapter 13 we will discuss the Data API, which offers a much bet‐
+ter alternative):
+<b>def</b> random_batch(X, y, batch_size=32):
+idx = np.random.randint(len(X), size=batch_size)
+<b>return</b> X[idx], y[idx]
+Let’s also define a function that will display the training status, including the number
+of steps, the total number of steps, the mean loss since the start of the epoch (i.e., we
+Mean
+will use the metric to compute it), and other metrics:
+<b>def</b> print_status_bar(iteration, total, loss, metrics=None):
+metrics = " - ".join(["{}: {:.4f}".format(m.name, m.result())
+<b>for</b> m <b>in</b> [loss] + (metrics <b>or</b> [])])
+end = "" <b>if</b> iteration < total <b>else</b> "\n"
+<b>print("\r{}/{}</b> - ".format(iteration, total) + metrics,
+end=end)
+This code is self-explanatory, unless you are unfamiliar with Python string format‐
+{:.4f} \r
+ting: will format a float with four digits after the decimal point, and using
+(carriage return) along with end="" ensures that the status bar always gets printed on
+the same line. In the notebook, the print_status_bar() function includes a progress
+tqdm
+bar, but you could use the handy library instead.
+With that, let’s get down to business! First, we need to define some hyperparameters
+and choose the optimizer, the loss function, and the metrics (just the MAE in this
+example):
+n_epochs = 5
+batch_size = 32
+n_steps = len(X_train) // batch_size
+optimizer = keras.optimizers.Nadam(lr=0.01)
+loss_fn = keras.losses.mean_squared_error

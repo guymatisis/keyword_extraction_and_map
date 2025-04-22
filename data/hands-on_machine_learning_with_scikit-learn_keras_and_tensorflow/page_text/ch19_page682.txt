@@ -1,46 +1,31 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Using the Prediction Service                                
-                                                                      
-          Under the hood, AI Platform just runs TF Serving, so in principle you could use the
-          same code as earlier, if you knew which URL to query. There’s just one problem: GCP
-          also takes care of encryption and authentication. Encryption is based on SSL/TLS,
-          and authentication is token-based: a secret authentication token must be sent to the
-          server in every request. So before your code can use the prediction service (or any
-          other GCP service), it must obtain a token. We will see how to do this shortly, but
-          first you need to configure authentication and give your application the appropriate
-          access rights on GCP. You have two options for authentication:
-           • Your application (i.e., the client code that will query the prediction service) could
-            authenticate using user credentials with your own Google login and password.
-            Using user credentials would give your application the exact same rights as on
-            GCP, which is certainly way more than it needs. Moreover, you would have to
-            deploy your credentials in your application, so anyone with access could steal
-            your credentials and fully access your GCP account. In short, do not choose this
-            option; it is only needed in very rare cases (e.g., when your application needs to
-            access its user’s GCP account).                           
-                                                                      
-           • The client code can authenticate with a service account. This is an account that
-            represents an application, not a user. It is generally given very restricted access
-            rights: strictly what it needs, and no more. This is the recommended option.
-          So, let’s create a service account for your application: in the navigation menu, go to
-          IAM & admin → Service accounts, then click Create Service Account, fill in the form
-          (service account name, ID, description), and click Create (see Figure 19-7). Next, you
-          must give this account some access rights. Select the ML Engine Developer role: this
-          will allow the service account to make predictions, and not much more. Optionally,
-          you can grant some users access to the service account (this is useful when your GCP
-          user account is part of an organization, and you wish to authorize other users in the
-          organization to deploy applications that will be based on this service account or to
-          manage the service account itself). Next, click Create Key to export the service
-          account’s private key, choose JSON, and click Create. This will download the private
-          key in the form of a JSON file. Make sure to keep it private!
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+<header><largefont><b>Using</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Prediction</b></largefont> <largefont><b>Service</b></largefont></header>
+Under the hood, AI Platform just runs TF Serving, so in principle you could use the
+same code as earlier, if you knew which URL to query. There’s just one problem: GCP
+also takes care of encryption and authentication. Encryption is based on SSL/TLS,
+and authentication is token-based: a secret authentication token must be sent to the
+server in every request. So before your code can use the prediction service (or any
+other GCP service), it must obtain a token. We will see how to do this shortly, but
+first you need to configure authentication and give your application the appropriate
+access rights on GCP. You have two options for authentication:
+• Your application (i.e., the client code that will query the prediction service) could
+authenticate using user credentials with your own Google login and password.
+Using user credentials would give your application the exact same rights as on
+GCP, which is certainly way more than it needs. Moreover, you would have to
+deploy your credentials in your application, so anyone with access could steal
+your credentials and fully access your GCP account. In short, do not choose this
+option; it is only needed in very rare cases (e.g., when your application needs to
+access its user’s GCP account).
+• The client code can authenticate with a <i>service</i> <i>account.</i> This is an account that
+represents an application, not a user. It is generally given very restricted access
+rights: strictly what it needs, and no more. This is the recommended option.
+So, let’s create a service account for your application: in the navigation menu, go to
+IAM & admin → Service accounts, then click Create Service Account, fill in the form
+(service account name, ID, description), and click Create (see Figure 19-7). Next, you
+must give this account some access rights. Select the ML Engine Developer role: this
+will allow the service account to make predictions, and not much more. Optionally,
+you can grant some users access to the service account (this is useful when your GCP
+user account is part of an organization, and you wish to authorize other users in the
+organization to deploy applications that will be based on this service account or to
+manage the service account itself). Next, click Create Key to export the service
+account’s private key, choose JSON, and click Create. This will download the private
+key in the form of a JSON file. Make sure to keep it private!

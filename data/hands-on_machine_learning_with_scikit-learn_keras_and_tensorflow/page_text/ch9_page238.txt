@@ -1,46 +1,34 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            the number of labels available for a subsequent supervised learning algorithm,
-            and thus improve its performance.                         
-                                                                      
-          For search engines                                          
-            Some search engines let you search for images that are similar to a reference
-            image. To build such a system, you would first apply a clustering algorithm to all
-            the images in your database; similar images would end up in the same cluster.
-            Then when a user provides a reference image, all you need to do is use the
-            trained clustering model to find this image’s cluster, and you can then simply
-            return all the images from this cluster.                  
-          To segment an image                                         
-            By clustering pixels according to their color, then replacing each pixel’s color
-            with the mean color of its cluster, it is possible to considerably reduce the num‐
-            ber of different colors in the image. Image segmentation is used in many object
-            detection and tracking systems, as it makes it easier to detect the contour of each
-            object.                                                   
-          There is no universal definition of what a cluster is: it really depends on the context,
-          and different algorithms will capture different kinds of clusters. Some algorithms
-          look for instances centered around a particular point, called a centroid. Others look
-          for continuous regions of densely packed instances: these clusters can take on any
-          shape. Some algorithms are hierarchical, looking for clusters of clusters. And the list
-          goes on.                                                    
-                                                                      
-          In this section, we will look at two popular clustering algorithms, K-Means and
-          DBSCAN, and explore some of their applications, such as nonlinear dimensionality
-          reduction, semi-supervised learning, and anomaly detection. 
-          K-Means                                                     
-                                                                      
-          Consider the unlabeled dataset represented in Figure 9-2: you can clearly see five
-          blobs of instances. The K-Means algorithm is a simple algorithm capable of clustering
-          this kind of dataset very quickly and efficiently, often in just a few iterations. It was
-          proposed by Stuart Lloyd at Bell Labs in 1957 as a technique for pulse-code modula‐
-          tion, but it was only published outside of the company in 1982.1 In 1965, Edward W.
-          Forgy had published virtually the same algorithm, so K-Means is sometimes referred
-          to as Lloyd–Forgy.                                          
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          1 Stuart P. Lloyd, “Least Squares Quantization in PCM,” IEEE Transactions on Information Theory 28, no. 2
-           (1982): 129–137.                                           
+the number of labels available for a subsequent supervised learning algorithm,
+and thus improve its performance.
+<i>For</i> <i>search</i> <i>engines</i>
+Some search engines let you search for images that are similar to a reference
+image. To build such a system, you would first apply a clustering algorithm to all
+the images in your database; similar images would end up in the same cluster.
+Then when a user provides a reference image, all you need to do is use the
+trained clustering model to find this image’s cluster, and you can then simply
+return all the images from this cluster.
+<i>To</i> <i>segment</i> <i>an</i> <i>image</i>
+By clustering pixels according to their color, then replacing each pixel’s color
+with the mean color of its cluster, it is possible to considerably reduce the num‐
+ber of different colors in the image. Image segmentation is used in many object
+detection and tracking systems, as it makes it easier to detect the contour of each
+object.
+There is no universal definition of what a cluster is: it really depends on the context,
+and different algorithms will capture different kinds of clusters. Some algorithms
+look for instances centered around a particular point, called a <i>centroid.</i> Others look
+for continuous regions of densely packed instances: these clusters can take on any
+shape. Some algorithms are hierarchical, looking for clusters of clusters. And the list
+goes on.
+In this section, we will look at two popular clustering algorithms, K-Means and
+DBSCAN, and explore some of their applications, such as nonlinear dimensionality
+reduction, semi-supervised learning, and anomaly detection.
+<header><largefont><b>K-Means</b></largefont></header>
+Consider the unlabeled dataset represented in Figure 9-2: you can clearly see five
+blobs of instances. The K-Means algorithm is a simple algorithm capable of clustering
+this kind of dataset very quickly and efficiently, often in just a few iterations. It was
+proposed by Stuart Lloyd at Bell Labs in 1957 as a technique for pulse-code modula‐
+tion, but it was only published outside of the company in 1982. 1 In 1965, Edward W.
+Forgy had published virtually the same algorithm, so K-Means is sometimes referred
+to as Lloyd–Forgy.
+1 StuartP.Lloyd,“LeastSquaresQuantizationinPCM,”IEEETransactionsonInformationTheory28,no.2
+(1982):129–137.

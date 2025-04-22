@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            Next sentence prediction (NSP)                            
+               The model is trained to predict whether two sentences are consecutive or
+               not. For example, it should predict that “The dog sleeps” and “It snores
+               loudly” are consecutive sentences, while “The dog sleeps” and “The Earth
+               orbits the Sun” are not consecutive. This is a challenging task, and it signifi‐
+               cantly improves the performance of the model when it is fine-tuned on tasks
+               such as question answering or entailment.              
+                                                                      
+          As you can see, the main innovations in 2018 and 2019 have been better subword
+          tokenization, shifting from LSTMs to Transformers, and pretraining universal lan‐
+          guage models using self-supervised learning, then fine-tuning them with very few
+          architectural changes (or none at all). Things are moving fast; no one can say what
+          architectures will prevail next year. Today, it’s clearly Transformers, but tomorrow it
+          might be CNNs (e.g., check out the 2018 paper30 by Maha Elbayad et al., where the
+          researchers use masked 2D convolutional layers for sequence-to-sequence tasks). Or
+          it might even be RNNs, if they make a surprise comeback (e.g., check out the 2018
+          paper31 by Shuai Li et al. that shows that by making neurons independent of each
+          other in a given RNN layer, it is possible to train much deeper RNNs capable of learn‐
+          ing much longer sequences).                                 
+          In the next chapter we will discuss how to learn deep representations in an unsuper‐
+          vised way using autoencoders, and we will use generative adversarial networks
+          (GANs) to produce images and more!                          
+                                                                      
+          Exercises                                                   
+                                                                      
+           1. What are the pros and cons of using a stateful RNN versus a stateless RNN?
+                                                                      
+           2. Why do people use Encoder–Decoder RNNs rather than plain sequence-to-
+            sequence RNNs for automatic translation?                  
+           3. How can you deal with variable-length input sequences? What about variable-
+            length output sequences?                                  
+           4. What is beam search and why would you use it? What tool can you use to imple‐
+            ment it?                                                  
+           5. What is an attention mechanism? How does it help?       
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          30 Maha Elbayad et al., “Pervasive Attention: 2D Convolutional Neural Networks for Sequence-to-Sequence Pre‐
+           diction,” arXiv preprint arXiv:1808.03867 (2018).          
+          31 Shuai Li et al., “Independently Recurrent Neural Network (IndRNN): Building a Longer and Deeper RNN,”
+           Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (2018): 5457–5466.

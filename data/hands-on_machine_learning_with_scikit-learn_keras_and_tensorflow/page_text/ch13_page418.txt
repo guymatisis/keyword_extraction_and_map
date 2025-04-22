@@ -1,46 +1,46 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          this sounds like a lot of work, don’t worry: the Data API makes all this possible in just
-          a few lines of code. Let’s see how to do this.              
-                                                                      
-          Interleaving lines from multiple files                      
-                                                                      
-          First, let’s suppose that you’ve loaded the California housing dataset, shuffled it
-          (unless it was already shuffled), and split it into a training set, a validation set, and a
-          test set. Then you split each set into many CSV files that each look like this (each row
-          contains eight input features plus the target median house value):
-            MedInc,HouseAge,AveRooms,AveBedrms,Popul,AveOccup,Lat,Long,MedianHouseValue
-            3.5214,15.0,3.0499,1.1065,1447.0,1.6059,37.63,-122.43,1.442
-            5.3275,5.0,6.4900,0.9910,3464.0,3.4433,33.69,-117.39,1.687
-            3.1,29.0,7.5423,1.5915,1328.0,2.2508,38.44,-122.98,1.621  
-            [...]                                                     
-          Let’s also suppose train_filepaths contains the list of training file paths (and you
-          also have valid_filepaths and test_filepaths):              
-            >>> train_filepaths                                       
-            ['datasets/housing/my_train_00.csv', 'datasets/housing/my_train_01.csv',...]
-          Alternatively, you could use file patterns; for example, train_filepaths = "data
-          sets/housing/my_train_*.csv". Now let’s create a dataset containing only these file
-          paths:                                                      
-            filepath_dataset = tf.data.Dataset.list_files(train_filepaths, seed=42)
-                                                                      
-          By default, the list_files() function returns a dataset that shuffles the file paths. In
-          general this is a good thing, but you can set shuffle=False if you do not want that
-          for some reason.                                            
-          Next, you can call the interleave() method to read from five files at a time and
-          interleave their lines (skipping the first line of each file, which is the header row,
-          using the skip() method):                                   
-            n_readers = 5                                             
-            dataset = filepath_dataset.interleave(                    
-               lambda filepath: tf.data.TextLineDataset(filepath).skip(1),
-               cycle_length=n_readers)                                
-          The interleave() method will create a dataset that will pull five file paths from the
-          filepath_dataset, and for each one it will call the function you gave it (a lambda in
-          this example) to create a new dataset (in this case a TextLineDataset). To be clear, at
-          this stage there will be seven datasets in all: the filepath dataset, the interleave dataset,
-          and the five TextLineDatasets created internally by the interleave dataset. When we
-          iterate over the interleave dataset, it will cycle through these five TextLineDatasets,
-          reading one line at a time from each until all datasets are out of items. Then it will get
-                                                                      
-                                                                      
+this sounds like a lot of work, don’t worry: the Data API makes all this possible in just
+a few lines of code. Let’s see how to do this.
+<b>Interleavinglinesfrommultiplefiles</b>
+First, let’s suppose that you’ve loaded the California housing dataset, shuffled it
+(unless it was already shuffled), and split it into a training set, a validation set, and a
+test set. Then you split each set into many CSV files that each look like this (each row
+contains eight input features plus the target median house value):
+MedInc,HouseAge,AveRooms,AveBedrms,Popul,AveOccup,Lat,Long,MedianHouseValue
+3.5214,15.0,3.0499,1.1065,1447.0,1.6059,37.63,-122.43,1.442
+5.3275,5.0,6.4900,0.9910,3464.0,3.4433,33.69,-117.39,1.687
+3.1,29.0,7.5423,1.5915,1328.0,2.2508,38.44,-122.98,1.621
+[...]
+train_filepaths
+Let’s also suppose contains the list of training file paths (and you
+also have valid_filepaths and test_filepaths ):
+<b>>>></b> train_filepaths
+['datasets/housing/my_train_00.csv', 'datasets/housing/my_train_01.csv',...]
+train_filepaths = "data
+Alternatively, you could use file patterns; for example,
+sets/housing/my_train_*.csv".
+Now let’s create a dataset containing only these file
+paths:
+filepath_dataset = tf.data.Dataset.list_files(train_filepaths, seed=42)
+list_files()
+By default, the function returns a dataset that shuffles the file paths. In
+general this is a good thing, but you can set shuffle=False if you do not want that
+for some reason.
+interleave()
+Next, you can call the method to read from five files at a time and
+interleave their lines (skipping the first line of each file, which is the header row,
+skip()
+using the method):
+n_readers = 5
+dataset = filepath_dataset.interleave(
+<b>lambda</b> filepath: tf.data.TextLineDataset(filepath).skip(1),
+cycle_length=n_readers)
+interleave()
+The method will create a dataset that will pull five file paths from the
+filepath_dataset,
+and for each one it will call the function you gave it (a lambda in
+this example) to create a new dataset (in this case a TextLineDataset ). To be clear, at
+this stage there will be seven datasets in all: the filepath dataset, the interleave dataset,
+TextLineDataset
+and the five s created internally by the interleave dataset. When we
+iterate over the interleave dataset, it will cycle through these five TextLineDatasets,
+reading one line at a time from each until all datasets are out of items. Then it will get

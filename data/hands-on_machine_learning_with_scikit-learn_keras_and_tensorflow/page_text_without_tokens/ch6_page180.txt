@@ -1,0 +1,47 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                   As you can see, the CART algorithm is a greedy algorithm: it greed‐
+                   ily searches for an optimum split at the top level, then repeats the
+                   process at each subsequent level. It does not check whether or not
+                   the split will lead to the lowest possible impurity several levels
+                   down. A greedy algorithm often produces a solution that’s reasona‐
+                   bly good but not guaranteed to be optimal.         
+                   Unfortunately, finding the optimal tree is known to be an NP-
+                   Complete problem:2 it requires O(exp(m)) time, making the prob‐
+                   lem intractable even for small training sets. This is why we must
+                   settle for a “reasonably good” solution.           
+          Computational Complexity                                    
+                                                                      
+                                                                      
+          Making predictions requires traversing the Decision Tree from the root to a leaf.
+          Decision Trees generally are approximately balanced, so traversing the Decision Tree
+          requires going through roughly O(log (m)) nodes.3 Since each node only requires
+                                 2                                    
+          checking the value of one feature, the overall prediction complexity is O(log (m)),
+                                                        2             
+          independent of the number of features. So predictions are very fast, even when deal‐
+          ing with large training sets.                               
+          The training algorithm compares all features (or less if max_features is set) on all
+          samples at each node. Comparing all features on all samples at each node results in a
+          training complexity of O(n × m log (m)). For small training sets (less than a few thou‐
+                              2                                       
+          sand instances), Scikit-Learn can speed up training by presorting the data (set pre
+          sort=True), but doing that slows down training considerably for larger training sets.
+          Gini Impurity or Entropy?                                   
+          By default, the Gini impurity measure is used, but you can select the entropy impurity
+          measure instead by setting the criterion hyperparameter to "entropy". The concept
+          of entropy originated in thermodynamics as a measure of molecular disorder:
+          entropy approaches zero when molecules are still and well ordered. Entropy later
+          spread to a wide variety of domains, including Shannon’s information theory, where it
+          measures the average information content of a message:4 entropy is zero when all
+          messages are identical. In Machine Learning, entropy is frequently used as an
+                                                                      
+          2 P is the set of problems that can be solved in polynomial time. NP is the set of problems whose solutions can
+           be verified in polynomial time. An NP-Hard problem is a problem to which any NP problem can be reduced
+           in polynomial time. An NP-Complete problem is both NP and NP-Hard. A major open mathematical ques‐
+           tion is whether or not P = NP. If P ≠ NP (which seems likely), then no polynomial algorithm will ever be
+           found for any NP-Complete problem (except perhaps on a quantum computer).
+          3 log2 is the binary logarithm. It is equal to log2(m) = log(m) / log(2).
+          4 A reduction of entropy is often called an information gain.

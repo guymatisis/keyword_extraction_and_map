@@ -1,46 +1,22 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          (fewer parameters) than the one selected by the AIC, but tends to not fit the data
-          quite as well (this is especially true for larger datasets).
-                                                                      
-                                                                      
-                            Likelihood Function                       
-           The terms “probability” and “likelihood” are often used interchangeably in the
-           English language, but they have very different meanings in statistics. Given a statisti‐
-           cal model with some parameters θ, the word “probability” is used to describe how
-           plausible a future outcome x is (knowing the parameter values θ), while the word
-           “likelihood” is used to describe how plausible a particular set of parameter values θ
-           are, after the outcome x is known.                         
-           Consider a 1D mixture model of two Gaussian distributions centered at –4 and +1.
-           For simplicity, this toy model has a single parameter θ that controls the standard devi‐
-           ations of both distributions. The top-left contour plot in Figure 9-20 shows the entire
-           model f(x; θ) as a function of both x and θ. To estimate the probability distribution of
-           a future outcome x, you need to set the model parameter θ. For example, if you set θ
-           to 1.3 (the horizontal line), you get the probability density function f(x; θ=1.3) shown
-           in the lower-left plot. Say you want to estimate the probability that x will fall between
-           –2 and +2. You must calculate the integral of the PDF on this range (i.e., the surface of
-           the shaded region). But what if you don’t know θ, and instead if you have observed a
-           single instance x=2.5 (the vertical line in the upper-left plot)? In this case, you get the
-           likelihood function ℒ(θ|x=2.5)=f(x=2.5; θ), represented in the upper-right plot.
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-           Figure 9-20. A model’s parametric function (top left), and some derived functions: a PDF
-           (lower left), a likelihood function (top right), and a log likelihood function (lower right)
-                                                                      
-                                                                      
-                                                                      
+(fewer parameters) than the one selected by the AIC, but tends to not fit the data
+quite as well (this is especially true for larger datasets).
+<header><largefont><b>Likelihood</b></largefont> <largefont><b>Function</b></largefont></header>
+The terms “probability” and “likelihood” are often used interchangeably in the
+English language, but they have very different meanings in statistics. Given a statisti‐
+cal model with some parameters <b>θ,</b> the word “probability” is used to describe how
+plausible a future outcome <b>x</b> is (knowing the parameter values <b>θ),</b> while the word
+“likelihood” is used to describe how plausible a particular set of parameter values <b>θ</b>
+are, after the outcome <b>x</b> is known.
+Consider a 1D mixture model of two Gaussian distributions centered at –4 and +1.
+For simplicity, this toy model has a single parameter <i>θ</i> that controls the standard devi‐
+ations of both distributions. The top-left contour plot in Figure 9-20 shows the entire
+model <i>f(x;</i> <i>θ)</i> as a function of both <i>x</i> and <i>θ.</i> To estimate the probability distribution of
+a future outcome <i>x,</i> you need to set the model parameter <i>θ.</i> For example, if you set <i>θ</i>
+to 1.3 (the horizontal line), you get the probability density function <i>f(x;</i> <i>θ=1.3)</i> shown
+in the lower-left plot. Say you want to estimate the probability that <i>x</i> will fall between
+–2 and +2. You must calculate the integral of the PDF on this range (i.e., the surface of
+the shaded region). But what if you don’t know <i>θ,</i> and instead if you have observed a
+single instance <i>x=2.5</i> (the vertical line in the upper-left plot)? In this case, you get the
+likelihood function ℒ(θ|x=2.5)=f(x=2.5; <i>θ),</i> represented in the upper-right plot.
+<i>Figure</i> <i>9-20.</i> <i>A</i> <i>model’s</i> <i>parametric</i> <i>function</i> <i>(top</i> <i>left),</i> <i>and</i> <i>some</i> <i>derived</i> <i>functions:</i> <i>a</i> <i>PDF</i>
+<i>(lower</i> <i>left),</i> <i>a</i> <i>likelihood</i> <i>function</i> <i>(top</i> <i>right),</i> <i>and</i> <i>a</i> <i>log</i> <i>likelihood</i> <i>function</i> <i>(lower</i> <i>right)</i>

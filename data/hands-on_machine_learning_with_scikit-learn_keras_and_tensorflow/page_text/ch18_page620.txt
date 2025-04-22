@@ -1,46 +1,21 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          much as immediate rewards. Typical discount factors vary from 0.9 to 0.99. With a
-          discount factor of 0.95, rewards 13 steps into the future count roughly for half as
-          much as immediate rewards (since 0.9513 ≈ 0.5), while with a discount factor of 0.99,
-          rewards 69 steps into the future count for half as much as immediate rewards. In the
-          CartPole environment, actions have fairly short-term effects, so choosing a discount
-          factor of 0.95 seems reasonable.                            
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 18-6. Computing an action’s return: the sum of discounted future rewards
-                                                                      
-          Of course, a good action may be followed by several bad actions that cause the pole to
-          fall quickly, resulting in the good action getting a low return (similarly, a good actor
-          may sometimes star in a terrible movie). However, if we play the game enough times,
-          on average good actions will get a higher return than bad ones. We want to estimate
-          how much better or worse an action is, compared to the other possible actions, on
-          average. This is called the action advantage. For this, we must run many episodes and
-          normalize all the action returns (by subtracting the mean and dividing by the stan‐
-          dard deviation). After that, we can reasonably assume that actions with a negative
-          advantage were bad while actions with a positive advantage were good. Perfect—now
-          that we have a way to evaluate each action, we are ready to train our first agent using
-          policy gradients. Let’s see how.                            
-                                                                      
-          Policy Gradients                                            
-                                                                      
-          As discussed earlier, PG algorithms optimize the parameters of a policy by following
-          the gradients toward higher rewards. One popular class of PG algorithms, called
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+much as immediate rewards. Typical discount factors vary from 0.9 to 0.99. With a
+discount factor of 0.95, rewards 13 steps into the future count roughly for half as
+much as immediate rewards (since 0.95 13 ≈ 0.5), while with a discount factor of 0.99,
+rewards 69 steps into the future count for half as much as immediate rewards. In the
+CartPole environment, actions have fairly short-term effects, so choosing a discount
+factor of 0.95 seems reasonable.
+<i>Figure</i> <i>18-6.</i> <i>Computing</i> <i>an</i> <i>action’s</i> <i>return:</i> <i>the</i> <i>sum</i> <i>of</i> <i>discounted</i> <i>future</i> <i>rewards</i>
+Of course, a good action may be followed by several bad actions that cause the pole to
+fall quickly, resulting in the good action getting a low return (similarly, a good actor
+may sometimes star in a terrible movie). However, if we play the game enough times,
+on average good actions will get a higher return than bad ones. We want to estimate
+how much better or worse an action is, compared to the other possible actions, on
+average. This is called the <i>action</i> <i>advantage.</i> For this, we must run many episodes and
+normalize all the action returns (by subtracting the mean and dividing by the stan‐
+dard deviation). After that, we can reasonably assume that actions with a negative
+advantage were bad while actions with a positive advantage were good. Perfect—now
+that we have a way to evaluate each action, we are ready to train our first agent using
+policy gradients. Let’s see how.
+<header><largefont><b>Policy</b></largefont> <largefont><b>Gradients</b></largefont></header>
+As discussed earlier, PG algorithms optimize the parameters of a policy by following
+the gradients toward higher rewards. One popular class of PG algorithms, called

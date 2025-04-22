@@ -1,46 +1,35 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                           Training Sparse Models                     
-                                                                      
-           All the optimization algorithms just presented produce dense models, meaning that
-           most parameters will be nonzero. If you need a blazingly fast model at runtime, or if
-           you need it to take up less memory, you may prefer to end up with a sparse model
-           instead.                                                   
-           One easy way to achieve this is to train the model as usual, then get rid of the tiny
-           weights (set them to zero). Note that this will typically not lead to a very sparse
-           model, and it may degrade the model’s performance.         
-           A better option is to apply strong ℓ regularization during training (we will see how
-                               1                                      
-           later in this chapter), as it pushes the optimizer to zero out as many weights as it can
-           (as discussed in “Lasso Regression” on page 137 in Chapter 4).
-           If these techniques remain insufficient, check out the TensorFlow Model Optimiza‐
-           tion Toolkit (TF-MOT), which provides a pruning API capable of iteratively remov‐
-           ing connections during training based on their magnitude.  
-                                                                      
-          Table 11-2 compares all the optimizers we’ve discussed so far (* is bad, ** is average,
-          and *** is good).                                           
-          Table 11-2. Optimizer comparison                            
-                                                                      
-          Class               Convergence speed Convergence quality   
-          SGD                 *        ***                            
-          SGD(momentum=...)   **       ***                            
-          SGD(momentum=..., nesterov=True) ** ***                     
-          Adagrad             ***      * (stops too early)            
-          RMSprop             ***      ** or ***                      
-          Adam                ***      ** or ***                      
-                                                                      
-          Nadam               ***      ** or ***                      
-          AdaMax              ***      ** or ***                      
-          Learning Rate Scheduling                                    
-                                                                      
-          Finding a good learning rate is very important. If you set it much too high, training
-          may diverge (as we discussed in “Gradient Descent” on page 118). If you set it too
-          low, training will eventually converge to the optimum, but it will take a very long
-          time. If you set it slightly too high, it will make progress very quickly at first, but it
-          will end up dancing around the optimum, never really settling down. If you have a
-          limited computing budget, you may have to interrupt training before it has converged
-          properly, yielding a suboptimal solution (see Figure 11-8). 
-                                                                      
+<header><largefont><b>Training</b></largefont> <largefont><b>Sparse</b></largefont> <largefont><b>Models</b></largefont></header>
+All the optimization algorithms just presented produce dense models, meaning that
+most parameters will be nonzero. If you need a blazingly fast model at runtime, or if
+you need it to take up less memory, you may prefer to end up with a sparse model
+instead.
+One easy way to achieve this is to train the model as usual, then get rid of the tiny
+weights (set them to zero). Note that this will typically not lead to a very sparse
+model, and it may degrade the model’s performance.
+A better option is to apply strong ℓ regularization during training (we will see how
+1
+later in this chapter), as it pushes the optimizer to zero out as many weights as it can
+(as discussed in “Lasso Regression” on page 137 in Chapter 4).
+If these techniques remain insufficient, check out the TensorFlow Model Optimiza‐
+tion Toolkit (TF-MOT), which provides a pruning API capable of iteratively remov‐
+ing connections during training based on their magnitude.
+Table 11-2 compares all the optimizers we’ve discussed so far (* is bad, ** is average,
+and *** is good).
+<i>Table</i> <i>11-2.</i> <i>Optimizer</i> <i>comparison</i>
+<b>Class</b> <b>Convergencespeed</b> <b>Convergencequality</b>
+SGD * ***
+SGD(momentum=...) ** ***
+SGD(momentum=..., nesterov=True) ** ***
+Adagrad *** *(stopstooearly)
+RMSprop *** **or***
+Adam *** **or***
+Nadam *** **or***
+AdaMax *** **or***
+<header><largefont><b>Learning</b></largefont> <largefont><b>Rate</b></largefont> <largefont><b>Scheduling</b></largefont></header>
+Finding a good learning rate is very important. If you set it much too high, training
+may diverge (as we discussed in “Gradient Descent” on page 118). If you set it too
+low, training will eventually converge to the optimum, but it will take a very long
+time. If you set it slightly too high, it will make progress very quickly at first, but it
+will end up dancing around the optimum, never really settling down. If you have a
+limited computing budget, you may have to interrupt training before it has converged
+properly, yielding a suboptimal solution (see Figure 11-8).

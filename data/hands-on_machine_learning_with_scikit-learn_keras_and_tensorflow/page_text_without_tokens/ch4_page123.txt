@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          That wasn’t too hard! Let’s look at the resulting theta:    
+                                                                      
+            >>> theta                                                 
+            array([[4.21509616],                                      
+                [2.77011339]])                                        
+          Hey, that’s exactly what the Normal Equation found! Gradient Descent worked per‐
+          fectly. But what if you had used a different learning rate eta? Figure 4-8 shows the
+          first 10 steps of Gradient Descent using three different learning rates (the dashed line
+          represents the starting point).                             
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 4-8. Gradient Descent with various learning rates    
+                                                                      
+          On the left, the learning rate is too low: the algorithm will eventually reach the solu‐
+          tion, but it will take a long time. In the middle, the learning rate looks pretty good: in
+          just a few iterations, it has already converged to the solution. On the right, the learn‐
+          ing rate is too high: the algorithm diverges, jumping all over the place and actually
+          getting further and further away from the solution at every step.
+          To find a good learning rate, you can use grid search (see Chapter 2). However, you
+          may want to limit the number of iterations so that grid search can eliminate models
+          that take too long to converge.                             
+                                                                      
+          You may wonder how to set the number of iterations. If it is too low, you will still be
+          far away from the optimal solution when the algorithm stops; but if it is too high, you
+          will waste time while the model parameters do not change anymore. A simple solu‐
+          tion is to set a very large number of iterations but to interrupt the algorithm when the
+          gradient vector becomes tiny—that is, when its norm becomes smaller than a tiny
+          number ϵ (called the tolerance)—because this happens when Gradient Descent has
+          (almost) reached the minimum.                               
+                                                                      
+                                                                      
+                                                                      
+                                                                      

@@ -1,46 +1,24 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          that was either less than 49% female or more than 54% female. Either way, the survey
-          results would be significantly biased.                      
-                                                                      
-          Suppose you chatted with experts who told you that the median income is a very
-          important attribute to predict median housing prices. You may want to ensure that
-          the test set is representative of the various categories of incomes in the whole dataset.
-          Since the median income is a continuous numerical attribute, you first need to create
-          an income category attribute. Let’s look at the median income histogram more closely
-          (back in Figure 2-8): most median income values are clustered around 1.5 to 6 (i.e.,
-          $15,000–$60,000), but some median incomes go far beyond 6. It is important to have
-          a sufficient number of instances in your dataset for each stratum, or else the estimate
-          of a stratum’s importance may be biased. This means that you should not have too
-          many strata, and each stratum should be large enough. The following code uses the
-          pd.cut() function to create an income category attribute with five categories (labeled
-          from 1 to 5): category 1 ranges from 0 to 1.5 (i.e., less than $15,000), category 2 from
-          1.5 to 3, and so on:                                        
-            housing["income_cat"] = pd.cut(housing["median_income"],  
-                              bins=[0., 1.5, 3.0, 4.5, 6., np.inf],   
-                              labels=[1, 2, 3, 4, 5])                 
-          These income categories are represented in Figure 2-9:      
-            housing["income_cat"].hist()                              
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 2-9. Histogram of income categories                  
-                                                                      
-          Now you are ready to do stratified sampling based on the income category. For this
-          you can use Scikit-Learn’s StratifiedShuffleSplit class:    
-                                                                      
-                                                                      
-                                                                      
+that was either less than 49% female or more than 54% female. Either way, the survey
+results would be significantly biased.
+Suppose you chatted with experts who told you that the median income is a very
+important attribute to predict median housing prices. You may want to ensure that
+the test set is representative of the various categories of incomes in the whole dataset.
+Since the median income is a continuous numerical attribute, you first need to create
+an income category attribute. Let’s look at the median income histogram more closely
+(back in Figure 2-8): most median income values are clustered around 1.5 to 6 (i.e.,
+$15,000–$60,000), but some median incomes go far beyond 6. It is important to have
+a sufficient number of instances in your dataset for each stratum, or else the estimate
+of a stratum’s importance may be biased. This means that you should not have too
+many strata, and each stratum should be large enough. The following code uses the
+pd.cut() function to create an income category attribute with five categories (labeled
+from 1 to 5): category 1 ranges from 0 to 1.5 (i.e., less than $15,000), category 2 from
+1.5 to 3, and so on:
+housing["income_cat"] = pd.cut(housing["median_income"],
+bins=[0., 1.5, 3.0, 4.5, 6., np.inf],
+labels=[1, 2, 3, 4, 5])
+These income categories are represented in Figure 2-9:
+housing["income_cat"].hist()
+<i>Figure</i> <i>2-9.</i> <i>Histogram</i> <i>of</i> <i>income</i> <i>categories</i>
+Now you are ready to do stratified sampling based on the income category. For this
+StratifiedShuffleSplit
+you can use Scikit-Learn’s class:

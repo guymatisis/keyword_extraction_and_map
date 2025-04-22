@@ -1,46 +1,32 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Peephole connections                                        
-                                                                      
-          In a regular LSTM cell, the gate controllers can look only at the input x and the pre‐
-                                                   (t)                
-          vious short-term state h . It may be a good idea to give them a bit more context by
-                        (t–1)                                         
-          letting them peek at the long-term state as well. This idea was proposed by Felix Gers
-          and Jürgen Schmidhuber in 2000.10 They proposed an LSTM variant with extra con‐
-          nections called peephole connections: the previous long-term state c is added as an
-                                                 (t–1)                
-          input to the controllers of the forget gate and the input gate, and the current long-
-          term state c is added as input to the controller of the output gate. This often
-                 (t)                                                  
-          improves performance, but not always, and there is no clear pattern for which tasks
-          are better off with or without them: you will have to try it on your task and see if it
-          helps.                                                      
-          In Keras, the LSTM layer is based on the keras.layers.LSTMCell cell, which does not
-          support peepholes. The experimental tf.keras.experimental.PeepholeLSTMCell
-          does, however, so you can create a keras.layers.RNN layer and pass a PeepholeLSTM
-          Cell to its constructor.                                    
-          There are many other variants of the LSTM cell. One particularly popular variant is
-          the GRU cell, which we will look at now.                    
-          GRU cells                                                   
-          The Gated Recurrent Unit (GRU) cell (see Figure 15-10) was proposed by Kyunghyun
-          Cho et al. in a 2014 paper11 that also introduced the Encoder–Decoder network we
-          discussed earlier.                                          
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          10 F. A. Gers and J. Schmidhuber, “Recurrent Nets That Time and Count,” Proceedings of the IEEE-INNS-ENNS
-           International Joint Conference on Neural Networks (2000): 189–194.
-          11 Kyunghyun Cho et al., “Learning Phrase Representations Using RNN Encoder-Decoder for Statistical
-           Machine Translation,” Proceedings of the 2014 Conference on Empirical Methods in Natural Language Processing
-           (2014): 1724–1734.                                         
+<b>Peepholeconnections</b>
+In a regular LSTM cell, the gate controllers can look only at the input <b>x</b> and the pre‐
+(t)
+vious short-term state <b>h</b> . It may be a good idea to give them a bit more context by
+(t–1)
+letting them peek at the long-term state as well. This idea was proposed by Felix Gers
+and Jürgen Schmidhuber in 2000.10 They proposed an LSTM variant with extra con‐
+nections called <i>peephole</i> <i>connections:</i> the previous long-term state <b>c</b> is added as an
+(t–1)
+input to the controllers of the forget gate and the input gate, and the current long-
+term state <b>c</b> is added as input to the controller of the output gate. This often
+(t)
+improves performance, but not always, and there is no clear pattern for which tasks
+are better off with or without them: you will have to try it on your task and see if it
+helps.
+In Keras, the LSTM layer is based on the keras.layers.LSTMCell cell, which does not
+tf.keras.experimental.PeepholeLSTMCell
+support peepholes. The experimental
+does, however, so you can create a keras.layers.RNN layer and pass a PeepholeLSTM
+Cell
+to its constructor.
+There are many other variants of the LSTM cell. One particularly popular variant is
+the GRU cell, which we will look at now.
+<b>GRUcells</b>
+The <i>Gated</i> <i>Recurrent</i> <i>Unit</i> (GRU) cell (see Figure 15-10) was proposed by Kyunghyun
+Cho et al. in a 2014 paper11 that also introduced the Encoder–Decoder network we
+discussed earlier.
+10 F.A.GersandJ.Schmidhuber,“RecurrentNetsThatTimeandCount,”ProceedingsoftheIEEE-INNS-ENNS
+<i>InternationalJointConferenceonNeuralNetworks(2000):189–194.</i>
+11 KyunghyunChoetal.,“LearningPhraseRepresentationsUsingRNNEncoder-DecoderforStatistical
+MachineTranslation,”Proceedingsofthe2014ConferenceonEmpiricalMethodsinNaturalLanguageProcessing
+(2014):1724–1734.

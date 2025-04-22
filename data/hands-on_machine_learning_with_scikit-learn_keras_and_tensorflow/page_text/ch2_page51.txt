@@ -1,46 +1,34 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            and it is not necessarily a problem, but you should try to understand how the
-            data was computed.                                        
-                                                                      
-           2. The housing median age and the median house value were also capped. The lat‐
-            ter may be a serious problem since it is your target attribute (your labels). Your
-            Machine Learning algorithms may learn that prices never go beyond that limit.
-            You need to check with your client team (the team that will use your system’s out‐
-            put) to see if this is a problem or not. If they tell you that they need precise pre‐
-            dictions even beyond $500,000, then you have two options: 
-             a. Collect proper labels for the districts whose labels were capped.
-            b. Remove those districts from the training set (and also from the test set, since
-              your system should not be evaluated poorly if it predicts values beyond
-              $500,000).                                              
-           3. These attributes have very different scales. We will discuss this later in this chap‐
-            ter, when we explore feature scaling.                     
-           4. Finally, many histograms are tail-heavy: they extend much farther to the right of
-            the median than to the left. This may make it a bit harder for some Machine
-            Learning algorithms to detect patterns. We will try transforming these attributes
-            later on to have more bell-shaped distributions.          
-                                                                      
-          Hopefully you now have a better understanding of the kind of data you are dealing
-          with.                                                       
-                                                                      
-                   Wait! Before you look at the data any further, you need to create a
-                   test set, put it aside, and never look at it.      
-                                                                      
-                                                                      
-                                                                      
-          Create a Test Set                                           
-                                                                      
-          It may sound strange to voluntarily set aside part of the data at this stage. After all,
-          you have only taken a quick glance at the data, and surely you should learn a whole
-          lot more about it before you decide what algorithms to use, right? This is true, but
-          your brain is an amazing pattern detection system, which means that it is highly
-          prone to overfitting: if you look at the test set, you may stumble upon some seemingly
-          interesting pattern in the test data that leads you to select a particular kind of
-          Machine Learning model. When you estimate the generalization error using the test
-          set, your estimate will be too optimistic, and you will launch a system that will not
-          perform as well as expected. This is called data snooping bias.
-          Creating a test set is theoretically simple: pick some instances randomly, typically
-          20% of the dataset (or less if your dataset is very large), and set them aside:
-                                                                      
+and it is not necessarily a problem, but you should try to understand how the
+data was computed.
+2. The housing median age and the median house value were also capped. The lat‐
+ter may be a serious problem since it is your target attribute (your labels). Your
+Machine Learning algorithms may learn that prices never go beyond that limit.
+You need to check with your client team (the team that will use your system’s out‐
+put) to see if this is a problem or not. If they tell you that they need precise pre‐
+dictions even beyond $500,000, then you have two options:
+a. Collect proper labels for the districts whose labels were capped.
+b. Remove those districts from the training set (and also from the test set, since
+your system should not be evaluated poorly if it predicts values beyond
+$500,000).
+3. These attributes have very different scales. We will discuss this later in this chap‐
+ter, when we explore feature scaling.
+4. Finally, many histograms are <i>tail-heavy:</i> they extend much farther to the right of
+the median than to the left. This may make it a bit harder for some Machine
+Learning algorithms to detect patterns. We will try transforming these attributes
+later on to have more bell-shaped distributions.
+Hopefully you now have a better understanding of the kind of data you are dealing
+with.
+Wait! Before you look at the data any further, you need to create a
+test set, put it aside, and never look at it.
+<header><largefont><b>Create</b></largefont> <largefont><b>a</b></largefont> <largefont><b>Test</b></largefont> <largefont><b>Set</b></largefont></header>
+It may sound strange to voluntarily set aside part of the data at this stage. After all,
+you have only taken a quick glance at the data, and surely you should learn a whole
+lot more about it before you decide what algorithms to use, right? This is true, but
+your brain is an amazing pattern detection system, which means that it is highly
+prone to overfitting: if you look at the test set, you may stumble upon some seemingly
+interesting pattern in the test data that leads you to select a particular kind of
+Machine Learning model. When you estimate the generalization error using the test
+set, your estimate will be too optimistic, and you will launch a system that will not
+perform as well as expected. This is called <i>data</i> <i>snooping</i> bias.
+Creating a test set is theoretically simple: pick some instances randomly, typically
+20% of the dataset (or less if your dataset is very large), and set them aside:

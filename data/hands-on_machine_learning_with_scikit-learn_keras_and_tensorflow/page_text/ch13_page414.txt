@@ -1,46 +1,37 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          In this chapter, we will cover the Data API, the TFRecord format, and how to create
-          custom preprocessing layers and use the standard Keras ones. We will also take a
-          quick look at a few related projects from TensorFlow’s ecosystem:
-                                                                      
-          TF Transform (tf.Transform)                                 
-            Makes it possible to write a single preprocessing function that can be run in
-            batch mode on your full training set, before training (to speed it up), and then
-            exported to a TF Function and incorporated into your trained model so that once
-            it is deployed in production it can take care of preprocessing new instances on
-            the fly.                                                  
-          TF Datasets (TFDS)                                          
-            Provides a convenient function to download many common datasets of all kinds,
-            including large ones like ImageNet, as well as convenient dataset objects to
-            manipulate them using the Data API.                       
-          So let’s get started!                                       
-                                                                      
-          The Data API                                                
-                                                                      
-          The whole Data API revolves around the concept of a dataset: as you might suspect,
-          this represents a sequence of data items. Usually you will use datasets that gradually
-          read data from disk, but for simplicity let’s create a dataset entirely in RAM using
-          tf.data.Dataset.from_tensor_slices():                       
-                                                                      
-            >>> X = tf.range(10) # any data tensor                    
-            >>> dataset = tf.data.Dataset.from_tensor_slices(X)       
-            >>> dataset                                               
-            <TensorSliceDataset shapes: (), types: tf.int32>          
-          The from_tensor_slices() function takes a tensor and creates a tf.data.Dataset
-          whose elements are all the slices of X (along the first dimension), so this dataset con‐
-          tains 10 items: tensors 0, 1, 2, …, 9. In this case we would have obtained the same
-          dataset if we had used tf.data.Dataset.range(10).           
-          You can simply iterate over a dataset’s items like this:    
-            >>> for item in dataset:                                  
-            ...  print(item)                                          
-            ...                                                       
-            tf.Tensor(0, shape=(), dtype=int32)                       
-            tf.Tensor(1, shape=(), dtype=int32)                       
-            tf.Tensor(2, shape=(), dtype=int32)                       
-            [...]                                                     
-            tf.Tensor(9, shape=(), dtype=int32)                       
-                                                                      
-                                                                      
+In this chapter, we will cover the Data API, the TFRecord format, and how to create
+custom preprocessing layers and use the standard Keras ones. We will also take a
+quick look at a few related projects from TensorFlow’s ecosystem:
+<i>TF</i> <i>Transform</i> <i>(tf.Transform)</i>
+Makes it possible to write a single preprocessing function that can be run in
+batch mode on your full training set, before training (to speed it up), and then
+exported to a TF Function and incorporated into your trained model so that once
+it is deployed in production it can take care of preprocessing new instances on
+the fly.
+<i>TF</i> <i>Datasets</i> <i>(TFDS)</i>
+Provides a convenient function to download many common datasets of all kinds,
+including large ones like ImageNet, as well as convenient dataset objects to
+manipulate them using the Data API.
+So let’s get started!
+<header><largefont><b>The</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>API</b></largefont></header>
+The whole Data API revolves around the concept of a <i>dataset:</i> as you might suspect,
+this represents a sequence of data items. Usually you will use datasets that gradually
+read data from disk, but for simplicity let’s create a dataset entirely in RAM using
+tf.data.Dataset.from_tensor_slices() :
+<b>>>></b> X = tf.range(10) <i>#</i> <i>any</i> <i>data</i> <i>tensor</i>
+<b>>>></b> dataset = tf.data.Dataset.from_tensor_slices(X)
+<b>>>></b> dataset
+<TensorSliceDataset shapes: (), types: tf.int32>
+The from_tensor_slices() function takes a tensor and creates a tf.data.Dataset
+X
+whose elements are all the slices of (along the first dimension), so this dataset con‐
+tains 10 items: tensors 0, 1, 2, …, 9. In this case we would have obtained the same
+dataset if we had used tf.data.Dataset.range(10) .
+You can simply iterate over a dataset’s items like this:
+<b>>>></b> <b>for</b> item <b>in</b> dataset:
+<b>...</b> <b>print(item)</b>
+<b>...</b>
+tf.Tensor(0, shape=(), dtype=int32)
+tf.Tensor(1, shape=(), dtype=int32)
+tf.Tensor(2, shape=(), dtype=int32)
+[...]
+tf.Tensor(9, shape=(), dtype=int32)

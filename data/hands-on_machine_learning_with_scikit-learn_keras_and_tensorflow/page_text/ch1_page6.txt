@@ -1,46 +1,37 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Detecting tumors in brain scans                             
-            This is semantic segmentation, where each pixel in the image is classified (as we
-            want to determine the exact location and shape of tumors), typically using CNNs
-            as well.                                                  
-                                                                      
-          Automatically classifying news articles                     
-            This is natural language processing (NLP), and more specifically text classifica‐
-            tion, which can be tackled using recurrent neural networks (RNNs), CNNs, or
-            Transformers (see Chapter 16).                            
-          Automatically flagging offensive comments on discussion forums
-            This is also text classification, using the same NLP tools.
-                                                                      
-          Summarizing long documents automatically                    
-            This is a branch of NLP called text summarization, again using the same tools.
-          Creating a chatbot or a personal assistant                  
-            This involves many NLP components, including natural language understanding
-            (NLU) and question-answering modules.                     
-                                                                      
-          Forecasting your company’s revenue next year, based on many performance metrics
-            This is a regression task (i.e., predicting values) that may be tackled using any
-            regression model, such as a Linear Regression or Polynomial Regression model
-            (see Chapter 4), a regression SVM (see Chapter 5), a regression Random Forest
-            (see Chapter 7), or an artificial neural network (see Chapter 10). If you want to
-            take into account sequences of past performance metrics, you may want to use
-            RNNs, CNNs, or Transformers (see Chapters 15 and 16).     
-          Making your app react to voice commands                     
-            This is speech recognition, which requires processing audio samples: since they
-            are long and complex sequences, they are typically processed using RNNs, CNNs,
-            or Transformers (see Chapters 15 and 16).                 
-          Detecting credit card fraud                                 
-            This is anomaly detection (see Chapter 9).                
-                                                                      
-          Segmenting clients based on their purchases so that you can design a different marketing
-          strategy for each segment                                   
-            This is clustering (see Chapter 9).                       
-          Representing a complex, high-dimensional dataset in a clear and insightful diagram
-            This is data visualization, often involving dimensionality reduction techniques
-            (see Chapter 8).                                          
-                                                                      
-          Recommending a product that a client may be interested in, based on past purchases
-            This is a recommender system. One approach is to feed past purchases (and
-            other information about the client) to an artificial neural network (see Chap‐
+<i>Detecting</i> <i>tumors</i> <i>in</i> <i>brain</i> <i>scans</i>
+This is semantic segmentation, where each pixel in the image is classified (as we
+want to determine the exact location and shape of tumors), typically using CNNs
+as well.
+<i>Automatically</i> <i>classifying</i> <i>news</i> <i>articles</i>
+This is natural language processing (NLP), and more specifically text classifica‐
+tion, which can be tackled using recurrent neural networks (RNNs), CNNs, or
+Transformers (see Chapter 16).
+<i>Automatically</i> <i>flagging</i> <i>offensive</i> <i>comments</i> <i>on</i> <i>discussion</i> <i>forums</i>
+This is also text classification, using the same NLP tools.
+<i>Summarizing</i> <i>long</i> <i>documents</i> <i>automatically</i>
+This is a branch of NLP called text summarization, again using the same tools.
+<i>Creating</i> <i>a</i> <i>chatbot</i> <i>or</i> <i>a</i> <i>personal</i> <i>assistant</i>
+This involves many NLP components, including natural language understanding
+(NLU) and question-answering modules.
+<i>Forecasting</i> <i>your</i> <i>company’s</i> <i>revenue</i> <i>next</i> <i>year,</i> <i>based</i> <i>on</i> <i>many</i> <i>performance</i> <i>metrics</i>
+This is a regression task (i.e., predicting values) that may be tackled using any
+regression model, such as a Linear Regression or Polynomial Regression model
+(see Chapter 4), a regression SVM (see Chapter 5), a regression Random Forest
+(see Chapter 7), or an artificial neural network (see Chapter 10). If you want to
+take into account sequences of past performance metrics, you may want to use
+RNNs, CNNs, or Transformers (see Chapters 15 and 16).
+<i>Making</i> <i>your</i> <i>app</i> <i>react</i> <i>to</i> <i>voice</i> <i>commands</i>
+This is speech recognition, which requires processing audio samples: since they
+are long and complex sequences, they are typically processed using RNNs, CNNs,
+or Transformers (see Chapters 15 and 16).
+<i>Detecting</i> <i>credit</i> <i>card</i> <i>fraud</i>
+This is anomaly detection (see Chapter 9).
+<i>Segmenting</i> <i>clients</i> <i>based</i> <i>on</i> <i>their</i> <i>purchases</i> <i>so</i> <i>that</i> <i>you</i> <i>can</i> <i>design</i> <i>a</i> <i>different</i> <i>marketing</i>
+<i>strategy</i> <i>for</i> <i>each</i> <i>segment</i>
+This is clustering (see Chapter 9).
+<i>Representing</i> <i>a</i> <i>complex,</i> <i>high-dimensional</i> <i>dataset</i> <i>in</i> <i>a</i> <i>clear</i> <i>and</i> <i>insightful</i> <i>diagram</i>
+This is data visualization, often involving dimensionality reduction techniques
+(see Chapter 8).
+<i>Recommending</i> <i>a</i> <i>product</i> <i>that</i> <i>a</i> <i>client</i> <i>may</i> <i>be</i> <i>interested</i> <i>in,</i> <i>based</i> <i>on</i> <i>past</i> <i>purchases</i>
+This is a recommender system. One approach is to feed past purchases (and
+other information about the client) to an artificial neural network (see Chap‐

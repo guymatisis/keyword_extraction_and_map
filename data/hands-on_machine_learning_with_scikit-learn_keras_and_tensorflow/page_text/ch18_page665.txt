@@ -1,46 +1,18 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-           7. What is an off-policy RL algorithm?                     
-                                                                      
-           8. Use policy gradients to solve OpenAI Gym’s LunarLander-v2 environment. You
-            will need to install the Box2D dependencies (python3 -m pip install -U
-            gym[box2d]).                                              
-           9. Use TF-Agents to train an agent that can achieve a superhuman level at
-            SpaceInvaders-v4 using any of the available algorithms.   
-          10. If you have about $100 to spare, you can purchase a Raspberry Pi 3 plus some
-            cheap robotics components, install TensorFlow on the Pi, and go wild! For an
-            example, check out this fun post by Lukas Biewald, or take a look at GoPiGo or
-            BrickPi. Start with simple goals, like making the robot turn around to find the
-            brightest angle (if it has a light sensor) or the closest object (if it has a sonar sen‐
-            sor), and move in that direction. Then you can start using Deep Learning: for
-            example, if the robot has a camera, you can try to implement an object detection
-            algorithm so it detects people and moves toward them. You can also try to use RL
-            to make the agent learn on its own how to use the motors to achieve that goal.
-            Have fun!                                                 
-                                                                      
-          Solutions to these exercises are available in Appendix A.   
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+7. What is an off-policy RL algorithm?
+8. Use policy gradients to solve OpenAI Gym’s LunarLander-v2 environment. You
+python3 -m pip install -U
+will need to install the Box2D dependencies (
+gym[box2d]).
+9. Use TF-Agents to train an agent that can achieve a superhuman level at
+SpaceInvaders-v4 using any of the available algorithms.
+10. If you have about $100 to spare, you can purchase a Raspberry Pi 3 plus some
+cheap robotics components, install TensorFlow on the Pi, and go wild! For an
+example, check out this fun post by Lukas Biewald, or take a look at GoPiGo or
+BrickPi. Start with simple goals, like making the robot turn around to find the
+brightest angle (if it has a light sensor) or the closest object (if it has a sonar sen‐
+sor), and move in that direction. Then you can start using Deep Learning: for
+example, if the robot has a camera, you can try to implement an object detection
+algorithm so it detects people and moves toward them. You can also try to use RL
+to make the agent learn on its own how to use the motors to achieve that goal.
+Have fun!
+Solutions to these exercises are available in Appendix A.

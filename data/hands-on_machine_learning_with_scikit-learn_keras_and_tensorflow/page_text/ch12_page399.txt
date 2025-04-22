@@ -1,46 +1,42 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          itself. Before we get there, we need to look at how to compute gradients automatically
-          in TensorFlow.                                              
-                                                                      
-          Computing Gradients Using Autodiff                          
-                                                                      
-          To understand how to use autodiff (see Chapter 10 and Appendix D) to compute gra‐
-          dients automatically, let’s consider a simple toy function: 
-            def f(w1, w2):                                            
-               return 3 * w1 ** 2 + 2 * w1 * w2                       
-          If you know calculus, you can analytically find that the partial derivative of this func‐
-          tion with regard to w1 is 6 * w1 + 2 * w2. You can also find that its partial derivative
-          with regard to w2 is 2 * w1. For example, at the point (w1, w2) = (5, 3), these par‐
-          tial derivatives are equal to 36 and 10, respectively, so the gradient vector at this point
-          is (36, 10). But if this were a neural network, the function would be much more com‐
-          plex, typically with tens of thousands of parameters, and finding the partial deriva‐
-          tives analytically by hand would be an almost impossible task. One solution could be
-          to compute an approximation of each partial derivative by measuring how much the
-          function’s output changes when you tweak the corresponding parameter:
-            >>> w1, w2 = 5, 3                                         
-            >>> eps = 1e-6                                            
-            >>> (f(w1 + eps, w2) - f(w1, w2)) / eps                   
-            36.000003007075065                                        
-            >>> (f(w1, w2 + eps) - f(w1, w2)) / eps                   
-            10.000000003174137                                        
-          Looks about right! This works rather well and is easy to implement, but it is just an
-          approximation, and importantly you need to call f() at least once per parameter (not
-          twice, since we could compute f(w1, w2) just once). Needing to call f() at least once
-          per parameter makes this approach intractable for large neural networks. So instead,
-          we should use autodiff. TensorFlow makes this pretty simple:
-            w1, w2 = tf.Variable(5.), tf.Variable(3.)                 
-            with tf.GradientTape() as tape:                           
-               z = f(w1, w2)                                          
-            gradients = tape.gradient(z, [w1, w2])                    
-          We first define two variables w1 and w2, then we create a tf.GradientTape context
-          that will automatically record every operation that involves a variable, and finally we
-          ask this tape to compute the gradients of the result z with regard to both variables
-          [w1, w2]. Let’s take a look at the gradients that TensorFlow computed:
-                                                                      
-            >>> gradients                                             
-            [<tf.Tensor: id=828234, shape=(), dtype=float32, numpy=36.0>,
-             <tf.Tensor: id=828229, shape=(), dtype=float32, numpy=10.0>]
-                                                                      
+itself. Before we get there, we need to look at how to compute gradients automatically
+in TensorFlow.
+<header><largefont><b>Computing</b></largefont> <largefont><b>Gradients</b></largefont> <largefont><b>Using</b></largefont> <largefont><b>Autodiff</b></largefont></header>
+To understand how to use autodiff (see Chapter 10 and Appendix D) to compute gra‐
+dients automatically, let’s consider a simple toy function:
+<b>def</b> f(w1, w2):
+<b>return</b> 3 * w1 ** 2 + 2 * w1 * w2
+If you know calculus, you can analytically find that the partial derivative of this func‐
+w1 6 * w1 + 2 * w2.
+tion with regard to is You can also find that its partial derivative
+w2 2 * w1 (w1, w2) = (5, 3)
+with regard to is . For example, at the point , these par‐
+tial derivatives are equal to 36 and 10, respectively, so the gradient vector at this point
+is (36, 10). But if this were a neural network, the function would be much more com‐
+plex, typically with tens of thousands of parameters, and finding the partial deriva‐
+tives analytically by hand would be an almost impossible task. One solution could be
+to compute an approximation of each partial derivative by measuring how much the
+function’s output changes when you tweak the corresponding parameter:
+<b>>>></b> w1, w2 = 5, 3
+<b>>>></b> eps = 1e-6
+<b>>>></b> (f(w1 + eps, w2) - f(w1, w2)) / eps
+36.000003007075065
+<b>>>></b> (f(w1, w2 + eps) - f(w1, w2)) / eps
+10.000000003174137
+Looks about right! This works rather well and is easy to implement, but it is just an
+approximation, and importantly you need to call f() at least once per parameter (not
+f(w1, w2) f()
+twice, since we could compute just once). Needing to call at least once
+per parameter makes this approach intractable for large neural networks. So instead,
+we should use autodiff. TensorFlow makes this pretty simple:
+w1, w2 = tf.Variable(5.), tf.Variable(3.)
+<b>with</b> tf.GradientTape() <b>as</b> tape:
+z = f(w1, w2)
+gradients = tape.gradient(z, [w1, w2])
+We first define two variables w1 and w2 , then we create a tf.GradientTape context
+that will automatically record every operation that involves a variable, and finally we
+z
+ask this tape to compute the gradients of the result with regard to both variables
+[w1, w2] . Let’s take a look at the gradients that TensorFlow computed:
+<b>>>></b> gradients
+[<tf.Tensor: id=828234, shape=(), dtype=float32, numpy=36.0>,
+<tf.Tensor: id=828229, shape=(), dtype=float32, numpy=10.0>]

@@ -1,46 +1,46 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-           2. Take a new centroid c(i), choosing an instance x(i) with probability D  i 2 /
-            ∑m  D  j 2 , where D(x(i)) is the distance between the instance x(i) and the clos‐
-             j=1                                                      
-            est centroid that was already chosen. This probability distribution ensures that
-            instances farther away from already chosen centroids are much more likely be
-            selected as centroids.                                    
-           3. Repeat the previous step until all k centroids have been chosen.
-          The KMeans class uses this initialization method by default. If you want to force it to
-          use the original method (i.e., picking k instances randomly to define the initial cent‐
-          roids), then you can set the init hyperparameter to "random". You will rarely need to
-          do this.                                                    
-                                                                      
-          Accelerated K-Means and mini-batch K-Means                  
-          Another important improvement to the K-Means algorithm was proposed in a 2003
-          paper by Charles Elkan.4 It considerably accelerates the algorithm by avoiding many
-          unnecessary distance calculations. Elkan achieved this by exploiting the triangle
-          inequality (i.e., that a straight line is always the shortest distance between two points5)
-          and by keeping track of lower and upper bounds for distances between instances and
-          centroids. This is the algorithm the KMeans class uses by default (you can force it to
-          use the original algorithm by setting the algorithm hyperparameter to "full",
-          although you probably will never need to).                  
-                                                                      
-          Yet another important variant of the K-Means algorithm was proposed in a 2010
-          paper by David Sculley.6 Instead of using the full dataset at each iteration, the algo‐
-          rithm is capable of using mini-batches, moving the centroids just slightly at each iter‐
-          ation. This speeds up the algorithm typically by a factor of three or four and makes it
-          possible to cluster huge datasets that do not fit in memory. Scikit-Learn implements
-          this algorithm in the MiniBatchKMeans class. You can just use this class like the
-          KMeans class:                                               
-            from sklearn.cluster import MiniBatchKMeans               
-            minibatch_kmeans = MiniBatchKMeans(n_clusters=5)          
-            minibatch_kmeans.fit(X)                                   
-                                                                      
-                                                                      
-                                                                      
-          4 Charles Elkan, “Using the Triangle Inequality to Accelerate k-Means,” Proceedings of the 20th International
-           Conference on Machine Learning (2003): 147–153.            
-          5 The triangle inequality is AC ≤ AB + BC where A, B and C are three points and AB, AC, and BC are the
-           distances between these points.                            
-          6 David Sculley, “Web-Scale K-Means Clustering,” Proceedings of the 19th International Conference on World
-           Wide Web (2010): 1177–1178.                                
+2
+<i>i</i>
+2. Take a new centroid <b>c(i),</b> choosing an instance <b>x(i)</b> with probability <i>D</i>  /
+2
+<i>m</i> <i>j</i>
+∑ <i>D</i>  , where D(x(i)) is the distance between the instance <b>x(i)</b> and the clos‐
+<i>j</i> = 1
+est centroid that was already chosen. This probability distribution ensures that
+instances farther away from already chosen centroids are much more likely be
+selected as centroids.
+3. Repeat the previous step until all <i>k</i> centroids have been chosen.
+The KMeans class uses this initialization method by default. If you want to force it to
+use the original method (i.e., picking <i>k</i> instances randomly to define the initial cent‐
+roids), then you can set the init hyperparameter to "random" . You will rarely need to
+do this.
+<b>AcceleratedK-Meansandmini-batchK-Means</b>
+Another important improvement to the K-Means algorithm was proposed in a 2003
+Elkan.4
+paper by Charles It considerably accelerates the algorithm by avoiding many
+unnecessary distance calculations. Elkan achieved this by exploiting the triangle
+inequality (i.e., that a straight line is always the shortest distance between two points5)
+and by keeping track of lower and upper bounds for distances between instances and
+KMeans
+centroids. This is the algorithm the class uses by default (you can force it to
+algorithm "full",
+use the original algorithm by setting the hyperparameter to
+although you probably will never need to).
+Yet another important variant of the K-Means algorithm was proposed in a 2010
+Sculley.6
+paper by David Instead of using the full dataset at each iteration, the algo‐
+rithm is capable of using mini-batches, moving the centroids just slightly at each iter‐
+ation. This speeds up the algorithm typically by a factor of three or four and makes it
+possible to cluster huge datasets that do not fit in memory. Scikit-Learn implements
+MiniBatchKMeans
+this algorithm in the class. You can just use this class like the
+KMeans
+class:
+<b>from</b> <b>sklearn.cluster</b> <b>import</b> MiniBatchKMeans
+minibatch_kmeans = MiniBatchKMeans(n_clusters=5)
+minibatch_kmeans.fit(X)
+4 CharlesElkan,“UsingtheTriangleInequalitytoAcceleratek-Means,”Proceedingsofthe20thInternational
+<i>ConferenceonMachineLearning(2003):147–153.</i>
+5 ThetriangleinequalityisAC≤AB+BCwhereA,BandCarethreepointsandAB,AC,andBCarethe
+distancesbetweenthesepoints.
+6 DavidSculley,“Web-ScaleK-MeansClustering,”Proceedingsofthe19thInternationalConferenceonWorld
+<i>WideWeb(2010):1177–1178.</i>

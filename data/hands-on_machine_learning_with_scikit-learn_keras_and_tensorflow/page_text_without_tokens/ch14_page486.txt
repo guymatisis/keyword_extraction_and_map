@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          the next step, it started detecting part of the topmost rose, and then it detected it
+          again once it was shifted one more step to the right. You would then continue to slide
+          the CNN through the whole image, looking at all 3 × 3 regions. Moreover, since
+          objects can have varying sizes, you would also slide the CNN across regions of differ‐
+          ent sizes. For example, once you are done with the 3 × 3 regions, you might want to
+          slide the CNN across all 4 × 4 regions as well.             
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 14-24. Detecting multiple objects by sliding a CNN across the image
+                                                                      
+          This technique is fairly straightforward, but as you can see it will detect the same
+          object multiple times, at slightly different positions. Some post-processing will then
+          be needed to get rid of all the unnecessary bounding boxes. A common approach for
+          this is called non-max suppression. Here’s how you do it:   
+           1. First, you need to add an extra objectness output to your CNN, to estimate the
+            probability that a flower is indeed present in the image (alternatively, you could
+            add a “no-flower” class, but this usually does not work as well). It must use the
+            sigmoid activation function, and you can train it using binary cross-entropy loss.
+            Then get rid of all the bounding boxes for which the objectness score is below
+            some threshold: this will drop all the bounding boxes that don’t actually contain a
+            flower.                                                   
+           2. Find the bounding box with the highest objectness score, and get rid of all the
+            other bounding boxes that overlap a lot with it (e.g., with an IoU greater than
+            60%). For example, in Figure 14-24, the bounding box with the max objectness
+            score is the thick bounding box over the topmost rose (the objectness score is
+            represented by the thickness of the bounding boxes). The other bounding box
+                                                                      
+                                                                      

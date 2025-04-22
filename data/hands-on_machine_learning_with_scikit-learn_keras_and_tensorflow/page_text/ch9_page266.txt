@@ -1,46 +1,24 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Anomaly Detection Using Gaussian Mixtures                   
-                                                                      
-          Anomaly detection (also called outlier detection) is the task of detecting instances that
-          deviate strongly from the norm. These instances are called anomalies, or outliers,
-          while the normal instances are called inliers. Anomaly detection is useful in a wide
-          variety of applications, such as fraud detection, detecting defective products in manu‐
-          facturing, or removing outliers from a dataset before training another model (which
-          can significantly improve the performance of the resulting model).
-          Using a Gaussian mixture model for anomaly detection is quite simple: any instance
-          located in a low-density region can be considered an anomaly. You must define what
-          density threshold you want to use. For example, in a manufacturing company that
-          tries to detect defective products, the ratio of defective products is usually well
-          known. Say it is equal to 4%. You then set the density threshold to be the value that
-          results in having 4% of the instances located in areas below that threshold density. If
-          you notice that you get too many false positives (i.e., perfectly good products that are
-          flagged as defective), you can lower the threshold. Conversely, if you have too many
-          false negatives (i.e., defective products that the system does not flag as defective), you
-          can increase the threshold. This is the usual precision/recall trade-off (see Chapter 3).
-          Here is how you would identify the outliers using the fourth percentile lowest density
-          as the threshold (i.e., approximately 4% of the instances will be flagged as anomalies):
-            densities = gm.score_samples(X)                           
-            density_threshold = np.percentile(densities, 4)           
-            anomalies = X[densities < density_threshold]              
-          Figure 9-19 represents these anomalies as stars.            
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 9-19. Anomaly detection using a Gaussian mixture model
-                                                                      
-                                                                      
-                                                                      
+<header><largefont><b>Anomaly</b></largefont> <largefont><b>Detection</b></largefont> <largefont><b>Using</b></largefont> <largefont><b>Gaussian</b></largefont> <largefont><b>Mixtures</b></largefont></header>
+<i>Anomaly</i> <i>detection</i> (also called <i>outlier</i> <i>detection)</i> is the task of detecting instances that
+deviate strongly from the norm. These instances are called <i>anomalies,</i> or <i>outliers,</i>
+while the normal instances are called <i>inliers.</i> Anomaly detection is useful in a wide
+variety of applications, such as fraud detection, detecting defective products in manu‐
+facturing, or removing outliers from a dataset before training another model (which
+can significantly improve the performance of the resulting model).
+Using a Gaussian mixture model for anomaly detection is quite simple: any instance
+located in a low-density region can be considered an anomaly. You must define what
+density threshold you want to use. For example, in a manufacturing company that
+tries to detect defective products, the ratio of defective products is usually well
+known. Say it is equal to 4%. You then set the density threshold to be the value that
+results in having 4% of the instances located in areas below that threshold density. If
+you notice that you get too many false positives (i.e., perfectly good products that are
+flagged as defective), you can lower the threshold. Conversely, if you have too many
+false negatives (i.e., defective products that the system does not flag as defective), you
+can increase the threshold. This is the usual precision/recall trade-off (see Chapter 3).
+Here is how you would identify the outliers using the fourth percentile lowest density
+as the threshold (i.e., approximately 4% of the instances will be flagged as anomalies):
+densities = gm.score_samples(X)
+density_threshold = np.percentile(densities, 4)
+anomalies = X[densities < density_threshold]
+Figure 9-19 represents these anomalies as stars.
+<i>Figure</i> <i>9-19.</i> <i>Anomaly</i> <i>detection</i> <i>using</i> <i>a</i> <i>Gaussian</i> <i>mixture</i> <i>model</i>

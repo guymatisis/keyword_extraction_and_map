@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+           and max_samples=1.0) but sampling features (by setting bootstrap_features to
+          True and/or max_features to a value smaller than 1.0) is called the Random Subspa‐
+          ces method.8                                                
+                                                                      
+          Sampling features results in even more predictor diversity, trading a bit more bias for
+          a lower variance.                                           
+          Random  Forests                                             
+                                                                      
+                                                                      
+          As we have discussed, a Random Forest9 is an ensemble of Decision Trees, generally
+          trained via the bagging method (or sometimes pasting), typically with max_samples
+          set to the size of the training set. Instead of building a BaggingClassifier and pass‐
+          ing it a DecisionTreeClassifier, you can instead use the RandomForestClassifier
+          class, which is more convenient and optimized for Decision Trees10 (similarly, there is
+          a RandomForestRegressor class for regression tasks). The following code uses all
+          available CPU cores to train a Random Forest classifier with 500 trees (each limited
+          to maximum 16 nodes):                                       
+            from sklearn.ensemble import RandomForestClassifier       
+            rnd_clf = RandomForestClassifier(n_estimators=500, max_leaf_nodes=16, n_jobs=-1)
+            rnd_clf.fit(X_train, y_train)                             
+                                                                      
+            y_pred_rf = rnd_clf.predict(X_test)                       
+          With a few exceptions, a RandomForestClassifier has all the hyperparameters of a
+          DecisionTreeClassifier (to control how trees are grown), plus all the hyperpara‐
+          meters of a BaggingClassifier to control the ensemble itself.11
+                                                                      
+          The Random Forest algorithm introduces extra randomness when growing trees;
+          instead of searching for the very best feature when splitting a node (see Chapter 6), it
+          searches for the best feature among a random subset of features. The algorithm
+          results in greater tree diversity, which (again) trades a higher bias for a lower var‐
+          iance, generally yielding an overall better model. The following BaggingClassifier
+          is roughly equivalent to the previous RandomForestClassifier:
+                                                                      
+                                                                      
+          8 Tin Kam Ho, “The Random Subspace Method for Constructing Decision Forests,” IEEE Transactions on Pat‐
+           tern Analysis and Machine Intelligence 20, no. 8 (1998): 832–844.
+          9 Tin Kam Ho, “Random Decision Forests,” Proceedings of the Third International Conference on Document
+           Analysis and Recognition 1 (1995): 278.                    
+          10 The BaggingClassifier class remains useful if you want a bag of something other than Decision Trees.
+          11 There are a few notable exceptions: splitter is absent (forced to "random"), presort is absent (forced to
+           False), max_samples is absent (forced to 1.0), and base_estimator is absent (forced to DecisionTreeClassi
+           fier with the provided hyperparameters).                   

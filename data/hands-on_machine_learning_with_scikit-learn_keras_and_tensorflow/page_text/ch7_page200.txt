@@ -1,46 +1,22 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          AdaBoost13 (short for Adaptive Boosting) and Gradient Boosting. Let’s start with Ada‐
-          Boost.                                                      
-                                                                      
-          AdaBoost                                                    
-                                                                      
-          One way for a new predictor to correct its predecessor is to pay a bit more attention
-          to the training instances that the predecessor underfitted. This results in new predic‐
-          tors focusing more and more on the hard cases. This is the technique used by
-          AdaBoost.                                                   
-          For example, when training an AdaBoost classifier, the algorithm first trains a base
-          classifier (such as a Decision Tree) and uses it to make predictions on the training set.
-          The algorithm then increases the relative weight of misclassified training instances.
-          Then it trains a second classifier, using the updated weights, and again makes predic‐
-          tions on the training set, updates the instance weights, and so on (see Figure 7-7).
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 7-7. AdaBoost sequential training with instance weight updates
-                                                                      
-          Figure 7-8 shows the decision boundaries of five consecutive predictors on the
-          moons dataset (in this example, each predictor is a highly regularized SVM classifier
-          with an RBF kernel14). The first classifier gets many instances wrong, so their weights
-                                                                      
-                                                                      
-          13 Yoav Freund and Robert E. Schapire, “A Decision-Theoretic Generalization of On-Line Learning and an
-           Application to Boosting,” Journal of Computer and System Sciences 55, no. 1 (1997): 119–139.
-          14 This is just for illustrative purposes. SVMs are generally not good base predictors for AdaBoost; they are slow
-           and tend to be unstable with it.                           
+<i>AdaBoost13</i>
+(short for <i>Adaptive</i> <i>Boosting)</i> and <i>Gradient</i> <i>Boosting.</i> Let’s start with Ada‐
+Boost.
+<header><largefont><b>AdaBoost</b></largefont></header>
+One way for a new predictor to correct its predecessor is to pay a bit more attention
+to the training instances that the predecessor underfitted. This results in new predic‐
+tors focusing more and more on the hard cases. This is the technique used by
+AdaBoost.
+For example, when training an AdaBoost classifier, the algorithm first trains a base
+classifier (such as a Decision Tree) and uses it to make predictions on the training set.
+The algorithm then increases the relative weight of misclassified training instances.
+Then it trains a second classifier, using the updated weights, and again makes predic‐
+tions on the training set, updates the instance weights, and so on (see Figure 7-7).
+<i>Figure</i> <i>7-7.</i> <i>AdaBoost</i> <i>sequential</i> <i>training</i> <i>with</i> <i>instance</i> <i>weight</i> <i>updates</i>
+Figure 7-8 shows the decision boundaries of five consecutive predictors on the
+moons dataset (in this example, each predictor is a highly regularized SVM classifier
+kernel14).
+with an RBF The first classifier gets many instances wrong, so their weights
+13 YoavFreundandRobertE.Schapire,“ADecision-TheoreticGeneralizationofOn-LineLearningandan
+ApplicationtoBoosting,”JournalofComputerandSystemSciences55,no.1(1997):119–139.
+14 Thisisjustforillustrativepurposes.SVMsaregenerallynotgoodbasepredictorsforAdaBoost;theyareslow
+andtendtobeunstablewithit.

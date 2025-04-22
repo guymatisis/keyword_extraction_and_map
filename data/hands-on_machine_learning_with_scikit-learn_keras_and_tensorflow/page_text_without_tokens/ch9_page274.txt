@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Oops! The algorithm desperately searched for ellipsoids, so it found eight different
+          clusters instead of two. The density estimation is not too bad, so this model could
+          perhaps be used for anomaly detection, but it failed to identify the two moons. Let’s
+          now look at a few clustering algorithms capable of dealing with arbitrarily shaped
+          clusters.                                                   
+                                                                      
+          Other Algorithms for Anomaly and Novelty Detection          
+                                                                      
+          Scikit-Learn implements other algorithms dedicated to anomaly detection or novelty
+          detection:                                                  
+          PCA (and other dimensionality reduction techniques with an inverse_transform()
+          method)                                                     
+            If you compare the reconstruction error of a normal instance with the recon‐
+            struction error of an anomaly, the latter will usually be much larger. This is a sim‐
+            ple and often quite efficient anomaly detection approach (see this chapter’s
+            exercises for an application of this approach).           
+                                                                      
+          Fast-MCD (minimum covariance determinant)                   
+            Implemented by the EllipticEnvelope class, this algorithm is useful for outlier
+            detection, in particular to clean up a dataset. It assumes that the normal instances
+            (inliers) are generated from a single Gaussian distribution (not a mixture). It also
+            assumes that the dataset is contaminated with outliers that were not generated
+            from this Gaussian distribution. When the algorithm estimates the parameters of
+            the Gaussian distribution (i.e., the shape of the elliptic envelope around the inli‐
+            ers), it is careful to ignore the instances that are most likely outliers. This techni‐
+            que gives a better estimation of the elliptic envelope and thus makes the
+            algorithm better at identifying the outliers.             
+          Isolation Forest                                            
+            This is an efficient algorithm for outlier detection, especially in high-dimensional
+            datasets. The algorithm builds a Random Forest in which each Decision Tree is
+            grown randomly: at each node, it picks a feature randomly, then it picks a ran‐
+            dom threshold value (between the min and max values) to split the dataset in
+            two. The dataset gradually gets chopped into pieces this way, until all instances
+            end up isolated from the other instances. Anomalies are usually far from other
+            instances, so on average (across all the Decision Trees) they tend to get isolated in
+            fewer steps than normal instances.                        
+          Local Outlier Factor (LOF)                                  
+            This algorithm is also good for outlier detection. It compares the density of
+            instances around a given instance to the density around its neighbors. An anom‐
+            aly is often more isolated than its k nearest neighbors.  
+                                                                      
+                                                                      

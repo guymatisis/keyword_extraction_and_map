@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                  CHAPTER 14          
+                                                                      
+                           Deep   Computer    Vision Using            
+                                                                      
+                        Convolutional   Neural   Networks             
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Although IBM’s Deep Blue supercomputer beat the chess world champion Garry Kas‐
+          parov back in 1996, it wasn’t until fairly recently that computers were able to reliably
+          perform seemingly trivial tasks such as detecting a puppy in a picture or recognizing
+          spoken words. Why are these tasks so effortless to us humans? The answer lies in the
+          fact that perception largely takes place outside the realm of our consciousness, within
+          specialized visual, auditory, and other sensory modules in our brains. By the time
+          sensory information reaches our consciousness, it is already adorned with high-level
+          features; for example, when you look at a picture of a cute puppy, you cannot choose
+          not to see the puppy, not to notice its cuteness. Nor can you explain how you recog‐
+          nize a cute puppy; it’s just obvious to you. Thus, we cannot trust our subjective expe‐
+          rience: perception is not trivial at all, and to understand it we must look at how the
+          sensory modules work.                                       
+          Convolutional neural networks (CNNs) emerged from the study of the brain’s visual
+          cortex, and they have been used in image recognition since the 1980s. In the last few
+          years, thanks to the increase in computational power, the amount of available training
+          data, and the tricks presented in Chapter 11 for training deep nets, CNNs have man‐
+          aged to achieve superhuman performance on some complex visual tasks. They power
+          image search services, self-driving cars, automatic video classification systems, and
+          more. Moreover, CNNs are not restricted to visual perception: they are also successful
+          at many other tasks, such as voice recognition and natural language processing. How‐
+          ever, we will focus on visual applications for now.         
+          In this chapter we will explore where CNNs came from, what their building blocks
+          look like, and how to implement them using TensorFlow and Keras. Then we will dis‐
+          cuss some of the best CNN architectures, as well as other visual tasks, including
+                                                                      

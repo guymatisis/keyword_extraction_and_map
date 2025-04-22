@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          The Lasso cost function is not differentiable at θ = 0 (for i = 1, 2, ⋯, n), but Gradient
+                                      i                               
+          Descent still works fine if you use a subgradient vector g13 instead when any θ = 0.
+                                                        i             
+          Equation 4-11 shows a subgradient vector equation you can use for Gradient Descent
+          with the Lasso cost function.                               
+            Equation 4-11. Lasso Regression subgradient vector        
+                          sign θ                                      
+                              1            −1 if θ <0                 
+                                               i                      
+                          sign θ                                      
+            g θ,J = ∇ MSE θ +α 2 where sign θ = 0 if θ =0             
+                  θ                      i     i                      
+                            ⋮                                         
+                                           +1 if θ >0                 
+                                               i                      
+                          sign θ                                      
+                              n                                       
+          Here is a small Scikit-Learn example using the Lasso class: 
+            >>> from sklearn.linear_model import Lasso                
+            >>> lasso_reg = Lasso(alpha=0.1)                          
+            >>> lasso_reg.fit(X, y)                                   
+            >>> lasso_reg.predict([[1.5]])                            
+            array([1.53788174])                                       
+          Note that you could instead use SGDRegressor(penalty="l1"). 
+          Elastic Net                                                 
+          Elastic Net is a middle ground between Ridge Regression and Lasso Regression. The
+          regularization term is a simple mix of both Ridge and Lasso’s regularization terms,
+          and you can control the mix ratio r. When r = 0, Elastic Net is equivalent to Ridge
+          Regression, and when r = 1, it is equivalent to Lasso Regression (see Equation 4-12).
+            Equation 4-12. Elastic Net cost function                  
+                        n    1−r n  2                                 
+            J θ =MSE θ +rα∑ θ + α∑ θ                                  
+                        i=1 i 2  i=1 i                                
+          So when should you use plain Linear Regression (i.e., without any regularization),
+          Ridge, Lasso, or Elastic Net? It is almost always preferable to have at least a little bit of
+          regularization, so generally you should avoid plain Linear Regression. Ridge is a good
+          default, but if you suspect that only a few features are useful, you should prefer Lasso
+          or Elastic Net because they tend to reduce the useless features’ weights down to zero,
+          as we have discussed. In general, Elastic Net is preferred over Lasso because Lasso
+          13 You can think of a subgradient vector at a nondifferentiable point as an intermediate vector between the gra‐
+           dient vectors around that point.                           

@@ -1,46 +1,19 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Discover and Visualize the Data to Gain Insights            
-                                                                      
-          So far you have only taken a quick glance at the data to get a general understanding of
-          the kind of data you are manipulating. Now the goal is to go into a little more depth.
-                                                                      
-          First, make sure you have put the test set aside and you are only exploring the train‐
-          ing set. Also, if the training set is very large, you may want to sample an exploration
-          set, to make manipulations easy and fast. In our case, the set is quite small, so you can
-          just work directly on the full set. Let’s create a copy so that you can play with it
-          without harming the training set:                           
-            housing = strat_train_set.copy()                          
-          Visualizing Geographical Data                               
-                                                                      
-          Since there is geographical information (latitude and longitude), it is a good idea to
-          create a scatterplot of all districts to visualize the data (Figure 2-11):
-                                                                      
-            housing.plot(kind="scatter", x="longitude", y="latitude") 
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 2-11. A geographical scatterplot of the data         
-                                                                      
-          This looks like California all right, but other than that it is hard to see any particular
-          pattern. Setting the alpha option to 0.1 makes it much easier to visualize the places
-          where there is a high density of data points (Figure 2-12): 
-                                                                      
-            housing.plot(kind="scatter", x="longitude", y="latitude", alpha=0.1)
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+<header><largefont><b>Discover</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Visualize</b></largefont> <largefont><b>the</b></largefont> <largefont><b>Data</b></largefont> <largefont><b>to</b></largefont> <largefont><b>Gain</b></largefont> <largefont><b>Insights</b></largefont></header>
+So far you have only taken a quick glance at the data to get a general understanding of
+the kind of data you are manipulating. Now the goal is to go into a little more depth.
+First, make sure you have put the test set aside and you are only exploring the train‐
+ing set. Also, if the training set is very large, you may want to sample an exploration
+set, to make manipulations easy and fast. In our case, the set is quite small, so you can
+just work directly on the full set. Let’s create a copy so that you can play with it
+without harming the training set:
+housing = strat_train_set.copy()
+<header><largefont><b>Visualizing</b></largefont> <largefont><b>Geographical</b></largefont> <largefont><b>Data</b></largefont></header>
+Since there is geographical information (latitude and longitude), it is a good idea to
+create a scatterplot of all districts to visualize the data (Figure 2-11):
+housing.plot(kind="scatter", x="longitude", y="latitude")
+<i>Figure</i> <i>2-11.</i> <i>A</i> <i>geographical</i> <i>scatterplot</i> <i>of</i> <i>the</i> <i>data</i>
+This looks like California all right, but other than that it is hard to see any particular
+alpha 0.1
+pattern. Setting the option to makes it much easier to visualize the places
+where there is a high density of data points (Figure 2-12):
+housing.plot(kind="scatter", x="longitude", y="latitude", alpha=0.1)

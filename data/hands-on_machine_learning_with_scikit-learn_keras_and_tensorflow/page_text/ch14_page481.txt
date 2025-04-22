@@ -1,46 +1,38 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            Image #1                                                  
-             n04522168 - vase 46.83%                                  
-             n07930864 - cup 7.78%                                    
-             n11939491 - daisy 4.87%                                  
-          The correct classes (monastery and daisy) appear in the top three results for both
-          images. That’s pretty good, considering that the model had to choose from among
-          1,000 classes.                                              
-          As you can see, it is very easy to create a pretty good image classifier using a pre‐
-          trained model. Other vision models are available in keras.applications, including
-          several ResNet variants, GoogLeNet variants like Inception-v3 and Xception,
-          VGGNet variants, and MobileNet and MobileNetV2 (lightweight models for use in
-          mobile applications).                                       
-          But what if you want to use an image classifier for classes of images that are not part
-          of ImageNet? In that case, you may still benefit from the pretrained models to per‐
-          form transfer learning.                                     
-                                                                      
-          Pretrained Models for Transfer Learning                     
-                                                                      
-          If you want to build an image classifier but you do not have enough training data,
-          then it is often a good idea to reuse the lower layers of a pretrained model, as we dis‐
-          cussed in Chapter 11. For example, let’s train a model to classify pictures of flowers,
-          reusing a pretrained Xception model. First, let’s load the dataset using TensorFlow
-          Datasets (see Chapter 13):                                  
-            import tensorflow_datasets as tfds                        
-                                                                      
-            dataset, info = tfds.load("tf_flowers", as_supervised=True, with_info=True)
-            dataset_size = info.splits["train"].num_examples # 3670   
-            class_names = info.features["label"].names # ["dandelion", "daisy", ...]
-            n_classes = info.features["label"].num_classes # 5        
-          Note that you can get information about the dataset by setting with_info=True. Here,
-          we get the dataset size and the names of the classes. Unfortunately, there is only a
-          "train" dataset, no test set or validation set, so we need to split the training set. The
-          TF Datasets project provides an API for this. For example, let’s take the first 10% of
-          the dataset for testing, the next 15% for validation, and the remaining 75% for
-          training:                                                   
-            test_split, valid_split, train_split = tfds.Split.TRAIN.subsplit([10, 15, 75])
-                                                                      
-            test_set = tfds.load("tf_flowers", split=test_split, as_supervised=True)
-            valid_set = tfds.load("tf_flowers", split=valid_split, as_supervised=True)
-            train_set = tfds.load("tf_flowers", split=train_split, as_supervised=True)
-                                                                      
+Image #1
+n04522168 - vase 46.83%
+n07930864 - cup 7.78%
+n11939491 - daisy 4.87%
+The correct classes (monastery and daisy) appear in the top three results for both
+images. That’s pretty good, considering that the model had to choose from among
+1,000 classes.
+As you can see, it is very easy to create a pretty good image classifier using a pre‐
+keras.applications
+trained model. Other vision models are available in , including
+several ResNet variants, GoogLeNet variants like Inception-v3 and Xception,
+VGGNet variants, and MobileNet and MobileNetV2 (lightweight models for use in
+mobile applications).
+But what if you want to use an image classifier for classes of images that are not part
+of ImageNet? In that case, you may still benefit from the pretrained models to per‐
+form transfer learning.
+<header><largefont><b>Pretrained</b></largefont> <largefont><b>Models</b></largefont> <largefont><b>for</b></largefont> <largefont><b>Transfer</b></largefont> <largefont><b>Learning</b></largefont></header>
+If you want to build an image classifier but you do not have enough training data,
+then it is often a good idea to reuse the lower layers of a pretrained model, as we dis‐
+cussed in Chapter 11. For example, let’s train a model to classify pictures of flowers,
+reusing a pretrained Xception model. First, let’s load the dataset using TensorFlow
+Datasets (see Chapter 13):
+<b>import</b> <b>tensorflow_datasets</b> <b>as</b> <b>tfds</b>
+dataset, info = tfds.load("tf_flowers", as_supervised=True, with_info=True)
+dataset_size = info.splits["train"].num_examples <i>#</i> <i>3670</i>
+class_names = info.features["label"].names <i>#</i> <i>["dandelion",</i> <i>"daisy",</i> <i>...]</i>
+n_classes = info.features["label"].num_classes <i>#</i> <i>5</i>
+Note that you can get information about the dataset by setting with_info=True . Here,
+we get the dataset size and the names of the classes. Unfortunately, there is only a
+"train"
+dataset, no test set or validation set, so we need to split the training set. The
+TF Datasets project provides an API for this. For example, let’s take the first 10% of
+the dataset for testing, the next 15% for validation, and the remaining 75% for
+training:
+test_split, valid_split, train_split = tfds.Split.TRAIN.subsplit([10, 15, 75])
+test_set = tfds.load("tf_flowers", split=test_split, as_supervised=True)
+valid_set = tfds.load("tf_flowers", split=valid_split, as_supervised=True)
+train_set = tfds.load("tf_flowers", split=train_split, as_supervised=True)

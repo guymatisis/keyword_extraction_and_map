@@ -1,0 +1,51 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 8-12. Unrolled Swiss roll using LLE                  
+                                                                      
+          Here’s how LLE works: for each training instance x(i), the algorithm identifies its k
+          closest neighbors (in the preceding code k = 10), then tries to reconstruct x(i) as a lin‐
+          ear function of these neighbors. More specifically, it finds the weights w such that
+                                                     i,j              
+          the squared distance between x(i) and ∑m w x j is as small as possible, assuming w
+                                 j=1 i,j                   i,j        
+          = 0 if x(j) is not one of the k closest neighbors of x(i). Thus the first step of LLE is the
+          constrained optimization problem described in Equation 8-4, where W is the weight
+          matrix containing all the weights w . The second constraint simply normalizes the
+                               i,j                                    
+          weights for each training instance x(i).                    
+            Equation 8-4. LLE step one: linearly modeling local relationships
+                     m     m     2                                    
+             W= argmin ∑ x i − ∑ w x j                                
+                              i,j                                     
+                 W  i=1   j=1                                         
+                             j                 i                      
+                   w  =0  if x is not one of the k c.n. of x          
+                    i,j                                               
+             subject to m                                             
+                    ∑ w =1 for i=1,2,⋯,m                              
+                      i,j                                             
+                   j=1                                                
+          After this step, the weight matrix W (containing the weights w ) encodes the local
+                                               i,j                    
+          linear relationships between the training instances. The second step is to map the
+          training instances into a d-dimensional space (where d < n) while preserving these
+          local relationships as much as possible. If z(i) is the image of x(i) in this d-dimensional

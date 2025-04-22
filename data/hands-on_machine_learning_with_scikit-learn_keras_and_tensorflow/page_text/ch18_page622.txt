@@ -1,47 +1,41 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-           • Next, we sample a random float between 0 and 1, and we check whether it is
-            greater than left_proba. The action will be False with probability left_proba,
-            or True with probability 1 - left_proba. Once we cast this Boolean to a num‐
-            ber, the action will be 0 (left) or 1 (right) with the appropriate probabilities.
-                                                                      
-           • Next, we define the target probability of going left: it is 1 minus the action (cast
-            to a float). If the action is 0 (left), then the target probability of going left will be
-            1. If the action is 1 (right), then the target probability will be 0.
-           • Then we compute the loss using the given loss function, and we use the tape to
-            compute the gradient of the loss with regard to the model’s trainable variables.
-            Again, these gradients will be tweaked later, before we apply them, depending on
-            how good or bad the action turned out to be.              
-           • Finally, we play the selected action, and we return the new observation, the
-            reward, whether the episode is ended or not, and of course the gradients that we
-            just computed.                                            
-                                                                      
-          Now let’s create another function that will rely on the play_one_step() function to
-          play multiple episodes, returning all the rewards and gradients for each episode and
-          each step:                                                  
-            def play_multiple_episodes(env, n_episodes, n_max_steps, model, loss_fn):
-               all_rewards = []                                       
-               all_grads = []                                         
-               for episode in range(n_episodes):                      
-                 current_rewards = []                                 
-                 current_grads = []                                   
-                 obs = env.reset()                                    
-                 for step in range(n_max_steps):                      
-                   obs, reward, done, grads = play_one_step(env, obs, model, loss_fn)
-                   current_rewards.append(reward)                     
-                   current_grads.append(grads)                        
-                   if done:                                           
-                      break                                           
-                 all_rewards.append(current_rewards)                  
-                 all_grads.append(current_grads)                      
-               return all_rewards, all_grads                          
-          This code returns a list of reward lists (one reward list per episode, containing one
-          reward per step), as well as a list of gradient lists (one gradient list per episode, each
-          containing one tuple of gradients per step and each tuple containing one gradient
-          tensor per trainable variable).                             
-          The algorithm will use the play_multiple_episodes() function to play the game
-          several times (e.g., 10 times), then it will go back and look at all the rewards, discount
-          them, and normalize them. To do that, we need a couple more functions: the first will
-          compute the sum of future discounted rewards at each step, and the second will
+• Next, we sample a random float between 0 and 1, and we check whether it is
+greater than left_proba . The action will be False with probability left_proba ,
+or True with probability 1 - left_proba . Once we cast this Boolean to a num‐
+ber, the action will be 0 (left) or 1 (right) with the appropriate probabilities.
+• Next, we define the target probability of going left: it is 1 minus the action (cast
+to a float). If the action is 0 (left), then the target probability of going left will be
+1. If the action is 1 (right), then the target probability will be 0.
+• Then we compute the loss using the given loss function, and we use the tape to
+compute the gradient of the loss with regard to the model’s trainable variables.
+Again, these gradients will be tweaked later, before we apply them, depending on
+how good or bad the action turned out to be.
+• Finally, we play the selected action, and we return the new observation, the
+reward, whether the episode is ended or not, and of course the gradients that we
+just computed.
+Now let’s create another function that will rely on the play_one_step() function to
+play multiple episodes, returning all the rewards and gradients for each episode and
+each step:
+<b>def</b> play_multiple_episodes(env, n_episodes, n_max_steps, model, loss_fn):
+all_rewards = []
+all_grads = []
+<b>for</b> episode <b>in</b> range(n_episodes):
+current_rewards = []
+current_grads = []
+obs = env.reset()
+<b>for</b> step <b>in</b> range(n_max_steps):
+obs, reward, done, grads = play_one_step(env, obs, model, loss_fn)
+current_rewards.append(reward)
+current_grads.append(grads)
+<b>if</b> done:
+<b>break</b>
+all_rewards.append(current_rewards)
+all_grads.append(current_grads)
+<b>return</b> all_rewards, all_grads
+This code returns a list of reward lists (one reward list per episode, containing one
+reward per step), as well as a list of gradient lists (one gradient list per episode, each
+containing one tuple of gradients per step and each tuple containing one gradient
+tensor per trainable variable).
+The algorithm will use the play_multiple_episodes() function to play the game
+several times (e.g., 10 times), then it will go back and look at all the rewards, discount
+them, and normalize them. To do that, we need a couple more functions: the first will
+compute the sum of future discounted rewards at each step, and the second will

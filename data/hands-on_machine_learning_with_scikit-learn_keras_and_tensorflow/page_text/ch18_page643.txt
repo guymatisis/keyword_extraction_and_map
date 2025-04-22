@@ -1,46 +1,24 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 18-11. The famous Breakout game                      
-                                                                      
-          Installing TF-Agents                                        
-                                                                      
-          Let’s start by installing TF-Agents. This can be done using pip (as always, if you are
-          using a virtual environment, make sure to activate it first; if not, you will need to use
-          the --user option, or have administrator rights):           
-            $ python3 -m pip install -U tf-agents                     
-                                                                      
-                   At the time of this writing, TF-Agents is still quite new and
-                   improving every day, so the API may change a bit by the time you
-                   read this—but the big picture should remain the same, as well as
-                   most of the code. If anything breaks, I will update the Jupyter note‐
-                   book accordingly, so make sure to check it out.    
-                                                                      
-          Next, let’s create a TF-Agents environment that will just wrap OpenAI GGym’s Break‐
-          out environment. For this, you must first install OpenAI Gym’s Atari dependencies:
-            $ python3 -m pip install -U 'gym[atari]'                  
-          Among other libraries, this command will install atari-py, which is a Python inter‐
-          face for the Arcade Learning Environment (ALE), a framework built on top of the
-          Atari 2600 emulator Stella.                                 
-                                                                      
-          TF-Agents Environments                                      
-                                                                      
-          If everything went well, you should be able to import TF-Agents and create a Break‐
-          out environment:                                            
-            >>> from tf_agents.environments import suite_gym          
-            >>> env = suite_gym.load("Breakout-v4")                   
-            >>> env                                                   
-            <tf_agents.environments.wrappers.TimeLimit at 0x10c523c18>
-                                                                      
+<i>Figure</i> <i>18-11.</i> <i>The</i> <i>famous</i> <i>Breakout</i> <i>game</i>
+<header><largefont><b>Installing</b></largefont> <largefont><b>TF-Agents</b></largefont></header>
+Let’s start by installing TF-Agents. This can be done using pip (as always, if you are
+using a virtual environment, make sure to activate it first; if not, you will need to use
+the --user option, or have administrator rights):
+$ <b>python3</b> <b>-m</b> <b>pip</b> <b>install</b> <b>-U</b> <b>tf-agents</b>
+At the time of this writing, TF-Agents is still quite new and
+improving every day, so the API may change a bit by the time you
+read this—but the big picture should remain the same, as well as
+most of the code. If anything breaks, I will update the Jupyter note‐
+book accordingly, so make sure to check it out.
+Next, let’s create a TF-Agents environment that will just wrap OpenAI GGym’s Break‐
+out environment. For this, you must first install OpenAI Gym’s Atari dependencies:
+$ <b>python3</b> <b>-m</b> <b>pip</b> <b>install</b> <b>-U</b> <b>'gym[atari]'</b>
+Among other libraries, this command will install atari-py , which is a Python inter‐
+face for the Arcade Learning Environment (ALE), a framework built on top of the
+Atari 2600 emulator Stella.
+<header><largefont><b>TF-Agents</b></largefont> <largefont><b>Environments</b></largefont></header>
+If everything went well, you should be able to import TF-Agents and create a Break‐
+out environment:
+<b>>>></b> <b>from</b> <b>tf_agents.environments</b> <b>import</b> suite_gym
+<b>>>></b> env = suite_gym.load("Breakout-v4")
+<b>>>></b> env
+<tf_agents.environments.wrappers.TimeLimit at 0x10c523c18>

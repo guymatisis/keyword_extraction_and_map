@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+              time-distributed, they have no way of knowing the position of each word
+              (either relative or absolute). Obviously, the relative and absolute word posi‐
+              tions are important, so we need to give this information to the Transformer
+              somehow, and positional embeddings are a good way to do this.
+                                                                      
+          Let’s look a bit closer at both these novel components of the Transformer architecture,
+          starting with the positional embeddings.                    
+                                                                      
+          Positional embeddings                                       
+          A positional embedding is a dense vector that encodes the position of a word within a
+          sentence: the ith positional embedding is simply added to the word embedding of the
+          ith word in the sentence. These positional embeddings can be learned by the model,
+          but in the paper the authors preferred to use fixed positional embeddings, defined
+          using the sine and cosine functions of different frequencies. The positional embed‐
+          ding matrix P is defined in Equation 16-2 and represented at the bottom of
+          Figure 16-9 (transposed), where P is the ith component of the embedding for the
+                              p,i                                     
+          word located at the pth position in the sentence.           
+            Equation 16-2. Sine/cosine positional embeddings          
+                          2i/d                                        
+              P  = sin p/10000                                        
+               p,2i                                                   
+                          2i/d                                        
+            P    = cos p/10000                                        
+             p,2i+1                                                   
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 16-9. Sine/cosine positional embedding matrix (transposed, top) with a focus on
+          two values of i (bottom)                                    
+                                                                      
+                                                                      

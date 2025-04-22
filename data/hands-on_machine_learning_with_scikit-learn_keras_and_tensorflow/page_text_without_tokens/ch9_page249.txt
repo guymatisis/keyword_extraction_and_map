@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          different densities, or nonspherical shapes. For example, Figure 9-11 shows how K-
+          Means clusters a dataset containing three ellipsoidal clusters of different dimensions,
+          densities, and orientations.                                
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 9-11. K-Means fails to cluster these ellipsoidal blobs properly
+                                                                      
+          As you can see, neither of these solutions is any good. The solution on the left is bet‐
+          ter, but it still chops off 25% of the middle cluster and assigns it to the cluster on the
+          right. The solution on the right is just terrible, even though its inertia is lower. So,
+          depending on the data, different clustering algorithms may perform better. On these
+          types of elliptical clusters, Gaussian mixture models work great.
+                                                                      
+                   It is important to scale the input features before you run K-Means,
+                   or the clusters may be very stretched and K-Means will perform
+                   poorly. Scaling the features does not guarantee that all the clusters
+                   will be nice and spherical, but it generally improves things.
+                                                                      
+          Now let’s look at a few ways we can benefit from clustering. We will use K-Means, but
+          feel free to experiment with other clustering algorithms.   
+          Using Clustering for Image Segmentation                     
+                                                                      
+          Image segmentation is the task of partitioning an image into multiple segments. In
+          semantic segmentation, all pixels that are part of the same object type get assigned to
+          the same segment. For example, in a self-driving car’s vision system, all pixels that are
+          part of a pedestrian’s image might be assigned to the “pedestrian” segment (there
+          would be one segment containing all the pedestrians). In instance segmentation, all
+          pixels that are part of the same individual object are assigned to the same segment. In
+          this case there would be a different segment for each pedestrian. The state of the art
+          in semantic or instance segmentation today is achieved using complex architectures
+          based on convolutional neural networks (see Chapter 14). Here, we are going to do
+          something much simpler: color segmentation. We will simply assign pixels to the same
+          segment if they have a similar color. In some applications, this may be sufficient. For
+                                                                      

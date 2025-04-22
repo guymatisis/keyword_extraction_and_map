@@ -1,0 +1,50 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            • h is your system’s prediction function, also called a hypothesis. When your system
+              is given an instance’s feature vector x(i), it outputs a predicted value ŷ(i) = h(x(i))
+              for that instance (ŷ is pronounced “y-hat”).            
+              —For example, if your system predicts that the median housing price in the first
+               district is $158,400, then ŷ(1) = h(x(1)) = 158,400. The prediction error for this
+               district is ŷ(1) – y(1) = 2,000.                       
+            • RMSE(X,h) is the cost function measured on the set of examples using your
+              hypothesis h.                                           
+                                                                      
+           We use lowercase italic font for scalar values (such as m or y(i)) and function names
+           (such as h), lowercase bold font for vectors (such as x(i)), and uppercase bold font for
+           matrices (such as X).                                      
+                                                                      
+          Even though the RMSE is generally the preferred performance measure for regression
+          tasks, in some contexts you may prefer to use another function. For example, suppose
+          that there are many outlier districts. In that case, you may consider using the mean
+          absolute error (MAE, also called the average absolute deviation; see Equation 2-2):
+                                                                      
+            Equation 2-2. Mean absolute error (MAE)                   
+                                                                      
+                      m                                               
+            MAE X,h = 1 ∑ h x i −y i                                  
+                    m                                                 
+                     i=1                                              
+          Both the RMSE and the MAE are ways to measure the distance between two vectors:
+          the vector of predictions and the vector of target values. Various distance measures,
+          or norms, are possible:                                     
+           • Computing the root of a sum of squares (RMSE) corresponds to the Euclidean
+            norm: this is the notion of distance you are familiar with. It is also called the ℓ
+                                                           2          
+            norm, noted ∥ · ∥ (or just ∥ · ∥).                        
+                      2                                               
+           • Computing the sum of absolutes (MAE) corresponds to the ℓ norm, noted ∥ · ∥ .
+                                                1          1          
+            This is sometimes called the Manhattan norm because it measures the distance
+            between two points in a city if you can only travel along orthogonal city blocks.
+           • More generally, the ℓ norm of a vector v containing n elements is defined as ∥v∥
+                         k                                 k          
+            = (|v |k + |v |k + ... + |v |k)1/k. ℓ gives the number of nonzero elements in the vec‐
+               0   1      n   0                                       
+            tor, and ℓ gives the maximum absolute value in the vector.
+                  ∞                                                   
+           • The higher the norm index, the more it focuses on large values and neglects small
+            ones. This is why the RMSE is more sensitive to outliers than the MAE. But when
+            outliers are exponentially rare (like in a bell-shaped curve), the RMSE performs
+            very well and is generally preferred.                     

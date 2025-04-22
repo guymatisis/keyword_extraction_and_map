@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          the word “are,” and so on. Assuming the vocabulary has 10,000 words, each model
+          will output 10,000 probabilities.                           
+                                                                      
+          Next, we compute the probabilities of each of the 30,000 two-word sentences that
+          these models considered (3 × 10,000). We do this by multiplying the estimated condi‐
+          tional probability of each word by the estimated probability of the sentence it com‐
+          pletes. For example, the estimated probability of the sentence “How” was 75%, while
+          the estimated conditional probability of the word “will” (given that the first word is
+          “How”) was 36%, so the estimated probability of the sentence “How will” is 75% ×
+          36% = 27%. After computing the probabilities of all 30,000 two-word sentences, we
+          keep only the top 3. Perhaps they all start with the word “How”: “How will” (27%),
+          “How are” (24%), and “How do” (12%). Right now, the sentence “How will” is win‐
+          ning, but “How are” has not been eliminated.                
+          Then we repeat the same process: we use three models to predict the next word in
+          each of these three sentences, and we compute the probabilities of all 30,000 three-
+          word sentences we considered. Perhaps the top three are now “How are you” (10%),
+          “How do you” (8%), and “How will you” (2%). At the next step we may get “How do
+          you do” (7%), “How are you <eos>” (6%), and “How are you doing” (3%). Notice that
+          “How will” was eliminated, and we now have three perfectly reasonable translations.
+          We boosted our Encoder–Decoder model’s performance without any extra training,
+          simply by using it more wisely.                             
+          You can implement beam search fairly easily using TensorFlow Addons:
+            beam_width = 10                                           
+            decoder = tfa.seq2seq.beam_search_decoder.BeamSearchDecoder(
+               cell=decoder_cell, beam_width=beam_width, output_layer=output_layer)
+            decoder_initial_state = tfa.seq2seq.beam_search_decoder.tile_batch(
+               encoder_state, multiplier=beam_width)                  
+            outputs, _, _ = decoder(                                  
+               embedding_decoder, start_tokens=start_tokens, end_token=end_token,
+               initial_state=decoder_initial_state)                   
+          We first create a BeamSearchDecoder, which wraps all the decoder clones (in this case
+          10 clones). Then we create one copy of the encoder’s final state for each decoder
+          clone, and we pass these states to the decoder, along with the start and end tokens.
+          With all this, you can get good translations for fairly short sentences (especially if you
+          use pretrained word embeddings). Unfortunately, this model will be really bad at
+          translating long sentences. Once again, the problem comes from the limited short-
+          term memory of RNNs. Attention mechanisms are the game-changing innovation that
+          addressed this problem.                                     
+                                                                      
+                                                                      
+                                                                      
+                                                                      

@@ -1,46 +1,41 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          The activation function will be applied to the output of this Dense layer, and its result
-          will be passed on to the next layer. The layer’s weights will be initialized using the
-          value returned by the initializer. At each training step the weights will be passed to the
-          regularization function to compute the regularization loss, which will be added to the
-          main loss to get the final loss used for training. Finally, the constraint function will be
-          called after each training step, and the layer’s weights will be replaced by the con‐
-          strained weights.                                           
-                                                                      
-          If a function has hyperparameters that need to be saved along with the model, then
-          you will want to subclass the appropriate class, such as keras.regularizers.Regular
-          izer, keras.constraints.Constraint, keras.initializers.Initializer, or
-          keras.layers.Layer (for any layer, including activation functions). Much like we did
-          for the custom loss, here is a simple class for ℓ regularization that saves its factor
-                                      1                               
-          hyperparameter (this time we do not need to call the parent constructor or the
-          get_config() method, as they are not defined by the parent class):
-            class MyL1Regularizer(keras.regularizers.Regularizer):    
-               def __init__(self, factor):                            
-                 self.factor = factor                                 
-               def __call__(self, weights):                           
-                 return tf.reduce_sum(tf.abs(self.factor * weights))  
-               def get_config(self):                                  
-                 return {"factor": self.factor}                       
-          Note that you must implement the call() method for losses, layers (including activa‐
-          tion functions), and models, or the __call__() method for regularizers, initializers,
-          and constraints. For metrics, things are a bit different, as we will see now.
-          Custom Metrics                                              
-          Losses and metrics are conceptually not the same thing: losses (e.g., cross entropy)
-          are used by Gradient Descent to train a model, so they must be differentiable (at least
-          where they are evaluated), and their gradients should not be 0 everywhere. Plus, it’s
-          OK if they are not easily interpretable by humans. In contrast, metrics (e.g., accuracy)
-          are used to evaluate a model: they must be more easily interpretable, and they can be
-          non-differentiable or have 0 gradients everywhere.          
-          That said, in most cases, defining a custom metric function is exactly the same as
-          defining a custom loss function. In fact, we could even use the Huber loss function we
-          created earlier as a metric;6 it would work just fine (and persistence would also work
-          the same way, in this case only saving the name of the function, "huber_fn"):
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          6 However, the Huber loss is seldom used as a metric (the MAE or MSE is preferred).
+Dense
+The activation function will be applied to the output of this layer, and its result
+will be passed on to the next layer. The layer’s weights will be initialized using the
+value returned by the initializer. At each training step the weights will be passed to the
+regularization function to compute the regularization loss, which will be added to the
+main loss to get the final loss used for training. Finally, the constraint function will be
+called after each training step, and the layer’s weights will be replaced by the con‐
+strained weights.
+If a function has hyperparameters that need to be saved along with the model, then
+keras.regularizers.Regular
+you will want to subclass the appropriate class, such as
+izer , keras.constraints.Constraint , keras.initializers.Initializer , or
+keras.layers.Layer (for any layer, including activation functions). Much like we did
+factor
+for the custom loss, here is a simple class for ℓ regularization that saves its
+1
+hyperparameter (this time we do not need to call the parent constructor or the
+get_config() method, as they are not defined by the parent class):
+<b>class</b> <b>MyL1Regularizer(keras.regularizers.Regularizer):</b>
+<b>def</b> <b>__init__(self,</b> factor):
+self.factor = factor
+<b>def</b> <b>__call__(self,</b> weights):
+<b>return</b> tf.reduce_sum(tf.abs(self.factor * weights))
+<b>def</b> get_config(self):
+<b>return</b> {"factor": self.factor}
+call()
+Note that you must implement the method for losses, layers (including activa‐
+tion functions), and models, or the __call__() method for regularizers, initializers,
+and constraints. For metrics, things are a bit different, as we will see now.
+<header><largefont><b>Custom</b></largefont> <largefont><b>Metrics</b></largefont></header>
+Losses and metrics are conceptually not the same thing: losses (e.g., cross entropy)
+are used by Gradient Descent to <i>train</i> a model, so they must be differentiable (at least
+where they are evaluated), and their gradients should not be 0 everywhere. Plus, it’s
+OK if they are not easily interpretable by humans. In contrast, metrics (e.g., accuracy)
+are used to <i>evaluate</i> a model: they must be more easily interpretable, and they can be
+non-differentiable or have 0 gradients everywhere.
+That said, in most cases, defining a custom metric function is exactly the same as
+defining a custom loss function. In fact, we could even use the Huber loss function we
+created earlier as a metric;6 it would work just fine (and persistence would also work
+the same way, in this case only saving the name of the function, "huber_fn" ):
+6 However,theHuberlossisseldomusedasametric(theMAEorMSEispreferred).

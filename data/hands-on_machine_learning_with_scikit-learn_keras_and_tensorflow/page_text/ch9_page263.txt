@@ -1,48 +1,44 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          During the maximization step, each cluster’s update will mostly be impacted by the
-          instances it is most responsible for.                       
-                                                                      
-                   Unfortunately, just like K-Means, EM can end up converging to
-                   poor solutions, so it needs to be run several times, keeping only the
-                   best solution. This is why we set n_init to 10. Be careful: by default
-                   n_init is set to 1.                                
-                                                                      
-          You can check whether or not the algorithm converged and how many iterations it
-          took:                                                       
-                                                                      
-            >>> gm.converged_                                         
-            True                                                      
-            >>> gm.n_iter_                                            
-            3                                                         
-          Now that you have an estimate of the location, size, shape, orientation, and relative
-          weight of each cluster, the model can easily assign each instance to the most likely
-          cluster (hard clustering) or estimate the probability that it belongs to a particular
-          cluster (soft clustering). Just use the predict() method for hard clustering, or the
-          predict_proba() method for soft clustering:                 
-            >>> gm.predict(X)                                         
-            array([2, 2, 1, ..., 0, 0, 0])                            
-            >>> gm.predict_proba(X)                                   
-            array([[2.32389467e-02, 6.77397850e-07, 9.76760376e-01],  
-                [1.64685609e-02, 6.75361303e-04, 9.82856078e-01],     
-                [2.01535333e-06, 9.99923053e-01, 7.49319577e-05],     
-                ...,                                                  
-                [9.99999571e-01, 2.13946075e-26, 4.28788333e-07],     
-                [1.00000000e+00, 1.46454409e-41, 5.12459171e-16],     
-                [1.00000000e+00, 8.02006365e-41, 2.27626238e-15]])    
-          A Gaussian mixture model is a generative model, meaning you can sample new
-          instances from it (note that they are ordered by cluster index):
-            >>> X_new, y_new = gm.sample(6)                           
-            >>> X_new                                                 
-            array([[ 2.95400315, 2.63680992],                         
-                [-1.16654575, 1.62792705],                            
-                [-1.39477712, -1.48511338],                           
-                [ 0.27221525, 0.690366 ],                             
-                [ 0.54095936, 0.48591934],                            
-                [ 0.38064009, -0.56240465]])                          
-            >>> y_new                                                 
-            array([0, 1, 2, 2, 2, 2])                                 
-          It is also possible to estimate the density of the model at any given location. This is
-          achieved using the score_samples() method: for each instance it is given, this
+During the maximization step, each cluster’s update will mostly be impacted by the
+instances it is most responsible for.
+Unfortunately, just like K-Means, EM can end up converging to
+poor solutions, so it needs to be run several times, keeping only the
+n_init 10
+best solution. This is why we set to . Be careful: by default
+n_init 1
+is set to .
+You can check whether or not the algorithm converged and how many iterations it
+took:
+<b>>>></b> gm.converged_
+True
+<b>>>></b> gm.n_iter_
+3
+Now that you have an estimate of the location, size, shape, orientation, and relative
+weight of each cluster, the model can easily assign each instance to the most likely
+cluster (hard clustering) or estimate the probability that it belongs to a particular
+predict()
+cluster (soft clustering). Just use the method for hard clustering, or the
+predict_proba() method for soft clustering:
+<b>>>></b> gm.predict(X)
+array([2, 2, 1, ..., 0, 0, 0])
+<b>>>></b> gm.predict_proba(X)
+array([[2.32389467e-02, 6.77397850e-07, 9.76760376e-01],
+[1.64685609e-02, 6.75361303e-04, 9.82856078e-01],
+[2.01535333e-06, 9.99923053e-01, 7.49319577e-05],
+...,
+[9.99999571e-01, 2.13946075e-26, 4.28788333e-07],
+[1.00000000e+00, 1.46454409e-41, 5.12459171e-16],
+[1.00000000e+00, 8.02006365e-41, 2.27626238e-15]])
+A Gaussian mixture model is a <i>generative</i> <i>model,</i> meaning you can sample new
+instances from it (note that they are ordered by cluster index):
+<b>>>></b> X_new, y_new = gm.sample(6)
+<b>>>></b> X_new
+array([[ 2.95400315, 2.63680992],
+[-1.16654575, 1.62792705],
+[-1.39477712, -1.48511338],
+[ 0.27221525, 0.690366 ],
+[ 0.54095936, 0.48591934],
+[ 0.38064009, -0.56240465]])
+<b>>>></b> y_new
+array([0, 1, 2, 2, 2, 2])
+It is also possible to estimate the density of the model at any given location. This is
+achieved using the score_samples() method: for each instance it is given, this

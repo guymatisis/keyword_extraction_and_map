@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Deep Convolutional GANs                                     
+                                                                      
+          The original GAN paper in 2014 experimented with convolutional layers, but only
+          tried to generate small images. Soon after, many researchers tried to build GANs
+          based on deeper convolutional nets for larger images. This proved to be tricky, as
+          training was very unstable, but Alec Radford et al. finally succeeded in late 2015, after
+          experimenting with many different architectures and hyperparameters. They called
+          their architecture deep convolutional GANs (DCGANs).13 Here are the main guide‐
+          lines they proposed for building stable convolutional GANs: 
+           • Replace any pooling layers with strided convolutions (in the discriminator) and
+            transposed convolutions (in the generator).               
+                                                                      
+           • Use Batch Normalization in both the generator and the discriminator, except in
+            the generator’s output layer and the discriminator’s input layer.
+           • Remove fully connected hidden layers for deeper architectures.
+           • Use ReLU activation in the generator for all layers except the output layer, which
+            should use tanh.                                          
+           • Use leaky ReLU activation in the discriminator for all layers.
+                                                                      
+          These guidelines will work in many cases, but not always, so you may still need to
+          experiment with different hyperparameters (in fact, just changing the random seed
+          and training the same model again will sometimes work). For example, here is a small
+          DCGAN that works reasonably well with Fashion MNIST:        
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          13 Alec Radford et al., “Unsupervised Representation Learning with Deep Convolutional Generative Adversarial
+           Networks,” arXiv preprint arXiv:1511.06434 (2015).         

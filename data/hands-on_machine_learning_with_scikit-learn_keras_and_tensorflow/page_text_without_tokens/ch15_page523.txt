@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          similar pairs of layers using growing dilation rates: 1, 2, 4, 8, and again 1, 2, 4, 8.
+          Finally, we add the output layer: a convolutional layer with 10 filters of size 1 and
+          without any activation function. Thanks to the padding layers, every convolutional
+          layer outputs a sequence of the same length as the input sequences, so the targets we
+          use during training can be the full sequences: no need to crop them or downsample
+          them.                                                       
+                                                                      
+          The last two models offer the best performance so far in forecasting our time series!
+          In the WaveNet paper, the authors achieved state-of-the-art performance on various
+          audio tasks (hence the name of the architecture), including text-to-speech tasks, pro‐
+          ducing incredibly realistic voices across several languages. They also used the model
+          to generate music, one audio sample at a time. This feat is all the more impressive
+          when you realize that a single second of audio can contain tens of thousands of time
+          steps—even LSTMs and GRUs cannot handle such long sequences.
+          In Chapter 16, we will continue to explore RNNs, and we will see how they can tackle
+          various NLP tasks.                                          
+                                                                      
+          Exercises                                                   
+                                                                      
+           1. Can you think of a few applications for a sequence-to-sequence RNN? What
+            about a sequence-to-vector RNN, and a vector-to-sequence RNN?
+           2. How many dimensions must the inputs of an RNN layer have? What does each
+            dimension represent? What about its outputs?              
+           3. If you want to build a deep sequence-to-sequence RNN, which RNN layers
+            should have return_sequences=True? What about a sequence-to-vector RNN?
+                                                                      
+           4. Suppose you have a daily univariate time series, and you want to forecast the next
+            seven days. Which RNN architecture should you use?        
+           5. What are the main difficulties when training RNNs? How can you handle them?
+           6. Can you sketch the LSTM cell’s architecture?            
+                                                                      
+           7. Why would you want to use 1D convolutional layers in an RNN?
+           8. Which neural network architecture could you use to classify videos?
+           9. Train a classification model for the SketchRNN dataset, available in TensorFlow
+            Datasets.                                                 
+          10. Download the Bach chorales dataset and unzip it. It is composed of 382 chorales
+            composed by Johann Sebastian Bach. Each chorale is 100 to 640 time steps long,
+            and each time step contains 4 integers, where each integer corresponds to a note’s
+            index on a piano (except for the value 0, which means that no note is played).
+            Train a model—recurrent, convolutional, or both—that can predict the next time
+            step (four notes), given a sequence of time steps from a chorale. Then use this
+                                                                      

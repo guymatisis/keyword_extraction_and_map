@@ -1,46 +1,44 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          The predictor’s weight α is then computed using Equation 7-2, where η is the learn‐
-                        j                                             
-          ing rate hyperparameter (defaults to 1).15 The more accurate the predictor is, the
-          higher its weight will be. If it is just guessing randomly, then its weight will be close to
-          zero. However, if it is most often wrong (i.e., less accurate than random guessing),
-          then its weight will be negative.                           
-            Equation 7-2. Predictor weight                            
-                                                                      
-                  1−r                                                 
-                     j                                                
-            α =ηlog                                                   
-             j     r                                                  
-                    j                                                 
-          Next, the AdaBoost algorithm updates the instance weights, using Equation 7-3,
-          which boosts the weights of the misclassified instances.    
-            Equation 7-3. Weight update rule                          
-             for i=1,2,⋯,m                                            
-                  i        i   i                                      
-                 w      if y = y                                      
-              i            j                                          
-             w                                                        
-                  i        i   i                                      
-                 w exp α if y ≠ y                                     
-                       j   j                                          
-          Then all the instance weights are normalized (i.e., divided by ∑m wi).
-                                              i=1                     
-          Finally, a new predictor is trained using the updated weights, and the whole process is
-          repeated (the new predictor’s weight is computed, the instance weights are updated,
-          then another predictor is trained, and so on). The algorithm stops when the desired
-          number of predictors is reached, or when a perfect predictor is found.
-          To make predictions, AdaBoost simply computes the predictions of all the predictors
-          and weighs them using the predictor weights α. The predicted class is the one that
-                                      j                               
-          receives the majority of weighted votes (see Equation 7-4). 
-            Equation 7-4. AdaBoost predictions                        
-                       N                                              
-            y x = argmax ∑ α where N is the number of predictors.     
-                          j                                           
-                  k   j=1                                             
-                     y x =k                                           
-                      j                                               
-          15 The original AdaBoost algorithm does not use a learning rate hyperparameter.
+The predictor’s weight <i>α</i> is then computed using Equation 7-2, where <i>η</i> is the learn‐
+<i>j</i>
+ing rate hyperparameter (defaults to 1).15 The more accurate the predictor is, the
+higher its weight will be. If it is just guessing randomly, then its weight will be close to
+zero. However, if it is most often wrong (i.e., less accurate than random guessing),
+then its weight will be negative.
+<i>Equation</i> <i>7-2.</i> <i>Predictor</i> <i>weight</i>
+1 − <i>r</i>
+<i>j</i>
+<i>α</i> = <i>η</i> log
+<i>j</i> <i>r</i>
+<i>j</i>
+Next, the AdaBoost algorithm updates the instance weights, using Equation 7-3,
+which boosts the weights of the misclassified instances.
+<i>Equation</i> <i>7-3.</i> <i>Weight</i> <i>update</i> <i>rule</i>
+for <i>i</i> = 1,2, ⋯ ,m
+<i>i</i> <i>i</i> <i>i</i>
+<i>w</i> if <i>y</i> = <i>y</i>
+<i>j</i>
+<i>i</i>
+<i>w</i>
+<i>i</i> <i>i</i> <i>i</i>
+<i>w</i> exp <i>α</i> if <i>y</i> ≠ <i>y</i>
+<i>j</i> <i>j</i>
+<i>m</i> <i>i</i>
+Then all the instance weights are normalized (i.e., divided by ∑ <i>w</i> ).
+<i>i</i> = 1
+Finally, a new predictor is trained using the updated weights, and the whole process is
+repeated (the new predictor’s weight is computed, the instance weights are updated,
+then another predictor is trained, and so on). The algorithm stops when the desired
+number of predictors is reached, or when a perfect predictor is found.
+To make predictions, AdaBoost simply computes the predictions of all the predictors
+and weighs them using the predictor weights <i>α.</i> The predicted class is the one that
+<i>j</i>
+receives the majority of weighted votes (see Equation 7-4).
+<i>Equation</i> <i>7-4.</i> <i>AdaBoost</i> <i>predictions</i>
+<i>N</i>
+<largefont>∑</largefont>
+<i>y</i> <b>x</b> = argmax <i>α</i> where <i>N</i> is the number of predictors.
+<i>j</i>
+<i>k</i> <i>j</i> = 1
+<i>y</i> <b>x</b> = <i>k</i>
+<i>j</i>
+15 TheoriginalAdaBoostalgorithmdoesnotusealearningratehyperparameter.

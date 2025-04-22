@@ -1,46 +1,41 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            with tf.GradientTape() as tape:                           
-               tape.watch(c1)                                         
-               tape.watch(c2)                                         
-               z = f(c1, c2)                                          
-            gradients = tape.gradient(z, [c1, c2]) # returns [tensor 36., tensor 10.]
-          This can be useful in some cases, like if you want to implement a regularization loss
-          that penalizes activations that vary a lot when the inputs vary little: the loss will be
-          based on the gradient of the activations with regard to the inputs. Since the inputs are
-          not variables, you would need to tell the tape to watch them.
-                                                                      
-          Most of the time a gradient tape is used to compute the gradients of a single value
-          (usually the loss) with regard to a set of values (usually the model parameters). This is
-          where reverse-mode autodiff shines, as it just needs to do one forward pass and one
-          reverse pass to get all the gradients at once. If you try to compute the gradients of a
-          vector, for example a vector containing multiple losses, then TensorFlow will com‐
-          pute the gradients of the vector’s sum. So if you ever need to get the individual gradi‐
-          ents (e.g., the gradients of each loss with regard to the model parameters), you must
-          call the tape’s jacobian() method: it will perform reverse-mode autodiff once for
-          each loss in the vector (all in parallel by default). It is even possible to compute
-          second-order partial derivatives (the Hessians, i.e., the partial derivatives of the par‐
-          tial derivatives), but this is rarely needed in practice (see the “Computing Gradients
-          with Autodiff” section of the notebook for an example).     
-          In some cases you may want to stop gradients from backpropagating through some
-          part of your neural network. To do this, you must use the tf.stop_gradient() func‐
-          tion. The function returns its inputs during the forward pass (like tf.identity()),
-          but it does not let gradients through during backpropagation (it acts like a constant):
-            def f(w1, w2):                                            
-               return 3 * w1 ** 2 + tf.stop_gradient(2 * w1 * w2)     
-                                                                      
-            with tf.GradientTape() as tape:                           
-               z = f(w1, w2) # same result as without stop_gradient() 
-            gradients = tape.gradient(z, [w1, w2]) # => returns [tensor 30., None]
-          Finally, you may occasionally run into some numerical issues when computing gradi‐
-          ents. For example, if you compute the gradients of the my_softplus() function for
-          large inputs, the result will be NaN:                       
-                                                                      
-            >>> x = tf.Variable([100.])                               
-            >>> with tf.GradientTape() as tape:                       
-            ...  z = my_softplus(x)                                   
-            ...                                                       
-            >>> tape.gradient(z, [x])                                 
-            <tf.Tensor: [...] numpy=array([nan], dtype=float32)>      
+<b>with</b> tf.GradientTape() <b>as</b> tape:
+tape.watch(c1)
+tape.watch(c2)
+z = f(c1, c2)
+gradients = tape.gradient(z, [c1, c2]) <i>#</i> <i>returns</i> <i>[tensor</i> <i>36.,</i> <i>tensor</i> <i>10.]</i>
+This can be useful in some cases, like if you want to implement a regularization loss
+that penalizes activations that vary a lot when the inputs vary little: the loss will be
+based on the gradient of the activations with regard to the inputs. Since the inputs are
+not variables, you would need to tell the tape to watch them.
+Most of the time a gradient tape is used to compute the gradients of a single value
+(usually the loss) with regard to a set of values (usually the model parameters). This is
+where reverse-mode autodiff shines, as it just needs to do one forward pass and one
+reverse pass to get all the gradients at once. If you try to compute the gradients of a
+vector, for example a vector containing multiple losses, then TensorFlow will com‐
+pute the gradients of the vector’s sum. So if you ever need to get the individual gradi‐
+ents (e.g., the gradients of each loss with regard to the model parameters), you must
+call the tape’s jacobian() method: it will perform reverse-mode autodiff once for
+each loss in the vector (all in parallel by default). It is even possible to compute
+second-order partial derivatives (the Hessians, i.e., the partial derivatives of the par‐
+tial derivatives), but this is rarely needed in practice (see the “Computing Gradients
+with Autodiff” section of the notebook for an example).
+In some cases you may want to stop gradients from backpropagating through some
+tf.stop_gradient()
+part of your neural network. To do this, you must use the func‐
+tion. The function returns its inputs during the forward pass (like tf.identity() ),
+but it does not let gradients through during backpropagation (it acts like a constant):
+<b>def</b> f(w1, w2):
+<b>return</b> 3 * w1 ** 2 + tf.stop_gradient(2 * w1 * w2)
+<b>with</b> tf.GradientTape() <b>as</b> tape:
+z = f(w1, w2) <i>#</i> <i>same</i> <i>result</i> <i>as</i> <i>without</i> <i>stop_gradient()</i>
+gradients = tape.gradient(z, [w1, w2]) <i>#</i> <i>=></i> <i>returns</i> <i>[tensor</i> <i>30.,</i> <i>None]</i>
+Finally, you may occasionally run into some numerical issues when computing gradi‐
+my_softplus()
+ents. For example, if you compute the gradients of the function for
+large inputs, the result will be NaN:
+<b>>>></b> x = tf.Variable([100.])
+<b>>>></b> <b>with</b> tf.GradientTape() <b>as</b> tape:
+<b>...</b> z = my_softplus(x)
+<b>...</b>
+<b>>>></b> tape.gradient(z, [x])
+<tf.Tensor: [...] numpy=array([nan], dtype=float32)>

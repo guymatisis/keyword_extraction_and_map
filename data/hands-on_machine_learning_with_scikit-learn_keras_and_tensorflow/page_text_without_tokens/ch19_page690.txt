@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          The first step is to get your hands on a GPU. There are two options for this: you can
+          either purchase your own GPU(s), or you can use GPU-equipped virtual machines
+          on the cloud. Let’s start with the first option.            
+                                                                      
+          Getting Your Own GPU                                        
+                                                                      
+          If you choose to purchase a GPU card, then take some time to make the right choice.
+          Tim Dettmers wrote an excellent blog post to help you choose, and he updates it reg‐
+          ularly: I encourage you to read it carefully. At the time of this writing, TensorFlow
+          only supports Nvidia cards with CUDA Compute Capability 3.5+ (as well as Google’s
+          TPUs, of course), but it may extend its support to other manufacturers. Moreover,
+          although TPUs are currently only available on GCP, it is highly likely that TPU-like
+          cards will be available for sale in the near future, and TensorFlow may support them.
+          In short, make sure to check TensorFlow’s documentation to see what devices are
+          supported at this point.                                    
+          If you go for an Nvidia GPU card, you will need to install the appropriate Nvidia
+          drivers and several Nvidia libraries.10 These include the Compute Unified Device
+          Architecture library (CUDA), which allows developers to use CUDA-enabled GPUs
+          for all sorts of computations (not just graphics acceleration), and the CUDA Deep
+          Neural Network library (cuDNN), a GPU-accelerated library of primitives for DNNs.
+          cuDNN provides optimized implementations of common DNN computations such
+          as activation layers, normalization, forward and backward convolutions, and pooling
+          (see Chapter 14). It is part of Nvidia’s Deep Learning SDK (note that you’ll need to
+          create an Nvidia developer account in order to download it). TensorFlow uses CUDA
+          and cuDNN to control the GPU cards and accelerate computations (see
+          Figure 19-10).                                              
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 19-10. TensorFlow uses CUDA and cuDNN to control GPUs and boost DNNs
+                                                                      
+                                                                      
+                                                                      
+          10 Please check the docs for detailed and up-to-date installation instructions, as they change quite often.

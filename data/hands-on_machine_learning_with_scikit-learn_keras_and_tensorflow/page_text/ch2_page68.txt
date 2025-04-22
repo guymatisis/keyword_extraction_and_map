@@ -1,47 +1,44 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                   If a categorical attribute has a large number of possible categories
-                   (e.g., country code, profession, species), then one-hot encoding will
-                   result in a large number of input features. This may slow down
-                   training and degrade performance. If this happens, you may want
-                   to replace the categorical input with useful numerical features
-                   related to the categories: for example, you could replace the
-                   ocean_proximity feature with the distance to the ocean (similarly,
-                   a country code could be replaced with the country’s population and
-                   GDP per capita). Alternatively, you could replace each category
-                   with a learnable, low-dimensional vector called an embedding. Each
-                   category’s representation would be learned during training. This is
-                   an example of representation learning (see Chapters 13 and 17 for
-                   more details).                                     
-          Custom Transformers                                         
-                                                                      
-          Although Scikit-Learn provides many useful transformers, you will need to write
-          your own for tasks such as custom cleanup operations or combining specific
-          attributes. You will want your transformer to work seamlessly with Scikit-Learn func‐
-          tionalities (such as pipelines), and since Scikit-Learn relies on duck typing (not inher‐
-          itance), all you need to do is create a class and implement three methods: fit()
-          (returning self), transform(), and fit_transform().         
-          You can get the last one for free by simply adding TransformerMixin as a base class.
-          If you add BaseEstimator as a base class (and avoid *args and **kargs in your con‐
-          structor), you will also get two extra methods (get_params() and set_params()) that
-          will be useful for automatic hyperparameter tuning.         
-          For example, here is a small transformer class that adds the combined attributes we
-          discussed earlier:                                          
-                                                                      
-            from sklearn.base import BaseEstimator, TransformerMixin  
-            rooms_ix, bedrooms_ix, population_ix, households_ix = 3, 4, 5, 6
-                                                                      
-            class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
-               def __init__(self, add_bedrooms_per_room = True): # no *args or **kargs
-                 self.add_bedrooms_per_room = add_bedrooms_per_room   
-               def fit(self, X, y=None):                              
-                 return self # nothing else to do                     
-               def transform(self, X):                                
-                 rooms_per_household = X[:, rooms_ix] / X[:, households_ix]
-                 population_per_household = X[:, population_ix] / X[:, households_ix]
-                 if self.add_bedrooms_per_room:                       
-                   bedrooms_per_room = X[:, bedrooms_ix] / X[:, rooms_ix]
-                   return np.c_[X, rooms_per_household, population_per_household,
-                           bedrooms_per_room]                         
+If a categorical attribute has a large number of possible categories
+(e.g., country code, profession, species), then one-hot encoding will
+result in a large number of input features. This may slow down
+training and degrade performance. If this happens, you may want
+to replace the categorical input with useful numerical features
+related to the categories: for example, you could replace the
+ocean_proximity
+feature with the distance to the ocean (similarly,
+a country code could be replaced with the country’s population and
+GDP per capita). Alternatively, you could replace each category
+with a learnable, low-dimensional vector called an <i>embedding.</i> Each
+category’s representation would be learned during training. This is
+an example of <i>representation</i> <i>learning</i> (see Chapters 13 and 17 for
+more details).
+<header><largefont><b>Custom</b></largefont> <largefont><b>Transformers</b></largefont></header>
+Although Scikit-Learn provides many useful transformers, you will need to write
+your own for tasks such as custom cleanup operations or combining specific
+attributes. You will want your transformer to work seamlessly with Scikit-Learn func‐
+tionalities (such as pipelines), and since Scikit-Learn relies on duck typing (not inher‐
+fit()
+itance), all you need to do is create a class and implement three methods:
+(returning self ), transform() , and fit_transform() .
+TransformerMixin
+You can get the last one for free by simply adding as a base class.
+BaseEstimator *args **kargs
+If you add as a base class (and avoid and in your con‐
+structor), you will also get two extra methods ( get_params() and set_params() ) that
+will be useful for automatic hyperparameter tuning.
+For example, here is a small transformer class that adds the combined attributes we
+discussed earlier:
+<b>from</b> <b>sklearn.base</b> <b>import</b> BaseEstimator, TransformerMixin
+rooms_ix, bedrooms_ix, population_ix, households_ix = 3, 4, 5, 6
+<b>class</b> <b>CombinedAttributesAdder(BaseEstimator,</b> TransformerMixin):
+<b>def</b> <b>__init__(self,</b> add_bedrooms_per_room = True): <i>#</i> <i>no</i> <i>*args</i> <i>or</i> <i>**kargs</i>
+self.add_bedrooms_per_room = add_bedrooms_per_room
+<b>def</b> fit(self, X, y=None):
+<b>return</b> self <i>#</i> <i>nothing</i> <i>else</i> <i>to</i> <i>do</i>
+<b>def</b> transform(self, X):
+rooms_per_household = X[:, rooms_ix] / X[:, households_ix]
+population_per_household = X[:, population_ix] / X[:, households_ix]
+<b>if</b> self.add_bedrooms_per_room:
+bedrooms_per_room = X[:, bedrooms_ix] / X[:, rooms_ix]
+<b>return</b> np.c_[X, rooms_per_household, population_per_household,
+bedrooms_per_room]

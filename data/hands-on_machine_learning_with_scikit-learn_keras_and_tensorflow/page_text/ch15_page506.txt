@@ -1,46 +1,33 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                   By default, recurrent layers in Keras only return the final output. To
-                   make them return one output per time step, you must set
-                   return_sequences=True, as we will see.             
-                                                                      
-                                                                      
-          If you compile, fit, and evaluate this model (just like earlier, we train for 20 epochs
-          using Adam), you will find that its MSE reaches only 0.014, so it is better than the
-          naive approach but it does not beat a simple linear model. Note that for each neuron,
-          a linear model has one parameter per input and per time step, plus a bias term (in the
-          simple linear model we used, that’s a total of 51 parameters). In contrast, for each
-          recurrent neuron in a simple RNN, there is just one parameter per input and per hid‐
-          den state dimension (in a simple RNN, that’s just the number of recurrent neurons in
-          the layer), plus a bias term. In this simple RNN, that’s a total of just three parameters.
-                                                                      
-                           Trend and Seasonality                      
-                                                                      
-           There are many other models to forecast time series, such as weighted moving average
-           models or autoregressive integrated moving average (ARIMA) models. Some of them
-           require you to first remove the trend and seasonality. For example, if you are studying
-           the number of active users on your website, and it is growing by 10% every month,
-           you would have to remove this trend from the time series. Once the model is trained
-           and starts making predictions, you would have to add the trend back to get the final
-           predictions. Similarly, if you are trying to predict the amount of sunscreen lotion sold
-           every month, you will probably observe strong seasonality: since it sells well every
-           summer, a similar pattern will be repeated every year. You would have to remove this
-           seasonality from the time series, for example by computing the difference between the
-           value at each time step and the value one year earlier (this technique is called differ‐
-           encing). Again, after the model is trained and makes predictions, you would have to
-           add the seasonal pattern back to get the final predictions.
-           When using RNNs, it is generally not necessary to do all this, but it may improve per‐
-           formance in some cases, since the model will not have to learn the trend or the
-           seasonality.                                               
-                                                                      
-          Apparently our simple RNN was too simple to get good performance. So let’s try to
-          add more recurrent layers!                                  
-                                                                      
-          Deep RNNs                                                   
-          It is quite common to stack multiple layers of cells, as shown in Figure 15-7. This
-          gives you a deep RNN.                                       
-                                                                      
-                                                                      
-                                                                      
+By default, recurrent layers in Keras only return the final output. To
+make them return one output per time step, you must set
+return_sequences=True , as we will see.
+If you compile, fit, and evaluate this model (just like earlier, we train for 20 epochs
+using Adam), you will find that its MSE reaches only 0.014, so it is better than the
+naive approach but it does not beat a simple linear model. Note that for each neuron,
+a linear model has one parameter per input and per time step, plus a bias term (in the
+simple linear model we used, that’s a total of 51 parameters). In contrast, for each
+recurrent neuron in a simple RNN, there is just one parameter per input and per hid‐
+den state dimension (in a simple RNN, that’s just the number of recurrent neurons in
+the layer), plus a bias term. In this simple RNN, that’s a total of just three parameters.
+<header><largefont><b>Trend</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Seasonality</b></largefont></header>
+There are many other models to forecast time series, such as <i>weighted</i> <i>moving</i> <i>average</i>
+models or <i>autoregressive</i> <i>integrated</i> <i>moving</i> <i>average</i> (ARIMA) models. Some of them
+require you to first remove the trend and seasonality. For example, if you are studying
+the number of active users on your website, and it is growing by 10% every month,
+you would have to remove this trend from the time series. Once the model is trained
+and starts making predictions, you would have to add the trend back to get the final
+predictions. Similarly, if you are trying to predict the amount of sunscreen lotion sold
+every month, you will probably observe strong seasonality: since it sells well every
+summer, a similar pattern will be repeated every year. You would have to remove this
+seasonality from the time series, for example by computing the difference between the
+value at each time step and the value one year earlier (this technique is called <i>differ‐</i>
+<i>encing).</i> Again, after the model is trained and makes predictions, you would have to
+add the seasonal pattern back to get the final predictions.
+When using RNNs, it is generally not necessary to do all this, but it may improve per‐
+formance in some cases, since the model will not have to learn the trend or the
+seasonality.
+Apparently our simple RNN was too simple to get good performance. So let’s try to
+add more recurrent layers!
+<header><largefont><b>Deep</b></largefont> <largefont><b>RNNs</b></largefont></header>
+It is quite common to stack multiple layers of cells, as shown in Figure 15-7. This
+gives you a <i>deep</i> <i>RNN.</i>

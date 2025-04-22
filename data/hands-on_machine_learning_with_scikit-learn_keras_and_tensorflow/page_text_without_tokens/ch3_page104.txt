@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            row_sums = conf_mx.sum(axis=1, keepdims=True)             
+            norm_conf_mx = conf_mx / row_sums                         
+          Fill the diagonal with zeros to keep only the errors, and plot the result:
+                                                                      
+            np.fill_diagonal(norm_conf_mx, 0)                         
+            plt.matshow(norm_conf_mx, cmap=plt.cm.gray)               
+            plt.show()                                                
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          You can clearly see the kinds of errors the classifier makes. Remember that rows rep‐
+          resent actual classes, while columns represent predicted classes. The column for class
+          8 is quite bright, which tells you that many images get misclassified as 8s. However,
+          the row for class 8 is not that bad, telling you that actual 8s in general get properly
+          classified as 8s. As you can see, the confusion matrix is not necessarily symmetrical.
+          You can also see that 3s and 5s often get confused (in both directions).
+                                                                      
+          Analyzing the confusion matrix often gives you insights into ways to improve your
+          classifier. Looking at this plot, it seems that your efforts should be spent on reducing
+          the false 8s. For example, you could try to gather more training data for digits that
+          look like 8s (but are not) so that the classifier can learn to distinguish them from real
+          8s. Or you could engineer new features that would help the classifier—for example,
+          writing an algorithm to count the number of closed loops (e.g., 8 has two, 6 has one, 5
+          has none). Or you could preprocess the images (e.g., using Scikit-Image, Pillow, or
+          OpenCV) to make some patterns, such as closed loops, stand out more.
+          Analyzing individual errors can also be a good way to gain insights on what your
+          classifier is doing and why it is failing, but it is more difficult and time-consuming.
+          For example, let’s plot examples of 3s and 5s (the plot_digits() function just uses
+          Matplotlib’s imshow() function; see this chapter’s Jupyter notebook for details):
+            cl_a, cl_b = 3, 5                                         
+            X_aa = X_train[(y_train == cl_a) & (y_train_pred == cl_a)]
+            X_ab = X_train[(y_train == cl_a) & (y_train_pred == cl_b)]
+            X_ba = X_train[(y_train == cl_b) & (y_train_pred == cl_a)]
+            X_bb = X_train[(y_train == cl_b) & (y_train_pred == cl_b)]

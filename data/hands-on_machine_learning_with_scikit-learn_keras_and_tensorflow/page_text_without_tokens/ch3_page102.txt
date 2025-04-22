@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            >>> ovr_clf.predict([some_digit])                         
+            array([5], dtype=uint8)                                   
+            >>> len(ovr_clf.estimators_)                              
+            10                                                        
+          Training an SGDClassifier (or a RandomForestClassifier) is just as easy:
+            >>> sgd_clf.fit(X_train, y_train)                         
+            >>> sgd_clf.predict([some_digit])                         
+            array([5], dtype=uint8)                                   
+          This time Scikit-Learn did not have to run OvR or OvO because SGD classifiers can
+          directly classify instances into multiple classes. The decision_function() method
+          now returns one value per class. Let’s look at the score that the SGD classifier assigned
+          to each class:                                              
+            >>> sgd_clf.decision_function([some_digit])               
+            array([[-15955.22628, -38080.96296, -13326.66695, 573.52692, -17680.68466,
+                  2412.53175, -25526.86498, -12290.15705, -7946.05205, -10631.35889]])
+          You can see that the classifier is fairly confident about its prediction: almost all scores
+          are largely negative, while class 5 has a score of 2412.5. The model has a slight doubt
+          regarding class 3, which gets a score of 573.5. Now of course you want to evaluate this
+          classifier. As usual, you can use cross-validation. Use the cross_val_score() func‐
+          tion to evaluate the SGDClassifier’s accuracy:              
+                                                                      
+            >>> cross_val_score(sgd_clf, X_train, y_train, cv=3, scoring="accuracy")
+            array([0.8489802 , 0.87129356, 0.86988048])               
+          It gets over 84% on all test folds. If you used a random classifier, you would get 10%
+          accuracy, so this is not such a bad score, but you can still do much better. Simply scal‐
+          ing the inputs (as discussed in Chapter 2) increases accuracy above 89%:
+            >>> from sklearn.preprocessing import StandardScaler      
+            >>> scaler = StandardScaler()                             
+            >>> X_train_scaled = scaler.fit_transform(X_train.astype(np.float64))
+            >>> cross_val_score(sgd_clf, X_train_scaled, y_train, cv=3, scoring="accuracy")
+            array([0.89707059, 0.8960948 , 0.90693604])               
+          Error Analysis                                              
+                                                                      
+          If this were a real project, you would now follow the steps in your Machine Learning
+          project checklist (see Appendix B). You’d explore data preparation options, try out
+          multiple models (shortlisting the best ones and fine-tuning their hyperparameters
+          using GridSearchCV), and automate as much as possible. Here, we will assume that
+          you have found a promising model and you want to find ways to improve it. One way
+          to do this is to analyze the types of errors it makes.      
+                                                                      
+                                                                      
+                                                                      

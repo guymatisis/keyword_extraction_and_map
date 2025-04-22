@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            with a branch for every pair of clusters that merged, you would get a binary tree
+            of clusters, where the leaves are the individual instances. This approach scales
+            very well to large numbers of instances or clusters. It can capture clusters of vari‐
+            ous shapes, it produces a flexible and informative cluster tree instead of forcing
+            you to choose a particular cluster scale, and it can be used with any pairwise dis‐
+            tance. It can scale nicely to large numbers of instances if you provide a connectiv‐
+            ity matrix, which is a sparse m × m matrix that indicates which pairs of instances
+            are neighbors (e.g., returned by sklearn.neighbors.kneighbors_graph()).
+            Without a connectivity matrix, the algorithm does not scale well to large datasets.
+                                                                      
+          BIRCH                                                       
+            The BIRCH (Balanced Iterative Reducing and Clustering using Hierarchies)
+            algorithm was designed specifically for very large datasets, and it can be faster
+            than batch K-Means, with similar results, as long as the number of features is not
+            too large (<20). During training, it builds a tree structure containing just enough
+            information to quickly assign each new instance to a cluster, without having to
+            store all the instances in the tree: this approach allows it to use limited memory,
+            while handling huge datasets.                             
+          Mean-Shift                                                  
+            This algorithm starts by placing a circle centered on each instance; then for each
+            circle it computes the mean of all the instances located within it, and it shifts the
+            circle so that it is centered on the mean. Next, it iterates this mean-shifting step
+            until all the circles stop moving (i.e., until each of them is centered on the mean
+            of the instances it contains). Mean-Shift shifts the circles in the direction of
+            higher density, until each of them has found a local density maximum. Finally, all
+            the instances whose circles have settled in the same place (or close enough) are
+            assigned to the same cluster. Mean-Shift has some of the same features as
+            DBSCAN, like how it can find any number of clusters of any shape, it has very
+            few hyperparameters (just one—the radius of the circles, called the bandwidth),
+            and it relies on local density estimation. But unlike DBSCAN, Mean-Shift tends
+            to chop clusters into pieces when they have internal density variations. Unfortu‐
+            nately, its computational complexity is O(m2), so it is not suited for large datasets.
+          Affinity propagation                                        
+            This algorithm uses a voting system, where instances vote for similar instances to
+            be their representatives, and once the algorithm converges, each representative
+            and its voters form a cluster. Affinity propagation can detect any number of clus‐
+            ters of different sizes. Unfortunately, this algorithm has a computational com‐
+            plexity of O(m2), so it too is not suited for large datasets.
+          Spectral clustering                                         
+            This algorithm takes a similarity matrix between the instances and creates a low-
+            dimensional embedding from it (i.e., it reduces its dimensionality), then it uses
+                                                                      

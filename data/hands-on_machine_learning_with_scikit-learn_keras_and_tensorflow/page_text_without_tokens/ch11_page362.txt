@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          than performance scheduling, but in Keras both options are easy). That said, the
+          1cycle approach seems to perform even better.               
+                                                                      
+          Implementing power scheduling in Keras is the easiest option: just set the decay
+          hyperparameter when creating an optimizer:                  
+            optimizer = keras.optimizers.SGD(lr=0.01, decay=1e-4)     
+          The decay is the inverse of s (the number of steps it takes to divide the learning rate
+          by one more unit), and Keras assumes that c is equal to 1.  
+                                                                      
+          Exponential scheduling and piecewise scheduling are quite simple too. You first need
+          to define a function that takes the current epoch and returns the learning rate. For
+          example, let’s implement exponential scheduling:            
+            def exponential_decay_fn(epoch):                          
+               return 0.01 * 0.1**(epoch / 20)                        
+          If you do not want to hardcode η and s, you can create a function that returns a con‐
+                             0                                        
+          figured function:                                           
+            def exponential_decay(lr0, s):                            
+               def exponential_decay_fn(epoch):                       
+                 return lr0 * 0.1**(epoch / s)                        
+               return exponential_decay_fn                            
+            exponential_decay_fn = exponential_decay(lr0=0.01, s=20)  
+          Next, create a LearningRateScheduler callback, giving it the schedule function, and
+          pass this callback to the fit() method:                     
+            lr_scheduler = keras.callbacks.LearningRateScheduler(exponential_decay_fn)
+            history = model.fit(X_train_scaled, y_train, [...], callbacks=[lr_scheduler])
+          The LearningRateScheduler will update the optimizer’s learning_rate attribute at
+          the beginning of each epoch. Updating the learning rate once per epoch is usually
+          enough, but if you want it to be updated more often, for example at every step, you
+          can always write your own callback (see the “Exponential Scheduling” section of the
+          notebook for an example). Updating the learning rate at every step makes sense if
+          there are many steps per epoch. Alternatively, you can use the keras.optimiz
+          ers.schedules approach, described shortly.                  
+                                                                      
+          The schedule function can optionally take the current learning rate as a second argu‐
+          ment. For example, the following schedule function multiplies the previous learning
+          rate by 0.11/20, which results in the same exponential decay (except the decay now
+          starts at the beginning of epoch 0 instead of 1):           
+            def exponential_decay_fn(epoch, lr):                      
+               return lr * 0.1**(1 / 20)                              
+                                                                      
+                                                                      

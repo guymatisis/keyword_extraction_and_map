@@ -1,46 +1,34 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Just like the Logistic Regression classifier, the Softmax Regression classifier predicts
-          the class with the highest estimated probability (which is simply the class with the
-          highest score), as shown in Equation 4-21.                  
-                                                                      
-            Equation 4-21. Softmax Regression classifier prediction   
-                                                                      
-                                          k ⊺                         
-            y = argmax σ s x = argmax s x = argmax θ x                
-                       k       k                                      
-                 k          k        k                                
-          The argmax operator returns the value of a variable that maximizes a function. In this
-          equation, it returns the value of k that maximizes the estimated probability σ(s(x)).
-                                                         k            
-                   The Softmax Regression classifier predicts only one class at a time
-                   (i.e., it is multiclass, not multioutput), so it should be used only
-                   with mutually exclusive classes, such as different types of plants.
-                   You cannot use it to recognize multiple people in one picture.
-          Now that you know how the model estimates probabilities and makes predictions,
-          let’s take a look at training. The objective is to have a model that estimates a high
-          probability for the target class (and consequently a low probability for the other
-          classes). Minimizing the cost function shown in Equation 4-22, called the cross
-          entropy, should lead to this objective because it penalizes the model when it estimates
-          a low probability for a target class. Cross entropy is frequently used to measure how
-          well a set of estimated class probabilities matches the target classes.
-                                                                      
-            Equation 4-22. Cross entropy cost function                
-                 1 m  K   i   i                                       
-            J Θ =− ∑ ∑   y log p                                      
-                 m i=1 k=1 k k                                        
-          In this equation:                                           
-           • yi is the target probability that the ith instance belongs to class k. In general, it is
-             k                                                        
-            either equal to 1 or 0, depending on whether the instance belongs to the class or
-            not.                                                      
-          Notice that when there are just two classes (K = 2), this cost function is equivalent to
-          the Logistic Regression’s cost function (log loss; see Equation 4-17).
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+Just like the Logistic Regression classifier, the Softmax Regression classifier predicts
+the class with the highest estimated probability (which is simply the class with the
+highest score), as shown in Equation 4-21.
+<i>Equation</i> <i>4-21.</i> <i>Softmax</i> <i>Regression</i> <i>classifier</i> <i>prediction</i>
+<i>k</i> ⊺
+<i>y</i> = argmax <i>σ</i> <b>s</b> <b>x</b> = argmax <i>s</i> <b>x</b> = argmax <b>θ</b> <b>x</b>
+<i>k</i> <i>k</i>
+<i>k</i> <i>k</i> <i>k</i>
+The <i>argmax</i> operator returns the value of a variable that maximizes a function. In this
+equation, it returns the value of <i>k</i> that maximizes the estimated probability <i>σ(s(x))</i> .
+<i>k</i>
+The Softmax Regression classifier predicts only one class at a time
+(i.e., it is multiclass, not multioutput), so it should be used only
+with mutually exclusive classes, such as different types of plants.
+You cannot use it to recognize multiple people in one picture.
+Now that you know how the model estimates probabilities and makes predictions,
+let’s take a look at training. The objective is to have a model that estimates a high
+probability for the target class (and consequently a low probability for the other
+classes). Minimizing the cost function shown in Equation 4-22, called the <i>cross</i>
+<i>entropy,</i> should lead to this objective because it penalizes the model when it estimates
+a low probability for a target class. Cross entropy is frequently used to measure how
+well a set of estimated class probabilities matches the target classes.
+<i>Equation</i> <i>4-22.</i> <i>Cross</i> <i>entropy</i> <i>cost</i> <i>function</i>
+1 <i>m</i> <i>K</i> <i>i</i> <i>i</i>
+<i>J</i> <b>Θ</b> = − ∑ ∑ <i>y</i> log <i>p</i>
+<i>m</i> <i>i</i> = 1 <i>k</i> = 1 <i>k</i> <i>k</i>
+In this equation:
+<i>i</i>
+• <i>y</i> is the target probability that the <i>ith</i> instance belongs to class <i>k.</i> In general, it is
+<i>k</i>
+either equal to 1 or 0, depending on whether the instance belongs to the class or
+not.
+Notice that when there are just two classes (K = 2), this cost function is equivalent to
+the Logistic Regression’s cost function (log loss; see Equation 4-17).

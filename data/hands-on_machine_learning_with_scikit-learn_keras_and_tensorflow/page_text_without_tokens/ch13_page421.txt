@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                 cycle_length=n_readers, num_parallel_calls=n_read_threads)
+               dataset = dataset.map(preprocess, num_parallel_calls=n_parse_threads)
+               dataset = dataset.shuffle(shuffle_buffer_size).repeat(repeat)
+               return dataset.batch(batch_size).prefetch(1)           
+          Everything should make sense in this code, except the very last line (prefetch(1)),
+          which is important for performance.                         
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 13-2. Loading and preprocessing data from multiple CSV files
+                                                                      
+          Prefetching                                                 
+                                                                      
+          By calling prefetch(1) at the end, we are creating a dataset that will do its best to
+          always be one batch ahead.2 In other words, while our training algorithm is working
+          on one batch, the dataset will already be working in parallel on getting the next batch
+          ready (e.g., reading the data from disk and preprocessing it). This can improve per‐
+          formance dramatically, as is illustrated in Figure 13-3. If we also ensure that loading
+          and preprocessing are multithreaded (by setting num_parallel_calls when calling
+          interleave() and map()), we can exploit multiple cores on the CPU and hopefully
+          make preparing one batch of data shorter than running a training step on the GPU:
+                                                                      
+                                                                      
+                                                                      
+          2 In general, just prefetching one batch is fine, but in some cases you may need to prefetch a few more. Alterna‐
+           tively, you can let TensorFlow decide automatically by passing tf.data.experimental.AUTOTUNE (this is an
+           experimental feature for now).                             

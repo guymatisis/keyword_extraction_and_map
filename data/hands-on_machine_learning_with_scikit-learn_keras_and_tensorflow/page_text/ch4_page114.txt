@@ -1,46 +1,31 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          The MSE of a Linear Regression hypothesis h on a training set X is calculated using
-                                     θ                                
-          Equation 4-3.                                               
-            Equation 4-3. MSE cost function for a Linear Regression model
-                                                                      
-                      m                                               
-            MSE X,h = 1 ∑ θ ⊺ x i −y i 2                              
-                 θ  m                                                 
-                     i=1                                              
-          Most of these notations were presented in Chapter 2 (see “Notations” on page 40).
-          The only difference is that we write h instead of just h to make it clear that the model
-                               θ                                      
-          is parametrized by the vector θ. To simplify notations, we will just write MSE(θ)
-          instead of MSE(X, h ).                                      
-                      θ                                               
-          The Normal Equation                                         
-          To find the value of θ that minimizes the cost function, there is a closed-form solution
-          —in other words, a mathematical equation that gives the result directly. This is called
-          the Normal Equation (Equation 4-4).                         
-            Equation 4-4. Normal Equation                             
-                ⊺ −1 ⊺                                                
-            θ = X X X  y                                              
-          In this equation:                                           
-                                                                      
-           • θ is the value of θ that minimizes the cost function.    
-           • y is the vector of target values containing y(1) to y(m).
-                                                                      
-          Let’s generate some linear-looking data to test this equation on (Figure 4-1):
-            import numpy as np                                        
-                                                                      
-            X = 2 * np.random.rand(100, 1)                            
-            y = 4 + 3 * X + np.random.randn(100, 1)                   
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+The MSE of a Linear Regression hypothesis <i>h</i> on a training set <b>X</b> is calculated using
+<b>θ</b>
+Equation 4-3.
+<i>Equation</i> <i>4-3.</i> <i>MSE</i> <i>cost</i> <i>function</i> <i>for</i> <i>a</i> <i>Linear</i> <i>Regression</i> <i>model</i>
+<i>m</i>
+1 ⊺ 2
+<largefont>∑</largefont> <i>i</i> <i>i</i>
+MSE <b>X,h</b> = <b>θ</b> <b>x</b> − <i>y</i>
+<b>θ</b>
+<i>m</i>
+<i>i</i> = 1
+Most of these notations were presented in Chapter 2 (see “Notations” on page 40).
+The only difference is that we write <i>h</i> instead of just <i>h</i> to make it clear that the model
+<b>θ</b>
+is parametrized by the vector <b>θ.</b> To simplify notations, we will just write MSE(θ)
+instead of MSE(X, <i>h</i> ).
+<b>θ</b>
+<header><largefont><b>The</b></largefont> <largefont><b>Normal</b></largefont> <largefont><b>Equation</b></largefont></header>
+To find the value of <b>θ</b> that minimizes the cost function, there is a <i>closed-form</i> <i>solution</i>
+—in other words, a mathematical equation that gives the result directly. This is called
+the <i>Normal</i> <i>Equation</i> (Equation 4-4).
+<i>Equation</i> <i>4-4.</i> <i>Normal</i> <i>Equation</i>
+⊺ −1 ⊺
+<b>θ</b> = <b>X</b> <b>X</b> <b>X</b> <b>y</b>
+In this equation:
+• <b>θ</b> is the value of <b>θ</b> that minimizes the cost function.
+• <b>y</b> is the vector of target values containing <i>y</i> (1) to <i>y</i> (m) .
+Let’s generate some linear-looking data to test this equation on (Figure 4-1):
+<b>import</b> <b>numpy</b> <b>as</b> <b>np</b>
+X = 2 * np.random.rand(100, 1)
+y = 4 + 3 * X + np.random.randn(100, 1)

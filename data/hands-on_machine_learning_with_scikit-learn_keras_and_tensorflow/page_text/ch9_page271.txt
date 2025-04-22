@@ -1,46 +1,15 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          will likely be close to 1, and there will be few clusters. Finally, the Wishart distribution
-          is used to sample covariance matrices: the parameters d and V control the distribu‐
-          tion of cluster shapes.                                     
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 9-22. Bayesian Gaussian mixture model                
-                                                                      
-          Prior knowledge about the latent variables z can be encoded in a probability distribu‐
-          tion p(z) called the prior. For example, we may have a prior belief that the clusters are
-          likely to be few (low concentration), or conversely, that they are likely to be plentiful
-          (high concentration). This prior belief about the number of clusters can be adjusted
-          using the weight_concentration_prior hyperparameter. Setting it to 0.01 or 10,000
-          gives very different clusterings (see Figure 9-23). The more data we have, however,
-          the less the priors matter. In fact, to plot diagrams with such large differences, you
-          must use very strong priors and little data.                
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 9-23. Using different concentration priors on the same data results in different
-          numbers of clusters                                         
-                                                                      
-                                                                      
+will likely be close to 1, and there will be few clusters. Finally, the Wishart distribution
+is used to sample covariance matrices: the parameters d and V control the distribu‐
+tion of cluster shapes.
+<i>Figure</i> <i>9-22.</i> <i>Bayesian</i> <i>Gaussian</i> <i>mixture</i> <i>model</i>
+Prior knowledge about the latent variables <b>z</b> can be encoded in a probability distribu‐
+tion <i>p(z)</i> called the <i>prior.</i> For example, we may have a prior belief that the clusters are
+likely to be few (low concentration), or conversely, that they are likely to be plentiful
+(high concentration). This prior belief about the number of clusters can be adjusted
+weight_concentration_prior
+using the hyperparameter. Setting it to 0.01 or 10,000
+gives very different clusterings (see Figure 9-23). The more data we have, however,
+the less the priors matter. In fact, to plot diagrams with such large differences, you
+must use very strong priors and little data.
+<i>Figure</i> <i>9-23.</i> <i>Using</i> <i>different</i> <i>concentration</i> <i>priors</i> <i>on</i> <i>the</i> <i>same</i> <i>data</i> <i>results</i> <i>in</i> <i>different</i>
+<i>numbers</i> <i>of</i> <i>clusters</i>

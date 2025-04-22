@@ -1,46 +1,43 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                   "id": Feature(int64_list=Int64List(value=[123])),  
-                   "emails": Feature(bytes_list=BytesList(value=[b"a@b.com",
-                                              b"c@d.com"]))           
-                 }))                                                  
-          The code is a bit verbose and repetitive, but it’s rather straightforward (and you could
-          easily wrap it inside a small helper function). Now that we have an Example protobuf,
-          we can serialize it by calling its SerializeToString() method, then write the result‐
-          ing data to a TFRecord file:                                
-            with tf.io.TFRecordWriter("my_contacts.tfrecord") as f:   
-               f.write(person_example.SerializeToString())            
-          Normally you would write much more than one Example! Typically, you would create
-          a conversion script that reads from your current format (say, CSV files), creates an
-          Example protobuf for each instance, serializes them, and saves them to several TFRe‐
-          cord files, ideally shuffling them in the process. This requires a bit of work, so once
-          again make sure it is really necessary (perhaps your pipeline works fine with CSV
-          files).                                                     
-                                                                      
-          Now that we have a nice TFRecord file containing a serialized Example, let’s try to
-          load it.                                                    
-          Loading and Parsing Examples                                
-                                                                      
-          To load the serialized Example protobufs, we will use a tf.data.TFRecordDataset
-          once again, and we will parse each Example using tf.io.parse_single_example().
-          This is a TensorFlow operation, so it can be included in a TF Function. It requires at
-          least two arguments: a string scalar tensor containing the serialized data, and a
-          description of each feature. The description is a dictionary that maps each feature
-          name to either a tf.io.FixedLenFeature descriptor indicating the feature’s shape,
-          type, and default value, or a tf.io.VarLenFeature descriptor indicating only the type
-          (if the length of the feature’s list may vary, such as for the "emails" feature).
-                                                                      
-          The following code defines a description dictionary, then it iterates over the TFRecord
-          Dataset and parses the serialized Example protobuf this dataset contains:
-            feature_description = {                                   
-               "name": tf.io.FixedLenFeature([], tf.string, default_value=""),
-               "id": tf.io.FixedLenFeature([], tf.int64, default_value=0),
-               "emails": tf.io.VarLenFeature(tf.string),              
-            }                                                         
-            for serialized_example in tf.data.TFRecordDataset(["my_contacts.tfrecord"]):
-               parsed_example = tf.io.parse_single_example(serialized_example,
-                                        feature_description)          
-                                                                      
-                                                                      
+"id": Feature(int64_list=Int64List(value=[123])),
+"emails": Feature(bytes_list=BytesList(value=[b"a@b.com",
+b"c@d.com"]))
+}))
+The code is a bit verbose and repetitive, but it’s rather straightforward (and you could
+Example
+easily wrap it inside a small helper function). Now that we have an protobuf,
+we can serialize it by calling its SerializeToString() method, then write the result‐
+ing data to a TFRecord file:
+<b>with</b> tf.io.TFRecordWriter("my_contacts.tfrecord") <b>as</b> f:
+f.write(person_example.SerializeToString())
+Normally you would write much more than one Example ! Typically, you would create
+a conversion script that reads from your current format (say, CSV files), creates an
+Example protobuf for each instance, serializes them, and saves them to several TFRe‐
+cord files, ideally shuffling them in the process. This requires a bit of work, so once
+again make sure it is really necessary (perhaps your pipeline works fine with CSV
+files).
+Now that we have a nice TFRecord file containing a serialized Example , let’s try to
+load it.
+<header><largefont><b>Loading</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Parsing</b></largefont> <largefont><b>Examples</b></largefont></header>
+Example tf.data.TFRecordDataset
+To load the serialized protobufs, we will use a
+Example tf.io.parse_single_example()
+once again, and we will parse each using .
+This is a TensorFlow operation, so it can be included in a TF Function. It requires at
+least two arguments: a string scalar tensor containing the serialized data, and a
+description of each feature. The description is a dictionary that maps each feature
+tf.io.FixedLenFeature
+name to either a descriptor indicating the feature’s shape,
+type, and default value, or a tf.io.VarLenFeature descriptor indicating only the type
+"emails"
+(if the length of the feature’s list may vary, such as for the feature).
+The following code defines a description dictionary, then it iterates over the TFRecord
+Dataset Example
+and parses the serialized protobuf this dataset contains:
+feature_description = {
+"name": tf.io.FixedLenFeature([], tf.string, default_value=""),
+"id": tf.io.FixedLenFeature([], tf.int64, default_value=0),
+"emails": tf.io.VarLenFeature(tf.string),
+}
+<b>for</b> serialized_example <b>in</b> tf.data.TFRecordDataset(["my_contacts.tfrecord"]):
+parsed_example = tf.io.parse_single_example(serialized_example,
+feature_description)

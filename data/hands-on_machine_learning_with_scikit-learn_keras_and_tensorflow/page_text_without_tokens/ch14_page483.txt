@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          As explained in Chapter 11, it’s usually a good idea to freeze the weights of the pre‐
+          trained layers, at least at the beginning of training:      
+                                                                      
+            for layer in base_model.layers:                           
+               layer.trainable = False                                
+                   Since our model uses the base model’s layers directly, rather than
+                   the base_model object itself, setting base_model.trainable=False
+                   would have no effect.                              
+                                                                      
+                                                                      
+          Finally, we can compile the model and start training:       
+                                                                      
+            optimizer = keras.optimizers.SGD(lr=0.2, momentum=0.9, decay=0.01)
+            model.compile(loss="sparse_categorical_crossentropy", optimizer=optimizer,
+                    metrics=["accuracy"])                             
+            history = model.fit(train_set, epochs=5, validation_data=valid_set)
+                   This will be very slow, unless you have a GPU. If you do not, then
+                   you should run this chapter’s notebook in Colab, using a GPU run‐
+                   time (it’s free!). See the instructions at https://github.com/ageron/
+                   handson-ml2.                                       
+                                                                      
+          After training the model for a few epochs, its validation accuracy should reach about
+          75–80% and stop making much progress. This means that the top layers are now
+          pretty well trained, so we are ready to unfreeze all the layers (or you could try
+          unfreezing just the top ones) and continue training (don’t forget to compile the
+          model when you freeze or unfreeze layers). This time we use a much lower learning
+          rate to avoid damaging the pretrained weights:              
+            for layer in base_model.layers:                           
+               layer.trainable = True                                 
+                                                                      
+            optimizer = keras.optimizers.SGD(lr=0.01, momentum=0.9, decay=0.001)
+            model.compile(...)                                        
+            history = model.fit(...)                                  
+          It will take a while, but this model should reach around 95% accuracy on the test set.
+          With that, you can start training amazing image classifiers! But there’s more to com‐
+          puter vision than just classification. For example, what if you also want to know where
+          the flower is in the picture? Let’s look at this now.       
+          Classification and Localization                             
+                                                                      
+          Localizing an object in a picture can be expressed as a regression task, as discussed in
+          Chapter 10: to predict a bounding box around the object, a common approach is to
+                                                                      

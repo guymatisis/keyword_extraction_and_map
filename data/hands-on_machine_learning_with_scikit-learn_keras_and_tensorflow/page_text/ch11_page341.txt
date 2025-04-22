@@ -1,46 +1,37 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            Applied to a state-of-the-art image classification model, Batch Normalization achieves
-            the same accuracy with 14 times fewer training steps, and beats the original model by a
-            significant margin. […] Using an ensemble of batch-normalized networks, we improve
-            upon the best published result on ImageNet classification: reaching 4.9% top-5 valida‐
-            tion error (and 4.8% test error), exceeding the accuracy of human raters.
-          Finally, like a gift that keeps on giving, Batch Normalization acts like a regularizer,
-          reducing the need for other regularization techniques (such as dropout, described
-          later in this chapter).                                     
-          Batch Normalization does, however, add some complexity to the model (although it
-          can remove the need for normalizing the input data, as we discussed earlier). More‐
-          over, there is a runtime penalty: the neural network makes slower predictions due to
-          the extra computations required at each layer. Fortunately, it’s often possible to fuse
-          the BN layer with the previous layer, after training, thereby avoiding the runtime pen‐
-          alty. This is done by updating the previous layer’s weights and biases so that it directly
-          produces outputs of the appropriate scale and offset. For example, if the previous
-          layer computes XW + b, then the BN layer will compute γ⊗(XW + b – μ)/σ + β
-          (ignoring the smoothing term ε in the denominator). If we define W′ = γ⊗W/σ and b
-          ′ = γ⊗(b – μ)/σ + β, the equation simplifies to XW′ + b′. So if we replace the previous
-          layer’s weights and biases (W and b) with the updated weights and biases (W′ and b′),
-          we can get rid of the BN layer (TFLite’s optimizer does this automatically; see Chap‐
-          ter 19).                                                    
-                                                                      
-                   You may find that training is rather slow, because each epoch takes
-                   much more time when you use Batch Normalization. This is usu‐
-                   ally counterbalanced by the fact that convergence is much faster
-                   with BN, so it will take fewer epochs to reach the same perfor‐
-                   mance. All in all, wall time will usually be shorter (this is the time
-                   measured by the clock on your wall).               
-          Implementing Batch Normalization with Keras                 
-                                                                      
-          As with most things with Keras, implementing Batch Normalization is simple and
-          intuitive. Just add a BatchNormalization layer before or after each hidden layer’s
-          activation function, and optionally add a BN layer as well as the first layer in your
-          model. For example, this model applies BN after every hidden layer and as the first
-          layer in the model (after flattening the input images):     
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+Applied to a state-of-the-art image classification model, Batch Normalization achieves
+the same accuracy with 14 times fewer training steps, and beats the original model by a
+significant margin. […] Using an ensemble of batch-normalized networks, we improve
+upon the best published result on ImageNet classification: reaching 4.9% top-5 valida‐
+tion error (and 4.8% test error), exceeding the accuracy of human raters.
+Finally, like a gift that keeps on giving, Batch Normalization acts like a regularizer,
+reducing the need for other regularization techniques (such as dropout, described
+later in this chapter).
+Batch Normalization does, however, add some complexity to the model (although it
+can remove the need for normalizing the input data, as we discussed earlier). More‐
+over, there is a runtime penalty: the neural network makes slower predictions due to
+the extra computations required at each layer. Fortunately, it’s often possible to fuse
+the BN layer with the previous layer, after training, thereby avoiding the runtime pen‐
+alty. This is done by updating the previous layer’s weights and biases so that it directly
+produces outputs of the appropriate scale and offset. For example, if the previous
+⊗
+layer computes <b>XW</b> + <b>b,</b> then the BN layer will compute <b>γ</b> (XW + <b>b</b> – <b>μ)/σ</b> + <b>β</b>
+′ ⊗
+(ignoring the smoothing term <i>ε</i> in the denominator). If we define <b>W</b> = <b>γ</b> <b>W/σ</b> and <b>b</b>
+′ <b>γ⊗(b</b> <b>XW′</b> <b>b′.</b>
+= – <b>μ)/σ</b> + <b>β,</b> the equation simplifies to + So if we replace the previous
+layer’s weights and biases (W and <b>b)</b> with the updated weights and biases (W ′ and <b>b</b> ′ ),
+we can get rid of the BN layer (TFLite’s optimizer does this automatically; see Chap‐
+ter 19).
+You may find that training is rather slow, because each epoch takes
+much more time when you use Batch Normalization. This is usu‐
+ally counterbalanced by the fact that convergence is much faster
+with BN, so it will take fewer epochs to reach the same perfor‐
+mance. All in all, <i>wall</i> <i>time</i> will usually be shorter (this is the time
+measured by the clock on your wall).
+<b>ImplementingBatchNormalizationwithKeras</b>
+As with most things with Keras, implementing Batch Normalization is simple and
+BatchNormalization
+intuitive. Just add a layer before or after each hidden layer’s
+activation function, and optionally add a BN layer as well as the first layer in your
+model. For example, this model applies BN after every hidden layer and as the first
+layer in the model (after flattening the input images):

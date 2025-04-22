@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+           6. What is the most important layer in the Transformer architecture? What is its
+            purpose?                                                  
+                                                                      
+           7. When would you need to use sampled softmax?             
+           8. Embedded Reber grammars were used by Hochreiter and Schmidhuber in their
+            paper about LSTMs. They are artificial grammars that produce strings such as
+            “BPBTSXXVPSEPE.” Check out Jenny Orr’s nice introduction to this topic.
+            Choose a particular embedded Reber grammar (such as the one represented on
+            Jenny Orr’s page), then train an RNN to identify whether a string respects that
+            grammar or not. You will first need to write a function capable of generating a
+            training batch containing about 50% strings that respect the grammar, and 50%
+            that don’t.                                               
+           9. Train an Encoder–Decoder model that can convert a date string from one format
+            to another (e.g., from “April 22, 2019” to “2019-04-22”). 
+          10. Go through TensorFlow’s Neural Machine Translation with Attention tutorial.
+          11. Use one of the recent language models (e.g., BERT) to generate more convincing
+            Shakespearean text.                                       
+                                                                      
+          Solutions to these exercises are available in Appendix A.   
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      

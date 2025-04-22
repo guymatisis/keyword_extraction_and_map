@@ -1,46 +1,26 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 3-6. This ROC curve plots the false positive rate against the true positive rate for
-          all possible thresholds; the red circle highlights the chosen ratio (at 43.68% recall)
-          One way to compare classifiers is to measure the area under the curve (AUC). A per‐
-          fect classifier will have a ROC AUC equal to 1, whereas a purely random classifier will
-          have a ROC AUC equal to 0.5. Scikit-Learn provides a function to compute the ROC
-          AUC:                                                        
-                                                                      
-            >>> from sklearn.metrics import roc_auc_score             
-            >>> roc_auc_score(y_train_5, y_scores)                    
-            0.9611778893101814                                        
-                   Since the ROC curve is so similar to the precision/recall (PR)
-                   curve, you may wonder how to decide which one to use. As a rule
-                   of thumb, you should prefer the PR curve whenever the positive
-                   class is rare or when you care more about the false positives than
-                   the false negatives. Otherwise, use the ROC curve. For example,
-                   looking at the previous ROC curve (and the ROC AUC score), you
-                   may think that the classifier is really good. But this is mostly
-                   because there are few positives (5s) compared to the negatives
-                   (non-5s). In contrast, the PR curve makes it clear that the classifier
-                   has room for improvement (the curve could be closer to the top-
-                   left corner).                                      
-          Let’s now train a RandomForestClassifier and compare its ROC curve and ROC
-          AUC score to those of the SGDClassifier. First, you need to get scores for each
-          instance in the training set. But due to the way it works (see Chapter 7), the Random
-          ForestClassifier class does not have a decision_function() method. Instead, it
-                                                                      
+<i>Figure</i> <i>3-6.</i> <i>This</i> <i>ROC</i> <i>curve</i> <i>plots</i> <i>the</i> <i>false</i> <i>positive</i> <i>rate</i> <i>against</i> <i>the</i> <i>true</i> <i>positive</i> <i>rate</i> <i>for</i>
+<i>all</i> <i>possible</i> <i>thresholds;</i> <i>the</i> <i>red</i> <i>circle</i> <i>highlights</i> <i>the</i> <i>chosen</i> <i>ratio</i> <i>(at</i> <i>43.68%</i> <i>recall)</i>
+One way to compare classifiers is to measure the <i>area</i> <i>under</i> <i>the</i> <i>curve</i> (AUC). A per‐
+fect classifier will have a ROC AUC equal to 1, whereas a purely random classifier will
+have a ROC AUC equal to 0.5. Scikit-Learn provides a function to compute the ROC
+AUC:
+<b>>>></b> <b>from</b> <b>sklearn.metrics</b> <b>import</b> roc_auc_score
+<b>>>></b> roc_auc_score(y_train_5, y_scores)
+0.9611778893101814
+Since the ROC curve is so similar to the precision/recall (PR)
+curve, you may wonder how to decide which one to use. As a rule
+of thumb, you should prefer the PR curve whenever the positive
+class is rare or when you care more about the false positives than
+the false negatives. Otherwise, use the ROC curve. For example,
+looking at the previous ROC curve (and the ROC AUC score), you
+may think that the classifier is really good. But this is mostly
+because there are few positives (5s) compared to the negatives
+(non-5s). In contrast, the PR curve makes it clear that the classifier
+has room for improvement (the curve could be closer to the top-
+left corner).
+RandomForestClassifier
+Let’s now train a and compare its ROC curve and ROC
+AUC score to those of the SGDClassifier . First, you need to get scores for each
+Random
+instance in the training set. But due to the way it works (see Chapter 7), the
+ForestClassifier class does not have a decision_function() method. Instead, it

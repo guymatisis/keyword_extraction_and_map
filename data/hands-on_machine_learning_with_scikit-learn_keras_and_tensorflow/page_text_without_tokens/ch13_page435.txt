@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+           Similarly, you can compute Madrid – Spain + France, and the result is close to Paris,
+           which seems to show that the notion of capital city was also encoded in the
+           embeddings.                                                
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+           Figure 13-5. Word embeddings of similar words tend to be close, and some axes seem to
+           encode meaningful concepts                                 
+           Unfortunately, word embeddings sometimes capture our worst biases. For example,
+           although they correctly learn that Man is to King as Woman is to Queen, they also
+           seem to learn that Man is to Doctor as Woman is to Nurse: quite a sexist bias! To be
+           fair, this particular example is probably exaggerated, as was pointed out in a 2019
+           paper10 by Malvina Nissim et al. Nevertheless, ensuring fairness in Deep Learning
+           algorithms is an important and active research topic.      
+                                                                      
+                                                                      
+          Let’s look at how we could implement embeddings manually, to understand how they
+          work (then we will use a simple Keras layer instead). First, we need to create an
+          embedding matrix containing each category’s embedding, initialized randomly; it will
+          have one row per category and per oov bucket, and one column per embedding
+          dimension:                                                  
+            embedding_dim = 2                                         
+            embed_init = tf.random.uniform([len(vocab) + num_oov_buckets, embedding_dim])
+            embedding_matrix = tf.Variable(embed_init)                
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          10 Malvina Nissim et al., “Fair Is Better Than Sensational: Man Is to Doctor as Woman Is to Doctor,” arXiv pre‐
+           print arXiv:1905.09866 (2019).                             

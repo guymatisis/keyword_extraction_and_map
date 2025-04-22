@@ -1,7 +1,0 @@
-<i>Figure</i> <i>14-16.</i> <i>Regular</i> <i>deep</i> <i>neural</i> <i>network</i> <i>(left)</i> <i>and</i> <i>deep</i> <i>residual</i> <i>network</i> <i>(right)</i>
-Now let’s look at ResNet’s architecture (see Figure 14-17). It is surprisingly simple. It
-starts and ends exactly like GoogLeNet (except without a dropout layer), and in
-between is just a very deep stack of simple residual units. Each residual unit is com‐
-posed of two convolutional layers (and no pooling layer!), with Batch Normalization
-(BN) and ReLU activation, using 3 × 3 kernels and preserving spatial dimensions
-(stride 1, "same" padding).

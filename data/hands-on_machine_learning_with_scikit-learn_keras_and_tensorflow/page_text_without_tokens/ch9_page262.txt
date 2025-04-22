@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+           • Shaded nodes indicate that the value is known. So, in this case, only the random
+            variables x(i) have known values: they are called observed variables. The unknown
+            random variables z(i) are called latent variables.        
+                                                                      
+          So, what can you do with such a model? Well, given the dataset X, you typically want
+          to start by estimating the weights ϕ and all the distribution parameters μ(1) to μ(k) and
+          Σ(1) to Σ(k). Scikit-Learn’s GaussianMixture class makes this super easy:
+            from sklearn.mixture import GaussianMixture               
+                                                                      
+            gm = GaussianMixture(n_components=3, n_init=10)           
+            gm.fit(X)                                                 
+          Let’s look at the parameters that the algorithm estimated:  
+            >>> gm.weights_                                           
+            array([0.20965228, 0.4000662 , 0.39028152])               
+            >>> gm.means_                                             
+            array([[ 3.39909717, 1.05933727],                         
+                [-1.40763984, 1.42710194],                            
+                [ 0.05135313, 0.07524095]])                           
+            >>> gm.covariances_                                       
+            array([[[ 1.14807234, -0.03270354],                       
+                 [-0.03270354, 0.95496237]],                          
+                [[ 0.63478101, 0.72969804],                           
+                 [ 0.72969804, 1.1609872 ]],                          
+                [[ 0.68809572, 0.79608475],                           
+                 [ 0.79608475, 1.21234145]]])                         
+          Great, it worked fine! Indeed, the weights that were used to generate the data were
+          0.2, 0.4, and 0.4; and similarly, the means and covariance matrices were very close to
+          those found by the algorithm. But how? This class relies on the Expectation-
+          Maximization (EM) algorithm, which has many similarities with the K-Means algo‐
+          rithm: it also initializes the cluster parameters randomly, then it repeats two steps
+          until convergence, first assigning instances to clusters (this is called the expectation
+          step) and then updating the clusters (this is called the maximization step). Sounds
+          familiar, right? In the context of clustering, you can think of EM as a generalization of
+          K-Means that not only finds the cluster centers (μ(1) to μ(k)), but also their size, shape,
+          and orientation (Σ(1) to Σ(k)), as well as their relative weights (ϕ(1) to ϕ(k)). Unlike K-
+          Means, though, EM uses soft cluster assignments, not hard assignments. For each
+          instance, during the expectation step, the algorithm estimates the probability that it
+          belongs to each cluster (based on the current cluster parameters). Then, during the
+          maximization step, each cluster is updated using all the instances in the dataset, with
+          each instance weighted by the estimated probability that it belongs to that cluster.
+          These probabilities are called the responsibilities of the clusters for the instances.
+                                                                      

@@ -1,46 +1,46 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Moreover, when you write a custom loss function, a custom metric, a custom layer, or
-          any other custom function and you use it in a Keras model (as we did throughout this
-          chapter), Keras automatically converts your function into a TF Function—no need to
-          use tf.function(). So most of the time, all this magic is 100% transparent.
-                                                                      
-                   You can tell Keras not to convert your Python functions to TF
-                   Functions by setting dynamic=True when creating a custom layer
-                   or a custom model. Alternatively, you can set run_eagerly=True
-                   when calling the model’s compile() method.         
-                                                                      
-          By default, a TF Function generates a new graph for every unique set of input shapes
-          and data types and caches it for subsequent calls. For example, if you call
-          tf_cube(tf.constant(10)), a graph will be generated for int32 tensors of shape [].
-          Then if you call tf_cube(tf.constant(20)), the same graph will be reused. But if
-          you then call tf_cube(tf.constant([10, 20])), a new graph will be generated for
-          int32 tensors of shape [2]. This is how TF Functions handle polymorphism (i.e., vary‐
-          ing argument types and shapes). However, this is only true for tensor arguments: if
-          you pass numerical Python values to a TF Function, a new graph will be generated for
-          every distinct value: for example, calling tf_cube(10) and tf_cube(20) will generate
-          two graphs.                                                 
-                                                                      
-                   If you call a TF Function many times with different numerical
-                   Python values, then many graphs will be generated, slowing down
-                   your program and using up a lot of RAM (you must delete the TF
-                   Function to release it). Python values should be reserved for argu‐
-                   ments that will have few unique values, such as hyperparameters
-                   like the number of neurons per layer. This allows TensorFlow to
-                   better optimize each variant of your model.        
-                                                                      
-          AutoGraph and Tracing                                       
-          So how does TensorFlow generate graphs? It starts by analyzing the Python function’s
-          source code to capture all the control flow statements, such as for loops, while loops,
-          and if statements, as well as break, continue, and return statements. This first step
-          is called AutoGraph. The reason TensorFlow has to analyze the source code is that
-          Python does not provide any other way to capture control flow statements: it offers
-          magic methods like __add__() and __mul__() to capture operators like + and *, but
-          there are no __while__() or __if__() magic methods. After analyzing the function’s
-          code, AutoGraph outputs an upgraded version of that function in which all the con‐
-          trol flow statements are replaced by the appropriate TensorFlow operations, such as
-          tf.while_loop() for loops and tf.cond() for if statements. For example, in
-          Figure 12-4, AutoGraph analyzes the source code of the sum_squares() Python
-                                                                      
+Moreover, when you write a custom loss function, a custom metric, a custom layer, or
+any other custom function and you use it in a Keras model (as we did throughout this
+chapter), Keras automatically converts your function into a TF Function—no need to
+use tf.function() . So most of the time, all this magic is 100% transparent.
+You can tell Keras <i>not</i> to convert your Python functions to TF
+dynamic=True
+Functions by setting when creating a custom layer
+run_eagerly=True
+or a custom model. Alternatively, you can set
+compile()
+when calling the model’s method.
+By default, a TF Function generates a new graph for every unique set of input shapes
+and data types and caches it for subsequent calls. For example, if you call
+tf_cube(tf.constant(10)) , a graph will be generated for int32 tensors of shape [].
+Then if you call tf_cube(tf.constant(20)) , the same graph will be reused. But if
+tf_cube(tf.constant([10, 20]))
+you then call , a new graph will be generated for
+int32 tensors of shape [2]. This is how TF Functions handle polymorphism (i.e., vary‐
+ing argument types and shapes). However, this is only true for tensor arguments: if
+you pass numerical Python values to a TF Function, a new graph will be generated for
+tf_cube(10) tf_cube(20)
+every distinct value: for example, calling and will generate
+two graphs.
+If you call a TF Function many times with different numerical
+Python values, then many graphs will be generated, slowing down
+your program and using up a lot of RAM (you must delete the TF
+Function to release it). Python values should be reserved for argu‐
+ments that will have few unique values, such as hyperparameters
+like the number of neurons per layer. This allows TensorFlow to
+better optimize each variant of your model.
+<header><largefont><b>AutoGraph</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Tracing</b></largefont></header>
+So how does TensorFlow generate graphs? It starts by analyzing the Python function’s
+for while
+source code to capture all the control flow statements, such as loops, loops,
+if break continue return
+and statements, as well as , , and statements. This first step
+is called <i>AutoGraph.</i> The reason TensorFlow has to analyze the source code is that
+Python does not provide any other way to capture control flow statements: it offers
+__add__() __mul__() + *
+magic methods like and to capture operators like and , but
+there are no __while__() or __if__() magic methods. After analyzing the function’s
+code, AutoGraph outputs an upgraded version of that function in which all the con‐
+trol flow statements are replaced by the appropriate TensorFlow operations, such as
+tf.while_loop() tf.cond() if
+for loops and for statements. For example, in
+Figure 12-4, AutoGraph analyzes the source code of the sum_squares() Python

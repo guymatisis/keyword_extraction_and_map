@@ -1,46 +1,44 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          A good momentum value is typically close to 1; for example, 0.9, 0.99, or 0.999 (you
-          want more 9s for larger datasets and smaller mini-batches). 
-                                                                      
-          Another important hyperparameter is axis: it determines which axis should be nor‐
-          malized. It defaults to –1, meaning that by default it will normalize the last axis (using
-          the means and standard deviations computed across the other axes). When the input
-          batch is 2D (i.e., the batch shape is [batch size, features]), this means that each input
-          feature will be normalized based on the mean and standard deviation computed
-          across all the instances in the batch. For example, the first BN layer in the previous
-          code example will independently normalize (and rescale and shift) each of the 784
-          input features. If we move the first BN layer before the Flatten layer, then the input
-          batches will be 3D, with shape [batch size, height, width]; therefore, the BN layer will
-          compute 28 means and 28 standard deviations (1 per column of pixels, computed
-          across all instances in the batch and across all rows in the column), and it will nor‐
-          malize all pixels in a given column using the same mean and standard deviation.
-          There will also be just 28 scale parameters and 28 shift parameters. If instead you still
-          want to treat each of the 784 pixels independently, then you should set axis=[1, 2].
-          Notice that the BN layer does not perform the same computation during training and
-          after training: it uses batch statistics during training and the “final” statistics after
-          training (i.e., the final values of the moving averages). Let’s take a peek at the source
-          code of this class to see how this is handled:              
-            class BatchNormalization(keras.layers.Layer):             
-               [...]                                                  
-               def call(self, inputs, training=None):                 
-                 [...]                                                
-          The call() method is the one that performs the computations; as you can see, it has
-          an extra training argument, which is set to None by default, but the fit() method
-          sets to it to 1 during training. If you ever need to write a custom layer, and it must
-          behave differently during training and testing, add a training argument to the
-          call() method and use this argument in the method to decide what to compute10 (we
-          will discuss custom layers in Chapter 12).                  
-          BatchNormalization has become one of the most-used layers in deep neural net‐
-          works, to the point that it is often omitted in the diagrams, as it is assumed that BN is
-          added after every layer. But a recent paper11 by Hongyi Zhang et al. may change this
-          assumption: by using a novel fixed-update (fixup) weight initialization technique, the
-          authors managed to train a very deep neural network (10,000 layers!) without BN,
-                                                                      
-                                                                      
-          10 The Keras API also specifies a keras.backend.learning_phase() function that should return 1 during train‐
-           ing and 0 otherwise.                                       
-          11 Hongyi Zhang et al., “Fixup Initialization: Residual Learning Without Normalization,” arXiv preprint arXiv:
-           1901.09321 (2019).                                         
+A good momentum value is typically close to 1; for example, 0.9, 0.99, or 0.999 (you
+want more 9s for larger datasets and smaller mini-batches).
+Another important hyperparameter is axis : it determines which axis should be nor‐
+malized. It defaults to –1, meaning that by default it will normalize the last axis (using
+the means and standard deviations computed across the <i>other</i> axes). When the input
+batch is 2D (i.e., the batch shape is [batch <i>size,</i> <i>features]),</i> this means that each input
+feature will be normalized based on the mean and standard deviation computed
+across all the instances in the batch. For example, the first BN layer in the previous
+code example will independently normalize (and rescale and shift) each of the 784
+Flatten
+input features. If we move the first BN layer before the layer, then the input
+batches will be 3D, with shape [batch <i>size,</i> <i>height,</i> <i>width];</i> therefore, the BN layer will
+compute 28 means and 28 standard deviations (1 per column of pixels, computed
+across all instances in the batch and across all rows in the column), and it will nor‐
+malize all pixels in a given column using the same mean and standard deviation.
+There will also be just 28 scale parameters and 28 shift parameters. If instead you still
+want to treat each of the 784 pixels independently, then you should set axis=[1, 2].
+Notice that the BN layer does not perform the same computation during training and
+after training: it uses batch statistics during training and the “final” statistics after
+training (i.e., the final values of the moving averages). Let’s take a peek at the source
+code of this class to see how this is handled:
+<b>class</b> <b>BatchNormalization(keras.layers.Layer):</b>
+[...]
+<b>def</b> call(self, inputs, training=None):
+[...]
+The call() method is the one that performs the computations; as you can see, it has
+an extra training argument, which is set to None by default, but the fit() method
+1
+sets to it to during training. If you ever need to write a custom layer, and it must
+behave differently during training and testing, add a training argument to the
+call() compute10
+method and use this argument in the method to decide what to (we
+will discuss custom layers in Chapter 12).
+BatchNormalization has become one of the most-used layers in deep neural net‐
+works, to the point that it is often omitted in the diagrams, as it is assumed that BN is
+paper11
+added after every layer. But a recent by Hongyi Zhang et al. may change this
+assumption: by using a novel <i>fixed-update</i> (fixup) weight initialization technique, the
+authors managed to train a very deep neural network (10,000 layers!) without BN,
+keras.backend.learning_phase() 1
+10 TheKerasAPIalsospecifiesa functionthatshouldreturn duringtrain‐
+ingand0otherwise.
+11 HongyiZhangetal.,“FixupInitialization:ResidualLearningWithoutNormalization,”arXivpreprintarXiv:
+1901.09321(2019).

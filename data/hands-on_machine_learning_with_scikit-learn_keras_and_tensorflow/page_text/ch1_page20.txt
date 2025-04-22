@@ -1,46 +1,31 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          This model has two model parameters, θ and θ .5 By tweaking these parameters, you
-                                  0   1                               
-          can make your model represent any linear function, as shown in Figure 1-18.
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 1-18. A few possible linear models                   
-                                                                      
-          Before you can use your model, you need to define the parameter values θ and θ .
-                                                       0   1          
-          How can you know which values will make your model perform best? To answer this
-          question, you need to specify a performance measure. You can either define a utility
-          function (or fitness function) that measures how good your model is, or you can define
-          a cost function that measures how bad it is. For Linear Regression problems, people
-          typically use a cost function that measures the distance between the linear model’s
-          predictions and the training examples; the objective is to minimize this distance.
-          This is where the Linear Regression algorithm comes in: you feed it your training
-          examples, and it finds the parameters that make the linear model fit best to your data.
-          This is called training the model. In our case, the algorithm finds that the optimal
-          parameter values are θ = 4.85 and θ = 4.91 × 10–5.          
-                       0       1                                      
-                   Confusingly, the same word “model” can refer to a type of model
-                   (e.g., Linear Regression), to a fully specified model architecture (e.g.,
-                   Linear Regression with one input and one output), or to the final
-                   trained model ready to be used for predictions (e.g., Linear Regres‐
-                   sion with one input and one output, using θ = 4.85 and θ = 4.91 ×
-                                          0       1                   
-                   10–5). Model selection consists in choosing the type of model and
-                   fully specifying its architecture. Training a model means running
-                   an algorithm to find the model parameters that will make it best fit
-                   the training data (and hopefully make good predictions on new
-                   data).                                             
-                                                                      
-          5 By convention, the Greek letter θ (theta) is frequently used to represent model parameters.
+.5
+This model has two <i>model</i> <i>parameters,</i> <i>θ</i> and <i>θ</i> By tweaking these parameters, you
+0 1
+can make your model represent any linear function, as shown in Figure 1-18.
+<i>Figure</i> <i>1-18.</i> <i>A</i> <i>few</i> <i>possible</i> <i>linear</i> <i>models</i>
+Before you can use your model, you need to define the parameter values <i>θ</i> and <i>θ</i> .
+0 1
+How can you know which values will make your model perform best? To answer this
+question, you need to specify a performance measure. You can either define a <i>utility</i>
+<i>function</i> (or <i>fitness</i> <i>function)</i> that measures how <i>good</i> your model is, or you can define
+a <i>cost</i> <i>function</i> that measures how <i>bad</i> it is. For Linear Regression problems, people
+typically use a cost function that measures the distance between the linear model’s
+predictions and the training examples; the objective is to minimize this distance.
+This is where the Linear Regression algorithm comes in: you feed it your training
+examples, and it finds the parameters that make the linear model fit best to your data.
+This is called <i>training</i> the model. In our case, the algorithm finds that the optimal
+–5
+parameter values are <i>θ</i> = 4.85 and <i>θ</i> = 4.91 × 10 .
+0 1
+Confusingly, the same word “model” can refer to a <i>type</i> <i>of</i> <i>model</i>
+(e.g., Linear Regression), to a <i>fully</i> <i>specified</i> <i>model</i> <i>architecture</i> (e.g.,
+Linear Regression with one input and one output), or to the <i>final</i>
+<i>trained</i> <i>model</i> ready to be used for predictions (e.g., Linear Regres‐
+sion with one input and one output, using <i>θ</i> = 4.85 and <i>θ</i> = 4.91 ×
+0 1
+10–5). Model selection consists in choosing the type of model and
+fully specifying its architecture. Training a model means running
+an algorithm to find the model parameters that will make it best fit
+the training data (and hopefully make good predictions on new
+data).
+5 Byconvention,theGreekletterθ(theta)isfrequentlyusedtorepresentmodelparameters.

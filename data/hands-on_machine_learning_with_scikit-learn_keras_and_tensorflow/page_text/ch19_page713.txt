@@ -1,46 +1,41 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                   In general you want to define the TF_CONFIG environment variable
-                   outside of Python, so the code does not need to include the current
-                   task’s type and index (this makes it possible to use the same code
-                   across all workers).                               
-                                                                      
-          Now let’s train a model on a cluster! We will start with the mirrored strategy—it’s sur‐
-          prisingly simple! First, you need to set the TF_CONFIG environment variable appropri‐
-          ately for each task. There should be no parameter server (remove the “ps” key in the
-          cluster spec), and in general you will want a single worker per machine. Make extra
-          sure you set a different task index for each task. Finally, run the following training
-          code on every worker:                                       
-                                                                      
-            distribution = tf.distribute.experimental.MultiWorkerMirroredStrategy()
-            with distribution.scope():                                
-               mirrored_model = keras.models.Sequential([...])        
-               mirrored_model.compile([...])                          
-            batch_size = 100 # must be divisible by the number of replicas
-            history = mirrored_model.fit(X_train, y_train, epochs=10) 
-          Yes, that’s exactly the same code we used earlier, except this time we are using the
-          MultiWorkerMirroredStrategy (in future versions, the MirroredStrategy will prob‐
-          ably handle both the single machine and multimachine cases). When you start this
-          script on the first workers, they will remain blocked at the AllReduce step, but as soon
-          as the last worker starts up training will begin, and you will see them all advancing at
-          exactly the same rate (since they synchronize at each step).
-                                                                      
-          You can choose from two AllReduce implementations for this distribution strategy: a
-          ring AllReduce algorithm based on gRPC for the network communications, and
-          NCCL’s implementation. The best algorithm to use depends on the number of work‐
-          ers, the number and types of GPUs, and the network. By default, TensorFlow will
-          apply some heuristics to select the right algorithm for you, but if you want to force
-          one algorithm, pass CollectiveCommunication.RING or CollectiveCommunica
-          tion.NCCL (from tf.distribute.experimental) to the strategy’s constructor.
-          If you prefer to implement asynchronous data parallelism with parameter servers,
-          change the strategy to ParameterServerStrategy, add one or more parameter
-          servers, and configure TF_CONFIG appropriately for each task. Note that although the
-          workers will work asynchronously, the replicas on each worker will work
-          synchronously.                                              
-                                                                      
-          Lastly, if you have access to TPUs on Google Cloud, you can create a TPUStrategy
-          like this (then use it like the other strategies):          
-                                                                      
-                                                                      
+TF_CONFIG
+In general you want to define the environment variable
+outside of Python, so the code does not need to include the current
+task’s type and index (this makes it possible to use the same code
+across all workers).
+Now let’s train a model on a cluster! We will start with the mirrored strategy—it’s sur‐
+TF_CONFIG
+prisingly simple! First, you need to set the environment variable appropri‐
+ately for each task. There should be no parameter server (remove the “ps” key in the
+cluster spec), and in general you will want a single worker per machine. Make extra
+sure you set a different task index for each task. Finally, run the following training
+code on every worker:
+distribution = tf.distribute.experimental.MultiWorkerMirroredStrategy()
+<b>with</b> distribution.scope():
+mirrored_model = keras.models.Sequential([...])
+mirrored_model.compile([...])
+batch_size = 100 <i>#</i> <i>must</i> <i>be</i> <i>divisible</i> <i>by</i> <i>the</i> <i>number</i> <i>of</i> <i>replicas</i>
+history = mirrored_model.fit(X_train, y_train, epochs=10)
+Yes, that’s exactly the same code we used earlier, except this time we are using the
+MultiWorkerMirroredStrategy (in future versions, the MirroredStrategy will prob‐
+ably handle both the single machine and multimachine cases). When you start this
+script on the first workers, they will remain blocked at the AllReduce step, but as soon
+as the last worker starts up training will begin, and you will see them all advancing at
+exactly the same rate (since they synchronize at each step).
+You can choose from two AllReduce implementations for this distribution strategy: a
+ring AllReduce algorithm based on gRPC for the network communications, and
+NCCL’s implementation. The best algorithm to use depends on the number of work‐
+ers, the number and types of GPUs, and the network. By default, TensorFlow will
+apply some heuristics to select the right algorithm for you, but if you want to force
+CollectiveCommunication.RING CollectiveCommunica
+one algorithm, pass or
+tion.NCCL (from tf.distribute.experimental ) to the strategy’s constructor.
+If you prefer to implement asynchronous data parallelism with parameter servers,
+ParameterServerStrategy
+change the strategy to , add one or more parameter
+servers, and configure TF_CONFIG appropriately for each task. Note that although the
+workers will work asynchronously, the replicas on each worker will work
+synchronously.
+TPUStrategy
+Lastly, if you have access to TPUs on Google Cloud, you can create a
+like this (then use it like the other strategies):

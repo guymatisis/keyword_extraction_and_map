@@ -1,46 +1,24 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          thus, simple patterns in the data may end up being distorted by this sequence of
-          transformations.                                            
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 10-14. Wide & Deep neural network                    
-                                                                      
-          Let’s build such a neural network to tackle the California housing problem:
-                                                                      
-            input_ = keras.layers.Input(shape=X_train.shape[1:])      
-            hidden1 = keras.layers.Dense(30, activation="relu")(input_)
-            hidden2 = keras.layers.Dense(30, activation="relu")(hidden1)
-            concat = keras.layers.Concatenate()([input_, hidden2])    
-            output = keras.layers.Dense(1)(concat)                    
-            model = keras.Model(inputs=[input_], outputs=[output])    
-          Let’s go through each line of this code:                    
-           • First, we need to create an Input object.18 This is a specification of the kind of
-            input the model will get, including its shape and dtype. A model may actually
-            have multiple inputs, as we will see shortly.             
-           • Next, we create a Dense layer with 30 neurons, using the ReLU activation func‐
-            tion. As soon as it is created, notice that we call it like a function, passing it the
-            input. This is why this is called the Functional API. Note that we are just telling
-            Keras how it should connect the layers together; no actual data is being processed
-            yet.                                                      
-           • We then create a second hidden layer, and again we use it as a function. Note that
-            we pass it the output of the first hidden layer.          
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          18 The name input_ is used to avoid overshadowing Python’s built-in input() function.
+thus, simple patterns in the data may end up being distorted by this sequence of
+transformations.
+<i>Figure</i> <i>10-14.</i> <i>Wide</i> <i>&</i> <i>Deep</i> <i>neural</i> <i>network</i>
+Let’s build such a neural network to tackle the California housing problem:
+input_ = keras.layers.Input(shape=X_train.shape[1:])
+hidden1 = keras.layers.Dense(30, activation="relu")(input_)
+hidden2 = keras.layers.Dense(30, activation="relu")(hidden1)
+concat = keras.layers.Concatenate()([input_, hidden2])
+output = keras.layers.Dense(1)(concat)
+model = keras.Model(inputs=[input_], outputs=[output])
+Let’s go through each line of this code:
+Input
+• First, we need to create an object.18 This is a specification of the kind of
+input the model will get, including its shape and dtype . A model may actually
+have multiple inputs, as we will see shortly.
+• Next, we create a Dense layer with 30 neurons, using the ReLU activation func‐
+tion. As soon as it is created, notice that we call it like a function, passing it the
+input. This is why this is called the Functional API. Note that we are just telling
+Keras how it should connect the layers together; no actual data is being processed
+yet.
+• We then create a second hidden layer, and again we use it as a function. Note that
+we pass it the output of the first hidden layer.
+input_ input()
+18 Thename isusedtoavoidovershadowingPython’sbuilt-in function.

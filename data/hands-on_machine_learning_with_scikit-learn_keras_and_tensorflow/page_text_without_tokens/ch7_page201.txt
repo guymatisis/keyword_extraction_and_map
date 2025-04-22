@@ -1,0 +1,50 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          get boosted. The second classifier therefore does a better job on these instances, and
+          so on. The plot on the right represents the same sequence of predictors, except that
+          the learning rate is halved (i.e., the misclassified instance weights are boosted half as
+          much at every iteration). As you can see, this sequential learning technique has some
+          similarities with Gradient Descent, except that instead of tweaking a single predictor’s
+          parameters to minimize a cost function, AdaBoost adds predictors to the ensemble,
+          gradually making it better.                                 
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 7-8. Decision boundaries of consecutive predictors   
+                                                                      
+          Once all predictors are trained, the ensemble makes predictions very much like bag‐
+          ging or pasting, except that predictors have different weights depending on their
+          overall accuracy on the weighted training set.              
+                                                                      
+                   There is one important drawback to this sequential learning techni‐
+                   que: it cannot be parallelized (or only partially), since each predic‐
+                   tor can only be trained after the previous predictor has been
+                   trained and evaluated. As a result, it does not scale as well as bag‐
+                   ging or pasting.                                   
+          Let’s take a closer look at the AdaBoost algorithm. Each instance weight w(i) is initially
+          set to 1/m. A first predictor is trained, and its weighted error rate r is computed on
+                                                  1                   
+          the training set; see Equation 7-1.                         
+            Equation 7-1. Weighted error rate of the jth predictor    
+                                                                      
+                 m                                                    
+                 ∑  w i                                               
+                i=1                                                   
+                i  i                                                  
+               y ≠y                                                   
+                j           i     th                 th               
+            r =        where y is the j predictor’s prediction for the i instance.
+             j   m          j                                         
+                 ∑ w i                                                
+                i=1                                                   

@@ -1,47 +1,40 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          the buffer until it is empty. You must specify the buffer size, and it is important to
-          make it large enough, or else shuffling will not be very effective.1 Just don’t exceed the
-          amount of RAM you have, and even if you have plenty of it, there’s no need to go
-          beyond the dataset’s size. You can provide a random seed if you want the same ran‐
-          dom order every time you run your program. For example, the following code creates
-          and displays a dataset containing the integers 0 to 9, repeated 3 times, shuffled using a
-          buffer of size 5 and a random seed of 42, and batched with a batch size of 7:
-            >>> dataset = tf.data.Dataset.range(10).repeat(3) # 0 to 9, three times
-            >>> dataset = dataset.shuffle(buffer_size=5, seed=42).batch(7)
-            >>> for item in dataset:                                  
-            ...  print(item)                                          
-            ...                                                       
-            tf.Tensor([0 2 3 6 7 9 4], shape=(7,), dtype=int64)       
-            tf.Tensor([5 0 1 1 8 6 5], shape=(7,), dtype=int64)       
-            tf.Tensor([4 8 7 1 2 3 0], shape=(7,), dtype=int64)       
-            tf.Tensor([5 4 2 7 8 9 9], shape=(7,), dtype=int64)       
-            tf.Tensor([3 6], shape=(2,), dtype=int64)                 
-                   If you call repeat() on a shuffled dataset, by default it will generate
-                   a new order at every iteration. This is generally a good idea, but if
-                   you prefer to reuse the same order at each iteration (e.g., for tests
-                   or debugging), you can set reshuffle_each_iteration=False.
-                                                                      
-          For a large dataset that does not fit in memory, this simple shuffling-buffer approach
-          may not be sufficient, since the buffer will be small compared to the dataset. One sol‐
-          ution is to shuffle the source data itself (for example, on Linux you can shuffle text
-          files using the shuf command). This will definitely improve shuffling a lot! Even if
-          the source data is shuffled, you will usually want to shuffle it some more, or else the
-          same order will be repeated at each epoch, and the model may end up being biased
-          (e.g., due to some spurious patterns present by chance in the source data’s order). To
-          shuffle the instances some more, a common approach is to split the source data into
-          multiple files, then read them in a random order during training. However, instances
-          located in the same file will still end up close to each other. To avoid this you can pick
-          multiple files randomly and read them simultaneously, interleaving their records.
-          Then on top of that you can add a shuffling buffer using the shuffle() method. If all
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          1 Imagine a sorted deck of cards on your left: suppose you just take the top three cards and shuffle them, then
-           pick one randomly and put it to your right, keeping the other two in your hands. Take another card on your
-           left, shuffle the three cards in your hands and pick one of them randomly, and put it on your right. When you
-           are done going through all the cards like this, you will have a deck of cards on your right: do you think it will
-           be perfectly shuffled?                                     
+the buffer until it is empty. You must specify the buffer size, and it is important to
+make it large enough, or else shuffling will not be very effective.1 Just don’t exceed the
+amount of RAM you have, and even if you have plenty of it, there’s no need to go
+beyond the dataset’s size. You can provide a random seed if you want the same ran‐
+dom order every time you run your program. For example, the following code creates
+and displays a dataset containing the integers 0 to 9, repeated 3 times, shuffled using a
+buffer of size 5 and a random seed of 42, and batched with a batch size of 7:
+<b>>>></b> dataset = tf.data.Dataset.range(10).repeat(3) <i>#</i> <i>0</i> <i>to</i> <i>9,</i> <i>three</i> <i>times</i>
+<b>>>></b> dataset = dataset.shuffle(buffer_size=5, seed=42).batch(7)
+<b>>>></b> <b>for</b> item <b>in</b> dataset:
+<b>...</b> <b>print(item)</b>
+<b>...</b>
+tf.Tensor([0 2 3 6 7 9 4], shape=(7,), dtype=int64)
+tf.Tensor([5 0 1 1 8 6 5], shape=(7,), dtype=int64)
+tf.Tensor([4 8 7 1 2 3 0], shape=(7,), dtype=int64)
+tf.Tensor([5 4 2 7 8 9 9], shape=(7,), dtype=int64)
+tf.Tensor([3 6], shape=(2,), dtype=int64)
+If you call repeat() on a shuffled dataset, by default it will generate
+a new order at every iteration. This is generally a good idea, but if
+you prefer to reuse the same order at each iteration (e.g., for tests
+reshuffle_each_iteration=False.
+or debugging), you can set
+For a large dataset that does not fit in memory, this simple shuffling-buffer approach
+may not be sufficient, since the buffer will be small compared to the dataset. One sol‐
+ution is to shuffle the source data itself (for example, on Linux you can shuffle text
+shuf
+files using the command). This will definitely improve shuffling a lot! Even if
+the source data is shuffled, you will usually want to shuffle it some more, or else the
+same order will be repeated at each epoch, and the model may end up being biased
+(e.g., due to some spurious patterns present by chance in the source data’s order). To
+shuffle the instances some more, a common approach is to split the source data into
+multiple files, then read them in a random order during training. However, instances
+located in the same file will still end up close to each other. To avoid this you can pick
+multiple files randomly and read them simultaneously, interleaving their records.
+Then on top of that you can add a shuffling buffer using the shuffle() method. If all
+1 Imagineasorteddeckofcardsonyourleft:supposeyoujusttakethetopthreecardsandshufflethem,then
+pickonerandomlyandputittoyourright,keepingtheothertwoinyourhands.Takeanothercardonyour
+left,shufflethethreecardsinyourhandsandpickoneofthemrandomly,andputitonyourright.Whenyou
+aredonegoingthroughallthecardslikethis,youwillhaveadeckofcardsonyourright:doyouthinkitwill
+beperfectlyshuffled?

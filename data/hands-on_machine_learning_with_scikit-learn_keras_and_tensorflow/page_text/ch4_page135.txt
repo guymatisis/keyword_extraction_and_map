@@ -1,46 +1,37 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          for it to overfit the data. A simple way to regularize a polynomial model is to reduce
-          the number of polynomial degrees.                           
-                                                                      
-          For a linear model, regularization is typically achieved by constraining the weights of
-          the model. We will now look at Ridge Regression, Lasso Regression, and Elastic Net,
-          which implement three different ways to constrain the weights.
-          Ridge Regression                                            
-                                                                      
-          Ridge Regression (also called Tikhonov regularization) is a regularized version of Lin‐
-          ear Regression: a regularization term equal to α∑n θ2 is added to the cost function.
-                                      i=1 i                           
-          This forces the learning algorithm to not only fit the data but also keep the model
-          weights as small as possible. Note that the regularization term should only be added
-          to the cost function during training. Once the model is trained, you want to use the
-          unregularized performance measure to evaluate the model’s performance.
-                   It is quite common for the cost function used during training to be
-                   different from the performance measure used for testing. Apart
-                   from regularization, another reason they might be different is that a
-                   good training cost function should have optimization-friendly
-                   derivatives, while the performance measure used for testing should
-                   be as close as possible to the final objective. For example, classifiers
-                   are often trained using a cost function such as the log loss (dis‐
-                   cussed in a moment) but evaluated using precision/recall.
-                                                                      
-          The hyperparameter α controls how much you want to regularize the model. If α = 0,
-          then Ridge Regression is just Linear Regression. If α is very large, then all weights end
-          up very close to zero and the result is a flat line going through the data’s mean. Equa‐
-          tion 4-8 presents the Ridge Regression cost function.9      
-                                                                      
-            Equation 4-8. Ridge Regression cost function              
-                      1 n  2                                          
-            J θ =MSE θ +α ∑ θ                                         
-                      2 i=1 i                                         
-          Note that the bias term θ is not regularized (the sum starts at i = 1, not 0). If we
-                         0                                            
-          define w as the vector of feature weights (θ to θ ), then the regularization term is
-                                    1  n                              
-                                                                      
-                                                                      
-          9 It is common to use the notation J(θ) for cost functions that don’t have a short name; we will often use this
-           notation throughout the rest of this book. The context will make it clear which cost function is being dis‐
-           cussed.                                                    
+for it to overfit the data. A simple way to regularize a polynomial model is to reduce
+the number of polynomial degrees.
+For a linear model, regularization is typically achieved by constraining the weights of
+the model. We will now look at Ridge Regression, Lasso Regression, and Elastic Net,
+which implement three different ways to constrain the weights.
+<header><largefont><b>Ridge</b></largefont> <largefont><b>Regression</b></largefont></header>
+<i>Ridge</i> <i>Regression</i> (also called <i>Tikhonov</i> <i>regularization)</i> is a regularized version of Lin‐
+<i>n</i> 2
+ear Regression: a <i>regularization</i> <i>term</i> equal to <i>α∑</i> <i>θ</i> is added to the cost function.
+<i>i</i> = 1 <i>i</i>
+This forces the learning algorithm to not only fit the data but also keep the model
+weights as small as possible. Note that the regularization term should only be added
+to the cost function during training. Once the model is trained, you want to use the
+unregularized performance measure to evaluate the model’s performance.
+It is quite common for the cost function used during training to be
+different from the performance measure used for testing. Apart
+from regularization, another reason they might be different is that a
+good training cost function should have optimization-friendly
+derivatives, while the performance measure used for testing should
+be as close as possible to the final objective. For example, classifiers
+are often trained using a cost function such as the log loss (dis‐
+cussed in a moment) but evaluated using precision/recall.
+The hyperparameter <i>α</i> controls how much you want to regularize the model. If <i>α</i> = 0,
+then Ridge Regression is just Linear Regression. If <i>α</i> is very large, then all weights end
+up very close to zero and the result is a flat line going through the data’s mean. Equa‐
+tion 4-8 presents the Ridge Regression cost function.9
+<i>Equation</i> <i>4-8.</i> <i>Ridge</i> <i>Regression</i> <i>cost</i> <i>function</i>
+1 <i>n</i> 2
+<i>J</i> <b>θ</b> = MSE <b>θ</b> + <i>α</i> ∑ <i>θ</i>
+2 <i>i</i> = 1 <i>i</i>
+Note that the bias term <i>θ</i> is not regularized (the sum starts at <i>i</i> = 1, not 0). If we
+0
+define <b>w</b> as the vector of feature weights (θ to <i>θ</i> ), then the regularization term is
+1 <i>n</i>
+9 ItiscommontousethenotationJ(θ)forcostfunctionsthatdon’thaveashortname;wewilloftenusethis
+notationthroughouttherestofthisbook.Thecontextwillmakeitclearwhichcostfunctionisbeingdis‐
+cussed.

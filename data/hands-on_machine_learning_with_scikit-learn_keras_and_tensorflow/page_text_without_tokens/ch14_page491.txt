@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          to go ahead and read all three papers: they are quite pleasant to read, and they pro‐
+          vide excellent examples of how Deep Learning systems can be incrementally
+          improved.                                                   
+                                                                      
+                                                                      
+                        Mean Average Precision (mAP)                  
+           A very common metric used in object detection tasks is the mean Average Precision
+           (mAP). “Mean Average” sounds a bit redundant, doesn’t it? To understand this met‐
+           ric, let’s go back to two classification metrics we discussed in Chapter 3: precision and
+           recall. Remember the trade-off: the higher the recall, the lower the precision. You can
+           visualize this in a precision/recall curve (see Figure 3-5). To summarize this curve
+           into a single number, we could compute its area under the curve (AUC). But note that
+           the precision/recall curve may contain a few sections where precision actually goes up
+           when recall increases, especially at low recall values (you can see this at the top left of
+           Figure 3-5). This is one of the motivations for the mAP metric.
+           Suppose the classifier has 90% precision at 10% recall, but 96% precision at 20%
+           recall. There’s really no trade-off here: it simply makes more sense to use the classifier
+           at 20% recall rather than at 10% recall, as you will get both higher recall and higher
+           precision. So instead of looking at the precision at 10% recall, we should really be
+           looking at the maximum precision that the classifier can offer with at least 10% recall.
+           It would be 96%, not 90%. Therefore, one way to get a fair idea of the model’s perfor‐
+           mance is to compute the maximum precision you can get with at least 0% recall, then
+           10% recall, 20%, and so on up to 100%, and then calculate the mean of these maxi‐
+           mum precisions. This is called the Average Precision (AP) metric. Now when there are
+           more than two classes, we can compute the AP for each class, and then compute the
+           mean AP (mAP). That’s it!                                  
+           In an object detection system, there is an additional level of complexity: what if the
+           system detected the correct class, but at the wrong location (i.e., the bounding box is
+           completely off)? Surely we should not count this as a positive prediction. One
+           approach is to define an IOU threshold: for example, we may consider that a predic‐
+           tion is correct only if the IOU is greater than, say, 0.5, and the predicted class is cor‐
+           rect. The corresponding mAP is generally noted mAP@0.5 (or mAP@50%, or
+           sometimes just AP ). In some competitions (such as the PASCAL VOC challenge),
+                      50                                              
+           this is what is done. In others (such as the COCO competition), the mAP is computed
+           for different IOU thresholds (0.50, 0.55, 0.60, …, 0.95), and the final metric is the
+           mean of all these mAPs (noted AP@[.50:.95] or AP@[.50:0.05:.95]). Yes, that’s a mean
+           mean average.                                              
+          Several YOLO implementations built using TensorFlow are available on GitHub. In
+          particular, check out Zihao Zang’s TensorFlow 2 implementation. Other object detec‐
+          tion models are available in the TensorFlow Models project, many with pretrained
+                                                                      

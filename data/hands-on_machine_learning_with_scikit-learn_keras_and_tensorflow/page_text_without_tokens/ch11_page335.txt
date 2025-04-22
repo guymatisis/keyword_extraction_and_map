@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            he_avg_init = keras.initializers.VarianceScaling(scale=2., mode='fan_avg',
+                                         distribution='uniform')      
+            keras.layers.Dense(10, activation="sigmoid", kernel_initializer=he_avg_init)
+          Nonsaturating Activation Functions                          
+                                                                      
+          One of the insights in the 2010 paper by Glorot and Bengio was that the problems
+          with unstable gradients were in part due to a poor choice of activation function. Until
+          then most people had assumed that if Mother Nature had chosen to use roughly sig‐
+          moid activation functions in biological neurons, they must be an excellent choice. But
+          it turns out that other activation functions behave much better in deep neural net‐
+          works—in particular, the ReLU activation function, mostly because it does not satu‐
+          rate for positive values (and because it is fast to compute).
+          Unfortunately, the ReLU activation function is not perfect. It suffers from a problem
+          known as the dying ReLUs: during training, some neurons effectively “die,” meaning
+          they stop outputting anything other than 0. In some cases, you may find that half of
+          your network’s neurons are dead, especially if you used a large learning rate. A neu‐
+          ron dies when its weights get tweaked in such a way that the weighted sum of its
+          inputs are negative for all instances in the training set. When this happens, it just
+          keeps outputting zeros, and Gradient Descent does not affect it anymore because the
+          gradient of the ReLU function is zero when its input is negative.4
+                                                                      
+          To solve this problem, you may want to use a variant of the ReLU function, such as
+          the leaky ReLU. This function is defined as LeakyReLU (z) = max(αz, z) (see
+                                             α                        
+          Figure 11-2). The hyperparameter α defines how much the function “leaks”: it is the
+          slope of the function for z < 0 and is typically set to 0.01. This small slope ensures that
+          leaky ReLUs never die; they can go into a long coma, but they have a chance to even‐
+          tually wake up. A 2015 paper5 compared several variants of the ReLU activation func‐
+          tion, and one of its conclusions was that the leaky variants always outperformed the
+          strict ReLU activation function. In fact, setting α = 0.2 (a huge leak) seemed to result
+          in better performance than α = 0.01 (a small leak). The paper also evaluated the
+          randomized leaky ReLU (RReLU), where α is picked randomly in a given range during
+          training and is fixed to an average value during testing. RReLU also performed fairly
+          well and seemed to act as a regularizer (reducing the risk of overfitting the training
+          set). Finally, the paper evaluated the parametric leaky ReLU (PReLU), where α is
+          authorized to be learned during training (instead of being a hyperparameter, it
+          becomes a parameter that can be modified by backpropagation like any other param‐
+          4 Unless it is part of the first hidden layer, a dead neuron may sometimes come back to life: Gradient Descent
+           may indeed tweak neurons in the layers below in such a way that the weighted sum of the dead neuron’s
+           inputs is positive again.                                  
+          5 Bing Xu et al., “Empirical Evaluation of Rectified Activations in Convolutional Network,” arXiv preprint
+           arXiv:1505.00853 (2015).                                   

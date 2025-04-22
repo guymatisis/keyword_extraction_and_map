@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 6-5. Predictions of two Decision Tree regression models
+                                                                      
+          The CART algorithm works mostly the same way as earlier, except that instead of try‐
+          ing to split the training set in a way that minimizes impurity, it now tries to split the
+          training set in a way that minimizes the MSE. Equation 6-4 shows the cost function
+          that the algorithm tries to minimize.                       
+                                                                      
+            Equation 6-4. CART cost function for regression           
+                                        MSE  =  ∑  y  −y i 2          
+                 m                                                    
+                  left                                                
+                          m                                           
+                           right                                      
+                                          node i∈node node            
+            J k,t = MSE +    MSE   where                              
+               k  m    left m   right   y  =  1  ∑  y i               
+                                        node m nodei∈node             
+          Just like for classification tasks, Decision Trees are prone to overfitting when dealing
+          with regression tasks. Without any regularization (i.e., using the default hyperpara‐
+          meters), you get the predictions on the left in Figure 6-6. These predictions are obvi‐
+          ously overfitting the training set very badly. Just setting min_samples_leaf=10 results
+          in a much more reasonable model, represented on the right in Figure 6-6.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 6-6. Regularizing a Decision Tree regressor          
+                                                                      

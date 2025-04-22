@@ -1,46 +1,21 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-           7. Which Gradient Descent algorithm (among those we discussed) will reach the
-            vicinity of the optimal solution the fastest? Which will actually converge? How
-            can you make the others converge as well?                 
-                                                                      
-           8. Suppose you are using Polynomial Regression. You plot the learning curves and
-            you notice that there is a large gap between the training error and the validation
-            error. What is happening? What are three ways to solve this?
-           9. Suppose you are using Ridge Regression and you notice that the training error
-            and the validation error are almost equal and fairly high. Would you say that the
-            model suffers from high bias or high variance? Should you increase the regulari‐
-            zation hyperparameter α or reduce it?                     
-          10. Why would you want to use:                              
-             a. Ridge Regression instead of plain Linear Regression (i.e., without any regula‐
-              rization)?                                              
-            b. Lasso instead of Ridge Regression?                     
-                                                                      
-             c. Elastic Net instead of Lasso?                         
-          11. Suppose you want to classify pictures as outdoor/indoor and daytime/nighttime.
-            Should you implement two Logistic Regression classifiers or one Softmax Regres‐
-            sion classifier?                                          
-          12. Implement Batch Gradient Descent with early stopping for Softmax Regression
-            (without using Scikit-Learn).                             
-                                                                      
-          Solutions to these exercises are available in Appendix A.   
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+7. Which Gradient Descent algorithm (among those we discussed) will reach the
+vicinity of the optimal solution the fastest? Which will actually converge? How
+can you make the others converge as well?
+8. Suppose you are using Polynomial Regression. You plot the learning curves and
+you notice that there is a large gap between the training error and the validation
+error. What is happening? What are three ways to solve this?
+9. Suppose you are using Ridge Regression and you notice that the training error
+and the validation error are almost equal and fairly high. Would you say that the
+model suffers from high bias or high variance? Should you increase the regulari‐
+zation hyperparameter <i>α</i> or reduce it?
+10. Why would you want to use:
+a. Ridge Regression instead of plain Linear Regression (i.e., without any regula‐
+rization)?
+b. Lasso instead of Ridge Regression?
+c. Elastic Net instead of Lasso?
+11. Suppose you want to classify pictures as outdoor/indoor and daytime/nighttime.
+Should you implement two Logistic Regression classifiers or one Softmax Regres‐
+sion classifier?
+12. Implement Batch Gradient Descent with early stopping for Softmax Regression
+(without using Scikit-Learn).
+Solutions to these exercises are available in Appendix A.

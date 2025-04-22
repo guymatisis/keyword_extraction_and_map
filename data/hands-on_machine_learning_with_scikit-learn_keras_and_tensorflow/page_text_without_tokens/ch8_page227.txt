@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          PCA (kPCA).6 It is often good at preserving clusters of instances after projection, or
+          sometimes even unrolling datasets that lie close to a twisted manifold.
+                                                                      
+          The following code uses Scikit-Learn’s KernelPCA class to perform kPCA with an RBF
+          kernel (see Chapter 5 for more details about the RBF kernel and other kernels):
+            from sklearn.decomposition import KernelPCA               
+                                                                      
+            rbf_pca = KernelPCA(n_components = 2, kernel="rbf", gamma=0.04)
+            X_reduced = rbf_pca.fit_transform(X)                      
+          Figure 8-10 shows the Swiss roll, reduced to two dimensions using a linear kernel
+          (equivalent to simply using the PCA class), an RBF kernel, and a sigmoid kernel.
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Figure 8-10. Swiss roll reduced to 2D using kPCA with various kernels
+                                                                      
+          Selecting a Kernel and Tuning Hyperparameters               
+                                                                      
+          As kPCA is an unsupervised learning algorithm, there is no obvious performance
+          measure to help you select the best kernel and hyperparameter values. That said,
+          dimensionality reduction is often a preparation step for a supervised learning task
+          (e.g., classification), so you can use grid search to select the kernel and hyperparame‐
+          ters that lead to the best performance on that task. The following code creates a two-
+          step pipeline, first reducing dimensionality to two dimensions using kPCA, then
+          applying Logistic Regression for classification. Then it uses GridSearchCV to find the
+          best kernel and gamma value for kPCA in order to get the best classification accuracy
+          at the end of the pipeline:                                 
+            from sklearn.model_selection import GridSearchCV          
+            from sklearn.linear_model import LogisticRegression       
+            from sklearn.pipeline import Pipeline                     
+                                                                      
+                                                                      
+                                                                      
+          6 Bernhard Schölkopf et al., “Kernel Principal Component Analysis,” in Lecture Notes in Computer Science 1327
+           (Berlin: Springer, 1997): 583–588.                         

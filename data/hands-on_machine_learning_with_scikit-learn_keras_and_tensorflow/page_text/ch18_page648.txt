@@ -1,46 +1,28 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            from tf_agents.environments import suite_atari            
-            from tf_agents.environments.atari_preprocessing import AtariPreprocessing
-            from tf_agents.environments.atari_wrappers import FrameStack4
-            max_episode_steps = 27000 # <=> 108k ALE frames since 1 step = 4 frames
-            environment_name = "BreakoutNoFrameskip-v4"               
-                                                                      
-            env = suite_atari.load(                                   
-               environment_name,                                      
-               max_episode_steps=max_episode_steps,                   
-               gym_env_wrappers=[AtariPreprocessing, FrameStack4])    
-          The result of all this preprocessing is shown in Figure 18-12. You can see that the res‐
-          olution is much lower, but sufficient to play the game. Moreover, frames are stacked
-          along the channels dimension, so red represents the frame from three steps ago,
-          green is two steps ago, blue is the previous frame, and pink is the current frame.20
-          From this single observation, the agent can see that the ball is going toward the
-          lower-left corner, and that it should continue to move the paddle to the left (as it did
-          in the previous steps).                                     
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 18-12. Preprocessed Breakout observation             
-                                                                      
-          Lastly, we can wrap the environment inside a TFPyEnvironment:
-            from tf_agents.environments.tf_py_environment import TFPyEnvironment
-                                                                      
-            tf_env = TFPyEnvironment(env)                             
-          This will make the environment usable from within a TensorFlow graph (under the
-          hood, this class relies on tf.py_function(), which allows a graph to call arbitrary
-                                                                      
-                                                                      
-          20 Since there are only three primary colors, you cannot just display an image with four color channels. For this
-           reason, I combined the last channel with the first three to get the RGB image represented here. Pink is actually
-           a mix of blue and red, but the agent sees four independent channels.
+<b>from</b> <b>tf_agents.environments</b> <b>import</b> suite_atari
+<b>from</b> <b>tf_agents.environments.atari_preprocessing</b> <b>import</b> AtariPreprocessing
+<b>from</b> <b>tf_agents.environments.atari_wrappers</b> <b>import</b> FrameStack4
+max_episode_steps = 27000 <i>#</i> <i><=></i> <i>108k</i> <i>ALE</i> <i>frames</i> <i>since</i> <i>1</i> <i>step</i> <i>=</i> <i>4</i> <i>frames</i>
+environment_name = "BreakoutNoFrameskip-v4"
+env = suite_atari.load(
+environment_name,
+max_episode_steps=max_episode_steps,
+gym_env_wrappers=[AtariPreprocessing, FrameStack4])
+The result of all this preprocessing is shown in Figure 18-12. You can see that the res‐
+olution is much lower, but sufficient to play the game. Moreover, frames are stacked
+along the channels dimension, so red represents the frame from three steps ago,
+frame.20
+green is two steps ago, blue is the previous frame, and pink is the current
+From this single observation, the agent can see that the ball is going toward the
+lower-left corner, and that it should continue to move the paddle to the left (as it did
+in the previous steps).
+<i>Figure</i> <i>18-12.</i> <i>Preprocessed</i> <i>Breakout</i> <i>observation</i>
+TFPyEnvironment
+Lastly, we can wrap the environment inside a :
+<b>from</b> <b>tf_agents.environments.tf_py_environment</b> <b>import</b> TFPyEnvironment
+tf_env = TFPyEnvironment(env)
+This will make the environment usable from within a TensorFlow graph (under the
+tf.py_function(),
+hood, this class relies on which allows a graph to call arbitrary
+20 Sincethereareonlythreeprimarycolors,youcannotjustdisplayanimagewithfourcolorchannels.Forthis
+reason,IcombinedthelastchannelwiththefirstthreetogettheRGBimagerepresentedhere.Pinkisactually
+amixofblueandred,buttheagentseesfourindependentchannels.

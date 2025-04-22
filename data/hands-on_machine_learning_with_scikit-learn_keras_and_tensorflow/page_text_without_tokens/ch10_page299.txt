@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Creating the model using the Sequential API                 
+                                                                      
+          Now let’s build the neural network! Here is a classification MLP with two hidden
+          layers:                                                     
+            model = keras.models.Sequential()                         
+            model.add(keras.layers.Flatten(input_shape=[28, 28]))     
+            model.add(keras.layers.Dense(300, activation="relu"))     
+            model.add(keras.layers.Dense(100, activation="relu"))     
+            model.add(keras.layers.Dense(10, activation="softmax"))   
+          Let’s go through this code line by line:                    
+           • The first line creates a Sequential model. This is the simplest kind of Keras
+            model for neural networks that are just composed of a single stack of layers con‐
+            nected sequentially. This is called the Sequential API.   
+           • Next, we build the first layer and add it to the model. It is a Flatten layer whose
+            role is to convert each input image into a 1D array: if it receives input data X, it
+            computes X.reshape(-1, 1). This layer does not have any parameters; it is just
+            there to do some simple preprocessing. Since it is the first layer in the model, you
+            should specify the input_shape, which doesn’t include the batch size, only the
+            shape of the instances. Alternatively, you could add a keras.layers.InputLayer
+            as the first layer, setting input_shape=[28,28].          
+                                                                      
+           • Next we add a Dense hidden layer with 300 neurons. It will use the ReLU activa‐
+            tion function. Each Dense layer manages its own weight matrix, containing all the
+            connection weights between the neurons and their inputs. It also manages a vec‐
+            tor of bias terms (one per neuron). When it receives some input data, it computes
+            Equation 10-2.                                            
+           • Then we add a second Dense hidden layer with 100 neurons, also using the ReLU
+            activation function.                                      
+           • Finally, we add a Dense output layer with 10 neurons (one per class), using the
+            softmax activation function (because the classes are exclusive).
+                                                                      
+                                                                      
+                   Specifying activation="relu" is equivalent to specifying activa
+                   tion=keras.activations.relu. Other activation functions are
+                   available in the keras.activations package, we will use many of
+                   them in this book. See https://keras.io/activations/ for the full list.
+                                                                      
+          Instead of adding the layers one by one as we just did, you can pass a list of layers
+          when creating the Sequential model:                         
+                                                                      
+                                                                      
+                                                                      

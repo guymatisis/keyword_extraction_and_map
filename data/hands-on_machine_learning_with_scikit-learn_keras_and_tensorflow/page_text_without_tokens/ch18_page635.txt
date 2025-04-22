@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          Instead of training the DQN based only on the latest experiences, we will store all
+          experiences in a replay buffer (or replay memory), and we will sample a random train‐
+          ing batch from it at each training iteration. This helps reduce the correlations
+          between the experiences in a training batch, which tremendously helps training. For
+          this, we will just use a deque list:                        
+                                                                      
+            from collections import deque                             
+            replay_buffer = deque(maxlen=2000)                        
+                                                                      
+                   A deque is a linked list, where each element points to the next one
+                   and to the previous one. It makes inserting and deleting items very
+                   fast, but the longer the deque is, the slower random access will be.
+                   If you need a very large replay buffer, use a circular buffer; see the
+                   “Deque vs Rotating List” section of the notebook for an
+                   implementation.                                    
+                                                                      
+          Each experience will be composed of five elements: a state, the action the agent took,
+          the resulting reward, the next state it reached, and finally a Boolean indicating
+          whether the episode ended at that point (done). We will need a small function to sam‐
+          ple a random batch of experiences from the replay buffer. It will return five NumPy
+          arrays corresponding to the five experience elements:       
+            def sample_experiences(batch_size):                       
+               indices = np.random.randint(len(replay_buffer), size=batch_size)
+               batch = [replay_buffer[index] for index in indices]    
+               states, actions, rewards, next_states, dones = [       
+                 np.array([experience[field_index] for experience in batch])
+                 for field_index in range(5)]                         
+               return states, actions, rewards, next_states, dones    
+          Let’s also create a function that will play a single step using the ε-greedy policy, then
+          store the resulting experience in the replay buffer:        
+            def play_one_step(env, state, epsilon):                   
+               action = epsilon_greedy_policy(state, epsilon)         
+               next_state, reward, done, info = env.step(action)      
+               replay_buffer.append((state, action, reward, next_state, done))
+               return next_state, reward, done, info                  
+          Finally, let’s create one last function that will sample a batch of experiences from the
+          replay buffer and train the DQN by performing a single Gradient Descent step on this
+          batch:                                                      
+            batch_size = 32                                           
+            discount_factor = 0.95                                    
+            optimizer = keras.optimizers.Adam(lr=1e-3)                
+            loss_fn = keras.losses.mean_squared_error                 

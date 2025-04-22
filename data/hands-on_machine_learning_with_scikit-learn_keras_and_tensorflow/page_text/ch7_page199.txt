@@ -1,46 +1,22 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-            >>> from sklearn.datasets import load_iris                
-            >>> iris = load_iris()                                    
-            >>> rnd_clf = RandomForestClassifier(n_estimators=500, n_jobs=-1)
-            >>> rnd_clf.fit(iris["data"], iris["target"])             
-            >>> for name, score in zip(iris["feature_names"], rnd_clf.feature_importances_):
-            ...  print(name, score)                                   
-            ...                                                       
-            sepal length (cm) 0.112492250999                          
-            sepal width (cm) 0.0231192882825                          
-            petal length (cm) 0.441030464364                          
-            petal width (cm) 0.423357996355                           
-          Similarly, if you train a Random Forest classifier on the MNIST dataset (introduced
-          in Chapter 3) and plot each pixel’s importance, you get the image represented in
-          Figure 7-6.                                                 
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 7-6. MNIST pixel importance (according to a Random Forest classifier)
-                                                                      
-          Random Forests are very handy to get a quick understanding of what features
-          actually matter, in particular if you need to perform feature selection.
-                                                                      
-          Boosting                                                    
-                                                                      
-          Boosting (originally called hypothesis boosting) refers to any Ensemble method that
-          can combine several weak learners into a strong learner. The general idea of most
-          boosting methods is to train predictors sequentially, each trying to correct its prede‐
-          cessor. There are many boosting methods available, but by far the most popular are
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+<b>>>></b> <b>from</b> <b>sklearn.datasets</b> <b>import</b> load_iris
+<b>>>></b> iris = load_iris()
+<b>>>></b> rnd_clf = RandomForestClassifier(n_estimators=500, n_jobs=-1)
+<b>>>></b> rnd_clf.fit(iris["data"], iris["target"])
+<b>>>></b> <b>for</b> name, score <b>in</b> zip(iris["feature_names"], rnd_clf.feature_importances_):
+<b>...</b> <b>print(name,</b> score)
+<b>...</b>
+sepal length (cm) 0.112492250999
+sepal width (cm) 0.0231192882825
+petal length (cm) 0.441030464364
+petal width (cm) 0.423357996355
+Similarly, if you train a Random Forest classifier on the MNIST dataset (introduced
+in Chapter 3) and plot each pixel’s importance, you get the image represented in
+Figure 7-6.
+<i>Figure</i> <i>7-6.</i> <i>MNIST</i> <i>pixel</i> <i>importance</i> <i>(according</i> <i>to</i> <i>a</i> <i>Random</i> <i>Forest</i> <i>classifier)</i>
+Random Forests are very handy to get a quick understanding of what features
+actually matter, in particular if you need to perform feature selection.
+<header><largefont><b>Boosting</b></largefont></header>
+<i>Boosting</i> (originally called <i>hypothesis</i> <i>boosting)</i> refers to any Ensemble method that
+can combine several weak learners into a strong learner. The general idea of most
+boosting methods is to train predictors sequentially, each trying to correct its prede‐
+cessor. There are many boosting methods available, but by far the most popular are

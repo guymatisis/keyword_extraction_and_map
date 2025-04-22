@@ -1,0 +1,46 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+            from sklearn.ensemble import RandomForestClassifier       
+            from sklearn.ensemble import VotingClassifier             
+            from sklearn.linear_model import LogisticRegression       
+            from sklearn.svm import SVC                               
+            log_clf = LogisticRegression()                            
+            rnd_clf = RandomForestClassifier()                        
+            svm_clf = SVC()                                           
+            voting_clf = VotingClassifier(                            
+               estimators=[('lr', log_clf), ('rf', rnd_clf), ('svc', svm_clf)],
+               voting='hard')                                         
+            voting_clf.fit(X_train, y_train)                          
+          Let’s look at each classifier’s accuracy on the test set:   
+            >>> from sklearn.metrics import accuracy_score            
+            >>> for clf in (log_clf, rnd_clf, svm_clf, voting_clf):   
+            ...  clf.fit(X_train, y_train)                            
+            ...  y_pred = clf.predict(X_test)                         
+            ...  print(clf.__class__.__name__, accuracy_score(y_test, y_pred))
+            ...                                                       
+            LogisticRegression 0.864                                  
+            RandomForestClassifier 0.896                              
+            SVC 0.888                                                 
+            VotingClassifier 0.904                                    
+          There you have it! The voting classifier slightly outperforms all the individual
+          classifiers.                                                
+          If all classifiers are able to estimate class probabilities (i.e., they all have a pre
+          dict_proba() method), then you can tell Scikit-Learn to predict the class with the
+          highest class probability, averaged over all the individual classifiers. This is called soft
+          voting. It often achieves higher performance than hard voting because it gives more
+          weight to highly confident votes. All you need to do is replace voting="hard" with
+          voting="soft" and ensure that all classifiers can estimate class probabilities. This is
+          not the case for the SVC class by default, so you need to set its probability hyper‐
+          parameter to True (this will make the SVC class use cross-validation to estimate class
+          probabilities, slowing down training, and it will add a predict_proba() method). If
+          you modify the preceding code to use soft voting, you will find that the voting classi‐
+          fier achieves over 91.2% accuracy!                          
+          Bagging and Pasting                                         
+                                                                      
+          One way to get a diverse set of classifiers is to use very different training algorithms,
+          as just discussed. Another approach is to use the same training algorithm for every
+          predictor and train them on different random subsets of the training set. When sam‐
+                                                                      
+                                                                      

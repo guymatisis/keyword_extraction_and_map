@@ -1,46 +1,21 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-           • Popular open data repositories                           
-             —UC Irvine Machine Learning Repository                   
-             —Kaggle datasets                                         
-             —Amazon’s AWS datasets                                   
-                                                                      
-           • Meta portals (they list open data repositories)          
-             —Data Portals                                            
-             —OpenDataMonitor                                         
-                                                                      
-             —Quandl                                                  
-           • Other pages listing many popular open data repositories  
-             —Wikipedia’s list of Machine Learning datasets           
-             —Quora.com                                               
-                                                                      
-             —The datasets subreddit                                  
-          In this chapter we’ll use the California Housing Prices dataset from the StatLib repos‐
-          itory2 (see Figure 2-1). This dataset is based on data from the 1990 California census.
-          It is not exactly recent (a nice house in the Bay Area was still affordable at the time),
-          but it has many qualities for learning, so we will pretend it is recent data. For teaching
-          purposes I’ve added a categorical attribute and removed a few features.
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Figure 2-1. California housing prices                       
-                                                                      
-                                                                      
-          2 The original dataset appeared in R. Kelley Pace and Ronald Barry, “Sparse Spatial Autoregressions,” Statistics
-           & Probability Letters 33, no. 3 (1997): 291–297.           
+• Popular open data repositories
+— UC Irvine Machine Learning Repository
+— Kaggle datasets
+— Amazon’s AWS datasets
+• Meta portals (they list open data repositories)
+— Data Portals
+— OpenDataMonitor
+— Quandl
+• Other pages listing many popular open data repositories
+— Wikipedia’s list of Machine Learning datasets
+— Quora.com
+— The datasets subreddit
+In this chapter we’ll use the California Housing Prices dataset from the StatLib repos‐
+itory2
+(see Figure 2-1). This dataset is based on data from the 1990 California census.
+It is not exactly recent (a nice house in the Bay Area was still affordable at the time),
+but it has many qualities for learning, so we will pretend it is recent data. For teaching
+purposes I’ve added a categorical attribute and removed a few features.
+<i>Figure</i> <i>2-1.</i> <i>California</i> <i>housing</i> <i>prices</i>
+2 TheoriginaldatasetappearedinR.KelleyPaceandRonaldBarry,“SparseSpatialAutoregressions,”Statistics
+<i>&ProbabilityLetters33,no.3(1997):291–297.</i>

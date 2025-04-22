@@ -1,46 +1,40 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          As we discussed earlier, one of the triggers of the current tsunami of interest in Deep
-          Learning was the discovery in 2006 by Geoffrey Hinton et al. that deep neural net‐
-          works can be pretrained in an unsupervised fashion, using this greedy layerwise
-          approach. They used restricted Boltzmann machines (RBMs; see Appendix E) for this
-          purpose, but in 2007 Yoshua Bengio et al. showed3 that autoencoders worked just as
-          well. For several years this was the only efficient way to train deep nets, until many of
-          the techniques introduced in Chapter 11 made it possible to just train a deep net in
-          one shot.                                                   
-                                                                      
-          Autoencoders are not limited to dense networks: you can also build convolutional
-          autoencoders, or even recurrent autoencoders. Let’s look at these now.
-          Convolutional Autoencoders                                  
-                                                                      
-          If you are dealing with images, then the autoencoders we have seen so far will not
-          work well (unless the images are very small): as we saw in Chapter 14, convolutional
-          neural networks are far better suited than dense networks to work with images. So if
-          you want to build an autoencoder for images (e.g., for unsupervised pretraining or
-          dimensionality reduction), you will need to build a convolutional autoencoder.4 The
-          encoder is a regular CNN composed of convolutional layers and pooling layers. It
-          typically reduces the spatial dimensionality of the inputs (i.e., height and width) while
-          increasing the depth (i.e., the number of feature maps). The decoder must do the
-          reverse (upscale the image and reduce its depth back to the original dimensions), and
-          for this you can use transpose convolutional layers (alternatively, you could combine
-          upsampling layers with convolutional layers). Here is a simple convolutional autoen‐
-          coder for Fashion MNIST:                                    
-            conv_encoder = keras.models.Sequential([                  
-               keras.layers.Reshape([28, 28, 1], input_shape=[28, 28]),
-               keras.layers.Conv2D(16, kernel_size=3, padding="same", activation="selu"),
-               keras.layers.MaxPool2D(pool_size=2),                   
-               keras.layers.Conv2D(32, kernel_size=3, padding="same", activation="selu"),
-               keras.layers.MaxPool2D(pool_size=2),                   
-               keras.layers.Conv2D(64, kernel_size=3, padding="same", activation="selu"),
-               keras.layers.MaxPool2D(pool_size=2)                    
-            ])                                                        
-            conv_decoder = keras.models.Sequential([                  
-               keras.layers.Conv2DTranspose(32, kernel_size=3, strides=2, padding="valid",
-                                activation="selu",                    
-                                input_shape=[3, 3, 64]),              
-          3 Yoshua Bengio et al., “Greedy Layer-Wise Training of Deep Networks,” Proceedings of the 19th International
-           Conference on Neural Information Processing Systems (2006): 153–160.
-          4 Jonathan Masci et al., “Stacked Convolutional Auto-Encoders for Hierarchical Feature Extraction,” Proceed‐
-           ings of the 21st International Conference on Artificial Neural Networks 1 (2011): 52–59.
+As we discussed earlier, one of the triggers of the current tsunami of interest in Deep
+Learning was the discovery in 2006 by Geoffrey Hinton et al. that deep neural net‐
+works can be pretrained in an unsupervised fashion, using this greedy layerwise
+approach. They used restricted Boltzmann machines (RBMs; see Appendix E) for this
+purpose, but in 2007 Yoshua Bengio et al. showed3 that autoencoders worked just as
+well. For several years this was the only efficient way to train deep nets, until many of
+the techniques introduced in Chapter 11 made it possible to just train a deep net in
+one shot.
+Autoencoders are not limited to dense networks: you can also build convolutional
+autoencoders, or even recurrent autoencoders. Let’s look at these now.
+<header><largefont><b>Convolutional</b></largefont> <largefont><b>Autoencoders</b></largefont></header>
+If you are dealing with images, then the autoencoders we have seen so far will not
+work well (unless the images are very small): as we saw in Chapter 14, convolutional
+neural networks are far better suited than dense networks to work with images. So if
+you want to build an autoencoder for images (e.g., for unsupervised pretraining or
+dimensionality reduction), you will need to build a <i>convolutional</i> <i>autoencoder.4</i> The
+encoder is a regular CNN composed of convolutional layers and pooling layers. It
+typically reduces the spatial dimensionality of the inputs (i.e., height and width) while
+increasing the depth (i.e., the number of feature maps). The decoder must do the
+reverse (upscale the image and reduce its depth back to the original dimensions), and
+for this you can use transpose convolutional layers (alternatively, you could combine
+upsampling layers with convolutional layers). Here is a simple convolutional autoen‐
+coder for Fashion MNIST:
+conv_encoder = keras.models.Sequential([
+keras.layers.Reshape([28, 28, 1], input_shape=[28, 28]),
+keras.layers.Conv2D(16, kernel_size=3, padding="same", activation="selu"),
+keras.layers.MaxPool2D(pool_size=2),
+keras.layers.Conv2D(32, kernel_size=3, padding="same", activation="selu"),
+keras.layers.MaxPool2D(pool_size=2),
+keras.layers.Conv2D(64, kernel_size=3, padding="same", activation="selu"),
+keras.layers.MaxPool2D(pool_size=2)
+])
+conv_decoder = keras.models.Sequential([
+keras.layers.Conv2DTranspose(32, kernel_size=3, strides=2, padding="valid",
+activation="selu",
+input_shape=[3, 3, 64]),
+3 YoshuaBengioetal.,“GreedyLayer-WiseTrainingofDeepNetworks,”Proceedingsofthe19thInternational
+<i>ConferenceonNeuralInformationProcessingSystems(2006):153–160.</i>
+4 JonathanMascietal.,“StackedConvolutionalAuto-EncodersforHierarchicalFeatureExtraction,”Proceed‐
+<i>ingsofthe21stInternationalConferenceonArtificialNeuralNetworks1(2011):52–59.</i>

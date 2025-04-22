@@ -1,50 +1,47 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Bayes’ theorem (Equation 9-2) tells us how to update the probability distribution over
-          the latent variables after we observe some data X. It computes the posterior distribu‐
-          tion p(z|X), which is the conditional probability of z given X.
-                                                                      
-            Equation 9-2. Bayes’ theorem                              
-                                                                      
-                         likelihood × prior p X z p z                 
-            p z X =posterior=      =                                  
-                           evidence    p X                            
-          Unfortunately, in a Gaussian mixture model (and many other problems), the denomi‐
-          nator p(x) is intractable, as it requires integrating over all the possible values of z
-          (Equation 9-3), which would require considering all possible combinations of cluster
-          parameters and cluster assignments.                         
-            Equation 9-3. The evidence p(X) is often intractable      
-                                                                      
-                ∫                                                     
-            p X = p X z p z dz                                        
-                                                                      
-          This intractability is one of the central problems in Bayesian statistics, and there are
-          several approaches to solving it. One of them is variational inference, which picks a
-          family of distributions q(z; λ) with its own variational parameters λ (lambda), then
-          optimizes these parameters to make q(z) a good approximation of p(z|X). This is
-          achieved by finding the value of λ that minimizes the KL divergence from q(z) to
-          p(z|X), noted D (q‖p). The KL divergence equation is shown in Equation 9-4, and it
-                   KL                                                 
-          can be rewritten as the log of the evidence (log p(X)) minus the evidence lower bound
-          (ELBO). Since the log of the evidence does not depend on q, it is a constant term, so
-          minimizing the KL divergence just requires maximizing the ELBO.
-            Equation 9-4. KL divergence from q(z) to p(z|X)           
-                          q z                                         
-            D  q∥ p =  log                                            
-             KL      q   p z X                                        
-                   =   logq z − log p z X                             
-                     q                                                
-                               p z,X                                  
-                   =   logq z − log                                   
-                     q          p X                                   
-                   =   logq z − log p z,X + log p X                   
-                     q                                                
-                   =   logq z −  log p z,X +  log p X                 
-                     q        q         q                             
-                   =   log p X −  log p z,X −  log q z                
-                     q         q         q                            
-                   = log p X −ELBO                                    
-                    where ELBO=  log p z,X −  log q z                 
-                              q         q                             
+Bayes’ theorem (Equation 9-2) tells us how to update the probability distribution over
+the latent variables after we observe some data <b>X.</b> It computes the <i>posterior</i> distribu‐
+tion <i>p(z|X),</i> which is the conditional probability of <b>z</b> given <b>X.</b>
+<i>Equation</i> <i>9-2.</i> <i>Bayes’</i> <i>theorem</i>
+likelihood × prior <i>p</i> <b>X</b> <b>z</b> <i>p</i> <b>z</b>
+<i>p</i> <b>z</b> <b>X</b> = posterior = =
+evidence <i>p</i> <b>X</b>
+Unfortunately, in a Gaussian mixture model (and many other problems), the denomi‐
+nator <i>p(x)</i> is intractable, as it requires integrating over all the possible values of <b>z</b>
+(Equation 9-3), which would require considering all possible combinations of cluster
+parameters and cluster assignments.
+<i>Equation</i> <i>9-3.</i> <i>The</i> <i>evidence</i> <i>p(X)</i> <i>is</i> <i>often</i> <i>intractable</i>
+<largefont>∫</largefont>
+<i>p</i> <b>X</b> = <i>p</i> <b>X</b> <b>z</b> <i>p</i> <b>z</b> <i>dz</i>
+This intractability is one of the central problems in Bayesian statistics, and there are
+several approaches to solving it. One of them is <i>variational</i> <i>inference,</i> which picks a
+family of distributions <i>q(z;</i> <b>λ)</b> with its own <i>variational</i> <i>parameters</i> <b>λ</b> (lambda), then
+optimizes these parameters to make <i>q(z)</i> a good approximation of <i>p(z|X).</i> This is
+achieved by finding the value of <b>λ</b> that minimizes the KL divergence from <i>q(z)</i> to
+‖
+<i>p(z|X),</i> noted D (q <i>p).</i> The KL divergence equation is shown in Equation 9-4, and it
+KL
+can be rewritten as the log of the evidence (log <i>p(X))</i> minus the <i>evidence</i> <i>lower</i> <i>bound</i>
+(ELBO). Since the log of the evidence does not depend on <i>q,</i> it is a constant term, so
+minimizing the KL divergence just requires maximizing the ELBO.
+<i>Equation</i> <i>9-4.</i> <i>KL</i> <i>divergence</i> <i>from</i> <i>q(z)</i> <i>to</i> <i>p(z|X)</i>
+<i>q</i> <b>z</b>
+<i>D</i> <i>q</i> ∥ <i>p</i> =  log
+<i>KL</i> <i>q</i> <i>p</i> <b>z</b> <b>X</b>
+=  log <i>q</i> <b>z</b> − log <i>p</i> <b>z</b> <b>X</b>
+<i>q</i>
+<i>p</i> <b>z,X</b>
+
+= log <i>q</i> <b>z</b> − log
+<i>q</i>
+<i>p</i> <b>X</b>
+
+= log <i>q</i> <b>z</b> − log <i>p</i> <b>z,X</b> + log <i>p</i> <b>X</b>
+<i>q</i>
+=  log <i>q</i> <b>z</b> −  log <i>p</i> <b>z,X</b> +  log <i>p</i> <b>X</b>
+<i>q</i> <i>q</i> <i>q</i>
+
+= log <i>p</i> <b>X</b> − log <i>p</i> <b>z,X</b> − log <i>q</i> <b>z</b>
+<i>q</i> <i>q</i> <i>q</i>
+= log <i>p</i> <b>X</b> − ELBO
+where ELBO =  log <i>p</i> <b>z,X</b> −  log <i>q</i> <b>z</b>
+<i>q</i> <i>q</i>

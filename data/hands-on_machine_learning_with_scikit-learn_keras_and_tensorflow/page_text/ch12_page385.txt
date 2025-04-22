@@ -1,46 +1,39 @@
-                                                                      
-                                                                      
-                                                                      
-                                                                      
-          Now you can use this loss when you compile the Keras model, then train your model:
-                                                                      
-            model.compile(loss=huber_fn, optimizer="nadam")           
-            model.fit(X_train, y_train, [...])                        
-          And that’s it! For each batch during training, Keras will call the huber_fn() function
-          to compute the loss and use it to perform a Gradient Descent step. Moreover, it will
-          keep track of the total loss since the beginning of the epoch, and it will display the
-          mean loss.                                                  
-          But what happens to this custom loss when you save the model?
-                                                                      
-          Saving and Loading Models That Contain Custom Components    
-                                                                      
-          Saving a model containing a custom loss function works fine, as Keras saves the name
-          of the function. Whenever you load it, you’ll need to provide a dictionary that maps
-          the function name to the actual function. More generally, when you load a model
-          containing custom objects, you need to map the names to the objects:
-            model = keras.models.load_model("my_model_with_a_custom_loss.h5",
-                               custom_objects={"huber_fn": huber_fn}) 
-          With the current implementation, any error between –1 and 1 is considered “small.”
-          But what if you want a different threshold? One solution is to create a function that
-          creates a configured loss function:                         
-            def create_huber(threshold=1.0):                          
-               def huber_fn(y_true, y_pred):                          
-                 error = y_true - y_pred                              
-                 is_small_error = tf.abs(error) < threshold           
-                 squared_loss = tf.square(error) / 2                  
-                 linear_loss = threshold * tf.abs(error) - threshold**2 / 2
-                 return tf.where(is_small_error, squared_loss, linear_loss)
-               return huber_fn                                        
-            model.compile(loss=create_huber(2.0), optimizer="nadam")  
-          Unfortunately, when you save the model, the threshold will not be saved. This means
-          that you will have to specify the threshold value when loading the model (note that
-          the name to use is "huber_fn", which is the name of the function you gave Keras, not
-          the name of the function that created it):                  
-            model = keras.models.load_model("my_model_with_a_custom_loss_threshold_2.h5",
-                               custom_objects={"huber_fn": create_huber(2.0)})
-          You can solve this by creating a subclass of the keras.losses.Loss class, and then
-          implementing its get_config() method:                       
-                                                                      
-                                                                      
-                                                                      
-                                                                      
+Now you can use this loss when you compile the Keras model, then train your model:
+model.compile(loss=huber_fn, optimizer="nadam")
+model.fit(X_train, y_train, [...])
+huber_fn()
+And that’s it! For each batch during training, Keras will call the function
+to compute the loss and use it to perform a Gradient Descent step. Moreover, it will
+keep track of the total loss since the beginning of the epoch, and it will display the
+mean loss.
+But what happens to this custom loss when you save the model?
+<header><largefont><b>Saving</b></largefont> <largefont><b>and</b></largefont> <largefont><b>Loading</b></largefont> <largefont><b>Models</b></largefont> <largefont><b>That</b></largefont> <largefont><b>Contain</b></largefont> <largefont><b>Custom</b></largefont> <largefont><b>Components</b></largefont></header>
+Saving a model containing a custom loss function works fine, as Keras saves the name
+of the function. Whenever you load it, you’ll need to provide a dictionary that maps
+the function name to the actual function. More generally, when you load a model
+containing custom objects, you need to map the names to the objects:
+model = keras.models.load_model("my_model_with_a_custom_loss.h5",
+custom_objects={"huber_fn": huber_fn})
+With the current implementation, any error between –1 and 1 is considered “small.”
+But what if you want a different threshold? One solution is to create a function that
+creates a configured loss function:
+<b>def</b> create_huber(threshold=1.0):
+<b>def</b> huber_fn(y_true, y_pred):
+error = y_true - y_pred
+is_small_error = tf.abs(error) < threshold
+squared_loss = tf.square(error) / 2
+linear_loss = threshold * tf.abs(error) - threshold**2 / 2
+<b>return</b> tf.where(is_small_error, squared_loss, linear_loss)
+<b>return</b> huber_fn
+model.compile(loss=create_huber(2.0), optimizer="nadam")
+threshold
+Unfortunately, when you save the model, the will not be saved. This means
+that you will have to specify the threshold value when loading the model (note that
+"huber_fn",
+the name to use is which is the name of the function you gave Keras, not
+the name of the function that created it):
+model = keras.models.load_model("my_model_with_a_custom_loss_threshold_2.h5",
+custom_objects={"huber_fn": create_huber(2.0)})
+keras.losses.Loss
+You can solve this by creating a subclass of the class, and then
+implementing its get_config() method:

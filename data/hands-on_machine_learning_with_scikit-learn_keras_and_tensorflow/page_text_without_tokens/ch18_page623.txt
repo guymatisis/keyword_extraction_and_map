@@ -1,0 +1,47 @@
+                                                                      
+                                                                      
+                                                                      
+                                                                      
+          normalize all these discounted rewards (returns) across many episodes by subtracting
+          the mean and dividing by the standard deviation:            
+                                                                      
+            def discount_rewards(rewards, discount_factor):           
+               discounted = np.array(rewards)                         
+               for step in range(len(rewards) - 2, -1, -1):           
+                 discounted[step] += discounted[step + 1] * discount_factor
+               return discounted                                      
+            def discount_and_normalize_rewards(all_rewards, discount_factor):
+               all_discounted_rewards = [discount_rewards(rewards, discount_factor)
+                              for rewards in all_rewards]             
+               flat_rewards = np.concatenate(all_discounted_rewards)  
+               reward_mean = flat_rewards.mean()                      
+               reward_std = flat_rewards.std()                        
+               return [(discounted_rewards - reward_mean) / reward_std
+                   for discounted_rewards in all_discounted_rewards]  
+          Let’s check that this works:                                
+            >>> discount_rewards([10, 0, -50], discount_factor=0.8)   
+            array([-22, -40, -50])                                    
+            >>> discount_and_normalize_rewards([[10, 0, -50], [10, 20]],
+            ...                  discount_factor=0.8)                 
+            ...                                                       
+            [array([-0.28435071, -0.86597718, -1.18910299]),          
+             array([1.26665318, 1.0727777 ])]                         
+          The call to discount_rewards() returns exactly what we expect (see Figure 18-6).
+          You can verify that the function discount_and_normalize_rewards() does indeed
+          return the normalized action advantages for each action in both episodes. Notice that
+          the first episode was much worse than the second, so its normalized advantages are
+          all negative; all actions from the first episode would be considered bad, and con‐
+          versely all actions from the second episode would be considered good.
+          We are almost ready to run the algorithm! Now let’s define the hyperparameters. We
+          will run 150 training iterations, playing 10 episodes per iteration, and each episode
+          will last at most 200 steps. We will use a discount factor of 0.95:
+            n_iterations = 150                                        
+            n_episodes_per_update = 10                                
+            n_max_steps = 200                                         
+            discount_factor = 0.95                                    
+          We also need an optimizer and the loss function. A regular Adam optimizer with
+          learning rate 0.01 will do just fine, and we will use the binary cross-entropy loss func‐
+          tion because we are training a binary classifier (there are two possible actions: left or
+          right):                                                     
+            optimizer = keras.optimizers.Adam(lr=0.01)                
+            loss_fn = keras.losses.binary_crossentropy                
